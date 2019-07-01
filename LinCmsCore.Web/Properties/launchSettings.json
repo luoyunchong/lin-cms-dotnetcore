@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:48389",
-      "sslPort": 44348
+      "applicationUrl": "http://localhost:51194",
+      "sslPort": 44394
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "LinCmsCore": {
+    "LinCmsCore.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
@@ -32,11 +32,11 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/values",
       "environmentVariables": {
         "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "44349"
+        "ASPNETCORE_HTTPS_PORT": "44395"
       },
-      "httpPort": 48392,
+      "httpPort": 51195,
       "useSSL": true,
-      "sslPort": 44349
+      "sslPort": 44395
     }
   }
 }
