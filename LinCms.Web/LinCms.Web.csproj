@@ -15,13 +15,21 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Application\LinCms.Application.csproj" />
     <ProjectReference Include="..\LinCms.Domain\LinCms.Domain.csproj" />
+    <ProjectReference Include="..\LinCms.FreeSql\LinCms.FreeSql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Cms\Data\" />
+    <Folder Include="Areas\Cms\Models\" />
+    <Folder Include="Areas\Cms\Views\" />
   </ItemGroup>
 
 </Project>

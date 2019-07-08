@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Application", "LinCms.Application\LinCms.Application.csproj", "{D018409A-89D4-458A-BBAA-B3E434E57C39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Application", "LinCms.Application\LinCms.Application.csproj", "{7C5827F4-1838-42F2-A569-A968E7C99832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Web", "LinCms.Web\LinCms.Web.csproj", "{20DA8DC5-8AE4-4930-B76A-00AE2B8C95FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.FreeSql", "LinCms.FreeSql\LinCms.FreeSql.csproj", "{AD604456-0799-4BA3-B2A1-E14B0829AAB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Domain", "LinCms.Domain\LinCms.Domain.csproj", "{A89D463B-8D73-460C-95F9-379AC230B361}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Web", "LinCms.Web\LinCms.Web.csproj", "{29B0490C-2365-4771-9B97-D2E1ED5EB90A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Domain", "LinCms.Domain\LinCms.Domain.csproj", "{2F03CDEC-E7EF-43C6-A87D-C1164534E13B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D018409A-89D4-458A-BBAA-B3E434E57C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D018409A-89D4-458A-BBAA-B3E434E57C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D018409A-89D4-458A-BBAA-B3E434E57C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D018409A-89D4-458A-BBAA-B3E434E57C39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20DA8DC5-8AE4-4930-B76A-00AE2B8C95FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20DA8DC5-8AE4-4930-B76A-00AE2B8C95FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20DA8DC5-8AE4-4930-B76A-00AE2B8C95FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20DA8DC5-8AE4-4930-B76A-00AE2B8C95FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A89D463B-8D73-460C-95F9-379AC230B361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A89D463B-8D73-460C-95F9-379AC230B361}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A89D463B-8D73-460C-95F9-379AC230B361}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A89D463B-8D73-460C-95F9-379AC230B361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C5827F4-1838-42F2-A569-A968E7C99832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C5827F4-1838-42F2-A569-A968E7C99832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C5827F4-1838-42F2-A569-A968E7C99832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C5827F4-1838-42F2-A569-A968E7C99832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD604456-0799-4BA3-B2A1-E14B0829AAB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD604456-0799-4BA3-B2A1-E14B0829AAB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD604456-0799-4BA3-B2A1-E14B0829AAB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD604456-0799-4BA3-B2A1-E14B0829AAB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B0490C-2365-4771-9B97-D2E1ED5EB90A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B0490C-2365-4771-9B97-D2E1ED5EB90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B0490C-2365-4771-9B97-D2E1ED5EB90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B0490C-2365-4771-9B97-D2E1ED5EB90A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F03CDEC-E7EF-43C6-A87D-C1164534E13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F03CDEC-E7EF-43C6-A87D-C1164534E13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F03CDEC-E7EF-43C6-A87D-C1164534E13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F03CDEC-E7EF-43C6-A87D-C1164534E13B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
