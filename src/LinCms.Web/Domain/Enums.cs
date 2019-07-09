@@ -11,6 +11,9 @@
      */
     public enum UserAdmin
     {
+        /// <summary>
+        /// 普通用户
+        /// </summary>
         Common = 1,
         /// <summary>
         /// 管理员
@@ -25,7 +28,13 @@
     */
     public enum UserActive
     {
+        /// <summary>
+        /// 激活状态
+        /// </summary>
         Active = 1,
+        /// <summary>
+        /// 非激活状态
+        /// </summary>
         NotActive = 2
     }
 
@@ -46,7 +55,13 @@
      */
     public class TokenType
     {
+        /// <summary>
+        /// access token
+        /// </summary>
         public static string Access = "access";
+        /// <summary>
+        /// refresh token
+        /// </summary>
         public static string Refresh = "refresh";
     }
 }
