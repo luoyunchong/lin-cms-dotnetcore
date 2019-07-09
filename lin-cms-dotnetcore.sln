@@ -5,17 +5,11 @@ VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1783DEB0-9AA8-44D0-90A8-19D16FE397E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Application", "src\LinCms.Application\LinCms.Application.csproj", "{5E70A909-FAE7-4618-8E4C-6D77FC1B0EBB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Domain", "src\LinCms.Domain\LinCms.Domain.csproj", "{2629372B-41A2-4A81-B850-3A3BF9D46271}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.FreeSql", "src\LinCms.FreeSql\LinCms.FreeSql.csproj", "{91BC60B4-B011-49E3-9369-5676F55122A2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Web", "src\LinCms.Web\LinCms.Web.csproj", "{856A2390-A35C-456D-8AD9-6AA82638AC5F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{156F5C15-C6B1-41FE-96CE-B464B812D9EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Test", "C:\Users\Computer\source\repos\LinCms.Test\LinCms.Test.csproj", "{9A84ACB2-14CE-484A-A918-C2F0CFF219D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Test", "C:\Users\Computer\source\repos\LinCms.Test\LinCms.Test.csproj", "{9A84ACB2-14CE-484A-A918-C2F0CFF219D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,18 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5E70A909-FAE7-4618-8E4C-6D77FC1B0EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E70A909-FAE7-4618-8E4C-6D77FC1B0EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E70A909-FAE7-4618-8E4C-6D77FC1B0EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E70A909-FAE7-4618-8E4C-6D77FC1B0EBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2629372B-41A2-4A81-B850-3A3BF9D46271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2629372B-41A2-4A81-B850-3A3BF9D46271}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2629372B-41A2-4A81-B850-3A3BF9D46271}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2629372B-41A2-4A81-B850-3A3BF9D46271}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91BC60B4-B011-49E3-9369-5676F55122A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91BC60B4-B011-49E3-9369-5676F55122A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91BC60B4-B011-49E3-9369-5676F55122A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91BC60B4-B011-49E3-9369-5676F55122A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{856A2390-A35C-456D-8AD9-6AA82638AC5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{856A2390-A35C-456D-8AD9-6AA82638AC5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{856A2390-A35C-456D-8AD9-6AA82638AC5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,9 +30,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5E70A909-FAE7-4618-8E4C-6D77FC1B0EBB} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
-		{2629372B-41A2-4A81-B850-3A3BF9D46271} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
-		{91BC60B4-B011-49E3-9369-5676F55122A2} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{856A2390-A35C-456D-8AD9-6AA82638AC5F} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{9A84ACB2-14CE-484A-A918-C2F0CFF219D7} = {156F5C15-C6B1-41FE-96CE-B464B812D9EA}
 	EndGlobalSection

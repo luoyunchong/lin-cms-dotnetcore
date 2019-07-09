@@ -9,29 +9,29 @@ namespace LinCms.Web.Areas.Cms.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+    public class LinUserController : ControllerBase
     {
-        // GET: api/Admin
+        // GET: api/LinUser
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Admin/5
+        // GET: api/LinUser/5
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Admin
+        // POST: api/LinUser
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Admin/5
+        // PUT: api/LinUser/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

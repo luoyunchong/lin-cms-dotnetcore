@@ -1,4 +1,4 @@
-﻿namespace LinCms.Domain
+﻿namespace LinCms.Web.Domain
 {
     public class LinGroup : Entity
     {

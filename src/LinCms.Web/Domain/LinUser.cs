@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LinCms.Domain
+﻿namespace LinCms.Web.Domain
 {
     public class LinUser : FullAduitEntity
     {

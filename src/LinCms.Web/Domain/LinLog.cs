@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace LinCms.Domain
+namespace LinCms.Web.Domain
 {
-    public class LinLog : ICreateAduitEntity
+    public class LinLog : Entity, ICreateAduitEntity
     {
         public string Message { get; set; }
         public int UserId { get; set; }
