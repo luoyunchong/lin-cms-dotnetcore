@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Web.Domain
 {
@@ -22,6 +23,9 @@ namespace LinCms.Web.Domain
 
     public class FullAduitEntity<T> : Entity<T>, IUpdateAuditEntity, ISoftDeleteAduitEntity, ICreateAduitEntity
     {
+        /// <summary>
+        /// 创建者ID
+        /// </summary>
         public long? CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
         public bool IsDeleted { get; set; }
@@ -52,8 +56,8 @@ namespace LinCms.Web.Domain
 
     public abstract class Entity<T> : IEntity<T>
     {
+        [Column(IsPrimary = true,IsIdentity = true)]
         public T Id { get; set; }
-
         /// <returns>True, if this entity is transient</returns>
         public virtual bool IsTransient()
         {

@@ -1,4 +1,5 @@
 ﻿using FreeSql;
+using LinCms.Web.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
 using System.Diagnostics;
-using System.Reflection;
-using System.Text;
-using LinCms.Web.Domain;
+using FreeSql.Internal;
 
 namespace LinCms.Web
 {
@@ -23,8 +21,10 @@ namespace LinCms.Web
 
             Fsql = new FreeSqlBuilder()
                 .UseConnectionString(DataType.MySql, configurationSection.Value)
+                .UseEntityPropertyNameConvert(StringConvertType.PascalCaseToUnderscoreWithLower)//全局转换实体属性名方法 https://github.com/2881099/FreeSql/pull/60
                 .UseAutoSyncStructure(true) //自动迁移实体的结构到数据库
                 .UseMonitorCommand(cmd => Trace.WriteLine(cmd.CommandText))
+                .UseSyncStructureToLower(true) // 转小写同步结构
                 .Build();
 
             Fsql.Aop.CurdAfter = (s, e) =>
