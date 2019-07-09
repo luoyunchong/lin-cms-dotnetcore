@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace LinCms.Domain
+namespace LinCms.Web.Domain
 {
     public abstract class EntityDto<T>
     {
