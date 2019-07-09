@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace LinCms.Web.Domain
 {
+    /// <summary>
+    /// 日志表
+    /// </summary>
     [Table(Name = "lin_log")]
     public class LinLog : Entity
     {

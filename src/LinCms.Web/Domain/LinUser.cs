@@ -1,4 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
+using LinCms.Web.Data.Enums;
 
 namespace LinCms.Web.Domain
 {
@@ -8,6 +9,14 @@ namespace LinCms.Web.Domain
     [Table(Name = "lin_user")]
     public class LinUser : FullAduitEntity
     {
+        public LinUser() { }
+
+        public LinUser(string nickname, string password)
+        {
+            this.Nickname = nickname;
+            this.Password = password;
+        }
+
         /// <summary>
         /// 昵称
         /// </summary>
