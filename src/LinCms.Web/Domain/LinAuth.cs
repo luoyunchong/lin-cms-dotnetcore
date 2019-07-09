@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace LinCms.Domain
+﻿namespace LinCms.Web.Domain
 {
     public class LinAuth : Entity
     {

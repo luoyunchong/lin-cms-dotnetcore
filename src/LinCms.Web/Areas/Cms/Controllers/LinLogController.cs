@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Web.Domain;
+using LinCms.Web.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,29 +11,29 @@ namespace LinCms.Web.Areas.Cms.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class LinLogController : ControllerBase
     {
-        // GET: api/User
+        // GET: api/LinLog
+        private readonly LinLogRepository _linLogRepository;
+
+        public LinLogController(LinLogRepository linLogRepository)
+        {
+            _linLogRepository = linLogRepository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<LinLog> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _linLogRepository.GetLogUsers();
         }
 
-        // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/User
+        // POST: api/LinLog
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/User/5
+        // PUT: api/LinLog/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
