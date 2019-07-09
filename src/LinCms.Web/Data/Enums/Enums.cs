@@ -1,4 +1,4 @@
-﻿namespace LinCms.Web.Domain
+﻿namespace LinCms.Web.Data.Enums
 {
     /**
      * 枚举
