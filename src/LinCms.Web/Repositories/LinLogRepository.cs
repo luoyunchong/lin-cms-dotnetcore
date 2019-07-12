@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using FreeSql;
-using LinCms.Web.Areas.Cms.Models.Logs;
 using LinCms.Web.Data;
-using LinCms.Web.Data.Extensions;
 using LinCms.Web.Domain;
+using LinCms.Web.Extensions;
+using LinCms.Web.Models.Logs;
 
 namespace LinCms.Web.Repositories
 {

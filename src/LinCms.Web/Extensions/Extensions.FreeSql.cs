@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using FreeSql;
+using LinCms.Web.Data;
 
-namespace LinCms.Web.Data.Extensions
+namespace LinCms.Web.Extensions
 {
     public static class CollectionsExtensions
     {

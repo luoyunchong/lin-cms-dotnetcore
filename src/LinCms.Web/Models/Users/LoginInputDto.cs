@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace LinCms.Web.Areas.Cms.Models.Users
+namespace LinCms.Web.Models.Users
 {
     public class LoginInputDto
     {

@@ -9,7 +9,7 @@ namespace LinCms.Web.Domain
         /// </summary>
         public int GroupId { get; set; }
         /// <summary>
-        /// 所属权限组id
+        /// 所属权限组
         /// </summary>
         [Column(DbType = "varchar(60)")]
         public string Auth { get; set; }
