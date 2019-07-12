@@ -2,6 +2,7 @@
 using LinCms.Web.Domain;
 using LinCms.Web.Models.Logs;
 using LinCms.Web.Repositories;
+using LinCms.Zero.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers

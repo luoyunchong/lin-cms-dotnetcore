@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace LinCms.Web.Data
+namespace LinCms.Zero.Data
 {
     public class PagedResultDto<T>
     {
@@ -11,7 +8,7 @@ namespace LinCms.Web.Data
 
         public IReadOnlyList<T> Items
         {
-            get => _items ?? (_items = new List<T>());
+            get => _items ?? new List<T>();
             set => _items = value;
         }
         private IReadOnlyList<T> _items;

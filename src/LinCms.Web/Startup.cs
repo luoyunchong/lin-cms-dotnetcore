@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
+using LinCms.Web.Data;
 using LinCms.Web.Domain;
+using LinCms.Web.Services;
+using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 using System.Diagnostics;
-using LinCms.Web.Data;
-using LinCms.Web.Services;
 
 namespace LinCms.Web
 {
@@ -47,6 +49,7 @@ namespace LinCms.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);
 
             services.AddFreeRepository(filter =>
@@ -55,26 +58,31 @@ namespace LinCms.Web
             }, GetType().Assembly);
 
 
-            services.AddIdentityServer(options => options.Authentication.CookieAuthenticationScheme = "Cookies")
+            services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
+                .AddInMemoryApiResources(InMemoryConfiguration.GetApis())
+                .AddInMemoryClients(InMemoryConfiguration.GetClients())
                 .AddProfileService<CustomProfileService>()
                 .AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>();
 
 
-            services.AddAuthentication("Bearer")
-                .AddCookie("Cookies")
+            services.AddAuthentication(Configuration["Identity:Scheme"])
                 .AddJwtBearer("Bearer", options =>
                 {
                     //identityserver4 地址 也就是本项目地址
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
                     options.RequireHttpsMetadata = false;
-                    options.Audience = "LinCms.Web";
+                    options.Audience = Configuration["Service:Name"];
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAutoMapper(GetType().Assembly);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(opt =>
+            {
+                opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                opt.UseCamelCasing(true);
+            }); ;
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
@@ -108,6 +116,7 @@ namespace LinCms.Web
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseErrorHandling();
             }
 
 

@@ -18,8 +18,6 @@ namespace LinCms.Web.Services
     public class CustomResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         /// <summary>
-        /// 这里为了演示我们还是使用TestUser作为数据源，
-        /// 正常使用此处应当传入一个 用户仓储 等可以从
         /// 数据库或其他介质获取我们用户数据的对象
         /// </summary>
         private readonly IFreeSql _fsql;
