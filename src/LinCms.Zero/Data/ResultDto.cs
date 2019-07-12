@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace LinCms.Web.Data
+﻿namespace LinCms.Zero.Data
 {
     public class ResultDto
     {

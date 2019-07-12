@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Web.Data
 {
-    public static class Config
+    public static class InMemoryConfiguration
     {
+        public static IConfiguration Configuration { get; set; }
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new IdentityResource[]
@@ -22,7 +24,8 @@ namespace LinCms.Web.Data
         {
             return new List<ApiResource>
             {
-                new ApiResource("LinCms.Web", "LinCms.Web项目，在AddJwtBearer看的Audience要和此值相同")
+                //Configuration["Service:Name"]在AddJwtBearerAudience
+                new ApiResource(Configuration["Service:Name"], Configuration["Identity:DocName"])
             };
         }
 
@@ -33,16 +36,16 @@ namespace LinCms.Web.Data
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "client",
+                    ClientId = Configuration["Service:ClientId"],
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 3600 * 6, //6小时
                     SlidingRefreshTokenLifetime = 1296000, //15天
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret(Configuration["Service:ClientSecrets"].Sha256())
                     },
-                    AllowedScopes = { "LinCms.Web", IdentityServerConstants.StandardScopes.OfflineAccess}
+                    AllowedScopes = { Configuration["Service:Name"], IdentityServerConstants.StandardScopes.OfflineAccess}
                 }
             };
         }
