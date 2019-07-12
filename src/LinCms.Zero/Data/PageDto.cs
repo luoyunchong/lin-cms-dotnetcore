@@ -1,4 +1,4 @@
-﻿namespace LinCms.Web.Data
+﻿namespace LinCms.Zero.Data
 {
 
     /// <summary>
