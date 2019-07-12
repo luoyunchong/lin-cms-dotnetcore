@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LinCms.Web.Data;
 
-namespace LinCms.Web.Areas.Cms.Models.Logs
+namespace LinCms.Web.Models.Logs
 {
     public class LogSearchDto : PageDto
     {

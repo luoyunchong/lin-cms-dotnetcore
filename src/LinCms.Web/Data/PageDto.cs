@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace LinCms.Web.Data
+﻿namespace LinCms.Web.Data
 {
 
     /// <summary>
@@ -24,7 +19,8 @@ namespace LinCms.Web.Data
 
     public interface IPageDto
     {
-     
+        int Count { get; set; }
+        int Page { get; set; }
     }
 
 }

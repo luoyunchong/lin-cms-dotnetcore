@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Web.Areas.Cms.Models.Logs;
-using LinCms.Web.Data;
+﻿using LinCms.Web.Data;
 using LinCms.Web.Domain;
+using LinCms.Web.Models.Logs;
 using LinCms.Web.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Areas.Cms.Controllers
+namespace LinCms.Web.Controllers
 {
     [Route("cms/log")]
     [ApiController]

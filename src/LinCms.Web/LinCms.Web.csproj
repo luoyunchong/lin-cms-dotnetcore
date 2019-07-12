@@ -14,9 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="0.7.7" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="0.7.7" />
-    <PackageReference Include="FreeSql.Repository" Version="0.7.7" />
+    <PackageReference Include="FreeSql" Version="0.7.8" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="0.7.8" />
+    <PackageReference Include="FreeSql.Repository" Version="0.7.8" />
+    <PackageReference Include="IdentityServer4" Version="2.4.0" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.11" />
@@ -25,12 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Cms\Data\" />
-    <Folder Include="Controllers\" />
+    <None Include="Extensions\Extensions.FreeSql.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Data\Extensions\Extensions.FreeSql.cs" />
+    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bowerrc" /></VisualStudio></ProjectExtensions>
