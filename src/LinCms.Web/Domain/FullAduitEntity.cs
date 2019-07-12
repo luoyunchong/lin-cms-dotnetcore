@@ -83,7 +83,7 @@ namespace LinCms.Web.Domain
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is Entity<T>))
+            if (!(obj is Entity<T>))
             {
                 return false;
             }
