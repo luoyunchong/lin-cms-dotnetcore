@@ -1,6 +1,6 @@
 ﻿using FreeSql.DataAnnotations;
 
-namespace LinCms.Web.Domain
+namespace LinCms.Zero.Domain
 {
     [Table(Name = "lin_auth")]
     public class LinAuth : Entity

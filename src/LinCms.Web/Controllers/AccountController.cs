@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using LinCms.Web.Models.Account;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Exceptions;
 
 namespace LinCms.Web.Controllers
 {
@@ -44,7 +44,7 @@ namespace LinCms.Web.Controllers
             TokenResponse tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(loginInputDto.Nickname, loginInputDto.Password);
             if (tokenResponse.IsError)
             {
-                throw new Exception(tokenResponse.ErrorDescription);
+                throw new LinCmsException(tokenResponse.ErrorDescription);
             }
 
             return tokenResponse.Json;
@@ -80,7 +80,7 @@ namespace LinCms.Web.Controllers
             var tokenResponse = await tokenClient.RequestRefreshTokenAsync(refreshToken);
             if (tokenResponse.IsError)
             {
-                throw new Exception(tokenResponse.ErrorDescription);
+                throw new LinCmsException(tokenResponse.ErrorDescription,ErrorCode.NotFound);
             }
 
             return tokenResponse.Json;

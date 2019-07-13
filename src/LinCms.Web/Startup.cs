@@ -1,19 +1,22 @@
 ﻿using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
+using IdentityServer4.AccessTokenValidation;
 using LinCms.Web.Data;
-using LinCms.Web.Domain;
 using LinCms.Web.Services;
-using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.Diagnostics;
+using LinCms.Zero.Domain;
+using LinCms.Zero.Exceptions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LinCms.Web
 {
@@ -67,22 +70,44 @@ namespace LinCms.Web
                 .AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>();
 
 
-            services.AddAuthentication(Configuration["Identity:Scheme"])
-                .AddJwtBearer("Bearer", options =>
+            #region AddAuthentication\AddIdentityServerAuthentication 
+            //AddAuthentication()是把验证服务注册到DI, 并配置了Bearer作为默认模式.
+
+            //AddIdentityServerAuthentication()是在DI注册了token验证的处理者.
+            //由于是本地运行, 所以就不使用https了, RequireHttpsMetadata = false.如果是生产环境, 一定要使用https.
+            //Authority指定Authorization Server的地址.
+            //ApiName要和Authorization Server里面配置ApiResource的name一样.
+            #endregion
+
+            services
+                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
                 {
-                    //identityserver4 地址 也就是本项目地址
+                    options.RequireHttpsMetadata = false; // for dev env
                     options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
-                    options.RequireHttpsMetadata = false;
-                    options.Audience = Configuration["Service:Name"];
+                    options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
                 });
+
+            //services.AddAuthentication()
+            //    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            //    {
+            //        //identityserver4 地址 也就是本项目地址
+            //        options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
+            //        options.RequireHttpsMetadata = false;
+            //        options.Audience = Configuration["Service:Name"];
+            //    });
 
             services.AddAutoMapper(GetType().Assembly);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(opt =>
-            {
-                opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                opt.UseCamelCasing(true);
-            }); ;
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                    .AddJsonOptions(opt =>
+                    {
+                        opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                        opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                        {
+                            NamingStrategy = new SnakeCaseNamingStrategy()
+                        };
+                    }); ;
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
@@ -107,18 +132,19 @@ namespace LinCms.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseHttpMethodOverride(new HttpMethodOverrideOptions { FormFieldName = "X-Http-Method-Override" });
-
+            env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseMiddleware<CustomExceptionMiddleWare>();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-                app.UseErrorHandling();
             }
 
+            app.UseAuthentication();
 
             app.UseIdentityServer();
 
@@ -138,5 +164,6 @@ namespace LinCms.Web
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
     }
 }

@@ -1,7 +1,10 @@
-﻿using LinCms.Web.Domain;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using AutoMapper;
+using IdentityModel;
+using LinCms.Web.Models.Users;
+using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Controllers
 {
@@ -11,19 +14,33 @@ namespace LinCms.Web.Controllers
     public class UserController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
+        private readonly IMapper _mapper;
 
-        public UserController(IFreeSql freeSql)
+        public UserController(IFreeSql freeSql, IMapper mapper)
         {
             _freeSql = freeSql;
+            _mapper = mapper;
         }
 
         /// <summary>
         /// 得到当前登录人信息
         /// </summary>
         [HttpGet("information")]
-        public IActionResult GetInformation()
+        public LinUserInformation GetInformation()
         {
-            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+            string id = User.Claims.FirstOrDefault(r => r.Issuer == JwtClaimTypes.Id)?.Value;
+
+            LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == int.Parse(id)).First();
+
+            return _mapper.Map<LinUserInformation>(linUser);
+
+            //return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+        }
+
+        [HttpGet("auths")]
+        public void auths()
+        {
+            ;
         }
 
         /// <summary>

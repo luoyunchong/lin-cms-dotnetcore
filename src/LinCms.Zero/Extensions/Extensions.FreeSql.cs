@@ -1,8 +1,8 @@
-﻿using FreeSql;
+﻿using System.Collections.Generic;
+using FreeSql;
 using LinCms.Zero.Data;
-using System.Collections.Generic;
 
-namespace LinCms.Web.Extensions
+namespace LinCms.Zero.Extensions
 {
     public static class CollectionsExtensions
     {

@@ -16,10 +16,9 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
-    <PackageReference Include="FreeSql" Version="0.7.8" />
     <PackageReference Include="FreeSql.Provider.MySql" Version="0.7.8" />
     <PackageReference Include="FreeSql.Repository" Version="0.7.8" />
-    <PackageReference Include="IdentityServer4" Version="2.4.0" />
+    <PackageReference Include="IdentityServer4" Version="2.5.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -29,17 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Extensions\Extensions.FreeSql.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LinCms.Zero\LinCms.Zero.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bowerrc" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

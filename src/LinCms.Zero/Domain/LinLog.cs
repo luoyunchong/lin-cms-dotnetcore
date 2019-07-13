@@ -1,8 +1,7 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
-using Newtonsoft.Json;
 
-namespace LinCms.Web.Domain
+namespace LinCms.Zero.Domain
 {
     /// <summary>
     /// 日志表

@@ -1,4 +1,4 @@
-﻿using LinCms.Web.Domain;
+﻿using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Services.Interfaces
 {
