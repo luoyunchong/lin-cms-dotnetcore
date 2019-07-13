@@ -1,7 +1,7 @@
 ﻿using FreeSql.DataAnnotations;
-using LinCms.Web.Data.Enums;
+using LinCms.Zero.Data.Enums;
 
-namespace LinCms.Web.Domain
+namespace LinCms.Zero.Domain
 {
     /// <summary>
     /// 用户信息

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FreeSql.DataAnnotations;
-using Newtonsoft.Json;
+﻿using FreeSql.DataAnnotations;
 
-namespace LinCms.Web.Domain
+namespace LinCms.Zero.Domain
 {
     [Table(Name = "lin_poem")]
     public class LinPoem:FullAduitEntity

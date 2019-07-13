@@ -8,7 +8,6 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
-using LinCms.Web.Domain;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Services
