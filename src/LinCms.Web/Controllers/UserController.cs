@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using IdentityModel;
 using LinCms.Web.Models.Users;
 using LinCms.Zero.Domain;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers
 {
@@ -28,7 +27,7 @@ namespace LinCms.Web.Controllers
         [HttpGet("information")]
         public LinUserInformation GetInformation()
         {
-            string id = User.Claims.FirstOrDefault(r => r.Issuer == JwtClaimTypes.Id)?.Value;
+            string id = User.FindFirst(JwtClaimTypes.Id)?.Value;
 
             LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == int.Parse(id)).First();
 
