@@ -16,7 +16,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using LinCms.Zero.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace LinCms.Web
 {
@@ -79,30 +82,35 @@ namespace LinCms.Web
             //ApiName要和Authorization Server里面配置ApiResource的name一样.
             #endregion
 
-            services
-                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
-                {
-                    options.RequireHttpsMetadata = false; // for dev env
-                    options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
-                    options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
-                });
-
-            //services.AddAuthentication()
-            //    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            //services
+            //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            //    .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
             //    {
-            //        //identityserver4 地址 也就是本项目地址
+            //        options.RequireHttpsMetadata = false; // for dev env
             //        options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
-            //        options.RequireHttpsMetadata = false;
-            //        options.Audience = Configuration["Service:Name"];
+            //        options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
             //    });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    //identityserver4 地址 也就是本项目地址
+                    options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = Configuration["Service:Name"];
+                });
 
             services.AddAutoMapper(GetType().Assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                     .AddJsonOptions(opt =>
                     {
-                        opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                        //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                        opt.SerializerSettings.Converters = new List<JsonConverter>()
+                        {
+                            new LinCmsTimeConverter()
+                        };
+
                         opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
                         {
                             NamingStrategy = new SnakeCaseNamingStrategy()
