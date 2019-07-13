@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FreeSql.DataAnnotations;
+﻿using FreeSql.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace LinCms.Web.Domain
+namespace LinCms.Zero.Domain
 {
     [JsonObject(MemberSerialization.OptIn), Table(Name = "book")]
     public class Book : FullAduitEntity

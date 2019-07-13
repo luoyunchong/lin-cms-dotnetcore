@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinCms.Web.Controllers
 {
@@ -11,9 +12,9 @@ namespace LinCms.Web.Controllers
     {
         // GET: api/Values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public JsonResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }
 }

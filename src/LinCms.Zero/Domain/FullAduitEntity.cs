@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Web.Domain
+namespace LinCms.Zero.Domain
 {
     public abstract class EntityDto<T>
     {
