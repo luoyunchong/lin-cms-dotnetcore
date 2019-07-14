@@ -1,17 +1,14 @@
 ﻿using IdentityModel.Client;
 using LinCms.Web.Models.Account;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using LinCms.Web.Aop;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data.Enums;
-using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace LinCms.Web.Controllers
 {
@@ -28,14 +25,6 @@ namespace LinCms.Web.Controllers
             _configuration = configuration;
             _logService = logService;
             _logger = logger;
-        }
-        /// <summary>
-        /// 注册接口
-        /// </summary>
-        /// <param name="value"></param>
-        [HttpPost("register")]
-        public void Post([FromBody] string value)
-        {
         }
 
         /// <summary>

@@ -4,7 +4,6 @@ using FreeSql.Internal;
 using LinCms.Web.Aop;
 using LinCms.Web.Data;
 using LinCms.Web.Services;
-using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
@@ -18,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -80,7 +80,6 @@ namespace LinCms.Web
             //由于是本地运行, 所以就不使用https了, RequireHttpsMetadata = false.如果是生产环境, 一定要使用https.
             //Authority指定Authorization Server的地址.
             //ApiName要和Authorization Server里面配置ApiResource的name一样.
-            #endregion
 
             //services
             //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
@@ -90,6 +89,7 @@ namespace LinCms.Web
             //        options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
             //        options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
             //    });
+            #endregion
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -102,7 +102,8 @@ namespace LinCms.Web
 
             services.AddAutoMapper(GetType().Assembly);
 
-            services.AddMvc(options=> {
+            services.AddMvc(options =>
+            {
                 options.Filters.Add<LogActionAttribute>(); // 添加日志记录过滤器
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -121,8 +122,23 @@ namespace LinCms.Web
                         };
                     });
 
-            services.AddScoped<ILogService, LogService>();
-      
+
+
+            #region Scrutor 与单个单个注册等价，不过可批量注册 
+            //services.AddScoped<ILogService, LogService>();
+            //services.AddScoped<IUserSevice, UserService>();
+            services.Scan(scan => scan
+                    //加载Startup这个类所在的程序集
+                    .FromAssemblyOf<Startup>()
+                    // 表示要注册那些类，上面的代码还做了过滤，只留下了以 Service 结尾的类
+                    .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
+                    //表示将类型注册为提供其所有公共接口作为服务
+                    .AsImplementedInterfaces()
+                    //表示注册的生命周期为 Transient
+                    .WithTransientLifetime()
+                     );
+            #endregion
+
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {

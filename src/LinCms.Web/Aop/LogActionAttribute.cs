@@ -8,6 +8,8 @@ using IdentityServer4.Extensions;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace LinCms.Web.Aop
 {
@@ -23,10 +25,12 @@ namespace LinCms.Web.Aop
         //public LogEnum LogType { get; set; }
         private string ActionArguments { get; set; }
         private Stopwatch Stopwatch { get; set; }
+        private readonly ILogger<LogActionAttribute> _logger;
 
-        public LogActionAttribute(ILogService logService)
+        public LogActionAttribute(ILogService logService, ILogger<LogActionAttribute> logger)
         {
             _logService = logService;
+            _logger = logger;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -51,13 +55,11 @@ namespace LinCms.Web.Aop
 
             var qs = ActionArguments;
 
-            var str = $"参数：{qs}\n " +
-                   $"耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒";
+            var str = $"参数：{qs}\n耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒";
 
             string userid = context.HttpContext.User.FindFirst(JwtClaimTypes.Id)?.Value;
             string username = context.HttpContext.User.FindFirst(JwtClaimTypes.Name)?.Value;
-
-            _logService.InsertLog(new LinLog()
+            var linLog = new LinLog()
             {
                 Authority = "",
                 Method = method,
@@ -66,7 +68,11 @@ namespace LinCms.Web.Aop
                 Message = str,
                 UserName = username,
                 UserId = userid.IsNullOrEmpty() ? 0 : int.Parse(userid)
-            });
+            };
+            _logService.InsertLog(linLog);
+
+            //记录文本日志
+            _logger.LogInformation(JsonConvert.SerializeObject(linLog));
             //MiniProfiler.Current.CustomTiming($"OnActionExecuted ->", str);
             //Logger.Default.Process(user, LogType.GetEnumText(), str);
         }
