@@ -6,8 +6,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using LinCms.Web.Aop;
+using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Controllers
 {
@@ -16,9 +20,14 @@ namespace LinCms.Web.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public AccountController(IConfiguration configuration)
+        private readonly ILogService _logService;
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(IConfiguration configuration, ILogService logService, ILogger<AccountController> logger)
         {
             _configuration = configuration;
+            _logService = logService;
+            _logger = logger;
         }
         /// <summary>
         /// 注册接口
@@ -36,6 +45,7 @@ namespace LinCms.Web.Controllers
         [HttpPost("login")]
         public async Task<JObject> Login(LoginInputDto loginInputDto)
         {
+            _logger.LogInformation("login");
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
 
             var client = new DiscoveryClient(authority) { Policy = { RequireHttps = false } };
@@ -46,7 +56,6 @@ namespace LinCms.Web.Controllers
             {
                 throw new LinCmsException(tokenResponse.ErrorDescription);
             }
-
             return tokenResponse.Json;
         }
 

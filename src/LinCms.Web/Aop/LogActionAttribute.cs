@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using LinCms.Web.Services.Interfaces;
+using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LinCms.Web.Filters
+namespace LinCms.Web.Aop
 {
     /// <summary>
     /// 日志记录
     /// </summary>
-    public class LogAttribute : ActionFilterAttribute
+    public class LogActionAttribute : ActionFilterAttribute
     {
-        private string LogFlag { get; set; }
+        private readonly ILogService _logService;
         /// <summary>
         /// 操作类型CRUD
         /// </summary>
@@ -20,13 +24,16 @@ namespace LinCms.Web.Filters
         private string ActionArguments { get; set; }
         private Stopwatch Stopwatch { get; set; }
 
-        public LogAttribute(string logFlag)
+        public LogActionAttribute(ILogService logService)
         {
-            LogFlag = logFlag;
+            _logService = logService;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            // 就是这里！！
+            //MiniProfiler.Current.Step($"OnActionExecuting->Begin ");
+
             base.OnActionExecuting(context);
             ActionArguments = Newtonsoft.Json.JsonConvert.SerializeObject(context.ActionArguments);
             Stopwatch = new Stopwatch();
@@ -44,24 +51,23 @@ namespace LinCms.Web.Filters
 
             var qs = ActionArguments;
 
-            var user = "";
-            //检测是否包含'Authorization'请求头，如果不包含则直接放行
-            if (context.HttpContext.Request.Headers.ContainsKey("Authorization"))
+            var str = $"参数：{qs}\n " +
+                   $"耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒";
+
+            string userid = context.HttpContext.User.FindFirst(JwtClaimTypes.Id)?.Value;
+            string username = context.HttpContext.User.FindFirst(JwtClaimTypes.Name)?.Value;
+
+            _logService.InsertLog(new LinLog()
             {
-                var tokenHeader = context.HttpContext.Request.Headers["Authorization"];
-                tokenHeader = tokenHeader.ToString().Substring("Bearer ".Length).Trim();
-
-                //var tm = JwtHelper.SerializeJWT(tokenHeader);
-                //user = tm.UserName;
-            }
-
-
-            var str = $"\n 方法：{LogFlag} \n " +
-                      $"地址：{url} \n " +
-                      $"方式：{method} \n " +
-                      $"参数：{qs}\n " +
-                      //$"结果：{res}\n " +
-                      $"耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒";
+                Authority = "",
+                Method = method,
+                Path = url,
+                StatusCode = context.HttpContext.Response.StatusCode,
+                Message = str,
+                UserName = username,
+                UserId = userid.IsNullOrEmpty() ? 0 : int.Parse(userid)
+            });
+            //MiniProfiler.Current.CustomTiming($"OnActionExecuted ->", str);
             //Logger.Default.Process(user, LogType.GetEnumText(), str);
         }
     }
