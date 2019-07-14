@@ -6,7 +6,7 @@ using LinCms.Zero.Data;
 
 namespace LinCms.Web.Controllers
 {
-    [Route("/")]
+    [Route("/test")]
     [ApiController]
     public class TestController : ControllerBase
     {
