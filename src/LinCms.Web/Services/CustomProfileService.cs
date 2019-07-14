@@ -17,7 +17,7 @@ namespace LinCms.Web.Services
         /// <summary>
         /// The logger
         /// </summary>
-        protected readonly ILogger Logger;
+        private readonly ILogger _logger;
 
         private readonly IFreeSql _freeSql;
 
@@ -28,7 +28,7 @@ namespace LinCms.Web.Services
         /// <param name="freeSql"></param>
         public CustomProfileService(ILogger<TestUserProfileService> logger, IFreeSql freeSql)
         {
-            Logger = logger;
+            _logger = logger;
             _freeSql = freeSql;
         }
 
@@ -39,12 +39,12 @@ namespace LinCms.Web.Services
         /// <returns></returns>
         public virtual Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            context.LogProfileRequest(Logger);
+            context.LogProfileRequest(_logger);
 
             var claims = context.Subject.Claims.ToList();
             context.IssuedClaims = claims.ToList();
 
-            context.LogIssuedClaims(Logger);
+            context.LogIssuedClaims(_logger);
 
             return Task.CompletedTask;
         }
@@ -56,7 +56,7 @@ namespace LinCms.Web.Services
         /// <returns></returns>
         public virtual Task IsActiveAsync(IsActiveContext context)
         {
-            Logger.LogDebug("IsActive called from: {caller}", context.Caller);
+            _logger.LogDebug("IsActive called from: {caller}", context.Caller);
 
             //var user = Users.FindBySubjectId(context.Subject.GetSubjectId());
             context.IsActive = /*user?.IsActive == */true;

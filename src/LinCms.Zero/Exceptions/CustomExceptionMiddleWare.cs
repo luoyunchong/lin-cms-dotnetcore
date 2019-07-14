@@ -85,7 +85,7 @@ namespace LinCms.Zero.Exceptions
                     }
                     else
                     {
-                        errorMsg = $"未知错误";
+                        errorMsg = $"异常信息:"+ex.Message;
                     }
                     await JsonHandle(context, errorMsg, ErrorCode.UnknownError.GetHashCode());
 

@@ -4,6 +4,7 @@ using LinCms.Web.Models.Users;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace LinCms.Web.Controllers
 {
@@ -19,6 +20,12 @@ namespace LinCms.Web.Controllers
         {
             _freeSql = freeSql;
             _mapper = mapper;
+        }
+
+        [HttpGet("get")]
+        public JsonResult Get()
+        {
+            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
 
         /// <summary>

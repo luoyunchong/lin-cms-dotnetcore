@@ -6,9 +6,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
+using System.Linq;
 
 namespace LinCms.Web.Repositories
 {
+    /// <summary>
+    /// 当需要给仓储增加方法时，在此方法中增加，并在构造函数中注入LinLogRepository
+    /// </summary>
     public class LinLogRepository : BaseRepository<LinLog>
     {
 
@@ -16,25 +20,5 @@ namespace LinCms.Web.Repositories
         {
         }
 
-        public PagedResultDto<LinLog> GetLogUsers(LogSearchDto searchDto)
-        {
-            List<LinLog> linLogs = Select
-                .WhereIf(!string.IsNullOrEmpty(searchDto.Keyword), r => r.Message.Contains(searchDto.Keyword))
-                .WhereIf(!string.IsNullOrEmpty(searchDto.Name), r => r.UserName.Contains(searchDto.Name))
-                .WhereIf(searchDto.Start.HasValue, r => r.Time >= searchDto.Start.Value)
-                .WhereIf(searchDto.End.HasValue, r => r.Time <= searchDto.End.Value)
-                .ToPagerList(searchDto, out long totalCount);
-
-            return new PagedResultDto<LinLog>(totalCount, linLogs);
-
-        }
-
-        public PagedResultDto<LinLog> GetLoggedUsers(PageDto searchDto)
-        {
-            List<LinLog> linLogs = Select
-                .ToPagerList(searchDto, out long totalCount);
-
-            return new PagedResultDto<LinLog>(totalCount, linLogs);
-        }
     }
 }
