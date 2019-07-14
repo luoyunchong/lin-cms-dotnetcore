@@ -4,6 +4,9 @@ using LinCms.Web.Repositories;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using LinCms.Web.Services;
+using LinCms.Web.Services.Interfaces;
 
 namespace LinCms.Web.Controllers
 {
@@ -11,21 +14,21 @@ namespace LinCms.Web.Controllers
     [ApiController]
     public class LogController : ControllerBase
     {
-        private readonly LinLogRepository _linLogRepository;
+        private readonly ILogService _logService;
 
-        public LogController(LinLogRepository linLogRepository)
+        public LogController(ILogService logService)
         {
-            _linLogRepository = linLogRepository;
+            _logService = logService;
         }
 
         /// <summary>
-        /// 查询已经被记录过日志的用户（分页）
+        /// 查询日志记录的用户
         /// </summary>
         /// <returns></returns>
         [HttpGet("users")]
-        public PagedResultDto<LinLog> GetLoggedUsers([FromQuery]PageDto pageDto)
+        public List<string> GetLoggedUsers([FromQuery]PageDto pageDto)
         {
-            return _linLogRepository.GetLoggedUsers(pageDto);
+            return _logService.GetLoggedUsers(pageDto);
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace LinCms.Web.Controllers
         [HttpGet("")]
         public PagedResultDto<LinLog> GetLogs([FromQuery]LogSearchDto searchDto)
         {
-            return _linLogRepository.GetLogUsers(searchDto);
+            return _logService.GetLogUsers(searchDto);
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace LinCms.Web.Controllers
         [HttpGet("search")]
         public PagedResultDto<LinLog> SearchLogs([FromQuery]LogSearchDto searchDto)
         {
-            return _linLogRepository.GetLogUsers(searchDto);
+            return _logService.GetLogUsers(searchDto);
         }
 
     }

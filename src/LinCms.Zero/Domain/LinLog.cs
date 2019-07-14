@@ -24,13 +24,13 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 请求方法
         /// </summary>
-        [Column( DbType = "varchar(20)")]
+        [Column(DbType = "varchar(20)")]
         public string Method { get; set; } = string.Empty;
 
         /// <summary>
         /// 请求路径
         /// </summary>
-        [Column( DbType = "varchar(50)")]
+        [Column(DbType = "varchar(50)")]
         public string Path { get; set; } = string.Empty;
 
         /// <summary>

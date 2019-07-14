@@ -1,25 +1,25 @@
 ﻿using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
-using IdentityServer4.AccessTokenValidation;
+using LinCms.Web.Aop;
 using LinCms.Web.Data;
 using LinCms.Web.Services;
+using LinCms.Web.Services.Interfaces;
+using LinCms.Zero.Domain;
+using LinCms.Zero.Exceptions;
+using LinCms.Zero.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.Diagnostics;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Exceptions;
-using LinCms.Zero.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace LinCms.Web
 {
@@ -102,22 +102,28 @@ namespace LinCms.Web
 
             services.AddAutoMapper(GetType().Assembly);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddMvc(options=> {
+                options.Filters.Add<LogActionAttribute>(); // 添加日志记录过滤器
+
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                     .AddJsonOptions(opt =>
                     {
                         //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                        //设置时间戳格式
                         opt.SerializerSettings.Converters = new List<JsonConverter>()
                         {
                             new LinCmsTimeConverter()
                         };
-
+                        // 设置下划线
                         opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
                         {
                             NamingStrategy = new SnakeCaseNamingStrategy()
                         };
-                    }); ;
+                    });
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddScoped<ILogService, LogService>();
+      
+            //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info() { Title = "LinCms", Version = "v1" });
@@ -140,9 +146,10 @@ namespace LinCms.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseHttpMethodOverride(new HttpMethodOverrideOptions { FormFieldName = "X-Http-Method-Override" });
-            env.EnvironmentName = EnvironmentName.Production;
+            //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
+
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -152,9 +159,6 @@ namespace LinCms.Web
                 app.UseHsts();
             }
 
-            app.UseAuthentication();
-
-            app.UseIdentityServer();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -164,12 +168,20 @@ namespace LinCms.Web
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
-                c.RoutePrefix = string.Empty;
+
+                //c.RoutePrefix = string.Empty;
                 //c.OAuthClientId("demo_api_swagger");//客服端名称
                 //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
             });
 
+
+
+            app.UseAuthentication();
+
+            app.UseIdentityServer();
+
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
 
