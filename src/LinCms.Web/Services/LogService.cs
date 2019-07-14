@@ -33,7 +33,7 @@ namespace LinCms.Web.Services
                 .WhereIf(searchDto.End.HasValue, r => r.Time <= searchDto.End.Value)
                 .ToPagerList(searchDto, out long totalCount);
 
-            return new PagedResultDto<LinLog>(totalCount, linLogs);
+            return new PagedResultDto<LinLog>(linLogs,totalCount);
 
         }
 

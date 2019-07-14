@@ -6,7 +6,7 @@ using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Models.Users
 {
-    public class LinUserInformation : EntityDto
+    public class UserInformation : EntityDto
     {
         /// <summary>
         /// 昵称

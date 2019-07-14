@@ -9,7 +9,7 @@ using LinCms.Zero.Dependency;
 
 namespace LinCms.Web.Services.Interfaces
 {
-    public interface ILogService : IScopeDependency
+    public interface ILogService
     {
         void InsertLog(LinLog linlog);
         PagedResultDto<LinLog> GetLogUsers(LogSearchDto searchDto);

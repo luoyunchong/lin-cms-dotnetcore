@@ -1,4 +1,5 @@
 ﻿using System;
+using LinCms.Zero.Data.Enums;
 
 namespace LinCms.Zero.Data
 {
@@ -39,5 +40,14 @@ namespace LinCms.Zero.Data
             Msg = msg ?? throw new ArgumentNullException(nameof(msg));
         }
 
+        public static ResultDto Success(string msg)
+        {
+            return  new ResultDto(0,msg);
+        }
+
+        public static ResultDto Error(string msg)
+        {
+            return new ResultDto(400,msg);
+        }
     }
 }
