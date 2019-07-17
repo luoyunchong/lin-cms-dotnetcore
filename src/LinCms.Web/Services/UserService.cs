@@ -34,12 +34,18 @@ namespace LinCms.Web.Services
             throw new System.NotImplementedException();
         }
 
+        public ResultDto Delete(int id)
+        {
+            _userRepository.Delete(r => r.Id== id);
+            return ResultDto.Success();
+        }
+
         public PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto)
         {
             var linUsers = _userRepository.Select.WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId)
-                  .ToPagerList(searchDto, out long totalCount);
+                  .ToPagerList(searchDto, out long totalNums);
 
-            return new PagedResultDto<LinUser>(linUsers, totalCount);
+            return new PagedResultDto<LinUser>(linUsers, totalNums);
         }
 
         public ResultDto Register(LinUser user)

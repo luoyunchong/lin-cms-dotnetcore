@@ -14,5 +14,6 @@ namespace LinCms.Web.Services.Interfaces
         PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto);
         ResultDto Register(LinUser user);
         ResultDto UpdateUserInfo(int id,UpdateUserDto updateUserDto);
+        ResultDto Delete(int id);
     }
 }

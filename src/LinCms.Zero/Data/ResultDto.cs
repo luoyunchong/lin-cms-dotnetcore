@@ -40,12 +40,13 @@ namespace LinCms.Zero.Data
             Msg = msg ?? throw new ArgumentNullException(nameof(msg));
         }
 
-        public static ResultDto Success(string msg)
+
+        public static ResultDto Success(string msg="操作成功")
         {
             return  new ResultDto(0,msg);
         }
 
-        public static ResultDto Error(string msg)
+        public static ResultDto Error(string msg="操作失败")
         {
             return new ResultDto(400,msg);
         }

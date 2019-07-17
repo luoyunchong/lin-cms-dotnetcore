@@ -13,7 +13,7 @@ namespace LinCms.Web.Controllers
 {
     [ApiController]
     [Route("cms/user")]
-    [Authorize]
+    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
