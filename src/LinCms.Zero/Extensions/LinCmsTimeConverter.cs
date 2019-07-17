@@ -39,6 +39,11 @@ namespace LinCms.Zero.Extensions
             return new DateTime(1970, 1, 1).AddMilliseconds(milliseconds);
         }
 
+        /// <summary>
+        /// 日期转换为时间戳（时间戳单位毫秒）
+        /// </summary>
+        /// <param name="TimeStamp"></param>
+        /// <returns></returns>
 
         public static double ConvertDateTimeInt(DateTime aDt)
         {
