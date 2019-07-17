@@ -14,7 +14,7 @@ namespace LinCms.Web.Controllers
         [HttpGet("info")]
         public ResultDto Info()
         {
-            return new ResultDto("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
+            return  ResultDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
         }
 
         [HttpGet("")]
@@ -25,6 +25,34 @@ namespace LinCms.Web.Controllers
                     ""Century Gothic"",""Microsoft yahei""; color: #333;font-size:18px;} h1{ font-size: 100px; font-weight: normal; 
                     margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style=""padding: 24px 48px;"" ><p>
                     Lin <br/><span style=""font -size:30px"" > 心上无垢，林间有风。</span></p></div> ";
+        }
+
+        /// <summary>
+        /// 下划线，首字母会小写
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get")]
+        public dynamic Get()
+        {
+            return new {
+                Content = new {
+                    Url=Request.Path.Value
+                }
+            };
+        }
+
+        /// <summary>
+        /// 这种方式不会变小写，怀疑人生，是不是他的key不是键？ https://github.com/JamesNK/Newtonsoft.Json/issues/2088
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getDictionary")]
+        public IDictionary<string, string> GetDictionary()
+        {
+            IDictionary<string, string> dics = new Dictionary<string, string>();
+
+            dics.Add("Key", "Value");
+
+            return dics;
         }
     }
 }

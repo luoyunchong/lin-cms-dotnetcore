@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Extensions;
 using LinCms.Web.Services.Interfaces;
+using LinCms.Zero.Data;
+using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -37,8 +40,8 @@ namespace LinCms.Web.Aop
         {
             // 就是这里！！
             //MiniProfiler.Current.Step($"OnActionExecuting->Begin ");
-
             base.OnActionExecuting(context);
+
             ActionArguments = Newtonsoft.Json.JsonConvert.SerializeObject(context.ActionArguments);
             Stopwatch = new Stopwatch();
             Stopwatch.Start();
