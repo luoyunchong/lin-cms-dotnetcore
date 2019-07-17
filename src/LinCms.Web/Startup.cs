@@ -4,12 +4,15 @@ using FreeSql.Internal;
 using LinCms.Web.Aop;
 using LinCms.Web.Data;
 using LinCms.Web.Services;
+using LinCms.Zero.Data;
+using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +23,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace LinCms.Web
 {
@@ -104,23 +108,42 @@ namespace LinCms.Web
 
             services.AddMvc(options =>
             {
-                options.Filters.Add<LogActionAttribute>(); // 添加日志记录过滤器
+                options.Filters.Add<LogActionAttribute>(); // 添加请求方法时的日志记录过滤器
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
+                //自定义 BadRequest 响应
+                options.InvalidModelStateResponseFactory =  context =>
+                {
+                    var problemDetails = new ValidationProblemDetails(context.ModelState);
 
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                    .AddJsonOptions(opt =>
+                    var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors);
+
+                    return new BadRequestObjectResult(problemDetails)
                     {
-                        //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                        //设置时间戳格式
-                        opt.SerializerSettings.Converters = new List<JsonConverter>()
-                        {
-                            new LinCmsTimeConverter()
-                        };
-                        // 设置下划线
-                        opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
-                        {
-                            NamingStrategy = new SnakeCaseNamingStrategy()
-                        };
-                    });
+                        ContentTypes = { "application/json" }
+                    };
+                };
+            })
+            .AddJsonOptions(opt =>
+            {
+                //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                //设置时间戳格式
+                opt.SerializerSettings.Converters = new List<JsonConverter>()
+                {
+                    new LinCmsTimeConverter()
+                };
+                // 设置下划线
+                opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                    {
+                        ProcessDictionaryKeys = true
+                    }
+                };
+            });
 
 
 
@@ -166,15 +189,15 @@ namespace LinCms.Web
             if (env.IsDevelopment())
             {
 
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseMiddleware<CustomExceptionMiddleWare>();
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
+            app.UseMiddleware<CustomExceptionMiddleWare>();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
