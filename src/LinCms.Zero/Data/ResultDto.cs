@@ -13,16 +13,22 @@ namespace LinCms.Zero.Data
         /// <summary>
         ///     错误信息
         /// </summary>
-        public string Msg { get; set; }
+        public object Msg { get; set; }
 
         /// <summary>
         ///     请求地址
         /// </summary>
         public string Request { get; set; }
 
-        public ResultDto(int errorCode, string msg)
+        public ResultDto(int errorCode, object msg)
         {
             ErrorCode = errorCode;
+            Msg = msg ?? throw new ArgumentNullException(nameof(msg));
+        }
+
+        public ResultDto(ErrorCode errorCode, object msg)
+        {
+            ErrorCode = errorCode.GetHashCode();
             Msg = msg ?? throw new ArgumentNullException(nameof(msg));
         }
 
@@ -31,13 +37,13 @@ namespace LinCms.Zero.Data
             ErrorCode = errorCode;
         }
 
-        public ResultDto()
+        public ResultDto(ErrorCode errorCode)
         {
+            ErrorCode = errorCode.GetHashCode();
         }
 
-        public ResultDto(string msg)
+        public ResultDto()
         {
-            Msg = msg ?? throw new ArgumentNullException(nameof(msg));
         }
 
 
