@@ -135,7 +135,7 @@ namespace LinCms.Web
                 {
                     new LinCmsTimeConverter()
                 };
-                // 设置下划线
+                // 设置下划线方式，首字母是小写
                 opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
                 {
                     NamingStrategy = new SnakeCaseNamingStrategy()

@@ -36,7 +36,8 @@ namespace LinCms.Web.Controllers
         {
             return new {
                 Content = new {
-                    Url=Request.Path.Value
+                    Url=Request.Path.Value,
+                    NewUrlTest="test in new url test"
                 }
             };
         }
@@ -51,6 +52,7 @@ namespace LinCms.Web.Controllers
             IDictionary<string, string> dics = new Dictionary<string, string>();
 
             dics.Add("Key", "Value");
+            dics.Add("Key_Test", "Value_Test");
 
             return dics;
         }
