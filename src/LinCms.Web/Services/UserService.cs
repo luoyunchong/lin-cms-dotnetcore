@@ -36,7 +36,7 @@ namespace LinCms.Web.Services
 
         public ResultDto Delete(int id)
         {
-            _userRepository.Delete(r => r.Id== id);
+            _userRepository.Delete(r => r.Id == id);
             return ResultDto.Success();
         }
 
@@ -50,6 +50,22 @@ namespace LinCms.Web.Services
 
         public ResultDto Register(LinUser user)
         {
+            var isRepeatNickName = _userRepository.Where(r => r.Nickname == user.Nickname).Any();
+
+            if (isRepeatNickName)
+            {
+                return ResultDto.Error("用户名重复，请重新输入");
+            }
+
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var isRepeatEmail= _userRepository.Where(r => r.Email == user.Email).Any();
+                if (isRepeatEmail)
+                {
+                    return ResultDto.Error("注册邮箱重复，请重新输入");
+                }
+            }
+
             user.Active = 1;
             user.Admin = 1;
 
