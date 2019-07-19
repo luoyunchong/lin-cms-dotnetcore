@@ -57,9 +57,9 @@ namespace LinCms.Web.Services
                 return ResultDto.Error("用户名重复，请重新输入");
             }
 
-            if (!string.IsNullOrEmpty(user.Email))
+            if (!string.IsNullOrEmpty(user.Email.Trim()))
             {
-                var isRepeatEmail= _userRepository.Where(r => r.Email == user.Email).Any();
+                var isRepeatEmail= _userRepository.Where(r => r.Email == user.Email.Trim()).Any();
                 if (isRepeatEmail)
                 {
                     return ResultDto.Error("注册邮箱重复，请重新输入");

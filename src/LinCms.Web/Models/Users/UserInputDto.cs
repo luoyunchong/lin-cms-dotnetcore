@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LinCms.Web.Models.Users
 {
-    public class UserInputDto:IValidatableObject
+    public class UserInputDto
     {
         /// <summary>
         /// 昵称
@@ -37,11 +35,8 @@ namespace LinCms.Web.Models.Users
         /// </summary>
         [Required(ErrorMessage = "请输入分组id")]
         [MinLength(1,ErrorMessage = "分组id必须大于0")]
+        [Remote("/cms/admin/group/validateGroup", HttpMethod = "Post",ErrorMessage = "分组不存在")]
         public int? GroupId { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            yield return new ValidationResult("分组不存在", new[] { "GroupId" });
-        }
     }
 }

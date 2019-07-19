@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Web.Models.Groups;
+using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers
 {
-    [Route("cms/group")]
+    [Route("cms/admin/group")]
     [ApiController]
     public class GroupController : ControllerBase
     {
@@ -25,28 +27,43 @@ namespace LinCms.Web.Controllers
            return _freeSql.Select<LinGroup>().ToList();
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public LinGroup Get(int id)
         {
             return _freeSql.Select<LinGroup>().Where(r=>r.Id==id).First();
         }
 
-        // POST: api/Group
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] GroupInputDto inputDto)
         {
+
         }
 
-        // PUT: api/Group/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ResultDto Delete(int id)
         {
+            if(_freeSql.Select<LinGroup>(new { id = id }).Any())
+            {
+                return ResultDto.Error("分组不存在，删除失败");
+            }
+
+
+
+            _freeSql.Delete<LinGroup>(new { id = id }).ExecuteAffrows();
+            return ResultDto.Success("删除分组成功");
+        }
+
+        [HttpPost("validateGroup")]
+        public bool ValidateGroup(int groupId)
+        {
+            bool isExistGroup = _freeSql.Select<LinGroup>().Any(r => r.Id == groupId);
+
+            return isExistGroup;
         }
     }
 }
