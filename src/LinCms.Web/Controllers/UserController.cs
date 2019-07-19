@@ -72,5 +72,6 @@ namespace LinCms.Web.Controllers
 
             return ok ? ResultDto.Success("密码修改成功") : ResultDto.Error("修改密码失败");
         }
+
     }
 }
