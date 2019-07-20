@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Web.Models.Admins;
 
 namespace LinCms.Web.Models.Users
 {
-    public class ChangePasswordDto
+    public class ChangePasswordDto: ResetPasswordDto
     {
-        [Required(ErrorMessage = "")]
-        public string NewPassword { get; set; }
-        [Required(ErrorMessage = "")]
-        public string ConfirmPassword { get; set; }
-        [Required(ErrorMessage = "")]
+
+        [Required(ErrorMessage = "原密码不可为空")]
         public string OldPassword { get; set; }
     }
 }

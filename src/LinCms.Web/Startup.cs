@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LinCms.Web
 {
@@ -118,10 +119,8 @@ namespace LinCms.Web
                 options.InvalidModelStateResponseFactory =  context =>
                 {
                     var problemDetails = new ValidationProblemDetails(context.ModelState);
-
-                    var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors);
-
-                    return new BadRequestObjectResult(problemDetails)
+                    var resultDto = new ResultDto(ErrorCode.ParameterError,problemDetails.Errors);
+                    return new BadRequestObjectResult(resultDto)
                     {
                         ContentTypes = { "application/json" }
                     };

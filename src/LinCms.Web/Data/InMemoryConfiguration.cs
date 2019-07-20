@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -39,13 +40,19 @@ namespace LinCms.Web.Data
                     ClientId = Configuration["Service:ClientId"],
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
+                    UpdateAccessTokenClaimsOnRefresh = true,
                     AccessTokenLifetime = 3600 * 6, //6小时
                     SlidingRefreshTokenLifetime = 1296000, //15天
                     ClientSecrets =
                     {
                         new Secret(Configuration["Service:ClientSecrets"].Sha256())
                     },
-                    AllowedScopes = { Configuration["Service:Name"], IdentityServerConstants.StandardScopes.OfflineAccess}
+                    AllowedScopes =
+                    {
+                        Configuration["Service:Name"],
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                    }
                 }
             };
         }
