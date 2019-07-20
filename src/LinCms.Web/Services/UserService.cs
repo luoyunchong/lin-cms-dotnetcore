@@ -4,7 +4,9 @@ using LinCms.Web.Models.Admins;
 using LinCms.Web.Models.Users;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data;
+using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
+using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
 
 namespace LinCms.Web.Services
@@ -34,10 +36,25 @@ namespace LinCms.Web.Services
             throw new System.NotImplementedException();
         }
 
-        public ResultDto Delete(int id)
+        public void Delete(int id)
         {
             _userRepository.Delete(r => r.Id == id);
-            return ResultDto.Success();
+        }
+
+        public void ResetPassword(int id, ResetPasswordDto resetPasswordDto)
+        {
+            var user = _userRepository.Where(r => r.Id == id).First();
+
+            if (user == null)
+            {
+                throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+            }
+
+            _freeSql.Update<LinUser>(id).Set(a => new LinUser()
+            {
+                Password = resetPasswordDto.ConfirmPassword
+            }).ExecuteAffrows();
+
         }
 
         public PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto)
@@ -48,21 +65,28 @@ namespace LinCms.Web.Services
             return new PagedResultDto<LinUser>(linUsers, totalNums);
         }
 
-        public ResultDto Register(LinUser user)
+        public void Register(LinUser user)
         {
-            var isRepeatNickName = _userRepository.Where(r => r.Nickname == user.Nickname).Any();
+            bool isExistGroup = _userRepository.Select.Any(r => r.Id == user.GroupId);
+
+            if (!isExistGroup)
+            {
+                throw new LinCmsException("分组不存在", ErrorCode.NotFound);
+            }
+
+            var isRepeatNickName = _userRepository.Select.Any(r => r.Nickname == user.Nickname);
 
             if (isRepeatNickName)
             {
-                return ResultDto.Error("用户名重复，请重新输入");
+                throw new LinCmsException("用户名重复，请重新输入", ErrorCode.RepeatField);
             }
 
             if (!string.IsNullOrEmpty(user.Email.Trim()))
             {
-                var isRepeatEmail= _userRepository.Where(r => r.Email == user.Email.Trim()).Any();
+                var isRepeatEmail = _userRepository.Select.Any(r => r.Email == user.Email.Trim());
                 if (isRepeatEmail)
                 {
-                    return ResultDto.Error("注册邮箱重复，请重新输入");
+                    throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
                 }
             }
 
@@ -70,7 +94,6 @@ namespace LinCms.Web.Services
             user.Admin = 1;
 
             _userRepository.Insert(user);
-            return ResultDto.Success("用户创建成功");
         }
 
         /// <summary>
@@ -79,7 +102,7 @@ namespace LinCms.Web.Services
         /// <param name="id"></param>
         /// <param name="updateUserDto"></param>    
         /// <returns></returns>
-        public ResultDto UpdateUserInfo(int id, UpdateUserDto updateUserDto)
+        public void UpdateUserInfo(int id, UpdateUserDto updateUserDto)
         {
             //此方法适用于更新字段少时
             //_freeSql.Update<LinUser>(id).Set(a => new LinUser()
@@ -104,7 +127,31 @@ namespace LinCms.Web.Services
 
             _userRepository.Update(linUser);
 
-            return ResultDto.Success("操作成功");
+        }
+
+
+        public void ChangeStatus(int id, UserActive userActive)
+        {
+            LinUser user = _userRepository.Select.Where(r => r.Id == id).ToOne();
+
+            if (user==null)
+            {
+                throw new LinCmsException("用户不存在",ErrorCode.NotFound);
+            }
+
+            if (user.IsActive() &&userActive == UserActive.Active)
+            {
+                throw new LinCmsException("当前用户已处于禁止状态");
+            }
+            if (!user.IsActive() && userActive == UserActive.NotActive)
+            {
+                throw new LinCmsException("当前用户已处于激活状态");
+            }
+
+            _freeSql.Update<LinUser>(id).Set(a => new LinUser()
+            {
+                Active = userActive.GetHashCode()
+            }).ExecuteAffrows();
         }
     }
 }

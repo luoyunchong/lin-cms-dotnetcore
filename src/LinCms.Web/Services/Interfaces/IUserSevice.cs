@@ -12,8 +12,9 @@ namespace LinCms.Web.Services.Interfaces
         LinUser Authorization(string username, string password);
         bool ChangePassword(ChangePasswordDto passwordDto);
         PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto);
-        ResultDto Register(LinUser user);
-        ResultDto UpdateUserInfo(int id,UpdateUserDto updateUserDto);
-        ResultDto Delete(int id);
+        void Register(LinUser user);
+        void UpdateUserInfo(int id,UpdateUserDto updateUserDto);
+        void Delete(int id);
+        void ResetPassword(int id,ResetPasswordDto resetPasswordDto);
     }
 }
