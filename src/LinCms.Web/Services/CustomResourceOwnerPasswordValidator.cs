@@ -61,7 +61,8 @@ namespace LinCms.Web.Services
             //claims 需要返回的用户身份信息单元 此处应该根据我们从数据库读取到的用户信息 添加Claims 如果是从数据库中读取角色信息，那么我们应该在此处添加
             context.Result = new GrantValidationResult(
                 user.Id.ToString() ?? throw new ArgumentException("Subject ID not set", nameof(user.Id)),
-                OidcConstants.AuthenticationMethods.Password, _clock.UtcNow.UtcDateTime,
+                OidcConstants.AuthenticationMethods.Password, 
+                _clock.UtcNow.UtcDateTime,
                 new List<Claim>()
                 {
                     new Claim(   JwtClaimTypes.Id,user.Id.ToString()),

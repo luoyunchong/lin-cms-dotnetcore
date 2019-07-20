@@ -52,18 +52,10 @@ namespace LinCms.Web.Controllers
                 return ResultDto.Error("分组不存在，删除失败");
             }
 
-
-
             _freeSql.Delete<LinGroup>(new { id = id }).ExecuteAffrows();
             return ResultDto.Success("删除分组成功");
         }
 
-        [HttpPost("validateGroup")]
-        public bool ValidateGroup(int groupId)
-        {
-            bool isExistGroup = _freeSql.Select<LinGroup>().Any(r => r.Id == groupId);
-
-            return isExistGroup;
-        }
+     
     }
 }

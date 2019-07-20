@@ -3,6 +3,7 @@ using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using LinCms.Web.Models.Users;
 using LinCms.Zero.Data;
 using Microsoft.AspNetCore.Authorization;
 
@@ -40,7 +41,8 @@ namespace LinCms.Web.Controllers
         [HttpPut("{id}")]
         public ResultDto Put(int id, [FromBody] UpdateUserDto updateUserDto)
         {
-            return _userSevice.UpdateUserInfo(id,updateUserDto);
+            _userSevice.UpdateUserInfo(id, updateUserDto);
+            return ResultDto.Success();
         }
 
         /// <summary>
@@ -49,10 +51,17 @@ namespace LinCms.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public  ResultDto Delete(int id)
+        public ResultDto Delete(int id)
         {
-            return _userSevice.Delete(id);
+            _userSevice.Delete(id);
+            return ResultDto.Success();
         }
 
+        [HttpPut("password/{id}")]
+        public ResultDto ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            _userSevice.ResetPassword(id, resetPasswordDto);
+            return ResultDto.Success("密码修改成功");
+        }
     }
 }

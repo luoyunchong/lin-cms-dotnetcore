@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using IdentityModel;
 using LinCms.Web.Models.Users;
-using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data;
+using LinCms.Zero.Domain;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace LinCms.Web.Controllers
 {
@@ -61,7 +59,9 @@ namespace LinCms.Web.Controllers
         [HttpPost("register")]
         public ResultDto Post([FromBody] UserInputDto userInput)
         {
-            return _userSevice.Register(_mapper.Map<LinUser>(userInput));
+            _userSevice.Register(_mapper.Map<LinUser>(userInput));
+
+            return ResultDto.Success("用户创建成功");
         }
 
 
