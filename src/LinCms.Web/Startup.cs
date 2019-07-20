@@ -12,7 +12,6 @@ using LinCms.Zero.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +22,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
+using LinCms.Web.Middleware;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LinCms.Web
 {
@@ -109,6 +109,7 @@ namespace LinCms.Web
 
             services.AddMvc(options =>
             {
+                options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
                 options.Filters.Add<LogActionAttribute>(); // 添加请求方法时的日志记录过滤器
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -161,6 +162,10 @@ namespace LinCms.Web
                      );
             #endregion
 
+            //Swagger重写PascalCase，改成SnakeCase模式
+            services.TryAddEnumerable(ServiceDescriptor
+                .Transient<IApiDescriptionProvider, SnakeCaseQueryParametersApiDescriptionProvider>());
+
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
@@ -197,6 +202,8 @@ namespace LinCms.Web
             }
 
             app.UseMiddleware<CustomExceptionMiddleWare>();
+
+            app.UseRewriteQueryString();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
