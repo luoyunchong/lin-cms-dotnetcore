@@ -5,11 +5,11 @@ using LinCms.Zero.Domain;
 
 namespace LinCms.Web.AutoMapper.Users
 {
-    public class LinUserProfile : Profile
+    public class UserProfile : Profile
     {
-        public LinUserProfile()
+        public UserProfile()
         {
-            CreateMap<UserInputDto,LinUser>();
+            CreateMap<CreateUserDto,LinUser>();
             CreateMap<LinUser, UserInformation>();
             CreateMap<UpdateUserDto, LinUser>();
         }

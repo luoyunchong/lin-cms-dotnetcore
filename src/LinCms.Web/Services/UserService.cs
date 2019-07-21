@@ -113,7 +113,10 @@ namespace LinCms.Web.Services
 
             //需要多查一次
             LinUser linUser = _userRepository.Where(r => r.Id == id).ToOne();
-
+            if (linUser == null)
+            {
+                throw new LinCmsException("用户不存在",ErrorCode.NotFound);
+            }
             //赋值过程可使用AutoMapper简化
             //只更新 Email、GroupId
             // UPDATE `lin_user` SET `email` = ?p_0, `group_id` = ?p_1 

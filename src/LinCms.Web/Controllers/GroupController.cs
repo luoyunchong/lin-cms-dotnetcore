@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Web.Models.Groups;
+﻿using LinCms.Web.Models.Groups;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace LinCms.Web.Controllers
 {
@@ -15,7 +11,6 @@ namespace LinCms.Web.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
-
         public GroupController(IFreeSql freeSql)
         {
             _freeSql = freeSql;
@@ -34,20 +29,25 @@ namespace LinCms.Web.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] GroupInputDto inputDto)
+        public void Post([FromBody] CreateGroupDto inputDto)
         {
 
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] UpdateGroupDto updateGroupDto)
         {
+            _freeSql.Update<LinGroup>(id).Set(a => new LinGroup()
+            {
+                Info = updateGroupDto.Info,
+                Name = updateGroupDto.Name
+            }).ExecuteAffrows();
         }
 
         [HttpDelete("{id}")]
         public ResultDto Delete(int id)
         {
-            if(_freeSql.Select<LinGroup>(new { id = id }).Any())
+            if(!_freeSql.Select<LinGroup>(new { id = id }).Any())
             {
                 return ResultDto.Error("分组不存在，删除失败");
             }

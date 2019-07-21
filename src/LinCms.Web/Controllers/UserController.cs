@@ -6,12 +6,13 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Web.Controllers
 {
     [ApiController]
     [Route("cms/user")]
-    //[Authorize]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
@@ -57,7 +58,7 @@ namespace LinCms.Web.Controllers
         /// </summary>
         /// <param name="userInput"></param>
         [HttpPost("register")]
-        public ResultDto Post([FromBody] UserInputDto userInput)
+        public ResultDto Post([FromBody] CreateUserDto userInput)
         {
             _userSevice.Register(_mapper.Map<LinUser>(userInput));
 

@@ -11,14 +11,16 @@ namespace LinCms.Web.Controllers
 {
     [Route("cms/admin")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = LinGroup.Administrator)]
     public class AdminController : ControllerBase
     {
         private readonly IUserSevice _userSevice;
+        private readonly IFreeSql _freeSql;
 
-        public AdminController(IUserSevice userSevice)
+        public AdminController(IUserSevice userSevice, IFreeSql freeSql)
         {
             _userSevice = userSevice;
+            _freeSql = freeSql;
         }
 
         /// <summary>
@@ -57,11 +59,25 @@ namespace LinCms.Web.Controllers
             return ResultDto.Success();
         }
 
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <param name="id">用户id</param>
+        /// <param name="resetPasswordDto"></param>
+        /// <returns></returns>
         [HttpPut("password/{id}")]
         public ResultDto ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             _userSevice.ResetPassword(id, resetPasswordDto);
             return ResultDto.Success("密码修改成功");
+        }
+
+        [HttpGet("authority")]
+        public IActionResult GetAllAuths()
+        {
+            var r = _freeSql.Select<LinAuth>().ToList();
+
+            return Ok(r);
         }
     }
 }

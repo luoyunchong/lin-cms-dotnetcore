@@ -1,5 +1,7 @@
 ﻿using System;
 using LinCms.Zero.Data.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LinCms.Zero.Data
 {
@@ -55,6 +57,17 @@ namespace LinCms.Zero.Data
         public static ResultDto Error(string msg="操作失败")
         {
             return new ResultDto(400,msg);
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this, new JsonSerializerSettings()
+            {
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            });
         }
     }
 }
