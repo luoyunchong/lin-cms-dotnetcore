@@ -6,13 +6,15 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Security.Claims;
+using LinCms.Zero.Authorization;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Web.Controllers
 {
     [ApiController]
     [Route("cms/user")]
-    [Authorize]
+    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
@@ -27,6 +29,7 @@ namespace LinCms.Web.Controllers
         }
 
         [HttpGet("get")]
+        [LinCmsAuthorize("User_Edit")]
         public JsonResult Get()
         {
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
@@ -38,7 +41,7 @@ namespace LinCms.Web.Controllers
         [HttpGet("information")]
         public UserInformation GetInformation()
         {
-            string id = User.FindFirst(JwtClaimTypes.Id)?.Value;
+            string id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == int.Parse(id)).First();
 

@@ -4,6 +4,7 @@ using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LinCms.Web.Models.Users;
+using LinCms.Zero.Authorization;
 using LinCms.Zero.Data;
 using Microsoft.AspNetCore.Authorization;
 
@@ -11,7 +12,7 @@ namespace LinCms.Web.Controllers
 {
     [Route("cms/admin")]
     [ApiController]
-    [Authorize(Roles = LinGroup.Administrator)]
+    [LinCmsAuthorize(Roles = LinGroup.Administrator)]
     public class AdminController : ControllerBase
     {
         private readonly IUserSevice _userSevice;

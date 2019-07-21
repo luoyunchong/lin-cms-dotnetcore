@@ -1,6 +1,7 @@
 ﻿using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -16,6 +17,8 @@ namespace LinCms.Zero.Exceptions
         /// 管道请求委托
         /// </summary>
         private readonly RequestDelegate _next;
+
+        public ILogger<CustomExceptionMiddleWare> Logger { get; set; }
 
         /// <summary>
         /// 需要处理的状态码字典
@@ -101,6 +104,8 @@ namespace LinCms.Zero.Exceptions
         /// <returns></returns>
         private async Task JsonHandle(HttpContext context, string errorMsg, int errorCode)
         {
+            Logger.LogError(errorMsg);
+
             ResultDto apiResponse = new ResultDto()
             {
                 Msg = errorMsg,

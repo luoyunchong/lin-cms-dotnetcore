@@ -22,9 +22,14 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Claims;
+using System.Text;
 using LinCms.Web.Middleware;
+using LinCms.Zero.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LinCms.Web
 {
@@ -67,7 +72,6 @@ namespace LinCms.Web
             {
                 filter.Apply<ISoftDeleteAduitEntity>("SoftDelete", a => a.IsDeleted == false);
             }, GetType().Assembly);
-
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -117,15 +121,15 @@ namespace LinCms.Web
             {
                 options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
                 //自定义 BadRequest 响应
-                options.InvalidModelStateResponseFactory =  context =>
-                {
-                    var problemDetails = new ValidationProblemDetails(context.ModelState);
-                    var resultDto = new ResultDto(ErrorCode.ParameterError,problemDetails.Errors);
-                    return new BadRequestObjectResult(resultDto)
-                    {
-                        ContentTypes = { "application/json" }
-                    };
-                };
+                options.InvalidModelStateResponseFactory = context =>
+               {
+                   var problemDetails = new ValidationProblemDetails(context.ModelState);
+                   var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors);
+                   return new BadRequestObjectResult(resultDto)
+                   {
+                       ContentTypes = { "application/json" }
+                   };
+               };
             })
             .AddJsonOptions(opt =>
             {
@@ -182,7 +186,8 @@ namespace LinCms.Web
                 options.OperationFilter<SwaggerFileHeaderParameter>();
             });
 
-
+            //将Handler注册到DI系统中
+            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Web.Controllers
 {
@@ -85,7 +86,6 @@ namespace LinCms.Web.Controllers
             }
             else
             {
-                //Handle what happens if that isn't the case
                 throw new Exception("The authorization header is either empty or isn't Basic.");
             }
 
@@ -96,15 +96,13 @@ namespace LinCms.Web.Controllers
             var response = await client.RequestTokenAsync(new TokenRequest
             {
                 Address = authority + "/connect/token",
-                GrantType = GrantType.ResourceOwnerPassword,
+                GrantType = OidcConstants.GrantTypes.RefreshToken,
 
                 ClientId = _configuration["Service:ClientId"],
                 ClientSecret = _configuration["Service:ClientSecrets"],
 
-                Parameters =
-                    new Dictionary<string, string>
+                Parameters = new Dictionary<string, string>
                     {
-                        { OidcConstants.TokenRequest.GrantType, OidcConstants.GrantTypes.RefreshToken },
                         { OidcConstants.TokenRequest.RefreshToken, refreshToken }
                     }
             });
