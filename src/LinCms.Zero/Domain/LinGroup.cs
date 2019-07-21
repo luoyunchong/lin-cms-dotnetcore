@@ -15,6 +15,10 @@ namespace LinCms.Zero.Domain
         /// 权限组描述
         /// </summary>
         public string Info { get; set; }
+        /// <summary>
+        /// 超级管理员
+        /// </summary>
+        public const string Administrator = "Administrator";
 
     }
 }

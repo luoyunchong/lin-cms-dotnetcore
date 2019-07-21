@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LinCms.Zero.Data;
+﻿using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LinCms.Zero.Exceptions
 {
@@ -85,7 +84,7 @@ namespace LinCms.Zero.Exceptions
                     }
                     else
                     {
-                        errorMsg = $"异常信息:"+ex.Message;
+                        errorMsg = $"异常信息:" + ex.Message;
                     }
                     await JsonHandle(context, errorMsg, ErrorCode.UnknownError.GetHashCode());
 
@@ -108,16 +107,9 @@ namespace LinCms.Zero.Exceptions
                 Request = $"{context.Request.Method} {context.Request.Path}",
                 ErrorCode = errorCode
             }; ;
-            string jsonResult = JsonConvert.SerializeObject(apiResponse, new JsonSerializerSettings()
-            {
-                ContractResolver = new DefaultContractResolver()
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                }
-            });
 
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(jsonResult, Encoding.UTF8);
+            await context.Response.WriteAsync(apiResponse.ToString(), Encoding.UTF8);
         }
 
     }

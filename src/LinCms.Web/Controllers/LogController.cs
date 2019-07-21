@@ -5,8 +5,10 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net;
 using LinCms.Web.Services;
 using LinCms.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Web.Controllers
 {
@@ -26,6 +28,7 @@ namespace LinCms.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("users")]
+        [Authorize("")]
         public List<string> GetLoggedUsers([FromQuery]PageDto pageDto)
         {
             return _logService.GetLoggedUsers(pageDto);

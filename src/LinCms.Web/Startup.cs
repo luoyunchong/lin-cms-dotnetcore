@@ -74,8 +74,8 @@ namespace LinCms.Web
                 .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
                 .AddInMemoryApiResources(InMemoryConfiguration.GetApis())
                 .AddInMemoryClients(InMemoryConfiguration.GetClients())
-                .AddProfileService<CustomProfileService>()
-                .AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>();
+                .AddProfileService<LinCmsProfileService>()
+                .AddResourceOwnerValidator<LinCmsResourceOwnerPasswordValidator>();
 
 
             #region AddAuthentication\AddIdentityServerAuthentication 
@@ -202,8 +202,6 @@ namespace LinCms.Web
             }
 
             app.UseMiddleware<CustomExceptionMiddleWare>();
-
-            app.UseRewriteQueryString();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

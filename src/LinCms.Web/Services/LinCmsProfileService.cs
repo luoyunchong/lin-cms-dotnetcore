@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Services
 {
-    public class CustomProfileService : IProfileService
+    public class LinCmsProfileService : IProfileService
     {
         /// <summary>
         /// The logger
@@ -26,7 +26,7 @@ namespace LinCms.Web.Services
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="freeSql"></param>
-        public CustomProfileService(ILogger<TestUserProfileService> logger, IFreeSql freeSql)
+        public LinCmsProfileService(ILogger<TestUserProfileService> logger, IFreeSql freeSql)
         {
             _logger = logger;
             _freeSql = freeSql;
