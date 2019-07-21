@@ -40,7 +40,7 @@ namespace LinCms.Web.Data
                     ClientId = Configuration["Service:ClientId"],
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
-                    UpdateAccessTokenClaimsOnRefresh = true,
+                    //UpdateAccessTokenClaimsOnRefresh = true,
                     AccessTokenLifetime = 3600 * 6, //6小时
                     SlidingRefreshTokenLifetime = 1296000, //15天
                     ClientSecrets =
