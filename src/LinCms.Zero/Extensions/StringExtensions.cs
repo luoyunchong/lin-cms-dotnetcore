@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LinCms.Zero.Extensions
@@ -114,9 +115,8 @@ namespace LinCms.Zero.Extensions
 
             bool nextSymbolStartsNewWord = true;
             bool disableFrontDelimeter = true;
-            for (var i = 0; i < source.Length; i++)
+            foreach (var symbol in source)
             {
-                var symbol = source[i];
                 if (Delimeters.Contains(symbol))
                 {
                     if (symbol == mainDelimeter)

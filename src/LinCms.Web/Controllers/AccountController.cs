@@ -8,7 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Models;
 
 namespace LinCms.Web.Controllers
 {
@@ -35,17 +39,32 @@ namespace LinCms.Web.Controllers
         public async Task<JObject> Login(LoginInputDto loginInputDto)
         {
             _logger.LogInformation("login");
+
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
 
-            var client = new DiscoveryClient(authority) { Policy = { RequireHttps = false } };
-            var disco = await client.GetAsync();
-            var tokenClient = new TokenClient(disco.TokenEndpoint, _configuration["Service:ClientId"], _configuration["Service:ClientSecrets"]);
-            TokenResponse tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(loginInputDto.Nickname, loginInputDto.Password);
-            if (tokenResponse.IsError)
+            var client = new HttpClient();
+
+            var response = await client.RequestTokenAsync(new TokenRequest
             {
-                throw new LinCmsException(tokenResponse.ErrorDescription);
+                Address = authority + "/connect/token",
+                GrantType = GrantType.ResourceOwnerPassword,
+
+                ClientId = _configuration["Service:ClientId"],
+                ClientSecret = _configuration["Service:ClientSecrets"],
+
+                Parameters =
+                {
+                    { "UserName",loginInputDto.Nickname},
+                    { "Password",loginInputDto.Password}
+                }
+            });
+
+            if (response.IsError)
+            {
+                throw new LinCmsException(response.ErrorDescription);
             }
-            return tokenResponse.Json;
+            return response.Json;
+
         }
 
 
@@ -72,16 +91,30 @@ namespace LinCms.Web.Controllers
 
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
 
-            var client = new DiscoveryClient(authority) { Policy = { RequireHttps = false } };
-            var disco = await client.GetAsync();
-            var tokenClient = new TokenClient(disco.TokenEndpoint, _configuration["Service:ClientId"], _configuration["Service:ClientSecrets"]);
-            var tokenResponse = await tokenClient.RequestRefreshTokenAsync(refreshToken);
-            if (tokenResponse.IsError)
+            var client = new HttpClient();
+
+            var response = await client.RequestTokenAsync(new TokenRequest
             {
-                throw new LinCmsException(tokenResponse.ErrorDescription,ErrorCode.NotFound);
+                Address = authority + "/connect/token",
+                GrantType = GrantType.ResourceOwnerPassword,
+
+                ClientId = _configuration["Service:ClientId"],
+                ClientSecret = _configuration["Service:ClientSecrets"],
+
+                Parameters =
+                    new Dictionary<string, string>
+                    {
+                        { OidcConstants.TokenRequest.GrantType, OidcConstants.GrantTypes.RefreshToken },
+                        { OidcConstants.TokenRequest.RefreshToken, refreshToken }
+                    }
+            });
+
+            if (response.IsError)
+            {
+                throw new LinCmsException(response.ErrorDescription, ErrorCode.NotFound);
             }
 
-            return tokenResponse.Json;
+            return response.Json;
         }
     }
 }
