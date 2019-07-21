@@ -30,5 +30,11 @@ namespace LinCms.Test
                 string r = response.Content.ReadAsStringAsync().Result;
             }
         }
+
+        [Fact]
+        public async Task HttpClientResourePassword()
+        {
+
+        }
     }
 }
