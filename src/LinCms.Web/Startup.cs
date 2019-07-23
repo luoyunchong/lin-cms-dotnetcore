@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
-using LinCms.Web.Aop;
 using LinCms.Web.Data;
 using LinCms.Web.Services;
 using LinCms.Zero.Data;
@@ -25,11 +24,12 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Text;
 using LinCms.Web.Middleware;
-using LinCms.Zero.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using LinCms.Web.Data.Authorization;
+using LinCms.Web.Data.Aop;
 
 namespace LinCms.Web
 {
@@ -67,6 +67,7 @@ namespace LinCms.Web
         {
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);
+
 
             services.AddFreeRepository(filter =>
             {

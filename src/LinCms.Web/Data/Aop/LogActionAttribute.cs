@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using IdentityModel;
 using IdentityServer4.Extensions;
 using LinCms.Web.Services.Interfaces;
-using LinCms.Zero.Data;
-using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace LinCms.Web.Aop
+namespace LinCms.Web.Data.Aop
 {
     /// <summary>
     /// 日志记录
@@ -42,7 +35,7 @@ namespace LinCms.Web.Aop
             //MiniProfiler.Current.Step($"OnActionExecuting->Begin ");
             base.OnActionExecuting(context);
 
-            ActionArguments = Newtonsoft.Json.JsonConvert.SerializeObject(context.ActionArguments);
+            ActionArguments = JsonConvert.SerializeObject(context.ActionArguments);
             Stopwatch = new Stopwatch();
             Stopwatch.Start();
         }
