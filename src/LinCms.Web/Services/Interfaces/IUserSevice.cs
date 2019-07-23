@@ -16,5 +16,6 @@ namespace LinCms.Web.Services.Interfaces
         void UpdateUserInfo(int id,UpdateUserDto updateUserDto);
         void Delete(int id);
         void ResetPassword(int id,ResetPasswordDto resetPasswordDto);
+        bool CheckPermission(int userId, string permission);
     }
 }

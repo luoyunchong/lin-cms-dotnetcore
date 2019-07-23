@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 using IdentityModel.Client;
+using LinCms.Zero.Domain;
+
 namespace LinCms.Test
 {
     public class UnitTest1
@@ -37,6 +39,20 @@ namespace LinCms.Test
 
         [Fact]
         public async Task HttpClientResourePassword()
+        {
+
+        }
+
+        [Fact]
+        public void TestPermission()
+        {
+            var g=LinAuth.g();
+
+
+        }
+
+        [Fact]
+        public void GetAllPermissionAttirbute()
         {
 
         }

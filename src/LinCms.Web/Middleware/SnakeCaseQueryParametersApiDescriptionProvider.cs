@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using LinCms.Zero.Extensions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LinCms.Web.Middleware
 {

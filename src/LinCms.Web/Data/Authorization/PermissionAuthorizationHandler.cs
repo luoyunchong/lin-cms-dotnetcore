@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace LinCms.Zero.Authorization
+namespace LinCms.Web.Data.Authorization
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
     {
+        private readonly IUserSevice _userService;
 
         public PermissionAuthorizationHandler()
         {
+        }
+
+        public PermissionAuthorizationHandler(IUserSevice userService)
+        {
+            _userService = userService;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
@@ -29,8 +36,7 @@ namespace LinCms.Zero.Authorization
                     Claim userIdClaim = context.User.FindFirst(_ => _.Type == ClaimTypes.NameIdentifier);
                     if (userIdClaim != null)
                     {
-                        if (/*_userStore.CheckPermission(int.Parse(userIdClaim.Value), requirement.Name))*/
-                        true)
+                        if (_userService.CheckPermission(int.Parse(userIdClaim.Value), requirement.Name))
                         {
                             context.Succeed(requirement);
                         }
