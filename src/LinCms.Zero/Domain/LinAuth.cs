@@ -1,4 +1,6 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Zero.Domain
 {
@@ -53,5 +55,71 @@ namespace LinCms.Zero.Domain
             /// </summary>
             public const string GetUsers = "cms.log+get_users";
         }
+
+        public static List<ParentPermission> g()
+        {
+            var permissions = new List<ParentPermission>
+            {
+                new ParentPermission()
+                {
+                    ParentName = "信息",
+                    Permissions=new List<Permission>
+                    {
+                        new Permission("查看Lin的信息",Test.Info)
+                    }
+                },
+                 new ParentPermission()
+                {
+                    ParentName = "图书",
+                    Permissions=new List<Permission>
+                    {
+                        new Permission("删除图书",Book.Delete)
+                    }
+                },
+                  new ParentPermission()
+                {
+                    ParentName = "日志",
+                    Permissions=new List<Permission>
+                    {
+                        new Permission("搜索日志",Log.GetUserLogs),
+                        new Permission("查询所有日志",Log.GetLogs),
+                        new Permission("查询日志记录的用户",Log.GetUsers),
+                    }
+                }
+            };
+
+            return permissions;
+
+
+        }
     }
+
+
+
+    public class Permission
+    {
+        public Permission(string name, string code)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Code = code ?? throw new ArgumentNullException(nameof(code));
+        }
+
+        public ParentPermission ParentPermission { get; set; }
+        /// <summary>
+        /// 权限名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 权限编码
+        /// </summary>
+        public string Code { get; set; }
+    }
+
+    public class ParentPermission
+    {
+        public string ParentName { get; set; }
+
+        public List<Permission> Permissions { get; set; }
+    }
+
 }

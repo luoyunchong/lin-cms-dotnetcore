@@ -43,9 +43,9 @@ namespace LinCms.Web.Services
 
         public void ResetPassword(int id, ResetPasswordDto resetPasswordDto)
         {
-            var user = _userRepository.Where(r => r.Id == id).First();
+            var userExist = _userRepository.Where(r => r.Id == id).Any();
 
-            if (user == null)
+            if (userExist == false)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
@@ -115,7 +115,7 @@ namespace LinCms.Web.Services
             LinUser linUser = _userRepository.Where(r => r.Id == id).ToOne();
             if (linUser == null)
             {
-                throw new LinCmsException("用户不存在",ErrorCode.NotFound);
+                throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
             //赋值过程可使用AutoMapper简化
             //只更新 Email、GroupId
@@ -137,12 +137,12 @@ namespace LinCms.Web.Services
         {
             LinUser user = _userRepository.Select.Where(r => r.Id == id).ToOne();
 
-            if (user==null)
+            if (user == null)
             {
-                throw new LinCmsException("用户不存在",ErrorCode.NotFound);
+                throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            if (user.IsActive() &&userActive == UserActive.Active)
+            if (user.IsActive() && userActive == UserActive.Active)
             {
                 throw new LinCmsException("当前用户已处于禁止状态");
             }
@@ -155,6 +155,12 @@ namespace LinCms.Web.Services
             {
                 Active = userActive.GetHashCode()
             }).ExecuteAffrows();
+        }
+
+        public bool CheckPermission(int userId, string permission)
+        {
+
+            return true;
         }
     }
 }

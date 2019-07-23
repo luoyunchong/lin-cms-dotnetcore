@@ -20,6 +20,6 @@ namespace LinCms.Web
                     logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Trace);
                     logging.AddConsole();
-                }).UseNLog();//UseNLog;
+                }).UseNLog();
     }
 }
