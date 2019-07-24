@@ -8,28 +8,30 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
 using LinCms.Zero.Authorization;
+using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Web.Controllers
 {
     [ApiController]
     [Route("cms/user")]
-    //[Authorize]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
         private readonly IUserSevice _userSevice;
+        private readonly ICurrentUser _currentUser;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser)
         {
             _freeSql = freeSql;
             _mapper = mapper;
             _userSevice = userSevice;
+            _currentUser = currentUser;
         }
 
         [HttpGet("get")]
-        [LinCmsAuthorize("User_Edit")]
         public JsonResult Get()
         {
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
@@ -41,13 +43,9 @@ namespace LinCms.Web.Controllers
         [HttpGet("information")]
         public UserInformation GetInformation()
         {
-            string id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == int.Parse(id)).First();
+            LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
 
             return _mapper.Map<UserInformation>(linUser);
-
-            //return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
 
         [HttpGet("auths")]
@@ -72,9 +70,9 @@ namespace LinCms.Web.Controllers
         [HttpPost("change_password")]
         public ResultDto ChangePassword([FromBody] ChangePasswordDto passwordDto)
         {
-            bool ok = _userSevice.ChangePassword(passwordDto);
+            _userSevice.ChangePassword(passwordDto);
 
-            return ok ? ResultDto.Success("密码修改成功") : ResultDto.Error("修改密码失败");
+            return ResultDto.Success("密码修改成功");
         }
 
     }

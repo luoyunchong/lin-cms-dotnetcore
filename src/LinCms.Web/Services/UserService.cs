@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.Admins;
 using LinCms.Web.Models.Users;
@@ -8,6 +11,8 @@ using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
+using LinCms.Zero.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web.Services
 {
@@ -16,12 +21,13 @@ namespace LinCms.Web.Services
         private readonly BaseRepository<LinUser> _userRepository;
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
-
-        public UserService(BaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper)
+        private readonly ICurrentUser _currentUser;
+        public UserService(BaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper, ICurrentUser currentUser)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         public LinUser Authorization(string username, string password)
@@ -31,9 +37,13 @@ namespace LinCms.Web.Services
             return user;
         }
 
-        public bool ChangePassword(ChangePasswordDto passwordDto)
+        public void ChangePassword(ChangePasswordDto passwordDto)
         {
-            throw new System.NotImplementedException();
+            _userRepository.Select.Any(r => r.Password == passwordDto.OldPassword && r.Id == _currentUser.Id);
+            _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
+            {
+                Password = passwordDto.NewPassword
+            }).ExecuteAffrows();
         }
 
         public void Delete(int id)
@@ -159,8 +169,16 @@ namespace LinCms.Web.Services
 
         public bool CheckPermission(int userId, string permission)
         {
+            int? groupId = _currentUser.GroupId;
 
-            return true;
+            if (groupId == 0||groupId==null)
+            {
+                throw new LinCmsException("当前用户无任何分组！");
+            }
+
+            bool existPermission = _freeSql.Select<LinAuth>().Any(r => r.GroupId == groupId && r.Auth == permission);
+
+            return existPermission;
         }
     }
 }
