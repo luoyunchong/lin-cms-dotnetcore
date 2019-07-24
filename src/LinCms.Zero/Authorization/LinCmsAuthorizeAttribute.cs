@@ -14,18 +14,19 @@ namespace LinCms.Zero.Authorization
     {
 
         public string Permission { get; set; }
+        public string Module { get; set; }
 
         public LinCmsAuthorizeAttribute() : base()
         {
 
         }
 
-        public LinCmsAuthorizeAttribute(string permission)
+        public LinCmsAuthorizeAttribute(string permission,string module)
         {
             Permission = permission;
         }
 
-        public LinCmsAuthorizeAttribute(string permission, string policy) : base(policy)
+        public LinCmsAuthorizeAttribute(string permission,string module, string policy) : base(policy)
         {
             Permission = permission;
         }

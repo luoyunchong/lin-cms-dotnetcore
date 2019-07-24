@@ -30,6 +30,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.Aop;
+using LinCms.Zero.Dependency;
+using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web
 {
@@ -150,7 +152,7 @@ namespace LinCms.Web
                 };
             });
 
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #region Scrutor 与单个单个注册等价，不过可批量注册 
             //services.AddScoped<ILogService, LogService>();
@@ -163,6 +165,18 @@ namespace LinCms.Web
                     //表示将类型注册为提供其所有公共接口作为服务
                     .AsImplementedInterfaces()
                     //表示注册的生命周期为 Transient
+                    .WithTransientLifetime()
+                    // We start out with all types in the assembly of ITransientService
+                    .FromAssemblyOf<ITransientDependency>()
+                    // AddClasses starts out with all public, non-abstract types in this assembly.
+                    // These types are then filtered by the delegate passed to the method.
+                    // In this case, we filter out only the classes that are assignable to ITransientService.
+                    .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
+                    // We then specify what type we want to register these classes as.
+                    // In this case, we want to register the types as all of its implemented interfaces.
+                    // So if a type implements 3 interfaces; A, B, C, we'd end up with three separate registrations.
+                    .AsImplementedInterfaces()
+                    // And lastly, we specify the lifetime of these registrations.
                     .WithTransientLifetime()
                      );
             #endregion
