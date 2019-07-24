@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using LinCms.Zero.Common;
 using LinCms.Zero.Security;
 
 namespace LinCms.Web.Services
@@ -39,7 +40,7 @@ namespace LinCms.Web.Services
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            if (user.Password != context.Password)
+            if (user.Password != Utils.Get32Md5(context.Password))
             {
                 throw new LinCmsException("密码错误，请输入正确密码!", ErrorCode.ParameterError);
             }
