@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using LinCms.Zero.Security;
 
 namespace LinCms.Web.Services
 {
@@ -53,12 +54,12 @@ namespace LinCms.Web.Services
                 _clock.UtcNow.UtcDateTime,
                 new List<Claim>()
                 {
-                    new Claim(   ClaimTypes.NameIdentifier,user.Id.ToString()),
-                    new Claim(   ClaimTypes.Email,user.Email),
-                    new Claim(   ClaimTypes.Name,user.Nickname),
-                    new Claim(   "IsActive",user.IsActive().ToString()),
-                    new Claim(   "IsAdmin",user.IsAdmin().ToString()),
-                    new Claim(   ClaimTypes.Role,user.IsAdmin()?LinGroup.Administrator:user.GroupId.ToString())
+                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                    new Claim(ClaimTypes.Email,user.Email),
+                    new Claim(ClaimTypes.Name,user.Nickname),
+                    new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
+                    new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
+                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Administrator:user.GroupId.ToString())
                 });
             return Task.CompletedTask;
         }

@@ -10,11 +10,10 @@ namespace LinCms.Web.Controllers
 {
     [Route("/test")]
     [ApiController]
-    [LinCmsAuthorize]
     public class TestController : ControllerBase
     {
         [HttpGet("info")]
-        [AllowAnonymous]
+        [LinCmsAuthorize("查看lin的信息", "信息")]
         public ResultDto Info()
         {
             return  ResultDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");

@@ -9,6 +9,21 @@ namespace LinCms.Zero.Extensions
     {
         private static readonly char[] Delimeters = { ' ', '-', '_' };
 
+        /// <summary>
+        /// Indicates whether this string is null or an System.String.Empty string.
+        /// </summary>
+        public static bool IsNullOrEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
+
+        /// <summary>
+        /// indicates whether this string is null, empty, or consists only of white-space characters.
+        /// </summary>
+        public static bool IsNullOrWhiteSpace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
+        }
         public static string ToPascalCase(this string source)
         {
             if (source == null)
