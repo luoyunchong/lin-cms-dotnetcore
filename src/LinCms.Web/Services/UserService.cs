@@ -6,6 +6,7 @@ using FreeSql;
 using LinCms.Web.Models.Admins;
 using LinCms.Web.Models.Users;
 using LinCms.Web.Services.Interfaces;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
@@ -32,17 +33,17 @@ namespace LinCms.Web.Services
 
         public LinUser Authorization(string username, string password)
         {
-            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == password).First();
+            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == Utils.Get32Md5(password)).First();
 
             return user;
         }
 
         public void ChangePassword(ChangePasswordDto passwordDto)
         {
-            _userRepository.Select.Any(r => r.Password == passwordDto.OldPassword && r.Id == _currentUser.Id);
+            _userRepository.Select.Any(r => r.Password == Utils.Get32Md5(passwordDto.OldPassword) && r.Id == _currentUser.Id);
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
-                Password = passwordDto.NewPassword
+                Password = Utils.Get32Md5(passwordDto.NewPassword)
             }).ExecuteAffrows();
         }
 
@@ -62,7 +63,7 @@ namespace LinCms.Web.Services
 
             _freeSql.Update<LinUser>(id).Set(a => new LinUser()
             {
-                Password = resetPasswordDto.ConfirmPassword
+                Password = Utils.Get32Md5(resetPasswordDto.ConfirmPassword)
             }).ExecuteAffrows();
 
         }
@@ -171,7 +172,7 @@ namespace LinCms.Web.Services
         {
             int? groupId = _currentUser.GroupId;
 
-            if (groupId == 0||groupId==null)
+            if (groupId == 0 || groupId == null)
             {
                 throw new LinCmsException("当前用户无任何分组！");
             }
