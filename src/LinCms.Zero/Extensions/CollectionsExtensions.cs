@@ -12,6 +12,5 @@ namespace LinCms.Zero.Extensions
 
             return source.Page(pageDto.Page, pageDto.Count).ToList();
         }
-
     }
 }

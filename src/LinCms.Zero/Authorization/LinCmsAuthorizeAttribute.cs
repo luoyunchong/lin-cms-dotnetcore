@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -12,11 +10,10 @@ namespace LinCms.Zero.Authorization
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class LinCmsAuthorizeAttribute : AuthorizeAttribute, IAsyncAuthorizationFilter
     {
-
         public string Permission { get; set; }
         public string Module { get; set; }
 
-        public LinCmsAuthorizeAttribute() : base()
+        public LinCmsAuthorizeAttribute()
         {
 
         }
@@ -24,15 +21,18 @@ namespace LinCms.Zero.Authorization
         public LinCmsAuthorizeAttribute(string permission,string module)
         {
             Permission = permission;
+            Module = module;
         }
 
         public LinCmsAuthorizeAttribute(string permission,string module, string policy) : base(policy)
         {
             Permission = permission;
+            Module = module;
         }
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
+            if (Permission == null) return;
             var authorizationService = (IAuthorizationService)context.HttpContext.RequestServices.GetService(typeof(IAuthorizationService));
             var authorizationResult = await authorizationService.AuthorizeAsync(context.HttpContext.User, null, new OperationAuthorizationRequirement() { Name = Permission });
             if (!authorizationResult.Succeeded)

@@ -42,12 +42,10 @@ namespace LinCms.Zero.Extensions
         /// <summary>
         /// 日期转换为时间戳（时间戳单位毫秒）
         /// </summary>
-        /// <param name="TimeStamp"></param>
         /// <returns></returns>
-
-        public static double ConvertDateTimeInt(DateTime aDt)
+        public static double ConvertDateTimeInt(DateTime dateTime)
         {
-            return (aDt - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            return (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
     }
 }

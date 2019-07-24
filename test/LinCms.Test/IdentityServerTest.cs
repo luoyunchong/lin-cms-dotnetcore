@@ -8,7 +8,7 @@ using LinCms.Zero.Domain;
 
 namespace LinCms.Test
 {
-    public class UnitTest1
+    public class IdentityServerTest
     {
         [Fact]
         public async Task ResourceOwnerPasswordAsync()
