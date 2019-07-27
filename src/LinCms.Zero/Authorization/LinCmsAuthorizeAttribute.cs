@@ -24,12 +24,6 @@ namespace LinCms.Zero.Authorization
             Module = module;
         }
 
-        public LinCmsAuthorizeAttribute(string permission,string module, string policy) : base(policy)
-        {
-            Permission = permission;
-            Module = module;
-        }
-
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             if (Permission == null) return;
@@ -39,6 +33,11 @@ namespace LinCms.Zero.Authorization
             {
                 context.Result = new ForbidResult();
             }
+        }
+
+        public override string ToString()
+        {
+            return $"\"{base.ToString()}\",\"Permission:{Permission}\",\"Module:{Module}\",\"Roles:{Roles}\",\"Policy:{Policy}\",\"AuthenticationSchemes:{AuthenticationSchemes}\"";
         }
     }
 }

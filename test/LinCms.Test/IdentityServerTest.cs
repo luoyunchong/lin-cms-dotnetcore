@@ -4,7 +4,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 using IdentityModel.Client;
+using IdentityServer4.Models;
 using LinCms.Zero.Domain;
+using LinCms.Zero.Exceptions;
 
 namespace LinCms.Test
 {
@@ -36,11 +38,34 @@ namespace LinCms.Test
                 string r = response.Content.ReadAsStringAsync().Result;
             }
         }
-
+        
         [Fact]
         public async Task HttpClientResourePassword()
         {
 
+            var client = new HttpClient();
+
+            var response = await client.RequestTokenAsync(new TokenRequest
+            {
+                Address = "http://localhost:5000/connect/token",
+                GrantType = GrantType.ResourceOwnerPassword,
+
+                ClientId = "lin-cms-dotnetcore-client-id",
+                ClientSecret = "lin-cms-dotnetcore-client-secrets",
+
+                Parameters =
+                {
+                    { "UserName","string"},
+                    { "Password","string"}
+                }
+            });
+
+            if (response.IsError)
+            {
+                throw new LinCmsException(response.ErrorDescription);
+            }
+
+            Assert.False(response.IsError);
         }
 
         [Fact]

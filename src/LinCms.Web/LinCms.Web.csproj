@@ -24,8 +24,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="0.7.13" />
-    <PackageReference Include="FreeSql.Repository" Version="0.7.13" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="0.7.16" />
+    <PackageReference Include="FreeSql.Repository" Version="0.7.16" />
     <PackageReference Include="IdentityServer4" Version="2.5.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -42,6 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
