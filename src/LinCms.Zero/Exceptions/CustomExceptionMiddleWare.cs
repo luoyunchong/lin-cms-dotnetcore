@@ -1,13 +1,11 @@
-﻿using LinCms.Zero.Data;
-using LinCms.Zero.Data.Enums;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using LinCms.Zero.Data;
+using LinCms.Zero.Data.Enums;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace LinCms.Zero.Exceptions
 {
@@ -18,7 +16,7 @@ namespace LinCms.Zero.Exceptions
         /// </summary>
         private readonly RequestDelegate _next;
 
-        public ILogger<CustomExceptionMiddleWare> Logger { get; set; }
+        private readonly ILogger<CustomExceptionMiddleWare> _logger;
 
         /// <summary>
         /// 需要处理的状态码字典
@@ -26,9 +24,10 @@ namespace LinCms.Zero.Exceptions
         private readonly IDictionary<int, string> _exceptionStatusCodeDic;
 
         private IDictionary<int, string> _errCodes;
-        public CustomExceptionMiddleWare(RequestDelegate next)
+        public CustomExceptionMiddleWare(RequestDelegate next, ILogger<CustomExceptionMiddleWare> logger)
         {
             _next = next;
+            _logger = logger;
             _exceptionStatusCodeDic = new Dictionary<int, string>
             {
                 { 400 ,"BadRequest" },
@@ -104,7 +103,7 @@ namespace LinCms.Zero.Exceptions
         /// <returns></returns>
         private async Task JsonHandle(HttpContext context, string errorMsg, int errorCode)
         {
-            Logger.LogError(errorMsg);
+            _logger.LogError(errorMsg);
 
             ResultDto apiResponse = new ResultDto()
             {

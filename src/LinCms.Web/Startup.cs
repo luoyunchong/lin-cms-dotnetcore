@@ -167,7 +167,7 @@ namespace LinCms.Web
                     //表示注册的生命周期为 Transient
                     .WithTransientLifetime()
                     // We start out with all types in the assembly of ITransientService
-                    .FromAssemblyOf<ITransientDependency>()
+                    .FromAssemblyOf<IScopeDependency>()
                     // AddClasses starts out with all public, non-abstract types in this assembly.
                     // These types are then filtered by the delegate passed to the method.
                     // In this case, we filter out only the classes that are assignable to ITransientService.
@@ -202,7 +202,7 @@ namespace LinCms.Web
             });
 
             //将Handler注册到DI系统中
-            services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
