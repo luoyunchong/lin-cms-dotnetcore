@@ -25,32 +25,32 @@ namespace LinCms.Web.Controllers
         /// <returns></returns>
         [HttpGet("users")]
         [LinCmsAuthorize("查询日志记录的用户", "日志")]
-        public List<string> GetLoggedUsers([FromQuery]PageDto pageDto)
+        public List<string> GetUsers([FromQuery]PageDto pageDto)
         {
             return _logService.GetLoggedUsers(pageDto);
         }
 
         /// <summary>
-        /// 查询日志信息（分页）
+        /// 日志浏览（人员，时间），分页展示
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [LinCmsAuthorize("查询所有日志", "日志")]
         public PagedResultDto<LinLog> GetLogs([FromQuery]LogSearchDto searchDto)
         {
-            return _logService.GetLogUsers(searchDto);
+            return _logService.GetUserLogs(searchDto);
         }
 
         /// <summary>
-        /// 搜索日志信息（分页）
+        /// 日志搜素（人员，时间）（内容）， 分页展示
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
         [HttpGet("search")]
         [LinCmsAuthorize("搜索日志", "日志")]
-        public PagedResultDto<LinLog> SearchLogs([FromQuery]LogSearchDto searchDto)
+        public PagedResultDto<LinLog> GetUserLogs([FromQuery]LogSearchDto searchDto)
         {
-            return _logService.GetLogUsers(searchDto);
+            return _logService.GetUserLogs(searchDto);
         }
 
     }
