@@ -69,14 +69,6 @@ namespace LinCms.Test
         }
 
         [Fact]
-        public void TestPermission()
-        {
-            var g=LinAuth.g();
-
-
-        }
-
-        [Fact]
         public void GetAllPermissionAttirbute()
         {
 

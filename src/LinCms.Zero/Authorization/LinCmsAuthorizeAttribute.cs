@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LinCms.Zero.Authorization
 {
+    /// <summary>
+    ///  自定义固定权限编码给动态角色及用户，支持验证登录，指定角色、Policy
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class LinCmsAuthorizeAttribute : AuthorizeAttribute, IAsyncAuthorizationFilter
     {
-        public string Permission { get; set; }
-        public string Module { get; set; }
+        public string Permission { get; }
+        public string Module { get; }
 
         public LinCmsAuthorizeAttribute()
         {
