@@ -8,7 +8,7 @@ using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Controllers
 {
-    [Route("/test")]
+    [Route("cms/test")]
     [ApiController]
     public class TestController : ControllerBase
     {

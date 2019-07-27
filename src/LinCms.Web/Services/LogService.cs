@@ -24,7 +24,7 @@ namespace LinCms.Web.Services
             _linLogRepository.Insert(linlog);
         }
 
-        public PagedResultDto<LinLog> GetLogUsers(LogSearchDto searchDto)
+        public PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto)
         {
             List<LinLog> linLogs = _linLogRepository.Select
                 .WhereIf(!string.IsNullOrEmpty(searchDto.Keyword), r => r.Message.Contains(searchDto.Keyword))

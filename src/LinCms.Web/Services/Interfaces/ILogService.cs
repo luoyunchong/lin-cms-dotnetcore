@@ -12,7 +12,7 @@ namespace LinCms.Web.Services.Interfaces
     public interface ILogService
     {
         void InsertLog(LinLog linlog);
-        PagedResultDto<LinLog> GetLogUsers(LogSearchDto searchDto);
+        PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto);
         List<string> GetLoggedUsers(PageDto searchDto);
     }
 }
