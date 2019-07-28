@@ -11,6 +11,7 @@ using LinCms.Zero.Authorization;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -152,14 +153,13 @@ namespace LinCms.Test
         //LinCms.Zero.Domain.LinAuth Auth:搜索日志、Module:日志
         //LinCms.Zero.Domain.LinAuth Auth:查看lin的信息、Module:信息
         [Fact]
-        public  void ConvertToTree()
+        public void ConvertToTree()
         {
-            List<PermissionDto> listAuths = ReflexHelper.GeAssemblyLinCmsAttributes();
-            var rr=listAuths.GroupBy(r => r.Module).Select(r => new
-            {
-                r.Key,
-                Auths = r.Select(u => u.Permission).ToList()
-            });
+            List<PermissionDto> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
+
+            dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
+
+            var jsonSerializeObject =JsonConvert.SerializeObject(obj);
 
         }
     }
