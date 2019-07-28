@@ -1,37 +1,35 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
 using LinCms.Web.Data;
+using LinCms.Web.Data.Aop;
+using LinCms.Web.Data.Authorization;
+using LinCms.Web.Data.IdentityServer4;
+using LinCms.Web.Middleware;
 using LinCms.Web.Services;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Dependency;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Claims;
-using System.Text;
-using LinCms.Web.Middleware;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using LinCms.Web.Data.Authorization;
-using LinCms.Web.Data.Aop;
-using LinCms.Zero.Dependency;
-using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web
 {
@@ -46,7 +44,11 @@ namespace LinCms.Web
                 .UseConnectionString(DataType.MySql, configurationSection.Value)
                 .UseEntityPropertyNameConvert(StringConvertType.PascalCaseToUnderscoreWithLower)//全局转换实体属性名方法 https://github.com/2881099/FreeSql/pull/60
                 .UseAutoSyncStructure(true) //自动迁移实体的结构到数据库
-                .UseMonitorCommand(cmd => Trace.WriteLine(cmd.CommandText))
+                .UseMonitorCommand(cmd =>
+                    {
+                        Trace.WriteLine(cmd.CommandText);
+                    }
+                )
                 .UseSyncStructureToLower(true) // 转小写同步结构
                 .Build();
 
@@ -112,7 +114,7 @@ namespace LinCms.Web
                     options.Audience = Configuration["Service:Name"];
                 });
 
-            services.AddAutoMapper(GetType().Assembly);
+            services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc(options =>
             {
@@ -125,14 +127,18 @@ namespace LinCms.Web
                 options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
                 //自定义 BadRequest 响应
                 options.InvalidModelStateResponseFactory = context =>
-               {
-                   var problemDetails = new ValidationProblemDetails(context.ModelState);
-                   var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors);
-                   return new BadRequestObjectResult(resultDto)
-                   {
-                       ContentTypes = { "application/json" }
-                   };
-               };
+                {
+                    string requestUrl = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+                    var problemDetails = new ValidationProblemDetails(context.ModelState);
+                    var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors)
+                    {
+                        Request = requestUrl
+                    };
+                    return new BadRequestObjectResult(resultDto)
+                    {
+                        ContentTypes = { "application/json" }
+                    };
+                };
             })
             .AddJsonOptions(opt =>
             {

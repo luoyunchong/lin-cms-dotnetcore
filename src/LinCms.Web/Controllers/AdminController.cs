@@ -3,6 +3,7 @@ using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using LinCms.Web.Data;
 using LinCms.Web.Models.Users;
 using LinCms.Zero.Authorization;
 using LinCms.Zero.Data;
@@ -73,12 +74,18 @@ namespace LinCms.Web.Controllers
             return ResultDto.Success("密码修改成功");
         }
 
+        /// <summary>
+        /// 查询所有可分配的权限
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("authority")]
         public IActionResult GetAllAuths()
         {
-            var r = _freeSql.Select<LinAuth>().ToList();
+            List<PermissionDto> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
 
-            return Ok(r);
+            dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
+
+            return Ok(obj);
         }
     }
 }
