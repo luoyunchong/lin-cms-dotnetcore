@@ -4,6 +4,7 @@ using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LinCms.Web.Data;
+using LinCms.Web.Data.Aop;
 using LinCms.Web.Models.Users;
 using LinCms.Zero.Authorization;
 using LinCms.Zero.Data;
@@ -54,6 +55,7 @@ namespace LinCms.Web.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [AuditingLog("管理员删除了一个用户")]
         [HttpDelete("{id}")]
         public ResultDto Delete(int id)
         {

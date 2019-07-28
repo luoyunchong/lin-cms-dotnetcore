@@ -6,6 +6,7 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace LinCms.Zero.Exceptions
 {
@@ -71,13 +72,14 @@ namespace LinCms.Zero.Exceptions
                 //自定义业务异常
                 if (ex is LinCmsException cmsException)
                 {
-                    context.Response.StatusCode = cmsException.GetCode();
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
                     string errorMsg = $"{(cmsException.InnerException != null ? cmsException.InnerException.Message : cmsException.Message)}";
                     await JsonHandle(context, errorMsg, cmsException.GetErrorCode());
                 }
                 else
                 {
+                    context.Response.StatusCode = 500;
                     string errorMsg = "";
                     if (_exceptionStatusCodeDic.ContainsKey(context.Response.StatusCode) &&
                         !context.Items.ContainsKey("ExceptionHandled"))
@@ -108,12 +110,11 @@ namespace LinCms.Zero.Exceptions
             ResultDto apiResponse = new ResultDto()
             {
                 Msg = errorMsg,
-                Request = $"{context.Request.Method} {context.Request.Path}",
                 ErrorCode = errorCode
             }; ;
 
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(apiResponse.ToString(), Encoding.UTF8);
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(apiResponse), Encoding.UTF8);
         }
 
     }

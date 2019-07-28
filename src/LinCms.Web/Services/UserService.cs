@@ -37,9 +37,12 @@ namespace LinCms.Web.Services
         public void ChangePassword(ChangePasswordDto passwordDto)
         {
             _userRepository.Select.Any(r => r.Password == Utils.Get32Md5(passwordDto.OldPassword) && r.Id == _currentUser.Id);
+
+            string newPassword = Utils.Get32Md5(passwordDto.NewPassword);
+
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
-                Password = Utils.Get32Md5(passwordDto.NewPassword)
+                Password = newPassword
             }).ExecuteAffrows();
         }
 
@@ -57,16 +60,17 @@ namespace LinCms.Web.Services
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
+            string confirmPassword = Utils.Get32Md5(resetPasswordDto.ConfirmPassword);
+
             _freeSql.Update<LinUser>(id).Set(a => new LinUser()
             {
-                Password = Utils.Get32Md5(resetPasswordDto.ConfirmPassword)
+                Password = confirmPassword
             }).ExecuteAffrows();
 
         }
-
         public PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto)
         {
-            var linUsers = _userRepository.Select.WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId)
+            var linUsers = _userRepository.Select.WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId).OrderByDescending(r=>r.Id)
                   .ToPagerList(searchDto, out long totalNums);
 
             return new PagedResultDto<LinUser>(linUsers, totalNums);
@@ -131,9 +135,7 @@ namespace LinCms.Web.Services
             //linUser.Email = updateUserDto.Email;
             //linUser.GroupId = updateUserDto.GroupId;
 
-            linUser = _mapper.Map<LinUser>(updateUserDto);
-
-            linUser.Id = id;
+             _mapper.Map(updateUserDto, linUser);
 
             _userRepository.Update(linUser);
 

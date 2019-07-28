@@ -69,9 +69,9 @@ namespace LinCms.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region IdentityServer4+FreeSql
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);
-
 
             services.AddFreeRepository(filter =>
             {
@@ -113,50 +113,55 @@ namespace LinCms.Web
                     options.RequireHttpsMetadata = false;
                     options.Audience = Configuration["Service:Name"];
                 });
+            #endregion
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 
+            services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
+
+            #region Mvc
             services.AddMvc(options =>
-            {
-                options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                options.Filters.Add<LogActionAttribute>(); // 添加请求方法时的日志记录过滤器
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-            .ConfigureApiBehaviorOptions(options =>
-            {
-                options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
-                //自定义 BadRequest 响应
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    string requestUrl = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-                    var problemDetails = new ValidationProblemDetails(context.ModelState);
-                    var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors)
-                    {
-                        Request = requestUrl
-                    };
-                    return new BadRequestObjectResult(resultDto)
-                    {
-                        ContentTypes = { "application/json" }
-                    };
-                };
-            })
-            .AddJsonOptions(opt =>
-            {
-                //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                //设置时间戳格式
-                opt.SerializerSettings.Converters = new List<JsonConverter>()
-                {
-                    new LinCmsTimeConverter()
-                };
-                // 设置下划线方式，首字母是小写
-                opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                    {
-                        ProcessDictionaryKeys = true
-                    }
-                };
-            });
+             {
+                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
+                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+             })
+             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+             .ConfigureApiBehaviorOptions(options =>
+             {
+                 options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
+                 //自定义 BadRequest 响应
+                 options.InvalidModelStateResponseFactory = context =>
+              {
+                  string requestUrl = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+                  var problemDetails = new ValidationProblemDetails(context.ModelState);
+                  var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors)
+                  {
+                      Request = requestUrl
+                  };
+                  return new BadRequestObjectResult(resultDto)
+                  {
+                      ContentTypes = { "application/json" }
+                  };
+              };
+             })
+             .AddJsonOptions(opt =>
+             {
+                 //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                 //设置时间戳格式
+                 opt.SerializerSettings.Converters = new List<JsonConverter>()
+                 {
+                        new LinCmsTimeConverter()
+                 };
+                 // 设置下划线方式，首字母是小写
+                 opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                 {
+                     NamingStrategy = new SnakeCaseNamingStrategy()
+                     {
+                         ProcessDictionaryKeys = true
+                     }
+                 };
+             });
+            #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -187,6 +192,7 @@ namespace LinCms.Web
                      );
             #endregion
 
+            #region Swagger
             //Swagger重写PascalCase，改成SnakeCase模式
             services.TryAddEnumerable(ServiceDescriptor
                 .Transient<IApiDescriptionProvider, SnakeCaseQueryParametersApiDescriptionProvider>());
@@ -206,6 +212,7 @@ namespace LinCms.Web
                 });
                 options.OperationFilter<SwaggerFileHeaderParameter>();
             });
+            #endregion
 
             //将Handler注册到DI系统中
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -238,12 +245,12 @@ namespace LinCms.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
 
-                //c.RoutePrefix = string.Empty;
+                c.RoutePrefix = string.Empty;
                 //c.OAuthClientId("demo_api_swagger");//客服端名称
                 //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
             });
 
-
+            app.UseCors("cors");
 
             app.UseAuthentication();
 

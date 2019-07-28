@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using LinCms.Web.Data;
+using LinCms.Web.Data.Aop;
 using LinCms.Web.Models.Auths;
 using LinCms.Web.Models.Groups;
 using LinCms.Zero.Data;
@@ -27,7 +28,7 @@ namespace LinCms.Web.Controllers
         [HttpGet("all")]
         public IEnumerable<LinGroup> Get()
         {
-            return _freeSql.Select<LinGroup>().ToList();
+            return _freeSql.Select<LinGroup>().OrderByDescending(r => r.Id).ToList();
         }
 
         [HttpGet("{id}")]
@@ -37,13 +38,15 @@ namespace LinCms.Web.Controllers
 
             GroupDto groupDto = _mapper.Map<GroupDto>(group);
 
-            groupDto.Auths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == id).Select(r => r.Auth).ToList();
+            var listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == id).ToList();
 
+            groupDto.Auths = ReflexHelper.AuthsConvertToTree(listAuths);
             return groupDto;
         }
 
+        [AuditingLog("管理员新建了一个权限组")]
         [HttpPost]
-        public void Post([FromBody] CreateGroupDto inputDto)
+        public ResultDto Post([FromBody] CreateGroupDto inputDto)
         {
             bool exist = _freeSql.Select<LinGroup>().Any(r => r.Name == inputDto.Name);
             if (exist)
@@ -72,6 +75,7 @@ namespace LinCms.Web.Controllers
 
                 _freeSql.Insert<LinAuth>().AppendData(linAuths).ExecuteAffrows();
             });
+            return ResultDto.Success("新建分组成功");
         }
 
         [HttpPut("{id}")]
@@ -92,6 +96,7 @@ namespace LinCms.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [AuditingLog("管理员删除一个权限组")]
         public ResultDto Delete(int id)
         {
             if (!_freeSql.Select<LinGroup>(new { id = id }).Any())
@@ -104,7 +109,7 @@ namespace LinCms.Web.Controllers
             {
                 throw new LinCmsException("分组下存在用户，不可删除", ErrorCode.Inoperable);
             }
-            _freeSql.Transaction(()=>
+            _freeSql.Transaction(() =>
             {
                 //删除group拥有的权限
                 _freeSql.Delete<LinAuth>().Where("group_id=?GroupId", new LinAuth() { GroupId = id }).ExecuteAffrows();
