@@ -30,7 +30,7 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 请求路径
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+        [Column(DbType = "varchar(100)")]
         public string Path { get; set; } = string.Empty;
 
         /// <summary>
@@ -54,5 +54,7 @@ namespace LinCms.Zero.Domain
         /// </summary>
         [Column(DbType = "varchar(20)")]
         public string UserName { get; set; } = string.Empty;
+
+        public string OtherMessage { get; set; }
     }
 }

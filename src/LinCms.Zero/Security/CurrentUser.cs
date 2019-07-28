@@ -13,6 +13,7 @@ namespace LinCms.Zero.Security
             _claimsPrincipal = httpContextAccessor.HttpContext?.User ?? Thread.CurrentPrincipal as ClaimsPrincipal;
         }
         public int? Id => _claimsPrincipal?.FindUserId();
+        public string UserName => _claimsPrincipal?.FindUserName();
         public int? GroupId => _claimsPrincipal?.FindGroupId();
 
         public bool? IsAdmin => _claimsPrincipal?.IsAdmin();

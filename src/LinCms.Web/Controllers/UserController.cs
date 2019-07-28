@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using IdentityModel;
 using LinCms.Web.Models.Users;
 using LinCms.Web.Services.Interfaces;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 using LinCms.Zero.Authorization;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
+using LinCms.Web.Data.Aop;
 
 namespace LinCms.Web.Controllers
 {
@@ -49,16 +51,34 @@ namespace LinCms.Web.Controllers
         }
 
         [HttpGet("auths")]
-        public void Auths()
+        public UserInformation Auths()
         {
-            ;
+            LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
+
+            UserInformation user = _mapper.Map<UserInformation>(linUser);
+
+            if (linUser.IsAdmin())
+            {
+                user.Auths = new List<string>();
+            }
+            else
+            {
+                if (linUser.GroupId != 0)
+                {
+                    user.Auths =_freeSql.Select<LinAuth>().Where(r => r.GroupId == linUser.GroupId).Select(r => r.Auth).ToList();
+                }
+            }
+
+            return user;
         }
 
         /// <summary>
         /// 新增用户-不是注册，注册不可能让用户选择gourp_id
         /// </summary>
         /// <param name="userInput"></param>
+        [AuditingLog("管理员新建了一个用户")]
         [HttpPost("register")]
+        [LinCmsAuthorize(Roles = LinGroup.Administrator)]
         public ResultDto Post([FromBody] CreateUserDto userInput)
         {
             _userSevice.Register(_mapper.Map<LinUser>(userInput));
@@ -66,7 +86,7 @@ namespace LinCms.Web.Controllers
             return ResultDto.Success("用户创建成功");
         }
 
-
+        [AuditingLog("{0}修改了自己的密码")]
         [HttpPost("change_password")]
         public ResultDto ChangePassword([FromBody] ChangePasswordDto passwordDto)
         {

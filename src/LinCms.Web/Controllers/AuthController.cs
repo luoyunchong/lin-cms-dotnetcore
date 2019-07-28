@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LinCms.Web.Data;
 using LinCms.Web.Models.Auths;
+using LinCms.Zero.Authorization;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
@@ -14,14 +15,20 @@ namespace LinCms.Web.Controllers
 {
     [Route("cms/admin")]
     [ApiController]
+    [LinCmsAuthorize(Roles = LinGroup.Administrator)]
     public class AuthController : ControllerBase
     {
-        private IFreeSql _freeSql;
+        private readonly IFreeSql _freeSql;
         public AuthController(IFreeSql freeSql)
         {
             _freeSql = freeSql;
         }
 
+        /// <summary>
+        /// 删除某个组别的权限
+        /// </summary>
+        /// <param name="removeAuthDto"></param>
+        /// <returns></returns>
         [HttpPost("remove")]
         public ResultDto RemoveAuths(AuthDto removeAuthDto)
         {
@@ -51,7 +58,7 @@ namespace LinCms.Web.Controllers
                 {
                     throw new LinCmsException($"异常权限:{auth}");
                 }
-                linAuths.Add(new LinAuth(auth,permission.Permission,authDto.GroupId));
+                linAuths.Add(new LinAuth(auth,permission.Module,authDto.GroupId));
             }
 
             _freeSql.Insert<LinAuth>(linAuths).ExecuteAffrows();

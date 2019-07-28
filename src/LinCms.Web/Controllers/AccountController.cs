@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
+using LinCms.Web.Data.Aop;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Web.Controllers
@@ -36,6 +37,7 @@ namespace LinCms.Web.Controllers
         /// 登录接口
         /// </summary>
         /// <param name="loginInputDto"></param>
+        //[DisableAuditing]
         [HttpPost("login")]
         public async Task<JObject> Login(LoginInputDto loginInputDto)
         {
