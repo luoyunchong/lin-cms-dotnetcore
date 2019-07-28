@@ -9,12 +9,12 @@
         /// <summary>
         /// 每页个数
         /// </summary>
-        public int Count { get; set; }
+        public int Count { get; set; } = 15;
 
         /// <summary>
         /// 第几页
         /// </summary>
-        public int Page { get; set; }
+        public int Page { get; set; } = 0;
     }
 
     public interface IPageDto

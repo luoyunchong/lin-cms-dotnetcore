@@ -40,7 +40,7 @@ namespace LinCms.Web.Data
         //LinCms.Zero.Data.PermissionDto Permission:查看lin的信息、Module:信息、Router:cms.test+info
         //LinCms.Zero.Data.PermissionDto Permission:删除图书、Module:图书、Router:v1.book+delete_book
         /// <summary>
-        /// 为树型权限生成做准备
+        /// 通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
         /// </summary>
         /// <returns></returns>
         public static List<PermissionDto> GeAssemblyLinCmsAttributes()
@@ -49,7 +49,7 @@ namespace LinCms.Web.Data
 
             var assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
-
+            //通过反射得到控制器上的权限特性标签
             assembly.ForEach(d =>
             {
                 var linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
@@ -60,6 +60,7 @@ namespace LinCms.Web.Data
                 }
             });
 
+            //得到方法上的权限特性标签，并排除无权限及模块的非固定权限
             assembly.ForEach(r =>
             {
                 var routerAttribute = r.GetCustomAttribute<RouteAttribute>();
@@ -69,7 +70,7 @@ namespace LinCms.Web.Data
                     {
                         foreach (Attribute attribute in methodInfo.GetCustomAttributes())
                         {
-                            if (attribute is LinCmsAuthorizeAttribute linCmsAuthorize)
+                            if (attribute is LinCmsAuthorizeAttribute linCmsAuthorize && linCmsAuthorize.Permission.IsNotNullOrEmpty() && linCmsAuthorize.Module.IsNotNullOrEmpty())
                             {
                                 linAuths.Add(
                                         new PermissionDto(
@@ -113,6 +114,10 @@ namespace LinCms.Web.Data
             }
              */
 
+        /// <summary>
+        /// 使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
+        /// </summary>
+        /// <returns></returns>
         public static dynamic AuthorizationConvertToTree(List<PermissionDto> listPermission)
         {
             var permissionTree = listPermission.GroupBy(r => r.Module).Select(r => new
@@ -125,20 +130,49 @@ namespace LinCms.Web.Data
                 }).ToList()
             }).ToList();
 
-            IDictionary<string, object> expandoObject = new ExpandoObject() as IDictionary<string, object>;
+            IDictionary<string, object> expandoObject = new ExpandoObject();
             foreach (var permission in permissionTree)
             {
-                IDictionary<string, object> perExpandObject = new ExpandoObject() as IDictionary<string, object>;
+                IDictionary<string, object> perExpandObject = new ExpandoObject();
 
                 foreach (var children in permission.Children)
                 {
-                       perExpandObject[children.Permission] = new List<string> {children.Router};
+                    perExpandObject[children.Permission] = new List<string> { children.Router };
                 }
 
                 expandoObject[permission.Key] = perExpandObject;
             }
 
             return expandoObject;
+        }
+
+        public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinAuth> listAuths)
+        {
+            var groupAuths = listAuths.GroupBy(r => r.Module).Select(r => new
+            {
+                r.Key,
+                Children = r.Select(u => u.Auth).ToList()
+            }).ToList();
+
+            List<IDictionary<string, object>> list=new List<IDictionary<string, object>>();
+
+            foreach (var groupAuth in groupAuths)
+            {
+                IDictionary<string, object> moduleExpandoObject = new ExpandoObject();
+                List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
+                groupAuth.Children.ForEach(auth =>
+                {
+                    IDictionary<string, object> perExpandObject = new ExpandoObject();
+                    perExpandObject["module"] = groupAuth.Key;
+                    perExpandObject["auth"] = auth;
+                    perExpandList.Add(perExpandObject);
+                });
+
+                moduleExpandoObject[groupAuth.Key] = perExpandList;
+                list.Add(moduleExpandoObject);
+            }
+
+            return list;
         }
     }
 }

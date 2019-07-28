@@ -41,5 +41,12 @@ namespace LinCms.Zero.Security
             }
             return bool.Parse(isAdminOrNull.Value);
         }
+
+        public static string FindUserName(this ClaimsPrincipal principal)
+        {
+            var userNameOrNull = principal.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            
+            return userNameOrNull?.Value;
+        }
     }
 }
