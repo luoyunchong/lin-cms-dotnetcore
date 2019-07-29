@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 using AutoMapper;
 using IdentityModel;
 using LinCms.Web.Models.Users;
@@ -8,10 +9,12 @@ using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
+using LinCms.Web.Data;
 using LinCms.Zero.Authorization;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
 using LinCms.Web.Data.Aop;
+using LinCms.Web.Models.Auths;
 
 namespace LinCms.Web.Controllers
 {
@@ -50,6 +53,10 @@ namespace LinCms.Web.Controllers
             return _mapper.Map<UserInformation>(linUser);
         }
 
+        /// <summary>
+        /// 查询自己拥有的权限
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("auths")]
         public UserInformation Auths()
         {
@@ -59,13 +66,16 @@ namespace LinCms.Web.Controllers
 
             if (linUser.IsAdmin())
             {
-                user.Auths = new List<string>();
+                user.Auths = new List<IDictionary<string,object>>();
             }
             else
             {
                 if (linUser.GroupId != 0)
                 {
-                    user.Auths =_freeSql.Select<LinAuth>().Where(r => r.GroupId == linUser.GroupId).Select(r => r.Auth).ToList();
+                    List<LinAuth> listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == linUser.GroupId).ToList();
+
+                    user.Auths= ReflexHelper.AuthsConvertToTree(listAuths);;
+
                 }
             }
 

@@ -27,14 +27,14 @@ namespace LinCms.Web.Controllers
         /// <summary>
         /// 删除某个组别的权限
         /// </summary>
-        /// <param name="removeAuthDto"></param>
+        /// <param name="authDto"></param>
         /// <returns></returns>
         [HttpPost("remove")]
-        public ResultDto RemoveAuths(AuthDto removeAuthDto)
+        public ResultDto RemoveAuths(AuthDto authDto)
         {
-            foreach (var auth in removeAuthDto.Auths)
+            foreach (var auth in authDto.Auths)
             {
-                _freeSql.Delete<LinAuth>().Where("group_id = ?GroupId and auth=?Auth", new LinAuth { Auth = auth, GroupId = removeAuthDto.GroupId }).ExecuteAffrows();
+                _freeSql.Delete<LinAuth>().Where("group_id = ?GroupId and auth=?Auth", new LinAuth { Auth = auth, GroupId = authDto.GroupId }).ExecuteAffrows();
             }
 
             return ResultDto.Success("删除权限成功");

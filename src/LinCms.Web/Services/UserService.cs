@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.Admins;
 using LinCms.Web.Models.Users;
@@ -68,12 +70,36 @@ namespace LinCms.Web.Services
             }).ExecuteAffrows();
 
         }
-        public PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto)
-        {
-            var linUsers = _userRepository.Select.WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId).OrderByDescending(r=>r.Id)
-                  .ToPagerList(searchDto, out long totalNums);
 
-            return new PagedResultDto<LinUser>(linUsers, totalNums);
+        /// <summary>
+        /// https://github.com/2881099/FreeSql/wiki/%e8%bf%94%e5%9b%9e%e6%9f%a5%e8%af%a2%e7%9a%84%e6%95%b0%e6%8d%ae   返回更为复杂的结构
+        /// </summary>
+        /// <param name="searchDto"></param>
+        /// <returns></returns>
+        public PagedResultDto<UserDto> GetUserList(UserSearchDto searchDto)
+        {
+            ISelect<LinUser> select = _userRepository.Select
+                .WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId);
+
+            List<UserDto> linUsers = select
+                .From<LinGroup>((a, b) =>
+                            a.LeftJoin(c => c.GroupId == b.Id)
+                )
+                .Page(searchDto.Page, searchDto.Count)
+                .ToList((a, b) => new
+                {
+                    user=a,
+                    GroupName = b.Name
+                }).Select(r =>
+                {
+                    UserDto userDto = _mapper.Map<UserDto>(r.user);
+                    userDto.GroupName = r.GroupName;
+                    return userDto;
+                }).ToList();
+
+            long totalNums = select.Count();
+
+            return new PagedResultDto<UserDto>(linUsers, totalNums);
         }
 
         public void Register(LinUser user)
@@ -135,7 +161,7 @@ namespace LinCms.Web.Services
             //linUser.Email = updateUserDto.Email;
             //linUser.GroupId = updateUserDto.GroupId;
 
-             _mapper.Map(updateUserDto, linUser);
+            _mapper.Map(updateUserDto, linUser);
 
             _userRepository.Update(linUser);
 
