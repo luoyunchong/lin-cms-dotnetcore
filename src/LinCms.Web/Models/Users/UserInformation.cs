@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Web.Models.Auths;
 using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Models.Users
@@ -16,10 +18,6 @@ namespace LinCms.Web.Models.Users
         ///  用户默认生成图像，为null、头像url
         /// </summary>
         public string Avatar { get; set; }
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; }
         /// <summary>
         /// 电子邮箱
         /// </summary>
@@ -39,6 +37,6 @@ namespace LinCms.Web.Models.Users
         public DateTime UpdateTime { get; set; }
         public DateTime CreateTime { get; set; }
 
-        public  List<string> Auths { get; set; }
+        public List<IDictionary<string,object>> Auths { get; set; }
     }
 }

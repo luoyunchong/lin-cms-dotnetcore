@@ -9,9 +9,10 @@ namespace LinCms.Web.AutoMapper.Users
     {
         public UserProfile()
         {
-            CreateMap<CreateUserDto,LinUser>();
-            CreateMap<LinUser, UserInformation>();
+            CreateMap<CreateUserDto, LinUser>();
             CreateMap<UpdateUserDto, LinUser>();
+            CreateMap<LinUser, UserInformation>();
+            CreateMap<LinUser, UserDto>();
         }
     }
 }

@@ -62,5 +62,6 @@ namespace LinCms.Zero.Domain
 
             return Active == (int)UserActive.Active;
         }
+
     }
 }
