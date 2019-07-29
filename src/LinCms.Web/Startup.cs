@@ -225,7 +225,6 @@ namespace LinCms.Web
             //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
-
                 //app.UseDeveloperExceptionPage();
             }
             else
@@ -245,7 +244,7 @@ namespace LinCms.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
 
-                c.RoutePrefix = string.Empty;
+                //c.RoutePrefix = string.Empty;
                 //c.OAuthClientId("demo_api_swagger");//客服端名称
                 //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
             });

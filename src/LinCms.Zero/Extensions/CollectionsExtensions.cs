@@ -12,5 +12,12 @@ namespace LinCms.Zero.Extensions
 
             return source.Page(pageDto.Page, pageDto.Count).ToList();
         }
+
+        public static List<TResult> ToPagerList<TEntity,TResult>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
+        {
+            count = source.Count();
+
+            return source.Page(pageDto.Page, pageDto.Count).ToList<TResult>();
+        }
     }
 }

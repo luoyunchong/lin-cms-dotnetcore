@@ -32,7 +32,7 @@ namespace LinCms.Web.Controllers
         /// <param name="searchDto"></param>
         /// <returns></returns>
         [HttpGet("users")]
-        public PagedResultDto<LinUser> GetUserList([FromQuery]UserSearchDto searchDto)
+        public PagedResultDto<UserDto> GetUserList([FromQuery]UserSearchDto searchDto)
         {
             return _userSevice.GetUserList(searchDto);
         }

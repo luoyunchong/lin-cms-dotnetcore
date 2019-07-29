@@ -12,7 +12,7 @@ namespace LinCms.Web.Services.Interfaces
     {
         LinUser Authorization(string username, string password);
         void ChangePassword(ChangePasswordDto passwordDto);
-        PagedResultDto<LinUser> GetUserList(UserSearchDto searchDto);
+        PagedResultDto<UserDto> GetUserList(UserSearchDto searchDto);
         void ChangeStatus(int id, UserActive userActive);
         void Register(LinUser user);
         void UpdateUserInfo(int id,UpdateUserDto updateUserDto);
