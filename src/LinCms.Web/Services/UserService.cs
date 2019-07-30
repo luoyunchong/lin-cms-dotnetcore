@@ -18,15 +18,17 @@ namespace LinCms.Web.Services
     public class UserService : IUserSevice
     {
         private readonly BaseRepository<LinUser> _userRepository;
+        private readonly BaseRepository<LinGroup> _groupRepository;
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public UserService(BaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper, ICurrentUser currentUser)
+        public UserService(BaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper, ICurrentUser currentUser, BaseRepository<LinGroup> groupRepository)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;
             _mapper = mapper;
             _currentUser = currentUser;
+            _groupRepository = groupRepository;
         }
 
         public LinUser Authorization(string username, string password)
@@ -38,7 +40,9 @@ namespace LinCms.Web.Services
 
         public void ChangePassword(ChangePasswordDto passwordDto)
         {
-            _userRepository.Select.Any(r => r.Password == Utils.Get32Md5(passwordDto.OldPassword) && r.Id == _currentUser.Id);
+            string oldPassword = Utils.Get32Md5(passwordDto.OldPassword);
+
+            _userRepository.Select.Any(r => r.Password == oldPassword && r.Id == _currentUser.Id);
 
             string newPassword = Utils.Get32Md5(passwordDto.NewPassword);
 
@@ -79,16 +83,18 @@ namespace LinCms.Web.Services
         public PagedResultDto<UserDto> GetUserList(UserSearchDto searchDto)
         {
             ISelect<LinUser> select = _userRepository.Select
+                .Where(r => r.Admin == (int)UserAdmin.Common)
                 .WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId);
 
             List<UserDto> linUsers = select
+                .OrderByDescending(r => r.Id)
                 .From<LinGroup>((a, b) =>
                             a.LeftJoin(c => c.GroupId == b.Id)
                 )
                 .Page(searchDto.Page, searchDto.Count)
                 .ToList((a, b) => new
                 {
-                    user=a,
+                    user = a,
                     GroupName = b.Name
                 }).Select(r =>
                 {
@@ -104,7 +110,7 @@ namespace LinCms.Web.Services
 
         public void Register(LinUser user)
         {
-            bool isExistGroup = _userRepository.Select.Any(r => r.Id == user.GroupId);
+            bool isExistGroup = _groupRepository.Select.Any(r => r.Id == user.GroupId);
 
             if (!isExistGroup)
             {
@@ -129,6 +135,7 @@ namespace LinCms.Web.Services
 
             user.Active = 1;
             user.Admin = 1;
+            user.Password = Utils.Get32Md5(user.Password);
 
             _userRepository.Insert(user);
         }

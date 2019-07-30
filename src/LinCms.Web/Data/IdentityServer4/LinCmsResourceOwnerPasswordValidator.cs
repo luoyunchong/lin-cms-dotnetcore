@@ -1,16 +1,17 @@
-﻿using IdentityModel;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4.Validation;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
-using Microsoft.AspNetCore.Authentication;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using LinCms.Zero.Common;
 using LinCms.Zero.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
-namespace LinCms.Web.Services
+namespace LinCms.Web.Data.IdentityServer4
 {
     /// <summary>
     /// 自定义 Resource owner password 验证器
@@ -37,7 +38,7 @@ namespace LinCms.Web.Services
 
             if (user == null)
             {
-                throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+                throw new LinCmsException("用户不存在", ErrorCode.NotFound,StatusCodes.Status404NotFound);
             }
 
             if (user.Password != Utils.Get32Md5(context.Password))
