@@ -1,5 +1,7 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using AutoMapper;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Web;
@@ -7,6 +9,7 @@ using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using Xunit;
@@ -16,7 +19,7 @@ namespace LinCms.Test.Controller
     public abstract class BaseControllerTests
     {
         protected HttpClient Client { get; }
-
+        protected IServiceProvider serviceProvider;
         protected BaseControllerTests()
         {
             var server = new TestServer(WebHost.CreateDefaultBuilder()
@@ -29,6 +32,10 @@ namespace LinCms.Test.Controller
                 }).UseNLog()); ;
 
             Client = server.CreateClient();
+
+
+            serviceProvider = server.Host.Services; 
+
         }
         public async Task HttpClientResourePassword()
         {
@@ -51,7 +58,7 @@ namespace LinCms.Test.Controller
 
             if (response.AccessToken == null)
             {
-               throw new LinCmsException(response.Json.TryGetValue("msg").ToString());
+                throw new LinCmsException(response.Json.TryGetValue("msg").ToString());
             }
             Client.SetBearerToken(response.AccessToken);
         }
