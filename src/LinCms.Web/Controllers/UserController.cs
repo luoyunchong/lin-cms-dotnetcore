@@ -97,7 +97,7 @@ namespace LinCms.Web.Controllers
         }
 
         [AuditingLog("{0}修改了自己的密码")]
-        [HttpPost("change_password")]
+        [HttpPut("change_password")]
         public ResultDto ChangePassword([FromBody] ChangePasswordDto passwordDto)
         {
             _userSevice.ChangePassword(passwordDto);
@@ -105,5 +105,14 @@ namespace LinCms.Web.Controllers
             return ResultDto.Success("密码修改成功");
         }
 
+        [HttpPut("avatar")]
+        public ResultDto SetAvatar(UpdateAvatarDto avatarDto)
+        {
+            _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
+            {
+                Avatar = avatarDto.Avatar
+            }).ExecuteAffrows();
+            return ResultDto.Success("更新头像成功");
+        }
     }
 }

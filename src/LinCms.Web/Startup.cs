@@ -123,7 +123,7 @@ namespace LinCms.Web
             services.AddMvc(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
              .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
              .ConfigureApiBehaviorOptions(options =>

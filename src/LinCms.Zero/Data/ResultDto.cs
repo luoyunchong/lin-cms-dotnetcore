@@ -10,7 +10,7 @@ namespace LinCms.Zero.Data
         /// <summary>
         ///     错误码
         /// </summary>
-        public int ErrorCode { get; set; }
+        public ErrorCode ErrorCode { get; set; }
 
         /// <summary>
         ///     错误信息
@@ -22,41 +22,29 @@ namespace LinCms.Zero.Data
         /// </summary>
         public string Request { get; set; }
 
-        public ResultDto(int errorCode, object msg)
-        {
-            ErrorCode = errorCode;
-            Msg = msg ?? throw new ArgumentNullException(nameof(msg));
-        }
-
         public ResultDto(ErrorCode errorCode, object msg)
         {
-            ErrorCode = errorCode.GetHashCode();
-            Msg = msg ?? throw new ArgumentNullException(nameof(msg));
-        }
-
-        public ResultDto(int errorCode)
-        {
             ErrorCode = errorCode;
+            Msg = msg ?? throw new ArgumentNullException(nameof(msg));
         }
 
         public ResultDto(ErrorCode errorCode)
         {
-            ErrorCode = errorCode.GetHashCode();
+            ErrorCode = errorCode;
         }
 
         public ResultDto()
         {
         }
 
-
         public static ResultDto Success(string msg="操作成功")
         {
-            return  new ResultDto(0,msg);
+            return  new ResultDto(ErrorCode.Success,msg);
         }
 
         public static ResultDto Error(string msg="操作失败")
         {
-            return new ResultDto(400,msg);
+            return new ResultDto(Enums.ErrorCode.Fail,msg);
         }
 
         public override string ToString()
