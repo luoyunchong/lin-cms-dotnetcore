@@ -233,6 +233,9 @@ namespace LinCms.Web
                 app.UseHsts();
             }
 
+
+            app.UseStaticFiles();
+
             app.UseMiddleware<CustomExceptionMiddleWare>();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

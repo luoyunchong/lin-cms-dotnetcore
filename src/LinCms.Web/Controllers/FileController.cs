@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using LinCms.Web.Models.Files;
+using LinCms.Zero.Common;
+using LinCms.Zero.Domain;
+using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,26 +30,75 @@ namespace LinCms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UploadFiles(IFormFile file)
+        public List<FileDto> UploadFiles(IFormFile file)
         {
-            string filename = ContentDispositionHeaderValue
-                                .Parse(file.ContentDisposition)
-                                .FileName
-                                .Trim().ToString();
+            string domainUrl = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
+
+            Stream stream = file.OpenReadStream();
+
+            string md5 = Utils.GetHash<MD5>(file.OpenReadStream());
+
+            LinFile linFile = _freeSql.Select<LinFile>().Where(r => r.Md5 == md5).First();
+
+            if (linFile != null)
+            {
+                return new List<FileDto>
+                {
+                    new FileDto()
+                    {
+                        Id=linFile.Id,
+                        Key="file",
+                        Path=linFile.Path,
+                        Url=domainUrl+"/"+_configuration["File:StoreDir"]+"/"+linFile.Path
+                    }
+                };
+            }
+
+            string filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
 
             DateTime now = DateTime.Now;
 
             string newSaveName = Guid.NewGuid() + Path.GetExtension(filename);
 
-            string saveName = _hostingEnv.WebRootPath + Path.Combine(_configuration["StoreDir"], now.Year.ToString(), now.Month.ToString(), now.Day.ToString(), newSaveName);
+            string savePath = Path.Combine(_hostingEnv.WebRootPath, _configuration["File:StoreDir"], now.ToString("yyy/MM/dd"));
 
-            using (FileStream fs = System.IO.File.Create(saveName))
+            if (!Directory.Exists(savePath))
             {
-                file.CopyTo(fs);
-                fs.Flush();
+                Directory.CreateDirectory(savePath);
             }
 
-            return Ok(newSaveName);
+            int len = 0;
+
+            using (FileStream fs = System.IO.File.Create(Path.Combine(savePath, newSaveName)))
+            {
+                file.CopyTo(fs);
+                len = (int)fs.Length;
+
+                fs.Flush();
+            }
+            LinFile saveLinFile = new LinFile()
+            {
+                Extension = Path.GetExtension(filename),
+                Md5 = md5,
+                Name = filename,
+                Path = Path.Combine(now.ToString("yyy/MM/dd"), newSaveName).Replace("\\", "/"),
+                Type = 1,
+                CreateTime = DateTime.Now,
+                Size = len
+            };
+
+            long id = _freeSql.Insert<LinFile>(saveLinFile).ExecuteIdentity();
+
+            return new List<FileDto>
+            {
+                new FileDto()
+                {
+                    Id=(int)id,
+                    Key="file",
+                    Path=saveLinFile.Path,
+                    Url=domainUrl+"/"+_configuration["File:StoreDir"]+"/"+saveLinFile.Path
+                }
+            };
 
         }
     }
