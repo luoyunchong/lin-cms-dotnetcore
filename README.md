@@ -7,18 +7,16 @@
 </h1>
 😃 A simple and practical CMS implememted by .NET Core 2.2
 
-# 简介
 
 ## 项目简介
-
-## 什么是 Lin CMS？
-
- Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
-
 
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
 本项目是 Lin CMS 后端的 [.NET Core 2.2](https://docs.microsoft.com/zh-cn/dotnet/core/)的 实现，需要前端？请访问[前端仓库](https://github.com/TaleLin/lin-cms-vue)。官方团队产品了解请访问[TaleLin](https://github.com/TaleLin)
+
+## 什么是 Lin CMS？
+
+ Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
 ## 线上文档地址(完善中)
 
@@ -33,7 +31,7 @@
 
 Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin 的主要特点。
 
-#### Lin CMS 是一个前后端分离的 CMS 解决方案
+### Lin CMS 是一个前后端分离的 CMS 解决方案
 
 这意味着，Lin 既提供后台的支撑，也有一套对应的前端系统，
 
@@ -45,7 +43,7 @@ Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin �
 
 其次，单页面应用程序的体验本身就要好于传统网站。
 
-#### 框架本身已内置了 CMS 常用的功能
+### 框架本身已内置了 CMS 常用的功能
 
 Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理、日志系统等。开发者只需要集中精力开发自己的 CMS 业务即可
 
