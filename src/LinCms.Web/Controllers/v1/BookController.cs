@@ -1,4 +1,4 @@
-﻿using LinCms.Zero.Authorization;
+﻿using LinCms.Web.Data.Authorization;
 using LinCms.Zero.Data;
 using Microsoft.AspNetCore.Mvc;
 

@@ -19,7 +19,7 @@ namespace LinCms.Test
         [Fact]
         public void Get32Md5One()
         {
-            string result = Utils.Get32Md5("123qwe");
+            string result = LinCmsUtils.Get32Md5("123qwe");
             _testOutputHelper.WriteLine(result);
         }
     }

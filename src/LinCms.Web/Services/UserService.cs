@@ -10,7 +10,6 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
-using LinCms.Zero.Extensions;
 using LinCms.Zero.Security;
 
 namespace LinCms.Web.Services
@@ -33,18 +32,18 @@ namespace LinCms.Web.Services
 
         public LinUser Authorization(string username, string password)
         {
-            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == Utils.Get32Md5(password)).First();
+            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == LinCmsUtils.Get32Md5(password)).First();
 
             return user;
         }
 
         public void ChangePassword(ChangePasswordDto passwordDto)
         {
-            string oldPassword = Utils.Get32Md5(passwordDto.OldPassword);
+            string oldPassword = LinCmsUtils.Get32Md5(passwordDto.OldPassword);
 
             _userRepository.Select.Any(r => r.Password == oldPassword && r.Id == _currentUser.Id);
 
-            string newPassword = Utils.Get32Md5(passwordDto.NewPassword);
+            string newPassword = LinCmsUtils.Get32Md5(passwordDto.NewPassword);
 
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
@@ -66,7 +65,7 @@ namespace LinCms.Web.Services
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            string confirmPassword = Utils.Get32Md5(resetPasswordDto.ConfirmPassword);
+            string confirmPassword = LinCmsUtils.Get32Md5(resetPasswordDto.ConfirmPassword);
 
             _freeSql.Update<LinUser>(id).Set(a => new LinUser()
             {
@@ -135,7 +134,7 @@ namespace LinCms.Web.Services
 
             user.Active = 1;
             user.Admin = 1;
-            user.Password = Utils.Get32Md5(user.Password);
+            user.Password = LinCmsUtils.Get32Md5(user.Password);
 
             _userRepository.Insert(user);
         }

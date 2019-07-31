@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
-namespace LinCms.Zero.Exceptions
+namespace LinCms.Web.Middleware
 {
     public class CustomExceptionMiddleWare
     {
@@ -21,18 +20,12 @@ namespace LinCms.Zero.Exceptions
 
         private readonly ILogger<CustomExceptionMiddleWare> _logger;
 
-        private IDictionary<int, string> _errCodes;
         private readonly IHostingEnvironment _environment;
         public CustomExceptionMiddleWare(RequestDelegate next, ILogger<CustomExceptionMiddleWare> logger, IHostingEnvironment environment)
         {
             _next = next;
             _logger = logger;
             _environment = environment;
-
-            _errCodes = Enum.GetValues(typeof(ErrorCode))
-                .Cast<ErrorCode>()
-                .ToDictionary(t => (int)t, t => t.ToString());
-
         }
 
         public async Task Invoke(HttpContext context)
@@ -70,12 +63,13 @@ namespace LinCms.Zero.Exceptions
             ResultDto apiResponse = new ResultDto()
             {
                 Msg = errorMsg,
-                ErrorCode = errorCode
+                ErrorCode = errorCode ,
+                Request = LinCmsUtils.GetRequest(context)
             }; ;
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
-            await context.Response.WriteAsync(apiResponse.ToString(), Encoding.UTF8);
+            await context.Response.WriteAsync(apiResponse.ToString(), Encoding.UTF8); ;
         }
 
     }

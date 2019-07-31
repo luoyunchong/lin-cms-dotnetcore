@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Extensions;
+using LinCms.Web.Data.Authorization;
 using LinCms.Web.Services.Interfaces;
-using LinCms.Zero.Authorization;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Security;
@@ -90,14 +91,9 @@ namespace LinCms.Web.Data.Aop
                 {
                     ResultDto resultDto = JsonConvert.DeserializeObject<ResultDto>(objectResult.Value.ToString());
 
-                    resultDto.Request = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-                    if (resultDto.ErrorCode != 0)
-                    {
-                        //没办法，只要未成功，全是BAD Request  谁让他前台要了自定义ErrorCode，也不用
-                        context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    }
+                    resultDto.Request = LinCmsUtils.GetRequest(context.HttpContext);
 
-                    context.Result = new ObjectResult(resultDto);
+                    context.Result = new JsonResult(resultDto);
 
                     if (linLog.Message.IsNullOrEmpty())
                     {
