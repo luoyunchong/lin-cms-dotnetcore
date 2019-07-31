@@ -1,16 +1,16 @@
-﻿using LinCms.Web.Models.Admins;
-using LinCms.Web.Services.Interfaces;
-using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Aop;
+using LinCms.Web.Data.Authorization;
+using LinCms.Web.Models.Admins;
 using LinCms.Web.Models.Users;
-using LinCms.Zero.Authorization;
+using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data;
+using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/admin")]
     [ApiController]

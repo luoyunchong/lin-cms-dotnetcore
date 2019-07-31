@@ -3,10 +3,11 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Zero.Common
 {
-    public class Utils
+    public class LinCmsUtils
     {
         /// <summary>
         /// 通过创建哈希字符串适用于任何 MD5 哈希函数 （在任何平台） 上创建 32 个字符的十六进制格式哈希字符串
@@ -62,6 +63,11 @@ namespace LinCms.Zero.Common
                 }
             }
             return sb.ToString();
+        }
+
+        public static string GetRequest(HttpContext httpContext)
+        {
+            return httpContext.Request.Method + " " + httpContext.Request.Path;
         }
     }
 }

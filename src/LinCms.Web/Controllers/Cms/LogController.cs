@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Logs;
 using LinCms.Web.Services.Interfaces;
-using LinCms.Zero.Authorization;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/log")]
     [ApiController]

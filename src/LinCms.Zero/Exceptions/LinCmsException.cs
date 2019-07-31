@@ -21,13 +21,13 @@ namespace LinCms.Zero.Exceptions
         /// <summary>
         /// 
         /// </summary>
-        public LinCmsException()
+        public LinCmsException() : base("服务器繁忙，请稍后再试!")
         {
-            _errorCode =  ErrorCode.Fail;
+            _errorCode = ErrorCode.Fail;
             _code = 400;
         }
 
-        public LinCmsException(string message, ErrorCode errorCode=ErrorCode.Fail, int code = 400) : base(message)
+        public LinCmsException(string message = "服务器繁忙，请稍后再试!", ErrorCode errorCode = ErrorCode.Fail, int code = 400) : base(message)
         {
             this._errorCode = errorCode;
             _code = code;

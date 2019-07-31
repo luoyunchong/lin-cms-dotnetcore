@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using LinCms.Zero.Authorization;
+﻿using System.Collections.Generic;
+using LinCms.Web.Data.Authorization;
 using LinCms.Zero.Data;
-using LinCms.Zero.Domain;
+using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/test")]
     [ApiController]
@@ -16,7 +16,7 @@ namespace LinCms.Web.Controllers
         [LinCmsAuthorize("查看lin的信息", "信息")]
         public ResultDto Info()
         {
-            return  ResultDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
+            return ResultDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
         }
 
         [HttpGet("")]
@@ -36,10 +36,12 @@ namespace LinCms.Web.Controllers
         [HttpGet("get")]
         public dynamic Get()
         {
-            return new {
-                Content = new {
-                    Url=Request.Path.Value,
-                    NewUrlTest="test in new url test"
+            return new
+            {
+                Content = new
+                {
+                    Url = Request.Path.Value,
+                    NewUrlTest = "test in new url test"
                 }
             };
         }
@@ -57,6 +59,14 @@ namespace LinCms.Web.Controllers
             dics.Add("Key_Test", "Value_Test");
 
             return dics;
+        }
+
+        [HttpGet("lincms-exception")]
+        public ResultDto TestLinCmsException()
+        {
+            throw new LinCmsException("我报异常了-NotFound！", ErrorCode.NotFound,StatusCodes.Status404NotFound);
+
+            return ResultDto.Success();
         }
     }
 }

@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace LinCms.Web.Data.Aop
 {
     public class LinCmsExceptionFilter : Attribute, IExceptionFilter
     {
-        private readonly ILogger logger = null;
-        private readonly IHostingEnvironment environment = null;
+        private readonly ILogger _logger;
+        private readonly IHostingEnvironment _environment;
         public LinCmsExceptionFilter(ILogger<LinCmsExceptionFilter> logger, IHostingEnvironment environment)
         {
-            this.logger = logger;
-            this.environment = environment;
+            _logger = logger;
+            _environment = environment;
         }
 
         public void OnException(ExceptionContext context)
         {
             if (context.Exception is LinCmsException cmsException)
             {
-                HandlerException(context, 
+                HandlerException(context,
                     new ResultDto()
                     {
                         Msg = cmsException.Message,
@@ -38,12 +35,6 @@ namespace LinCms.Web.Data.Aop
                     );
                 return;
             }
-
-           
-            ResultDto apiResponse = new ResultDto()
-            {
-                ErrorCode = ErrorCode.UnknownError
-            };
 
             string error = string.Empty;
 
@@ -57,32 +48,26 @@ namespace LinCms.Web.Data.Aop
             }
             ReadException(context.Exception);
 
-            if (environment.IsDevelopment())
+            ResultDto apiResponse = new ResultDto()
             {
-                
-                apiResponse.Msg = context.Exception.Message + error;
-            }
-            else
-            {
-                apiResponse.Msg = "服务器正忙，请稍后再试";
-            }
+                ErrorCode = ErrorCode.UnknownError,
+                Msg = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试"
+            };
 
-            HandlerException(context, apiResponse, 500);
+            HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);
         }
 
-        public void HandlerException(ExceptionContext context, ResultDto apiResponse, int statusCode)
+        private void HandlerException(ExceptionContext context, ResultDto apiResponse, int statusCode)
         {
-            logger.LogError(apiResponse.Msg.ToString());
+            apiResponse.Request = LinCmsUtils.GetRequest(context.HttpContext);
 
-            ContentResult r = new ContentResult
+            _logger.LogError(apiResponse.ToString());
+
+            context.Result = new JsonResult(apiResponse)
             {
                 StatusCode = statusCode,
                 ContentType = "application/json",
-                Content = JsonConvert.SerializeObject(apiResponse)
             };
-
-
-            context.Result = r;
             context.ExceptionHandled = true;
         }
     }

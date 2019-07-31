@@ -1,4 +1,11 @@
-﻿using IdentityModel.Client;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityModel.Client;
+using IdentityServer4.Models;
+using LinCms.Web.Data.Aop;
 using LinCms.Web.Models.Account;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data.Enums;
@@ -7,16 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using IdentityModel;
-using IdentityServer4.Models;
-using LinCms.Web.Data.Aop;
-using Microsoft.AspNetCore.Authorization;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [ApiController]
     [Route("cms/user")]
@@ -37,7 +36,7 @@ namespace LinCms.Web.Controllers
         /// 登录接口
         /// </summary>
         /// <param name="loginInputDto"></param>
-        //[DisableAuditing]
+        [DisableAuditing]
         [HttpPost("login")]
         public async Task<JObject> Login(LoginInputDto loginInputDto)
         {
@@ -67,7 +66,6 @@ namespace LinCms.Web.Controllers
                 throw new LinCmsException(response.ErrorDescription);
             }
             return response.Json;
-
         }
 
 

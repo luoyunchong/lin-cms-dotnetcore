@@ -1,22 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
+using System.Linq;
 using AutoMapper;
-using IdentityModel;
+using LinCms.Web.Data;
+using LinCms.Web.Data.Aop;
+using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Users;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Security.Claims;
-using LinCms.Web.Data;
-using LinCms.Zero.Authorization;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
-using LinCms.Web.Data.Aop;
-using LinCms.Web.Models.Auths;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [ApiController]
     [Route("cms/user")]
@@ -27,13 +24,15 @@ namespace LinCms.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IUserSevice _userSevice;
         private readonly ICurrentUser _currentUser;
+        private readonly IConfiguration _configuration;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser, IConfiguration configuration)
         {
             _freeSql = freeSql;
             _mapper = mapper;
             _userSevice = userSevice;
             _currentUser = currentUser;
+            _configuration = configuration;
         }
 
         [HttpGet("get")]
@@ -49,6 +48,7 @@ namespace LinCms.Web.Controllers
         public UserInformation GetInformation()
         {
             LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
+            linUser.Avatar = _configuration["SITE_DOMAIN"] + "/" + _configuration["FILE:STORE_DIR"] + "/" + linUser.Avatar;
 
             return _mapper.Map<UserInformation>(linUser);
         }
@@ -63,10 +63,11 @@ namespace LinCms.Web.Controllers
             LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
 
             UserInformation user = _mapper.Map<UserInformation>(linUser);
+            user.Avatar = _configuration["SITE_DOMAIN"] + "/" + _configuration["FILE:STORE_DIR"] + "/" + linUser.Avatar;
 
             if (linUser.IsAdmin())
             {
-                user.Auths = new List<IDictionary<string,object>>();
+                user.Auths = new List<IDictionary<string, object>>();
             }
             else
             {
@@ -74,7 +75,7 @@ namespace LinCms.Web.Controllers
                 {
                     List<LinAuth> listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == linUser.GroupId).ToList();
 
-                    user.Auths= ReflexHelper.AuthsConvertToTree(listAuths);;
+                    user.Auths = ReflexHelper.AuthsConvertToTree(listAuths); ;
 
                 }
             }

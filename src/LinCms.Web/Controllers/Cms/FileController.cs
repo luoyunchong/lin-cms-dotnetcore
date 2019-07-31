@@ -5,17 +5,18 @@ using System.Security.Cryptography;
 using LinCms.Web.Models.Files;
 using LinCms.Zero.Common;
 using LinCms.Zero.Domain;
-using LinCms.Zero.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/file")]
     [ApiController]
+    //[Authorize]
     public class FileController : ControllerBase
     {
         private readonly IHostingEnvironment _hostingEnv;
@@ -24,7 +25,7 @@ namespace LinCms.Web.Controllers
 
         public FileController(IHostingEnvironment hostingEnv, IFreeSql freeSql, IConfiguration configuration)
         {
-            this._hostingEnv = hostingEnv;
+            _hostingEnv = hostingEnv;
             _freeSql = freeSql;
             _configuration = configuration;
         }
@@ -32,11 +33,10 @@ namespace LinCms.Web.Controllers
         [HttpPost]
         public List<FileDto> UploadFiles(IFormFile file)
         {
-            string domainUrl = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
+            string domainUrl = _configuration["SITE_DOMAIN"];
+            string fileDir = _configuration["FILE:STORE_DIR"];
 
-            Stream stream = file.OpenReadStream();
-
-            string md5 = Utils.GetHash<MD5>(file.OpenReadStream());
+            string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
 
             LinFile linFile = _freeSql.Select<LinFile>().Where(r => r.Md5 == md5).First();
 
@@ -44,12 +44,12 @@ namespace LinCms.Web.Controllers
             {
                 return new List<FileDto>
                 {
-                    new FileDto()
+                    new FileDto
                     {
                         Id=linFile.Id,
                         Key="file",
                         Path=linFile.Path,
-                        Url=domainUrl+"/"+_configuration["File:StoreDir"]+"/"+linFile.Path
+                        Url=domainUrl + "/" +_configuration["FILE:STORE_DIR"]+"/"+linFile.Path
                     }
                 };
             }
@@ -60,22 +60,22 @@ namespace LinCms.Web.Controllers
 
             string newSaveName = Guid.NewGuid() + Path.GetExtension(filename);
 
-            string savePath = Path.Combine(_hostingEnv.WebRootPath, _configuration["File:StoreDir"], now.ToString("yyy/MM/dd"));
+            string savePath = Path.Combine(_hostingEnv.WebRootPath, fileDir, now.ToString("yyy/MM/dd"));
 
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
             }
 
-            int len = 0;
+            int len;
 
             using (FileStream fs = System.IO.File.Create(Path.Combine(savePath, newSaveName)))
             {
                 file.CopyTo(fs);
                 len = (int)fs.Length;
-
                 fs.Flush();
             }
+
             LinFile saveLinFile = new LinFile()
             {
                 Extension = Path.GetExtension(filename),
@@ -87,16 +87,16 @@ namespace LinCms.Web.Controllers
                 Size = len
             };
 
-            long id = _freeSql.Insert<LinFile>(saveLinFile).ExecuteIdentity();
+            long id = _freeSql.Insert(saveLinFile).ExecuteIdentity();
 
             return new List<FileDto>
             {
-                new FileDto()
+                new FileDto
                 {
                     Id=(int)id,
                     Key="file",
                     Path=saveLinFile.Path,
-                    Url=domainUrl+"/"+_configuration["File:StoreDir"]+"/"+saveLinFile.Path
+                    Url=domainUrl + "/" +fileDir+"/"+saveLinFile.Path
                 }
             };
 
