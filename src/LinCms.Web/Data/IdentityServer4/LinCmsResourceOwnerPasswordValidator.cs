@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
+using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Zero.Common;
 using LinCms.Zero.Data.Enums;
@@ -36,14 +37,17 @@ namespace LinCms.Web.Data.IdentityServer4
         {
             var user = _fsql.Select<LinUser>().Where(r => r.Nickname == context.UserName).ToOne();
 
+            //验证失败
             if (user == null)
             {
-                throw new LinCmsException("用户不存在", ErrorCode.NotFound,StatusCodes.Status404NotFound);
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户不存在");
+                return Task.CompletedTask;
             }
 
-            if (user.Password != Utils.Get32Md5(context.Password))
+            if (user.Password != LinCmsUtils.Get32Md5(context.Password))
             {
-                throw new LinCmsException("密码错误，请输入正确密码!", ErrorCode.ParameterError);
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "请输入正确密码!");
+                return Task.CompletedTask;
             }
 
             //subjectId 为用户唯一标识 一般为用户id

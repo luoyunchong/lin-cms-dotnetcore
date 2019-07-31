@@ -3,18 +3,21 @@ using System.Linq;
 using AutoMapper;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Aop;
-using LinCms.Web.Models.Auths;
+using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Groups;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/admin/group")]
     [ApiController]
+    [LinCmsAuthorize(Roles = LinGroup.Administrator)]
     public class GroupController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
@@ -101,7 +104,7 @@ namespace LinCms.Web.Controllers
         {
             if (!_freeSql.Select<LinGroup>(new { id = id }).Any())
             {
-                return ResultDto.Error("分组不存在，删除失败");
+                throw new LinCmsException("分组不存在，删除失败", ErrorCode.NotFound,StatusCodes.Status404NotFound);
             }
 
             bool exist = _freeSql.Select<LinUser>().Any(r => r.GroupId == id);

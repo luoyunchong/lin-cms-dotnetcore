@@ -1,5 +1,7 @@
 ﻿using System;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data.Enums;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -7,20 +9,28 @@ namespace LinCms.Zero.Data
 {
     public class ResultDto
     {
+    
         /// <summary>
-        ///     错误码
+        ///错误码
         /// </summary>
         public ErrorCode ErrorCode { get; set; }
 
         /// <summary>
-        ///     错误信息
+        ///错误信息
         /// </summary>
         public object Msg { get; set; }
 
         /// <summary>
-        ///     请求地址
+        ///请求地址
         /// </summary>
         public string Request { get; set; }
+
+        public ResultDto(ErrorCode errorCode, object msg, HttpContext httpContext)
+        {
+            ErrorCode = errorCode;
+            Msg = msg;
+            Request = LinCmsUtils.GetRequest(httpContext);
+        }
 
         public ResultDto(ErrorCode errorCode, object msg)
         {
@@ -44,7 +54,7 @@ namespace LinCms.Zero.Data
 
         public static ResultDto Error(string msg="操作失败")
         {
-            return new ResultDto(Enums.ErrorCode.Fail,msg);
+            return new ResultDto(ErrorCode.Fail,msg);
         }
 
         public override string ToString()

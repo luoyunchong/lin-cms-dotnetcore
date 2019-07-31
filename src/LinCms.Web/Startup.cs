@@ -1,40 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using AutoMapper;
+
 using FreeSql;
 using FreeSql.Internal;
+
 using LinCms.Web.Data;
 using LinCms.Web.Data.Aop;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
-using LinCms.Web.Services;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Dependency;
 using LinCms.Zero.Domain;
-using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace LinCms.Web
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public static IFreeSql Fsql { get; private set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -61,10 +70,6 @@ namespace LinCms.Web
                 }
             };
         }
-
-        public IConfiguration Configuration { get; }
-
-        public static IFreeSql Fsql { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -112,6 +117,23 @@ namespace LinCms.Web
                     options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
                     options.RequireHttpsMetadata = false;
                     options.Audience = Configuration["Service:Name"];
+
+                    options.Events = new JwtBearerEvents()
+                    {
+                        OnChallenge = context =>
+                        {
+                            //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
+                            context.HandleResponse();
+
+                            var payload = new ResultDto(ErrorCode.AuthenticationFailed, "认证失败，请检查请求头或者重新登陆", context.HttpContext).ToString();
+
+                            context.Response.ContentType = "application/json";
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.WriteAsync(payload);
+
+                            return Task.FromResult(0);
+                        }
+                    };
                 });
             #endregion
 
@@ -123,7 +145,8 @@ namespace LinCms.Web
             services.AddMvc(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 options.Filters.Add<LinCmsExceptionFilter>();
+                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
              .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
              .ConfigureApiBehaviorOptions(options =>
@@ -132,12 +155,10 @@ namespace LinCms.Web
                  //自定义 BadRequest 响应
                  options.InvalidModelStateResponseFactory = context =>
               {
-                  string requestUrl = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
                   var problemDetails = new ValidationProblemDetails(context.ModelState);
-                  var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors)
-                  {
-                      Request = requestUrl
-                  };
+
+                  var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+               
                   return new BadRequestObjectResult(resultDto)
                   {
                       ContentTypes = { "application/json" }
@@ -216,6 +237,12 @@ namespace LinCms.Web
 
             //将Handler注册到DI系统中
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 1024 * 1024 * 2;
+                options.MultipartHeadersCountLimit = 10;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -233,10 +260,9 @@ namespace LinCms.Web
                 app.UseHsts();
             }
 
-
             app.UseStaticFiles();
 
-            app.UseMiddleware<CustomExceptionMiddleWare>();
+            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -247,10 +273,10 @@ namespace LinCms.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
 
-                //c.RoutePrefix = string.Empty;
-                //c.OAuthClientId("demo_api_swagger");//客服端名称
-                //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
-            });
+        //c.RoutePrefix = string.Empty;
+        //c.OAuthClientId("demo_api_swagger");//客服端名称
+        //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
+    });
 
             app.UseCors("cors");
 
