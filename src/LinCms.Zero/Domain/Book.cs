@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LinCms.Zero.Domain
 {
-    [JsonObject(MemberSerialization.OptIn), Table(Name = "book")]
+    [Table(Name = "book")]
     public class Book : FullAduitEntity
     {
         [Column(DbType = "varchar(30)")]

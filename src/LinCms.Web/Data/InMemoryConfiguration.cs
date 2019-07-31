@@ -41,7 +41,7 @@ namespace LinCms.Web.Data
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     //UpdateAccessTokenClaimsOnRefresh = true,
-                    AccessTokenLifetime = 3600 * 6, //6小时
+                    AccessTokenLifetime = 3600 * 6, //6小时      //5  设置 5s，验证过期策略。
                     SlidingRefreshTokenLifetime = 1296000, //15天
                     ClientSecrets =
                     {
