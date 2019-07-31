@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-
 using FreeSql;
 using FreeSql.Internal;
-
+using IdentityModel;
+using IdentityServer4.AccessTokenValidation;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Aop;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
-using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Dependency;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +30,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -99,7 +98,7 @@ namespace LinCms.Web
             //由于是本地运行, 所以就不使用https了, RequireHttpsMetadata = false.如果是生产环境, 一定要使用https.
             //Authority指定Authorization Server的地址.
             //ApiName要和Authorization Server里面配置ApiResource的name一样.
-
+            //和  AddJwtBearer不能同时使用，目前还不理解区别。
             //services
             //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             //    .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
@@ -107,17 +106,28 @@ namespace LinCms.Web
             //        options.RequireHttpsMetadata = false; // for dev env
             //        options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
             //        options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
+
+            //        options.JwtValidationClockSkew = TimeSpan.FromSeconds(60*5);   
+
             //    });
             #endregion
 
+            #region AddJwtBearer
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     //identityserver4 地址 也就是本项目地址
-                    options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
+                    options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}";
                     options.RequireHttpsMetadata = false;
                     options.Audience = Configuration["Service:Name"];
 
+                    //options.TokenValidationParameters = new TokenValidationParameters()
+                    //{
+                    //    ClockSkew = TimeSpan.Zero   //偏移设置为了0s,用于测试过期策略,完全按照access_token的过期时间策略，默认原本为5分钟
+                    //};
+
+
+                    //使用Authorize设置为需要登录时，返回json格式数据。
                     options.Events = new JwtBearerEvents()
                     {
                         OnChallenge = context =>
@@ -125,16 +135,40 @@ namespace LinCms.Web
                             //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
                             context.HandleResponse();
 
-                            var payload = new ResultDto(ErrorCode.AuthenticationFailed, "认证失败，请检查请求头或者重新登陆", context.HttpContext).ToString();
+                            string msg;
+                            ErrorCode errorCode;
+                            int statusCode = StatusCodes.Status401Unauthorized;
+
+                            if (context.Error == "invalid_token" &&
+                               context.ErrorDescription == "The token is expired")
+                            {
+                                msg = "令牌过期";
+                                errorCode = ErrorCode.TokenExpired;
+                                statusCode = StatusCodes.Status422UnprocessableEntity;
+                            }
+                            else if (context.Error == "invalid_token" && context.ErrorDescription.IsNullOrEmpty())
+                            {
+                                msg = "令牌失效";
+                                errorCode = ErrorCode.TokenInvalidation;
+                            }
+
+                            else
+                            {
+                                msg = "认证失败，请检查请求头或者重新登陆";
+                                errorCode = ErrorCode.TokenInvalidation;
+                            }
+
 
                             context.Response.ContentType = "application/json";
-                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                            context.Response.WriteAsync(payload);
+                            context.Response.StatusCode = statusCode;
+                            context.Response.WriteAsync(new ResultDto(errorCode, msg, context.HttpContext).ToString());
 
                             return Task.FromResult(0);
                         }
                     };
                 });
+            #endregion
+
             #endregion
 
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -158,7 +192,7 @@ namespace LinCms.Web
                   var problemDetails = new ValidationProblemDetails(context.ModelState);
 
                   var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
-               
+
                   return new BadRequestObjectResult(resultDto)
                   {
                       ContentTypes = { "application/json" }
@@ -273,10 +307,10 @@ namespace LinCms.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
 
-        //c.RoutePrefix = string.Empty;
-        //c.OAuthClientId("demo_api_swagger");//客服端名称
-        //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
-    });
+                //c.RoutePrefix = string.Empty;
+                //c.OAuthClientId("demo_api_swagger");//客服端名称
+                //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
+            });
 
             app.UseCors("cors");
 

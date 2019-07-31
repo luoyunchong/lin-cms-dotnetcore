@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Middleware
 {
+    /// <summary>
+    /// 如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
+    /// </summary>
     public class CustomExceptionMiddleWare
     {
         /// <summary>
