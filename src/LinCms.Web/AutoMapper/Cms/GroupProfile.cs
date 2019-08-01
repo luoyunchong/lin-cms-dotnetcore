@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using LinCms.Web.Models.Groups;
+using LinCms.Web.Models.Cms.Groups;
 using LinCms.Zero.Domain;
 
-namespace LinCms.Web.AutoMapper.Groups
+namespace LinCms.Web.AutoMapper.Cms
 {
     public class GroupProfile:Profile
     {

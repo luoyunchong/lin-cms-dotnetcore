@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Zero.Domain;
+﻿using LinCms.Zero.Domain;
 
-namespace LinCms.Web.Models.Files
+namespace LinCms.Web.Models.Cms.Files
 {
     public class FileDto:Entity
     {

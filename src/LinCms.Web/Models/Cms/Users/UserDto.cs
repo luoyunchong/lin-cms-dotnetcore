@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LinCms.Zero.Domain;
 
-namespace LinCms.Web.Models.Users
+namespace LinCms.Web.Models.Cms.Users
 {
     public class UserDto:EntityDto
     {

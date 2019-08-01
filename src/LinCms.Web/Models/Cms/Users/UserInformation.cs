@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Web.Models.Auths;
 using LinCms.Zero.Domain;
 
-namespace LinCms.Web.Models.Users
+namespace LinCms.Web.Models.Cms.Users
 {
     public class UserInformation : EntityDto
     {

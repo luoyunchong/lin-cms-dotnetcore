@@ -2,8 +2,8 @@
 using System.Linq;
 using AutoMapper;
 using FreeSql;
-using LinCms.Web.Models.Admins;
-using LinCms.Web.Models.Users;
+using LinCms.Web.Models.Cms.Admins;
+using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Common;
 using LinCms.Zero.Data;

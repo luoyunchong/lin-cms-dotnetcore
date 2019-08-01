@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{156F5C15-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Test", "test\LinCms.Test\LinCms.Test.csproj", "{DD40738B-8A5F-4987-820D-7944F5A40FF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Zero", "src\LinCms.Zero\LinCms.Zero.csproj", "{B592FE61-D86A-44F8-B811-64B20AB9DCCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Zero", "src\LinCms.Zero\LinCms.Zero.csproj", "{B592FE61-D86A-44F8-B811-64B20AB9DCCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Plugins", "src\LinCms.Plugins\LinCms.Plugins.csproj", "{E22922B4-BE76-4024-8C93-3E3226B98659}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{B592FE61-D86A-44F8-B811-64B20AB9DCCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B592FE61-D86A-44F8-B811-64B20AB9DCCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B592FE61-D86A-44F8-B811-64B20AB9DCCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E22922B4-BE76-4024-8C93-3E3226B98659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E22922B4-BE76-4024-8C93-3E3226B98659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E22922B4-BE76-4024-8C93-3E3226B98659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E22922B4-BE76-4024-8C93-3E3226B98659}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{856A2390-A35C-456D-8AD9-6AA82638AC5F} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{DD40738B-8A5F-4987-820D-7944F5A40FF7} = {156F5C15-C6B1-41FE-96CE-B464B812D9EA}
 		{B592FE61-D86A-44F8-B811-64B20AB9DCCD} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
+		{E22922B4-BE76-4024-8C93-3E3226B98659} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3AFAB7C5-4289-48FF-89A0-FB63A94D0AF4}

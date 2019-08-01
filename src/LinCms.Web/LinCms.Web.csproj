@@ -24,8 +24,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="0.8.1" />
-    <PackageReference Include="FreeSql.Repository" Version="0.8.1" />
     <PackageReference Include="IdentityServer4" Version="2.5.1" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -39,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LinCms.Plugins\LinCms.Plugins.csproj" />
     <ProjectReference Include="..\LinCms.Zero\LinCms.Zero.csproj" />
   </ItemGroup>
 

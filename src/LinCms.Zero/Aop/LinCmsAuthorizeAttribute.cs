@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
-using LinCms.Zero.Exceptions;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
@@ -12,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LinCms.Web.Data.Authorization
+namespace LinCms.Zero.Aop
 {
     /// <summary>
     ///  自定义固定权限编码给动态角色及用户，支持验证登录，指定角色、Policy

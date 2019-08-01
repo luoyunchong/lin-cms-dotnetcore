@@ -4,7 +4,7 @@ using System.Text;
 using AutoMapper;
 using LinCms.Web;
 using LinCms.Web.AutoMapper;
-using LinCms.Web.Models.Groups;
+using LinCms.Web.Models.Cms.Groups;
 using LinCms.Zero.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Zero.Data;
+﻿using LinCms.Zero.Data;
 
-namespace LinCms.Web.Models.Admins
+namespace LinCms.Web.Models.Cms.Admins
 {
     public class UserSearchDto:PageDto
     {

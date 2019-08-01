@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LinCms.Web.Models.Admins
+namespace LinCms.Web.Models.Cms.Admins
 {
     public class ResetPasswordDto
     {

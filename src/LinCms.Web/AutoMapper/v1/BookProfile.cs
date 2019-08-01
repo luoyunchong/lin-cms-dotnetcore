@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-
 using LinCms.Web.Models.v1.Books;
 using LinCms.Zero.Domain;
 
-namespace LinCms.Web.AutoMapper.Books
+namespace LinCms.Web.AutoMapper.v1
 {
     public class BookProfile:Profile
     {
