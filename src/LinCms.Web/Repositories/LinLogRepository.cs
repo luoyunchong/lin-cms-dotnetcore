@@ -2,6 +2,7 @@
 using LinCms.Zero.Domain;
 using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace LinCms.Web.Repositories
 {
@@ -10,10 +11,8 @@ namespace LinCms.Web.Repositories
     /// </summary>
     public class LinLogRepository : BaseRepository<LinLog>
     {
-
         public LinLogRepository(IFreeSql fsql, Expression<Func<LinLog, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
         {
         }
-
     }
 }
