@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace LinCms.Web.Data.Aop
+namespace LinCms.Zero.Aop
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class AuditingLogAttribute : Attribute

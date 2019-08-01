@@ -8,16 +8,18 @@ using FreeSql;
 using FreeSql.Internal;
 using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
+using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
-using LinCms.Web.Data.Aop;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
+using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Dependency;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
+using LinCms.Zero.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -85,7 +87,7 @@ namespace LinCms.Web
             services.AddFreeRepository(filter =>
             {
                 filter.Apply<ISoftDeleteAduitEntity>("SoftDelete", a => a.IsDeleted == false);
-            }, GetType().Assembly);
+            }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -176,7 +178,7 @@ namespace LinCms.Web
 
             #endregion
 
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddAutoMapper(typeof(Startup).Assembly,typeof(PoemProfile).Assembly);
 
             services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
 

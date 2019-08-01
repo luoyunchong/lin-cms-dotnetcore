@@ -2,7 +2,8 @@
 using System.Linq;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Models.Auths;
+using LinCms.Web.Models.Cms.Auths;
+using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;

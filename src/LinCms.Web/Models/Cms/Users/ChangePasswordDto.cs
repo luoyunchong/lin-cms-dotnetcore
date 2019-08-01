@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Web.Models.Admins;
+﻿using System.ComponentModel.DataAnnotations;
+using LinCms.Web.Models.Cms.Admins;
 
-namespace LinCms.Web.Models.Users
+namespace LinCms.Web.Models.Cms.Users
 {
     public class ChangePasswordDto: ResetPasswordDto
     {

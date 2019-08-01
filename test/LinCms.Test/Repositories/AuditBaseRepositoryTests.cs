@@ -7,7 +7,9 @@ using LinCms.Test.Controller;
 using LinCms.Web;
 using LinCms.Web.Models.v1.Books;
 using LinCms.Web.Repositories;
+using LinCms.Zero;
 using LinCms.Zero.Domain;
+using LinCms.Zero.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

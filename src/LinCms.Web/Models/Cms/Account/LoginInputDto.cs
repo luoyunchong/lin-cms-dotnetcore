@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LinCms.Web.Models.Account
+namespace LinCms.Web.Models.Cms.Account
 {
     public class LoginInputDto
     {

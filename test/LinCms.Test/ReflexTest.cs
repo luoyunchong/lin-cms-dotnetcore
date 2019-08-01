@@ -9,6 +9,7 @@ using LinCms.Web.Controllers;
 using LinCms.Web.Controllers.Cms;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
+using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Mvc;

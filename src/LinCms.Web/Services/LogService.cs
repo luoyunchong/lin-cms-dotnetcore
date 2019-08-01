@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Web.Models.Logs;
+using LinCms.Web.Models.Cms.Logs;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
