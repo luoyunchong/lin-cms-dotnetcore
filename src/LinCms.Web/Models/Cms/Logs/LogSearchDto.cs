@@ -1,8 +1,7 @@
 ﻿using System;
-using LinCms.Web.Data;
 using LinCms.Zero.Data;
 
-namespace LinCms.Web.Models.Logs
+namespace LinCms.Web.Models.Cms.Logs
 {
     public class LogSearchDto : PageDto
     {

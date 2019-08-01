@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
-using IdentityServer4.Extensions;
 
-namespace LinCms.Web.Models.Users
+namespace LinCms.Web.Models.Cms.Users
 {
     public class CreateUserDto : IValidatableObject
     {

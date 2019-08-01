@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using LinCms.Web.Models.Admins;
-using LinCms.Web.Models.Users;
+using LinCms.Web.Models.Cms.Admins;
+using LinCms.Web.Models.Cms.Users;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Dependency;

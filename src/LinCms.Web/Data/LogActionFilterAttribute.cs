@@ -1,23 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityModel;
-using IdentityServer4.Extensions;
-using LinCms.Web.Data.Authorization;
+﻿using System.Diagnostics;
 using LinCms.Web.Services.Interfaces;
+using LinCms.Zero.Aop;
 using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Security;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace LinCms.Web.Data.Aop
+namespace LinCms.Web.Data
 {
     /// <summary>
     /// 全局日志记录

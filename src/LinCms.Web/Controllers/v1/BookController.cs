@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
-using FreeSql;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.v1.Books;
 using LinCms.Web.Repositories;
+using LinCms.Zero;
+using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using LinCms.Zero.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.v1
 {
     [Route("v1/book")]
     [ApiController]
+    [Authorize]
     public class BookController : ControllerBase
     {
         private readonly AuditBaseRepository<Book> _bookRepository;

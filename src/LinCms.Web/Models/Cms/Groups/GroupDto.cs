@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using LinCms.Zero.Domain;
 
-namespace LinCms.Web.Models.Groups
+namespace LinCms.Web.Models.Cms.Groups
 {
     public class GroupDto:Entity
     {

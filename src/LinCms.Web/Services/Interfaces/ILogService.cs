@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LinCms.Web.Models.Logs;
+using LinCms.Web.Models.Cms.Logs;
 using LinCms.Zero.Data;
 using LinCms.Zero.Dependency;
 

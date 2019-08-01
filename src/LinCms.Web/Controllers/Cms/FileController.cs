@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using LinCms.Web.Models.Files;
+using LinCms.Web.Models.Cms.Files;
 using LinCms.Zero.Common;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Authorization;
