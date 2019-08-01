@@ -13,4 +13,8 @@
     <ProjectReference Include="..\LinCms.Zero\LinCms.Zero.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Poem\Services\" />
+  </ItemGroup>
+
 </Project>
