@@ -27,8 +27,9 @@
 
 ## 线上 Demo
 
-[http://face.cms.7yue.pro/#/login](http://face.cms.7yue.pro/#/login)
+官方地址 [http://face.cms.7yue.pro/#/login](http://face.cms.7yue.pro/#/login)
 
+本项目线上地址 [http://47.106.80.39:5001/swagger/index.html](http://47.106.80.39:5001/swagger/index.html)
 
 ### Lin CMS 的特点
 
