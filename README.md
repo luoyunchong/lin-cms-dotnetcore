@@ -27,9 +27,10 @@
 
 ## 线上 Demo
 
-官方地址 [http://face.cms.7yue.pro/#/login](http://face.cms.7yue.pro/#/login)
-
-本项目线上地址 [http://47.106.80.39:5001/swagger/index.html](http://47.106.80.39:5001/swagger/index.html)
+- 官方地址 [http://face.cms.7yue.pro/#/login](http://face.cms.7yue.pro/#/login) 
+  - 用户名： super 
+  - 密码： 123456
+- 本项目线上地址 [http://47.106.80.39:5001/swagger/index.html](http://47.106.80.39:5001/swagger/index.html)
 
 ### Lin CMS 的特点
 
@@ -130,8 +131,8 @@ QQ 群号：643205479
 
 ## 下个版本开发计划
 
-- [ ] 创建时间、创建人、修改时间、修改人、删除人、删除时间、是否删除(软删除)
-- [ ] 部署
+- [x] 创建时间、创建人、修改时间、修改人、删除人、删除时间、是否删除(软删除)
+- [x] 部署 
 - [ ] 系统访问日志、错误日志可视化
 - [ ] 完善文档
 - [ ] 重构核心库结构
