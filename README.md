@@ -10,8 +10,16 @@
 
 
 ## 项目简介
-![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
-![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
+<!-- ![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
+![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore) -->
+
+<!-- ![](https://img.shields.io/badge/版本-0.0.1.beta.2-3963bc.svg) -->
+
+![Build Status](https://travis-ci.org/luoyunchong/lin-cms-dotnetcore.svg?branch=master)
+![](https://img.shields.io/badge/.NETCore-2.2.0-3963bc.svg)
+![](https://img.shields.io/badge/license-MIT-3963bc.svg)
+![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
+
 
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
@@ -112,7 +120,7 @@ src/LinCms.Web目录中appsettings.json
 
 ## 部署
 
-//todo
+[https://blog.igeekfan.cn/2019/06/09/dotnetcore/ASP.NET-Core-Deploy-To-Ubuntu/](https://blog.igeekfan.cn/2019/06/09/dotnetcore/ASP.NET-Core-Deploy-To-Ubuntu/)
 
 ## 讨论交流
 
@@ -136,3 +144,8 @@ QQ 群号：643205479
 - [ ] 系统访问日志、错误日志可视化
 - [ ] 完善文档
 - [ ] 重构核心库结构
+- [ ] 将之前Mock.luo项目中的博客迁移过来
+  - [ ] 博客发布/编辑/删除，基于lin-cms-vue的基础上修改
+  - [ ] 前端展示博客效果
+  - [ ] 留言板
+  - [ ] 评论回复

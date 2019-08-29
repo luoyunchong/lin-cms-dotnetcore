@@ -41,7 +41,7 @@ namespace LinCms.Web.Controllers.v1
             return _bookRepository.Select.OrderByDescending(r=>r.Id).ToList();
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public BookDto Get(int id)
         {
             Book book = _bookRepository.Select.Where(a => a.Id == id).ToOne();

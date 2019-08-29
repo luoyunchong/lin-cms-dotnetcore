@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Test", "test\LinCms.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Zero", "src\LinCms.Zero\LinCms.Zero.csproj", "{B592FE61-D86A-44F8-B811-64B20AB9DCCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinCms.Plugins", "src\LinCms.Plugins\LinCms.Plugins.csproj", "{E22922B4-BE76-4024-8C93-3E3226B98659}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Plugins", "src\LinCms.Plugins\LinCms.Plugins.csproj", "{E22922B4-BE76-4024-8C93-3E3226B98659}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{AFD8D9B1-7523-4F61-97D4-F70628EDA65D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
