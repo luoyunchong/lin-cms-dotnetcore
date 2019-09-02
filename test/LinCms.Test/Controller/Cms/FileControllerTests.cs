@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using LinCms.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace LinCms.Test.Controller
+namespace LinCms.Test.Controller.Cms
 {
     public class FileControllerTests : BaseControllerTests
     {

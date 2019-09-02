@@ -9,6 +9,13 @@ using LinCms.Zero.Security;
 
 namespace LinCms.Zero.Repositories
 {
+    /// <summary>
+    /// 审计仓储：实现如果实体类
+    /// 继承了ICreateAduitEntity  则自动增加创建时间/人信息
+    /// 继承了IUpdateAuditEntity，更新时，修改更新时间/人
+    /// 继承了ISoftDeleteAduitEntity，删除时，自动改成软删除。仅注入此仓储或继承此仓储的实现才能实现如上功能。
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class AuditBaseRepository<T> : BaseRepository<T> where T : class, new()
     {
         private readonly ICurrentUser _currentUser;
@@ -22,6 +29,10 @@ namespace LinCms.Zero.Repositories
             if (!(entity is ICreateAduitEntity e)) return;
             e.CreateTime = DateTime.Now;
             e.CreateUserId = _currentUser.Id;
+
+            if (!(entity is IUpdateAuditEntity updateAuditEntity)) return;
+            updateAuditEntity.UpdateTime = DateTime.Now;
+            updateAuditEntity.UpdateUserId = _currentUser.Id; ;
         }
 
         public override T Insert(T entity)

@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="0.8.2" />
-    <PackageReference Include="FreeSql.DbContext" Version="0.8.2" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="0.8.2" />
+    <PackageReference Include="FreeSql" Version="0.9.4" />
+    <PackageReference Include="FreeSql.DbContext" Version="0.9.4" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="0.9.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />

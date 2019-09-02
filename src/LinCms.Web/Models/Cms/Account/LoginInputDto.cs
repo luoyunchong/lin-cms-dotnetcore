@@ -5,12 +5,12 @@ namespace LinCms.Web.Models.Cms.Account
     public class LoginInputDto
     {
         /// <summary>
-        /// 登录名
+        /// 登录名:admin
         /// </summary>
         [Required(ErrorMessage = "登录名为必填项")]
         public string Nickname { get; set; }
         /// <summary>
-        /// 密码
+        /// 密码：123qwe
         /// </summary>
         [Required(ErrorMessage = "密码为必填项")]
         public string Password { get; set; }
