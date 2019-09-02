@@ -90,7 +90,7 @@ namespace LinCms.Web.Services
                 .From<LinGroup>((a, b) =>
                             a.LeftJoin(c => c.GroupId == b.Id)
                 )
-                .Page(searchDto.Page, searchDto.Count)
+                .Page(searchDto.Page+1, searchDto.Count)
                 .ToList((a, b) => new
                 {
                     user = a,

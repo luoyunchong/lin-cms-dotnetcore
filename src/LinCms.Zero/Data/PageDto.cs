@@ -12,7 +12,7 @@
         public int Count { get; set; } = 15;
 
         /// <summary>
-        /// 第几页
+        /// 从0开始，0时取第1页，1时取第二页
         /// </summary>
         public int Page { get; set; } = 0;
     }
