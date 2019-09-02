@@ -37,18 +37,16 @@ namespace LinCms.Web.Controllers.v1
         public PagedResultDto<ArticleDto> Get([FromQuery]PageDto pageDto)
         {
             var articles= _articleRepository.Select.OrderByDescending(r => r.Id).ToPagerList(pageDto, out var totalCount).ToList()
-            .Select(r =>
-             {
-                 return _mapper.Map<ArticleDto>(r);
-             }).ToList();
+            .Select(r => _mapper.Map<ArticleDto>(r)).ToList();   
+
             return new PagedResultDto<ArticleDto>(articles, totalCount);
         }
 
         [HttpGet("{id}")]
         public ArticleDto Get(int id)
         {
-            Article Article = _articleRepository.Select.Where(a => a.Id == id).ToOne();
-            return _mapper.Map<ArticleDto>(Article);
+            Article article = _articleRepository.Select.Where(a => a.Id == id).ToOne();
+            return _mapper.Map<ArticleDto>(article);
         }
 
         [LinCmsAuthorize("新增随笔", "随笔")]
@@ -61,8 +59,8 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("随笔标题不能重复");
             }
 
-            Article Article = _mapper.Map<Article>(createArticle);
-            _articleRepository.Insert(Article);
+            Article article = _mapper.Map<Article>(createArticle);
+            _articleRepository.Insert(article);
             return ResultDto.Success("新建随笔成功");
         }
 
@@ -70,8 +68,8 @@ namespace LinCms.Web.Controllers.v1
         [HttpPut("{id}")]
         public ResultDto Put(int id, [FromBody] CreateUpdateArticleDto updateArticle)
         {
-            Article Article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
-            if (Article == null)
+            Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+            if (article == null)
             {
                 throw new LinCmsException("没有找到相关随笔");
             }
@@ -83,9 +81,9 @@ namespace LinCms.Web.Controllers.v1
             }
 
             //使用AutoMapper方法简化类与类之间的转换过程
-            _mapper.Map(updateArticle, Article);
+            _mapper.Map(updateArticle, article);
 
-            _articleRepository.Update(Article);
+            _articleRepository.Update(article);
 
             return ResultDto.Success("更新随笔成功");
         }
