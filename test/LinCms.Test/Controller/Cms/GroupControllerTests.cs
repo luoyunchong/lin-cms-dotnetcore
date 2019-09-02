@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using AutoMapper;
 using LinCms.Web;
-using LinCms.Web.AutoMapper;
 using LinCms.Web.Models.Cms.Groups;
 using LinCms.Zero.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace LinCms.Test.Controller
+namespace LinCms.Test.Controller.Cms
 {
     public class GroupControllerTests 
     {

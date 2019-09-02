@@ -1,13 +1,8 @@
 ﻿using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using LinCms.Web;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using Xunit;
 
-namespace LinCms.Test.Controller
+namespace LinCms.Test.Controller.Cms
 {
     public class TestControllerTests : BaseControllerTests
     {

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace LinCms.Zero.Domain.Blog
 {
+    /// <summary>
+    /// 留言板
+    /// </summary>
     [Table(Name = "blog_reply")]
     public class Reply : FullAduitEntity
     {
@@ -55,15 +58,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 关于文章id
         /// </summary>
-        public int? AId { get; set; }
+        public int? ArticleId { get; set; }
     }
 
-    /// <summary>
-    /// 留言板
-    /// </summary>
-    [Table(Name = "blog_guestBook")]
-    public class GuestBook : Reply
-    {
-
-    }
 }
