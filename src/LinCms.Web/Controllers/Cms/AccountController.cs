@@ -35,7 +35,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <summary>
         /// 登录接口
         /// </summary>
-        /// <param name="loginInputDto"></param>
+        /// <param name="loginInputDto">用户名/密码：admin/123qwe</param>
         [DisableAuditing]
         [HttpPost("login")]
         public async Task<JObject> Login(LoginInputDto loginInputDto)

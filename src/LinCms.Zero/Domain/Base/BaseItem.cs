@@ -6,7 +6,9 @@ namespace LinCms.Zero.Domain.Base
     public class BaseItem:FullAduitEntity
     {
         public int BaseTypeId { get; set; }
+        [Column(DbType = "varchar(50)")]
         public string ItemCode { get; set; }
+        [Column(DbType = "varchar(50)")]
         public string ItemName { get; set; }
         public int? SortCode { get; set; }
     }

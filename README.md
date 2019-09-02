@@ -75,19 +75,21 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 ### 后端 C#
 该项目的Lin 的服务端框架是基于[.NET Core 2.2](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
 
-### 主要技术
-- FreeSql+MySQL5.6
-- ASP. NET Core2.2
-- AutoMapper
-- IdentityServer4
-- JWT
-- Swagger
-- Newtonsoft.Json
-- MVC+Xunit
+### 后端主要技术
+- 数据库：FreeSql+MySQL5.6
+- ASP.NET Core2.2+MVC
+- 简化对象映射：AutoMapper
+- 身份认证框架：IdentityServer4
+- Json Web令牌:JWT
+- 文档：Swagger
+- 序列化：Newtonsoft.Json
+- 测试框架：Xunit
+- 日志 NLog
+- 简化注入服务：Scrutor
+- 通用扩展方法 Z.ExtensionMethods
 
 ### 前端 
-前端需要开发者比较熟悉 Vue 的，另外需要了解 ES6,axios,ElementUi、webpack等
-
+前端需要开发者比较熟悉 Vue 的，另外需要了解 ES6,axios,ElementUi、webpack、Vuex、Vue-Router等等等
 
 
 # 快速开始

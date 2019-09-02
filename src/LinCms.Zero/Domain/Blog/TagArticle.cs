@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Zero.Domain.Blog
 {
-    public class TagArt
+    [Table(Name = "blog_tag_article")]
+    public class TagArticle  :Entity
     {
-        public int Id { get; set; }
         public int TagId { get; set; }
-        public int AId { get; set; }
+        public int ArticleId { get; set; }
     }
 }
