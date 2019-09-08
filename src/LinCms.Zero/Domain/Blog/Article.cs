@@ -14,6 +14,8 @@ namespace LinCms.Zero.Domain.Blog
         public string Source { get; set; }
         [Column(DbType = "varchar(400)")]
         public string Excerpt { get; set; }
+
+        [Column(DbType = "text")]
         public string Content { get; set; }
         public int ViewHits { get; set; }
         public int CommentQuantity { get; set; }
@@ -22,6 +24,9 @@ namespace LinCms.Zero.Domain.Blog
         public string Thumbnail { get; set; }
         public bool IsAudit { get; set; }
         public bool Recommend { get; set; }
+        /// <summary>
+        /// 置顶
+        /// </summary>
         public bool IsStickie { get; set; }
         /// <summary>
         /// 随笔档案   如2019年1月
