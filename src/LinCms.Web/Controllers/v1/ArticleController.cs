@@ -7,6 +7,7 @@ using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
+using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,10 +20,12 @@ namespace LinCms.Web.Controllers.v1
     {
         private readonly AuditBaseRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
-        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper)
+        private readonly ICurrentUser _currentUser;
+        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         [HttpDelete("{id}")]
@@ -53,7 +56,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpPost]
         public ResultDto Post([FromBody] CreateUpdateArticleDto createArticle)
         {
-            bool exist = _articleRepository.Select.Any(r => r.Title == createArticle.Title);
+            bool exist = _articleRepository.Select.Any(r => r.Title == createArticle.Title&&r.CreateUserId== _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException("随笔标题不能重复");
@@ -74,7 +77,7 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("没有找到相关随笔");
             }
 
-            bool exist = _articleRepository.Select.Any(r => r.Title == updateArticle.Title && r.Id != id);
+            bool exist = _articleRepository.Select.Any(r => r.Title == updateArticle.Title && r.Id != id && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException("随笔已存在");
