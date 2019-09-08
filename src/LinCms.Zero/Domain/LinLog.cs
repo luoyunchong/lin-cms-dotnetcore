@@ -55,7 +55,7 @@ namespace LinCms.Zero.Domain
         [Column(DbType = "varchar(20)")]
         public string UserName { get; set; } = string.Empty;
 
-        [Column(DbType = "varchar(5000)")]
+        [Column(DbType = "text")]
         public string OtherMessage { get; set; }
     }
 }
