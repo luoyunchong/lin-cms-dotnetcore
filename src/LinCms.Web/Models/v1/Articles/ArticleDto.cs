@@ -15,22 +15,10 @@ namespace LinCms.Web.Models.v1.Articles
         //发布人
         public string NickName { get; set; }
         //几小时/秒前
-        public string TimeSpan
-        {
-            get
-            {
-                return LinCmsUtils.GetTimeDifferNow(this.CreateTime.ToDateTime());
-            }
-        }
+        public string TimeSpan => LinCmsUtils.GetTimeDifferNow(this.CreateTime.ToDateTime());
 
-        DateTime now = DateTime.Now;
-        public bool IsNew
-        {
-            get
-            {
-                return DateTime.Compare(now.AddDays(-2), this.CreateTime.ToDateTime()) > 0 ? false : true; ;
-            }
-        }
+        private readonly DateTime _now = DateTime.Now;
+        public bool IsNew => DateTime.Compare(_now.AddDays(-2), this.CreateTime.ToDateTime()) <= 0;
 
         public string Title { get; set; }
         public string Keywords { get; set; }
@@ -41,6 +29,7 @@ namespace LinCms.Web.Models.v1.Articles
         public int CommentQuantity { get; set; }
         public int PointQuantity { get; set; }
         public string Thumbnail { get; set; }
+        public string ThumbnailDisplay { get; set; }
         public bool IsAudit { get; set; }
         public bool Recommend { get; set; }
         public bool IsStickie { get; set; }

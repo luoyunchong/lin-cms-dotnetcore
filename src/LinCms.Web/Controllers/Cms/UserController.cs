@@ -6,6 +6,7 @@ using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Aop;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Security;
@@ -48,7 +49,7 @@ namespace LinCms.Web.Controllers.Cms
         public UserInformation GetInformation()
         {
             LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
-            linUser.Avatar = _configuration["SITE_DOMAIN"] + "/" + _configuration["FILE:STORE_DIR"] + "/" + linUser.Avatar;
+            linUser.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
 
             return _mapper.Map<UserInformation>(linUser);
         }
@@ -63,7 +64,7 @@ namespace LinCms.Web.Controllers.Cms
             LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
 
             UserInformation user = _mapper.Map<UserInformation>(linUser);
-            user.Avatar = _configuration["SITE_DOMAIN"] + "/" + _configuration["FILE:STORE_DIR"] + "/" + linUser.Avatar;
+            user.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
 
             if (linUser.IsAdmin())
             {
