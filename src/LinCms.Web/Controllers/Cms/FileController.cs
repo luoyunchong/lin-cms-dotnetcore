@@ -30,8 +30,26 @@ namespace LinCms.Web.Controllers.Cms
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// 多文件上传
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
-        public List<FileDto> UploadFiles(IFormFile file)
+        public List<FileDto> UploadFiles()
+        {
+            var files = Request.Form.Files;
+            List<FileDto> fileDtos = new List<FileDto>();
+            files.ForEach(file => { fileDtos.AddRange(this.Upload(file)); });
+            return fileDtos;
+        }
+
+        /// <summary>
+        /// 单文件上传，键为file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [HttpPost("/upload")]
+        public List<FileDto> Upload(IFormFile file)
         {
             string domainUrl = _configuration["SITE_DOMAIN"];
             string fileDir = _configuration["FILE:STORE_DIR"];
