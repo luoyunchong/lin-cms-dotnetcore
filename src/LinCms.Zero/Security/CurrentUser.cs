@@ -1,15 +1,19 @@
 ﻿using System.Security.Claims;
 using System.Threading;
+using LinCms.Zero.Common;
 using LinCms.Zero.Dependency;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Zero.Security
 {
     public class CurrentUser : ICurrentUser, ITransientDependency
     {
         private readonly ClaimsPrincipal _claimsPrincipal;
-        public CurrentUser(IHttpContextAccessor httpContextAccessor)
+        private readonly IConfiguration _configuration;
+        public CurrentUser(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
+            _configuration = configuration;
             _claimsPrincipal = httpContextAccessor.HttpContext?.User ?? Thread.CurrentPrincipal as ClaimsPrincipal;
         }
         public int? Id => _claimsPrincipal?.FindUserId();
@@ -17,6 +21,10 @@ namespace LinCms.Zero.Security
         public int? GroupId => _claimsPrincipal?.FindGroupId();
 
         public bool? IsAdmin => _claimsPrincipal?.IsAdmin();
+        public string GetFileUrl(string hash)
+        {
+           return _configuration[LinConsts.SITE_DOMAIN] + "/" + _configuration[LinConsts.File.STORE_DIR] + "/" + hash;
+        }
     }
 
 }

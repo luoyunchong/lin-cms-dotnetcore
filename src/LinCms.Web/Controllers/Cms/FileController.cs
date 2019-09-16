@@ -39,7 +39,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             var files = Request.Form.Files;
             List<FileDto> fileDtos = new List<FileDto>();
-            files.ForEach(file => { fileDtos.AddRange(this.Upload(file)); });
+            files.ForEach((file,index) => { fileDtos.AddRange(this.Upload(file, index)); });
             return fileDtos;
         }
 
@@ -47,9 +47,10 @@ namespace LinCms.Web.Controllers.Cms
         /// 单文件上传，键为file
         /// </summary>
         /// <param name="file"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
         [HttpPost("/upload")]
-        public List<FileDto> Upload(IFormFile file)
+        public List<FileDto> Upload(IFormFile file,int key=0)
         {
             string domainUrl = _configuration["SITE_DOMAIN"];
             string fileDir = _configuration["FILE:STORE_DIR"];
@@ -65,7 +66,7 @@ namespace LinCms.Web.Controllers.Cms
                     new FileDto
                     {
                         Id=linFile.Id,
-                        Key="file",
+                        Key="file_"+key,
                         Path=linFile.Path,
                         Url=domainUrl + "/" +_configuration["FILE:STORE_DIR"]+"/"+linFile.Path
                     }
@@ -112,7 +113,7 @@ namespace LinCms.Web.Controllers.Cms
                 new FileDto
                 {
                     Id=(int)id,
-                    Key="file",
+                    Key="file_"+key,
                     Path=saveLinFile.Path,
                     Url=domainUrl + "/" +fileDir+"/"+saveLinFile.Path
                 }

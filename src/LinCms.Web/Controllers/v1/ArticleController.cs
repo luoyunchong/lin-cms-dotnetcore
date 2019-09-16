@@ -36,20 +36,39 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success();
         }
 
+        /// <summary>
+        /// 随笔列表页
+        /// </summary>
+        /// <param name="pageDto"></param>
+        /// <returns></returns>
         [HttpGet]
         public PagedResultDto<ArticleDto> Get([FromQuery]PageDto pageDto)
         {
-            var articles= _articleRepository.Select.OrderByDescending(r => r.Id).ToPagerList(pageDto, out var totalCount).ToList()
-            .Select(r => _mapper.Map<ArticleDto>(r)).ToList();   
+            var articles= _articleRepository
+                .Select
+                .OrderByDescending(r => r.Id)
+                .ToPagerList(pageDto, out var totalCount)
+                .ToList()
+                .Select(r => _mapper.Map<ArticleDto>(r)).ToList();   
 
             return new PagedResultDto<ArticleDto>(articles, totalCount);
         }
 
+        /// <summary>
+        /// 随笔详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ArticleDto Get(int id)
         {
             Article article = _articleRepository.Select.Where(a => a.Id == id).ToOne();
-            return _mapper.Map<ArticleDto>(article);
+
+            ArticleDto articleDto= _mapper.Map<ArticleDto>(article);
+
+            articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(article.Thumbnail);
+
+            return articleDto;
         }
 
         [LinCmsAuthorize("新增随笔", "随笔")]
