@@ -9,5 +9,7 @@
         int? GroupId { get; }
 
         bool? IsAdmin { get; }
+
+        string GetFileUrl(string hash);
     }
 }
