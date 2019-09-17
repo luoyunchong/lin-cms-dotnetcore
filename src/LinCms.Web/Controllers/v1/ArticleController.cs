@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using LinCms.Web.Models.v1.Articles;
 using LinCms.Zero.Aop;
@@ -82,6 +83,11 @@ namespace LinCms.Web.Controllers.v1
             }
 
             Article article = _mapper.Map<Article>(createArticle);
+            article.Archive = DateTime.Now.ToString("yyy年MM月");
+            if (article.Author.IsNullOrEmpty())
+            {
+                article.Author = _currentUser.UserName;
+            }
             _articleRepository.Insert(article);
             return ResultDto.Success("新建随笔成功");
         }

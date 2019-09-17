@@ -21,9 +21,11 @@ namespace LinCms.Zero.Security
         public int? GroupId => _claimsPrincipal?.FindGroupId();
 
         public bool? IsAdmin => _claimsPrincipal?.IsAdmin();
+
         public string GetFileUrl(string hash)
         {
-           return _configuration[LinConsts.SITE_DOMAIN] + "/" + _configuration[LinConsts.File.STORE_DIR] + "/" + hash;
+            if (string.IsNullOrEmpty(hash)) return "";
+            return _configuration[LinConsts.SITE_DOMAIN] + "/" + _configuration[LinConsts.File.STORE_DIR] + "/" + hash;
         }
     }
 
