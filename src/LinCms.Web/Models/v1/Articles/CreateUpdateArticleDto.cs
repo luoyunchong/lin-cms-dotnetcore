@@ -9,7 +9,7 @@ namespace LinCms.Web.Models.v1.Articles
     public class CreateUpdateArticleDto
     {
         public int Id { get; set; }
-        public int? FId { get; set; }
+        public int? ClassifyId { get; set; }
         [StringLength(200)]
         public string Title { get; set; }
         [StringLength(400)]
@@ -19,9 +19,7 @@ namespace LinCms.Web.Models.v1.Articles
         [StringLength(400)]
         public string Excerpt { get; set; }
         public string Content { get; set; }
-        public int ViewHits { get; set; }
-        public int CommentQuantity { get; set; }
-        public int PointQuantity { get; set; }
+        public string Author { get; set; }
         [StringLength(400)]
         public string Thumbnail { get; set; }
         public bool IsAudit { get; set; }
@@ -32,7 +30,6 @@ namespace LinCms.Web.Models.v1.Articles
 
         [StringLength(50)]
         public string ArticleType { get; set; }
-
         public int Editor { get; set; } = 1;
     }
 

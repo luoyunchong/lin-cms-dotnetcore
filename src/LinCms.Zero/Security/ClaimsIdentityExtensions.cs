@@ -48,5 +48,6 @@ namespace LinCms.Zero.Security
             
             return userNameOrNull?.Value;
         }
+
     }
 }

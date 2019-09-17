@@ -5,7 +5,6 @@
         int? Id { get; }
 
         string UserName { get; }
-
         int? GroupId { get; }
 
         bool? IsAdmin { get; }
