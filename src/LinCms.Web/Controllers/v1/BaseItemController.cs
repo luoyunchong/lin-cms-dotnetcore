@@ -30,7 +30,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        [LinCmsAuthorize("删除基础资料", "基础资料")]
+        [LinCmsAuthorize("删除字典", "字典管理")]
         public ResultDto DeleteBaseItem(int id)
         {
             _baseItemRepository.Delete(new BaseItem { Id = id });
@@ -42,7 +42,8 @@ namespace LinCms.Web.Controllers.v1
         {
             int baseTypeId = _baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
 
-            var baseItems = _baseItemRepository.Select.OrderByDescending(r => r.SortCode)
+            var baseItems = _baseItemRepository.Select
+                .OrderBy(r => r.SortCode)
                 .OrderBy(r => r.Id)
                 .Where(r => r.BaseTypeId == baseTypeId)
                 .ToList()
@@ -64,12 +65,12 @@ namespace LinCms.Web.Controllers.v1
             bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == createBaseItem.BaseTypeId && r.ItemCode == createBaseItem.ItemCode);
             if (exist)
             {
-                throw new LinCmsException($"基础资料-编码[{createBaseItem.ItemCode}]已存在");
+                throw new LinCmsException($"编码[{createBaseItem.ItemCode}]已存在");
             }
 
             BaseItem baseItem = _mapper.Map<BaseItem>(createBaseItem);
             _baseItemRepository.Insert(baseItem);
-            return ResultDto.Success("新建基础资料成功");
+            return ResultDto.Success("新建字典成功");
         }
 
         [HttpPut("{id}")]
@@ -91,14 +92,14 @@ namespace LinCms.Web.Controllers.v1
             bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == updateBaseItem.BaseTypeId && r.ItemCode == updateBaseItem.ItemCode && r.Id != id);
             if (exist)
             {
-                throw new LinCmsException($"基础资料-编码[{updateBaseItem.ItemCode}]已存在");
+                throw new LinCmsException($"编码[{updateBaseItem.ItemCode}]已存在");
             }
 
             _mapper.Map(updateBaseItem, baseItem);
 
             _baseItemRepository.Update(baseItem);
 
-            return ResultDto.Success("更新基础资料成功");
+            return ResultDto.Success("更新字典成功");
         }
     }
 }
