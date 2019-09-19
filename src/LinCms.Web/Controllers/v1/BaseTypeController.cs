@@ -59,12 +59,12 @@ namespace LinCms.Web.Controllers.v1
             bool exist = _baseTypeRepository.Select.Any(r => r.TypeCode == createBaseType.TypeCode);
             if (exist)
             {
-                throw new LinCmsException($"基础类别-编码[{createBaseType.TypeCode}]已存在");
+                throw new LinCmsException($"类别-编码[{createBaseType.TypeCode}]已存在");
             }
 
             BaseType baseType = _mapper.Map<BaseType>(createBaseType);
             _baseTypeRepository.Insert(baseType);
-            return ResultDto.Success("新建基础类别成功");
+            return ResultDto.Success("新建类别成功");
         }
 
         [HttpPut("{id}")]
@@ -86,7 +86,7 @@ namespace LinCms.Web.Controllers.v1
 
             _baseTypeRepository.Update(baseType);
 
-            return ResultDto.Success("更新基础类别成功");
+            return ResultDto.Success("更新类别成功");
         }
     }
 }
