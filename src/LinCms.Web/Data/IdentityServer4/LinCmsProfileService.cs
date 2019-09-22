@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -36,7 +38,7 @@ namespace LinCms.Web.Data.IdentityServer4
         {
             context.LogProfileRequest(_logger);
 
-            var claims = context.Subject.Claims.ToList();
+            List<Claim> claims = context.Subject.Claims.ToList();
             context.IssuedClaims = claims.ToList();
 
             context.LogIssuedClaims(_logger);

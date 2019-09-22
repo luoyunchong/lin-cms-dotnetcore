@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LinCms.Web.Models.v1.Articles;
@@ -45,10 +46,10 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet]
         public PagedResultDto<ArticleDto> Get([FromQuery]PageDto pageDto)
         {
-            var articles= _articleRepository
+            List<ArticleDto> articles= _articleRepository
                 .Select
                 .OrderByDescending(r => r.Id)
-                .ToPagerList(pageDto, out var totalCount)
+                .ToPagerList(pageDto, out long totalCount)
                 .ToList()
                 .Select(r => _mapper.Map<ArticleDto>(r)).ToList();   
 

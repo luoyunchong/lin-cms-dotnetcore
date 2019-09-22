@@ -274,8 +274,8 @@ namespace LinCms.Web
                     Type = "apiKey"
                 });
 
-                var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
-                var xmlPath = Path.Combine(basePath, "LinCms.Web.xml");
+                string basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+                string xmlPath = Path.Combine(basePath, "LinCms.Web.xml");
                 options.IncludeXmlComments(xmlPath);
 
                 options.OperationFilter<SwaggerFileHeaderParameter>();

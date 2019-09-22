@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
@@ -34,9 +35,9 @@ namespace LinCms.Zero.Aop
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var user = context.HttpContext.User;
+            ClaimsPrincipal claimsPrincipal = context.HttpContext.User;
 
-            if (!user.Identity.IsAuthenticated)
+            if (!claimsPrincipal.Identity.IsAuthenticated)
             {
                 HandlerAuthenticationFailed(context, "认证失败，请检查请求头或者重新登陆");
                 return;
@@ -54,8 +55,8 @@ namespace LinCms.Zero.Aop
                 }
             }
 
-            var authorizationService = (IAuthorizationService)context.HttpContext.RequestServices.GetService(typeof(IAuthorizationService));
-            var authorizationResult = await authorizationService.AuthorizeAsync(context.HttpContext.User, null, new OperationAuthorizationRequirement() { Name = Permission });
+            IAuthorizationService authorizationService = (IAuthorizationService)context.HttpContext.RequestServices.GetService(typeof(IAuthorizationService));
+            AuthorizationResult authorizationResult = await authorizationService.AuthorizeAsync(context.HttpContext.User, null, new OperationAuthorizationRequirement() { Name = Permission });
             if (!authorizationResult.Succeeded)
             {
                 //通过报业务异常，统一返回结果，平均执行速度在500ms以上，直接返回无权限，则除第一次访问慢外，基本在80ms左右。

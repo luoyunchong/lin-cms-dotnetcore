@@ -124,8 +124,8 @@ namespace LinCms.Test.Repositories
         [Fact]
         public void UpdateList()
         {
-            var b1 = GetBook();
-            var b2 = GetBook();
+            Book b1 = GetBook();
+            Book b2 = GetBook();
 
             b1.Id = 8;
             b2.Id = 9;
@@ -141,10 +141,10 @@ namespace LinCms.Test.Repositories
         [Fact]
         public async Task UpdateListAsync()
         {
-            var b1 = GetBook();
-            var b2 = GetBook();
-            var b3 = GetBook();
-            var b4 = GetBook();
+            Book b1 = GetBook();
+            Book b2 = GetBook();
+            Book b3 = GetBook();
+            Book b4 = GetBook();
 
             b1.Id = 8;
             b2.Id = 9;
@@ -215,10 +215,10 @@ namespace LinCms.Test.Repositories
         [Fact]
         public void f()
         {
-            var f = typeof(Book);
-            var f2 = typeof(ISoftDeleteAduitEntity);
-            var f3 = typeof(Book).IsSubclassOf(typeof(ISoftDeleteAduitEntity));
-            var f4 = typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(Book));
+            Type f = typeof(Book);
+            Type f2 = typeof(ISoftDeleteAduitEntity);
+            bool f3 = typeof(Book).IsSubclassOf(typeof(ISoftDeleteAduitEntity));
+            bool f4 = typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(Book));
 
         }
     }

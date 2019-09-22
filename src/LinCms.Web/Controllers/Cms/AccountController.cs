@@ -44,9 +44,9 @@ namespace LinCms.Web.Controllers.Cms
 
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
 
-            var client = new HttpClient();
+            HttpClient client = new HttpClient();
 
-            var response = await client.RequestTokenAsync(new TokenRequest
+            TokenResponse response = await client.RequestTokenAsync(new TokenRequest
             {
                 Address = authority + "/connect/token",
                 GrantType = GrantType.ResourceOwnerPassword,
@@ -86,14 +86,14 @@ namespace LinCms.Web.Controllers.Cms
             }
             else
             {
-                throw new Exception("The authorization header is either empty or isn't Basic.");
+                throw new LinCmsException("The authorization header is either empty or isn't Basic.");
             }
 
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
 
-            var client = new HttpClient();
+            HttpClient client = new HttpClient();
 
-            var response = await client.RequestTokenAsync(new TokenRequest
+            TokenResponse response = await client.RequestTokenAsync(new TokenRequest
             {
                 Address = authority + "/connect/token",
                 GrantType = OidcConstants.GrantTypes.RefreshToken,

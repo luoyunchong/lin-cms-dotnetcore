@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LinCms.Web.Data;
-using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Cms.Auths;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
@@ -31,7 +29,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpPost("remove")]
         public ResultDto RemoveAuths(AuthDto authDto)
         {
-            foreach (var auth in authDto.Auths)
+            foreach (string auth in authDto.Auths)
             {
                 _freeSql.Delete<LinAuth>().Where("group_id = ?GroupId and auth=?Auth", new LinAuth { Auth = auth, GroupId = authDto.GroupId }).ExecuteAffrows();
             }
@@ -50,7 +48,7 @@ namespace LinCms.Web.Controllers.Cms
             List<PermissionDto> permissionDtos = ReflexHelper.GeAssemblyLinCmsAttributes();
 
             List<LinAuth> linAuths = new List<LinAuth>();
-            foreach (var auth in authDto.Auths)
+            foreach (string auth in authDto.Auths)
             {
                 PermissionDto permission = permissionDtos.FirstOrDefault(r => r.Permission == auth);
                 if (permission == null)

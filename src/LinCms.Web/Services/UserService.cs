@@ -58,7 +58,7 @@ namespace LinCms.Web.Services
 
         public void ResetPassword(int id, ResetPasswordDto resetPasswordDto)
         {
-            var userExist = _userRepository.Where(r => r.Id == id).Any();
+            bool userExist = _userRepository.Where(r => r.Id == id).Any();
 
             if (userExist == false)
             {
@@ -116,7 +116,7 @@ namespace LinCms.Web.Services
                 throw new LinCmsException("分组不存在", ErrorCode.NotFound);
             }
 
-            var isRepeatNickName = _userRepository.Select.Any(r => r.Nickname == user.Nickname);
+            bool isRepeatNickName = _userRepository.Select.Any(r => r.Nickname == user.Nickname);
 
             if (isRepeatNickName)
             {

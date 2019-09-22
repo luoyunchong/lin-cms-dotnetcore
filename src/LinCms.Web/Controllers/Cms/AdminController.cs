@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using LinCms.Web.Data;
-using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Cms.Admins;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
