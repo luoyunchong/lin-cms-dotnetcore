@@ -32,10 +32,10 @@ namespace LinCms.Test
         public void GetAllActionByController()
         {
             Type t = typeof(LogController);
-            System.Reflection.MethodInfo[] controllerMethods = t.GetMethods();
+            MethodInfo[] controllerMethods = t.GetMethods();
             StringBuilder methodsNameAppend = new StringBuilder();
 
-            foreach (var t1 in controllerMethods)
+            foreach (MethodInfo t1 in controllerMethods)
             {
                 methodsNameAppend.Append(t1.Name + ";");
                 _testOutputHelper.WriteLine(t1.Name);
@@ -58,7 +58,7 @@ namespace LinCms.Test
             Type t = typeof(LogController);
             MethodInfo[] controllerMethods = t.GetMethods();
 
-            foreach (var t1 in controllerMethods)
+            foreach (MethodInfo t1 in controllerMethods)
             {
                 IEnumerable<Attribute> v = t1.GetCustomAttributes();
 
@@ -80,7 +80,7 @@ namespace LinCms.Test
         {
             IEnumerable<Attribute> attributes = typeof(LogController).GetTypeInfo().GetCustomAttributes();
 
-            foreach (var attribute in attributes)
+            foreach (Attribute attribute in attributes)
             {
                 _testOutputHelper.WriteLine(attribute.ToString());
             }
@@ -97,12 +97,12 @@ namespace LinCms.Test
         [Fact]
         public void GetAssemblyMethodsAttributes()
         {
-            var assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(r =>
             {
-                foreach (var methodInfo in r.GetMethods())
+                foreach (MethodInfo methodInfo in r.GetMethods())
                 {
                     foreach (Attribute attribute in methodInfo.GetCustomAttributes())
                     {
@@ -123,12 +123,12 @@ namespace LinCms.Test
         [Fact]
         public void GetControllerAttributes()
         {
-            var assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>
             {
-                var linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
+                LinCmsAuthorizeAttribute linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
                 if (linCmsAuthorize != null)
                 {
                     _testOutputHelper.WriteLine(linCmsAuthorize.ToString());
@@ -144,7 +144,7 @@ namespace LinCms.Test
         public void ReflexHelperTest()
         {
             List<PermissionDto> attributes = ReflexHelper.GeAssemblyLinCmsAttributes();
-            foreach (var attribute in attributes)
+            foreach (PermissionDto attribute in attributes)
             {
                 _testOutputHelper.WriteLine(attribute.ToString());
             }
@@ -161,7 +161,7 @@ namespace LinCms.Test
 
             dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
 
-            var jsonSerializeObject =JsonConvert.SerializeObject(obj);
+            string jsonSerializeObject =JsonConvert.SerializeObject(obj);
 
         }
     }

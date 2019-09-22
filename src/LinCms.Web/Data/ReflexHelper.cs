@@ -22,12 +22,12 @@ namespace LinCms.Web.Data
         public static List<T> GetAssembly<T>() where T : Attribute
         {
             List<T> listT = new List<T>();
-            var assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>
             {
-                var linCmsAuthorize = d.GetCustomAttribute<T>();
+                T linCmsAuthorize = d.GetCustomAttribute<T>();
                 listT.Add(linCmsAuthorize);
             });
             return listT;
@@ -48,13 +48,13 @@ namespace LinCms.Web.Data
         {
             List<PermissionDto> linAuths = new List<PermissionDto>();
 
-            var assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
             //通过反射得到控制器上的权限特性标签
             assembly.ForEach(d =>
             {
-                var linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
-                var routerAttribute = d.GetCustomAttribute<RouteAttribute>();
+                LinCmsAuthorizeAttribute linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
+                RouteAttribute routerAttribute = d.GetCustomAttribute<RouteAttribute>();
                 if (linCmsAuthorize?.Permission != null && routerAttribute?.Template != null)
                 {
                     linAuths.Add(new PermissionDto(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template.Replace("/", ".")));
@@ -64,10 +64,10 @@ namespace LinCms.Web.Data
             //得到方法上的权限特性标签，并排除无权限及模块的非固定权限
             assembly.ForEach(r =>
             {
-                var routerAttribute = r.GetCustomAttribute<RouteAttribute>();
+                RouteAttribute routerAttribute = r.GetCustomAttribute<RouteAttribute>();
                 if (routerAttribute?.Template != null)
                 {
-                    foreach (var methodInfo in r.GetMethods())
+                    foreach (MethodInfo methodInfo in r.GetMethods())
                     {
                         foreach (Attribute attribute in methodInfo.GetCustomAttributes())
                         {

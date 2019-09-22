@@ -55,22 +55,23 @@ namespace LinCms.Web.Data
                 return;
             }
 
-            var linLog = new LinLog()
+            LinLog linLog = new LinLog()
             {
                 Method = context.HttpContext.Request.Method,
                 Path = context.HttpContext.Request.Path,
                 StatusCode = context.HttpContext.Response.StatusCode,
                 OtherMessage = $"参数：{ActionArguments}\n耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒"
             };
-            var auditActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
-            var auditingLogAttribute = auditActionDescriptor.GetCustomAttribute<AuditingLogAttribute>();
+            ControllerActionDescriptor auditActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+
+            AuditingLogAttribute auditingLogAttribute = auditActionDescriptor.GetCustomAttribute<AuditingLogAttribute>();
             if (auditingLogAttribute != null)
             {
                 linLog.Message = auditingLogAttribute.Template;
             }
 
-            var linCmsAttribute = auditActionDescriptor.GetCustomAttribute<LinCmsAuthorizeAttribute>();
+            LinCmsAuthorizeAttribute linCmsAttribute = auditActionDescriptor.GetCustomAttribute<LinCmsAuthorizeAttribute>();
             if (linCmsAttribute != null)
             {
                 linLog.Authority = linCmsAttribute.Permission;

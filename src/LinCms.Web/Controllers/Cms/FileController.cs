@@ -37,7 +37,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpPost]
         public List<FileDto> UploadFiles()
         {
-            var files = Request.Form.Files;
+            IFormFileCollection files = Request.Form.Files;
             List<FileDto> fileDtos = new List<FileDto>();
             files.ForEach((file,index) => { fileDtos.AddRange(this.Upload(file, index)); });
             return fileDtos;

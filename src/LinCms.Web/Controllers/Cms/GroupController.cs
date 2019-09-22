@@ -2,14 +2,12 @@
 using System.Linq;
 using AutoMapper;
 using LinCms.Web.Data;
-using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Cms.Groups;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +39,7 @@ namespace LinCms.Web.Controllers.Cms
 
             GroupDto groupDto = _mapper.Map<GroupDto>(group);
 
-            var listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == id).ToList();
+            List<LinAuth> listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == id).ToList();
 
             groupDto.Auths = ReflexHelper.AuthsConvertToTree(listAuths);
             return groupDto;

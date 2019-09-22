@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using LinCms.Zero.Data.Enums;
 using Xunit;
 
@@ -13,16 +12,16 @@ namespace LinCms.Test
         [Fact]
         public void ExpandObjToDictionary()
         {
-            var perExpandObject = new ExpandoObject() as IDictionary<string, object>;
+            IDictionary<string, object> perExpandObject = new ExpandoObject();
 
             perExpandObject.TryAdd("Name", "1");
         }
 
         [Fact]
-        public void enumToDict()
+        public void EnumToDict()
         {
 
-            var _errCodes = Enum.GetValues(typeof(ErrorCode))
+            Dictionary<int,string> errCodes = Enum.GetValues(typeof(ErrorCode))
                    .Cast<ErrorCode>()
                    .ToDictionary(t => (int)t, t => t.ToString());
         }

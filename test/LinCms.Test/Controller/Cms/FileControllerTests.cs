@@ -42,7 +42,7 @@ namespace LinCms.Test.Controller.Cms
         {
             DateTime now =new DateTime(2019,2,3);
 
-            var d= now.ToString("yyy/MM/dd");
+            string d= now.ToString("yyy/MM/dd");
 
             Assert.Equal("2019/02/03", d);
         }

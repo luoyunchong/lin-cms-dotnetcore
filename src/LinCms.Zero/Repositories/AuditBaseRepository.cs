@@ -49,7 +49,7 @@ namespace LinCms.Zero.Repositories
 
         public override List<T> Insert(IEnumerable<T> entitys)
         {
-            foreach (var entity in entitys)
+            foreach (T entity in entitys)
             {
                 BeforeInsert(entity);
             }
@@ -59,7 +59,7 @@ namespace LinCms.Zero.Repositories
 
         public override Task<List<T>> InsertAsync(IEnumerable<T> entitys)
         {
-            foreach (var entity in entitys)
+            foreach (T entity in entitys)
             {
                 BeforeInsert(entity);
             }
@@ -122,7 +122,7 @@ namespace LinCms.Zero.Repositories
             if (entitys.Any())
             {
                 Attach(entitys);
-                foreach (var x1 in entitys)
+                foreach (T x1 in entitys)
                 {
                     if (x1 is ISoftDeleteAduitEntity softDelete)
                     {
@@ -144,7 +144,7 @@ namespace LinCms.Zero.Repositories
             if (entitys.Any())
             {
                 Attach(entitys);
-                foreach (var x1 in entitys)
+                foreach (T x1 in entitys)
                 {
                     if (x1 is ISoftDeleteAduitEntity softDelete)
                     {
@@ -175,7 +175,7 @@ namespace LinCms.Zero.Repositories
         {
             if (typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(T)))
             {
-                var items = Orm.Select<T>().Where(predicate).ToList();
+                List<T> items = Orm.Select<T>().Where(predicate).ToList();
                 return Orm.Update<T>(items)
                     .Set(a => (a as ISoftDeleteAduitEntity).IsDeleted, true)
                     .Set(a => (a as ISoftDeleteAduitEntity).DeleteUserId, _currentUser.Id)
@@ -190,7 +190,7 @@ namespace LinCms.Zero.Repositories
         {
             if (typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(T)))
             {
-                var items = Orm.Select<T>().Where(predicate).ToList();
+                List<T> items = Orm.Select<T>().Where(predicate).ToList();
                 return await Orm.Update<T>(items)
                      .Set(a => (a as ISoftDeleteAduitEntity).IsDeleted, true)
                      .Set(a => (a as ISoftDeleteAduitEntity).DeleteUserId, _currentUser.Id)

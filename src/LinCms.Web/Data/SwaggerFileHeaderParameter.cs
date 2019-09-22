@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -27,7 +28,7 @@ namespace LinCms.Web.Data
                 return;
             }
 
-            foreach (var fileParameter in fileParameters)
+            foreach (ParameterDescriptor fileParameter in fileParameters)
             {
                 if (fileParameter.BindingInfo == null)
                 {
