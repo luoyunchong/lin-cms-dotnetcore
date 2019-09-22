@@ -35,7 +35,7 @@ namespace LinCms.Web.Data.IdentityServer4
         /// <returns></returns>
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var user = _fsql.Select<LinUser>().Where(r => r.Nickname == context.UserName).ToOne();
+            LinUser user = _fsql.Select<LinUser>().Where(r => r.Nickname == context.UserName).ToOne();
 
             //验证失败
             if (user == null)

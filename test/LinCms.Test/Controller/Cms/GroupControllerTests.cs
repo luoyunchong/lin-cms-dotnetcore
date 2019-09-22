@@ -43,8 +43,8 @@ namespace LinCms.Test.Controller.Cms
                 Name = "11"
             };
 
-            var d = _mapper.Map<LinGroup>(inputDto);
-            var d2 = _mapper.Map<LinGroup>(update);
+            LinGroup d = _mapper.Map<LinGroup>(inputDto);
+            LinGroup d2 = _mapper.Map<LinGroup>(update);
 
         }
     }

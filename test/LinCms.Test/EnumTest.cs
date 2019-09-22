@@ -12,7 +12,7 @@ namespace LinCms.Test
         [Fact]
         public void ErrorCodeTest()
         {
-           var _errCodes = Enum.GetValues(typeof(ErrorCode))
+           Dictionary<int, string> errCodes = Enum.GetValues(typeof(ErrorCode))
                 .Cast<ErrorCode>()
                 .ToDictionary(t => (int)t, t => t.ToString());
            

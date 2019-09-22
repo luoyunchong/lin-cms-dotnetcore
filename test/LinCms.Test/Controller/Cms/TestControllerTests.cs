@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,7 +19,7 @@ namespace LinCms.Test.Controller.Cms
             await base.HttpClientResourePassword();
 
             // Act
-            var response = await Client.GetAsync($"/cms/test/info");
+            HttpResponseMessage response = await Client.GetAsync($"/cms/test/info");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -27,7 +28,7 @@ namespace LinCms.Test.Controller.Cms
         public async Task Test_Get()
         {
             // Act
-            var response = await Client.GetAsync($"/cms/test/get");
+            HttpResponseMessage response = await Client.GetAsync($"/cms/test/get");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);

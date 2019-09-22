@@ -38,7 +38,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet]
         public List<BaseTypeDto> Get()
         {
-            var baseTypes = _baseTypeRepository.Select.OrderByDescending(r => r.SortCode)
+            List<BaseTypeDto> baseTypes = _baseTypeRepository.Select.OrderByDescending(r => r.SortCode)
                 .OrderBy(r => r.Id)
                 .ToList()
                 .Select(r => _mapper.Map<BaseTypeDto>(r)).ToList();

@@ -67,7 +67,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             throw new LinCmsException("我报异常了-NotFound！", ErrorCode.NotFound,StatusCodes.Status404NotFound);
 
-            return ResultDto.Success();
+            //return ResultDto.Success();
         }
     }
 }

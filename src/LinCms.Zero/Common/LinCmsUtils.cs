@@ -19,7 +19,7 @@ namespace LinCms.Zero.Common
             using MD5 md5Hash = MD5.Create();
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(source));
             StringBuilder sBuilder = new StringBuilder();
-            foreach (var t in data)
+            foreach (byte t in data)
             {
                 sBuilder.Append(t.ToString("x2"));
             }

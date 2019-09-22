@@ -42,7 +42,7 @@ namespace LinCms.Web.Controllers.v1
         {
             int baseTypeId = _baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
 
-            var baseItems = _baseItemRepository.Select
+            List<BaseItemDto> baseItems = _baseItemRepository.Select
                 .OrderBy(r => r.SortCode)
                 .OrderBy(r => r.Id)
                 .Where(r => r.BaseTypeId == baseTypeId)
