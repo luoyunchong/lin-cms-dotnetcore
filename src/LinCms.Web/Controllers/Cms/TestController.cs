@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LinCms.Web.Data.Authorization;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
@@ -68,6 +69,12 @@ namespace LinCms.Web.Controllers.Cms
             throw new LinCmsException("我报异常了-NotFound！", ErrorCode.NotFound,StatusCodes.Status404NotFound);
 
             //return ResultDto.Success();
+        }
+
+        [HttpGet("test-time")]
+        public void TestTime(DateTime dateTime)
+        {
+            Console.WriteLine(dateTime);
         }
     }
 }

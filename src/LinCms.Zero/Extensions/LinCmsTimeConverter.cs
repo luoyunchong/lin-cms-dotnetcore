@@ -45,7 +45,8 @@ namespace LinCms.Zero.Extensions
         /// <returns></returns>
         public static double ConvertDateTimeInt(DateTime dateTime)
         {
-            return (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
+            //return (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
     }
 }

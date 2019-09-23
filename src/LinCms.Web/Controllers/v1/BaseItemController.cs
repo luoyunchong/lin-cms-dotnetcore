@@ -40,12 +40,12 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet]
         public List<BaseItemDto> Get([FromQuery]string typeCode)
         {
-            int baseTypeId = _baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
+            int baseTypeId =_baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
 
             List<BaseItemDto> baseItems = _baseItemRepository.Select
                 .OrderBy(r => r.SortCode)
                 .OrderBy(r => r.Id)
-                .Where(r => r.BaseTypeId == baseTypeId)
+                .Where( r => r.BaseTypeId == baseTypeId)
                 .ToList()
                 .Select(r => _mapper.Map<BaseItemDto>(r)).ToList();
 
