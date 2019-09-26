@@ -174,3 +174,7 @@ QQ 群号：643205479
   - [ ] 基础资料  BaseItem
   - [ ] 类别管理  BaseType
 
+
+##  开源地址
+* Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore]
+* GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
