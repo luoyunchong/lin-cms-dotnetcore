@@ -148,15 +148,18 @@ src/LinCms.Web目录中appsettings.json
 
 ### QQ 交流群
 
-QQ 群号：643205479
+- 林间有风（lin-cms-vue） QQ 群号：643205479
+- .NET Core搬砖队(lin-cms-dotnetcore) QQ群号：762828442
 
-<img class="QR-img" width="258" height="300" src="http://imglf3.nosdn0.126.net/img/Qk5LWkJVWkF3Nmdyc2xGcUtScEJLOVV1clErY1dJa0FsQ3E1aDZQWlZHZ2dCbSt4WXA1V3dRPT0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0&type=jpg">
+<img class="QR-img" width="258" height="300" src="https://ae01.alicdn.com/kf/Hed659970c86c4004b42480fe7d7f97acW.jpg">
+
+<img class="QR-img" style="margin-left:10px" width="258" height="300" src="https://ae01.alicdn.com/kf/H6c1668c7987a436caae6b19ee6b86af5J.jpg">
 
 ### 微信公众号
 
 微信搜索：林间有风
 
-<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg">
+<img class="QR-img" src="https://ae01.alicdn.com/kf/H4e69faac4a834b8a82f54ea05d2dd53av.jpg">
 
 
 ## 下个版本开发计划
@@ -167,14 +170,14 @@ QQ 群号：643205479
 - [ ] 完善文档
 - [ ] 重构核心库结构
 - [ ] 基于lin-cms-vue的基础,将之前Mock.luo项目中的博客迁移过来
-  - [ ] 博客随笔发布/编辑/删除
+  - [x] 博客随笔发布/编辑/删除
   - [ ] 留言板
   - [ ] 评论回复、审核、点赞等
   - [ ] 前端展示博客效果
-  - [ ] 基础资料  BaseItem
-  - [ ] 类别管理  BaseType
+  - [x] 基础资料  BaseItem
+  - [x] 类别管理  BaseType
 
 
 ##  开源地址
-* Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore]
+* Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
 * GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
