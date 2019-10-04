@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Zero.Domain.Blog;
 
 namespace LinCms.Web.Models.v1.Articles
 {
@@ -28,9 +29,10 @@ namespace LinCms.Web.Models.v1.Articles
         [StringLength(50)]
         public string Archive { get; set; }
 
-        [StringLength(50)]
-        public string ArticleType { get; set; }
+        public ArticleType ArticleType { get; set; }
         public int Editor { get; set; } = 1;
+
+        public List<int> TagIds { get; set; }
     }
 
 }
