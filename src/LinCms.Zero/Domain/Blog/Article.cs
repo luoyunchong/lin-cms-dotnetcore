@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System.Collections.Generic;
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Zero.Domain.Blog
 {
@@ -6,7 +7,7 @@ namespace LinCms.Zero.Domain.Blog
     public class Article : FullAduitEntity
     {
         /// <summary>
-        /// 文章所在分类Id
+        /// 文章所在分类专栏Id
         /// </summary>
         public int? ClassifyId { get; set; }
         /// <summary>
@@ -66,7 +67,7 @@ namespace LinCms.Zero.Domain.Blog
         [Column(DbType = "varchar(50)")]
         public string Archive { get; set; }
         /// <summary>
-        /// 文章类型
+        /// 随笔类型
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public ArticleType ArticleType { get; set; } = ArticleType.Original;
@@ -84,10 +85,12 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public string Author { get; set; }
+
+        public List<TagArticle> TagArticles { get; set; }
     }
 
     /// <summary>
-    /// 文章类型
+    /// 随笔类型
     /// </summary>
     public enum ArticleType
     {

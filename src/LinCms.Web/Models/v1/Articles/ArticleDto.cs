@@ -2,6 +2,8 @@
 using LinCms.Zero.Domain;
 using LinCms.Zero.Domain.Blog;
 using System;
+using System.Collections.Generic;
+
 namespace LinCms.Web.Models.v1.Articles
 {
     public class ArticleDto : Entity, ICreateAduitEntity
@@ -35,5 +37,7 @@ namespace LinCms.Web.Models.v1.Articles
         public long? CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
         public string Author { get; set; }
+
+        public List<int> TagIds { get; set; }
     }
 }
