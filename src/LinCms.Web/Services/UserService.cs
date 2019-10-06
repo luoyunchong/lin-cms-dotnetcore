@@ -32,7 +32,7 @@ namespace LinCms.Web.Services
 
         public LinUser Authorization(string username, string password)
         {
-            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == LinCmsUtils.Get32Md5(password)).First();
+            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == LinCmsUtils.Get32Md5(password)).ToOne();
 
             return user;
         }
@@ -210,6 +210,16 @@ namespace LinCms.Web.Services
             bool existPermission = _freeSql.Select<LinAuth>().Any(r => r.GroupId == groupId && r.Auth == permission);
 
             return existPermission;
+        }
+
+        public LinUser GetCurrentUser()
+        {
+            if (_currentUser.Id != null)
+            {
+                int userId = (int) _currentUser.Id;
+                return _userRepository.Select.Where(r => r.Id == userId).ToOne();
+            }
+            return null;
         }
     }
 }
