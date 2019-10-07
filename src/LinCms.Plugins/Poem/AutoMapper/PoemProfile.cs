@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoMapper;
 using LinCms.Plugins.Poem.Models;
 using LinCms.Zero.Domain;

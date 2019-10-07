@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Http;
-using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 
 namespace LinCms.Zero.Common

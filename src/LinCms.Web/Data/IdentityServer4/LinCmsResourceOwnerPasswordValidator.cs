@@ -5,12 +5,9 @@ using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Zero.Common;
-using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
-using LinCms.Zero.Exceptions;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web.Data.IdentityServer4
 {

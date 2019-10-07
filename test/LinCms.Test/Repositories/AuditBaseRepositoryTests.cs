@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Test.Controller;
-using LinCms.Web;
 using LinCms.Web.Models.v1.Books;
-using LinCms.Web.Repositories;
-using LinCms.Zero;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -105,7 +101,7 @@ namespace LinCms.Test.Repositories
             book.Title = "112122123";
             int len = _bookRepository.Update(book);
 
-            Assert.Equal(len, 1);
+            Assert.Equal(1, len);
         }
 
 
@@ -118,7 +114,7 @@ namespace LinCms.Test.Repositories
             book.Title = "123";
             int len = await _bookRepository.UpdateAsync(book);
 
-            Assert.Equal(len, 1);
+            Assert.Equal(1, len);
         }
 
         [Fact]
@@ -136,7 +132,7 @@ namespace LinCms.Test.Repositories
             };
             int len = _bookRepository.Update(books);
 
-            Assert.Equal(len, 2);
+            Assert.Equal(2, len);
         }
         [Fact]
         public async Task UpdateListAsync()
@@ -161,7 +157,7 @@ namespace LinCms.Test.Repositories
             _bookRepository.Attach(books);
             int len = await _bookRepository.UpdateAsync(books);
 
-            Assert.Equal(len, 4);
+            Assert.Equal(4, len);
         }
 
         [Fact]

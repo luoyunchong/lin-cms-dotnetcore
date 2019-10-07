@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using FreeSql.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Web.Models.v1.Books
 {

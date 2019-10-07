@@ -1,5 +1,4 @@
 ﻿using FreeSql.DataAnnotations;
-using Newtonsoft.Json;
 
 namespace LinCms.Zero.Domain
 {

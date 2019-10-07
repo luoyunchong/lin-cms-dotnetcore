@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LinCms.Zero.Common;
+﻿using LinCms.Zero.Common;
 using Xunit;
 using Xunit.Abstractions;
 

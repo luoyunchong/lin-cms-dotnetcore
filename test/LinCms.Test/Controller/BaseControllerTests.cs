@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AutoMapper;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Web;
@@ -9,7 +8,6 @@ using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using Xunit;

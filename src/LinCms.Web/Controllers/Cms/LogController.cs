@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.Cms.Logs;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Aop;
