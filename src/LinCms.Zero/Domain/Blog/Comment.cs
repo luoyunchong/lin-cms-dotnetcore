@@ -1,7 +1,4 @@
 ﻿using FreeSql.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LinCms.Zero.Domain.Blog
 {
@@ -64,7 +61,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 是否已审核
         /// </summary>
-        public bool? IsAduit { get; set; } = true;
+        public bool? IsAudited { get; set; } = true;
         /// <summary>
         /// 评论人的头像，如果未登录状态下，则随机生成一个头像地址。已登录状态下，取用户表的头像地址
         /// </summary>

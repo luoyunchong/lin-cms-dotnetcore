@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LinCms.Plugins.Poem.Models
+﻿namespace LinCms.Plugins.Poem.Models
 {
     public class CreateUpdatePoemDto
     {

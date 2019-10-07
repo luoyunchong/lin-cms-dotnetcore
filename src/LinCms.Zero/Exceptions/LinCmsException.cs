@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using LinCms.Zero.Data.Enums;
-using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Zero.Exceptions
 {

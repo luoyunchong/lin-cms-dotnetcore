@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
-using IdentityModel;
-using IdentityServer4.AccessTokenValidation;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
@@ -33,7 +30,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 

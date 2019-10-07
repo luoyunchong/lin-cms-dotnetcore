@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LinCms.Zero.Security
+﻿namespace LinCms.Zero.Security
 {
     public static class LinCmsClaimTypes
     {

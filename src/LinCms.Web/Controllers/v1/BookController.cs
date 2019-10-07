@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using LinCms.Web.Data.Authorization;
 using LinCms.Web.Models.v1.Books;
-using LinCms.Web.Repositories;
-using LinCms.Zero;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;

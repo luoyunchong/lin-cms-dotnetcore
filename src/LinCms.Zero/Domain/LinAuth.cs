@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
 namespace LinCms.Zero.Domain
