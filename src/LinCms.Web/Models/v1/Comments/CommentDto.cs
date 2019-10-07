@@ -14,7 +14,7 @@ namespace LinCms.Web.Models.v1.Comments
         public string AuName { get; set; }
         public string AuEmail { get; set; }
         public string UserHost { get; set; }
-        public bool? IsAduit { get; set; }
+        public bool? IsAudited { get; set; }
         public string Avatar { get; set; }
         public int? ArticleId { get; set; }
     }

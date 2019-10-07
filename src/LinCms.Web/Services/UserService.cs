@@ -10,18 +10,19 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 
 namespace LinCms.Web.Services
 {
     public class UserService : IUserSevice
     {
-        private readonly BaseRepository<LinUser> _userRepository;
+        private readonly AuditBaseRepository<LinUser> _userRepository;
         private readonly BaseRepository<LinGroup> _groupRepository;
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public UserService(BaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper, ICurrentUser currentUser, BaseRepository<LinGroup> groupRepository)
+        public UserService(AuditBaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper, ICurrentUser currentUser, BaseRepository<LinGroup> groupRepository)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;

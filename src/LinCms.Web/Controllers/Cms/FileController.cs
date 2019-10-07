@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using LinCms.Web.Models.Cms.Files;
 using LinCms.Zero.Common;
 using LinCms.Zero.Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

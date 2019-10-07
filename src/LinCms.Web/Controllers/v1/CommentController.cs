@@ -108,11 +108,11 @@ namespace LinCms.Web.Controllers.v1
         /// 审核评论-拉黑/取消拉黑
         /// </summary>
         /// <param name="id">审论Id</param>
-        /// <param name="isAduit"></param>
+        /// <param name="isAudit"></param>
         /// <returns></returns>
         [LinCmsAuthorize("审核评论","评论")]
         [HttpPut("{id}")]
-        public ResultDto Put(int id,bool? isAduit)
+        public ResultDto Put(int id,bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
             if (comment == null)
@@ -120,7 +120,7 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("没有找到相关评论");
             }
 
-            comment.IsAduit = isAduit;
+            comment.IsAudited = isAudit;
             _commentAuditBaseRepository.Update(comment);
             return ResultDto.Success();
         }
