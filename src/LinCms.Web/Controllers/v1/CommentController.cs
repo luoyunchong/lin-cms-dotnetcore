@@ -45,17 +45,18 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 评论分页列表页
+        /// 评论分页列表页,当随笔Id有值时，根据随笔查询所在文章
         /// </summary>
-        /// <param name="pageDto"></param>
+        /// <param name="commentSearchDto"></param>
         /// <returns></returns>
         [HttpGet]
-        public PagedResultDto<CommentDto> Get([FromQuery]PageDto pageDto)
+        public PagedResultDto<CommentDto> Get([FromQuery]CommentSearchDto commentSearchDto)
         {
             List<CommentDto> comments = _commentAuditBaseRepository
                 .Select
+                .WhereIf(commentSearchDto.ArticleId.HasValue,r=>r.ArticleId==commentSearchDto.ArticleId)
                 .OrderByDescending(r => r.Id)
-                .ToPagerList(pageDto, out long totalCount)
+                .ToPagerList(commentSearchDto, out long totalCount)
                 .ToList()
                 .Select(r => _mapper.Map<CommentDto>(r)).ToList();
 

@@ -8,11 +8,17 @@ namespace LinCms.Web.Models.v1.Articles
 {
     public class ArticleDto : Entity, ICreateAduitEntity
     {
-        //类别Id
+        /// <summary>
+        /// 类别Id
+        /// </summary>
         public int? ClassifyId { get; set; }
-        //类别名称 
+        /// <summary>
+        /// 类别名称
+        /// </summary>        
         public string ClassifyName { get; set; }
-        //几小时/秒前
+        /// <summary>
+        /// 几小时/秒前
+        /// </summary>
         public string TimeSpan => LinCmsUtils.GetTimeDifferNow(this.CreateTime.ToDateTime());
 
         private readonly DateTime _now = DateTime.Now;
