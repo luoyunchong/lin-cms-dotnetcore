@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using LinCms.Zero.Domain.Base;
 
 namespace LinCms.Zero.Domain.Blog
 {
@@ -10,6 +11,8 @@ namespace LinCms.Zero.Domain.Blog
         /// 文章所在分类专栏Id
         /// </summary>
         public int? ClassifyId { get; set; }
+
+        public Classify Classify { get; set; }
         /// <summary>
         /// 标题
         /// </summary>
@@ -86,7 +89,7 @@ namespace LinCms.Zero.Domain.Blog
         [Column(DbType = "varchar(50)")]
         public string Author { get; set; }
 
-        public List<TagArticle> TagArticles { get; set; }
+        public List<Tag> Tags { get; set; }
     }
 
     /// <summary>
