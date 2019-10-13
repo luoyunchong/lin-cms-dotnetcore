@@ -3,6 +3,7 @@ using LinCms.Zero.Domain;
 using LinCms.Zero.Domain.Blog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinCms.Web.Models.v1.Articles
 {
@@ -44,6 +45,11 @@ namespace LinCms.Web.Models.v1.Articles
         public DateTime CreateTime { get; set; }
         public string Author { get; set; }
 
-        public List<int> TagIds { get; set; }
+        public List<int> TagIds
+        {
+            get { return this.Tags.Select(r => r.Id).ToList(); }
+        }
+
+        public List<Tag> Tags { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace LinCms.Web.Services.Interfaces
 {
-    public class IArticleService
+    public interface IArticleService
     {
-
+         void Delete(int id);
     }
 }

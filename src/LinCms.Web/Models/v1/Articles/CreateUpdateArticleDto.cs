@@ -17,7 +17,6 @@ namespace LinCms.Web.Models.v1.Articles
         [StringLength(400)]
         public string Excerpt { get; set; }
         public string Content { get; set; }
-        public string Author { get; set; }
         [StringLength(400)]
         public string Thumbnail { get; set; }
         public bool IsAudit { get; set; }
