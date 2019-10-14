@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 src/LinCms.Web/wwwroot/assets/
+src/LinCms.Web/appsettings.Private.json
