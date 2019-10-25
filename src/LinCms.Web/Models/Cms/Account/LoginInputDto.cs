@@ -8,7 +8,7 @@ namespace LinCms.Web.Models.Cms.Account
         /// 登录名:admin
         /// </summary>
         [Required(ErrorMessage = "登录名为必填项")]
-        public string Nickname { get; set; }
+        public string Username { get; set; }
         /// <summary>
         /// 密码：123qwe
         /// </summary>

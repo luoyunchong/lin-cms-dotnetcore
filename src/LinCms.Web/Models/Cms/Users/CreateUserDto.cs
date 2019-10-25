@@ -7,6 +7,13 @@ namespace LinCms.Web.Models.Cms.Users
     public class CreateUserDto : IValidatableObject
     {
         /// <summary>
+        /// 用户名
+        /// </summary>
+        [StringLength(10, MinimumLength = 2, ErrorMessage = "用户名长度必须在2~10之间")]
+        [Required(ErrorMessage = "用户名不能为空")]
+        public string Username { get; set; }
+
+        /// <summary>
         /// 昵称
         /// </summary>
         [StringLength(10, MinimumLength=2, ErrorMessage = "昵称长度必须在2~10之间")]

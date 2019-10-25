@@ -59,7 +59,8 @@ namespace LinCms.Web.Data.IdentityServer4
                 {
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                     new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.Name,user.Nickname),
+                    new Claim(ClaimTypes.SerialNumber,user.Nickname),
+                    new Claim(ClaimTypes.Name,user.Username),
                     new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
                     new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
                     new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Administrator:user.GroupId.ToString())

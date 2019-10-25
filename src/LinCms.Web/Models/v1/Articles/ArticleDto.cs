@@ -4,6 +4,7 @@ using LinCms.Zero.Domain.Blog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LinCms.Web.Models.v1.Tags;
 
 namespace LinCms.Web.Models.v1.Articles
 {
@@ -50,6 +51,6 @@ namespace LinCms.Web.Models.v1.Articles
             get { return this.Tags.Select(r => r.Id).ToList(); }
         }
 
-        public List<Tag> Tags { get; set; }
+        public List<TagDto> Tags { get; set; }
     }
 }
