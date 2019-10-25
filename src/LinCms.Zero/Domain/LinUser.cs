@@ -11,12 +11,16 @@ namespace LinCms.Zero.Domain
     {
         public LinUser() { }
 
-        public LinUser(string nickname, string password)
+        public LinUser(string username, string password)
         {
-            this.Nickname = nickname;
+            this.Username = username;
             this.Password = password;
         }
-
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        [Column(DbType = "varchar(24)")]
+        public string Username { get; set; }
         /// <summary>
         /// 昵称
         /// </summary>
@@ -47,7 +51,7 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 用户所属的权限组id
         /// </summary>
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         /// <summary>
         /// 是否是管理员
         /// </summary>

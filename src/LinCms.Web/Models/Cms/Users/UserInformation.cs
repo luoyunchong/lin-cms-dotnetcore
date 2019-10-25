@@ -29,7 +29,9 @@ namespace LinCms.Web.Models.Cms.Users
         /// <summary>
         /// 用户所属的权限组id
         /// </summary>
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
+        public string GroupName { get; set; }
+        public string Username { get; set; }
         public DateTime UpdateTime { get; set; }
         public DateTime CreateTime { get; set; }
 
