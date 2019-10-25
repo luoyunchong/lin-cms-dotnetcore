@@ -33,7 +33,7 @@ namespace LinCms.Web.Services
 
         public LinUser Authorization(string username, string password)
         {
-            LinUser user = _userRepository.Select.Where(r => r.Nickname == username && r.Password == LinCmsUtils.Get32Md5(password)).ToOne();
+            LinUser user = _userRepository.Select.Where(r => r.Username == username && r.Password == LinCmsUtils.Get32Md5(password)).ToOne();
 
             return user;
         }
@@ -117,9 +117,9 @@ namespace LinCms.Web.Services
                 throw new LinCmsException("分组不存在", ErrorCode.NotFound);
             }
 
-            bool isRepeatNickName = _userRepository.Select.Any(r => r.Nickname == user.Nickname);
+            bool isRepeatName = _userRepository.Select.Any(r => r.Username == user.Username);
 
-            if (isRepeatNickName)
+            if (isRepeatName)
             {
                 throw new LinCmsException("用户名重复，请重新输入", ErrorCode.RepeatField);
             }

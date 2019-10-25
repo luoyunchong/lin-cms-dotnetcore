@@ -55,7 +55,7 @@ namespace LinCms.Web.Controllers.Cms
 
                 Parameters =
                 {
-                    { "UserName",loginInputDto.Nickname},
+                    { "UserName",loginInputDto.Username},
                     { "Password",loginInputDto.Password}
                 }
             });

@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.v1.Articles;
+using LinCms.Web.Models.v1.Tags;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
@@ -71,7 +72,7 @@ namespace LinCms.Web.Controllers.v1
                 .Select
                 .IncludeMany(r => r.Tags)
                 .Where(r => r.CreateUserId == _currentUser.Id)
-                .WhereIf(searchDto.Title.IsNotNullOrEmpty(),r=>r.Title.Contains(searchDto.Title))
+                .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .OrderByDescending(r => r.IsStickie)
                 .OrderByDescending(r => r.Id);
 
@@ -97,10 +98,11 @@ namespace LinCms.Web.Controllers.v1
         {
             var select = _articleRepository
                 .Select
+                .Include(r => r.Classify)
                 .IncludeMany(r => r.Tags)
-                .WhereIf(searchDto.ClassifyId.HasValue,r=>r.ClassifyId==searchDto.ClassifyId)
+                .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
-                .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.Exists(u=>u.Id==searchDto.TagId))
+                .WhereIf(searchDto.TagId.HasValue, r => r.Tags.Exists(u => u.Id == searchDto.TagId))
                 .OrderByDescending(r => r.Id);
 
             var articles = select
@@ -108,6 +110,12 @@ namespace LinCms.Web.Controllers.v1
                 .Select(a =>
                 {
                     ArticleDto articleDto = _mapper.Map<ArticleDto>(a);
+                    articleDto.Tags = a.Tags.Select(r => new TagDto()
+                    {
+                        TagName = r.TagName,
+                        Id = r.Id,
+                    }).ToList();
+                    articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
                     return articleDto;
                 })
                 .ToList();
@@ -163,7 +171,7 @@ namespace LinCms.Web.Controllers.v1
         public ResultDto Put(int id, [FromBody] CreateUpdateArticleDto updateArticle)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
-            if (article.CreateUserId == _currentUser.Id)
+            if (article.CreateUserId != _currentUser.Id)
             {
                 throw new LinCmsException("您无权修改他人的随笔");
             }

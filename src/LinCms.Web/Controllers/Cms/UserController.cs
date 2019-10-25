@@ -63,7 +63,7 @@ namespace LinCms.Web.Controllers.Cms
 
             UserInformation user = _mapper.Map<UserInformation>(linUser);
             user.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
-
+            user.GroupName = user.GroupId!=null? _freeSql.Select<LinGroup>().Where(r => r.Id == user.GroupId).First()?.Name:"";
             if (linUser.IsAdmin())
             {
                 user.Auths = new List<IDictionary<string, object>>();
