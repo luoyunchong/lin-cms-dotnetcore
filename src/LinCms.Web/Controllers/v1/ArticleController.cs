@@ -94,6 +94,7 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="searchDto"></param>
         /// <returns></returns>
         [HttpGet("all")]
+        [AllowAnonymous]
         public PagedResultDto<ArticleDto> GetLastArticles([FromQuery]ArticleSearchDto searchDto)
         {
             var select = _articleRepository
