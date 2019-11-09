@@ -25,23 +25,21 @@ namespace LinCms.Web.Controllers.v1
     {
         private readonly AuditBaseRepository<Article> _articleRepository;
         private readonly GuidRepository<TagArticle> _tagArticleRepository;
-
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly IFreeSql _freeSql;
-        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, GuidRepository<TagArticle> tagArticleRepository, IFreeSql freeSql, IArticleService articleService)
+        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, 
+            GuidRepository<TagArticle> tagArticleRepository, IArticleService articleService)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _tagArticleRepository = tagArticleRepository;
-            _freeSql = freeSql;
             _articleService = articleService;
         }
 
         [HttpDelete("{id}")]
-        public ResultDto DeleteArticle(int id)
+        public ResultDto DeleteArticle(Guid id)
         {
             bool isCreateArticle = _articleRepository.Select.Any(r => r.Id == id && r.CreateUserId == _currentUser.Id);
             if (!isCreateArticle)
@@ -54,7 +52,7 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除随笔", "随笔")]
-        public ResultDto Delete(int id)
+        public ResultDto Delete(Guid id)
         {
             _articleService.Delete(id);
             return ResultDto.Success();
@@ -131,15 +129,9 @@ namespace LinCms.Web.Controllers.v1
         /// <returns></returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public ArticleDto Get(int id)
+        public ArticleDto Get(Guid id)
         {
-            Article article = _articleRepository.Select.IncludeMany(r => r.Tags).Where(a => a.Id == id).ToOne();
-
-            ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
-
-            articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(article.Thumbnail);
-
-            return articleDto;
+            return _articleService.Get(id);
         }
 
         [HttpPost]
@@ -169,7 +161,7 @@ namespace LinCms.Web.Controllers.v1
 
 
         [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] CreateUpdateArticleDto updateArticle)
+        public ResultDto Put(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
             if (article.CreateUserId != _currentUser.Id)

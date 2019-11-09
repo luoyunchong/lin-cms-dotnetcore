@@ -7,7 +7,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Zero.Domain.Blog
 {
     [Table(Name = "blog_tag")]
-    public class Tag : FullAduitEntity
+    public class Tag : FullAduitEntity<Guid>
     {
         /// <summary>
         /// 别名

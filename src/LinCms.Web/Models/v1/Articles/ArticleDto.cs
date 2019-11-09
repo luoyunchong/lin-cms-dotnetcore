@@ -8,12 +8,12 @@ using LinCms.Web.Models.v1.Tags;
 
 namespace LinCms.Web.Models.v1.Articles
 {
-    public class ArticleDto : Entity, ICreateAduitEntity
+    public class ArticleDto : Entity<Guid>, ICreateAduitEntity
     {
         /// <summary>
         /// 类别Id
         /// </summary>
-        public int? ClassifyId { get; set; }
+        public Guid? ClassifyId { get; set; }
         /// <summary>
         /// 类别名称
         /// </summary>        
@@ -33,7 +33,7 @@ namespace LinCms.Web.Models.v1.Articles
         public string Excerpt { get; set; }
         public int ViewHits { get; set; }
         public int CommentQuantity { get; set; }
-        public int PointQuantity { get; set; }
+        public int LikedQuantity { get; set; }
         public string Thumbnail { get; set; }
         public string ThumbnailDisplay { get; set; }
         public bool IsAudit { get; set; }
@@ -46,7 +46,11 @@ namespace LinCms.Web.Models.v1.Articles
         public DateTime CreateTime { get; set; }
         public string Author { get; set; }
 
-        public List<int> TagIds
+        public bool IsLiked { get; set; }
+        public bool IsComment { get; set; }
+        public bool IsCollect { get; set; }
+
+        public List<Guid> TagIds
         {
             get { return this.Tags.Select(r => r.Id).ToList(); }
         }
