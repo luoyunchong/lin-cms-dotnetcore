@@ -6,7 +6,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Zero.Domain.Blog
 {
     [Table(Name = "blog_classify")]
-   public class Classify:FullAduitEntity
+   public class Classify:FullAduitEntity<Guid>
     {
         /// <summary>
         /// 分类编码

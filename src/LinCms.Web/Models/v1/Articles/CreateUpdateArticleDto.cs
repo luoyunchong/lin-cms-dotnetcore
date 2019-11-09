@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LinCms.Zero.Domain.Blog;
 
@@ -6,8 +7,8 @@ namespace LinCms.Web.Models.v1.Articles
 {
     public class CreateUpdateArticleDto
     {
-        public int Id { get; set; }
-        public int? ClassifyId { get; set; }
+        public Guid Id { get; set; }
+        public Guid? ClassifyId { get; set; }
         [StringLength(200)]
         public string Title { get; set; }
         [StringLength(400)]
@@ -28,7 +29,7 @@ namespace LinCms.Web.Models.v1.Articles
         public ArticleType ArticleType { get; set; }
         public int Editor { get; set; } = 1;
 
-        public List<int> TagIds { get; set; }
+        public List<Guid> TagIds { get; set; }
     }
 
 }

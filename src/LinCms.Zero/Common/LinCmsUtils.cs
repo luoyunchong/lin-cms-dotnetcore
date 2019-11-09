@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace LinCms.Zero.Common
 {
-    public  class LinCmsUtils
+    public class LinCmsUtils
     {
         /// <summary>
         /// 通过创建哈希字符串适用于任何 MD5 哈希函数 （在任何平台） 上创建 32 个字符的十六进制格式哈希字符串
@@ -207,6 +207,19 @@ namespace LinCms.Zero.Common
         /// <returns></returns>
         public static IpQueryResult IpQueryCity(string ipAddres)
         {
+            if (ipAddres == "::1" || ipAddres == "127.0.0.1")
+            {
+                return new IpQueryResult()
+                {
+                    data = "本地ip",
+                    errno = 0
+                };
+            }
+            if (!IPAddress.TryParse(ipAddres, out IPAddress ip))
+            {
+                return null;
+            }
+
             Uri url = new Uri("http://ip.360.cn/IPQuery/ipquery?ip=" + ipAddres);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Timeout = 1000 * 5;

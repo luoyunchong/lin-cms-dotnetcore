@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System;
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Zero.Domain.Blog
 {
@@ -6,12 +7,12 @@ namespace LinCms.Zero.Domain.Blog
     /// 用户评论信息
     /// </summary>
     [Table(Name = "blog_comment")]
-    public class Comment : FullAduitEntity
+    public class Comment : FullAduitEntity<Guid>
     {
         /// <summary>
         /// 回复的父Id
         /// </summary>
-        public int? PId { get; set; }
+        public Guid? PId { get; set; }
         /// <summary>
         /// @的用户名，用于前台的显示效果
         /// </summary>
@@ -72,7 +73,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 关联随笔id
         /// </summary>
-        public int? ArticleId { get; set; }
+        public Guid? ArticleId { get; set; }
     }
 
 }

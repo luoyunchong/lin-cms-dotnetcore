@@ -26,7 +26,7 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除分类专栏", "分类专栏")]
-        public ResultDto DeleteClassify(int id)
+        public ResultDto DeleteClassify(Guid id)
         {
             _classifyRepository.Delete(new Classify { Id = id });
             return ResultDto.Success();
@@ -44,7 +44,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet("{id}")]
-        public ClassifyDto Get(int id)
+        public ClassifyDto Get(Guid id)
         {
             Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
             return _mapper.Map<ClassifyDto>(classify);
@@ -72,7 +72,7 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpPut("{id}")]
         [LinCmsAuthorize("编辑分类专栏", "分类专栏")]
-        public ResultDto Put(int id, [FromBody] CreateUpdateClassifyDto updateClassify)
+        public ResultDto Put(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
         {
             Classify classify = _classifyRepository.Select.Where(r => r.Id == id).ToOne();
             if (classify == null)

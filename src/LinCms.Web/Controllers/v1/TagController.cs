@@ -30,7 +30,7 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除标签", "标签管理")]
-        public ResultDto DeleteTag(int id)
+        public ResultDto DeleteTag(Guid id)
         {
             _tagRepository.Delete(new Tag { Id = id });
             return ResultDto.Success();
@@ -54,7 +54,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet("{id}")]
-        public TagDto Get(int id)
+        public TagDto Get(Guid id)
         {
             Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
             TagDto tagDto= _mapper.Map<TagDto>(tag);
@@ -80,7 +80,7 @@ namespace LinCms.Web.Controllers.v1
         [LinCmsAuthorize("编辑标签", "标签管理")]
 
         [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] CreateUpdateTagDto updateTag)
+        public ResultDto Put(Guid id, [FromBody] CreateUpdateTagDto updateTag)
         {
             Tag tag = _tagRepository.Select.Where(r => r.Id == id).ToOne();
             if (tag == null)

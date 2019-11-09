@@ -3,7 +3,7 @@ using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Models.v1.Books
 {
-    public class BookDto:Entity 
+    public class BookDto:Entity<Guid>
     {
         public string Author { get; set; }
         public string Image { get; set; }
