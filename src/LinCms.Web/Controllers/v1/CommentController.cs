@@ -57,7 +57,6 @@ namespace LinCms.Web.Controllers.v1
                 .WhereIf(commentSearchDto.ArticleId.HasValue,r=>r.ArticleId==commentSearchDto.ArticleId)
                 .OrderByDescending(r => r.Id)
                 .ToPagerList(commentSearchDto, out long totalCount)
-                .ToList()
                 .Select(r => _mapper.Map<CommentDto>(r)).ToList();
 
             return new PagedResultDto<CommentDto>(comments, totalCount);
@@ -65,7 +64,7 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除评论", "评论")]
-        public ResultDto Delete(int id)
+        public ResultDto Delete(Guid id)
         {
             _commentAuditBaseRepository.Delete(new Comment { Id = id });
             return ResultDto.Success();
@@ -83,13 +82,15 @@ namespace LinCms.Web.Controllers.v1
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
 
-            comment.Ip = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+            comment.Ip = this.GetIp();
             comment.Agent = Request.Headers["User-agent"].ToString();
             comment.UserHost = Dns.GetHostName();
             comment.System = LinCmsUtils.GetOsNameByUserAgent(comment.Agent);
-
-            IpQueryResult ipQueryResult= LinCmsUtils.IpQueryCity(comment.Ip);
-            comment.GeoPosition = ipQueryResult.errno == 0 ? ipQueryResult.data : ipQueryResult.errmsg;
+            if (comment.Ip.IsNotNullOrEmpty())
+            {
+                IpQueryResult ipQueryResult = LinCmsUtils.IpQueryCity(comment.Ip);
+                comment.GeoPosition = ipQueryResult.errno == 0 ? ipQueryResult.data : ipQueryResult.errmsg;
+            }
 
             LinUser linUser = _userService.GetCurrentUser();
             if (linUser == null)
@@ -113,7 +114,7 @@ namespace LinCms.Web.Controllers.v1
         /// <returns></returns>
         [LinCmsAuthorize("审核评论","评论")]
         [HttpPut("{id}")]
-        public ResultDto Put(int id,bool isAudit)
+        public ResultDto Put(Guid id,bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
             if (comment == null)
@@ -124,6 +125,19 @@ namespace LinCms.Web.Controllers.v1
             comment.IsAudited = isAudit;
             _commentAuditBaseRepository.Update(comment);
             return ResultDto.Success();
+        }
+
+        private string GetIp()
+        {
+            string ip = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
+
+            if (string.IsNullOrEmpty(ip))
+            {
+
+                ip = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+
+            }
+            return ip;
         }
     }
 }

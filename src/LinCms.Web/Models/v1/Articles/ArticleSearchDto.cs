@@ -8,8 +8,8 @@ namespace LinCms.Web.Models.v1.Articles
 {
     public class ArticleSearchDto:PageDto
     {
-        public int? ClassifyId { get; set; }
-        public int? TagId { get; set; }
+        public Guid? ClassifyId { get; set; }
+        public Guid? TagId { get; set; }
         public string Title { get; set; }
     }
 }

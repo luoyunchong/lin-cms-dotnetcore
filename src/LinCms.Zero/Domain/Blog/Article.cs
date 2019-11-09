@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 using LinCms.Zero.Domain.Base;
 
 namespace LinCms.Zero.Domain.Blog
 {
     [Table(Name = "blog_article")]
-    public class Article : FullAduitEntity
+    public class Article : FullAduitEntity<Guid>
     {
         /// <summary>
         /// 文章所在分类专栏Id
         /// </summary>
-        public int? ClassifyId { get; set; }
+        public Guid? ClassifyId { get; set; }
 
         public Classify Classify { get; set; }
         /// <summary>
@@ -46,7 +47,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 点赞数量
         /// </summary>
-        public int PointQuantity { get; set; }
+        public int LikedQuantity { get; set; }
         /// <summary>
         /// 列表缩略图封面
         /// </summary>

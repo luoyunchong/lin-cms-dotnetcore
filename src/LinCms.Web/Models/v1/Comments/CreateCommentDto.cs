@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace LinCms.Web.Models.v1.Comments
 {
     public class CreateCommentDto
@@ -6,7 +8,7 @@ namespace LinCms.Web.Models.v1.Comments
         /// <summary>
         /// 回复的父Id
         /// </summary>
-        public int? PId { get; set; }
+        public Guid? PId { get; set; }
         /// <summary>
         /// @的用户昵称
         /// </summary>
@@ -21,6 +23,6 @@ namespace LinCms.Web.Models.v1.Comments
         /// <summary>
         /// 关联随笔id
         /// </summary>
-        public int? ArticleId { get; set; }
+        public Guid? ArticleId { get; set; }
     }
 }

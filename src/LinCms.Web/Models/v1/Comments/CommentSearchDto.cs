@@ -8,6 +8,6 @@ namespace LinCms.Web.Models.v1.Comments
 {
     public class CommentSearchDto:PageDto
     {
-        public int? ArticleId { get; set; }
+        public Guid? ArticleId { get; set; }
     }
 }
