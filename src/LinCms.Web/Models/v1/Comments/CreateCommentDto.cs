@@ -6,20 +6,13 @@ namespace LinCms.Web.Models.v1.Comments
     public class CreateCommentDto
     {
         /// <summary>
-        /// 回复的父Id
+        /// 回复评论Id
         /// </summary>
-        public Guid? PId { get; set; }
-        /// <summary>
-        /// @的用户昵称
-        /// </summary>
-        public string PName { get; set; }
+        public Guid? RespId { get; set; }
         /// <summary>
         /// 回复的文本内容
         /// </summary>
         public string Text { get; set; }
-        
-        public string AuName { get; set; }
-        public string AuEmail { get; set; }
         /// <summary>
         /// 关联随笔id
         /// </summary>

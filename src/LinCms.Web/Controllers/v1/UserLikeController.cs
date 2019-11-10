@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.v1
 {
+    /// <summary>
+    ///  用户点赞随笔
+    /// </summary>
     [Route("v1/user-like")]
     [ApiController]
     [Authorize]
@@ -44,13 +47,13 @@ namespace LinCms.Web.Controllers.v1
         [HttpPost]
         public ResultDto Post([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            Expression<Func<UserLike, bool>> predicate = r => r.ArticleId == createUpdateUserLike.ArticleId && r.CreateUserId == _currentUser.Id;
+            Expression<Func<UserLike, bool>> predicate = r => r.SubjectId == createUpdateUserLike.ArticleId && r.CreateUserId == _currentUser.Id;
 
             bool exist = _userLikeRepository.Select.Any(predicate);
             if (exist)
             {
                 _userLikeRepository.Delete(predicate);
-                _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikedQuantity - 1).Where(r => r.Id == createUpdateUserLike.ArticleId).ExecuteAffrows();
+                _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikesQuantity - 1).Where(r => r.Id == createUpdateUserLike.ArticleId).ExecuteAffrows();
 
                 return ResultDto.Success("取消点赞成功");
             }
@@ -58,7 +61,7 @@ namespace LinCms.Web.Controllers.v1
             UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
             
             _userLikeRepository.Insert(userLike);
-            _articleAuditBaseRepository.UpdateDiy.Set(r=>r.LikedQuantity+1).Where(r=>r.Id==createUpdateUserLike.ArticleId).ExecuteAffrows();
+            _articleAuditBaseRepository.UpdateDiy.Set(r=>r.LikesQuantity+1).Where(r=>r.Id==createUpdateUserLike.ArticleId).ExecuteAffrows();
 
             return ResultDto.Success("点赞成功");
         }

@@ -40,10 +40,9 @@ namespace LinCms.Web.Services
 
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
 
-            articleDto.IsLiked =
-                _userLikeRepository.Select.Any(r => r.ArticleId == id && r.CreateUserId == _currentUser.Id);
+            articleDto.IsLiked = _userLikeRepository.Select.Any(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
 
-            articleDto.IsComment = _commentBaseRepository.Select.Any(r => r.ArticleId == id&&r.CreateUserId==_currentUser.Id);
+            articleDto.IsComment = _commentBaseRepository.Select.Any(r => r.SubjectId == id&&r.CreateUserId==_currentUser.Id);
 
             articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(article.Thumbnail);
 

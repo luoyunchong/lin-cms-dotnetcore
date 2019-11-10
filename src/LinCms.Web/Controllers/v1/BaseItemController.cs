@@ -36,7 +36,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet]
         public List<BaseItemDto> Get([FromQuery]string typeCode)
         {
-            int baseTypeId =_baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
+            long baseTypeId =_baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
 
             List<BaseItemDto> baseItems = _baseItemRepository.Select
                 .OrderBy(r => r.SortCode)
