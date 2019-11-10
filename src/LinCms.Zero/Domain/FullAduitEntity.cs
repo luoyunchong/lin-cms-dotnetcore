@@ -8,13 +8,13 @@ namespace LinCms.Zero.Domain
         public T Id { get; set; }
     }
 
-    public abstract class EntityDto : EntityDto<int>
+    public abstract class EntityDto : EntityDto<long>
     {
 
     }
 
     [Serializable]
-    public class FullAduitEntity : FullAduitEntity<int>
+    public class FullAduitEntity : FullAduitEntity<long>
     {
 
     }
@@ -59,7 +59,7 @@ namespace LinCms.Zero.Domain
     }
 
     [Serializable]
-    public abstract class Entity : Entity<int>
+    public abstract class Entity : Entity<long>
     {
 
     }

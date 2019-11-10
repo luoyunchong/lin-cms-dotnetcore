@@ -31,21 +31,19 @@ namespace LinCms.Web.Controllers.v1
 
         private readonly AuditBaseRepository<Comment> _commentAuditBaseRepository;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICurrentUser _currentUser;
         private readonly IUserSevice _userService;
 
-        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, ICurrentUser currentUser, IUserSevice userService)
+        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper, ICurrentUser currentUser, IUserSevice userService)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
             _currentUser = currentUser;
             _userService = userService;
         }
 
         /// <summary>
-        /// 评论分页列表页,当随笔Id有值时，根据随笔查询所在文章
+        /// 评论分页列表页,当随笔Id有值时，查询出此随笔的评论
         /// </summary>
         /// <param name="commentSearchDto"></param>
         /// <returns></returns>
@@ -54,12 +52,42 @@ namespace LinCms.Web.Controllers.v1
         {
             List<CommentDto> comments = _commentAuditBaseRepository
                 .Select
-                .WhereIf(commentSearchDto.ArticleId.HasValue,r=>r.ArticleId==commentSearchDto.ArticleId)
-                .OrderByDescending(r => r.Id)
-                .ToPagerList(commentSearchDto, out long totalCount)
-                .Select(r => _mapper.Map<CommentDto>(r)).ToList();
+                .Include(r => r.UserInfo)
+                .Include(r => r.RespUserInfo)
+                .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo))
+                .WhereIf(commentSearchDto.ArticleId.HasValue, r => r.SubjectId == commentSearchDto.ArticleId)
+                .Where(r => r.RespId == commentSearchDto.RespId)
+                .OrderByDescending(!commentSearchDto.RespId.HasValue, r => r.CreateTime)
+                .OrderBy(commentSearchDto.RespId.HasValue, r => r.CreateTime)
+                //.ToPager(commentSearchDto, out long totalCount)
+                .From<UserLike>(
+                    (a, b) =>
+                        a.LeftJoin(u => u.Id == b.SubjectId&&b.CreateUserId==_currentUser.Id)
+                )
+                .ToList((s, a) => new
+                {
+                    comment = s,
+                    a.SubjectId
+                })
+                .Select((r,b)
+                    =>
+                {
+                    CommentDto commentDto = _mapper.Map<CommentDto>(r.comment);
 
-            return new PagedResultDto<CommentDto>(comments, totalCount);
+
+                    commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
+                    commentDto.TopComment = r.comment.Childs.ToList().Select(u =>
+                    {
+                        CommentDto childrenDto = _mapper.Map<CommentDto>(u);
+                        childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
+                        return childrenDto;
+                    }).ToList();
+                    commentDto.IsLiked = r.SubjectId.IsNotEmpty();
+                    return commentDto;
+                }).ToList();
+
+            return new PagedResultDto<CommentDto>(comments, 11);
+            //return new PagedResultDto<CommentDto>(comments, totalCount);
         }
 
         [HttpDelete("{id}")]
@@ -76,34 +104,12 @@ namespace LinCms.Web.Controllers.v1
         /// </summary>
         /// <param name="createCommentDto"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpPost]
         public ResultDto Post([FromBody] CreateCommentDto createCommentDto)
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
 
-            comment.Ip = this.GetIp();
-            comment.Agent = Request.Headers["User-agent"].ToString();
-            comment.UserHost = Dns.GetHostName();
-            comment.System = LinCmsUtils.GetOsNameByUserAgent(comment.Agent);
-            if (comment.Ip.IsNotNullOrEmpty())
-            {
-                IpQueryResult ipQueryResult = LinCmsUtils.IpQueryCity(comment.Ip);
-                comment.GeoPosition = ipQueryResult.errno == 0 ? ipQueryResult.data : ipQueryResult.errmsg;
-            }
-
-            LinUser linUser = _userService.GetCurrentUser();
-            if (linUser == null)
-            {
-                comment.Avatar = "/assets/user/" + new Random().Next(1, 360) + ".png";
-            }
-            else
-            {
-                comment.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
-            }
-
-            _commentAuditBaseRepository.Insert(comment);
-            return ResultDto.Success("留言成功");
+            return ResultDto.Success("评论成功");
         }
 
         /// <summary>
@@ -112,9 +118,9 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="id">审论Id</param>
         /// <param name="isAudit"></param>
         /// <returns></returns>
-        [LinCmsAuthorize("审核评论","评论")]
+        [LinCmsAuthorize("审核评论", "评论")]
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id,bool isAudit)
+        public ResultDto Put(Guid id, bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
             if (comment == null)
@@ -127,17 +133,6 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success();
         }
 
-        private string GetIp()
-        {
-            string ip = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
 
-            if (string.IsNullOrEmpty(ip))
-            {
-
-                ip = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-
-            }
-            return ip;
-        }
     }
 }

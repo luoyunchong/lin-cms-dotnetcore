@@ -47,7 +47,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 点赞数量
         /// </summary>
-        public int LikedQuantity { get; set; }
+        public int LikesQuantity { get; set; }
         /// <summary>
         /// 列表缩略图封面
         /// </summary>
