@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using LinCms.Web.Models.v1.Comments;
 using LinCms.Zero.Domain.Blog;
 
@@ -9,7 +10,7 @@ namespace LinCms.Web.AutoMapper.v1
         public CommentProfile()
         {
             CreateMap<CreateCommentDto, Comment>();
-            CreateMap<Comment, CommentDto>();
+            CreateMap<Comment, CommentDto>().ForMember(d=>d.TopComment,opts=>opts.Ignore());
         }
     }
 }

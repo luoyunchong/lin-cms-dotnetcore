@@ -33,7 +33,7 @@ namespace LinCms.Web.Models.v1.Articles
         public string Excerpt { get; set; }
         public int ViewHits { get; set; }
         public int CommentQuantity { get; set; }
-        public int LikedQuantity { get; set; }
+        public int LikesQuantity { get; set; }
         public string Thumbnail { get; set; }
         public string ThumbnailDisplay { get; set; }
         public bool IsAudit { get; set; }

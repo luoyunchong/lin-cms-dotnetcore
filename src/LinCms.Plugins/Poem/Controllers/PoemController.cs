@@ -28,7 +28,7 @@ namespace LinCms.Plugins.Poem.Controllers
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除诗词", "诗词")]
-        public ResultDto DeletePoem(int id)
+        public ResultDto DeletePoem(long id)
         {
             _poemRepository.Delete(new LinPoem { Id = id });
             return ResultDto.Success();
@@ -43,7 +43,7 @@ namespace LinCms.Plugins.Poem.Controllers
         }
 
         [HttpGet("{id}")]
-        public PoemDto Get(int id)
+        public PoemDto Get(long id)
         {
             LinPoem poem = _poemRepository.Select.Where(a => a.Id == id).ToOne();
             return _mapper.Map<PoemDto>(poem);
@@ -58,7 +58,7 @@ namespace LinCms.Plugins.Poem.Controllers
         }
 
         [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] CreateUpdatePoemDto updatePoem)
+        public ResultDto Put(long id, [FromBody] CreateUpdatePoemDto updatePoem)
         {
             LinPoem poem = _poemRepository.Select.Where(r => r.Id == id).ToOne();
             if (poem == null)
