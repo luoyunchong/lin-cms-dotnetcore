@@ -47,7 +47,7 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 用户id
         /// </summary>
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         /// <summary>
         /// 用户当时的昵称

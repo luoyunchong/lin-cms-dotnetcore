@@ -14,5 +14,10 @@ namespace LinCms.Zero.Domain.Blog
         /// 点赞对象 1 是文章，2 是评论
         /// </summary>
         public int SubjectType { get; set; }
+        [Navigate("CreateUserId")]
+        public virtual LinUser LinUser { get; set; }
+
+        [Navigate("SubjectId")]
+        public virtual Comment Comment { get; set; }
     }
 }
