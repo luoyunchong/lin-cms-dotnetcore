@@ -19,6 +19,8 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         public Guid? RootCommentId { get; set; }
 
+        public int ChildsCount { get; set; } = 0;
+
         /// <summary>
         /// 被回复的用户Id
         /// </summary>
@@ -60,7 +62,11 @@ namespace LinCms.Zero.Domain.Blog
 
 
         [Navigate("RootCommentId")]
-        public ICollection<Comment> Childs { get; set; }
+        public virtual  ICollection<Comment> Childs { get; set; }
+
+        [Navigate("Id")]
+        public virtual ICollection<UserLike> UserLikes { get; set; }
+
 
         [Navigate("RespId")]
         public Comment Parent { get; set; }
