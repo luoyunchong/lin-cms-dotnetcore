@@ -2,7 +2,7 @@
 {
     public interface ICurrentUser
     {
-        int? Id { get; }
+        long? Id { get; }
 
         string UserName { get; }
         int? GroupId { get; }

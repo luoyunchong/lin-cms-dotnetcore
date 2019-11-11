@@ -36,6 +36,6 @@ namespace LinCms.Zero.Domain.Blog
         /// 关注数量
         /// </summary>
         public int SubscribersCount { get; set; } = 0;
-        public List<Article> Articles { get; set; }
+        public virtual ICollection<Article> Articles { get; set; }
     }
 }

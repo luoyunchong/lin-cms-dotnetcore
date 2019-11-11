@@ -48,46 +48,39 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="commentSearchDto"></param>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public PagedResultDto<CommentDto> Get([FromQuery]CommentSearchDto commentSearchDto)
         {
+            long? userId = _currentUser.Id;
             List<CommentDto> comments = _commentAuditBaseRepository
                 .Select
                 .Include(r => r.UserInfo)
                 .Include(r => r.RespUserInfo)
-                .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo))
+                .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo).IncludeMany(u=>u.UserLikes))
+                .IncludeMany(r => r.UserLikes)
                 .WhereIf(commentSearchDto.ArticleId.HasValue, r => r.SubjectId == commentSearchDto.ArticleId)
-                .Where(r => r.RespId == commentSearchDto.RespId)
-                .OrderByDescending(!commentSearchDto.RespId.HasValue, r => r.CreateTime)
-                .OrderBy(commentSearchDto.RespId.HasValue, r => r.CreateTime)
-                //.ToPager(commentSearchDto, out long totalCount)
-                .From<UserLike>(
-                    (a, b) =>
-                        a.LeftJoin(u => u.Id == b.SubjectId&&b.CreateUserId==_currentUser.Id)
-                )
-                .ToList((s, a) => new
+                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)
+                .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
+                .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
+                .ToPagerList(commentSearchDto, out long totalCount)
+                .Select(r =>
                 {
-                    comment = s,
-                    a.SubjectId
-                })
-                .Select((r,b)
-                    =>
-                {
-                    CommentDto commentDto = _mapper.Map<CommentDto>(r.comment);
+                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
 
 
                     commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
-                    commentDto.TopComment = r.comment.Childs.ToList().Select(u =>
+                    commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
                         CommentDto childrenDto = _mapper.Map<CommentDto>(u);
                         childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
+                        childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
                         return childrenDto;
                     }).ToList();
-                    commentDto.IsLiked = r.SubjectId.IsNotEmpty();
+                    commentDto.IsLiked = userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
                     return commentDto;
                 }).ToList();
 
-            return new PagedResultDto<CommentDto>(comments, 11);
-            //return new PagedResultDto<CommentDto>(comments, totalCount);
+            return new PagedResultDto<CommentDto>(comments, totalCount);
         }
 
         [HttpDelete("{id}")]

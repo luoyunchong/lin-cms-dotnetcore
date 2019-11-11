@@ -217,7 +217,7 @@ namespace LinCms.Web.Services
         {
             if (_currentUser.Id != null)
             {
-                int userId = (int) _currentUser.Id;
+                long userId = (long) _currentUser.Id;
                 return _userRepository.Select.Where(r => r.Id == userId).ToOne();
             }
             return null;

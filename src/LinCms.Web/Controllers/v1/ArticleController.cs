@@ -101,7 +101,7 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.Tags)
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
-                .WhereIf(searchDto.TagId.HasValue, r => r.Tags.Exists(u => u.Id == searchDto.TagId))
+                //.WhereIf(searchDto.TagId.HasValue, r => r.Tags.Contains(u => u.Id == searchDto.TagId))
                 .OrderByDescending(r => r.Id);
 
             var articles = select

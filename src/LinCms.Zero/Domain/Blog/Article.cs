@@ -90,7 +90,7 @@ namespace LinCms.Zero.Domain.Blog
         [Column(DbType = "varchar(50)")]
         public string Author { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
     }
 
     /// <summary>

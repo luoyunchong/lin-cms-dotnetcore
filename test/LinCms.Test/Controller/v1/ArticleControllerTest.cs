@@ -98,5 +98,50 @@ namespace LinCms.Test.Controller.v1
 
         }
 
+        [Fact]
+        public void TestInCludeMany()
+        {
+            var d0 = _articleRepository
+                .Select
+                .IncludeMany(r => r.Tags).ToList();
+
+            var d1 = _articleRepository
+                .Select.Include(r=>r.Classify)
+                .ToList();
+
+
+            var d2 = _articleRepository
+                .Select.Include(r => r.Classify).IncludeMany(r => r.Tags)
+                .ToList(true);
+
+
+            var d3 = _articleRepository
+                .Select
+                .ToList(r => new
+                {
+                    r.Classify,
+                    r
+                });
+
+            var d5 = _articleRepository
+                .Select
+                .Include(r=>r.Classify)
+                .IncludeMany(r => r.Tags)
+                .ToList(r => new
+                {
+                    r.Classify,
+                    r
+                });
+
+            //blog_article 找不到列 Tags”
+            var d4 =   _articleRepository
+                .Select
+                .ToList(r=>new
+                {
+                    r.Tags,
+                    r
+                });
+        }
+
     }
 }
