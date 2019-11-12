@@ -56,7 +56,7 @@ namespace LinCms.Web.Controllers.v1
                 .Select
                 .Include(r => r.UserInfo)
                 .Include(r => r.RespUserInfo)
-                .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo).IncludeMany(u=>u.UserLikes))
+                .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo).IncludeMany(u => u.UserLikes))
                 .IncludeMany(r => r.UserLikes)
                 .WhereIf(commentSearchDto.ArticleId.HasValue, r => r.SubjectId == commentSearchDto.ArticleId)
                 .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)
@@ -73,7 +73,7 @@ namespace LinCms.Web.Controllers.v1
                     {
                         CommentDto childrenDto = _mapper.Map<CommentDto>(u);
                         childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
-                        childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
+                        //childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
                         return childrenDto;
                     }).ToList();
                     commentDto.IsLiked = userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
@@ -101,7 +101,7 @@ namespace LinCms.Web.Controllers.v1
         public ResultDto Post([FromBody] CreateCommentDto createCommentDto)
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
-
+            _commentAuditBaseRepository.Insert(comment);
             return ResultDto.Success("评论成功");
         }
 
