@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.v1.Comments;
+using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -98,6 +99,16 @@ namespace LinCms.Test.Controller.v1
                     return commentDto;
                 }).ToList();
             //return new PagedResultDto<CommentDto>(comments, totalCount);
+        }
+
+        [Fact]
+        public void Post()
+        {
+            Comment comment = new Comment()
+            {
+                Text = "😃😃😃😃"
+            };
+            _baseRepository.Insert(comment);
         }
     }
 }
