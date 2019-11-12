@@ -7,6 +7,8 @@ namespace LinCms.Web.Models.v1.UserLikes
 {
     public class CreateUpdateUserLikeDto
     {
-        public Guid ArticleId { get; set; }
+        public Guid SubjectId { get; set; }
+
+        public int SubjectType { get; set; }
     }
 }

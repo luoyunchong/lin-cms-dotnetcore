@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LinCms.Web.Models.v1.Articles;
@@ -129,19 +130,32 @@ namespace LinCms.Test.Controller.v1
                 .IncludeMany(r => r.Tags)
                 .ToList(r => new
                 {
-                    r.Classify,
-                    r
+                    r,
                 });
 
-            //blog_article 找不到列 Tags”
-            var d4 =   _articleRepository
+            var d4 = _articleRepository
                 .Select
-                .ToList(r=>new
-                {
-                    r.Tags,
-                    r
-                });
+                .ToList();
+
         }
 
+        [Fact]
+        public void Test()
+        {
+            Guid guid = new Guid("5dc93286-5e44-c190-008e-3fc74d4fcee0");
+            var error = _articleRepository.Select.IncludeMany( r => r.Tags)
+                .Where(r => r.Id == guid)
+                .ToList(); ;
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            //blog_article 找不到列 Tags”
+            Guid guid = new Guid("5dc93286-5e44-c190-008e-3fc74d4fcee0");
+            var error = _articleRepository.Select
+                .Where(r => r.Id == guid)
+                .ToList(r=>r.Tags);
+        }
     }
 }

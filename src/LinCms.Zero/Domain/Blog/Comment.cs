@@ -64,7 +64,7 @@ namespace LinCms.Zero.Domain.Blog
         [Navigate("RootCommentId")]
         public virtual  ICollection<Comment> Childs { get; set; }
 
-        [Navigate("Id")]
+        [Navigate("SubjectId")]
         public virtual ICollection<UserLike> UserLikes { get; set; }
 
 
