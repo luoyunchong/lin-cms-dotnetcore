@@ -39,7 +39,7 @@ namespace LinCms.Web.Models.v1.Comments
 
         public int LikesQuantity { get; set; }
 
-
+        public Guid? RootCommentId { get; set; }
         /// <summary>
         /// 最新的二条回复
         /// </summary>

@@ -73,7 +73,7 @@ namespace LinCms.Web.Controllers.v1
                     {
                         CommentDto childrenDto = _mapper.Map<CommentDto>(u);
                         childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
-                        //childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
+                        childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
                         return childrenDto;
                     }).ToList();
                     commentDto.IsLiked = userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
