@@ -6,7 +6,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Zero.Domain.Blog
 {
     [Table(Name = "blog_user_like")]
-    public class UserLike : FullAduitEntity<Guid>
+    public class UserLike : Entity<Guid>, ICreateAduitEntity
     {
         public Guid SubjectId { get; set; }
 
@@ -19,5 +19,8 @@ namespace LinCms.Zero.Domain.Blog
 
         [Navigate("SubjectId")]
         public virtual Comment Comment { get; set; }
+
+        public long? CreateUserId { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }
