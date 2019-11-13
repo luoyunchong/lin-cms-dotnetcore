@@ -48,18 +48,18 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 评论的对象 1 是随笔，其他为以后扩展
         /// </summary>
-        public int SubjectType { get; set; }
+        public int SubjectType { get; set; } = 1;
 
         /// <summary>
         /// 评论的用户-OneToOne
         /// </summary>
         [Navigate("CreateUserId")]
-        public LinUser UserInfo { get; set; }
+        public virtual LinUser UserInfo { get; set; }
         /// <summary>
         /// 被回复的用户-OneToOne
         /// </summary>
         [Navigate("RespUserId")]
-        public LinUser RespUserInfo { get; set; }
+        public virtual LinUser RespUserInfo { get; set; }
 
 
         [Navigate("RootCommentId")]
@@ -70,7 +70,7 @@ namespace LinCms.Zero.Domain.Blog
 
 
         [Navigate("RespId")]
-        public Comment Parent { get; set; }
+        public virtual Comment Parent { get; set; }
     }
 
 }
