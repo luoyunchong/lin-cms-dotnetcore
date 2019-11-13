@@ -25,5 +25,7 @@ namespace LinCms.Web.Models.v1.Comments
         /// 被回复的用户Id
         /// </summary>
         public long? RespUserId { get; set; }
+
+        public int SubjectType { get; set; }
     }
 }
