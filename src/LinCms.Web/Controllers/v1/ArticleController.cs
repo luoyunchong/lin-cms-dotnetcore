@@ -39,7 +39,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        public ResultDto DeleteArticle(Guid id)
+        public ResultDto DeleteMyArticle(Guid id)
         {
             bool isCreateArticle = _articleRepository.Select.Any(r => r.Id == id && r.CreateUserId == _currentUser.Id);
             if (!isCreateArticle)
@@ -131,6 +131,7 @@ namespace LinCms.Web.Controllers.v1
         [AllowAnonymous]
         public ArticleDto Get(Guid id)
         {
+            _articleRepository.UpdateDiy.Set(r => r.ViewHits + 1).Where(r => r.Id == id).ExecuteAffrows();
             return _articleService.Get(id);
         }
 

@@ -35,7 +35,7 @@ namespace LinCms.Test.Controller.v1
         {
             CommentSearchDto commentSearchDto = new CommentSearchDto()
             {
-                ArticleId = Guid.Parse("5dc6bb5f-9cfa-ff24-00a8-d50e576b275a")
+                SubjectId = Guid.Parse("5dc6bb5f-9cfa-ff24-00a8-d50e576b275a")
             };
             dynamic comments = _baseRepository
                 .Select
@@ -70,7 +70,7 @@ namespace LinCms.Test.Controller.v1
         {
             CommentSearchDto commentSearchDto = new CommentSearchDto()
             {
-                ArticleId = Guid.Parse("5dc6bb5f-9cfa-ff24-00a8-d50e576b275a")
+                SubjectId = Guid.Parse("5dc6bb5f-9cfa-ff24-00a8-d50e576b275a")
             };
 
             long userId = 7;
@@ -80,7 +80,7 @@ namespace LinCms.Test.Controller.v1
                 .Include(r => r.RespUserInfo)
                 .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo))
                 .IncludeMany(r => r.UserLikes)
-                .WhereIf(commentSearchDto.ArticleId!=null, r => r.SubjectId == commentSearchDto.ArticleId)
+                .WhereIf(commentSearchDto.SubjectId!=null, r => r.SubjectId == commentSearchDto.SubjectId)
                 .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)

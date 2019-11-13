@@ -17,8 +17,9 @@ namespace LinCms.Web.Services
         private readonly AuditBaseRepository<Comment> _commentBaseRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
+        private readonly IFreeSql _freeSql;
 
-        public ArticleAppService(AuditBaseRepository<Article> articleRepository, GuidRepository<TagArticle> tagArticleRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<UserLike> userLikeRepository, AuditBaseRepository<Comment> commentBaseRepository)
+        public ArticleAppService(AuditBaseRepository<Article> articleRepository, GuidRepository<TagArticle> tagArticleRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<UserLike> userLikeRepository, AuditBaseRepository<Comment> commentBaseRepository, IFreeSql freeSql)
         {
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
@@ -26,12 +27,15 @@ namespace LinCms.Web.Services
             _currentUser = currentUser;
             _userLikeRepository = userLikeRepository;
             _commentBaseRepository = commentBaseRepository;
+            _freeSql = freeSql;
         }
 
         public void Delete(Guid id)
         {
-            _tagArticleRepository.Delete(r => r.ArticleId == id);
             _articleRepository.Delete(new Article { Id = id });
+            _tagArticleRepository.Delete(r => r.ArticleId == id);
+            _commentBaseRepository.Delete(r => r.SubjectId == id);
+            _userLikeRepository.Delete(r => r.SubjectId == id);
         }
 
         public ArticleDto Get(Guid id)

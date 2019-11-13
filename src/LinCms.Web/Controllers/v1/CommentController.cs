@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using AutoMapper;
 using LinCms.Web.Models.v1.Comments;
 using LinCms.Web.Services.Interfaces;
 using LinCms.Zero.Aop;
-using LinCms.Zero.Common;
 using LinCms.Zero.Data;
-using LinCms.Zero.Domain;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.v1
@@ -33,13 +29,16 @@ namespace LinCms.Web.Controllers.v1
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IUserSevice _userService;
-
-        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper, ICurrentUser currentUser, IUserSevice userService)
+        private readonly ICommentService _commentService;
+        private readonly AuditBaseRepository<Article> _articleRepository;
+        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper, ICurrentUser currentUser, IUserSevice userService, ICommentService commentService, AuditBaseRepository<Article> articleRepository)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _userService = userService;
+            _commentService = commentService;
+            _articleRepository = articleRepository;
         }
 
         /// <summary>
@@ -56,9 +55,10 @@ namespace LinCms.Web.Controllers.v1
                 .Select
                 .Include(r => r.UserInfo)
                 .Include(r => r.RespUserInfo)
-                .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo).IncludeMany(u => u.UserLikes))
+                .IncludeMany(r => r.Childs,  //.Take(2)
+                    t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
                 .IncludeMany(r => r.UserLikes)
-                .WhereIf(commentSearchDto.ArticleId.HasValue, r => r.SubjectId == commentSearchDto.ArticleId)
+                .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
                 .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
@@ -67,12 +67,17 @@ namespace LinCms.Web.Controllers.v1
                 {
                     CommentDto commentDto = _mapper.Map<CommentDto>(r);
 
-
-                    commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
+                    if (commentDto.UserInfo != null)
+                    {
+                        commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
+                    }
                     commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
                         CommentDto childrenDto = _mapper.Map<CommentDto>(u);
-                        childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
+                        if (childrenDto.UserInfo != null)
+                        {
+                            childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
+                        }
                         childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
                         return childrenDto;
                     }).ToList();
@@ -87,10 +92,23 @@ namespace LinCms.Web.Controllers.v1
         [LinCmsAuthorize("删除评论", "评论")]
         public ResultDto Delete(Guid id)
         {
-            _commentAuditBaseRepository.Delete(new Comment { Id = id });
+            Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
+            _commentService.Delete(comment);
             return ResultDto.Success();
         }
 
+        [HttpDelete("/{id}")]
+        public ResultDto DeleteMyComment(Guid id)
+        {
+            Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
+            if (comment.CreateUserId != _currentUser.Id)
+            {
+                return ResultDto.Error("无权限删除他人的评论");
+            }
+            _commentService.Delete(comment);
+            return ResultDto.Success();
+
+        }
 
         /// <summary>
         /// 用户留言，可登录，已登录用户自动获取头像
@@ -102,6 +120,21 @@ namespace LinCms.Web.Controllers.v1
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
             _commentAuditBaseRepository.Insert(comment);
+
+            if (createCommentDto.RootCommentId.HasValue)
+            {
+                _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount + 1).Where(r => r.Id == createCommentDto.RootCommentId).ExecuteAffrows();
+            }
+
+            switch (createCommentDto.SubjectType)
+            {
+                case 1:
+                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity + 1)
+                        .Where(r => r.Id == createCommentDto.SubjectId).ExecuteAffrows();
+                    break;
+            }
+
+
             return ResultDto.Success("评论成功");
         }
 
@@ -126,6 +159,26 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success();
         }
 
+        /// <summary>
+        /// 评论-校正评论量,id->subject_id,type->subject_type(1：文章)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [LinCmsAuthorize("校正评论量", "评论")]
+        [HttpPut("{id}/type/${type}")]
+        public ResultDto CorrectedComment(Guid id, int type)
+        {
+            long count = _commentAuditBaseRepository.Select.Where(r => r.SubjectId == id).Count();
+
+            switch (type)
+            {
+                case 1:
+                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == id).ExecuteAffrows();
+                    break;
+            }
+            return ResultDto.Success();
+        }
 
     }
 }
