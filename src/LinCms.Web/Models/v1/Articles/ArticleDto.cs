@@ -4,6 +4,7 @@ using LinCms.Zero.Domain.Blog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Models.v1.Tags;
 
 namespace LinCms.Web.Models.v1.Articles
@@ -49,6 +50,8 @@ namespace LinCms.Web.Models.v1.Articles
         public bool IsLiked { get; set; }
         public bool IsComment { get; set; }
         public bool IsCollect { get; set; }
+
+        public OpenUserDto UserInfo { get; set; }
 
         public List<Guid> TagIds
         {

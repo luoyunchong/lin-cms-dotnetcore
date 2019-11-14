@@ -5,7 +5,7 @@ using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Web.Models.Cms.Account;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Exceptions;
@@ -85,7 +85,7 @@ namespace LinCms.Web.Controllers.Cms
             }
             else
             {
-                throw new LinCmsException("The authorization header is either empty or isn't Basic.");
+                throw new LinCmsException(" 请先登录.");
             }
 
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
@@ -108,7 +108,7 @@ namespace LinCms.Web.Controllers.Cms
 
             if (response.IsError)
             {
-                throw new LinCmsException(response.ErrorDescription, ErrorCode.NotFound);
+                throw new LinCmsException("请重新登录", ErrorCode.NotFound);
             }
 
             return response.Json;

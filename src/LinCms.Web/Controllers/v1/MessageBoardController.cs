@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Web.Models.v1.Comments;
 using LinCms.Web.Models.v1.MessageBoards;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Common;
 using LinCms.Zero.Data;

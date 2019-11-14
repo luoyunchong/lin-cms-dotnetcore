@@ -9,7 +9,7 @@ using Qiniu.Http;
 using Qiniu.Storage;
 using Qiniu.Util;
 
-namespace Qiniu.Web.Controllers.v1  
+namespace LinCms.Web.Controllers.v1  
 {
     /// <summary>
     /// 七牛云上传服务

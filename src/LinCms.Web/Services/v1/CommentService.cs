@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LinCms.Web.Services.Interfaces;
+﻿using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Repositories;
 
-namespace LinCms.Web.Services
+namespace LinCms.Web.Services.v1
 {
     public class CommentService: ICommentService
     {
