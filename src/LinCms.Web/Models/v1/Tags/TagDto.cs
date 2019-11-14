@@ -11,6 +11,7 @@ namespace LinCms.Web.Models.v1.Tags
         public long? CreateUserId { get; set; }
         public DateTime? CreateTime { get; set; }
         public string Alias { get; set; }
-     
+        public int ArticleCount { get; set; } 
+
     }
 }
