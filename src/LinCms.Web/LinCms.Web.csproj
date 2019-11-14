@@ -61,6 +61,7 @@
     <Folder Include="wwwroot\assets\2019\10\22\" />
     <Folder Include="wwwroot\assets\2019\11\08\" />
     <Folder Include="wwwroot\assets\2019\11\09\" />
+    <Folder Include="wwwroot\assets\2019\11\14\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
