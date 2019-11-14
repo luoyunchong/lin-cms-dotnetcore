@@ -1,9 +1,9 @@
-﻿using LinCms.Zero.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LinCms.Web.Models.Cms.Logs;
 using LinCms.Zero.Data;
+using LinCms.Zero.Domain;
 
-namespace LinCms.Web.Services.Interfaces
+namespace LinCms.Web.Services.Cms.Interfaces
 {
     public interface ILogService
     {

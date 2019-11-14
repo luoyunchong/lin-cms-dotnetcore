@@ -4,7 +4,7 @@ using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.Cms.Admins;
 using LinCms.Web.Models.Cms.Users;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
@@ -13,7 +13,7 @@ using LinCms.Zero.Exceptions;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 
-namespace LinCms.Web.Services
+namespace LinCms.Web.Services.Cms
 {
     public class UserService : IUserSevice
     {

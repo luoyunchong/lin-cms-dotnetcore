@@ -90,6 +90,9 @@ namespace LinCms.Zero.Domain.Blog
         [Column(DbType = "varchar(50)")]
         public string Author { get; set; }
 
+        [Navigate("CreateUserId")]
+        public virtual  LinUser UserInfo { get; set; }
+
         public virtual ICollection<Tag> Tags { get; set; }
     }
 

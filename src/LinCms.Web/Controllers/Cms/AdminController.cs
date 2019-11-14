@@ -2,7 +2,7 @@
 using LinCms.Web.Data;
 using LinCms.Web.Models.Cms.Admins;
 using LinCms.Web.Models.Cms.Users;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;

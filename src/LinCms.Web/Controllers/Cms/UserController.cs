@@ -3,7 +3,7 @@ using System.Linq;
 using AutoMapper;
 using LinCms.Web.Data;
 using LinCms.Web.Models.Cms.Users;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
@@ -63,7 +63,7 @@ namespace LinCms.Web.Controllers.Cms
 
             UserInformation user = _mapper.Map<UserInformation>(linUser);
             user.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
-            user.GroupName = user.GroupId!=null? _freeSql.Select<LinGroup>().Where(r => r.Id == user.GroupId).First()?.Name:"";
+            user.GroupName = user.GroupId != null ? _freeSql.Select<LinGroup>().Where(r => r.Id == user.GroupId).First()?.Name : "";
             if (linUser.IsAdmin())
             {
                 user.Auths = new List<IDictionary<string, object>>();
@@ -113,6 +113,16 @@ namespace LinCms.Web.Controllers.Cms
                 Avatar = avatarDto.Avatar
             }).ExecuteAffrows();
             return ResultDto.Success("更新头像成功");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("avatar/{userId}")]
+        public string GetAvatar(long userId)
+        {
+            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false && r.Id == userId).First();
+
+            return _currentUser.GetFileUrl(linUser.Avatar);
+
         }
     }
 }

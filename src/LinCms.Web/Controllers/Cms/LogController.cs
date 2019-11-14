@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using LinCms.Web.Models.Cms.Logs;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;

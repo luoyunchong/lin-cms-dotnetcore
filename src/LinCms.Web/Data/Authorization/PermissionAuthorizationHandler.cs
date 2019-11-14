@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;

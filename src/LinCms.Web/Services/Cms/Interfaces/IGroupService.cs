@@ -1,4 +1,4 @@
-﻿namespace LinCms.Web.Services.Interfaces
+﻿namespace LinCms.Web.Services.Cms.Interfaces
 {
     public interface IGroupService
     {

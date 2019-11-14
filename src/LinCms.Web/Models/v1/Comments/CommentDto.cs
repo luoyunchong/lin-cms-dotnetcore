@@ -28,12 +28,12 @@ namespace LinCms.Web.Models.v1.Comments
         /// <summary>
         /// 评论的用户
         /// </summary>
-        public  UserDto UserInfo { get; set; }
+        public OpenUserDto UserInfo { get; set; }
 
         /// <summary>
         /// 回复的用户
         /// </summary>
-        public  UserDto RespUserInfo { get; set; }
+        public OpenUserDto RespUserInfo { get; set; }
 
         public bool IsLiked { get; set; }
 

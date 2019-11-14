@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.v1.UserLikes;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Repositories;
