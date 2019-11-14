@@ -1,8 +1,10 @@
-﻿namespace LinCms.Web.Services
+﻿using LinCms.Zero.Security;
+
+namespace LinCms.Web.Services
 {
 
-    public abstract class DomainService
+    public abstract class DomainService: IDomainService
     {
-
+        public CurrentUser CurrentUser;
     }
 }

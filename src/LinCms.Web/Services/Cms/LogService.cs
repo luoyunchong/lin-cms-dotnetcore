@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using FreeSql;
 using LinCms.Web.Models.Cms.Logs;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
 using LinCms.Zero.Security;
 
-namespace LinCms.Web.Services
+namespace LinCms.Web.Services.Cms
 {
     public class LogService : ILogService
     {

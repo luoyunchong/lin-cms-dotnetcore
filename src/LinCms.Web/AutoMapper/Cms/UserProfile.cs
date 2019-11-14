@@ -13,6 +13,7 @@ namespace LinCms.Web.AutoMapper.Cms
             CreateMap<UpdateUserDto, LinUser>();
             CreateMap<LinUser, UserInformation>();
             CreateMap<LinUser, UserDto>();
+            CreateMap<LinUser, OpenUserDto>();
         }
     }
 }

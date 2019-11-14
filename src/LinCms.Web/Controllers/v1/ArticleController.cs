@@ -5,7 +5,7 @@ using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.v1.Articles;
 using LinCms.Web.Models.v1.Tags;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;

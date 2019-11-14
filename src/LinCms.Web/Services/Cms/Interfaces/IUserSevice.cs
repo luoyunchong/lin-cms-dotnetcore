@@ -4,7 +4,7 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 
-namespace LinCms.Web.Services.Interfaces
+namespace LinCms.Web.Services.Cms.Interfaces
 {
     public interface IUserSevice
     {

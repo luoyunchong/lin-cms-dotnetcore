@@ -2,12 +2,12 @@
 using AutoMapper;
 using FreeSql;
 using LinCms.Web.Models.v1.Articles;
-using LinCms.Web.Services.Interfaces;
+using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 
-namespace LinCms.Web.Services
+namespace LinCms.Web.Services.v1
 {
     public class ArticleAppService:IArticleService
     {
@@ -40,9 +40,10 @@ namespace LinCms.Web.Services
 
         public ArticleDto Get(Guid id)
         {
-            Article article = _articleRepository.Select.IncludeMany(r => r.Tags).Where(a => a.Id == id).ToOne();
+            Article article = _articleRepository.Select.IncludeMany(r => r.Tags).Include(r=>r.UserInfo).Where(a => a.Id == id).ToOne();
 
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
+            articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);
 
             articleDto.IsLiked = _userLikeRepository.Select.Any(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
 
