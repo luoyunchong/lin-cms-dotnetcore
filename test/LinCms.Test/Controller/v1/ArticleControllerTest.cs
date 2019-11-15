@@ -157,5 +157,23 @@ namespace LinCms.Test.Controller.v1
                 .Where(r => r.Id == guid)
                 .ToList(r=>r.Tags);
         }
+
+
+        [Fact]
+        public void TestWhereOneToMany()
+        {
+            ArticleSearchDto searchDto=new ArticleSearchDto()
+            {
+                TagId = new Guid("5dc931fd-5e44-c190-008e-3fc4728735d6")
+            };
+            var data1 = _articleRepository
+                .Select
+                .Where(r => r.Tags.Any(u => u.Id == searchDto.TagId)).ToList();
+            var data = _articleRepository
+                .Select
+                .Include(r => r.Classify)
+                .IncludeMany(r => r.Tags)
+                .Where(r => r.Tags.Any(u => u.Id == searchDto.TagId)).ToList();
+        }
     }
 }
