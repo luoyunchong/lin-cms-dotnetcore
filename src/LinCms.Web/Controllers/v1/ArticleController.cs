@@ -95,11 +95,13 @@ namespace LinCms.Web.Controllers.v1
         [AllowAnonymous]
         public PagedResultDto<ArticleDto> GetLastArticles([FromQuery]ArticleSearchDto searchDto)
         {
+            long? userId = _currentUser.Id;
             var select = _articleRepository
                 .Select
                 .Include(r => r.Classify)
                 .IncludeMany(r => r.Tags)
-                .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.Any(u=>u.Id==searchDto.TagId))
+                .IncludeMany(r => r.UserLikes,r=>r.Where(u => u.CreateUserId == userId))
+                .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.AsSelect().Any(u=>u.Id==searchDto.TagId))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .OrderByDescending(r => r.CreateTime);
@@ -114,6 +116,9 @@ namespace LinCms.Web.Controllers.v1
                         TagName = r.TagName,
                         Id = r.Id,
                     }).ToList();
+
+                    articleDto.IsLiked = userId != null && a.UserLikes.Any();
+
                     articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
                     return articleDto;
                 })
