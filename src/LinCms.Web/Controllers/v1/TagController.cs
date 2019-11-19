@@ -39,6 +39,11 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet]
         public PagedResultDto<TagDto> Get([FromQuery]TagSearchDto searchDto) 
         {
+            if (searchDto.Sort.IsNullOrEmpty())
+            {
+                searchDto.Sort = "create_time desc";
+            }
+
             List<TagDto> tags = _tagRepository.Select
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(),r=>r.TagName.Contains(searchDto.TagName))
                 .OrderBy(searchDto.Sort)
