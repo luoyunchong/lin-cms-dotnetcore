@@ -37,5 +37,7 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         public int SubscribersCount { get; set; } = 0;
         public virtual ICollection<Article> Articles { get; set; }
+
+        public virtual ICollection<LinUser> LinUser { get; set; }
     }
 }
