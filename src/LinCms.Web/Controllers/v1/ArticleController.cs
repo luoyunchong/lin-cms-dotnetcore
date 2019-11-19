@@ -99,7 +99,7 @@ namespace LinCms.Web.Controllers.v1
                 .Select
                 .Include(r => r.Classify)
                 .IncludeMany(r => r.Tags)
-                .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.Any(u=>u.Id==searchDto.TagId))
+                .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.AsSelect().Any(u=>u.Id==searchDto.TagId))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .OrderByDescending(r => r.CreateTime);
