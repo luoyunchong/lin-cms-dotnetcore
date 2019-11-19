@@ -20,6 +20,8 @@ namespace LinCms.Zero.Domain.Blog
         [Navigate("SubjectId")]
         public virtual Comment Comment { get; set; }
 
+        [Navigate("SubjectId")]
+        public virtual Article Article { get; set; }
         public long? CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
     }

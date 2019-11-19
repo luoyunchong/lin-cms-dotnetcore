@@ -94,6 +94,9 @@ namespace LinCms.Zero.Domain.Blog
         public virtual  LinUser UserInfo { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
+
+        [Navigate("SubjectId")]
+        public virtual ICollection<UserLike> UserLikes { get; set; }
     }
 
     /// <summary>
