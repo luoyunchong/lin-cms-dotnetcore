@@ -41,7 +41,7 @@ namespace LinCms.Web.Controllers.v1
         {
             List<TagDto> tags = _tagRepository.Select
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(),r=>r.TagName.Contains(searchDto.TagName))
-                .OrderByDescending(r => r.Id)
+                .OrderBy(searchDto.Sort)
                 .ToPagerList(searchDto,out long totalCount)
                 .Select(r =>
                 {
