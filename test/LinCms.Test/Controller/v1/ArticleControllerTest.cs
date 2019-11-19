@@ -17,6 +17,7 @@ namespace LinCms.Test.Controller.v1
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
         private readonly AuditBaseRepository<Article> _articleRepository;
+        private readonly AuditBaseRepository<Tag> _tagRepository;
 
         public ArticleControllerTest() : base()
         {
@@ -24,6 +25,7 @@ namespace LinCms.Test.Controller.v1
 
             _mapper = serviceProvider.GetService<IMapper>();
             _articleRepository = serviceProvider.GetService<AuditBaseRepository<Article>>();
+            _tagRepository = serviceProvider.GetService<AuditBaseRepository<Tag>>();
             _freeSql = serviceProvider.GetService<IFreeSql>();
         }
 
@@ -166,14 +168,34 @@ namespace LinCms.Test.Controller.v1
             {
                 TagId = new Guid("5dc931fd-5e44-c190-008e-3fc4728735d6")
             };
+
             var data1 = _articleRepository
                 .Select
-                .Where(r => r.Tags.Any(u => u.Id == searchDto.TagId)).ToList();
+                .IncludeMany(r=>r.Tags)
+                .Where(r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId)).ToList();
+
+            var data2 = _articleRepository
+                .Select
+                .Where(r => r.Tags.AsSelect().Where(u=>u.Id==searchDto.TagId).Count()>0).ToList();
+
+            var data3 = _articleRepository
+                .Select
+                .IncludeMany(r => r.Tags.Take(10)).ToList();
+
+            var data4 = _articleRepository
+                .Select
+                .IncludeMany(r => r.Tags).ToList();
+
+            //注意这里where填写的是u=>u.Id==r.Id
+            var data5 = _articleRepository
+                .Select
+                .IncludeMany(r => r.Tags.Where(u => u.Id == r.Id)).ToList();
+
+            //System.Exception:“表达式错误，它不是连续的 MemberAccess 类型：value(LinCms.Test.Controller.v1.ArticleControllerTest+<>c__DisplayClass9_0).searchDto”
             var data = _articleRepository
                 .Select
-                .Include(r => r.Classify)
-                .IncludeMany(r => r.Tags)
-                .Where(r => r.Tags.Any(u => u.Id == searchDto.TagId)).ToList();
+                .IncludeMany(r => r.Tags.Where(u => u.Id == searchDto.TagId)).ToList();
+
         }
     }
 }
