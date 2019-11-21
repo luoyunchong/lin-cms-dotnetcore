@@ -44,7 +44,7 @@ namespace LinCms.Zero.Aop
             }
 
 
-            if (Permission == null  && Roles == LinGroup.Administrator)
+            if (Permission == null  && Roles == LinGroup.Admin)
             {
                 ICurrentUser currentUser = (ICurrentUser)context.HttpContext.RequestServices.GetService(typeof(ICurrentUser));
 

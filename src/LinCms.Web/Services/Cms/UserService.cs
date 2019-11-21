@@ -117,11 +117,15 @@ namespace LinCms.Web.Services.Cms
                 throw new LinCmsException("分组不存在", ErrorCode.NotFound);
             }
 
-            bool isRepeatName = _userRepository.Select.Any(r => r.Username == user.Username);
-
-            if (isRepeatName)
+            if (!string.IsNullOrEmpty(user.Username.Trim()))
             {
-                throw new LinCmsException("用户名重复，请重新输入", ErrorCode.RepeatField);
+                bool isRepeatName = _userRepository.Select.Any(r => r.Username == user.Username);
+
+                if (isRepeatName)
+                {
+                    throw new LinCmsException("用户名重复，请重新输入", ErrorCode.RepeatField);
+                }
+
             }
 
             if (!string.IsNullOrEmpty(user.Email.Trim()))
