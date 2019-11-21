@@ -15,7 +15,7 @@ namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/admin/group")]
     [ApiController]
-    [LinCmsAuthorize(Roles = LinGroup.Administrator)]
+    [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class GroupController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
@@ -100,9 +100,16 @@ namespace LinCms.Web.Controllers.Cms
         [AuditingLog("管理员删除一个权限组")]
         public ResultDto Delete(int id)
         {
-            if (!_freeSql.Select<LinGroup>(new { id = id }).Any())
+           LinGroup linGroup= _freeSql.Select<LinGroup>(new {id = id}).First();
+
+            if (linGroup.IsNull())
             {
                 throw new LinCmsException("分组不存在，删除失败", ErrorCode.NotFound,StatusCodes.Status404NotFound);
+            }
+
+            if (linGroup.IsStatic)
+            {
+                throw new LinCmsException("无法删除静态角色!");
             }
 
             bool exist = _freeSql.Select<LinUser>().Any(r => r.GroupId == id);
