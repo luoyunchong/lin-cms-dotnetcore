@@ -88,7 +88,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="userInput"></param>
         [AuditingLog("管理员新建了一个用户")]
         [HttpPost("register")]
-        [LinCmsAuthorize(Roles = LinGroup.Administrator)]
+        [LinCmsAuthorize(Roles = LinGroup.Admin)]
         public ResultDto Post([FromBody] CreateUserDto userInput)
         {
             _userSevice.Register(_mapper.Map<LinUser>(userInput));
