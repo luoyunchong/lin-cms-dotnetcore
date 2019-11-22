@@ -12,7 +12,7 @@ namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/admin")]
     [ApiController]
-    [LinCmsAuthorize(Roles = LinGroup.Administrator)]
+    [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class AdminController : ControllerBase
     {
         private readonly IUserSevice _userSevice;

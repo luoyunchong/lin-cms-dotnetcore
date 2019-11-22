@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoMapper;
 using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Web.Models.Cms.Account;
+using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
+using LinCms.Zero.Common;
+using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,12 +28,15 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IConfiguration _configuration;
         private readonly ILogService _logService;
         private readonly ILogger<AccountController> _logger;
-
-        public AccountController(IConfiguration configuration, ILogService logService, ILogger<AccountController> logger)
+        private readonly IUserSevice _userSevice;
+        private readonly IMapper _mapper;
+        public AccountController(IConfiguration configuration, ILogService logService, ILogger<AccountController> logger, IUserSevice userSevice, IMapper mapper)
         {
             _configuration = configuration;
             _logService = logService;
             _logger = logger;
+            _userSevice = userSevice;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -112,6 +120,21 @@ namespace LinCms.Web.Controllers.Cms
             }
 
             return response.Json;
+        }
+
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <param name="registerDto"></param>
+        [AuditingLog("管理员新建了一个用户")]
+        [HttpPost("register")]
+        public ResultDto Post([FromBody] RegisterDto registerDto)
+        {
+            LinUser user = _mapper.Map<LinUser>(registerDto);
+            user.GroupId = LinConsts.Group.User;
+            _userSevice.Register(user);
+
+            return ResultDto.Success("注册成功");
         }
     }
 }
