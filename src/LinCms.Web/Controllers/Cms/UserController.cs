@@ -87,7 +87,7 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="userInput"></param>
         [AuditingLog("管理员新建了一个用户")]
-        [HttpPost("register")]
+        [HttpPost]
         [LinCmsAuthorize(Roles = LinGroup.Admin)]
         public ResultDto Post([FromBody] CreateUserDto userInput)
         {

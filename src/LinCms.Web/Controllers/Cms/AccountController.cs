@@ -126,7 +126,7 @@ namespace LinCms.Web.Controllers.Cms
         /// 注册
         /// </summary>
         /// <param name="registerDto"></param>
-        [AuditingLog("管理员新建了一个用户")]
+        [AuditingLog("用户注册")]
         [HttpPost("register")]
         public ResultDto Post([FromBody] RegisterDto registerDto)
         {
