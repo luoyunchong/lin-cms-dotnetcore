@@ -8,6 +8,7 @@ using LinCms.Web.Models.v1.Tags;
 using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
+using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
@@ -68,7 +69,7 @@ namespace LinCms.Web.Controllers.v1
         {
             var select = _articleRepository
                 .Select
-                .IncludeMany(r => r.Tags)
+                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == Status.Enable))
                 .Where(r => r.CreateUserId == _currentUser.Id)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .OrderByDescending(r => r.IsStickie)
@@ -87,7 +88,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 得到最新的随笔
+        /// 得到所有的随笔
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
@@ -99,8 +100,9 @@ namespace LinCms.Web.Controllers.v1
             var select = _articleRepository
                 .Select
                 .Include(r => r.Classify)
-                .IncludeMany(r => r.Tags)
+                .IncludeMany(r => r.Tags,r=>r.Where(u=>u.Status==Status.Enable))
                 .IncludeMany(r => r.UserLikes,r=>r.Where(u => u.CreateUserId == userId))
+                .Where(r=>r.IsAudit==true)
                 .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.AsSelect().Any(u=>u.Id==searchDto.TagId))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
@@ -152,6 +154,9 @@ namespace LinCms.Web.Controllers.v1
             Article article = _mapper.Map<Article>(createArticle);
             article.Archive = DateTime.Now.ToString("yyy年MM月");
             article.Author = _currentUser.UserName;
+           article.WordNumber = createArticle.Content.Length;
+           article.ReadingTime = createArticle.Content.Length / 800;
+
             article.Tags = new List<Tag>();
             foreach (var articleTagId in createArticle.TagIds)
             {
@@ -187,7 +192,8 @@ namespace LinCms.Web.Controllers.v1
 
             //使用AutoMapper方法简化类与类之间的转换过程
             _mapper.Map(updateArticle, article);
-
+            article.WordNumber = updateArticle.Content.Length;
+            article.ReadingTime = updateArticle.Content.Length / 800;
 
             _articleRepository.Update(article);
 
