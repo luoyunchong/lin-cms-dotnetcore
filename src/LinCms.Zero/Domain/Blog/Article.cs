@@ -89,6 +89,14 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public string Author { get; set; }
+        /// <summary>
+        /// 字数
+        /// </summary>
+        public long WordNumber { get; set; }
+        /// <summary>
+        /// 预计阅读时长
+        /// </summary>
+        public long ReadingTime { get; set; }
 
         [Navigate("CreateUserId")]
         public virtual  LinUser UserInfo { get; set; }

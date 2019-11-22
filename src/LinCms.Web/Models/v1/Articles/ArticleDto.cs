@@ -53,6 +53,10 @@ namespace LinCms.Web.Models.v1.Articles
 
         public OpenUserDto UserInfo { get; set; }
 
+        public long WordNumber { get; set; }
+
+        public long ReadingTime { get; set; }
+
         public List<Guid> TagIds
         {
             get { return this.Tags.Select(r => r.Id).ToList(); }

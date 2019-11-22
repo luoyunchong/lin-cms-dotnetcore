@@ -1,4 +1,5 @@
 ﻿using System;
+using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 
 namespace LinCms.Web.Models.v1.Tags
@@ -11,7 +12,9 @@ namespace LinCms.Web.Models.v1.Tags
         public long? CreateUserId { get; set; }
         public DateTime? CreateTime { get; set; }
         public string Alias { get; set; }
-        public int ArticleCount { get; set; } 
+        public int ArticleCount { get; set; }
+
+        public Status Status { get; set; }
 
     }
 }
