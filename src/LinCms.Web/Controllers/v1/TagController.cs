@@ -5,6 +5,7 @@ using AutoMapper;
 using LinCms.Web.Models.v1.Tags;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
+using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
@@ -46,6 +47,7 @@ namespace LinCms.Web.Controllers.v1
 
             List<TagDto> tags = _tagRepository.Select
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(),r=>r.TagName.Contains(searchDto.TagName))
+                .Where(r=>r.Status==Status.Enable)
                 .OrderBy(searchDto.Sort)
                 .ToPagerList(searchDto,out long totalCount)
                 .Select(r =>
@@ -61,7 +63,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet("{id}")]
         public TagDto Get(Guid id)
         {
-            Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
+            Tag tag = _tagRepository.Select.Where(a => a.Id == id&&a.Status == Status.Enable).ToOne();
             TagDto tagDto= _mapper.Map<TagDto>(tag);
             tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
             return tagDto;

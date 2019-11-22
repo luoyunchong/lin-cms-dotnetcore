@@ -118,4 +118,16 @@ namespace LinCms.Zero.Data.Enums
         /// </summary>
         Inoperable = 10070,
     }
+
+    public enum Status
+    {
+        /// <summary>
+        /// 启用
+        /// </summary>
+        Enable=1,
+        /// <summary>
+        /// 禁用
+        /// </summary>
+        Forbidden = 2
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LinCms.Zero.Data.Enums;
 
 namespace LinCms.Web.Models.v1.Tags
 {
@@ -14,6 +15,8 @@ namespace LinCms.Web.Models.v1.Tags
         /// </summary>
         [MaxLength(300, ErrorMessage = "请少于300个字符")]
         public string Alias { get; set; }
+
+        public Status Status { get; set; }
 
     }
 }

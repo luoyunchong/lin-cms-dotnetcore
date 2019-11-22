@@ -1,8 +1,10 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using FreeSql.DataAnnotations;
+using LinCms.Zero.Data.Enums;
 
 namespace LinCms.Zero.Domain.Blog
 {
@@ -25,8 +27,8 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public string TagName { get; set; }
-        
-
+        [Column(MapType = typeof(int?))]
+        public Status Status { get; set; }
         /// <summary>
         /// 随笔数量
         /// </summary>
