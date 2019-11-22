@@ -73,7 +73,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 随笔类型
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+        [Column(MapType = typeof(int))]
         public ArticleType ArticleType { get; set; } = ArticleType.Original;
 
         /// <summary>
