@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System;
+using FreeSql.DataAnnotations;
 using LinCms.Zero.Data.Enums;
 
 namespace LinCms.Zero.Domain
@@ -53,6 +54,11 @@ namespace LinCms.Zero.Domain
         /// </summary>
         public int? GroupId { get; set; }
         /// <summary>
+        /// 手机号
+        /// </summary>
+        [Column(DbType = "varchar(100)")]
+        public string PhoneNumber { get; set; }
+        /// <summary>
         /// 是否是管理员
         /// </summary>
         /// <returns></returns>
@@ -63,7 +69,6 @@ namespace LinCms.Zero.Domain
 
         public bool IsActive()
         {
-
             return Active == (int)UserActive.Active;
         }
 

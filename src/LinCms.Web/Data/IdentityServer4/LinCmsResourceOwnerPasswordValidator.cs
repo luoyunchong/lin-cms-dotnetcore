@@ -63,7 +63,7 @@ namespace LinCms.Web.Data.IdentityServer4
                     new Claim(ClaimTypes.Name,user.Username),
                     new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
                     new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
-                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Administrator:user.GroupId.ToString())
+                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())
                 });
             return Task.CompletedTask;
         }

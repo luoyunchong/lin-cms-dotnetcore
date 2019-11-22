@@ -24,7 +24,7 @@ namespace LinCms.Web.Data.Authorization
         {
             if (context.User != null)
             {
-                if (context.User.IsInRole(LinGroup.Administrator))
+                if (context.User.IsInRole(LinGroup.Admin))
                 {
                     context.Succeed(requirement);
                 }
