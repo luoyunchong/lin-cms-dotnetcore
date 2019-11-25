@@ -69,7 +69,7 @@ namespace LinCms.Web.Controllers.v1
         {
             var select = _articleRepository
                 .Select
-                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == Status.Enable))
+                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .Where(r => r.CreateUserId == _currentUser.Id)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .OrderByDescending(r => r.IsStickie)
@@ -100,7 +100,7 @@ namespace LinCms.Web.Controllers.v1
             var select = _articleRepository
                 .Select
                 .Include(r => r.Classify)
-                .IncludeMany(r => r.Tags,r=>r.Where(u=>u.Status==Status.Enable))
+                .IncludeMany(r => r.Tags,r=>r.Where(u=>u.Status==true))
                 .IncludeMany(r => r.UserLikes,r=>r.Where(u => u.CreateUserId == userId))
                 .Where(r=>r.IsAudit==true)
                 .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.AsSelect().Any(u=>u.Id==searchDto.TagId))

@@ -20,7 +20,7 @@ namespace LinCms.Web.Models.v1.Comments
         /// <summary>
         /// 关联随笔id
         /// </summary>
-        public Guid? ArticleId { get; set; }
+        public Guid? SubjectId { get; set; }
 
         public long? CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
@@ -36,6 +36,8 @@ namespace LinCms.Web.Models.v1.Comments
         public OpenUserDto RespUserInfo { get; set; }
 
         public bool IsLiked { get; set; }
+
+        public bool? IsAudited { get; set; }
 
         public int LikesQuantity { get; set; }
 

@@ -8,6 +8,7 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Repositories;
+using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.v1
@@ -18,16 +19,23 @@ namespace LinCms.Web.Controllers.v1
     {
         private readonly AuditBaseRepository<Classify> _classifyRepository;
         private readonly IMapper _mapper;
-        public ClassifyController(AuditBaseRepository<Classify> classifyRepository, IMapper mapper)
+        private readonly ICurrentUser _currentUser;
+        public ClassifyController(AuditBaseRepository<Classify> classifyRepository, IMapper mapper, ICurrentUser currentUser)
         {
             _classifyRepository = classifyRepository;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除分类专栏", "分类专栏")]
         public ResultDto DeleteClassify(Guid id)
         {
+            Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
+            if (classify.CreateUserId != _currentUser.Id)
+            {
+                throw new LinCmsException("您无权删除他人的分类专栏");
+            }
             _classifyRepository.Delete(new Classify { Id = id });
             return ResultDto.Success();
         }
@@ -35,34 +43,36 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet]
         public List<ClassifyDto> Get()
         {
-            List<ClassifyDto> classifys = _classifyRepository.Select.OrderBy(r=>r.SortCode)
-                .OrderByDescending(r => r.Id)
+            List<ClassifyDto> classify = _classifyRepository.Select.OrderBy(r => r.SortCode)
+                .OrderByDescending(r => r.SortCode)
                 .ToList()
-                .Select(r => _mapper.Map<ClassifyDto>(r)).ToList();
+                .Select(r =>
+                {
+                    ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(r);
+                    classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
+                    return classifyDto;
+                }).ToList();
 
-            return classifys;
+            return classify;
         }
 
         [HttpGet("{id}")]
         public ClassifyDto Get(Guid id)
         {
             Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
-            return _mapper.Map<ClassifyDto>(classify);
+            ClassifyDto classifyDto= _mapper.Map<ClassifyDto>(classify);
+            classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
+            return classifyDto;
         }
 
         [HttpPost]
         [LinCmsAuthorize("新增分类专栏", "分类专栏")]
         public ResultDto Post([FromBody] CreateUpdateClassifyDto createClassify)
         {
-            bool exist = _classifyRepository.Select.Any(r => r.ClassifyName==createClassify.ClassifyName);
+            bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException($"分类专栏[{createClassify.ClassifyName}]已存在");
-            }
-            bool existCode= _classifyRepository.Select.Any(r => r.ClassifyCode == createClassify.ClassifyCode);
-            if (existCode)
-            {
-                throw new LinCmsException($"分类专栏[{createClassify.ClassifyCode}]已存在");
             }
 
             Classify classify = _mapper.Map<Classify>(createClassify);
@@ -80,16 +90,10 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("该数据不存在");
             }
 
-            bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id);
+            bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException($"分类专栏[{updateClassify.ClassifyName}]已存在");
-            }
-
-            bool exist2 = _classifyRepository.Select.Any(r => r.ClassifyCode == updateClassify.ClassifyCode && r.Id != id);
-            if (exist2)
-            {
-                throw new LinCmsException($"分类专栏[{updateClassify.ClassifyCode}]已存在");
             }
 
             _mapper.Map(updateClassify, classify);

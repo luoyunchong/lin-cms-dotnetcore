@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Web.Models.v1.Classifys
 {
     public class CreateUpdateClassifyDto
     {
-        [Required(ErrorMessage = "编码为必填项")]
-        public string ClassifyCode { get; set; }
+        [Required(ErrorMessage = "请上传专栏图")]
+        public string Thumbnail { get; set; }
         public int SortCode { get; set; }
         [Required(ErrorMessage = "分类专栏为必填项")]
         public string ClassifyName { get; set; }

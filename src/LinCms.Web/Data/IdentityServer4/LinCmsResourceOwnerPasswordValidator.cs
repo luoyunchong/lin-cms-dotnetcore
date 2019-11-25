@@ -32,7 +32,7 @@ namespace LinCms.Web.Data.IdentityServer4
         /// <returns></returns>
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            LinUser user = _fsql.Select<LinUser>().Where(r => r.Nickname == context.UserName).ToOne();
+            LinUser user = _fsql.Select<LinUser>().Where(r => r.Username == context.UserName||r.Email==context.UserName).ToOne();
 
             //验证失败
             if (user == null)
@@ -58,9 +58,9 @@ namespace LinCms.Web.Data.IdentityServer4
                 new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                    new Claim(ClaimTypes.Email,user.Email),
-                    new Claim(ClaimTypes.SerialNumber,user.Nickname),
-                    new Claim(ClaimTypes.Name,user.Username),
+                    new Claim(ClaimTypes.Email,user.Email??""),
+                    new Claim(ClaimTypes.SerialNumber,user.Nickname??""),
+                    new Claim(ClaimTypes.Name,user.Username??""),
                     new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
                     new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
                     new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())

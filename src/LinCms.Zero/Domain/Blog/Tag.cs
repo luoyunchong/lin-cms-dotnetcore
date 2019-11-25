@@ -27,8 +27,7 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public string TagName { get; set; }
-        [Column(MapType = typeof(int?))]
-        public Status Status { get; set; }
+        public bool Status { get; set; }
         /// <summary>
         /// 随笔数量
         /// </summary>
@@ -40,6 +39,5 @@ namespace LinCms.Zero.Domain.Blog
         public int SubscribersCount { get; set; } = 0;
         public virtual ICollection<Article> Articles { get; set; }
 
-        public virtual ICollection<LinUser> LinUser { get; set; }
     }
 }

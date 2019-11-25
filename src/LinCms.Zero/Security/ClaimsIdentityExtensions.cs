@@ -9,7 +9,6 @@ namespace LinCms.Zero.Security
     {
         public static int? FindUserId(this ClaimsPrincipal principal)
         {
-
             Claim userIdOrNull = principal.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             if (userIdOrNull == null || userIdOrNull.Value.IsNullOrWhiteSpace())
             {
