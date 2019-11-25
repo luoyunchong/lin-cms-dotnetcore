@@ -14,7 +14,7 @@ namespace LinCms.Web.Models.v1.Tags
         public string Alias { get; set; }
         public int ArticleCount { get; set; }
 
-        public Status Status { get; set; }
+        public bool Status { get; set; }
 
     }
 }
