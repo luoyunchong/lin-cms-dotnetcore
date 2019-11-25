@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 using LinCms.Zero.Common;
 
 namespace LinCms.Web.Models.Cms.Account
@@ -21,20 +22,27 @@ namespace LinCms.Web.Models.Cms.Account
         /// <summary>
         /// 手机号
         /// </summary>
-        [Required(ErrorMessage = "手机号不能为空")]
-        public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "邮件不能为空")]
+        public string Email { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (!PhoneNumber.IsNullOrEmpty())
+            if (!Email.IsNullOrEmpty())
             {
 
-                bool isMobile= LinCmsUtils.ValidateMobile(PhoneNumber);
-
-
-                if (!isMobile)
+                string address = null;
+                try
                 {
-                    yield return new ValidationResult("手机号格式不正确", new[] { "PhoneNumber" });
+                    address = new MailAddress(Email).Address;
+                }
+                catch
+                {
+                    // ignored
+                }
+
+                if (address.IsNullOrEmpty())
+                {
+                    yield return new ValidationResult("电子邮箱不符合规范，请输入正确的邮箱", new[] { "Email" });
                 }
 
             }

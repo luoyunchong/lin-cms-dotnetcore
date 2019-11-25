@@ -117,7 +117,7 @@ namespace LinCms.Web.Services.Cms
                 throw new LinCmsException("分组不存在", ErrorCode.NotFound);
             }
 
-            if (!string.IsNullOrEmpty(user.Username.Trim()))
+            if (!string.IsNullOrEmpty(user.Username))
             {
                 bool isRepeatName = _userRepository.Select.Any(r => r.Username == user.Username);
 

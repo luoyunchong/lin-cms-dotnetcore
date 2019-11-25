@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinCms.Web.Models.Cms.Account;
 using LinCms.Web.Models.Cms.Admins;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Zero.Domain;
@@ -14,6 +15,7 @@ namespace LinCms.Web.AutoMapper.Cms
             CreateMap<LinUser, UserInformation>();
             CreateMap<LinUser, UserDto>();
             CreateMap<LinUser, OpenUserDto>();
+            CreateMap<RegisterDto, LinUser>();
         }
     }
 }

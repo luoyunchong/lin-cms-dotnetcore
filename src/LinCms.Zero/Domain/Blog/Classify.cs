@@ -9,10 +9,10 @@ namespace LinCms.Zero.Domain.Blog
    public class Classify:FullAduitEntity<Guid>
     {
         /// <summary>
-        /// 分类编码
+        /// 封面图
         /// </summary>
-        [Column(DbType = "varchar(50)")]
-        public string ClassifyCode { get; set; }
+        [Column(DbType = "varchar(100)")]
+        public string Thumbnail { get; set; }
         /// <summary>
         /// 排序
         /// </summary>

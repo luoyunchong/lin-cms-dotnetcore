@@ -32,7 +32,10 @@ namespace LinCms.Web.Controllers.v1
         private readonly IUserSevice _userService;
         private readonly ICommentService _commentService;
         private readonly AuditBaseRepository<Article> _articleRepository;
-        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper, ICurrentUser currentUser, IUserSevice userService, ICommentService commentService, AuditBaseRepository<Article> articleRepository)
+
+        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper,
+            ICurrentUser currentUser, IUserSevice userService, ICommentService commentService,
+            AuditBaseRepository<Article> articleRepository)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
@@ -47,20 +50,20 @@ namespace LinCms.Web.Controllers.v1
         /// </summary>
         /// <param name="commentSearchDto"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("public")]
         [AllowAnonymous]
-        public PagedResultDto<CommentDto> Get([FromQuery]CommentSearchDto commentSearchDto)
+        public PagedResultDto<CommentDto> Get([FromQuery] CommentSearchDto commentSearchDto)
         {
             long? userId = _currentUser.Id;
             List<CommentDto> comments = _commentAuditBaseRepository
                 .Select
                 .Include(r => r.UserInfo)
                 .Include(r => r.RespUserInfo)
-                .IncludeMany(r => r.Childs,  //.Take(2)
+                .IncludeMany(r => r.Childs, //.Take(2)
                     t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
                 .IncludeMany(r => r.UserLikes)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)
+                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId&&r.IsAudited==true)
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .ToPagerList(commentSearchDto, out long totalCount)
@@ -72,6 +75,7 @@ namespace LinCms.Web.Controllers.v1
                     {
                         commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
                     }
+
                     commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
                         CommentDto childrenDto = _mapper.Map<CommentDto>(u);
@@ -79,10 +83,43 @@ namespace LinCms.Web.Controllers.v1
                         {
                             childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
                         }
-                        childrenDto.IsLiked = userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
+
+                        childrenDto.IsLiked =
+                            userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
                         return childrenDto;
                     }).ToList();
-                    commentDto.IsLiked = userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
+                    commentDto.IsLiked =
+                        userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
+                    return commentDto;
+                }).ToList();
+
+            return new PagedResultDto<CommentDto>(comments, totalCount);
+        }
+
+        /// <summary>
+        /// 查询出此随笔的评论
+        /// </summary>
+        /// <param name="commentSearchDto"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [LinCmsAuthorize("评论列表", "评论")]
+        public PagedResultDto<CommentDto> GetAll([FromQuery] CommentSearchDto commentSearchDto)
+        {
+            List<CommentDto> comments = _commentAuditBaseRepository
+                .Select
+                .Include(r => r.UserInfo)
+                .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
+                .WhereIf(commentSearchDto.Text.IsNotNullOrEmpty(),r=>r.Text.Contains(commentSearchDto.Text))
+                .OrderByDescending(r => r.CreateTime)
+                .ToPagerList(commentSearchDto, out long totalCount)
+                .Select(r =>
+                {
+                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
+
+                    if (commentDto.UserInfo != null)
+                    {
+                        commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
+                    }
                     return commentDto;
                 }).ToList();
 

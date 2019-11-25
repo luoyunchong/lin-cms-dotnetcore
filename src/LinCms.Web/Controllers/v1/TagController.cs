@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using LinCms.Web.Models.v1.Tags;
+using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
-using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
-using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Mvc;
@@ -22,11 +19,13 @@ namespace LinCms.Web.Controllers.v1
         private readonly AuditBaseRepository<Tag> _tagRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public TagController(AuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser)
+        private readonly ITagService _tagService;
+        public TagController(AuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, ITagService tagService)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
             _currentUser = currentUser;
+            _tagService = tagService;
         }
 
         [HttpDelete("{id}")]
@@ -38,33 +37,26 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet]
-        public PagedResultDto<TagDto> Get([FromQuery]TagSearchDto searchDto) 
+        [LinCmsAuthorize("所有标签", "标签管理")]
+        public PagedResultDto<TagDto> GetAll([FromQuery]TagSearchDto searchDto)
         {
-            if (searchDto.Sort.IsNullOrEmpty())
-            {
-                searchDto.Sort = "create_time desc";
-            }
+            return _tagService.Get(searchDto);
 
-            List<TagDto> tags = _tagRepository.Select
-                .WhereIf(searchDto.TagName.IsNotNullOrEmpty(),r=>r.TagName.Contains(searchDto.TagName))
-                .Where(r=>r.Status==Status.Enable)
-                .OrderBy(searchDto.Sort)
-                .ToPagerList(searchDto,out long totalCount)
-                .Select(r =>
-                {
-                    TagDto tagDto= _mapper.Map<TagDto>(r);
-                    tagDto.ThumbnailDisplay= _currentUser.GetFileUrl(tagDto.Thumbnail);
-                    return tagDto;
-                }).ToList();
+        }
 
-            return new PagedResultDto<TagDto>(tags,totalCount);
+        [HttpGet("public")]
+        public PagedResultDto<TagDto> Get([FromQuery]TagSearchDto searchDto)
+        {
+            searchDto.Status = true;
+            return _tagService.Get(searchDto);
+
         }
 
         [HttpGet("{id}")]
         public TagDto Get(Guid id)
         {
-            Tag tag = _tagRepository.Select.Where(a => a.Id == id&&a.Status == Status.Enable).ToOne();
-            TagDto tagDto= _mapper.Map<TagDto>(tag);
+            Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
+            TagDto tagDto = _mapper.Map<TagDto>(tag);
             tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
         }
@@ -73,7 +65,7 @@ namespace LinCms.Web.Controllers.v1
         [LinCmsAuthorize("新增标签", "标签管理")]
         public ResultDto Post([FromBody] CreateUpdateTagDto createTag)
         {
-            bool exist = _tagRepository.Select.Any(r => r.TagName==createTag.TagName);
+            bool exist = _tagRepository.Select.Any(r => r.TagName == createTag.TagName);
             if (exist)
             {
                 throw new LinCmsException($"标签[{createTag.TagName}]已存在");
@@ -85,7 +77,6 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [LinCmsAuthorize("编辑标签", "标签管理")]
-
         [HttpPut("{id}")]
         public ResultDto Put(Guid id, [FromBody] CreateUpdateTagDto updateTag)
         {

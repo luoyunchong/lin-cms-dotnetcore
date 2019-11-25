@@ -9,5 +9,7 @@ namespace LinCms.Web.Models.v1.Tags
     public class TagSearchDto:PageDto
     {
         public string TagName { get; set; }
+
+        public bool? Status { get; set; }
     }
 }

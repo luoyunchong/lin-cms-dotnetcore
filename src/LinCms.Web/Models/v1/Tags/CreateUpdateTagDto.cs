@@ -16,7 +16,7 @@ namespace LinCms.Web.Models.v1.Tags
         [MaxLength(300, ErrorMessage = "请少于300个字符")]
         public string Alias { get; set; }
 
-        public Status Status { get; set; }
+        public bool Status { get; set; }
 
     }
 }
