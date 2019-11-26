@@ -72,6 +72,7 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .Where(r => r.CreateUserId == _currentUser.Id)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
+                .WhereIf(searchDto.ClassifyId.HasValue,r=>r.ClassifyId== searchDto.ClassifyId)
                 .OrderByDescending(r => r.IsStickie)
                 .OrderByDescending(r => r.Id);
 
@@ -212,5 +213,25 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success("更新随笔成功");
         }
 
+        /// <summary>
+        /// 审核随笔-拉黑/取消拉黑
+        /// </summary>
+        /// <param name="id">审论Id</param>
+        /// <param name="isAudit"></param>
+        /// <returns></returns>
+        [LinCmsAuthorize("审核随笔", "随笔")]
+        [HttpPut("audit/{id}")]
+        public ResultDto Put(Guid id, bool isAudit)
+        {
+            Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+            if (article == null)
+            {
+                throw new LinCmsException("没有找到相关随笔");
+            }
+
+            article.IsAudit = isAudit;
+            _articleRepository.Update(article);
+            return ResultDto.Success();
+        }
     }
 }

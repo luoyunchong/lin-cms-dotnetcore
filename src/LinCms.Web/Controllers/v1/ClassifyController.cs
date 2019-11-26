@@ -28,7 +28,6 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        [LinCmsAuthorize("删除分类专栏", "分类专栏")]
         public ResultDto DeleteClassify(Guid id)
         {
             Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
@@ -41,9 +40,14 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet]
-        public List<ClassifyDto> Get()
+        public List<ClassifyDto> Get(long? userId)
         {
+            if (!userId.HasValue)
+            {
+                userId = _currentUser.Id;
+            }
             List<ClassifyDto> classify = _classifyRepository.Select.OrderBy(r => r.SortCode)
+                .Where(r => r.CreateUserId == userId)
                 .OrderByDescending(r => r.SortCode)
                 .ToList()
                 .Select(r =>
@@ -60,13 +64,12 @@ namespace LinCms.Web.Controllers.v1
         public ClassifyDto Get(Guid id)
         {
             Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
-            ClassifyDto classifyDto= _mapper.Map<ClassifyDto>(classify);
+            ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(classify);
             classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
             return classifyDto;
         }
 
         [HttpPost]
-        [LinCmsAuthorize("新增分类专栏", "分类专栏")]
         public ResultDto Post([FromBody] CreateUpdateClassifyDto createClassify)
         {
             bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
@@ -81,13 +84,17 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        [LinCmsAuthorize("编辑分类专栏", "分类专栏")]
         public ResultDto Put(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
         {
             Classify classify = _classifyRepository.Select.Where(r => r.Id == id).ToOne();
             if (classify == null)
             {
                 throw new LinCmsException("该数据不存在");
+            }
+
+            if (classify.CreateUserId != _currentUser.Id)
+            {
+                throw new LinCmsException("您无权编辑他人的分类专栏");
             }
 
             bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == _currentUser.Id);

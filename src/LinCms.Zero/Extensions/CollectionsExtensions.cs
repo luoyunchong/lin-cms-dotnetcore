@@ -36,5 +36,10 @@ namespace LinCms.Zero.Extensions
         {
             return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count).ToList<TResult>();
         }
+
+        public static PagedResultDto<TEntity> ToPagedResultDto<TEntity>(this IReadOnlyList<TEntity> list, long count) where TEntity : class
+        {
+            return new PagedResultDto<TEntity>(list, count);
+        }
     }
 }

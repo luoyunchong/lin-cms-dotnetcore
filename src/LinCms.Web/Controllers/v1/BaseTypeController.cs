@@ -24,7 +24,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpDelete("{id}")]
-        [LinCmsAuthorize("删除基础资料", "基础资料")]
+        [LinCmsAuthorize("删除字典类别", "字典类别")]
         public ResultDto DeleteBaseType(int id)
         {
             _baseTypeRepository.Delete(new BaseType { Id = id });
@@ -50,6 +50,7 @@ namespace LinCms.Web.Controllers.v1
             return _mapper.Map<BaseTypeDto>(baseType);
         }
 
+        [LinCmsAuthorize("新增字典类别", "字典类别")]
         [HttpPost]
         public ResultDto Post([FromBody] CreateUpdateBaseTypeDto createBaseType)
         {
@@ -64,6 +65,7 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success("新建类别成功");
         }
 
+        [LinCmsAuthorize("编辑字典类别", "字典类别")]
         [HttpPut("{id}")]
         public ResultDto Put(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
         {
