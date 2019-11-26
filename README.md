@@ -3,13 +3,11 @@
   <a href="http://doc.cms.7yue.pro/">
     <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
   </a>
-  <p>
+  <h1>
   Lin CMS .NET Core
-  </p>
+  </h1>
 </h1>
 😃 A simple and practical CMS implememted by .NET Core 2.2
-
-
 
 ## 项目简介
 <!-- ![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
@@ -91,59 +89,6 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 ### 前端 
 前端需要开发者比较熟悉 Vue 的，另外需要了解 ES6,axios,ElementUi、webpack、Vuex、Vue-Router等等等
 
-
-# 快速开始
-
-## Server 端必备环境
-* 安装软件开发包 [.NET Core SDK 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)   
-* 安装开发工具  [Visual Studio 2019](https://visualstudio.microsoft.com/zh-hans/vs/?rr=https%3A%2F%2Fcn.bing.com%2F)  
-* 安装MySQL（version： 5.6+,别装8.0+，未测试）
-
-
-## 获取工程项目
-```bash
-git clone https://github.com/luoyunchong/lin-cms-dotnetcore.git
-```
-## 安装依赖包
-
-打开lin-cms-dotnetcore项目目录
-
-右击build-all.ps1,使用powershell运行。即可安装好相应的依赖。
-
-或
-
-打开powershell，cd到lin-cms-dotnetcore目录 ，输入如 下命令，运行此脚本。
-```
-.\build-all.ps1
-```
-双击lin-cms-dotnetcore.sln即可使用vs2019打开项目。
-
-
-## 数据库配置
-
-src/LinCms.Web目录中appsettings.json
-**请务必根据自己的实际情况修改此配置项**
-```
-  "ConnectionStrings": {
-    "Default": "Data Source=127.0.0.1;Port=3306;User ID=root;Password=123456;Initial Catalog=LinCms;Charset=utf8;SslMode=none;Max pool size=10"
-  }
-```
-## 数据迁移
-该项目使用[FreeSql](https://github.com/2881099/FreeSql)，默认自动迁移数据表结构，无须用户操作，但无数据，而且只有访问到表时才会创建某个表，所以用户可将[备份SQL](https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/docs/sql/lincms.sql)放到Mysql中生成，还原表结构及数据。
-
-## 运行
-用户可使用vs2019，单击LinCms .Web，即可自动启动后台服务。
-
-![](https://ae01.alicdn.com/kf/H70086026eaca4dc8ab4806ee1d07443bP.jpg)
-
-会打开浏览器，访问[https://localhosst:5001/swagger/index.html](https://localhosst:5001/swagger/index.html)，会看到swagger的文档。
-
-![](https://ae01.alicdn.com/kf/He52bc4d3708242d2995419bb584e1f53Q.jpg)
-
-## 部署
-
-[https://blog.igeekfan.cn/2019/06/09/dotnetcore/ASP.NET-Core-Deploy-To-Ubuntu/](https://blog.igeekfan.cn/2019/06/09/dotnetcore/ASP.NET-Core-Deploy-To-Ubuntu/)
-
 ## 讨论交流
 
 ### QQ 交流群
@@ -163,7 +108,10 @@ src/LinCms.Web目录中appsettings.json
 
 
 ## 下个版本开发计划
-
+1. 迁移Mock.Luo项目至lin-cms-dotnetcore,
+2. 实现模块化开发，支持基础组件安装与卸载。
+3. 实现abp vnext的文档的功能 [https://docs.abp.io/en/abp/latest](https://docs.abp.io/en/abp/latest)
+4. 写文档。
 - [x] 创建时间、创建人、修改时间、修改人、删除人、删除时间、是否删除(软删除)
 - [x] 部署 
 - [ ] 系统访问日志、错误日志可视化
@@ -176,7 +124,6 @@ src/LinCms.Web目录中appsettings.json
   - [ ] 前端展示博客效果
   - [x] 基础资料  BaseItem
   - [x] 类别管理  BaseType
-
 
 ##  开源地址
 * Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)

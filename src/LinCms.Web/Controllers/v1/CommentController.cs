@@ -183,7 +183,7 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="isAudit"></param>
         /// <returns></returns>
         [LinCmsAuthorize("审核评论", "评论")]
-        [HttpPut("{id}")]
+        [HttpPut("audit/{id}")]
         public ResultDto Put(Guid id, bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
