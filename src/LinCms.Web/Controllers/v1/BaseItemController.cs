@@ -56,6 +56,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpPost]
+        [LinCmsAuthorize("新增字典", "字典管理")]
         public ResultDto Post([FromBody] CreateUpdateBaseItemDto createBaseItem)
         {
             bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == createBaseItem.BaseTypeId && r.ItemCode == createBaseItem.ItemCode);
@@ -70,6 +71,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpPut("{id}")]
+        [LinCmsAuthorize("编辑字典", "字典管理")]
         public ResultDto Put(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
         {
             BaseItem baseItem = _baseItemRepository.Select.Where(r => r.Id == id).ToOne();

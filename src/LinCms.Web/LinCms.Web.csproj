@@ -10,7 +10,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.2\LinCms.Web.xml</DocumentationFile>
-    <OutputPath>bin\Debug\netcoreapp2.2\</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 

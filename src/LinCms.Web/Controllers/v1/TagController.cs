@@ -41,7 +41,6 @@ namespace LinCms.Web.Controllers.v1
         public PagedResultDto<TagDto> GetAll([FromQuery]TagSearchDto searchDto)
         {
             return _tagService.Get(searchDto);
-
         }
 
         [HttpGet("public")]
@@ -49,7 +48,6 @@ namespace LinCms.Web.Controllers.v1
         {
             searchDto.Status = true;
             return _tagService.Get(searchDto);
-
         }
 
         [HttpGet("{id}")]

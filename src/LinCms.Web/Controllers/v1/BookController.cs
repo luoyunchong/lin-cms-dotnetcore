@@ -5,6 +5,7 @@ using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +34,11 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet]
-        public List<Book> Get()
+        public PagedResultDto<Book> Get([FromQuery] PageDto pageDto)
         {
-            return _bookRepository.Select.OrderByDescending(r=>r.Id).ToList();
+            return _bookRepository.Select.OrderByDescending(r => r.Id)
+                .ToPagerList(pageDto, out long count)
+                .ToPagedResultDto(count);
         }
 
         [HttpGet("{id}")]
