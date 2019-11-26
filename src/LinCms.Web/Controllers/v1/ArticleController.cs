@@ -146,27 +146,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpPost]
         public ResultDto Post([FromBody] CreateUpdateArticleDto createArticle)
         {
-            bool exist = _articleRepository.Select.Any(r => r.Title == createArticle.Title && r.CreateUserId == _currentUser.Id);
-            if (exist)
-            {
-                throw new LinCmsException("您有一个同样标题的随笔");
-            }
-
-            Article article = _mapper.Map<Article>(createArticle);
-            article.Archive = DateTime.Now.ToString("yyy年MM月");
-            article.Author = _currentUser.UserName;
-           article.WordNumber = createArticle.Content.Length;
-           article.ReadingTime = createArticle.Content.Length / 800;
-
-            article.Tags = new List<Tag>();
-            foreach (var articleTagId in createArticle.TagIds)
-            {
-                article.Tags.Add(new Tag()
-                {
-                    Id = articleTagId,
-                });
-            }
-            _articleRepository.Insert(article);
+            _articleService.CreateArticle(createArticle);
 
             return ResultDto.Success("新建随笔成功");
         }
@@ -185,30 +165,8 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("没有找到相关随笔");
             }
 
-            bool exist = _articleRepository.Select.Any(r => r.Title == updateArticle.Title && r.Id != id && r.CreateUserId == _currentUser.Id);
-            if (exist)
-            {
-                throw new LinCmsException("您有一个同样标题的随笔");
-            }
-
-            //使用AutoMapper方法简化类与类之间的转换过程
             _mapper.Map(updateArticle, article);
-            article.WordNumber = updateArticle.Content.Length;
-            article.ReadingTime = updateArticle.Content.Length / 800;
-
-            _articleRepository.Update(article);
-
-            _tagArticleRepository.Delete(r => r.ArticleId == id);
-
-            List<TagArticle> tagArticles = new List<TagArticle>();
-
-            updateArticle.TagIds.ForEach(r => tagArticles.Add(new TagArticle()
-            {
-                ArticleId = id,
-                TagId = r
-            }));
-
-            _tagArticleRepository.Insert(tagArticles);
+            _articleService.UpdateArticle(updateArticle,article);
 
             return ResultDto.Success("更新随笔成功");
         }

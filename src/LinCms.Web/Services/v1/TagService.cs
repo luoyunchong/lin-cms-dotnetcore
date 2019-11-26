@@ -46,5 +46,16 @@ namespace LinCms.Web.Services.v1
 
             return new PagedResultDto<TagDto>(tags, totalCount);
         }
+
+        public void UpdateArticleCount(Guid? id, int inCreaseCount)
+        {
+            if (id == null)
+            {
+                return;
+            }
+
+            _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount).Where(r => r.Id == id)
+                .ExecuteAffrows();
+        }
     }
 }

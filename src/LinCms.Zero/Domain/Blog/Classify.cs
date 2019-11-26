@@ -23,6 +23,11 @@ namespace LinCms.Zero.Domain.Blog
         [Column(DbType = "varchar(50)")]
         public string ClassifyName { get; set; }
 
+        /// <summary>
+        /// 随笔数量
+        /// </summary>
+        public int ArticleCount { get; set; } = 0;
+
         public List<Article> Articles { get; set; }
     }
 }

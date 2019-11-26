@@ -80,6 +80,7 @@ namespace LinCms.Web
             #region IdentityServer4+FreeSql
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);
+            services.AddSingleton(typeof(IUnitOfWork), typeof(UnitOfWork));
 
             services.AddFreeRepository(filter =>
             {
@@ -175,7 +176,7 @@ namespace LinCms.Web
 
             #endregion
 
-            services.AddAutoMapper(typeof(Startup).Assembly,typeof(PoemProfile).Assembly);
+            services.AddAutoMapper(typeof(Startup).Assembly, typeof(PoemProfile).Assembly);
 
             services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
 
