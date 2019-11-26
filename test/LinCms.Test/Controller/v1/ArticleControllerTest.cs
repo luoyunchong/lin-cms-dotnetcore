@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using LinCms.Web.Controllers.v1;
 using LinCms.Web.Models.v1.Articles;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Repositories;
@@ -18,10 +19,12 @@ namespace LinCms.Test.Controller.v1
         private readonly IFreeSql _freeSql;
         private readonly AuditBaseRepository<Article> _articleRepository;
         private readonly AuditBaseRepository<Tag> _tagRepository;
+        private readonly ArticleController _articleController;
 
         public ArticleControllerTest() : base()
         {
             _hostingEnv = serviceProvider.GetService<IHostingEnvironment>();
+            _articleController = serviceProvider.GetService<ArticleController>(); ;
 
             _mapper = serviceProvider.GetService<IMapper>();
             _articleRepository = serviceProvider.GetService<AuditBaseRepository<Article>>();
@@ -68,7 +71,7 @@ namespace LinCms.Test.Controller.v1
                 .ToList();
 
             //属性Classify会有值
-            List<Article>articles2=  _articleRepository
+            List<Article> articles2 = _articleRepository
                 .Select
                 .Include(r => r.Classify)
                 .ToList();
@@ -76,13 +79,13 @@ namespace LinCms.Test.Controller.v1
             //配合IMapper，转换为ArticleDto
             List<ArticleDto> articles3 = _articleRepository
                 .Select
-                .ToList(r=>new
+                .ToList(r => new
                 {
                     r.Classify,
-                    Article=r
-                }).Select(r=>
+                    Article = r
+                }).Select(r =>
                 {
-                    ArticleDto articleDto=_mapper.Map<ArticleDto>(r.Article);
+                    ArticleDto articleDto = _mapper.Map<ArticleDto>(r.Article);
                     articleDto.ClassifyName = r.Classify.ClassifyName;
                     return articleDto;
                 }).ToList();
@@ -109,7 +112,7 @@ namespace LinCms.Test.Controller.v1
                 .IncludeMany(r => r.Tags).ToList();
 
             var d1 = _articleRepository
-                .Select.Include(r=>r.Classify)
+                .Select.Include(r => r.Classify)
                 .ToList();
 
 
@@ -128,7 +131,7 @@ namespace LinCms.Test.Controller.v1
 
             var d5 = _articleRepository
                 .Select
-                .Include(r=>r.Classify)
+                .Include(r => r.Classify)
                 .IncludeMany(r => r.Tags)
                 .ToList(r => new
                 {
@@ -145,7 +148,7 @@ namespace LinCms.Test.Controller.v1
         public void Test()
         {
             Guid guid = new Guid("5dc93286-5e44-c190-008e-3fc74d4fcee0");
-            var error = _articleRepository.Select.IncludeMany( r => r.Tags)
+            var error = _articleRepository.Select.IncludeMany(r => r.Tags)
                 .Where(r => r.Id == guid)
                 .ToList(); ;
         }
@@ -157,26 +160,26 @@ namespace LinCms.Test.Controller.v1
             Guid guid = new Guid("5dc93286-5e44-c190-008e-3fc74d4fcee0");
             var error = _articleRepository.Select
                 .Where(r => r.Id == guid)
-                .ToList(r=>r.Tags);
+                .ToList(r => r.Tags);
         }
 
 
         [Fact]
         public void TestWhereOneToMany()
         {
-            ArticleSearchDto searchDto=new ArticleSearchDto()
+            ArticleSearchDto searchDto = new ArticleSearchDto()
             {
                 TagId = new Guid("5dc931fd-5e44-c190-008e-3fc4728735d6")
             };
 
             var data1 = _articleRepository
                 .Select
-                .IncludeMany(r=>r.Tags)
+                .IncludeMany(r => r.Tags)
                 .Where(r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId)).ToList();
 
             var data2 = _articleRepository
                 .Select
-                .Where(r => r.Tags.AsSelect().Where(u=>u.Id==searchDto.TagId).Count()>0).ToList();
+                .Where(r => r.Tags.AsSelect().Where(u => u.Id == searchDto.TagId).Count() > 0).ToList();
 
             var data3 = _articleRepository
                 .Select
@@ -196,6 +199,13 @@ namespace LinCms.Test.Controller.v1
                 .Select
                 .IncludeMany(r => r.Tags.Where(u => u.Id == searchDto.TagId)).ToList();
 
+        }
+
+        [Fact]
+        public void Post()
+        {
+            CreateUpdateArticleDto createArticle=new CreateUpdateArticleDto();
+            _articleController.Post(createArticle);
         }
     }
 }

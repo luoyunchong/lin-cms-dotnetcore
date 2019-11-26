@@ -36,7 +36,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 用户点赞/取消点赞文章 
+        /// 用户点赞/取消点赞文章、评论 
         /// </summary>
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
@@ -53,10 +53,10 @@ namespace LinCms.Web.Controllers.v1
                 switch (createUpdateUserLike.SubjectType)
                 {
                     case 1:
-                        _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikesQuantity - 1).Where(r => r.Id == createUpdateUserLike.SubjectId).ExecuteAffrows();
+                        this.UpdateArticleLike(createUpdateUserLike.SubjectId, -1);
                         break;
                     case 2:
-                        _commentRepository.UpdateDiy.Set(r=>r.LikesQuantity-1).Where(r => r.Id == createUpdateUserLike.SubjectId).ExecuteAffrows();
+                        this.UpdateCommentLike(createUpdateUserLike.SubjectId, -1);
                         break;
                 }
 
@@ -70,14 +70,24 @@ namespace LinCms.Web.Controllers.v1
             switch (createUpdateUserLike.SubjectType)
             {
                 case 1:
-                    _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikesQuantity + 1).Where(r => r.Id == createUpdateUserLike.SubjectId).ExecuteAffrows();
+                    this.UpdateArticleLike(createUpdateUserLike.SubjectId,1);
                     break;
                 case 2:
-                    _commentRepository.UpdateDiy.Set(r => r.LikesQuantity + 1).Where(r => r.Id == createUpdateUserLike.SubjectId).ExecuteAffrows();
+                    this.UpdateCommentLike(createUpdateUserLike.SubjectId,1);
                     break;
             }
 
             return ResultDto.Success("点赞成功");
+        }
+
+        private void UpdateArticleLike(Guid subjectId, int likesQuantity)
+        {
+            _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
+        }
+
+        private void UpdateCommentLike(Guid subjectId,int likesQuantity)
+        {
+            _commentRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
     }
 }

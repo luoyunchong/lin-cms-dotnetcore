@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using FreeSql;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
@@ -12,8 +13,8 @@ namespace LinCms.Web.Repositories
     public class BookRepository : AuditBaseRepository<Book>
     {
         private readonly ICurrentUser _currentUser;
-        public BookRepository(ICurrentUser currentUser, IFreeSql fsql, Expression<Func<Book, bool>> filter = null, Func<string, string> asTable = null) 
-            : base(currentUser,fsql, filter, asTable)
+        public BookRepository(ICurrentUser currentUser, IFreeSql fsql, Expression<Func<Book, bool>> filter = null, Func<string, string> asTable = null)
+            : base(currentUser, fsql, filter, asTable)
         {
             _currentUser = currentUser;
         }

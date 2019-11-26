@@ -9,6 +9,15 @@ using LinCms.Zero.Security;
 
 namespace LinCms.Zero.Repositories
 {
+    public class AuditBaseRepository<T> : AuditBaseRepository<T, Guid> where T : class, new()
+    {
+        private readonly ICurrentUser _currentUser;
+        public AuditBaseRepository(ICurrentUser currentUser, IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null)
+            : base(currentUser, fsql, filter, asTable)
+        {
+            _currentUser = currentUser;
+        }
+    }
     /// <summary>
     /// 审计仓储：实现如果实体类
     /// 继承了ICreateAduitEntity  则自动增加创建时间/人信息
@@ -16,10 +25,11 @@ namespace LinCms.Zero.Repositories
     /// 继承了ISoftDeleteAduitEntity，删除时，自动改成软删除。仅注入此仓储或继承此仓储的实现才能实现如上功能。
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class AuditBaseRepository<T> : BaseRepository<T> where T : class, new()
+    /// <typeparam name="TKey"></typeparam>
+    public class AuditBaseRepository<T, TKey> : BaseRepository<T, TKey> where T : class, new()
     {
         private readonly ICurrentUser _currentUser;
-        public AuditBaseRepository(ICurrentUser currentUser, IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
+        public AuditBaseRepository(ICurrentUser currentUser,IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
         {
             _currentUser = currentUser;
         }

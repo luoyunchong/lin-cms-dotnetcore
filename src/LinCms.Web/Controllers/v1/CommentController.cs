@@ -149,7 +149,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 用户留言，可登录，已登录用户自动获取头像
+        /// 用户评论
         /// </summary>
         /// <param name="createCommentDto"></param>
         /// <returns></returns>
