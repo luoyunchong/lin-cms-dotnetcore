@@ -23,7 +23,15 @@ namespace LinCms.Web.Services.v1
             {
                 return;
             }
-
+            //防止数量一直减，减到小于0
+            if (inCreaseCount < 0)
+            {
+                Classify classify = _classifyBaseRepository.Select.Where(r => r.Id == id).ToOne();
+                if (classify.ArticleCount < -inCreaseCount)
+                {
+                    return;
+                }
+            }
             _classifyBaseRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount).Where(r => r.Id == id)
                 .ExecuteAffrows();
         }
