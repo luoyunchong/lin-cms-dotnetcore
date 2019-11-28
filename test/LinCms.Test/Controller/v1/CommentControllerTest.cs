@@ -80,7 +80,7 @@ namespace LinCms.Test.Controller.v1
                 .Include(r => r.RespUserInfo)
                 .IncludeMany(r => r.Childs.Take(2), t => t.Include(u => u.UserInfo))
                 .IncludeMany(r => r.UserLikes)
-                .WhereIf(commentSearchDto.SubjectId!=null, r => r.SubjectId == commentSearchDto.SubjectId)
+                .WhereIf(commentSearchDto.SubjectId != null, r => r.SubjectId == commentSearchDto.SubjectId)
                 .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
@@ -109,6 +109,26 @@ namespace LinCms.Test.Controller.v1
                 Text = "😃😃😃😃"
             };
             _baseRepository.Insert(comment);
+        }
+
+        [Fact]
+        public void GetAll()
+        {
+            CommentSearchDto commentSearchDto = new CommentSearchDto()
+            {
+                Count = 10,
+                Page = 11
+            };
+            var comment0 = _baseRepository
+                .Select
+                .OrderByDescending(r => r.CreateTime)
+                .Count(out long count1);
+
+           var comments = _baseRepository
+                .Select
+                .OrderByDescending(r => r.CreateTime)
+                .Page(commentSearchDto.Page + 1, commentSearchDto.Count)
+                .ToList();
         }
     }
 }

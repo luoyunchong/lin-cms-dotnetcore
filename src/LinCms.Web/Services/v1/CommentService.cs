@@ -4,7 +4,7 @@ using LinCms.Zero.Repositories;
 
 namespace LinCms.Web.Services.v1
 {
-    public class CommentService: ICommentService
+    public class CommentService : ICommentService
     {
         private readonly AuditBaseRepository<Comment> _commentAuditBaseRepository;
         private readonly AuditBaseRepository<Article> _articleRepository;
@@ -15,7 +15,6 @@ namespace LinCms.Web.Services.v1
         }
         public void Delete(Comment comment)
         {
-
             //如果是根评论，删除所有的子评论
             if (!comment.RootCommentId.HasValue)
             {

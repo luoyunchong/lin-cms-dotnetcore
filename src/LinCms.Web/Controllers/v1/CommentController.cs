@@ -64,18 +64,25 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.UserLikes)
                 .WhereCascade(x => x.IsDeleted == false)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId && r.IsAudit == true)
+                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)// && r.IsAudit == true
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
-                .ToPagerList(commentSearchDto, out long totalCount)
+                .Page(commentSearchDto.Page + 1, commentSearchDto.Count).ToList()
+                //.ToPagerList(commentSearchDto, out long totalCount)
                 .Select(r =>
                 {
                     CommentDto commentDto = _mapper.Map<CommentDto>(r);
-
+                    if (commentDto.IsAudit == false)
+                    {
+                        commentDto.Text = "[该评论因违规被拉黑]";
+                    }
                     if (commentDto.UserInfo != null)
                     {
                         commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
                     }
+
+                    commentDto.IsLiked =
+                        userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
 
                     commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
@@ -85,17 +92,20 @@ namespace LinCms.Web.Controllers.v1
                             childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
                         }
 
+                        if (childrenDto.IsAudit == false)
+                        {
+                            childrenDto.Text = "[该评论因违规被拉黑]";
+                        }
+
                         childrenDto.IsLiked =
                             userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
                         return childrenDto;
                     }).ToList();
-                    commentDto.IsLiked =
-                        userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
                     return commentDto;
                 }).ToList();
-            
-            //重新计算一个文章多个评论
-            totalCount = GetCommentCount(commentSearchDto);
+
+            //计算一个文章多少个评论
+            long totalCount = GetCommentCount(commentSearchDto);
             
             return new PagedResultDto<CommentDto>(comments, totalCount);
         }
@@ -104,8 +114,7 @@ namespace LinCms.Web.Controllers.v1
         {
             return _commentAuditBaseRepository
                  .Select
-                 .WhereCascade(x => x.IsDeleted == false)
-                 .Where(r => r.IsAudit == true && r.SubjectId == commentSearchDto.SubjectId).Count();
+                 .Where(r => r.IsDeleted == false && r.SubjectId == commentSearchDto.SubjectId).Count();
         }
 
         /// <summary>

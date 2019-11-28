@@ -13,7 +13,7 @@ using LinCms.Zero.Security;
 
 namespace LinCms.Web.Services.v1
 {
-    public class TagService:ITagService
+    public class TagService : ITagService
     {
         private readonly AuditBaseRepository<Tag> _tagRepository;
         private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ namespace LinCms.Web.Services.v1
 
             List<TagDto> tags = _tagRepository.Select
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
-                .WhereIf(searchDto.Status!=null, r => r.Status== searchDto.Status)
+                .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
                 .OrderBy(searchDto.Sort)
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(r =>
@@ -52,6 +52,16 @@ namespace LinCms.Web.Services.v1
             if (id == null)
             {
                 return;
+            }
+
+            //防止数量一直减，减到小于0
+            if (inCreaseCount < 0)
+            {
+                Tag tag = _tagRepository.Select.Where(r => r.Id == id).ToOne();
+                if (tag.ArticleCount < -inCreaseCount)
+                {
+                    return;
+                }
             }
 
             _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount).Where(r => r.Id == id)
