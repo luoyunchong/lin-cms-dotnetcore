@@ -126,7 +126,7 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("没有找到相关留言");
             }
 
-            messageBoard.IsAudited = isAudit;
+            messageBoard.IsAudit = isAudit;
             _messageBoardRepository.Update(messageBoard);
             return ResultDto.Success();
         }

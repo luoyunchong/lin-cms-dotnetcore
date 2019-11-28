@@ -18,6 +18,6 @@ namespace LinCms.Web.Models.v1.MessageBoards
     
         public string UserHost { get; set; }
         public string Avatar { get; set; }
-        public bool? IsAudited { get; set; }
+        public bool? IsAudit { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace LinCms.Web.Models.v1.Comments
 
         public bool IsLiked { get; set; }
 
-        public bool? IsAudited { get; set; }
+        public bool? IsAudit { get; set; }
 
         public int LikesQuantity { get; set; }
 
