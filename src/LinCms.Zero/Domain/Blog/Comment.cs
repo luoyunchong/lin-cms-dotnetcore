@@ -38,7 +38,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 是否已审核
         /// </summary>
-        public bool? IsAudited { get; set; } = true;
+        public bool? IsAudit { get; set; } = true;
 
         /// <summary>
         /// 关联随笔id

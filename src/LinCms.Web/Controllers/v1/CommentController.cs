@@ -64,7 +64,7 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.UserLikes)
                 .WhereCascade(x => x.IsDeleted == false)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId && r.IsAudited == true)
+                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId && r.IsAudit == true)
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .ToPagerList(commentSearchDto, out long totalCount)
@@ -105,7 +105,7 @@ namespace LinCms.Web.Controllers.v1
             return _commentAuditBaseRepository
                  .Select
                  .WhereCascade(x => x.IsDeleted == false)
-                 .Where(r => r.IsAudited == true && r.SubjectId == commentSearchDto.SubjectId).Count();
+                 .Where(r => r.IsAudit == true && r.SubjectId == commentSearchDto.SubjectId).Count();
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="isAudit"></param>
         /// <returns></returns>
         [LinCmsAuthorize("审核评论", "评论")]
-        [HttpPut("audit/{id}")]
+        [HttpPut("{id}")]
         public ResultDto Put(Guid id, bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
@@ -208,7 +208,7 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("没有找到相关评论");
             }
 
-            comment.IsAudited = isAudit;
+            comment.IsAudit = isAudit;
             _commentAuditBaseRepository.Update(comment);
             return ResultDto.Success();
         }
