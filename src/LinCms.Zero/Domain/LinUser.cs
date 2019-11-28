@@ -59,6 +59,11 @@ namespace LinCms.Zero.Domain
         [Column(DbType = "varchar(100)")]
         public string PhoneNumber { get; set; }
         /// <summary>
+        /// 个人介绍
+        /// </summary>
+        [Column(DbType = "varchar(100)")]
+        public string Introduction { get; set; }
+        /// <summary>
         /// 是否是管理员
         /// </summary>
         /// <returns></returns>
