@@ -62,8 +62,9 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.Childs, //.Take(2)
                     t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
                 .IncludeMany(r => r.UserLikes)
+                .WhereCascade(x => x.IsDeleted == false)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId&&r.IsAudited==true)
+                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId && r.IsAudited == true)
                 .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                 .ToPagerList(commentSearchDto, out long totalCount)
@@ -92,8 +93,19 @@ namespace LinCms.Web.Controllers.v1
                         userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
                     return commentDto;
                 }).ToList();
-
+            
+            //重新计算一个文章多个评论
+            totalCount = GetCommentCount(commentSearchDto);
+            
             return new PagedResultDto<CommentDto>(comments, totalCount);
+        }
+
+        private long GetCommentCount(CommentSearchDto commentSearchDto)
+        {
+            return _commentAuditBaseRepository
+                 .Select
+                 .WhereCascade(x => x.IsDeleted == false)
+                 .Where(r => r.IsAudited == true && r.SubjectId == commentSearchDto.SubjectId).Count();
         }
 
         /// <summary>
@@ -109,7 +121,7 @@ namespace LinCms.Web.Controllers.v1
                 .Select
                 .Include(r => r.UserInfo)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .WhereIf(commentSearchDto.Text.IsNotNullOrEmpty(),r=>r.Text.Contains(commentSearchDto.Text))
+                .WhereIf(commentSearchDto.Text.IsNotNullOrEmpty(), r => r.Text.Contains(commentSearchDto.Text))
                 .OrderByDescending(r => r.CreateTime)
                 .ToPagerList(commentSearchDto, out long totalCount)
                 .Select(r =>
@@ -126,7 +138,7 @@ namespace LinCms.Web.Controllers.v1
             return new PagedResultDto<CommentDto>(comments, totalCount);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除评论", "评论")]
         public ResultDto Delete(Guid id)
         {
@@ -135,10 +147,14 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success();
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public ResultDto DeleteMyComment(Guid id)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
+            if (comment == null)
+            {
+                return ResultDto.Error("该评论已删除");
+            }
             if (comment.CreateUserId != _currentUser.Id)
             {
                 return ResultDto.Error("无权限删除他人的评论");
