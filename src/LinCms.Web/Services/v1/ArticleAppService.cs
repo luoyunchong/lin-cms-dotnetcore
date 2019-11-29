@@ -56,7 +56,9 @@ namespace LinCms.Web.Services.v1
 
         public ArticleDto Get(Guid id)
         {
-            Article article = _articleRepository.Select.IncludeMany(r => r.Tags).Include(r => r.UserInfo).Where(a => a.Id == id).ToOne();
+            Article article = _articleRepository.Select
+                .Include(r=>r.Classify)
+                .IncludeMany(r => r.Tags).Include(r => r.UserInfo).Where(a => a.Id == id).ToOne();
 
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
             articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);

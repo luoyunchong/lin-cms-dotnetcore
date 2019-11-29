@@ -6,6 +6,7 @@ using LinCms.Web.Models.v1.UserLikes;
 using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
+using LinCms.Zero.Exceptions;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,7 @@ namespace LinCms.Web.Controllers.v1
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly AuditBaseRepository<Comment> _commentRepository;
-        public UserLikeController( IMapper mapper, ICurrentUser currentUser, GuidRepository<TagArticle> tagArticleRepository, IFreeSql freeSql, IArticleService articleService, AuditBaseRepository<UserLike> userLikeRepository, AuditBaseRepository<Article> articleAuditBaseRepository, AuditBaseRepository<Comment> commentRepository)
+        public UserLikeController(IMapper mapper, ICurrentUser currentUser, GuidRepository<TagArticle> tagArticleRepository, IFreeSql freeSql, IArticleService articleService, AuditBaseRepository<UserLike> userLikeRepository, AuditBaseRepository<Article> articleAuditBaseRepository, AuditBaseRepository<Comment> commentRepository)
         {
             _mapper = mapper;
             _currentUser = currentUser;
@@ -64,16 +65,16 @@ namespace LinCms.Web.Controllers.v1
             }
 
             UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
-            
+
             _userLikeRepository.Insert(userLike);
 
             switch (createUpdateUserLike.SubjectType)
             {
                 case 1:
-                    this.UpdateArticleLike(createUpdateUserLike.SubjectId,1);
+                    this.UpdateArticleLike(createUpdateUserLike.SubjectId, 1);
                     break;
                 case 2:
-                    this.UpdateCommentLike(createUpdateUserLike.SubjectId,1);
+                    this.UpdateCommentLike(createUpdateUserLike.SubjectId, 1);
                     break;
             }
 
@@ -82,11 +83,38 @@ namespace LinCms.Web.Controllers.v1
 
         private void UpdateArticleLike(Guid subjectId, int likesQuantity)
         {
+            Article article = _articleAuditBaseRepository.Select.Where(r => r.Id == subjectId).ToOne();
+            if (article.IsAudit == false)
+            {
+                throw new LinCmsException("该文章因违规被拉黑");
+            }
+            //防止数量一直减，减到小于0
+            if (likesQuantity < 0)
+            {
+                if (article.LikesQuantity < -likesQuantity)
+                {
+                    return;
+                }
+            }
             _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
 
-        private void UpdateCommentLike(Guid subjectId,int likesQuantity)
+        private void UpdateCommentLike(Guid subjectId, int likesQuantity)
         {
+            Comment comment = _commentRepository.Select.Where(r => r.Id == subjectId).ToOne();
+            if (comment.IsAudit == false)
+            {
+                throw new LinCmsException("该评论因违规被拉黑");
+            }
+            //防止数量一直减，减到小于0
+            if (likesQuantity < 0)
+            {
+                if (comment.LikesQuantity < -likesQuantity)
+                {
+                    return;
+                }
+            }
+
             _commentRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
     }

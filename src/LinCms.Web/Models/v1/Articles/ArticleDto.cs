@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LinCms.Web.Models.Cms.Users;
+using LinCms.Web.Models.v1.Classifys;
 using LinCms.Web.Models.v1.Tags;
 
 namespace LinCms.Web.Models.v1.Articles
@@ -18,7 +19,7 @@ namespace LinCms.Web.Models.v1.Articles
         /// <summary>
         /// 类别名称
         /// </summary>        
-        public string ClassifyName { get; set; }
+        public ClassifyDto Classify { get; set; }
         /// <summary>
         /// 几小时/秒前
         /// </summary>
