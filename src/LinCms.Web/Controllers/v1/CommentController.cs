@@ -229,15 +229,15 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="type"></param>
         /// <returns></returns>
         [LinCmsAuthorize("校正评论量", "评论")]
-        [HttpPut("{id}/type/${type}")]
-        public ResultDto CorrectedComment(Guid id, int type)
+        [HttpPut("{subjectId}/type/${type}")]
+        public ResultDto CorrectedComment(Guid subjectId, int type)
         {
-            long count = _commentAuditBaseRepository.Select.Where(r => r.SubjectId == id).Count();
+            long count = _commentAuditBaseRepository.Select.Where(r => r.SubjectId == subjectId).Count();
 
             switch (type)
             {
                 case 1:
-                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == id).ExecuteAffrows();
+                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId).ExecuteAffrows();
                     break;
             }
             return ResultDto.Success();
