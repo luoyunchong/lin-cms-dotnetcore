@@ -7,6 +7,7 @@ using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
+using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +59,32 @@ namespace LinCms.Web.Controllers.v1
                 }).ToList();
 
             return classify;
+        }
+
+        [LinCmsAuthorize("删除", "分类专栏")]
+        [HttpDelete("cms/{id}")]
+        public ResultDto Delete(Guid id)
+        {
+            _classifyRepository.Delete(new Classify { Id = id });
+            return ResultDto.Success();
+        }
+
+        [LinCmsAuthorize("分类专栏列表", "分类专栏")]
+        [HttpGet("cms")]
+        public PagedResultDto<ClassifyDto> Get([FromQuery]ClassifySearchDto pageDto)
+        {
+            List<ClassifyDto> classify = _classifyRepository.Select
+                .WhereIf(pageDto.ClassifyName.IsNotNullOrEmpty(),r=>r.ClassifyName.Contains(pageDto.ClassifyName))
+                .OrderByDescending(r => r.CreateTime)
+                .ToPagerList(pageDto,out long totalCount)
+                .Select(r =>
+                {
+                    ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(r);
+                    classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
+                    return classifyDto;
+                }).ToList();
+
+            return new PagedResultDto<ClassifyDto>(classify, totalCount);
         }
 
         [HttpGet("{id}")]

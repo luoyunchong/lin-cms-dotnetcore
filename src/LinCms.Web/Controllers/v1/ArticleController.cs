@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FreeSql;
@@ -88,11 +87,11 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 得到所有的随笔
+        /// 得到所有已审核过的随笔
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        [HttpGet("all")]
+        [HttpGet("latest")]
         [AllowAnonymous]
         public PagedResultDto<ArticleDto> GetLastArticles([FromQuery]ArticleSearchDto searchDto)
         {
@@ -124,6 +123,27 @@ namespace LinCms.Web.Controllers.v1
                     articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
                     return articleDto;
                 })
+                .ToList();
+
+            return new PagedResultDto<ArticleDto>(articles, totalCount);
+        }
+
+        /// <summary>
+        /// 得到所有已审核过的随笔
+        /// </summary>
+        /// <param name="searchDto"></param>
+        /// <returns></returns>
+        [HttpGet("all")]
+        [LinCmsAuthorize("所有随笔", "随笔")]
+        public PagedResultDto<ArticleDto> GetAllArticles([FromQuery]ArticleSearchDto searchDto)
+        {
+            var articles = _articleRepository
+                .Select
+                .WhereCascade(r => r.IsDeleted == false)
+                .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
+                .OrderByDescending(r => r.CreateTime)
+                .ToPagerList(searchDto, out long totalCount)
+                .Select(a => _mapper.Map<ArticleDto>(a))
                 .ToList();
 
             return new PagedResultDto<ArticleDto>(articles, totalCount);
