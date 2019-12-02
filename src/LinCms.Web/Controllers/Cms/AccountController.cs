@@ -14,6 +14,7 @@ using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -80,6 +81,7 @@ namespace LinCms.Web.Controllers.Cms
         /// 刷新用户的token
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("refresh")]
         public async Task<JObject> GetRefreshToken()
         {
@@ -93,7 +95,7 @@ namespace LinCms.Web.Controllers.Cms
             }
             else
             {
-                throw new LinCmsException(" 请先登录.");
+                throw new LinCmsException(" 请先登录.", ErrorCode.RefreshTokenError);
             }
 
             string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
@@ -116,7 +118,7 @@ namespace LinCms.Web.Controllers.Cms
 
             if (response.IsError)
             {
-                throw new LinCmsException("请重新登录", ErrorCode.NotFound);
+                throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
             }
 
             return response.Json;
