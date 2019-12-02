@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
+using FreeSql.Aop;
 using FreeSql.Internal;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
@@ -34,6 +35,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 using Swashbuckle.AspNetCore.Swagger;
+using ToolGood.Words;
 
 namespace LinCms.Web
 {
@@ -70,6 +72,22 @@ namespace LinCms.Web
                 {
                     //记录日志
                     //发送短信给负责人
+                }
+            };
+
+            //敏感词处理
+            StringSearchEx2 searchEx2 = new StringSearchEx2();
+
+            Fsql.Aop.AuditValue += (s, e) =>
+            {
+                if (e.Column.CsType == typeof(string) && e.Value != null)
+                {
+                    string oldVal = (string)e.Value;
+                    string newVal = searchEx2.Replace(oldVal);
+                    if (newVal != oldVal)
+                    {
+                        e.Value = newVal;
+                    }
                 }
             };
         }

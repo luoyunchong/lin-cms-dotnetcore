@@ -17,13 +17,19 @@ namespace LinCms.Web.Services.v1
         private readonly GuidRepository<TagArticle> _tagArticleRepository;
         private readonly AuditBaseRepository<UserLike> _userLikeRepository;
         private readonly AuditBaseRepository<Comment> _commentBaseRepository;
-        private readonly AuditBaseRepository<Classify> _classifyBaseRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly IFreeSql _freeSql;
         private readonly IClassifyService _classifyService;
         private readonly ITagService tagService;
-        public ArticleAppService(AuditBaseRepository<Article> articleRepository, GuidRepository<TagArticle> tagArticleRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<UserLike> userLikeRepository, AuditBaseRepository<Comment> commentBaseRepository, IFreeSql freeSql, AuditBaseRepository<Classify> classifyBaseRepository, IClassifyService classifyService, ITagService tagService)
+        public ArticleAppService(
+                AuditBaseRepository<Article> articleRepository,
+                GuidRepository<TagArticle> tagArticleRepository,
+                IMapper mapper,
+                ICurrentUser currentUser,
+                AuditBaseRepository<UserLike> userLikeRepository,
+                AuditBaseRepository<Comment> commentBaseRepository,
+                IClassifyService classifyService,
+                ITagService tagService)
         {
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
@@ -31,8 +37,6 @@ namespace LinCms.Web.Services.v1
             _currentUser = currentUser;
             _userLikeRepository = userLikeRepository;
             _commentBaseRepository = commentBaseRepository;
-            _freeSql = freeSql;
-            _classifyBaseRepository = classifyBaseRepository;
             _classifyService = classifyService;
             this.tagService = tagService;
         }
@@ -57,7 +61,7 @@ namespace LinCms.Web.Services.v1
         public ArticleDto Get(Guid id)
         {
             Article article = _articleRepository.Select
-                .Include(r=>r.Classify)
+                .Include(r => r.Classify)
                 .IncludeMany(r => r.Tags).Include(r => r.UserInfo).Where(a => a.Id == id).ToOne();
 
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
@@ -76,7 +80,6 @@ namespace LinCms.Web.Services.v1
         {
             Article article = _mapper.Map<Article>(createArticle);
             article.Archive = DateTime.Now.ToString("yyy年MM月");
-            article.Author = _currentUser.UserName;
             article.WordNumber = createArticle.Content.Length;
             article.ReadingTime = createArticle.Content.Length / 800;
 
