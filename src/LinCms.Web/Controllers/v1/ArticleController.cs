@@ -99,6 +99,7 @@ namespace LinCms.Web.Controllers.v1
             var select = _articleRepository
                 .Select
                 .Include(r => r.Classify)
+                .Include(r=>r.UserInfo)
                 .IncludeMany(r => r.Tags,r=>r.Where(u=>u.Status==true))
                 .IncludeMany(r => r.UserLikes,r=>r.Where(u => u.CreateUserId == userId))
                 .Where(r=>r.IsAudit==true)

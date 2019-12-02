@@ -53,7 +53,6 @@ namespace LinCms.Test.Controller.v1
                 .Select(r =>
                 {
                     ArticleDto articleDto = _mapper.Map<ArticleDto>(r.Article);
-                    articleDto.ClassifyName = r.ClassifyName;
                     return articleDto;
                 }).ToList();
 
@@ -86,7 +85,6 @@ namespace LinCms.Test.Controller.v1
                 }).Select(r =>
                 {
                     ArticleDto articleDto = _mapper.Map<ArticleDto>(r.Article);
-                    articleDto.ClassifyName = r.Classify.ClassifyName;
                     return articleDto;
                 }).ToList();
 
@@ -97,7 +95,6 @@ namespace LinCms.Test.Controller.v1
                 .ToList().Select(r =>
                 {
                     ArticleDto articleDto = _mapper.Map<ArticleDto>(r);
-                    articleDto.ClassifyName = r.Classify?.ClassifyName;
                     return articleDto;
                 }).ToList();
 
