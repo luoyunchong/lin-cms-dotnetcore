@@ -85,11 +85,6 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         public int Status { get; set; }
         /// <summary>
-        /// 作者
-        /// </summary>
-        [Column(DbType = "varchar(50)")]
-        public string Author { get; set; }
-        /// <summary>
         /// 字数
         /// </summary>
         public long WordNumber { get; set; }

@@ -223,18 +223,18 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 评论-校正评论量,id->subject_id,type->subject_type(1：文章)
+        /// 评论-校正评论量,subjectType(1：文章)
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
+        /// <param name="subjectId"></param>
+        /// <param name="subjectType"></param>
         /// <returns></returns>
         [LinCmsAuthorize("校正评论量", "评论")]
-        [HttpPut("{subjectId}/type/${type}")]
-        public ResultDto CorrectedComment(Guid subjectId, int type)
+        [HttpPut("{subjectId}/type/${subject_type}")]
+        public ResultDto CorrectedComment(Guid subjectId, int subjectType)
         {
             long count = _commentAuditBaseRepository.Select.Where(r => r.SubjectId == subjectId).Count();
 
-            switch (type)
+            switch (subjectType)
             {
                 case 1:
                     _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId).ExecuteAffrows();
