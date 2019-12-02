@@ -178,9 +178,8 @@ namespace LinCms.Web
                             else
                             {
                                 msg = "认证失败，请检查请求头或者重新登陆";
-                                errorCode = ErrorCode.TokenInvalidation;
+                                errorCode = ErrorCode.AuthenticationFailed;
                             }
-
 
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = statusCode;
