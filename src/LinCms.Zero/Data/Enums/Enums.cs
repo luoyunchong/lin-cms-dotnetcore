@@ -69,15 +69,20 @@ namespace LinCms.Zero.Data.Enums
 
     public enum ErrorCode
     {
-        Success=0,
+        Success = 0,
         /// <summary>
         /// 未知错误
         /// </summary>
-        UnknownError= 1007,
+        UnknownError = 1007,
         /// <summary>
         /// 服务器未知错误
         /// </summary>
         ServerUnknownError = 999,
+
+        /// <summary>
+        /// 失败
+        /// </summary>
+        Error = 999,
 
         /// <summary>
         /// 认证失败
@@ -86,7 +91,7 @@ namespace LinCms.Zero.Data.Enums
         /// <summary>
         /// 失败
         /// </summary>
-        Fail =9999,
+        Fail = 9999,
         /// <summary>
         /// refreshToken异常
         /// </summary>
@@ -112,11 +117,21 @@ namespace LinCms.Zero.Data.Enums
         /// <summary>
         /// 字段重复
         /// </summary>
-        RepeatField= 10060,
+        RepeatField = 10060,
         /// <summary>
-        /// 不可操作
+        /// 禁止操作
         /// </summary>
         Inoperable = 10070,
+        //10080 请求方法不允许
+
+        //10110 文件体积过大
+
+        //10120 文件数量过多
+
+        //10130 文件扩展名不符合规范
+
+        //10140 请求过于频繁，请稍后重试
+
     }
 
     public enum Status
@@ -124,7 +139,7 @@ namespace LinCms.Zero.Data.Enums
         /// <summary>
         /// 启用
         /// </summary>
-        Enable=1,
+        Enable = 1,
         /// <summary>
         /// 禁用
         /// </summary>
