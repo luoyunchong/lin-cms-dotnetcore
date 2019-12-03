@@ -340,3 +340,4 @@ ASALocalRun/
 healthchecksdb
 src/LinCms.Web/wwwroot/assets/
 src/LinCms.Web/appsettings.Private.json
+/src/LinCms.Web/wwwroot/_Illegal
