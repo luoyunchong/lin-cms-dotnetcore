@@ -5,7 +5,6 @@ using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
-using FreeSql.Aop;
 using FreeSql.Internal;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
