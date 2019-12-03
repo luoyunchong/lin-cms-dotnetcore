@@ -11,10 +11,12 @@ namespace LinCms.Web.Utils
     public class ToolGoodUtils
     {
         //敏感库只要这二个文件存在即可
-        //本地敏感库缓存-https://github.com/toolgood/ToolGood.Words/tree/master/csharp/ToolGood.Words.Test/_Illegal
-        //因为需要上传至github并同步gitee,安全起见，所以未上传至git，需要自行下载并复制
+        //本地敏感库缓存- https://github.com/toolgood/ToolGood.Words/tree/master/csharp/ToolGood.Words.Test/_Illegal
+        //因为需要上传至github并同步gitee,安全起见，解压压缩包wwwroot目录下的_Illegal.zip
         private const string KeywordsPath = "wwwroot/_Illegal/IllegalKeywords.txt";
         private const string UrlsPath = "wwwroot/_Illegal/IllegalUrls.txt";
+
+        //更多敏感词汇   https://github.com/fighting41love/funNLP/tree/master/data/%E6%95%8F%E6%84%9F%E8%AF%8D%E5%BA%93
 
         private const string InfoPath = "wwwroot/_Illegal/IllegalInfo.txt";
         private const string BitPath = "wwwroot/_Illegal/IllegalBit.iws";
