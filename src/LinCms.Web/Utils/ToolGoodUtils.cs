@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using ToolGood.Words;
 
 namespace LinCms.Web.Utils
@@ -83,7 +80,6 @@ namespace LinCms.Web.Utils
 
             return search;
         }
-
 
     }
 }
