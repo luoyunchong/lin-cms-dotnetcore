@@ -12,6 +12,7 @@ using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
+using LinCms.Web.Utils;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
@@ -76,14 +77,16 @@ namespace LinCms.Web
             };
 
             //敏感词处理
-            StringSearchEx2 searchEx2 = new StringSearchEx2();
+            IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
 
             Fsql.Aop.AuditValue += (s, e) =>
             {
                 if (e.Column.CsType == typeof(string) && e.Value != null)
                 {
                     string oldVal = (string)e.Value;
-                    string newVal = searchEx2.Replace(oldVal);
+                    string newVal = illegalWords.Replace(oldVal);
+                    //第二种处理敏感词的方式
+                    //string newVal = oldVal.ReplaceStopWords();
                     if (newVal != oldVal)
                     {
                         e.Value = newVal;
@@ -95,6 +98,7 @@ namespace LinCms.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             #region IdentityServer4+FreeSql
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);

@@ -22,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="wwwroot\_Illegal\IllegalBit.iws" />
+    <None Remove="wwwroot\_Illegal\IllegalInfo.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
     <PackageReference Include="IdentityServer4" Version="2.5.3" />
@@ -64,6 +69,11 @@
     <Folder Include="wwwroot\assets\2019\11\08\" />
     <Folder Include="wwwroot\assets\2019\11\09\" />
     <Folder Include="wwwroot\assets\2019\11\14\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\_Illegal\IllegalKeywords.txt" />
+    <None Include="wwwroot\_Illegal\IllegalUrls.txt" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
