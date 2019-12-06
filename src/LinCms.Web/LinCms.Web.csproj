@@ -74,6 +74,7 @@
     <Folder Include="wwwroot\assets\2019\11\08\" />
     <Folder Include="wwwroot\assets\2019\11\09\" />
     <Folder Include="wwwroot\assets\2019\11\14\" />
+    <Folder Include="wwwroot\assets\2019\12\04\" />
     <Folder Include="wwwroot\_Illegal\" />
   </ItemGroup>
 

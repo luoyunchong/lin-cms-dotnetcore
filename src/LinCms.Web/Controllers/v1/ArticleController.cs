@@ -27,7 +27,7 @@ namespace LinCms.Web.Controllers.v1
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, 
+        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser,
             GuidRepository<TagArticle> tagArticleRepository, IArticleService articleService)
         {
             _articleRepository = articleRepository;
@@ -70,7 +70,7 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .Where(r => r.CreateUserId == _currentUser.Id)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
-                .WhereIf(searchDto.ClassifyId.HasValue,r=>r.ClassifyId== searchDto.ClassifyId)
+                .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .OrderByDescending(r => r.IsStickie)
                 .OrderByDescending(r => r.Id);
 
@@ -87,25 +87,36 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 得到所有已审核过的随笔
+        /// 得到所有已审核过的随笔,最新的随笔/三天、七天、月榜、全部
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        [HttpGet("latest")]
+        [HttpGet("query")]
         [AllowAnonymous]
         public PagedResultDto<ArticleDto> GetLastArticles([FromQuery]ArticleSearchDto searchDto)
         {
+            DateTime monthDays = DateTime.Now.AddDays(-30);
+            DateTime weeklyDays = DateTime.Now.AddDays(-7);
+            DateTime threeDays = DateTime.Now.AddDays(-3);
+
             long? userId = _currentUser.Id;
             var select = _articleRepository
                 .Select
                 .Include(r => r.Classify)
-                .Include(r=>r.UserInfo)
-                .IncludeMany(r => r.Tags,r=>r.Where(u=>u.Status==true))
-                .IncludeMany(r => r.UserLikes,r=>r.Where(u => u.CreateUserId == userId))
-                .Where(r=>r.IsAudit==true)
-                .WhereIf(searchDto.TagId.HasValue,r=>r.Tags.AsSelect().Any(u=>u.Id==searchDto.TagId))
+                .Include(r => r.UserInfo)
+                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
+                .Where(r => r.IsAudit == true)
+                .WhereIf(searchDto.TagId.HasValue, r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
+                .WhereIf(searchDto.Sort == "THREE_DAYS_HOTTEST", r => r.CreateTime > threeDays)
+                .WhereIf(searchDto.Sort == "WEEKLY_HOTTEST", r => r.CreateTime > weeklyDays)
+                .WhereIf(searchDto.Sort == "MONTHLY_HOTTEST", r => r.CreateTime > monthDays)
+                .OrderByDescending(
+                    searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" || searchDto.Sort == "MONTHLY_HOTTEST"||
+                            searchDto.Sort== "HOTTEST",
+                    r => (r.ViewHits + r.LikesQuantity * 2 + r.CommentQuantity * 3))
                 .OrderByDescending(r => r.CreateTime);
 
             var articles = select
@@ -186,7 +197,7 @@ namespace LinCms.Web.Controllers.v1
             }
 
             _mapper.Map(updateArticle, article);
-            _articleService.UpdateArticle(updateArticle,article);
+            _articleService.UpdateArticle(updateArticle, article);
 
             return ResultDto.Success("更新随笔成功");
         }
