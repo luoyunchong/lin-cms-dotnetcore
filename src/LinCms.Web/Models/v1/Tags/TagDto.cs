@@ -1,4 +1,6 @@
 ﻿using System;
+using FreeSql.DataAnnotations;
+using LinCms.Web.Models.Cms.Users;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Domain;
 
@@ -13,8 +15,10 @@ namespace LinCms.Web.Models.v1.Tags
         public DateTime? CreateTime { get; set; }
         public string Alias { get; set; }
         public int ArticleCount { get; set; }
-
         public bool Status { get; set; }
+
+        public virtual OpenUserDto OpenUserDto { get; set; }
+        public LinUser LinUser { get; set; }
 
     }
 }
