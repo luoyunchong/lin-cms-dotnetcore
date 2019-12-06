@@ -28,6 +28,11 @@ namespace LinCms.Web.Utils
         /// <returns></returns>
         public static IllegalWordsSearch GetIllegalWordsSearch()
         {
+            if (!File.Exists(UrlsPath)||!File.Exists(KeywordsPath))
+            {
+                return new IllegalWordsSearch();
+            }
+
             if (_search == null)
             {
                 string ipath = Path.GetFullPath(InfoPath);
