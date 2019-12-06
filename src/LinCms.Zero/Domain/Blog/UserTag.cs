@@ -10,6 +10,6 @@ namespace LinCms.Zero.Domain.Blog
         public Guid TagId { get; set; }
         public Guid UserId { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
-        public virtual ICollection<LinUser> LinUser { get; set; }
+        public virtual ICollection<LinUser> LinUsers { get; set; }
     }
 }
