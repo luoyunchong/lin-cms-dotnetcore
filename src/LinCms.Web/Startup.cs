@@ -74,7 +74,7 @@ namespace LinCms.Web
                     //发送短信给负责人
                 }
             };
-
+       
             //敏感词处理
             IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
 

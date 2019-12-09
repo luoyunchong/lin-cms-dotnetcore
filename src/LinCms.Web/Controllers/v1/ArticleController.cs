@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FreeSql;
@@ -93,14 +94,14 @@ namespace LinCms.Web.Controllers.v1
         /// <returns></returns>
         [HttpGet("query")]
         [AllowAnonymous]
-        public PagedResultDto<ArticleDto> GetLastArticles([FromQuery]ArticleSearchDto searchDto)
+        public PagedResultDto<ArticleDto> QueryArticles([FromQuery]ArticleSearchDto searchDto)
         {
             DateTime monthDays = DateTime.Now.AddDays(-30);
             DateTime weeklyDays = DateTime.Now.AddDays(-7);
             DateTime threeDays = DateTime.Now.AddDays(-3);
 
             long? userId = _currentUser.Id;
-            var select = _articleRepository
+            ISelect<Article> articleSelect = _articleRepository
                 .Select
                 .Include(r => r.Classify)
                 .Include(r => r.UserInfo)
@@ -116,10 +117,10 @@ namespace LinCms.Web.Controllers.v1
                 .OrderByDescending(
                     searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" || searchDto.Sort == "MONTHLY_HOTTEST"||
                             searchDto.Sort== "HOTTEST",
-                    r => (r.ViewHits + r.LikesQuantity * 2 + r.CommentQuantity * 3))
+                    r => (r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30))
                 .OrderByDescending(r => r.CreateTime);
 
-            var articles = select
+            List<ArticleDto> articleDtos = articleSelect
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(a =>
                 {
@@ -137,7 +138,7 @@ namespace LinCms.Web.Controllers.v1
                 })
                 .ToList();
 
-            return new PagedResultDto<ArticleDto>(articles, totalCount);
+            return new PagedResultDto<ArticleDto>(articleDtos, totalCount);
         }
 
         /// <summary>
