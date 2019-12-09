@@ -12,5 +12,6 @@ namespace LinCms.Web.Models.Cms.Users
         public string Username { get; set; }
         public string Nickname { get; set; }
         public string Avatar { get; set; }
+
     }
 }
