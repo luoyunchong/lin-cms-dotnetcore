@@ -41,9 +41,9 @@
 - 本项目swagger地址 [http://47.106.80.39:5001/swagger/index.html](http://47.106.80.39:5001/swagger/index.html)
 
 ## 前端
-- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客文章、回复、留言板、标签、文章分组管理、插件式功能（还没有）
-- [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
-
+- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客文章、回复、留言板、标签、文章分组管理、插件式功能（还没有），具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/)
+- 管理端 [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
+- 用户端 [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
 ### Lin CMS 的特点
 
 Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin 的主要特点。
