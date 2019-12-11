@@ -3,6 +3,7 @@ using AutoMapper;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Models.v1.UserFollows;
 using LinCms.Zero.Data;
+using LinCms.Zero.Domain;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Exceptions;
 using LinCms.Zero.Extensions;
@@ -19,13 +20,15 @@ namespace LinCms.Web.Controllers.v1
     public class UserFollowController : ControllerBase
     {
         private readonly AuditBaseRepository<UserFollow> _userFollowRepository;
+        private readonly AuditBaseRepository<LinUser> _userRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public UserFollowController(AuditBaseRepository<UserFollow> userFollowRepository, IMapper mapper, ICurrentUser currentUser)
+        public UserFollowController(AuditBaseRepository<UserFollow> userFollowRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository)
         {
             _userFollowRepository = userFollowRepository;
             _mapper = mapper;
             _currentUser = currentUser;
+            _userRepository = userRepository;
         }
         /// <summary>
         /// 判断当前登录的用户是否关注了beFollowUserId
@@ -60,11 +63,22 @@ namespace LinCms.Web.Controllers.v1
         [HttpPost("{followUserId}")]
         public void Post(long followUserId)
         {
+            LinUser linUser = _userRepository.Select.Where(r => r.Id == followUserId).ToOne();
+            if (linUser == null)
+            {
+                throw new LinCmsException("该用户不存在");
+            }
+
+            if (!linUser.IsActive())
+            {
+                throw new LinCmsException("该用户已被拉黑");
+            }
+
             bool any = _userFollowRepository.Select.Any(r =>
                   r.CreateUserId == _currentUser.Id && r.FollowUserId == followUserId);
             if (any)
             {
-                throw new LinCmsException("您已关注此用户");
+                throw new LinCmsException("您已关注该用户");
             }
 
             UserFollow userFollow = new UserFollow() { FollowUserId = followUserId };
@@ -80,6 +94,35 @@ namespace LinCms.Web.Controllers.v1
         {
             var userFollows = _userFollowRepository.Select.Include(r => r.FollowUser)
                 .Where(r => r.CreateUserId == searchDto.UserId)
+                .ToPager(searchDto, out long count)
+                .ToList(r => new UserFollowDto
+                {
+                    CreateUserId = r.CreateUserId,
+                    FollowUserId = r.FollowUserId,
+                    Follower = new OpenUserDto()
+                    {
+                        Introduction = r.FollowUser.Introduction,
+                        Nickname = r.FollowUser.Nickname,
+                        Avatar = r.FollowUser.Avatar,
+                        Username = r.FollowUser.Username,
+                    },
+                    IsFollowed = _userFollowRepository.Select.Any(u =>
+                        u.CreateUserId == _currentUser.Id && u.FollowUserId == r.FollowUserId)
+                });
+
+            return new PagedResultDto<UserFollowDto>(userFollows, count);
+        }
+
+
+        /// <summary>
+        /// 得到某个用户的粉丝
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("fans")]
+        public PagedResultDto<UserFollowDto> GetUserFansList([FromQuery]UserFollowSearchDto searchDto)
+        {
+            var userFollows = _userFollowRepository.Select.Include(r => r.FollowUser)
+                .Where(r => r.FollowUserId == searchDto.UserId)
                 .ToPager(searchDto, out long count)
                 .ToList(r => new UserFollowDto
                 {

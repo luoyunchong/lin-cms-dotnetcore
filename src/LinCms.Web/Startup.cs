@@ -105,7 +105,7 @@ namespace LinCms.Web
 
             services.AddFreeRepository(filter =>
             {
-                filter.Apply<ISoftDeleteAduitEntity>("SoftDelete", a => a.IsDeleted == false);
+                filter.Apply<IDeleteAduitEntity>("SoftDelete", a => a.IsDeleted == false);
             }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
 
             services.AddIdentityServer()
