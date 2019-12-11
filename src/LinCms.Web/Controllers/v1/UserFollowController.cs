@@ -101,6 +101,7 @@ namespace LinCms.Web.Controllers.v1
                     FollowUserId = r.FollowUserId,
                     Follower = new OpenUserDto()
                     {
+                        Id = r.FollowUser.Id,
                         Introduction = r.FollowUser.Introduction,
                         Nickname = r.FollowUser.Nickname,
                         Avatar = r.FollowUser.Avatar,
@@ -130,13 +131,15 @@ namespace LinCms.Web.Controllers.v1
                     FollowUserId = r.FollowUserId,
                     Follower = new OpenUserDto()
                     {
-                        Introduction = r.FollowUser.Introduction,
-                        Nickname = r.FollowUser.Nickname,
-                        Avatar = r.FollowUser.Avatar,
-                        Username = r.FollowUser.Username,
+                        Id = r.LinUser.Id,
+                        Introduction = r.LinUser.Introduction,
+                        Nickname = r.LinUser.Nickname,
+                        Avatar = r.LinUser.Avatar,
+                        Username = r.LinUser.Username,
                     },
+                    //当前登录的用户是否关注了这个粉丝
                     IsFollowed = _userFollowRepository.Select.Any(u =>
-                        u.CreateUserId == _currentUser.Id && u.FollowUserId == r.FollowUserId)
+                        u.FollowUserId == r.FollowUserId && u.CreateUserId == _currentUser.Id)
                 });
 
             return new PagedResultDto<UserFollowDto>(userFollows, count);
