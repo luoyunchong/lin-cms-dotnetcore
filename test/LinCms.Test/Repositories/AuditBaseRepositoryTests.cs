@@ -212,9 +212,9 @@ namespace LinCms.Test.Repositories
         public void f()
         {
             Type f = typeof(Book);
-            Type f2 = typeof(ISoftDeleteAduitEntity);
-            bool f3 = typeof(Book).IsSubclassOf(typeof(ISoftDeleteAduitEntity));
-            bool f4 = typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(Book));
+            Type f2 = typeof(IDeleteAduitEntity);
+            bool f3 = typeof(Book).IsSubclassOf(typeof(IDeleteAduitEntity));
+            bool f4 = typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(Book));
 
         }
     }
