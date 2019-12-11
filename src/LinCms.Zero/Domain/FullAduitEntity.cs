@@ -22,7 +22,7 @@ namespace LinCms.Zero.Domain
 
     }
 
-    public class FullAduitEntity<T> : Entity<T>, IUpdateAuditEntity, ISoftDeleteAduitEntity, ICreateAduitEntity
+    public class FullAduitEntity<T> : Entity<T>, IUpdateAuditEntity, IDeleteAduitEntity, ICreateAduitEntity
     {
         /// <summary>
         /// 创建者ID
@@ -54,44 +54,52 @@ namespace LinCms.Zero.Domain
         public DateTime UpdateTime { get; set; }
     }
 
-    public interface IUpdateAuditEntity
-    {
-        /// <summary>
-        /// 最后修改人Id
-        /// </summary>
-        long? UpdateUserId { get; set; }
-        /// <summary>
-        /// 修改时间
-        /// </summary>
-        DateTime UpdateTime { get; set; }
-    }
 
     public interface ICreateAduitEntity
     {
         /// <summary>
         /// 创建者ID
         /// </summary>
+        [Column(Position = -7)]
         long? CreateUserId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
+        [Column(Position = -6)]
         DateTime CreateTime { get; set; }
     }
 
-    public interface ISoftDeleteAduitEntity
+    public interface IUpdateAuditEntity
+    {
+        /// <summary>
+        /// 最后修改人Id
+        /// </summary>
+        [Column(Position = -5)]
+        long? UpdateUserId { get; set; }
+        /// <summary>
+        /// 修改时间
+        /// </summary>
+        [Column(Position = -4)]
+        DateTime UpdateTime { get; set; }
+    }
+
+    public interface IDeleteAduitEntity
     {
         /// <summary>
         /// 是否删除
         /// </summary>
-         bool IsDeleted { get; set; }
+        [Column(Position = -3)]
+        bool IsDeleted { get; set; }
         /// <summary>
         /// 删除人id
         /// </summary>
-         long? DeleteUserId { get; set; }
+        [Column(Position = -2)]
+        long? DeleteUserId { get; set; }
         /// <summary>
         /// 删除时间
         /// </summary>
-         DateTime? DeleteTime { get; set; }
+        [Column(Position = -1)]
+        DateTime? DeleteTime { get; set; }
     }
 
     public abstract class Entity<T> : IEntity<T>
@@ -99,7 +107,7 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 主键Id
         /// </summary>
-        [Column(IsPrimary = true,IsIdentity = true)]
+        [Column(IsPrimary = true,IsIdentity = true,Position = 1)]
         public T Id { get; set; }
     }
 

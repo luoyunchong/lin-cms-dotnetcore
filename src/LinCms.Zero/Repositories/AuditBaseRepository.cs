@@ -115,12 +115,12 @@ namespace LinCms.Zero.Repositories
 
         public new int Delete(T entity)
         {
-            if (entity is ISoftDeleteAduitEntity)
+            if (entity is IDeleteAduitEntity)
             {
                 return Orm.Update<T>(entity)
-                           .Set(a => (a as ISoftDeleteAduitEntity).IsDeleted, true)
-                           .Set(a => (a as ISoftDeleteAduitEntity).DeleteUserId, _currentUser.Id)
-                           .Set(a => (a as ISoftDeleteAduitEntity).DeleteTime, DateTime.Now)
+                           .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
+                           .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                           .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                            .ExecuteAffrows();
             }
 
@@ -134,7 +134,7 @@ namespace LinCms.Zero.Repositories
                 Attach(entitys);
                 foreach (T x1 in entitys)
                 {
-                    if (x1 is ISoftDeleteAduitEntity softDelete)
+                    if (x1 is IDeleteAduitEntity softDelete)
                     {
                         softDelete.DeleteUserId = _currentUser.Id;
                         softDelete.DeleteTime = DateTime.Now;
@@ -156,7 +156,7 @@ namespace LinCms.Zero.Repositories
                 Attach(entitys);
                 foreach (T x1 in entitys)
                 {
-                    if (x1 is ISoftDeleteAduitEntity softDelete)
+                    if (x1 is IDeleteAduitEntity softDelete)
                     {
                         softDelete.DeleteUserId = _currentUser.Id;
                         softDelete.DeleteTime = DateTime.Now;
@@ -170,12 +170,12 @@ namespace LinCms.Zero.Repositories
 
         public new async Task<int> DeleteAsync(T entity)
         {
-            if (entity is ISoftDeleteAduitEntity)
+            if (entity is IDeleteAduitEntity)
             {
                 return await Orm.Update<T>(entity)
-                    .Set(a => (a as ISoftDeleteAduitEntity).IsDeleted, true)
-                    .Set(a => (a as ISoftDeleteAduitEntity).DeleteUserId, _currentUser.Id)
-                    .Set(a => (a as ISoftDeleteAduitEntity).DeleteTime, DateTime.Now)
+                    .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
+                    .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                    .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                     .ExecuteAffrowsAsync();
             }
 
@@ -183,13 +183,13 @@ namespace LinCms.Zero.Repositories
         }
         public new int Delete(Expression<Func<T, bool>> predicate)
         {
-            if (typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(T)))
+            if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(T)))
             {
                 List<T> items = Orm.Select<T>().Where(predicate).ToList();
                 return Orm.Update<T>(items)
-                    .Set(a => (a as ISoftDeleteAduitEntity).IsDeleted, true)
-                    .Set(a => (a as ISoftDeleteAduitEntity).DeleteUserId, _currentUser.Id)
-                    .Set(a => (a as ISoftDeleteAduitEntity).DeleteTime, DateTime.Now)
+                    .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
+                    .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                    .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                     .ExecuteAffrows();
             }
 
@@ -198,13 +198,13 @@ namespace LinCms.Zero.Repositories
 
         public new async Task<int> DeleteAsync(Expression<Func<T, bool>> predicate)
         {
-            if (typeof(ISoftDeleteAduitEntity).IsAssignableFrom(typeof(T)))
+            if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(T)))
             {
                 List<T> items = Orm.Select<T>().Where(predicate).ToList();
                 return await Orm.Update<T>(items)
-                     .Set(a => (a as ISoftDeleteAduitEntity).IsDeleted, true)
-                     .Set(a => (a as ISoftDeleteAduitEntity).DeleteUserId, _currentUser.Id)
-                     .Set(a => (a as ISoftDeleteAduitEntity).DeleteTime, DateTime.Now)
+                     .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
+                     .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                     .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                      .ExecuteAffrowsAsync();
             }
 
