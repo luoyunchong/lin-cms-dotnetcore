@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Models.v1.UserFollows;
@@ -63,6 +64,10 @@ namespace LinCms.Web.Controllers.v1
         [HttpPost("{followUserId}")]
         public void Post(long followUserId)
         {
+            if (followUserId == _currentUser.Id)
+            {
+                throw new LinCmsException("您无法关注自己");
+            }
             LinUser linUser = _userRepository.Select.Where(r => r.Id == followUserId).ToOne();
             if (linUser == null)
             {
@@ -90,10 +95,12 @@ namespace LinCms.Web.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public PagedResultDto<UserFollowDto> GetUserFolloweeList([FromQuery]UserFollowSearchDto searchDto)
         {
             var userFollows = _userFollowRepository.Select.Include(r => r.FollowUser)
                 .Where(r => r.CreateUserId == searchDto.UserId)
+                .OrderByDescending(r=>r.CreateTime)
                 .ToPager(searchDto, out long count)
                 .ToList(r => new UserFollowDto
                 {
@@ -120,10 +127,12 @@ namespace LinCms.Web.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpGet("fans")]
+        [AllowAnonymous]
         public PagedResultDto<UserFollowDto> GetUserFansList([FromQuery]UserFollowSearchDto searchDto)
         {
-            var userFollows = _userFollowRepository.Select.Include(r => r.FollowUser)
+            List<UserFollowDto> userFollows = _userFollowRepository.Select.Include(r => r.LinUser)
                 .Where(r => r.FollowUserId == searchDto.UserId)
+                .OrderByDescending(r => r.CreateTime)
                 .ToPager(searchDto, out long count)
                 .ToList(r => new UserFollowDto
                 {
@@ -139,7 +148,7 @@ namespace LinCms.Web.Controllers.v1
                     },
                     //当前登录的用户是否关注了这个粉丝
                     IsFollowed = _userFollowRepository.Select.Any(u =>
-                        u.FollowUserId == r.FollowUserId && u.CreateUserId == _currentUser.Id)
+                        u.CreateUserId == _currentUser.Id && u.FollowUserId == r.CreateUserId)
                 });
 
             return new PagedResultDto<UserFollowDto>(userFollows, count);

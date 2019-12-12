@@ -25,6 +25,10 @@ namespace LinCms.Zero.Security
         public string GetFileUrl(string hash)
         {
             if (string.IsNullOrEmpty(hash)) return "";
+            if (hash.Contains("http"))
+            {
+                return hash;
+            }
             return _configuration[LinConsts.SITE_DOMAIN] + "/" + _configuration[LinConsts.File.STORE_DIR] + "/" + hash;
         }
     }
