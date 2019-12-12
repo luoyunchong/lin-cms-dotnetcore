@@ -77,10 +77,12 @@
     <Folder Include="wwwroot\assets\2019\11\14\" />
     <Folder Include="wwwroot\assets\2019\12\04\" />
     <Folder Include="wwwroot\assets\2019\12\09\" />
+    <Folder Include="wwwroot\assets\2019\12\12\" />
+    <Folder Include="wwwroot\assets\2019\12\13\" />
     <Folder Include="wwwroot\_Illegal\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="http://json.schemastore.org/bundleconfig" appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
