@@ -115,6 +115,16 @@ namespace LinCms.Web.Controllers.Cms
             return ResultDto.Success("更新头像成功");
         }
 
+        [HttpPut]
+        public ResultDto SetNickname(UpdateNicknameDto updateNicknameDto)
+        {
+            _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
+            {
+                Nickname = updateNicknameDto.Nickname
+            }).ExecuteAffrows();
+            return ResultDto.Success("更新昵称成功");
+        }
+
         [AllowAnonymous]
         [HttpGet("avatar/{userId}")]
         public string GetAvatar(long userId)
