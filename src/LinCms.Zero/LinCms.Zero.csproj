@@ -1,26 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.2\LinCms.Zero.xml</DocumentationFile>
-    <OutputPath>bin\Debug\netcoreapp2.2\</OutputPath>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.Zero.xml</DocumentationFile>
+    <OutputPath>bin\Debug\netcoreapp3.1\</OutputPath>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="0.12.16" />
-    <PackageReference Include="FreeSql.DbContext" Version="0.12.16" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="0.12.16" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="FreeSql" Version="0.12.20" />
+    <PackageReference Include="FreeSql.DbContext" Version="0.12.20" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="0.12.20" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 

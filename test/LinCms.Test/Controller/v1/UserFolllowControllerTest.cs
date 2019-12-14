@@ -15,13 +15,13 @@ namespace LinCms.Test.Controller.v1
 {
     public class UserFolllowControllerTest : BaseControllerTests
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
         private readonly AuditBaseRepository<UserFollow> _userFollowRepository;
         public UserFolllowControllerTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IHostingEnvironment>();
+            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
 
             _mapper = serviceProvider.GetService<IMapper>();
             _userFollowRepository = serviceProvider.GetService<AuditBaseRepository<UserFollow>>();

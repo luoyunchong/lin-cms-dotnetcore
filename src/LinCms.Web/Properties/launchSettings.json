@@ -6,7 +6,6 @@
       "launchBrowser": true,
       "launchUrl": "swagger/index.html",
       "environmentVariables": {
-        "键": "值",
         "ASPNETCORE_ENVIRONMENT": "Test"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"

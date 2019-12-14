@@ -18,11 +18,11 @@ namespace LinCms.Web.Controllers.Cms
     //[Authorize]
     public class FileController : ControllerBase
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
         private readonly IFreeSql _freeSql;
         private readonly IConfiguration _configuration;
 
-        public FileController(IHostingEnvironment hostingEnv, IFreeSql freeSql, IConfiguration configuration)
+        public FileController(IWebHostEnvironment hostingEnv, IFreeSql freeSql, IConfiguration configuration)
         {
             _hostingEnv = hostingEnv;
             _freeSql = freeSql;

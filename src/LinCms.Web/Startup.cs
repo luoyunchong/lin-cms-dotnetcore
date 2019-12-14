@@ -30,7 +30,9 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -74,7 +76,7 @@ namespace LinCms.Web
                     //发送短信给负责人
                 }
             };
-       
+
             //敏感词处理
             IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
 
@@ -198,33 +200,17 @@ namespace LinCms.Web
 
             services.AddAutoMapper(typeof(Startup).Assembly, typeof(PoemProfile).Assembly);
 
-            services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
+            //services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
+            services.AddCors();
 
             #region Mvc
-            services.AddMvc(options =>
+            services.AddControllers(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
                  options.Filters.Add<LinCmsExceptionFilter>();
                  //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
-             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-             .ConfigureApiBehaviorOptions(options =>
-             {
-                 options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
-                 //自定义 BadRequest 响应
-                 options.InvalidModelStateResponseFactory = context =>
-              {
-                  var problemDetails = new ValidationProblemDetails(context.ModelState);
-
-                  var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
-
-                  return new BadRequestObjectResult(resultDto)
-                  {
-                      ContentTypes = { "application/json" }
-                  };
-              };
-             })
-             .AddJsonOptions(opt =>
+             .AddNewtonsoftJson(opt =>
              {
                  //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
                  //设置时间戳格式
@@ -239,6 +225,22 @@ namespace LinCms.Web
                      {
                          ProcessDictionaryKeys = true
                      }
+                 };
+             })
+             .ConfigureApiBehaviorOptions(options =>
+             {
+                 options.SuppressConsumesConstraintForFormFileParameters = true;//SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                 //自定义 BadRequest 响应
+                 options.InvalidModelStateResponseFactory = context =>
+                 {
+                     var problemDetails = new ValidationProblemDetails(context.ModelState);
+
+                     var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+
+                     return new BadRequestObjectResult(resultDto)
+                     {
+                         ContentTypes = { "application/json" }
+                     };
                  };
              });
             #endregion
@@ -280,22 +282,32 @@ namespace LinCms.Web
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info() { Title = "LinCms", Version = "v1" });
-                var security = new Dictionary<string, IEnumerable<string>> { { "Bearer", new string[] { } }, };
+                options.SwaggerDoc("v1", new OpenApiInfo() { Title = "LinCms", Version = "v1" });
+                //var security = new Dictionary<string, IEnumerable<string>> { { "Bearer", new string[] { } }, };
+                var security = new OpenApiSecurityRequirement()
+                {
+                    { new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference()
+                        {
+                            Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    }, Array.Empty<string>() }
+                };
                 options.AddSecurityRequirement(security);//添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
-                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT授权(数据将在请求头中进行传输) 参数结构: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",//jwt默认的参数名称
-                    In = "header",//jwt默认存放Authorization信息的位置(请求头中)
-                    Type = "apiKey"
+                    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
+                    Type = SecuritySchemeType.ApiKey
                 });
 
-                string basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
-                string xmlPath = Path.Combine(basePath, "LinCms.Web.xml");
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
                 options.IncludeXmlComments(xmlPath);
 
-                options.OperationFilter<SwaggerFileHeaderParameter>();
+                //options.OperationFilter<SwaggerFileHeaderParameter>();
             });
             #endregion
 
@@ -310,13 +322,13 @@ namespace LinCms.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseHttpMethodOverride(new HttpMethodOverrideOptions { FormFieldName = "X-Http-Method-Override" });
             //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -331,18 +343,21 @@ namespace LinCms.Web
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
+            //// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            //// specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
 
-                //c.RoutePrefix = string.Empty;
+                c.RoutePrefix = string.Empty;
                 //c.OAuthClientId("demo_api_swagger");//客服端名称
                 //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
             });
 
-            app.UseCors("cors");
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:8081", "http://localhost:8080");
+            });
 
             app.UseAuthentication();
 
@@ -350,7 +365,14 @@ namespace LinCms.Web
 
             app.UseHttpsRedirection();
 
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
 
     }
