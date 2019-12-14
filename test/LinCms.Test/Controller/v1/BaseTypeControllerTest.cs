@@ -5,11 +5,11 @@ namespace LinCms.Test.Controller.v1
 {
     public class BaseTypeControllerTest:BaseControllerTests
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
 
         public BaseTypeControllerTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IHostingEnvironment>();
+            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
         }
 
 
