@@ -47,8 +47,8 @@ namespace LinCms.Web.Services.Cms
         public List<string> GetLoggedUsers(PageDto searchDto)
         {
             List<string> linLogs = _linLogRepository.Select.Where(r => !string.IsNullOrEmpty(r.UserName)).OrderByDescending(r => r.Id)
-                .Select(r => r.UserName).Distinct().ToPagerList(searchDto, out _).ToList();
-
+                .Select(r => r.UserName).Distinct().ToList();
+                //.ToPagerList(searchDto, out _)
             return linLogs;
         }
     }
