@@ -33,6 +33,7 @@ namespace LinCms.Web.Services.v1
             }
 
             List<TagDto> tags = _tagRepository.Select
+                .WhereIf(searchDto.TagIds.IsNotNullOrEmpty(), r => searchDto.TagIds.Contains(r.Id))
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
                 .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
                 .OrderBy(searchDto.Sort)
