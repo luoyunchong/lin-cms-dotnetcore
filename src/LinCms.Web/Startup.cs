@@ -11,6 +11,8 @@ using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
+using LinCms.Web.Services.Cms;
+using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Web.Utils;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
@@ -27,6 +29,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -35,8 +38,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
-using Swashbuckle.AspNetCore.Swagger;
+using Scrutor;
 using ToolGood.Words;
 
 namespace LinCms.Web
@@ -107,7 +109,7 @@ namespace LinCms.Web
 
             services.AddFreeRepository(filter =>
             {
-                filter.Apply<IDeleteAduitEntity>("SoftDelete", a => a.IsDeleted == false);
+                filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
 
             services.AddIdentityServer()
@@ -254,7 +256,8 @@ namespace LinCms.Web
                     //加载Startup这个类所在的程序集
                     .FromAssemblyOf<Startup>()
                     // 表示要注册那些类，上面的代码还做了过滤，只留下了以 Service 结尾的类
-                    .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
+                    .AddClasses(classes => classes.Where(t => t.Name != "IFileService" && t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
+                    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                     //表示将类型注册为提供其所有公共接口作为服务
                     .AsImplementedInterfaces()
                     //表示注册的生命周期为 Transient
@@ -271,7 +274,18 @@ namespace LinCms.Web
                     .AsImplementedInterfaces()
                     // And lastly, we specify the lifetime of these registrations.
                     .WithTransientLifetime()
-                     );
+                  );
+
+            string serviceName = Configuration.GetSection("FILE:SERVICE").Value;
+
+            if (serviceName == LinFile.LocalFileService)
+            {
+                services.AddTransient<IFileService, LocalFileService>();
+            }
+            else
+            {
+                services.AddTransient<IFileService, QiniuService>();
+            }
             #endregion
 
             #region Swagger
@@ -349,7 +363,7 @@ namespace LinCms.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
 
-                c.RoutePrefix = string.Empty;
+                //c.RoutePrefix = string.Empty;
                 //c.OAuthClientId("demo_api_swagger");//客服端名称
                 //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
             });
