@@ -1,4 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
+using System;
 
 namespace LinCms.Zero.Domain
 {
@@ -32,13 +33,15 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 大小
         /// </summary>
-        public int? Size { get; set; }
+        public long? Size { get; set; }
 
         /// <summary>
-        /// 1 local，其他表示其他地方
+        /// 1 local，2 代表七牛云 3 其他表示其他地方
         /// </summary>
         public short? Type { get; set; }
 
+        public static string LocalFileService = "LocalFileService";
+        public static string QiniuService = "QiniuService";
 
     }
 }

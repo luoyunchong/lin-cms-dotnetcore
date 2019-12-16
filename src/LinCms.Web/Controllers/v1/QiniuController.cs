@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
+using LinCms.Web.Models.Cms.Files;
+using LinCms.Zero.Common;
+using LinCms.Zero.Domain;
+using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +14,7 @@ using Qiniu.Http;
 using Qiniu.Storage;
 using Qiniu.Util;
 
-namespace LinCms.Web.Controllers.v1  
+namespace LinCms.Web.Controllers.v1
 {
     /// <summary>
     /// 七牛云上传服务
@@ -19,127 +24,140 @@ namespace LinCms.Web.Controllers.v1
     public class QiniuController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly IFreeSql _freeSql;
 
-        public QiniuController(IConfiguration configuration)
+        public QiniuController(IFreeSql freeSql, IConfiguration configuration)
         {
             _configuration = configuration;
+            _freeSql = freeSql;
         }
+
         /// <summary>
         /// 根据后台配置项，得到请求七牛云的token值，前台也可根据此token值上传至七牛云服务
         /// </summary>
         /// <returns></returns>
         [HttpGet("access_token")]
-        public QiniuResultDto GetAccessToken()
+        public string GetAccessToken()
         {
             Mac mac = new Mac(_configuration["Qiniu:AK"], _configuration["Qiniu:SK"]);
             PutPolicy putPolicy = new PutPolicy { Scope = _configuration["Qiniu:Bucket"] };
-            return new QiniuResultDto(0, "成功获取access_token", Auth.CreateUploadToken(mac, putPolicy.ToJsonString()));
+            return Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
         }
 
         /// <summary>
-        /// 上传文件至七牛云,code为0，代表上传成功,其他代表不成功
+        /// 上传文件至七牛云
         /// </summary>
         /// <param name="file">单个文件</param>
-        /// <returns>new QiniuResultDto(0,"上传成功","七牛云文件地址，包括http://....mm.png");</returns>
+        /// <param name="key"></param>
+        /// <returns></returns>
         [HttpPost("upload")]
-        public QiniuResultDto Upload(IFormFile file)
+        public List<FileDto> Upload(IFormFile file, int key = 0)
         {
             if (file.Length == 0)
             {
-                return new QiniuResultDto(1, "文件为空");
+                throw new LinCmsException("文件为空");
             }
+
+            string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
+
+            LinFile linFile = _freeSql.Select<LinFile>().Where(r => r.Md5 == md5).First();
+
+            if (linFile != null && linFile.Type == 1)
+            {
+                if (System.IO.File.Exists(linFile.Path))
+                {
+                    return new List<FileDto>
+                    {
+                        new FileDto
+                        {
+                            Id = linFile.Id,
+                            Key = "file_" + key,
+                            Path = linFile.Path,
+                            Url = linFile.Path
+                        }
+                    };
+                }
+            }
+
 
             FormUploader upload = new FormUploader(new Config()
             {
-                Zone = Zone.ZONE_CN_South,//华南 
+                Zone = Zone.ZONE_CN_South, //华南 
                 UseHttps = true
             });
 
-            var fileName = ContentDispositionHeaderValue
+            Config config = new Config {Zone = Zone.ZONE_CN_East};
+
+            string fileName = ContentDispositionHeaderValue
                 .Parse(file.ContentDisposition)
-                .FileName.Trim();
+                .FileName.Trim().ToString();
 
-            string qiniuName = _configuration["Qiniu:PrefixPath"] + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + fileName;
+            string qiniuName = _configuration["Qiniu:PrefixPath"] + "/" +
+                               DateTime.Now.ToString("yyyyMMddHHmmssffffff") + fileName;
             Stream stream = file.OpenReadStream();
-            HttpResult result = upload.UploadStream(stream, qiniuName, GetAccessToken().Data.ToString(), null);
+            HttpResult result = upload.UploadStream(stream, qiniuName, GetAccessToken(), null);
 
-            if (result.Code == 200)
+            if (result.Code != (int) HttpCode.OK) throw new LinCmsException("上传失败");
+            long id;
+            if (linFile==null)
             {
-                return new QiniuResultDto(0, "上传成功", _configuration["Qiniu:Host"] + qiniuName);
+                Mac mac = new Mac(_configuration["Qiniu:AK"], _configuration["Qiniu:SK"]);
+                BucketManager bucketManager = new BucketManager(mac, config);
+                StatResult statRet = bucketManager.Stat(_configuration["Qiniu:Bucket"], qiniuName);
+                long size = 0;
+                if (statRet.Code == (int)HttpCode.OK)
+                {
+                    size = statRet.Result.Fsize;
+                }
+                else
+                {
+                    Console.WriteLine("stat error: " + statRet);
+                }
+
+                LinFile saveLinFile = new LinFile()
+                {
+                    Extension = Path.GetExtension(fileName),
+                    Md5 = md5,
+                    Name = fileName,
+                    Path = qiniuName,
+                    Type = 2,
+                    CreateTime = DateTime.Now,
+                    Size = size
+                };
+
+                id = _freeSql.Insert(saveLinFile).ExecuteIdentity();
+            }
+            else
+            {
+                id = linFile.Id;
             }
 
-            return new QiniuResultDto(1, "上传失败");
+            return new List<FileDto>
+            {
+                new FileDto
+                {
+                    Id = (int) id,
+                    Key = "file_" + key,
+                    Path = qiniuName,
+                    Url = _configuration["Qiniu:Host"] + qiniuName
+                }
+            };
+
         }
 
         /// <summary>
         /// 上传多文件至七牛云
         /// </summary>
-        /// <param name="files">多个文件</param>
         /// <returns></returns>
-        [HttpPost("upload-multifile")]
-        public QiniuResultDto UploadMultifile(IFormFileCollection files)
+        [HttpPost]
+        public List<FileDto> UploadFiles()
         {
-            if (files.Count == 0)
-            {
-                return new QiniuResultDto(1, "无文件");
-            }
-
-            FormUploader upload = new FormUploader(new Config()
-            {
-                Zone = Zone.ZONE_CN_South,//华南 
-                UseHttps = true
-            });
-
-            List<string> list = new List<string>();
-
-            foreach (IFormFile file in files) //获取多个文件列表集合
-            {
-                var fileName = ContentDispositionHeaderValue
-                    .Parse(file.ContentDisposition)
-                    .FileName.Trim();
-
-                string qiniuName = _configuration["Qiniu:PrefixPath"] + "/" +
-                                   DateTime.Now.ToString("yyyyMMddHHmmssffffff") + fileName;
-                Stream stream = file.OpenReadStream();
-                HttpResult result = upload.UploadStream(stream, qiniuName, GetAccessToken().Data.ToString(), null);
-
-                if (result.Code == 200)
-                {
-                    list.Add(_configuration["Qiniu:Host"] + qiniuName);
-                }
-                else
-                {
-                    return new QiniuResultDto(1, result.RefText);
-                }
-            }
-
-            if (list.Count > 0)
-            {
-                return new QiniuResultDto(0, "上传成功", list);
-            }
-
-            return new QiniuResultDto(1, "上传失败", list);
+            IFormFileCollection files = Request.Form.Files;
+            List<FileDto> fileDtos = new List<FileDto>();
+            files.ForEach((file, index) => { fileDtos.AddRange(this.Upload(file, index)); });
+            return fileDtos;
         }
     }
 
 
-    public class QiniuResultDto
-    {
-        public QiniuResultDto(int code, string msg, object data)
-        {
-            Code = code;
-            Data = data;
-            Msg = msg;
-        }
-
-        public QiniuResultDto(int code, string msg)
-        {
-            Code = code;
-            Msg = msg;
-        }
-
-        public int Code { get; set; }
-        public object Data { get; set; }
-        public string Msg { get; set; }
-    }
 }
