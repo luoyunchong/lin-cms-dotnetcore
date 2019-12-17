@@ -7,10 +7,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Zero.Security
 {
-    public class CurrentUser : ICurrentUser, ITransientDependency
+    public  class CurrentUser : ICurrentUser, ITransientDependency
     {
         private readonly ClaimsPrincipal _claimsPrincipal;
         private readonly IConfiguration _configuration;
+
         public CurrentUser(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _configuration = configuration;
@@ -22,14 +23,21 @@ namespace LinCms.Zero.Security
 
         public bool? IsAdmin => _claimsPrincipal?.IsAdmin();
 
-        public string GetFileUrl(string hash)
+        public string GetFileUrl(string path)
         {
-            if (string.IsNullOrEmpty(hash)) return "";
-            if (hash.Contains("http"))
+            if (string.IsNullOrEmpty(path)) return "";
+            if (path.Contains("http"))
             {
-                return hash;
+                return path;
             }
-            return _configuration[LinConsts.SITE_DOMAIN] + "/" + _configuration[LinConsts.File.STORE_DIR] + "/" + hash;
+
+            if (path.StartsWith(_configuration[LinConsts.Qiniu.PrefixPath]))
+            {
+                return _configuration[LinConsts.Qiniu.Host] + path;
+            }
+
+            return _configuration[LinConsts.SITE_DOMAIN] + _configuration[LinConsts.File.STORE_DIR] + "/" + path;
+
         }
     }
 

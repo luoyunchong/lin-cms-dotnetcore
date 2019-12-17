@@ -14,6 +14,15 @@
             public static int CmsAdmin = 2;
             public static int User = 3;
         }
+        public static class Qiniu
+        {
+            public static string AK = "Qiniu:AK";
+            public static string SK = "Qiniu:SK";
+            public static string Bucket = "Qiniu:Bucket";
+            public static string PrefixPath = "Qiniu:PrefixPath";
+            public static string Host = "Qiniu:Host";
+        }
+
 
     }
 }
