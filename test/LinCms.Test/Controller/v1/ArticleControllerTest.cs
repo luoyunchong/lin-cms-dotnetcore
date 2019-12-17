@@ -14,7 +14,7 @@ namespace LinCms.Test.Controller.v1
 {
     public class ArticleControllerTest : BaseControllerTests
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
         private readonly AuditBaseRepository<Article> _articleRepository;
@@ -23,7 +23,7 @@ namespace LinCms.Test.Controller.v1
 
         public ArticleControllerTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IHostingEnvironment>();
+            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
             _articleController = serviceProvider.GetService<ArticleController>(); ;
 
             _mapper = serviceProvider.GetService<IMapper>();

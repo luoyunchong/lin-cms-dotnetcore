@@ -7,6 +7,7 @@ using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Middleware
@@ -23,8 +24,8 @@ namespace LinCms.Web.Middleware
 
         private readonly ILogger<CustomExceptionMiddleWare> _logger;
 
-        private readonly IHostingEnvironment _environment;
-        public CustomExceptionMiddleWare(RequestDelegate next, ILogger<CustomExceptionMiddleWare> logger, IHostingEnvironment environment)
+        private readonly IWebHostEnvironment _environment;
+        public CustomExceptionMiddleWare(RequestDelegate next, ILogger<CustomExceptionMiddleWare> logger, IWebHostEnvironment environment)
         {
             _next = next;
             _logger = logger;

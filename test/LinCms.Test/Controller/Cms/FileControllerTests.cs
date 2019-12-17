@@ -8,11 +8,11 @@ namespace LinCms.Test.Controller.Cms
 {
     public class FileControllerTests : BaseControllerTests
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
 
         public FileControllerTests() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IHostingEnvironment>();
+            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
         }
 
         [Fact]

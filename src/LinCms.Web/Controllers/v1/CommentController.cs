@@ -147,6 +147,11 @@ namespace LinCms.Web.Controllers.v1
             return new PagedResultDto<CommentDto>(comments, totalCount);
         }
 
+        /// <summary>
+        /// 删除评论
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除评论", "评论")]
         public ResultDto Delete(Guid id)
@@ -156,6 +161,11 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success();
         }
 
+        /// <summary>
+        /// 用户仅可删除自己的评论
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public ResultDto DeleteMyComment(Guid id)
         {

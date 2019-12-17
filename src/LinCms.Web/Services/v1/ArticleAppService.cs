@@ -6,6 +6,7 @@ using FreeSql;
 using LinCms.Web.Models.v1.Articles;
 using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Domain.Blog;
+using LinCms.Zero.Exceptions;
 using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 
@@ -63,7 +64,10 @@ namespace LinCms.Web.Services.v1
             Article article = _articleRepository.Select
                 .Include(r => r.Classify)
                 .IncludeMany(r => r.Tags).Include(r => r.UserInfo).Where(a => a.Id == id).ToOne();
-
+            if (article.IsNull())
+            {
+                throw new LinCmsException("该随笔不存在");
+            }
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
             articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);
 

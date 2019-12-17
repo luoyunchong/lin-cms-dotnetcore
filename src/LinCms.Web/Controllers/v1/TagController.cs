@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using FreeSql;
 using LinCms.Web.Models.v1.Tags;
 using LinCms.Web.Services.v1.Interfaces;
 using LinCms.Zero.Aop;
@@ -17,12 +18,14 @@ namespace LinCms.Web.Controllers.v1
     public class TagController : ControllerBase
     {
         private readonly AuditBaseRepository<Tag> _tagRepository;
+        private readonly BaseRepository<TagArticle> _tagArticleRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly ITagService _tagService;
-        public TagController(AuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, ITagService tagService)
+        public TagController(AuditBaseRepository<Tag> tagRepository, BaseRepository<TagArticle> tagArticleRepository, IMapper mapper, ICurrentUser currentUser, ITagService tagService)
         {
             _tagRepository = tagRepository;
+            _tagArticleRepository = tagArticleRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _tagService = tagService;
@@ -54,6 +57,10 @@ namespace LinCms.Web.Controllers.v1
         public TagDto Get(Guid id)
         {
             Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
+            if (tag == null)
+            {
+                throw new LinCmsException("不存在此标签");
+            }
             TagDto tagDto = _mapper.Map<TagDto>(tag);
             tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
@@ -84,7 +91,6 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("该数据不存在");
             }
 
-
             bool exist = _tagRepository.Select.Any(r => r.TagName == updateTag.TagName && r.Id != id);
             if (exist)
             {
@@ -98,5 +104,18 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success("更新标签成功");
         }
 
+        /// <summary>
+        /// 标签-校正标签对应文章数量
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        [LinCmsAuthorize("校正文章数量", "标签管理")]
+        [HttpPut("correct/{tagId}")]
+        public ResultDto CorrectedTagCount(Guid tagId)
+        {
+            long count = _tagArticleRepository.Select.Where(r => r.TagId == tagId).Count();
+            _tagRepository.UpdateDiy.Set(r => r.ArticleCount, count).Where(r => r.Id == tagId).ExecuteAffrows();
+            return ResultDto.Success();
+        }
     }
 }

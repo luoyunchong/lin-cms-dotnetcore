@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.Zero.Aop
@@ -17,8 +18,8 @@ namespace LinCms.Zero.Aop
     public class LinCmsExceptionFilter : Attribute, IExceptionFilter
     {
         private readonly ILogger _logger;
-        private readonly IHostingEnvironment _environment;
-        public LinCmsExceptionFilter(ILogger<LinCmsExceptionFilter> logger, IHostingEnvironment environment)
+        private readonly IWebHostEnvironment _environment;
+        public LinCmsExceptionFilter(ILogger<LinCmsExceptionFilter> logger, IWebHostEnvironment environment)
         {
             _logger = logger;
             _environment = environment;
