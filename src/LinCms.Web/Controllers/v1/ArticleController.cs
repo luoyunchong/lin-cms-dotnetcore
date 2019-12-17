@@ -37,7 +37,11 @@ namespace LinCms.Web.Controllers.v1
             _tagArticleRepository = tagArticleRepository;
             _articleService = articleService;
         }
-
+        /// <summary>
+        /// 删除自己的随笔
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public ResultDto DeleteMyArticle(Guid id)
         {
@@ -50,6 +54,11 @@ namespace LinCms.Web.Controllers.v1
             return ResultDto.Success();
         }
 
+        /// <summary>
+        /// 管理员删除违规随笔
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除随笔", "随笔")]
         public ResultDto Delete(Guid id)
@@ -64,6 +73,7 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="searchDto"></param>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public PagedResultDto<ArticleDto> Get([FromQuery]ArticleSearchDto searchDto)
         {
             var select = _articleRepository
@@ -108,6 +118,7 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
                 .Where(r => r.IsAudit == true)
+                .WhereIf(searchDto.UserId != null, r => r.CreateUserId == searchDto.UserId)
                 .WhereIf(searchDto.TagId.HasValue, r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))

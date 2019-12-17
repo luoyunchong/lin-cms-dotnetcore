@@ -41,7 +41,7 @@
 - 本项目swagger地址 [http://47.106.80.39:5001/swagger/index.html](http://47.106.80.39:5001/swagger/index.html)
 
 ## 前端
-- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客文章、回复、留言板、标签、文章分组管理、插件式功能（还没有），具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/)
+- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客文章、评论、留言板、标签、文章分类专栏、插件式功能（还没有），具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/)
 - 管理端 [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
 - 用户端 [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
 ### Lin CMS 的特点
@@ -75,7 +75,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 ### 后端主要技术
 - 数据库：FreeSql+MySQL5.6
-- ASP.NET Core3.1+MVC
+- ASP.NET Core3.1+WebAPI+RESTful
 - 简化对象映射：AutoMapper
 - 身份认证框架：IdentityServer4
 - Json Web令牌:JWT
@@ -108,22 +108,12 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 
 ## 下个版本开发计划
-1. 迁移Mock.Luo项目至lin-cms-dotnetcore,
-2. 实现模块化开发，支持基础组件安装与卸载。
-3. 实现abp vnext的文档的功能 [https://docs.abp.io/en/abp/latest](https://docs.abp.io/en/abp/latest)
-4. 写文档。
-- [x] 创建时间、创建人、修改时间、修改人、删除人、删除时间、是否删除(软删除)
-- [x] 部署 
-- [ ] 系统访问日志、错误日志可视化
-- [ ] 完善文档
-- [ ] 重构核心库结构
-- [ ] 基于lin-cms-vue的基础,将之前Mock.luo项目中的博客迁移过来
-  - [x] 博客随笔发布/编辑/删除
-  - [ ] 留言板
-  - [ ] 评论回复、审核、点赞等
-  - [ ] 前端展示博客效果
-  - [x] 基础资料  BaseItem
-  - [x] 类别管理  BaseType
+1. 实现模块化开发、重构核心库结构，支持基础组件安装与卸载。
+2. 实现abp vnext的文档的功能 [https://docs.abp.io/en/abp/latest](https://docs.abp.io/en/abp/latest)
+3. 写文档。
+4. 更多细节介绍：https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3
+  - [ ] 部署 
+  - [ ] 系统访问日志、错误日志可视化
 
 ##  开源地址
 * Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)

@@ -27,8 +27,8 @@ namespace LinCms.Web.Services.Cms
 
         public FileDto Upload(IFormFile file, int key = 0)
         {
-            string domainUrl = _configuration["SITE_DOMAIN"];
-            string fileDir = _configuration["FILE:STORE_DIR"];
+            string domainUrl = _configuration[LinConsts.SITE_DOMAIN];
+            string fileDir = _configuration[LinConsts.File.STORE_DIR];
 
             string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
 
@@ -41,17 +41,17 @@ namespace LinCms.Web.Services.Cms
                     Id = linFile.Id,
                     Key = "file_" + key,
                     Path = linFile.Path,
-                    Url = domainUrl + "/" + fileDir + "/" + linFile.Path
+                    Url = domainUrl+ fileDir + "/" + linFile.Path
                 };
             }
 
-            string filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
+            string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
+            string extension = Path.GetExtension(fileName);
+            string now = DateTime.Now.ToString("yyy/MM/dd");
 
-            DateTime now = DateTime.Now;
+            string newSaveName = Guid.NewGuid() + extension;
 
-            string newSaveName = Guid.NewGuid() + Path.GetExtension(filename);
-
-            string savePath = Path.Combine(_hostingEnv.WebRootPath, fileDir, now.ToString("yyy/MM/dd"));
+            string savePath = Path.Combine(_hostingEnv.WebRootPath, fileDir, now);
 
             if (!Directory.Exists(savePath))
             {
@@ -68,14 +68,14 @@ namespace LinCms.Web.Services.Cms
             }
 
             long id;
-            string path = Path.Combine(now.ToString("yyy/MM/dd"), newSaveName).Replace("\\", "/");
+            string path = Path.Combine(now, newSaveName).Replace("\\", "/");
             if (linFile == null)
             {
                 LinFile saveLinFile = new LinFile()
                 {
-                    Extension = Path.GetExtension(filename),
+                    Extension = Path.GetExtension(fileName),
                     Md5 = md5,
-                    Name = filename,
+                    Name = fileName,
                     Path = path,
                     Type = 1,
                     CreateTime = DateTime.Now,
