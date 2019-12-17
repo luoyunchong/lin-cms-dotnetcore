@@ -29,8 +29,8 @@ namespace LinCms.Web.Services.Cms
 
         private string GetAccessToken()
         {
-            Mac mac = new Mac(_configuration["Qiniu:AK"], _configuration["Qiniu:SK"]);
-            PutPolicy putPolicy = new PutPolicy { Scope = _configuration["Qiniu:Bucket"] };
+            Mac mac = new Mac(_configuration[LinConsts.Qiniu.AK], _configuration[LinConsts.Qiniu.SK]);
+            PutPolicy putPolicy = new PutPolicy { Scope = _configuration[LinConsts.Qiniu.Bucket] };
             return Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
         }
 
@@ -56,9 +56,9 @@ namespace LinCms.Web.Services.Cms
 
             if (linFile != null)
             {
-                Mac mac = new Mac(_configuration["Qiniu:AK"], _configuration["Qiniu:SK"]);
+                Mac mac = new Mac(_configuration[LinConsts.Qiniu.AK], _configuration[LinConsts.Qiniu.SK]);
                 BucketManager bucketManager = new BucketManager(mac, config);
-                StatResult statRet = bucketManager.Stat(_configuration["Qiniu:Bucket"], linFile.Path);
+                StatResult statRet = bucketManager.Stat(_configuration[LinConsts.Qiniu.Bucket], linFile.Path);
                 if (statRet.Code == (int)HttpCode.OK)
                 {
                     return new FileDto
@@ -66,7 +66,7 @@ namespace LinCms.Web.Services.Cms
                         Id = linFile.Id,
                         Key = "file_" + key,
                         Path = linFile.Path,
-                        Url = _configuration["Qiniu:Host"] + linFile.Path
+                        Url = _configuration[LinConsts.Qiniu.Host] + linFile.Path
                     };
                 }
 
@@ -78,10 +78,12 @@ namespace LinCms.Web.Services.Cms
                 .Parse(file.ContentDisposition)
                 .FileName.Trim().ToString();
 
-            string qiniuName = _configuration["Qiniu:PrefixPath"] + "/" +
-                               DateTime.Now.ToString("yyyyMMddHHmmssffffff") + fileName;
+            string extension = Path.GetExtension(fileName);
+
+            string path = _configuration[LinConsts.Qiniu.PrefixPath] + "/" +
+                               DateTime.Now.ToString("yyyyMMddHHmmssffffff") + extension;
             Stream stream = file.OpenReadStream();
-            HttpResult result = upload.UploadStream(stream, qiniuName, GetAccessToken(), null);
+            HttpResult result = upload.UploadStream(stream, path, GetAccessToken(), null);
 
             if (result.Code != (int)HttpCode.OK) throw new LinCmsException("上传失败");
 
@@ -91,10 +93,10 @@ namespace LinCms.Web.Services.Cms
             {
                 LinFile saveLinFile = new LinFile()
                 {
-                    Extension = Path.GetExtension(fileName),
+                    Extension = extension,
                     Md5 = md5,
                     Name = fileName,
-                    Path = qiniuName,
+                    Path = path,
                     Type = 2,
                     CreateTime = DateTime.Now,
                     Size = size
@@ -103,7 +105,7 @@ namespace LinCms.Web.Services.Cms
             }
             else
             {
-                _freeSql.Update<LinFile>(linFile.Id).Set(a => a.Path, qiniuName).ExecuteAffrows();
+                _freeSql.Update<LinFile>(linFile.Id).Set(a => a.Path, path).ExecuteAffrows();
                 id = linFile.Id;
             }
 
@@ -111,8 +113,8 @@ namespace LinCms.Web.Services.Cms
             {
                 Id = (int)id,
                 Key = "file_" + key,
-                Path = qiniuName,
-                Url = _configuration["Qiniu:Host"] + qiniuName
+                Path = path,
+                Url = _configuration[LinConsts.Qiniu.Host] + path
             };
 
         }

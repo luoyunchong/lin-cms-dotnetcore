@@ -37,8 +37,10 @@ namespace LinCms.Web.Controllers.v1
         /// <param name="followUserId"></param>
         /// <returns></returns>
         [HttpGet("{followUserId}")]
+        [AllowAnonymous]
         public bool Get(long followUserId)
         {
+            if (_currentUser.Id == null) return false;
             return _userFollowRepository.Select.Any(r => r.FollowUserId == followUserId && r.CreateUserId == _currentUser.Id);
         }
 
@@ -100,7 +102,7 @@ namespace LinCms.Web.Controllers.v1
         {
             var userFollows = _userFollowRepository.Select.Include(r => r.FollowUser)
                 .Where(r => r.CreateUserId == searchDto.UserId)
-                .OrderByDescending(r=>r.CreateTime)
+                .OrderByDescending(r => r.CreateTime)
                 .ToPager(searchDto, out long count)
                 .ToList(r => new UserFollowDto
                 {
@@ -117,6 +119,8 @@ namespace LinCms.Web.Controllers.v1
                     IsFollowed = _userFollowRepository.Select.Any(u =>
                         u.CreateUserId == _currentUser.Id && u.FollowUserId == r.FollowUserId)
                 });
+
+            userFollows.ForEach(r => { r.Follower.Avatar = _currentUser.GetFileUrl(r.Follower.Avatar); });
 
             return new PagedResultDto<UserFollowDto>(userFollows, count);
         }
@@ -151,7 +155,31 @@ namespace LinCms.Web.Controllers.v1
                         u.CreateUserId == _currentUser.Id && u.FollowUserId == r.CreateUserId)
                 });
 
+            userFollows.ForEach(r => { r.Follower.Avatar = _currentUser.GetFileUrl(r.Follower.Avatar); });
+
             return new PagedResultDto<UserFollowDto>(userFollows, count);
+        }
+
+        /// <summary>
+        /// 得到某个用户的关注了、关注者
+        /// </summary>
+        /// <param name="userId"></param>
+        [HttpGet("user/{userId}")]
+        public FollowCountDto GetUserFollowInfo(long userId)
+        {
+            long followCount = _userFollowRepository.Select
+                .Where(r => r.CreateUserId == userId)
+                .Count();
+
+            long fansCount = _userFollowRepository.Select
+                .Where(r => r.FollowUserId == userId)
+                .Count();
+
+            return new FollowCountDto
+            {
+                FollowCount = followCount,
+                FansCount = fansCount
+            };
         }
     }
 }

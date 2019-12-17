@@ -11,5 +11,7 @@ namespace LinCms.Web.Models.v1.Articles
         public Guid? ClassifyId { get; set; }
         public Guid? TagId { get; set; }
         public string Title { get; set; }
+
+        public long? UserId { get; set; }
     }
 }

@@ -57,6 +57,10 @@ namespace LinCms.Web.Controllers.v1
         public TagDto Get(Guid id)
         {
             Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
+            if (tag == null)
+            {
+                throw new LinCmsException("不存在此标签");
+            }
             TagDto tagDto = _mapper.Map<TagDto>(tag);
             tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
             return tagDto;

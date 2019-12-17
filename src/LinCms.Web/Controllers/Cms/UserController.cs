@@ -11,6 +11,7 @@ using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Any;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -132,6 +133,18 @@ namespace LinCms.Web.Controllers.Cms
             LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false && r.Id == userId).First();
 
             return _currentUser.GetFileUrl(linUser.Avatar);
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{userId}")]
+        public OpenUserDto GetUserByUserId(long userId)
+        {
+            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false && r.Id == userId).First();
+            OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
+            openUser.Avatar = _currentUser.GetFileUrl(openUser.Avatar);
+
+            return openUser;
 
         }
     }
