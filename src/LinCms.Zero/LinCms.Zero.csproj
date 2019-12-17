@@ -14,9 +14,9 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="FreeSql" Version="0.12.20" />
-    <PackageReference Include="FreeSql.DbContext" Version="0.12.20" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="0.12.20" />
+    <PackageReference Include="FreeSql" Version="0.12.21" />
+    <PackageReference Include="FreeSql.DbContext" Version="0.12.21" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="0.12.21" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 

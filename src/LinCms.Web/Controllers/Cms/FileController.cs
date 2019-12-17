@@ -18,12 +18,13 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         /// <summary>
-        /// 上传多文件至七牛云
+        /// 上传多文件至本地或七牛云，swagger无法正常生成
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public List<FileDto> UploadFiles(IFormFileCollection files)
+        public List<FileDto> UploadFiles()
         {
+            IFormFileCollection files = Request.Form.Files;
             List<FileDto> fileDtos = new List<FileDto>();
             files.ForEach((file, index) => { fileDtos.Add(_fileService.Upload(file, index)); });
             return fileDtos;
