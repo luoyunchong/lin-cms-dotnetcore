@@ -21,6 +21,7 @@
             public static string Bucket = "Qiniu:Bucket";
             public static string PrefixPath = "Qiniu:PrefixPath";
             public static string Host = "Qiniu:Host";
+            public static string UseHttps = "Qiniu:UseHttps";
         }
 
 
