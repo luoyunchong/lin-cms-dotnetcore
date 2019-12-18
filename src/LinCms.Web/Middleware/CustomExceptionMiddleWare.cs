@@ -46,11 +46,11 @@ namespace LinCms.Web.Middleware
                 }
                 else
                 {
-                    string errorMsg = _environment.IsDevelopment()
-                        ? $"异常信息:{(ex.InnerException != null ? ex.InnerException.Message : ex.Message)}"
-                        : "服务器正忙，请稍后再试";
+                    string errorMsg = $"异常信息:{(ex.InnerException != null ? ex.InnerException.Message : ex.Message)}";
 
-                    await JsonHandle(context, errorMsg, ErrorCode.UnknownError,500);
+                    _logger.LogError(errorMsg);
+
+                    await JsonHandle(context, _environment.IsDevelopment()?errorMsg: "服务器正忙，请稍后再试!", ErrorCode.UnknownError,500);
 
                 }
             }
@@ -62,8 +62,6 @@ namespace LinCms.Web.Middleware
         /// <returns></returns>
         private async Task JsonHandle(HttpContext context, string errorMsg, ErrorCode errorCode,int statusCode)
         {
-            _logger.LogError(errorMsg);
-
             ResultDto apiResponse = new ResultDto()
             {
                 Msg = errorMsg,

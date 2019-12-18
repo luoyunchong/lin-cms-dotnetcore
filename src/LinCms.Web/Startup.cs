@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
+using IdentityServer4.AccessTokenValidation;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
@@ -112,7 +114,14 @@ namespace LinCms.Web
             }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
 
             services.AddIdentityServer()
+#if  DEBUG
                 .AddDeveloperSigningCredential()
+#endif
+#if !DEBUG
+                .AddSigningCredential(new X509Certificate2(Path.Combine(AppContext.BaseDirectory,
+                        Configuration["Certificates:Path"]),
+                    Configuration["Certificates:Password"]))
+#endif
                 .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
                 .AddInMemoryApiResources(InMemoryConfiguration.GetApis())
                 .AddInMemoryClients(InMemoryConfiguration.GetClients())
@@ -136,7 +145,7 @@ namespace LinCms.Web
             //        options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
             //        options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
 
-            //        options.JwtValidationClockSkew = TimeSpan.FromSeconds(60*5);   
+            //        //options.JwtValidationClockSkew = TimeSpan.FromSeconds(60 * 5);
 
             //    });
             #endregion
@@ -209,7 +218,7 @@ namespace LinCms.Web
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
                  options.Filters.Add<LinCmsExceptionFilter>();
-                 //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
              .AddNewtonsoftJson(opt =>
              {
@@ -296,7 +305,6 @@ namespace LinCms.Web
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo() { Title = "LinCms", Version = "v1" });
-                //var security = new Dictionary<string, IEnumerable<string>> { { "Bearer", new string[] { } }, };
                 var security = new OpenApiSecurityRequirement()
                 {
                     { new OpenApiSecurityScheme
@@ -320,7 +328,6 @@ namespace LinCms.Web
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
                 options.IncludeXmlComments(xmlPath);
 
-                //options.OperationFilter<SwaggerFileHeaderParameter>();
             });
             #endregion
 
@@ -339,16 +346,16 @@ namespace LinCms.Web
         {
             app.UseHttpMethodOverride(new HttpMethodOverrideOptions { FormFieldName = "X-Http-Method-Override" });
             //env.EnvironmentName = EnvironmentName.Production;
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
+            app.UseHsts();
             app.UseStaticFiles();
 
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
@@ -369,7 +376,9 @@ namespace LinCms.Web
 
             app.UseCors(builder =>
             {
-                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:8081", "http://localhost:8080");
+                string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
+
+                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
             });
 
             app.UseAuthentication();

@@ -40,7 +40,7 @@ namespace LinCms.Zero.Aop
                 return;
             }
 
-            string error = string.Empty;
+            string error = "异常信息：";
 
             void ReadException(Exception ex)
             {
@@ -52,10 +52,12 @@ namespace LinCms.Zero.Aop
             }
             ReadException(context.Exception);
 
+            _logger.LogError(error);
+
             ResultDto apiResponse = new ResultDto()
             {
                 ErrorCode = ErrorCode.UnknownError,
-                Msg = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试"
+                Msg = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试."
             };
 
             HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);
@@ -64,8 +66,6 @@ namespace LinCms.Zero.Aop
         private void HandlerException(ExceptionContext context, ResultDto apiResponse, int statusCode)
         {
             apiResponse.Request = LinCmsUtils.GetRequest(context.HttpContext);
-
-            _logger.LogError(apiResponse.ToString());
 
             context.Result = new JsonResult(apiResponse)
             {

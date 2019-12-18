@@ -11,7 +11,6 @@ using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Any;
 
 namespace LinCms.Web.Controllers.Cms
 {

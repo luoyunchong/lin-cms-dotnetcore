@@ -165,6 +165,7 @@ namespace LinCms.Web.Controllers.v1
         /// </summary>
         /// <param name="userId"></param>
         [HttpGet("user/{userId}")]
+        [AllowAnonymous]
         public FollowCountDto GetUserFollowInfo(long userId)
         {
             long followCount = _userFollowRepository.Select

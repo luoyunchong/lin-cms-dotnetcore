@@ -48,115 +48,39 @@ namespace LinCms.Web.Controllers.v1
         /// 上传文件至七牛云
         /// </summary>
         /// <param name="file">单个文件</param>
-        /// <param name="key"></param>
         /// <returns></returns>
         [HttpPost("upload")]
-        public List<FileDto> Upload(IFormFile file, int key = 0)
+        public FileDto Upload(IFormFile file)
         {
             if (file.Length == 0)
             {
                 throw new LinCmsException("文件为空");
             }
 
-            string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
-
-            LinFile linFile = _freeSql.Select<LinFile>().Where(r => r.Md5 == md5).First();
-
-            if (linFile != null && linFile.Type == 1)
-            {
-                if (System.IO.File.Exists(linFile.Path))
-                {
-                    return new List<FileDto>
-                    {
-                        new FileDto
-                        {
-                            Id = linFile.Id,
-                            Key = "file_" + key,
-                            Path = linFile.Path,
-                            Url = linFile.Path
-                        }
-                    };
-                }
-            }
-
-
             FormUploader upload = new FormUploader(new Config()
             {
                 Zone = Zone.ZONE_CN_South, //华南 
-                UseHttps = true
+                UseHttps = _configuration[LinConsts.Qiniu.UseHttps].ToBoolean()
             });
-
-            Config config = new Config {Zone = Zone.ZONE_CN_East};
 
             string fileName = ContentDispositionHeaderValue
                 .Parse(file.ContentDisposition)
                 .FileName.Trim().ToString();
 
-            string qiniuName = _configuration["Qiniu:PrefixPath"] + "/" +
-                               DateTime.Now.ToString("yyyyMMddHHmmssffffff") + fileName;
+            string qiniuName = _configuration["Qiniu:PrefixPath"] + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(fileName);
             Stream stream = file.OpenReadStream();
             HttpResult result = upload.UploadStream(stream, qiniuName, GetAccessToken(), null);
 
-            if (result.Code != (int) HttpCode.OK) throw new LinCmsException("上传失败");
-            long id;
-            if (linFile==null)
-            {
-                Mac mac = new Mac(_configuration["Qiniu:AK"], _configuration["Qiniu:SK"]);
-                BucketManager bucketManager = new BucketManager(mac, config);
-                StatResult statRet = bucketManager.Stat(_configuration["Qiniu:Bucket"], qiniuName);
-                long size = 0;
-                if (statRet.Code == (int)HttpCode.OK)
-                {
-                    size = statRet.Result.Fsize;
-                }
-                else
-                {
-                    Console.WriteLine("stat error: " + statRet);
-                }
+            if (result.Code != (int)HttpCode.OK) throw new LinCmsException("上传失败");
 
-                LinFile saveLinFile = new LinFile()
-                {
-                    Extension = Path.GetExtension(fileName),
-                    Md5 = md5,
-                    Name = fileName,
-                    Path = qiniuName,
-                    Type = 2,
-                    CreateTime = DateTime.Now,
-                    Size = size
-                };
-
-                id = _freeSql.Insert(saveLinFile).ExecuteIdentity();
-            }
-            else
+            return new FileDto
             {
-                id = linFile.Id;
-            }
-
-            return new List<FileDto>
-            {
-                new FileDto
-                {
-                    Id = (int) id,
-                    Key = "file_" + key,
-                    Path = qiniuName,
-                    Url = _configuration["Qiniu:Host"] + qiniuName
-                }
+                Path = qiniuName,
+                Url = _configuration["Qiniu:Host"] + qiniuName
             };
 
         }
 
-        /// <summary>
-        /// 上传多文件至七牛云
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public List<FileDto> UploadFiles()
-        {
-            IFormFileCollection files = Request.Form.Files;
-            List<FileDto> fileDtos = new List<FileDto>();
-            files.ForEach((file, index) => { fileDtos.AddRange(this.Upload(file, index)); });
-            return fileDtos;
-        }
     }
 
 
