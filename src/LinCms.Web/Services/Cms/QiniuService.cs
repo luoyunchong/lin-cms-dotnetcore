@@ -40,39 +40,22 @@ namespace LinCms.Web.Services.Cms
         /// <param name="file">单个文件</param>
         /// <param name="key"></param>
         /// <returns></returns>
-        [HttpPost("upload")]
         public FileDto Upload(IFormFile file, int key = 0)
         {
             string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
-
-            Config config = new Config
-            {
-                Zone = Zone.ZONE_CN_South,
-                UseHttps = true
-            };
-            FormUploader upload = new FormUploader(config);
 
             LinFile linFile = _freeSql.Select<LinFile>().Where(r => r.Md5 == md5 && r.Type == 2).First();
 
             if (linFile != null)
             {
-                Mac mac = new Mac(_configuration[LinConsts.Qiniu.AK], _configuration[LinConsts.Qiniu.SK]);
-                BucketManager bucketManager = new BucketManager(mac, config);
-                StatResult statRet = bucketManager.Stat(_configuration[LinConsts.Qiniu.Bucket], linFile.Path);
-                if (statRet.Code == (int)HttpCode.OK)
+                return new FileDto
                 {
-                    return new FileDto
-                    {
-                        Id = linFile.Id,
-                        Key = "file_" + key,
-                        Path = linFile.Path,
-                        Url = _configuration[LinConsts.Qiniu.Host] + linFile.Path
-                    };
-                }
-
-                Console.WriteLine("stat error: " + statRet);
+                    Id = linFile.Id,
+                    Key = "file_" + key,
+                    Path = linFile.Path,
+                    Url = _configuration[LinConsts.Qiniu.Host] + linFile.Path
+                };
             }
-
 
             string fileName = ContentDispositionHeaderValue
                 .Parse(file.ContentDisposition)
@@ -80,35 +63,21 @@ namespace LinCms.Web.Services.Cms
 
             string extension = Path.GetExtension(fileName);
 
-            string path = _configuration[LinConsts.Qiniu.PrefixPath] + "/" +
-                               DateTime.Now.ToString("yyyyMMddHHmmssffffff") + extension;
-            Stream stream = file.OpenReadStream();
-            HttpResult result = upload.UploadStream(stream, path, GetAccessToken(), null);
-
-            if (result.Code != (int)HttpCode.OK) throw new LinCmsException("上传失败");
+            string path = this.UploadToQiniu(file);
 
             long size = 0;
-            long id;
-            if (linFile == null)
+            LinFile saveLinFile = new LinFile()
             {
-                LinFile saveLinFile = new LinFile()
-                {
-                    Extension = extension,
-                    Md5 = md5,
-                    Name = fileName,
-                    Path = path,
-                    Type = 2,
-                    CreateTime = DateTime.Now,
-                    Size = size
-                };
-                id = _freeSql.Insert(saveLinFile).ExecuteIdentity();
-            }
-            else
-            {
-                _freeSql.Update<LinFile>(linFile.Id).Set(a => a.Path, path).ExecuteAffrows();
-                id = linFile.Id;
-            }
+                Extension = extension,
+                Md5 = md5,
+                Name = fileName,
+                Path = path,
+                Type = 2,
+                CreateTime = DateTime.Now,
+                Size = size
+            };
 
+            long id = _freeSql.Insert(saveLinFile).ExecuteIdentity();
             return new FileDto
             {
                 Id = (int)id,
@@ -119,5 +88,32 @@ namespace LinCms.Web.Services.Cms
 
         }
 
+
+        public string UploadToQiniu(IFormFile file)
+        {
+            if (file.Length == 0)
+            {
+                throw new LinCmsException("文件为空");
+            }
+
+            FormUploader upload = new FormUploader(new Config()
+            {
+                Zone = Zone.ZONE_CN_South,
+                UseHttps = _configuration[LinConsts.Qiniu.UseHttps].ToBoolean()
+            });
+
+            string fileName = ContentDispositionHeaderValue
+                .Parse(file.ContentDisposition)
+                .FileName.Trim().ToString();
+
+            string path = _configuration["Qiniu:PrefixPath"] + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(fileName);
+            Stream stream = file.OpenReadStream();
+            HttpResult result = upload.UploadStream(stream, path, GetAccessToken(), null);
+
+            if (result.Code != (int)HttpCode.OK) throw new LinCmsException("上传失败");
+
+            return path;
+
+        }
     }
 }

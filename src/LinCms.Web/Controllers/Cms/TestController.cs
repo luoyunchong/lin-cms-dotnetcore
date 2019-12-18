@@ -70,6 +70,13 @@ namespace LinCms.Web.Controllers.Cms
             //return ResultDto.Success();
         }
 
+        [HttpGet("lincms-2")]
+        public ResultDto TestLinCms2Exception()
+        {
+            throw new Exception("我报异常了-Exeption");
+            //return ResultDto.Success();
+        }
+
         [HttpGet("test-time")]
         public void TestTime(DateTime dateTime)
         {

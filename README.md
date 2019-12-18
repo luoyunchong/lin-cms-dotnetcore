@@ -34,11 +34,14 @@
 [https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/)
 
 ## 线上 Demo
+- 本项目swagger地址 [http://47.106.80.39:88/swagger/index.html](http://47.106.80.39:88/swagger/index.html)
+- 用户端 lin-cms-vvlog [http://47.106.80.39:8080/index](http://47.106.80.39:8080/index) 
+  - 普通用户：710277267@qq.com
+  - 密码：123qwe
 
-- 官方地址 [http://face.cms.7yue.pro/#/login](http://face.cms.7yue.pro/#/login) 
-  - 用户名： super
-  - 密码： 123456
-- 本项目swagger地址 [http://47.106.80.39:5001/swagger/index.html](http://47.106.80.39:5001/swagger/index.html)
+- 管理员 lin-cms-vue [http://47.106.80.39:8081/#/](http://47.106.80.39:8081/#/)
+  - 管理员： admin
+  - 密码：123qwe
 
 ## 前端
 - 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客文章、评论、留言板、标签、文章分类专栏、插件式功能（还没有），具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/)
