@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using LinCms.Web.Models.Cms.Users;
 
-namespace LinCms.Web.Models.v1.UserFollows
+namespace LinCms.Web.Models.v1.UserSubscribes
 {
-    public class UserFollowDto
+    public class UserSubscribeDto
     {
         /// <summary>
         /// 被关注的用户Id
         /// </summary>
-        public long FollowUserId { get; set; }
+        public long SubscribeUserId { get; set; }
         /// <summary>
         /// 关注的用户Id
         /// </summary>
@@ -20,9 +20,9 @@ namespace LinCms.Web.Models.v1.UserFollows
         /// <summary>
         /// 关注者
         /// </summary>
-        public OpenUserDto Follower { get; set; }
+        public OpenUserDto Subscribeer { get; set; }
 
-        public bool IsFollowed { get; set; }
+        public bool IsSubscribeed { get; set; }
 
     }
 }

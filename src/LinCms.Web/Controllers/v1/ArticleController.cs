@@ -28,14 +28,16 @@ namespace LinCms.Web.Controllers.v1
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
+        private readonly BaseRepository<UserSubscribe> _userSubscribeRepository;
         public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser,
-            GuidRepository<TagArticle> tagArticleRepository, IArticleService articleService)
+            GuidRepository<TagArticle> tagArticleRepository, IArticleService articleService, BaseRepository<UserSubscribe> userSubscribeRepository)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _tagArticleRepository = tagArticleRepository;
             _articleService = articleService;
+            _userSubscribeRepository = userSubscribeRepository;
         }
         /// <summary>
         /// 删除自己的随笔
@@ -126,8 +128,8 @@ namespace LinCms.Web.Controllers.v1
                 .WhereIf(searchDto.Sort == "WEEKLY_HOTTEST", r => r.CreateTime > weeklyDays)
                 .WhereIf(searchDto.Sort == "MONTHLY_HOTTEST", r => r.CreateTime > monthDays)
                 .OrderByDescending(
-                    searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" || searchDto.Sort == "MONTHLY_HOTTEST"||
-                            searchDto.Sort== "HOTTEST",
+                    searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" || searchDto.Sort == "MONTHLY_HOTTEST" ||
+                            searchDto.Sort == "HOTTEST",
                     r => (r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30))
                 .OrderByDescending(r => r.CreateTime);
 
@@ -233,6 +235,46 @@ namespace LinCms.Web.Controllers.v1
             article.IsAudit = isAudit;
             _articleRepository.Update(article);
             return ResultDto.Success();
+        }
+
+        /// <summary>
+        /// 得到我关注的人发布的随笔
+        /// </summary>
+        /// <param name="pageDto"></param>
+        /// <returns></returns>
+        [HttpGet("my-subscribe")]
+        public PagedResultDto<ArticleDto> GetSubscribeArticle([FromQuery]PageDto pageDto)
+        {
+            long? userId = _currentUser.Id;
+            List<long> folowUserIds = _userSubscribeRepository.Select.Where(r => r.CreateUserId == userId).ToList(r => r.SubscribeUserId);
+
+            var select = _articleRepository
+                .Select
+                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
+                .WhereIf(folowUserIds.Count > 0, r => folowUserIds.Contains(r.CreateUserId.ToLong()))
+                .WhereIf(folowUserIds.Count == 0, r => false)
+                .OrderByDescending(r => r.CreateTime);
+
+
+            var articles = select
+                .ToPagerList(pageDto, out long totalCount)
+                .Select(a =>
+                {
+                    ArticleDto articleDto = _mapper.Map<ArticleDto>(a);
+                    articleDto.Tags = a.Tags.Select(r => new TagDto()
+                    {
+                        TagName = r.TagName,
+                        Id = r.Id,
+                    }).ToList();
+
+                    articleDto.IsLiked = userId != null && a.UserLikes.Any();
+
+                    articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
+                    return articleDto;
+                })
+                .ToList();
+
+            return new PagedResultDto<ArticleDto>(articles, totalCount);
         }
     }
 }

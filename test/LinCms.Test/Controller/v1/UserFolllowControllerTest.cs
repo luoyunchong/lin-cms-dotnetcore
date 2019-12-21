@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using LinCms.Web.Models.Cms.Users;
-using LinCms.Web.Models.v1.UserFollows;
+using LinCms.Web.Models.v1.UserSubscribes;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Extensions;
@@ -18,51 +18,51 @@ namespace LinCms.Test.Controller.v1
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
-        private readonly AuditBaseRepository<UserFollow> _userFollowRepository;
+        private readonly AuditBaseRepository<UserSubscribe> _userSubscribeRepository;
         public UserFolllowControllerTest() : base()
         {
             _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
 
             _mapper = serviceProvider.GetService<IMapper>();
-            _userFollowRepository = serviceProvider.GetService<AuditBaseRepository<UserFollow>>();
+            _userSubscribeRepository = serviceProvider.GetService<AuditBaseRepository<UserSubscribe>>();
             _freeSql = serviceProvider.GetService<IFreeSql>();
         }
 
         [Fact]
-        public void GetUserFolloweeList()
+        public void GetUserSubscribeeeList()
         {
-            UserFollowSearchDto searchDto = new UserFollowSearchDto()
+            UserSubscribeSearchDto searchDto = new UserSubscribeSearchDto()
             {
                 UserId = 11
             };
-            //.Include(r => r.BeFollowUser)
-            var userFollows = _userFollowRepository.Select
+            //.Include(r => r.BeSubscribeUser)
+            var userSubscribes = _userSubscribeRepository.Select
                 .Where(r => r.CreateUserId == searchDto.UserId)
                 .ToList(r => new
                 {
                     CreateUserId = r.CreateUserId,
-                    BeFollowUserId = r.FollowUserId,
-                    Follower = r.FollowUser,
-                    IsFollowed = _userFollowRepository.Select.Any(u =>
-                        u.CreateUserId == 7 && u.FollowUserId == r.FollowUserId)
+                    BeSubscribeUserId = r.SubscribeUserId,
+                    Subscribeer = r.SubscribeUser,
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>
+                        u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
                 });
 
-            var userFollow2 = _userFollowRepository.Select
+            var userSubscribe2 = _userSubscribeRepository.Select
                 .Where(r => r.CreateUserId == searchDto.UserId)
-                .ToList(r => new UserFollowDto()
+                .ToList(r => new UserSubscribeDto()
                 {
                     CreateUserId = r.CreateUserId,
-                    FollowUserId = r.FollowUserId,
-                    Follower = new OpenUserDto()
+                    SubscribeUserId = r.SubscribeUserId,
+                    Subscribeer = new OpenUserDto()
                     {
-                        Id = r.FollowUser.Id,
-                        Introduction = r.FollowUser.Introduction,
-                        Nickname = r.FollowUser.Nickname,
-                        Avatar = r.FollowUser.Avatar,
-                        Username = r.FollowUser.Username,
+                        Id = r.SubscribeUser.Id,
+                        Introduction = r.SubscribeUser.Introduction,
+                        Nickname = r.SubscribeUser.Nickname,
+                        Avatar = r.SubscribeUser.Avatar,
+                        Username = r.SubscribeUser.Username,
                     },
-                    IsFollowed = _userFollowRepository.Select.Any(u =>
-                        u.CreateUserId == 7 && u.FollowUserId == r.FollowUserId)
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>
+                        u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
                 });
 
 

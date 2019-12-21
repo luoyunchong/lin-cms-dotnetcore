@@ -31,6 +31,8 @@ namespace LinCms.Web.Models.Cms.Users
         /// </summary>
         public int? GroupId { get; set; }
         public string GroupName { get; set; }
+
+        public string Introduction { get; set; }
         public string Username { get; set; }
         public DateTime UpdateTime { get; set; }
         public DateTime CreateTime { get; set; }
