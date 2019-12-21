@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using LinCms.Zero.Data;
 
-namespace LinCms.Web.Models.v1.UserFollows
+namespace LinCms.Web.Models.v1.UserSubscribes
 {
-    public class UserFollowSearchDto:PageDto
+    public class UserSubscribeSearchDto:PageDto
     {
         public long UserId { get; set; }
     }

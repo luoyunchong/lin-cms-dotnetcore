@@ -115,7 +115,7 @@ namespace LinCms.Web.Controllers.Cms
             return ResultDto.Success("更新头像成功");
         }
 
-        [HttpPut]
+        [HttpPut("nickname")]
         public ResultDto SetNickname(UpdateNicknameDto updateNicknameDto)
         {
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
@@ -123,6 +123,17 @@ namespace LinCms.Web.Controllers.Cms
                 Nickname = updateNicknameDto.Nickname
             }).ExecuteAffrows();
             return ResultDto.Success("更新昵称成功");
+        }
+
+        [HttpPut]
+        public ResultDto SetProfileInfo(UpdateProfileDto updateProfileDto)
+        {
+            _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
+            {
+                Nickname = updateProfileDto.Nickname,
+                Introduction = updateProfileDto.Introduction
+            }).ExecuteAffrows();
+            return ResultDto.Success("更新基本信息成功");
         }
 
         [AllowAnonymous]
