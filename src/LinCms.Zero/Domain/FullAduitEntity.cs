@@ -27,7 +27,7 @@ namespace LinCms.Zero.Domain
         /// <summary>
         /// 创建者ID
         /// </summary>
-        public long? CreateUserId { get; set; }
+        public long CreateUserId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -61,7 +61,7 @@ namespace LinCms.Zero.Domain
         /// 创建者ID
         /// </summary>
         [Column(Position = -7)]
-        long? CreateUserId { get; set; }
+        long CreateUserId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
