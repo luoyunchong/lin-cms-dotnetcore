@@ -16,7 +16,7 @@ namespace LinCms.Zero.Domain.Blog
         /// <summary>
         /// 关注的用户Id
         /// </summary>
-        public long? CreateUserId { get; set; }
+        public long CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
 
         [Navigate("CreateUserId")]

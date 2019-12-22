@@ -22,7 +22,7 @@ namespace LinCms.Web.Models.v1.Comments
         /// </summary>
         public Guid? SubjectId { get; set; }
 
-        public long? CreateUserId { get; set; }
+        public long CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
 
         /// <summary>

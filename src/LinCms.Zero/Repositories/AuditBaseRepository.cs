@@ -38,7 +38,8 @@ namespace LinCms.Zero.Repositories
         {
             if (!(entity is ICreateAduitEntity e)) return;
             e.CreateTime = DateTime.Now;
-            e.CreateUserId = _currentUser.Id;
+
+            e.CreateUserId = _currentUser.Id??0;
 
             if (!(entity is IUpdateAuditEntity updateAuditEntity)) return;
             updateAuditEntity.UpdateTime = DateTime.Now;

@@ -15,7 +15,7 @@ namespace LinCms.Web.Models.v1.UserSubscribes
         /// <summary>
         /// 关注的用户Id
         /// </summary>
-        public long? CreateUserId { get; set; }
+        public long CreateUserId { get; set; }
 
         /// <summary>
         /// 关注者

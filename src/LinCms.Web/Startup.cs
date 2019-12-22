@@ -19,6 +19,7 @@ using LinCms.Web.Utils;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
+using LinCms.Zero.Data.Oauth2;
 using LinCms.Zero.Dependency;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
@@ -203,12 +204,20 @@ namespace LinCms.Web
                             return Task.FromResult(0);
                         }
                     };
+                })
+                .AddGitHub(options =>
+                {
+                    options.ClientId = Configuration["OAuth2:GitHub:ClientId"];
+                    options.ClientSecret = Configuration["OAuth2:GitHub:ClientSecret"];
+                    options.Scope.Add("user:email");
                 });
             #endregion
 
             #endregion
 
             services.AddAutoMapper(typeof(Startup).Assembly, typeof(PoemProfile).Assembly);
+
+            services.Configure<OAuth2Options>(Configuration);
 
             //services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
             services.AddCors();
@@ -217,8 +226,8 @@ namespace LinCms.Web
             services.AddControllers(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 options.Filters.Add<LinCmsExceptionFilter>();
-                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 //options.Filters.Add<LinCmsExceptionFilter>();
+                 //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
              .AddNewtonsoftJson(opt =>
              {

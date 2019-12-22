@@ -242,17 +242,22 @@ namespace LinCms.Web.Controllers.v1
         /// </summary>
         /// <param name="pageDto"></param>
         /// <returns></returns>
-        [HttpGet("my-subscribe")]
+        [HttpGet("subscribe")]
         public PagedResultDto<ArticleDto> GetSubscribeArticle([FromQuery]PageDto pageDto)
         {
             long? userId = _currentUser.Id;
-            List<long> folowUserIds = _userSubscribeRepository.Select.Where(r => r.CreateUserId == userId).ToList(r => r.SubscribeUserId);
+            List<long> subscribeUserIds = _userSubscribeRepository.Select.Where(r => r.CreateUserId == userId).ToList(r => r.SubscribeUserId);
 
             var select = _articleRepository
                 .Select
+                .Include(r => r.Classify)
+                .Include(r => r.UserInfo)
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
-                .WhereIf(folowUserIds.Count > 0, r => folowUserIds.Contains(r.CreateUserId.ToLong()))
-                .WhereIf(folowUserIds.Count == 0, r => false)
+                .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
+                .Where(r => r.IsAudit)
+                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
+                .WhereIf(subscribeUserIds.Count > 0, r => subscribeUserIds.Contains(r.CreateUserId))
+                .WhereIf(subscribeUserIds.Count == 0, r => false)
                 .OrderByDescending(r => r.CreateTime);
 
 
