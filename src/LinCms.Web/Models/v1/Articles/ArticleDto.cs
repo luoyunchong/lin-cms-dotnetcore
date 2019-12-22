@@ -44,7 +44,7 @@ namespace LinCms.Web.Models.v1.Articles
         public string Archive { get; set; }
         public ArticleType ArticleType { get; set; }
         public int Editor { get; set; } = 1;
-        public long? CreateUserId { get; set; }
+        public long CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
         public string Author { get; set; }
 
