@@ -19,6 +19,7 @@ using LinCms.Web.Services.Cms;
 using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Web.Utils;
 using LinCms.Zero.Aop;
+using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
 using LinCms.Zero.Dependency;
@@ -38,7 +39,6 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -86,22 +86,25 @@ namespace LinCms.Web
             };
 
             //敏感词处理
-            IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
-
-            Fsql.Aop.AuditValue += (s, e) =>
+            if (Configuration["AuditValue:Enable"].ToBoolean())
             {
-                if (e.Column.CsType == typeof(string) && e.Value != null)
+                IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
+
+                Fsql.Aop.AuditValue += (s, e) =>
                 {
-                    string oldVal = (string)e.Value;
-                    string newVal = illegalWords.Replace(oldVal);
+                    if (e.Column.CsType == typeof(string) && e.Value != null)
+                    {
+                        string oldVal = (string)e.Value;
+                        string newVal = illegalWords.Replace(oldVal);
                     //第二种处理敏感词的方式
                     //string newVal = oldVal.ReplaceStopWords();
                     if (newVal != oldVal)
-                    {
-                        e.Value = newVal;
+                        {
+                            e.Value = newVal;
+                        }
                     }
-                }
-            };
+                };
+            }
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -246,7 +249,9 @@ namespace LinCms.Web
                     options.ClientSecret = Configuration["Authentication:GitHub:ClientSecret"];
                     options.Scope.Add("user:email");
                     //authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
-                    options.ClaimActions.MapJsonKey(ClaimTypes.Uri, "avatar_url");
+                    options.ClaimActions.MapJsonKey(LinConsts.Claims.AvatarUrl, "avatar_url");
+                    options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
+                    options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
                 });
             #endregion
 
