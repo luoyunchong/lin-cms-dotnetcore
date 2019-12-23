@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AspNet.Security.OAuth.GitHub;
+using LinCms.Web.Services.Cms.Interfaces;
+using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
+using LinCms.Zero.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LinCms.Web.Controllers.Cms
@@ -18,15 +23,26 @@ namespace LinCms.Web.Controllers.Cms
     [ApiController]
     public class Oauth2Controller : ControllerBase
     {
-   
+
         private readonly IHttpContextAccessor _contextAccessor;
         private const string LoginProviderKey = "LoginProvider";
         private readonly IConfiguration _configuration;
+        private readonly IUserCommunityService _userCommunityService;
+        private readonly ILogger<Oauth2Controller> _logger;
 
-        public Oauth2Controller(IHttpContextAccessor contextAccessor, IConfiguration configuration)
+        public IFreeSql FreeSql { get; }
+
+        public Oauth2Controller(IHttpContextAccessor contextAccessor,
+                                IConfiguration configuration,
+                                IFreeSql freeSql,
+                                IUserCommunityService userCommunityService,
+                                ILogger<Oauth2Controller> logger)
         {
             _contextAccessor = contextAccessor;
             _configuration = configuration;
+            FreeSql = freeSql;
+            this._userCommunityService = userCommunityService;
+            this._logger = logger;
         }
 
 
@@ -39,23 +55,60 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("signin-callback")]
         public async Task<IActionResult> Home(string provider = null, string redirectUrl = "")
         {
+            if (string.IsNullOrWhiteSpace(provider))
+            {
+                return BadRequest();
+            }
+
+            if (!await HttpContext.IsProviderSupportedAsync(provider))
+            {
+                return BadRequest();
+            }
+
             var authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return Redirect(redirectUrl);
             var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
                 return Redirect(redirectUrl);
+            long id = 0;
+            switch (provider)
+            {
+                case LinUserCommunity.GitHub:
+                    id = _userCommunityService.SaveGitHub(authenticateResult.Principal, openIdClaim.Value);
+                    break;
 
-            //TODO 记录授权成功后的信息 
-            string email = authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value;
-            string name = authenticateResult.Principal.FindFirst(ClaimTypes.Name)?.Value;
-            string gitHubName = authenticateResult.Principal.FindFirst(GitHubAuthenticationConstants.Claims.Name)?.Value;
-            string gitHubUrl = authenticateResult.Principal.FindFirst(GitHubAuthenticationConstants.Claims.Url)?.Value;
-            string avatarUrl = authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;
+                case LinUserCommunity.QQ:
 
-            string token = this.CreateToken(authenticateResult.Principal);
+                    break;
+                case LinUserCommunity.WeiXin:
+
+                    break;
+                default:
+                    _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+                    break;
+            }
+            List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
+
+            LinUser user = FreeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).First();
+
+            List<Claim> claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                    new Claim(ClaimTypes.Email,user.Email??""),
+                    new Claim(ClaimTypes.GivenName,user.Nickname??""),
+                    new Claim(ClaimTypes.Name,user.Username??""),
+                    new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
+                    new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
+                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())
+                };
+
+            claims.AddRange(authClaims);
+
+            string token = this.CreateToken(claims);
 
             return Redirect($"{redirectUrl}?token={token}");
         }
+
 
         /// <summary>
         /// https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=http://localhost:8080/login-result
@@ -81,6 +134,8 @@ namespace LinCms.Web.Controllers.Cms
             var request = _contextAccessor.HttpContext.Request;
             var url =
                 $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}&redirectUrl={redirectUrl}";
+
+            _logger.LogInformation($"url:{url}");
             var properties = new AuthenticationProperties { RedirectUri = url };
             properties.Items[LoginProviderKey] = provider;
             return Challenge(properties, provider);
@@ -93,7 +148,7 @@ namespace LinCms.Web.Controllers.Cms
             // Instruct the cookies middleware to delete the local cookie created
             // when the user agent is redirected from the external identity provider
             // after a successful authentication flow (e.g Google or Facebook).
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" },CookieAuthenticationDefaults.AuthenticationScheme);
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         /// <summary>
@@ -117,7 +172,7 @@ namespace LinCms.Web.Controllers.Cms
             return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
 
-        private string CreateToken(ClaimsPrincipal claimsPrincipal)
+        private string CreateToken(IEnumerable<Claim> Claims)
         {
             var handler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(
@@ -126,7 +181,7 @@ namespace LinCms.Web.Controllers.Cms
             var token = new JwtSecurityToken(
                 _configuration["Authentication:JwtBearer:Issuer"],
                 _configuration["Authentication:JwtBearer:Audience"],
-                claimsPrincipal.Claims,
+                Claims,
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials
             );
