@@ -24,6 +24,11 @@
             public static string UseHttps = "Qiniu:UseHttps";
         }
 
-
+        public static class Claims
+        {
+            public const string BIO = "urn:github:bio";
+            public const string AvatarUrl = "urn:github:avatar_url";
+            public const string BlogAddress = "urn:github:blog";
+        }
     }
 }
