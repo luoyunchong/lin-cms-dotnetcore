@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
@@ -19,11 +21,12 @@ using LinCms.Web.Utils;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
-using LinCms.Zero.Data.Oauth2;
 using LinCms.Zero.Dependency;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +40,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -152,13 +156,44 @@ namespace LinCms.Web
             #endregion
 
             #region AddJwtBearer
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(opts =>
+                {
+                    opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                }).AddCookie(options =>
+                {
+                    options.LoginPath = "/cms/oauth2/signin";
+                    options.LogoutPath = "/cms/oauth2/signout";
+                })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     //identityserver4 地址 也就是本项目地址
                     options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}";
                     options.RequireHttpsMetadata = false;
                     options.Audience = Configuration["Service:Name"];
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // The signing key must match!
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
+
+                        // Validate the JWT Issuer (iss) claim
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
+
+                        // Validate the JWT Audience (aud) claim
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
+
+                        // Validate the token expiry
+                        ValidateLifetime = true,
+
+                        // If you want to allow a certain amount of clock drift, set that here
+                        //ClockSkew = TimeSpan.Zero
+                    };
+
 
                     //options.TokenValidationParameters = new TokenValidationParameters()
                     //{
@@ -207,17 +242,17 @@ namespace LinCms.Web
                 })
                 .AddGitHub(options =>
                 {
-                    options.ClientId = Configuration["OAuth2:GitHub:ClientId"];
-                    options.ClientSecret = Configuration["OAuth2:GitHub:ClientSecret"];
+                    options.ClientId = Configuration["Authentication:GitHub:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:GitHub:ClientSecret"];
                     options.Scope.Add("user:email");
+                    //authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
+                    options.ClaimActions.MapJsonKey(ClaimTypes.Uri, "avatar_url");
                 });
             #endregion
 
             #endregion
 
             services.AddAutoMapper(typeof(Startup).Assembly, typeof(PoemProfile).Assembly);
-
-            services.Configure<OAuth2Options>(Configuration);
 
             //services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
             services.AddCors();
