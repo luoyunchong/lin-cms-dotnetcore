@@ -18,6 +18,7 @@ namespace LinCms.Test.Controller
     {
         protected HttpClient Client { get; }
         protected IServiceProvider serviceProvider;
+
         protected BaseControllerTests()
         {
             var server = new TestServer(WebHost.CreateDefaultBuilder()

@@ -113,7 +113,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpPut("correct/{tagId}")]
         public ResultDto CorrectedTagCount(Guid tagId)
         {
-            long count = _tagArticleRepository.Select.Where(r => r.TagId == tagId).Count();
+            long count = _tagArticleRepository.Select.Where(r => r.TagId == tagId && r.Article.IsDeleted == false).Count();
             _tagRepository.UpdateDiy.Set(r => r.ArticleCount, count).Where(r => r.Id == tagId).ExecuteAffrows();
             return ResultDto.Success();
         }
