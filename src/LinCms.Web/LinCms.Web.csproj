@@ -12,6 +12,7 @@
     <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.Web.xml</DocumentationFile>
     <OutputPath>bin\Debug</OutputPath>
     <NoWarn>1701;1702;1705;1591</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,13 +36,9 @@
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.0.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="FreeSql" Version="0.12.21" />
     <PackageReference Include="IdentityServer4" Version="3.1.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="MQiniu.Core" Version="1.0.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="Scrutor" Version="3.1.0" />
@@ -85,6 +82,10 @@
     <Folder Include="wwwroot\assets\2019\12\13\" />
     <Folder Include="wwwroot\assets\2019\12\14\" />
     <Folder Include="wwwroot\_Illegal\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

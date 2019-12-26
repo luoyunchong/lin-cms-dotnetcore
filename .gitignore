@@ -341,5 +341,4 @@ healthchecksdb
 src/LinCms.Web/wwwroot/assets/
 src/LinCms.Web/appsettings.Private.json
 /src/LinCms.Web/wwwroot/_Illegal
-/src/LinCms.Web/appsettings.Development.json
 /src/LinCms.Web/appsettings.Production.json
