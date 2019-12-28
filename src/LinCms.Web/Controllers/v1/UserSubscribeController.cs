@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.v1
 {
+    /// <summary>
+    /// 用户订阅
+    /// </summary>
     [Route("v1/subscribe")]
     [ApiController]
     [Authorize]
@@ -45,7 +48,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 取消关注
+        /// 取消关注用户
         /// </summary>
         /// <param name="subscribeUserId"></param>
         [HttpDelete("{subscribeUserId}")]

@@ -13,16 +13,14 @@ using Xunit;
 
 namespace LinCms.Test.Repositories
 {
-    public class TagRepositoryTest : BaseControllerTests
+    public class TagRepositoryTest : BaseRepositoryTest
     {
 
-        private readonly IMapper _mapper;
         private readonly AuditBaseRepository<Tag> _tagRepository;
 
         public TagRepositoryTest()
         {
             _tagRepository = serviceProvider.GetService<AuditBaseRepository<Tag>>();
-            _mapper = serviceProvider.GetService<IMapper>();
         }
 
         /// <summary>

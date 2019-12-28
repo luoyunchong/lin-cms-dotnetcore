@@ -63,13 +63,14 @@ namespace LinCms.Web.Services.v1
         {
             Article article = _articleRepository.Select
                 .Include(r => r.Classify)
-                .IncludeMany(r => r.Tags).Include(r => r.UserInfo).Where(a => a.Id == id).ToOne();
+                .IncludeMany(r => r.Tags).Include(r => r.UserInfo).WhereCascade(r => r.IsDeleted == false).Where(a => a.Id == id).ToOne();
             if (article.IsNull())
             {
                 throw new LinCmsException("该随笔不存在");
             }
             ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
-            articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);
+            if (articleDto.UserInfo.IsNotNull())
+                articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);
 
             articleDto.IsLiked = _userLikeRepository.Select.Any(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
 

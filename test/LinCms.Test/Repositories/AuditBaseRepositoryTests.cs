@@ -11,15 +11,13 @@ using Xunit;
 
 namespace LinCms.Test.Repositories
 {
-    public class AuditBaseRepositoryTests : BaseControllerTests
+    public class AuditBaseRepositoryTests : BaseRepositoryTest
     {
-        private readonly IMapper _mapper;
         private readonly AuditBaseRepository<Book> _bookRepository;
 
         public AuditBaseRepositoryTests()
         {
             _bookRepository = serviceProvider.GetService<AuditBaseRepository<Book>>();
-            _mapper = serviceProvider.GetService<IMapper>();
         }
 
         private Book GetBook()
