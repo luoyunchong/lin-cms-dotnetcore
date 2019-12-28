@@ -140,7 +140,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("avatar/{userId}")]
         public string GetAvatar(long userId)
         {
-            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false && r.Id == userId).First();
+            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).First();
 
             return _currentUser.GetFileUrl(linUser.Avatar);
 
@@ -150,8 +150,9 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("{userId}")]
         public OpenUserDto GetUserByUserId(long userId)
         {
-            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false && r.Id == userId).First();
+            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r =>  r.Id == userId).First();
             OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
+            if (openUser == null) return null;
             openUser.Avatar = _currentUser.GetFileUrl(openUser.Avatar);
 
             return openUser;

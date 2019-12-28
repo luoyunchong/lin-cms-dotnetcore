@@ -1,31 +1,20 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Models.v1.UserSubscribes;
-using LinCms.Zero.Data;
 using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Extensions;
 using LinCms.Zero.Repositories;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace LinCms.Test.Controller.v1
+namespace LinCms.Test.Repositories.v1
 {
-    public class UserFolllowControllerTest : BaseControllerTests
+    public class UserSubscribeRepositoryTest : BaseRepositoryTest
     {
-        private readonly IWebHostEnvironment _hostingEnv;
-        private readonly IMapper _mapper;
-        private readonly IFreeSql _freeSql;
         private readonly AuditBaseRepository<UserSubscribe> _userSubscribeRepository;
-        public UserFolllowControllerTest() : base()
+        public UserSubscribeRepositoryTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
-
-            _mapper = serviceProvider.GetService<IMapper>();
             _userSubscribeRepository = serviceProvider.GetService<AuditBaseRepository<UserSubscribe>>();
-            _freeSql = serviceProvider.GetService<IFreeSql>();
         }
 
         [Fact]
