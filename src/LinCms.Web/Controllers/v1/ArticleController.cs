@@ -120,6 +120,7 @@ namespace LinCms.Web.Controllers.v1
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
                 .Where(r => r.IsAudit == true)
+                .WhereCascade(r => r.IsDeleted == false)
                 .WhereIf(searchDto.UserId != null, r => r.CreateUserId == searchDto.UserId)
                 .WhereIf(searchDto.TagId.HasValue, r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
