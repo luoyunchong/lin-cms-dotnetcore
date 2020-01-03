@@ -21,8 +21,8 @@ namespace LinCms.Test.Repositories.v1
 
         public ArticleRepositoryTest(ITestOutputHelper testOutputHelper) : base()
         {
-            _articleRepository = serviceProvider.GetService<AuditBaseRepository<Article>>();
-            _tagRepository = serviceProvider.GetService<AuditBaseRepository<Tag>>();
+            _articleRepository = ServiceProvider.GetService<AuditBaseRepository<Article>>();
+            _tagRepository = ServiceProvider.GetService<AuditBaseRepository<Tag>>();
             _testOutputHelper = testOutputHelper;
         }
 
@@ -46,12 +46,12 @@ namespace LinCms.Test.Repositories.v1
                 })
                 .Select(r =>
                 {
-                    ArticleDto articleDto = _mapper.Map<ArticleDto>(r.Article);
+                    ArticleDto articleDto = Mapper.Map<ArticleDto>(r.Article);
                     return articleDto;
                 }).ToList();
 
             //使用SQL直接获取文章及其分类名称
-            List<ArticleDto> t9 = _freeSql.Ado.Query<ArticleDto>($@"
+            List<ArticleDto> t9 = FreeSql.Ado.Query<ArticleDto>($@"
                             SELECT a.*,b.item_name as classifyName 
                             FROM blog_article a 
                             LEFT JOIN base_item b 
@@ -78,7 +78,7 @@ namespace LinCms.Test.Repositories.v1
                     Article = r
                 }).Select(r =>
                 {
-                    ArticleDto articleDto = _mapper.Map<ArticleDto>(r.Article);
+                    ArticleDto articleDto = Mapper.Map<ArticleDto>(r.Article);
                     return articleDto;
                 }).ToList();
 
@@ -88,7 +88,7 @@ namespace LinCms.Test.Repositories.v1
                 .Include(r => r.Classify)
                 .ToList().Select(r =>
                 {
-                    ArticleDto articleDto = _mapper.Map<ArticleDto>(r);
+                    ArticleDto articleDto = Mapper.Map<ArticleDto>(r);
                     return articleDto;
                 }).ToList();
 

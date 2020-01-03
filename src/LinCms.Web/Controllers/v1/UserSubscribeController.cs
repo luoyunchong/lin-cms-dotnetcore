@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using FreeSql;
 using LinCms.Web.Models.Cms.Users;
 using LinCms.Web.Models.v1.UserSubscribes;
 using LinCms.Zero.Data;
@@ -27,12 +28,14 @@ namespace LinCms.Web.Controllers.v1
         private readonly AuditBaseRepository<LinUser> _userRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public UserSubscribeController(AuditBaseRepository<UserSubscribe> userSubscribeRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository)
+        private readonly BaseRepository<UserTag> _userTagRepository;
+        public UserSubscribeController(AuditBaseRepository<UserSubscribe> userSubscribeRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository, BaseRepository<UserTag> userTagRepository)
         {
             _userSubscribeRepository = userSubscribeRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _userRepository = userRepository;
+            _userTagRepository = userTagRepository;
         }
         /// <summary>
         /// 判断当前登录的用户是否关注了beSubscribeUserId
@@ -164,7 +167,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         /// <summary>
-        /// 得到某个用户的关注了、关注者
+        /// 得到某个用户的关注了、关注者、标签总数
         /// </summary>
         /// <param name="userId"></param>
         [HttpGet("user/{userId}")]
@@ -179,10 +182,14 @@ namespace LinCms.Web.Controllers.v1
                 .Where(r => r.SubscribeUserId == userId)
                 .Count();
 
+            long tagCount = _userTagRepository.Select.Include(r => r.Tag)
+                .Where(r => r.CreateUserId == userId).Count();
+
             return new SubscribeCountDto
             {
                 SubscribeCount = subscribeCount,
-                FansCount = fansCount
+                FansCount = fansCount,
+                TagCount = tagCount
             };
         }
     }

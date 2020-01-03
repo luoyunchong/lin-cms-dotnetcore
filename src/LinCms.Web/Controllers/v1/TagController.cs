@@ -62,6 +62,7 @@ namespace LinCms.Web.Controllers.v1
                 throw new LinCmsException("不存在此标签");
             }
             TagDto tagDto = _mapper.Map<TagDto>(tag);
+            tagDto.IsSubscribe = _tagService.IsSubscribe(id);
             tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
         }

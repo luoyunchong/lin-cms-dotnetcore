@@ -18,7 +18,7 @@ namespace LinCms.Test.Repositories.v1
 
         public TagRepositoryTest() : base()
         {
-            _baseRepository = serviceProvider.GetService<BaseRepository<Comment>>();
+            _baseRepository = ServiceProvider.GetService<BaseRepository<Comment>>();
         }
 
 
@@ -46,7 +46,7 @@ namespace LinCms.Test.Repositories.v1
         [Fact]
         public void GetComments()
         {
-            dynamic comments = _freeSql.Select<Comment>().Include(r => r.UserInfo).From<UserLike>(
+            dynamic comments = FreeSql.Select<Comment>().Include(r => r.UserInfo).From<UserLike>(
                          (z, zzc) =>
                              z.LeftJoin(u => u.Id == zzc.SubjectId)//&& zzc.CreateUserId == _currentUser.Id
                      )
@@ -79,12 +79,12 @@ namespace LinCms.Test.Repositories.v1
                 .ToPagerList(commentSearchDto, out long totalCount)
                 .Select(r =>
                 {
-                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
+                    CommentDto commentDto = Mapper.Map<CommentDto>(r);
 
 
                     commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
-                        CommentDto childrenDto = _mapper.Map<CommentDto>(u);
+                        CommentDto childrenDto = Mapper.Map<CommentDto>(u);
                         return childrenDto;
                     }).ToList();
                     commentDto.IsLiked = r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();

@@ -20,10 +20,10 @@ namespace LinCms.Test.Repositories
     public abstract class BaseRepositoryTest
     {
 
-        protected IServiceProvider serviceProvider;
-        protected readonly IWebHostEnvironment _hostingEnv;
-        protected readonly IMapper _mapper;
-        protected readonly IFreeSql _freeSql;
+        protected readonly IServiceProvider ServiceProvider;
+        protected readonly IWebHostEnvironment HostingEnv;
+        protected readonly IMapper Mapper;
+        protected readonly IFreeSql FreeSql;
         protected BaseRepositoryTest()
         {
             var server = new TestServer(WebHost.CreateDefaultBuilder()
@@ -34,13 +34,14 @@ namespace LinCms.Test.Repositories
                     logging.SetMinimumLevel(LogLevel.Trace);
                     logging.AddConsole();
                 }).UseNLog()); ;
+            ServiceProvider = server.Host.Services;
 
-            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
+            HostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();
 
-            _mapper = serviceProvider.GetService<IMapper>();
-            _freeSql = serviceProvider.GetService<IFreeSql>();
+            Mapper = ServiceProvider.GetService<IMapper>();
+            FreeSql = ServiceProvider.GetService<IFreeSql>();
 
-            serviceProvider = server.Host.Services;
+            ServiceProvider = server.Host.Services;
 
         }
     }

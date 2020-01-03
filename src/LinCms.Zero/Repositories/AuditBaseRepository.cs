@@ -11,11 +11,9 @@ namespace LinCms.Zero.Repositories
 {
     public class AuditBaseRepository<T> : AuditBaseRepository<T, Guid> where T : class, new()
     {
-        private readonly ICurrentUser _currentUser;
-        public AuditBaseRepository(ICurrentUser currentUser, IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null)
-            : base(currentUser, fsql, filter, asTable)
+        public AuditBaseRepository(IUnitOfWork uow, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null)
+            : base(uow,currentUser, fsql, filter, asTable)
         {
-            _currentUser = currentUser;
         }
     }
     /// <summary>
@@ -29,9 +27,10 @@ namespace LinCms.Zero.Repositories
     public class AuditBaseRepository<T, TKey> : BaseRepository<T, TKey> where T : class, new()
     {
         private readonly ICurrentUser _currentUser;
-        public AuditBaseRepository(ICurrentUser currentUser,IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
+        public AuditBaseRepository(IUnitOfWork uow,ICurrentUser currentUser,IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
         {
             _currentUser = currentUser;
+            base.UnitOfWork = uow;
         }
 
         private void BeforeInsert(T entity)
