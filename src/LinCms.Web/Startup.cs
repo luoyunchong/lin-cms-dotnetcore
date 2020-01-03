@@ -115,7 +115,8 @@ namespace LinCms.Web
             #region IdentityServer4+FreeSql
             InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);
-            services.AddSingleton(typeof(IUnitOfWork), typeof(UnitOfWork));
+            //services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddScoped<IUnitOfWork>(sp => sp.GetService<IFreeSql>().CreateUnitOfWork());
 
             services.AddFreeRepository(filter =>
             {
@@ -164,7 +165,10 @@ namespace LinCms.Web
                 {
                     opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                }).AddCookie(options =>
+                    //opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options =>
                 {
                     options.LoginPath = "/cms/oauth2/signin";
                     options.LogoutPath = "/cms/oauth2/signout";
@@ -208,6 +212,15 @@ namespace LinCms.Web
                     //使用Authorize设置为需要登录时，返回json格式数据。
                     options.Events = new JwtBearerEvents()
                     {
+                        OnAuthenticationFailed = context =>
+                        {
+                            //Token expired
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("Token-Expired", "true");
+                            }
+                            return Task.CompletedTask;
+                        },
                         OnChallenge = context =>
                         {
                             //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
@@ -306,6 +319,7 @@ namespace LinCms.Web
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+          
 
             #region Scrutor 与单个单个注册等价，不过可批量注册 
             //services.AddScoped<ILogService, LogService>();
@@ -395,6 +409,9 @@ namespace LinCms.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseHttpMethodOverride(new HttpMethodOverrideOptions { FormFieldName = "X-Http-Method-Override" });
+
+            app.UseMiddleware(typeof(RequestMvcMiddleWare));
+
             //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
@@ -407,6 +424,7 @@ namespace LinCms.Web
             }
             app.UseHsts();
             app.UseStaticFiles();
+
 
             app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 

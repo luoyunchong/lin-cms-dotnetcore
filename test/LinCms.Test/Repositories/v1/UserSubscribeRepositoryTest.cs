@@ -14,7 +14,7 @@ namespace LinCms.Test.Repositories.v1
         private readonly AuditBaseRepository<UserSubscribe> _userSubscribeRepository;
         public UserSubscribeRepositoryTest() : base()
         {
-            _userSubscribeRepository = serviceProvider.GetService<AuditBaseRepository<UserSubscribe>>();
+            _userSubscribeRepository = ServiceProvider.GetService<AuditBaseRepository<UserSubscribe>>();
         }
 
         [Fact]
@@ -53,9 +53,6 @@ namespace LinCms.Test.Repositories.v1
                     IsSubscribeed = _userSubscribeRepository.Select.Any(u =>
                         u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
                 });
-
-
-
         }
     }
 }

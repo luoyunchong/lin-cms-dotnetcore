@@ -21,8 +21,4 @@
     <ProjectReference Include="..\..\src\LinCms.Web\LinCms.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
-
 </Project>

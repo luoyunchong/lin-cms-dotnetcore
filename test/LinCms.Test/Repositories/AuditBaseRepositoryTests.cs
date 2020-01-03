@@ -5,6 +5,7 @@ using AutoMapper;
 using LinCms.Test.Controller;
 using LinCms.Web.Models.v1.Books;
 using LinCms.Zero.Domain;
+using LinCms.Zero.Domain.Blog;
 using LinCms.Zero.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -17,7 +18,7 @@ namespace LinCms.Test.Repositories
 
         public AuditBaseRepositoryTests()
         {
-            _bookRepository = serviceProvider.GetService<AuditBaseRepository<Book>>();
+            _bookRepository = ServiceProvider.GetService<AuditBaseRepository<Book>>();
         }
 
         private Book GetBook()
@@ -29,7 +30,7 @@ namespace LinCms.Test.Repositories
                 Image = Guid.NewGuid().ToString(),
                 Summary = Guid.NewGuid().ToString(),
             };
-            Book book = _mapper.Map<Book>(createBook);
+            Book book = Mapper.Map<Book>(createBook);
 
             return book;
         }
@@ -213,6 +214,27 @@ namespace LinCms.Test.Repositories
             Type f2 = typeof(IDeleteAduitEntity);
             bool f3 = typeof(Book).IsSubclassOf(typeof(IDeleteAduitEntity));
             bool f4 = typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(Book));
+
+        }
+
+        [Fact]
+        public void TestUnitOfWork()
+        {
+            Guid id = new Guid();
+            using (var uow=FreeSql.CreateUnitOfWork())
+            {
+                var articleBaseRepository = uow.GetRepository<Article>();
+                var tagArticleRepository = uow.GetRepository<TagArticle>();
+                var commentBaseRepository = uow.GetRepository<Comment>();
+                var userLikeRepository = uow.GetRepository<UserLike>();
+
+                articleBaseRepository.Delete(new Article { Id = id });
+                tagArticleRepository.Delete(r => r.ArticleId == id);
+                commentBaseRepository.Delete(r => r.SubjectId == id);
+                userLikeRepository.Delete(r => r.SubjectId == id);
+
+            }
+
 
         }
     }

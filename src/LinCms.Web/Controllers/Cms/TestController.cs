@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FreeSql;
 using LinCms.Zero.Aop;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
@@ -13,6 +14,13 @@ namespace LinCms.Web.Controllers.Cms
     [ApiController]
     public class TestController : ControllerBase
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public TestController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         [HttpGet("info")]
         [LinCmsAuthorize("查看lin的信息", "信息")]
         public ResultDto Info()
@@ -82,5 +90,6 @@ namespace LinCms.Web.Controllers.Cms
         {
             Console.WriteLine(dateTime);
         }
+
     }
 }
