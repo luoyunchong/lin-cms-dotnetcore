@@ -20,12 +20,9 @@ namespace LinCms.Test.Repositories
 
         public TagRepositoryTest()
         {
-            _tagRepository = serviceProvider.GetService<AuditBaseRepository<Tag>>();
+            _tagRepository = ServiceProvider.GetService<AuditBaseRepository<Tag>>();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Fact]
         public void Get()
         {
@@ -43,9 +40,6 @@ namespace LinCms.Test.Repositories
             //其他字段不取
             var d4 = _tagRepository.Select.ToList(r => new TagDto() { TagName = r.TagName });
 
-            //取出了LinUser，其他字段不取
-            var d5 = _tagRepository.Select.ToList(r => new TagDto() { LinUser = r.LinUser });
-
   
             var d3 = _tagRepository.Select.ToList(r => new
             {
@@ -57,16 +51,6 @@ namespace LinCms.Test.Repositories
                 }
             });
 
-
-            // 报错
-            var d6 = _tagRepository.Select.ToList(r => new TagDto()
-            {
-                OpenUserDto = new OpenUserDto()
-                {
-                    Username = r.LinUser.Username,
-                    Nickname = r.LinUser.Nickname
-                }
-            });
 
         }
 

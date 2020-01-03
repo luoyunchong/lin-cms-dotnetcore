@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using FreeSql;
 using LinCms.Zero.Common;
 using LinCms.Zero.Data;
 using LinCms.Zero.Data.Enums;
@@ -36,13 +37,15 @@ namespace LinCms.Web.Middleware
         {
             try
             {
-                await _next(context);//调用管道执行下一个中间件
+                await _next(context); //调用管道执行下一个中间件
             }
             catch (Exception ex)
             {
-                if (ex is LinCmsException cmsException)//自定义业务异常
+
+                if (ex is LinCmsException cmsException) //自定义业务异常
                 {
-                    await JsonHandle(context, cmsException.Message, cmsException.GetErrorCode(), cmsException.GetCode());
+                    await JsonHandle(context, cmsException.Message, cmsException.GetErrorCode(),
+                        cmsException.GetCode());
                 }
                 else
                 {
@@ -50,7 +53,8 @@ namespace LinCms.Web.Middleware
 
                     _logger.LogError(errorMsg);
 
-                    await JsonHandle(context, _environment.IsDevelopment()?errorMsg: "服务器正忙，请稍后再试!", ErrorCode.UnknownError,500);
+                    await JsonHandle(context, _environment.IsDevelopment() ? errorMsg : "服务器正忙，请稍后再试!",
+                        ErrorCode.UnknownError, 500);
 
                 }
             }
@@ -60,12 +64,12 @@ namespace LinCms.Web.Middleware
         /// 处理方式：返回Json格式
         /// </summary>
         /// <returns></returns>
-        private async Task JsonHandle(HttpContext context, string errorMsg, ErrorCode errorCode,int statusCode)
+        private async Task JsonHandle(HttpContext context, string errorMsg, ErrorCode errorCode, int statusCode)
         {
             ResultDto apiResponse = new ResultDto()
             {
                 Msg = errorMsg,
-                ErrorCode = errorCode ,
+                ErrorCode = errorCode,
                 Request = LinCmsUtils.GetRequest(context)
             }; ;
 

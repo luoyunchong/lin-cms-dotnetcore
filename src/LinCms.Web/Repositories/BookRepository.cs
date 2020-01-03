@@ -13,8 +13,8 @@ namespace LinCms.Web.Repositories
     public class BookRepository : AuditBaseRepository<Book>
     {
         private readonly ICurrentUser _currentUser;
-        public BookRepository(ICurrentUser currentUser, IFreeSql fsql, Expression<Func<Book, bool>> filter = null, Func<string, string> asTable = null)
-            : base(currentUser, fsql, filter, asTable)
+        public BookRepository(IUnitOfWork unitOfWork, CurrentUser currentUser, IFreeSql fsql, Expression<Func<Book, bool>> filter = null, Func<string, string> asTable = null)
+            : base(unitOfWork, currentUser, fsql, filter, asTable)
         {
             _currentUser = currentUser;
         }

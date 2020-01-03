@@ -21,7 +21,7 @@ namespace LinCms.Web.Services.v1
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IClassifyService _classifyService;
-        private readonly ITagService tagService;
+        private readonly ITagService _tagService;
         public ArticleAppService(
                 AuditBaseRepository<Article> articleRepository,
                 GuidRepository<TagArticle> tagArticleRepository,
@@ -38,8 +38,10 @@ namespace LinCms.Web.Services.v1
             _currentUser = currentUser;
             _userLikeRepository = userLikeRepository;
             _commentBaseRepository = commentBaseRepository;
+
             _classifyService = classifyService;
-            this.tagService = tagService;
+            _tagService = tagService;
+
         }
 
         public void Delete(Guid id)
@@ -49,14 +51,13 @@ namespace LinCms.Web.Services.v1
             article.Tags.ToList()
                 .ForEach(u =>
                 {
-                    tagService.UpdateArticleCount(u.Id, -1);
+                    _tagService.UpdateArticleCount(u.Id, -1);
                 });
 
             _articleRepository.Delete(new Article { Id = id });
             _tagArticleRepository.Delete(r => r.ArticleId == id);
             _commentBaseRepository.Delete(r => r.SubjectId == id);
             _userLikeRepository.Delete(r => r.SubjectId == id);
-
         }
 
         public ArticleDto Get(Guid id)
@@ -95,7 +96,7 @@ namespace LinCms.Web.Services.v1
                 {
                     Id = articleTagId,
                 });
-                tagService.UpdateArticleCount(articleTagId, 1);
+                _tagService.UpdateArticleCount(articleTagId, 1);
             }
             _articleRepository.Insert(article);
 
@@ -117,7 +118,7 @@ namespace LinCms.Web.Services.v1
             oldArticle.Tags.ToList()
                 .ForEach(u =>
             {
-                tagService.UpdateArticleCount(u.Id, -1);
+                _tagService.UpdateArticleCount(u.Id, -1);
             });
 
             _tagArticleRepository.Delete(r => r.ArticleId == article.Id);
@@ -131,7 +132,7 @@ namespace LinCms.Web.Services.v1
                         ArticleId = article.Id,
                         TagId = tagId
                     });
-                    tagService.UpdateArticleCount(tagId, 1);
+                    _tagService.UpdateArticleCount(tagId, 1);
                 });
 
             _tagArticleRepository.Insert(tagArticles);

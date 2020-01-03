@@ -38,7 +38,7 @@ namespace LinCms.Zero.Domain.Blog
         /// </summary>
         public int SubscribersCount { get; set; } = 0;
         public virtual ICollection<Article> Articles { get; set; }
-
+        public virtual ICollection<UserTag> UserTags { get; set; }
 
         [Navigate("CreateUserId")]
         public virtual LinUser LinUser { get; set; }
