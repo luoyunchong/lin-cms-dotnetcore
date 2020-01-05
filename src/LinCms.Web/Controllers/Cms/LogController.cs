@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FreeSql;
 using LinCms.Web.Models.Cms.Logs;
 using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Aop;
@@ -12,11 +13,13 @@ namespace LinCms.Web.Controllers.Cms
     [ApiController]
     public class LogController : ControllerBase
     {
+        private readonly BaseRepository<LinLog> _linLogBaseRepository;
         private readonly ILogService _logService;
 
-        public LogController(ILogService logService)
+        public LogController(ILogService logService, BaseRepository<LinLog> linLogBaseRepository)
         {
             _logService = logService;
+            _linLogBaseRepository = linLogBaseRepository;
         }
 
         /// <summary>
@@ -53,5 +56,11 @@ namespace LinCms.Web.Controllers.Cms
             return _logService.GetUserLogs(searchDto);
         }
 
+        [HttpGet("visitis")]
+        public VisitLogUserDto GetUserAndVisits()
+        {
+            return _logService.GetUserAndVisits();
+
+        }
     }
 }
