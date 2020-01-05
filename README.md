@@ -32,6 +32,7 @@
 ## 线上文档地址(完善中)
 
 - [https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/)
+- [https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/)
 
 ## 线上 Demo
 - 本项目swagger地址 [http://47.106.80.39:7000/swagger/index.html](http://47.106.80.39:7000/swagger/index.html)
@@ -121,6 +122,3 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 ##  开源地址
 * Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
 * GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
-
-## 文档
-- [https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/)

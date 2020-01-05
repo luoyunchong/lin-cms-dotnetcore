@@ -7,6 +7,7 @@ using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Zero.Data;
 using LinCms.Zero.Domain;
 using LinCms.Zero.Extensions;
+using LinCms.Zero.Repositories;
 using LinCms.Zero.Security;
 
 namespace LinCms.Web.Services.Cms
@@ -15,10 +16,12 @@ namespace LinCms.Web.Services.Cms
     {
         private readonly BaseRepository<LinLog> _linLogRepository;
         private readonly ICurrentUser _currentUser;
-        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser)
+        private readonly AuditBaseRepository<LinUser> _linUserAuditBaseRepository;
+        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, AuditBaseRepository<LinUser> linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
             _currentUser = currentUser;
+            _linUserAuditBaseRepository = linUserAuditBaseRepository;
         }
 
         public void InsertLog(LinLog linlog)
@@ -37,10 +40,10 @@ namespace LinCms.Web.Services.Cms
                 .WhereIf(!string.IsNullOrEmpty(searchDto.Name), r => r.UserName.Contains(searchDto.Name))
                 .WhereIf(searchDto.Start.HasValue, r => r.Time >= searchDto.Start.Value)
                 .WhereIf(searchDto.End.HasValue, r => r.Time <= searchDto.End.Value)
-                .OrderByDescending(r=>r.Id)
+                .OrderByDescending(r => r.Id)
                 .ToPagerList(searchDto, out long totalCount);
 
-            return new PagedResultDto<LinLog>(linLogs,totalCount);
+            return new PagedResultDto<LinLog>(linLogs, totalCount);
 
         }
 
@@ -48,8 +51,28 @@ namespace LinCms.Web.Services.Cms
         {
             List<string> linLogs = _linLogRepository.Select.Where(r => !string.IsNullOrEmpty(r.UserName)).OrderByDescending(r => r.Id)
                 .Select(r => r.UserName).Distinct().ToList();
-                //.ToPagerList(searchDto, out _)
+            //.ToPagerList(searchDto, out _)
             return linLogs;
+        }
+
+
+        public VisitLogUserDto GetUserAndVisits()
+        {
+            DateTime now = DateTime.Now;
+            DateTime lastMonth = DateTime.Now.AddMonths(-1);
+
+            long totalVisitsCount = _linLogRepository.Select.Count();
+            long totalUserCount = _linUserAuditBaseRepository.Select.Count();
+            long monthVisitsCount = _linLogRepository.Select.Where(r => r.Time >= lastMonth && r.Time <= now).Count();
+            long monthUserCount = _linUserAuditBaseRepository.Select.Where(r => r.CreateTime >= lastMonth && r.CreateTime <= now).Count();
+
+            return new VisitLogUserDto()
+            {
+                TotalVisitsCount = totalVisitsCount,
+                TotalUserCount = totalUserCount,
+                MonthVisitsCount = monthVisitsCount,
+                MonthUserCount = monthUserCount
+            };
         }
     }
 }
