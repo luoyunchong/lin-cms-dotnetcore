@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web.Middleware
 {
+    /// <summary>
+    /// 处理FreeSql中同一个请求处于一个事务，并一同提交
+    /// </summary>
     public class RequestMvcMiddleWare
     {
         private readonly RequestDelegate _next;
@@ -26,16 +29,15 @@ namespace LinCms.Web.Middleware
                 unitOfWork.Commit();
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 unitOfWork?.Rollback();
-                throw ex;
+                throw;
             }
             finally
             {
                 unitOfWork?.Dispose();
             }
-            // Call the next delegate/middleware in the pipeline
         }
     }
 }
