@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Application.Shared\LinCms.Application.Contracts.csproj" />
     <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
-    <ProjectReference Include="..\LinCms.Zero\LinCms.Core.csproj" />
   </ItemGroup>
 
 </Project>

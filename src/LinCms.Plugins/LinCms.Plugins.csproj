@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
     <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
-    <ProjectReference Include="..\LinCms.Zero\LinCms.Core.csproj" />
   </ItemGroup>
 
 </Project>
