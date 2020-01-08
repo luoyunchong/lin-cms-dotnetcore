@@ -1,15 +1,15 @@
-﻿using LinCms.Web.Models.Cms.Users;
-using LinCms.Web.Models.v1.UserSubscribes;
-using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Repositories;
+﻿using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Application.Contracts.v1.UserSubscribes;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Xunit.Abstractions;
 using System.Collections.Generic;
-using LinCms.Web.Models.v1.Articles;
+using LinCms.Application.Contracts.v1.Articles;
 using System.Linq;
 using System;
+using LinCms.Core.Entities.Blog;
+using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Test.Repositories.v1
 {

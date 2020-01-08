@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace LinCms.Zero.Common
+namespace LinCms.Core.Common
 {
     public class LinCmsUtils
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Security.Claims;
-using LinCms.Zero.Extensions;
+using LinCms.Core.Extensions;
 
-namespace LinCms.Zero.Security
+namespace LinCms.Core.Security
 {
 
     public static class ClaimsIdentityExtensions

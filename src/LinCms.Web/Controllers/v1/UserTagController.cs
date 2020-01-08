@@ -1,12 +1,12 @@
 ﻿using System;
-using LinCms.Web.Models.v1.Tags;
-using LinCms.Web.Models.v1.UserSubscribes;
-using LinCms.Web.Services.v1.Interfaces;
-using LinCms.Zero.Data;
-using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Exceptions;
-using LinCms.Zero.Repositories;
-using LinCms.Zero.Security;
+using LinCms.Core.Data;
+using LinCms.Core.Entities.Blog;
+using LinCms.Core.Exceptions;
+using LinCms.Core.Security;
+using LinCms.Infrastructure.Repositories;
+using LinCms.Application.Contracts.v1.Tags;
+using LinCms.Application.Contracts.v1.UserSubscribes;
+using LinCms.Application.v1.Tags;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

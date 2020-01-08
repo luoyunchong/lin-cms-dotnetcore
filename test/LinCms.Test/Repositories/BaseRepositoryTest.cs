@@ -5,7 +5,6 @@ using AutoMapper;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Web;
-using LinCms.Zero.Exceptions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;

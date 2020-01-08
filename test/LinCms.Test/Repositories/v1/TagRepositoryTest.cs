@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
-using LinCms.Test.Controller;
-using LinCms.Web.Models.Cms.Users;
-using LinCms.Web.Models.v1.Tags;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Repositories;
+﻿using LinCms.Core.Entities.Blog;
+using LinCms.Infrastructure.Repositories;
+using LinCms.Application.Contracts.v1.Tags;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace LinCms.Test.Repositories
+namespace LinCms.Test.Repositories.v1
 {
     public class TagRepositoryTest : BaseRepositoryTest
     {

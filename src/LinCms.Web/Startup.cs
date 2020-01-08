@@ -7,25 +7,26 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DotNetCore.CAP.Messages;
 using FreeSql;
 using FreeSql.Internal;
 using IdentityServer4.AccessTokenValidation;
+using LinCms.Application;
+using LinCms.Application.AutoMapper.Cms;
+using LinCms.Application.Cms.Files;
+using LinCms.Core.Common;
+using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
+using LinCms.Core.Dependency;
+using LinCms.Core.Entities;
+using LinCms.Core.Extensions;
+using LinCms.Infrastructure.Repositories;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
-using LinCms.Web.Services.Cms;
-using LinCms.Web.Services.Cms.Interfaces;
 using LinCms.Web.Utils;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Common;
-using LinCms.Zero.Data;
-using LinCms.Zero.Data.Enums;
-using LinCms.Zero.Dependency;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Extensions;
-using LinCms.Zero.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -271,7 +272,7 @@ namespace LinCms.Web
 
             #endregion
 
-            services.AddAutoMapper(typeof(Startup).Assembly, typeof(PoemProfile).Assembly);
+            services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
             //services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
             services.AddCors();
@@ -326,7 +327,7 @@ namespace LinCms.Web
             //services.AddScoped<IUserSevice, UserService>();
             services.Scan(scan => scan
                     //加载Startup这个类所在的程序集
-                    .FromAssemblyOf<Startup>()
+                    .FromAssemblyOf<IAppService>()
                     // 表示要注册那些类，上面的代码还做了过滤，只留下了以 Service 结尾的类
                     .AddClasses(classes => classes.Where(t => t.Name != "IFileService" && t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
                     .UsingRegistrationStrategy(RegistrationStrategy.Skip)
@@ -402,6 +403,22 @@ namespace LinCms.Web
             {
                 options.MultipartBodyLengthLimit = 1024 * 1024 * 2;
                 options.MultipartHeadersCountLimit = 10;
+            });
+
+            IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:Default");
+            services.AddCap(x =>
+            {
+
+                x.UseMySql(configurationSection.Value);
+
+                x.UseRabbitMQ("localhost");
+                x.UseDashboard();
+                x.FailedRetryCount = 5;
+                x.FailedThresholdCallback = (type, msg) =>
+                {
+                    Console.WriteLine(
+                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {msg.GetName()}");
+                };
             });
         }
 

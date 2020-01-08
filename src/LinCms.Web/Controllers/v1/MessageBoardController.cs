@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Web.Models.v1.Comments;
-using LinCms.Web.Models.v1.MessageBoards;
-using LinCms.Web.Services.Cms.Interfaces;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Common;
-using LinCms.Zero.Data;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Exceptions;
-using LinCms.Zero.Extensions;
-using LinCms.Zero.Repositories;
-using LinCms.Zero.Security;
+using LinCms.Application.Cms.Users;
+using LinCms.Core.Aop;
+using LinCms.Core.Common;
+using LinCms.Core.Data;
+using LinCms.Core.Entities;
+using LinCms.Core.Entities.Blog;
+using LinCms.Core.Exceptions;
+using LinCms.Infrastructure.Repositories;
+using LinCms.Core.Security;
+using LinCms.Application.Contracts.v1.MessageBoards;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.Extensions;
 
 namespace LinCms.Web.Controllers.v1
 {

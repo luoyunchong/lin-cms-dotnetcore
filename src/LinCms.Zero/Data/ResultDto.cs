@@ -1,11 +1,11 @@
 ﻿using System;
-using LinCms.Zero.Common;
-using LinCms.Zero.Data.Enums;
+using LinCms.Core.Common;
+using LinCms.Core.Data.Enums;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace LinCms.Zero.Data
+namespace LinCms.Core.Data
 {
     public class ResultDto
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LinCms.Web.Controllers.v1;
-using LinCms.Web.Models.v1.Articles;
+using LinCms.Application.Contracts.v1.Articles;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
