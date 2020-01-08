@@ -1,4 +1,4 @@
-﻿using LinCms.Zero.Common;
+﻿using LinCms.Core.Common;
 using Xunit;
 
 namespace LinCms.Test.Common

@@ -10,11 +10,15 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <ProjectReference Include="..\LinCms.Zero\LinCms.Zero.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Poem\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
+    <ProjectReference Include="..\LinCms.Zero\LinCms.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using LinCms.Web.Services.Cms.Interfaces;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Common;
-using LinCms.Zero.Data;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Security;
+using LinCms.Application.Cms.Logs;
+using LinCms.Core.Aop;
+using LinCms.Core.Common;
+using LinCms.Core.Data;
+using LinCms.Core.Entities;
+using LinCms.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;

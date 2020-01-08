@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using LinCms.Zero.Domain;
+using LinCms.Core.Entities;
 
 namespace LinCms.Plugins.Poem.Models
 {

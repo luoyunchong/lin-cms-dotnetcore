@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LinCms.Web.Models.v1.Comments;
-using LinCms.Web.Services.Cms.Interfaces;
-using LinCms.Web.Services.v1.Interfaces;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Data;
-using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Exceptions;
-using LinCms.Zero.Extensions;
-using LinCms.Zero.Repositories;
-using LinCms.Zero.Security;
+using LinCms.Application.Cms.Users;
+using LinCms.Core.Aop;
+using LinCms.Core.Data;
+using LinCms.Core.Entities.Blog;
+using LinCms.Core.Exceptions;
+using LinCms.Core.Extensions;
+using LinCms.Infrastructure.Repositories;
+using LinCms.Core.Security;
+using LinCms.Application.Contracts.v1.Comments;
+using LinCms.Application.v1.Comments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

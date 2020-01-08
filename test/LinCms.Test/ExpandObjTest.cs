@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using LinCms.Zero.Data.Enums;
+using LinCms.Core.Data.Enums;
 using Xunit;
 
 namespace LinCms.Test

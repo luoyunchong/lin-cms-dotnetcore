@@ -1,22 +1,20 @@
-﻿using LinCms.Zero.Domain.Blog;
-using Xunit;
+﻿using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using FreeSql;
-using Microsoft.AspNetCore.Hosting;
-using LinCms.Web.Models.v1.Comments;
-using LinCms.Zero.Extensions;
+using LinCms.Core.Entities.Blog;
+using LinCms.Core.Extensions;
+using LinCms.Application.Contracts.v1.Comments;
 
 namespace LinCms.Test.Repositories.v1
 {
-    public class TagRepositoryTest : BaseRepositoryTest
+    public class CommentRepositoryTest : BaseRepositoryTest
     {
         private readonly BaseRepository<Comment> _baseRepository;
 
-        public TagRepositoryTest() : base()
+        public CommentRepositoryTest() : base()
         {
             _baseRepository = ServiceProvider.GetService<BaseRepository<Comment>>();
         }

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using LinCms.Web.Controllers.v1;
-using LinCms.Zero.Domain.Blog;
-using LinCms.Zero.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using LinCms.Core.Entities.Blog;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

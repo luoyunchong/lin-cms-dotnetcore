@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="FreeSql.Repository" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinCms.Zero\LinCms.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DomainEvents\" />
+  </ItemGroup>
+
+</Project>

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Data;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Extensions;
+using LinCms.Core.Aop;
+using LinCms.Core.Data;
+using LinCms.Core.Entities;
+using LinCms.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Data

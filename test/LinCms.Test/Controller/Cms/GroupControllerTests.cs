@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using LinCms.Application.Contracts.Cms.Groups;
+using LinCms.Core.Entities;
 using LinCms.Web;
-using LinCms.Web.Models.Cms.Groups;
-using LinCms.Zero.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

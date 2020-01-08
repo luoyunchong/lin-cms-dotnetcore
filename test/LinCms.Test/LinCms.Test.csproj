@@ -18,7 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\LinCms.Application.Shared\LinCms.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\LinCms.Application\LinCms.Application.csproj" />
+    <ProjectReference Include="..\..\src\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\LinCms.Plugins\LinCms.Plugins.csproj" />
     <ProjectReference Include="..\..\src\LinCms.Web\LinCms.Web.csproj" />
+    <ProjectReference Include="..\..\src\LinCms.Zero\LinCms.Core.csproj" />
   </ItemGroup>
 
 </Project>

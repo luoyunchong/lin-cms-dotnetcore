@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LinCms.Web.Models.v1.BaseTypes;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Data;
-using LinCms.Zero.Domain.Base;
-using LinCms.Zero.Exceptions;
-using LinCms.Zero.Repositories;
+using LinCms.Core.Aop;
+using LinCms.Core.Data;
+using LinCms.Core.Entities.Base;
+using LinCms.Core.Exceptions;
+using LinCms.Infrastructure.Repositories;
+using LinCms.Application.Contracts.v1.BaseTypes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.v1

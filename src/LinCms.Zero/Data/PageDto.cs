@@ -1,4 +1,4 @@
-﻿namespace LinCms.Zero.Data
+﻿namespace LinCms.Core.Data
 {
 
     /// <summary>

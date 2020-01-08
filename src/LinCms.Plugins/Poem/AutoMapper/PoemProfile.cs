@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using LinCms.Core.Entities;
 using LinCms.Plugins.Poem.Models;
-using LinCms.Zero.Domain;
 
 namespace LinCms.Plugins.Poem.AutoMapper
 {
