@@ -10,11 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinCms.Zero\LinCms.Core.csproj" />
+    <Folder Include="DomainEvents\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DomainEvents\" />
+    <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
   </ItemGroup>
 
 </Project>

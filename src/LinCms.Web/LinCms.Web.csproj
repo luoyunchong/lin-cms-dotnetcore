@@ -37,6 +37,7 @@
     <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.0" />
     <PackageReference Include="DotNetCore.CAP.MySql.Provider" Version="0.0.1" />
     <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.0.0" />
+    <PackageReference Include="FreeSql" Version="1.0.1" />
     <PackageReference Include="FreeSql.Provider.MySql" Version="1.0.1" />
     <PackageReference Include="IdentityServer4" Version="3.1.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
@@ -53,7 +54,6 @@
     <ProjectReference Include="..\LinCms.Application\LinCms.Application.csproj" />
     <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
     <ProjectReference Include="..\LinCms.Plugins\LinCms.Plugins.csproj" />
-    <ProjectReference Include="..\LinCms.Zero\LinCms.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

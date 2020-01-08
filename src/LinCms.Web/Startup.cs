@@ -14,6 +14,7 @@ using IdentityServer4.AccessTokenValidation;
 using LinCms.Application;
 using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Files;
+using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
@@ -281,8 +282,8 @@ namespace LinCms.Web
             services.AddControllers(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 //options.Filters.Add<LinCmsExceptionFilter>();
-                 //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 options.Filters.Add<LinCmsExceptionFilter>();
+                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
              .AddNewtonsoftJson(opt =>
              {
@@ -443,7 +444,7 @@ namespace LinCms.Web
             app.UseStaticFiles();
 
 
-            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
