@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Zero.Data
+namespace LinCms.Core.Data
 {
     public class PermissionDto
     {

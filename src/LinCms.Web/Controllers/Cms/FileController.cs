@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using LinCms.Web.Models.Cms.Files;
-using LinCms.Web.Services.Cms.Interfaces;
+using LinCms.Application.Cms.Files;
+using LinCms.Application.Contracts.Cms.Files;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

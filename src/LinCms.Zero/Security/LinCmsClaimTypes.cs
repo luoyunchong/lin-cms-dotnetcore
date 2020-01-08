@@ -1,4 +1,4 @@
-﻿namespace LinCms.Zero.Security
+﻿namespace LinCms.Core.Security
 {
     public static class LinCmsClaimTypes
     {

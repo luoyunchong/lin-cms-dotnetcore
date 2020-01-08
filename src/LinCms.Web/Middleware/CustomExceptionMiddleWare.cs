@@ -2,10 +2,10 @@
 using System.Text;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Zero.Common;
-using LinCms.Zero.Data;
-using LinCms.Zero.Data.Enums;
-using LinCms.Zero.Exceptions;
+using LinCms.Core.Common;
+using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
+using LinCms.Core.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;

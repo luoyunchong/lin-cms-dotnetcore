@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using LinCms.Zero.Extensions;
+using LinCms.Core.Extensions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace LinCms.Web.Middleware

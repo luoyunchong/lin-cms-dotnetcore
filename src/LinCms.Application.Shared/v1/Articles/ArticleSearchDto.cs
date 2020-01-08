@@ -1,0 +1,14 @@
+﻿using System;
+using LinCms.Core.Data;
+
+namespace LinCms.Application.Contracts.v1.Articles
+{
+    public class ArticleSearchDto:PageDto
+    {
+        public Guid? ClassifyId { get; set; }
+        public Guid? TagId { get; set; }
+        public string Title { get; set; }
+
+        public long? UserId { get; set; }
+    }
+}

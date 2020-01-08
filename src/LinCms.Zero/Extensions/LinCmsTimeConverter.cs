@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace LinCms.Zero.Extensions
+namespace LinCms.Core.Extensions
 {
     /// <summary>
     /// 配合LinCMS中的时间戳 后台只返回 1562904163734

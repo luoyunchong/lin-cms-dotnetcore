@@ -1,4 +1,4 @@
-﻿namespace LinCms.Zero.Dependency
+﻿namespace LinCms.Core.Dependency
 {
     public interface ITransientDependency
     {

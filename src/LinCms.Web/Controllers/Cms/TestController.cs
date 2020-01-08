@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using DotNetCore.CAP;
 using FreeSql;
-using LinCms.Zero.Aop;
-using LinCms.Zero.Data;
-using LinCms.Zero.Data.Enums;
-using LinCms.Zero.Exceptions;
+using LinCms.Core.Aop;
+using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
+using LinCms.Core.Entities;
+using LinCms.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +17,13 @@ namespace LinCms.Web.Controllers.Cms
     public class TestController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public TestController(IUnitOfWork unitOfWork)
+        private readonly IFreeSql _freeSql;
+        private readonly ICapPublisher _capBus;
+        public TestController(IUnitOfWork unitOfWork, IFreeSql freeSql, ICapPublisher capBus)
         {
             _unitOfWork = unitOfWork;
+            _freeSql = freeSql;
+            _capBus = capBus;
         }
 
         [HttpGet("info")]
@@ -91,5 +96,57 @@ namespace LinCms.Web.Controllers.Cms
             Console.WriteLine(dateTime);
         }
 
+        [HttpGet("~/freesql/transaction")]
+        public DateTime FreeSqlTransaction()
+        {
+            DateTime now = DateTime.Now;
+            using (var uow = _freeSql.CreateUnitOfWork())
+            {
+                using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+                var repo = uow.GetRepository<Book>();
+
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong",
+                    Summary = "1",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 1
+                });
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong",
+                    Summary = "2",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 2
+                });
+
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong",
+                    Summary = "3",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 3
+                });
+
+
+                _capBus.Publish("freesql.time", now);
+                trans.Commit();
+            }
+
+            return now;
+        }
+        
+        [NonAction]
+        [CapSubscribe("freesql.time")]
+        public void GetTime(DateTime time)
+        {
+            Console.WriteLine($"time:{time}");
+        }
     }
 }

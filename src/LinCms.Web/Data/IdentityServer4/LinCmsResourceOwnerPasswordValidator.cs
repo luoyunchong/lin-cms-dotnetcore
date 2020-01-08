@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using LinCms.Zero.Common;
-using LinCms.Zero.Domain;
-using LinCms.Zero.Security;
+using LinCms.Core.Common;
+using LinCms.Core.Entities;
+using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authentication;
 
 namespace LinCms.Web.Data.IdentityServer4

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LinCms.Zero.Data.Enums
+namespace LinCms.Core.Data.Enums
 {
     /**
      * 枚举

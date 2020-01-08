@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using LinCms.Zero.Common;
-using LinCms.Zero.Domain;
+using LinCms.Core.Common;
+using LinCms.Core.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
