@@ -27,6 +27,7 @@ namespace LinCms.Application.Contracts.v1.Articles
         public string Archive { get; set; }
 
         public ArticleType ArticleType { get; set; }
+
         public int Editor { get; set; } = 1;
 
         public List<Guid> TagIds { get; set; }

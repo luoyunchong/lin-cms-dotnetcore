@@ -4,6 +4,10 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities.Blog
 {
+
+    /// <summary>
+    /// 文章专栏，由普通用户创建
+    /// </summary>
     [Table(Name = "blog_classify")]
    public class Classify:FullAduitEntity<Guid>
     {
