@@ -34,7 +34,9 @@ namespace LinCms.Core.Entities.Blog
         /// </summary>
         public int SubscribersCount { get; set; } = 0;
         public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Channel> Channels { get; set; }
         public virtual ICollection<UserTag> UserTags { get; set; }
+        public virtual ICollection<ChannelTag> ChannelTags { get; set; }
 
         [Navigate("CreateUserId")]
         public virtual LinUser LinUser { get; set; }
