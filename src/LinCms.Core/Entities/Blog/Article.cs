@@ -11,8 +11,11 @@ namespace LinCms.Core.Entities.Blog
         /// 文章所在分类专栏Id
         /// </summary>
         public Guid? ClassifyId { get; set; }
+        /// <summary>
+        /// 系统内置技术频道Id
+        /// </summary>
+        public Guid? ChannelId { get; set; }
 
-        public Classify Classify { get; set; }
         /// <summary>
         /// 标题
         /// </summary>
@@ -76,7 +79,7 @@ namespace LinCms.Core.Entities.Blog
         public ArticleType ArticleType { get; set; } = ArticleType.Original;
 
         /// <summary>
-        /// 1:富文本编辑器,2:MarkDown编辑器
+        ///1:MarkDown编辑器  2:富文本编辑器,
         /// </summary>
         public int Editor { get; set; } = 1;
         /// <summary>
@@ -91,6 +94,9 @@ namespace LinCms.Core.Entities.Blog
         /// 预计阅读时长
         /// </summary>
         public long ReadingTime { get; set; }
+
+        public virtual Classify Classify { get; set; }
+        public virtual Channel Channel { get; set; }
 
         [Navigate("CreateUserId")]
         public virtual  LinUser UserInfo { get; set; }

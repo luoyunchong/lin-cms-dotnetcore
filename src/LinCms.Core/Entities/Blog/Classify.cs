@@ -31,7 +31,7 @@ namespace LinCms.Core.Entities.Blog
         /// </summary>
         public int ArticleCount { get; set; } = 0;
 
-        public List<Article> Articles { get; set; }
+        public virtual List<Article> Articles { get; set; }
 
         public void ReduceArticleCount()
         {
