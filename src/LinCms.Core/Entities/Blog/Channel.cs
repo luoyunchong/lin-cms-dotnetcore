@@ -44,6 +44,7 @@ namespace LinCms.Core.Entities.Blog
         public bool Status { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual List<Article> Articles { get; set; }
 
     }
 }

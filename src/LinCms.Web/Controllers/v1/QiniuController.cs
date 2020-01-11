@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
-using Org.BouncyCastle.Math.EC;
 using Qiniu.Http;
 using Qiniu.Storage;
 using Qiniu.Util;
@@ -76,10 +75,6 @@ namespace LinCms.Web.Controllers.v1
                 Path = qiniuName,
                 Url = _configuration["Qiniu:Host"] + qiniuName
             };
-
         }
-
     }
-
-
 }
