@@ -14,7 +14,7 @@ namespace LinCms.Application.v1.Channels
 
         ChannelDto Get(Guid id);
 
-        void Post([FromBody] CreateUpdateChannelDto createChannel);
+        void Post(CreateUpdateChannelDto createChannel);
 
         void Put(Guid id, CreateUpdateChannelDto updateChannel);
     }

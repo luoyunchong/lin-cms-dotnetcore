@@ -8,4 +8,8 @@
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Constracts\" />
+  </ItemGroup>
+
 </Project>
