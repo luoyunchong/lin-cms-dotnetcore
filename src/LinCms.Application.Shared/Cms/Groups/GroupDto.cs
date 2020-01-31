@@ -8,5 +8,7 @@ namespace LinCms.Application.Contracts.Cms.Groups
         public List<IDictionary<string,object>> Auths { get; set; }
         public string Name { get; set; }
         public string Info { get; set; }
+        public bool IsStatic { get; set; }
+
     }
 }

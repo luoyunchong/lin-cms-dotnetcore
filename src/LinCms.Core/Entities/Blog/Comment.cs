@@ -63,7 +63,7 @@ namespace LinCms.Core.Entities.Blog
 
 
         [Navigate("RootCommentId")]
-        public virtual  ICollection<Comment> Childs { get; set; }
+        public virtual ICollection<Comment> Childs { get; set; }
 
         [Navigate("SubjectId")]
         public virtual ICollection<UserLike> UserLikes { get; set; }

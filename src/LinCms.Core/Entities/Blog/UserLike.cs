@@ -14,7 +14,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 点赞类型 1 是文章，2 是评论
         /// </summary>
-        public int SubjectType { get; set; }
+        public UserLikeSubjectType SubjectType { get; set; }
         public long CreateUserId { get; set; }
         public DateTime CreateTime { get; set; }
 
@@ -27,5 +27,17 @@ namespace LinCms.Core.Entities.Blog
 
         [Navigate("SubjectId")]
         public virtual Article Article { get; set; }
+    }
+
+    public enum UserLikeSubjectType
+    {
+        /// <summary>
+        /// 点赞随笔
+        /// </summary>
+        UserLikeArticle = 1,
+        /// <summary>
+        /// 点赞评论
+        /// </summary>
+        UserLikeComment = 2
     }
 }

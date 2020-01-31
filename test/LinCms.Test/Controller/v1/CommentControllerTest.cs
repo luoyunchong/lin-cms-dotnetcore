@@ -4,7 +4,6 @@ using System.Linq;
 using AutoMapper;
 using FreeSql;
 using LinCms.Core.Entities.Blog;
-using LinCms.Application.Contracts.v1.Comments;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

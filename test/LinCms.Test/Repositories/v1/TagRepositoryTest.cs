@@ -1,6 +1,6 @@
-﻿using LinCms.Core.Entities.Blog;
+﻿using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
-using LinCms.Application.Contracts.v1.Tags;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
