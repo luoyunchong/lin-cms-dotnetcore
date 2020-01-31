@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Application.Contracts.v1.UserSubscribes;
 using Microsoft.AspNetCore.Hosting;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;

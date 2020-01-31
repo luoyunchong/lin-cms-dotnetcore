@@ -10,16 +10,21 @@ namespace LinCms.Application.Cms.Users
 {
     public class UserCommunityService : IUserCommunityService
     {
+        private readonly IFreeSql _freeSql;
+
         public UserCommunityService(IFreeSql freeSql)
         {
-            FreeSql = freeSql;
+            _freeSql = freeSql;
         }
 
-        public IFreeSql FreeSql { get; }
-
+        /// <summary>
+        /// 记录授权成功后的信息
+        /// </summary>
+        /// <param name="principal"></param>
+        /// <param name="openId"></param>
+        /// <returns></returns>
         public long SaveGitHub(ClaimsPrincipal principal, string openId)
         {
-            //TODO 记录授权成功后的信息 
             string email = principal.FindFirst(ClaimTypes.Email)?.Value;
             string name = principal.FindFirst(ClaimTypes.Name)?.Value;
             string gitHubName = principal.FindFirst(GitHubAuthenticationConstants.Claims.Name)?.Value;
@@ -29,14 +34,14 @@ namespace LinCms.Application.Cms.Users
             string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
             Expression<Func<LinUserCommunity, bool>> expression = r => r.IdentityType == LinUserCommunity.GitHub && r.OpenId == openId;
 
-            LinUserCommunity linUserCommunity = FreeSql.Select<LinUserCommunity>().Where(expression).First();
+            LinUserCommunity linUserCommunity = _freeSql.Select<LinUserCommunity>().Where(expression).First();
 
             long userId = 0;
             if (linUserCommunity == null)
             {
-                FreeSql.Transaction(() =>
+                _freeSql.Transaction(() =>
                 {
-                    userId = FreeSql.Insert(new LinUser
+                    userId = _freeSql.Insert(new LinUser
                     {
                         Admin = (int)UserAdmin.Common,
                         Active = (int)UserActive.Active,
@@ -49,7 +54,7 @@ namespace LinCms.Application.Cms.Users
                         Username = email
                     }).ExecuteIdentity();
 
-                    FreeSql.Insert(new LinUserCommunity
+                    _freeSql.Insert(new LinUserCommunity
                     {
                         CreateTime = DateTime.Now,
                         OpenId = openId,
@@ -64,7 +69,7 @@ namespace LinCms.Application.Cms.Users
             {
                 userId = linUserCommunity.CreateUserId;
 
-                FreeSql.Update<LinUserCommunity>(linUserCommunity.Id).Set(r => new LinUserCommunity()
+                _freeSql.Update<LinUserCommunity>(linUserCommunity.Id).Set(r => new LinUserCommunity()
                 {
                     BlogAddress = blogAddress,
                 }).ExecuteAffrows();

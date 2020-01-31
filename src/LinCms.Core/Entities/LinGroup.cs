@@ -14,12 +14,13 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 权限组描述
         /// </summary>
+        [Column(DbType = "varchar(500)")]
         public string Info { get; set; }
 
         /// <summary>
-        /// 是否是静态角色
+        /// 是否是静态分组
         /// </summary>
-        public bool IsStatic { get; set; } = true;
+        public bool IsStatic { get; set; } = false;
         /// <summary>
         /// 超级管理员
         /// </summary>

@@ -134,6 +134,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
             user.GroupId = LinConsts.Group.User;
+
             _userSevice.Register(user);
 
             return ResultDto.Success("注册成功");

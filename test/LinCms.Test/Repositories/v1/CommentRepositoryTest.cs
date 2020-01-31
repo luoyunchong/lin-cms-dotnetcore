@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using FreeSql;
+using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Extensions;
-using LinCms.Application.Contracts.v1.Comments;
 
 namespace LinCms.Test.Repositories.v1
 {
