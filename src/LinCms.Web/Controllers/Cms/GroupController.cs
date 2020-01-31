@@ -109,7 +109,7 @@ namespace LinCms.Web.Controllers.Cms
 
             if (linGroup.IsStatic)
             {
-                throw new LinCmsException("无法删除静态角色!");
+                throw new LinCmsException("无法删除静态权限组!");
             }
 
             bool exist = _freeSql.Select<LinUser>().Any(r => r.GroupId == id);

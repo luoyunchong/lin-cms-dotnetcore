@@ -1,13 +1,12 @@
 ﻿using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Application.Contracts.v1.UserSubscribes;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Xunit.Abstractions;
 using System.Collections.Generic;
-using LinCms.Application.Contracts.v1.Articles;
 using System.Linq;
 using System;
+using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
 

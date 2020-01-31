@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Settings;
-using LinCms.Application.Contracts.v1.Channels;
 using LinCms.Core.Data;
 
 namespace LinCms.Application.Cms.Settings

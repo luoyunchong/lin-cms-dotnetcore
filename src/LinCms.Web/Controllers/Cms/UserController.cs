@@ -10,7 +10,6 @@ using LinCms.Web.Data;
 using LinCms.Application.Contracts.Cms.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -23,15 +22,13 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IMapper _mapper;
         private readonly IUserSevice _userSevice;
         private readonly ICurrentUser _currentUser;
-        private readonly IConfiguration _configuration;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser, IConfiguration configuration)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser)
         {
             _freeSql = freeSql;
             _mapper = mapper;
             _userSevice = userSevice;
             _currentUser = currentUser;
-            _configuration = configuration;
         }
 
         [HttpGet("get")]

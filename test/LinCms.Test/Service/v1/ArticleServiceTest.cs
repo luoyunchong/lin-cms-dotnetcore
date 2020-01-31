@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using LinCms.Application.v1.Articles;
+using LinCms.Application.Blog.Articles;
 using LinCms.Test.Repositories;
 using Xunit.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
