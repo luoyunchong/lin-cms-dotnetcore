@@ -13,6 +13,7 @@ namespace LinCms.Application.Contracts.Blog.Tags
         public string Alias { get; set; }
         public int ArticleCount { get; set; }
         public int SubscribersCount { get; set; }
+        public int ViewHits { get; set; }
         public bool Status { get; set; }
         public  bool IsSubscribe { get; set; }
 
