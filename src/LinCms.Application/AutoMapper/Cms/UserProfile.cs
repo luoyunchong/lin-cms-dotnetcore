@@ -15,6 +15,7 @@ namespace LinCms.Application.AutoMapper.Cms
             CreateMap<LinUser, UserInformation>();
             CreateMap<LinUser, UserDto>();
             CreateMap<LinUser, OpenUserDto>();
+            CreateMap<LinUser, UserNoviceDto>();
             CreateMap<RegisterDto, LinUser>();
         }
     }

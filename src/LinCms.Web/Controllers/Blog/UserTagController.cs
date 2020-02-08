@@ -14,6 +14,7 @@ namespace LinCms.Web.Controllers.Blog
 {
     [Route("v1/user-tag")]
     [ApiController]
+    [Authorize]
     public class UserTagController : ControllerBase
     {
         private readonly ICurrentUser _currentUser;

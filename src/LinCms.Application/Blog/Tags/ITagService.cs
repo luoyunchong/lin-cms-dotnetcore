@@ -8,10 +8,11 @@ namespace LinCms.Application.Blog.Tags
     public interface ITagService
     {
         bool IsSubscribe(Guid tagId);
-         PagedResultDto<TagDto> Get(TagSearchDto searchDto);
-         PagedResultDto<TagDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto);
-         void UpdateArticleCount(Guid? id, int inCreaseCount);
+        TagDto Get(Guid id);
+        PagedResultDto<TagDto> Get(TagSearchDto searchDto);
+        PagedResultDto<TagDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto);
+        void UpdateArticleCount(Guid? id, int inCreaseCount);
 
-         void UpdateSubscribersCount(Guid? id, int inCreaseCount);
+        void UpdateSubscribersCount(Guid? id, int inCreaseCount);
     }
 }

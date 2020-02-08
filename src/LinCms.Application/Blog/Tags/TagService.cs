@@ -6,6 +6,7 @@ using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
+using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;
 using LinCms.Infrastructure.Repositories;
@@ -34,6 +35,19 @@ namespace LinCms.Application.Blog.Tags
         {
             if (_currentUser.Id == null) return false;
             return _userTagRepository.Select.Any(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
+        }
+
+        public TagDto Get(Guid id)
+        {
+            Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
+            if (tag == null)
+            {
+                throw new LinCmsException("不存在此标签");
+            }
+            TagDto tagDto = _mapper.Map<TagDto>(tag);
+            tagDto.IsSubscribe = this.IsSubscribe(id);
+            tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
+            return tagDto;
         }
 
         /// <summary>
