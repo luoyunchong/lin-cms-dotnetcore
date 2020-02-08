@@ -5,6 +5,12 @@ namespace LinCms.Application
 
     public abstract class AppService: IAppService
     {
-        public CurrentUser CurrentUser;
+        protected CurrentUser CurrentUser;
+
+        protected AppService(CurrentUser currentUser)
+        {
+            CurrentUser = currentUser;
+        }
+
     }
 }

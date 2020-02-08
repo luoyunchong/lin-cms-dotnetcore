@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
@@ -7,6 +8,7 @@ using IdentityServer4.Validation;
 using LinCms.Core.Common;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
 
 namespace LinCms.Web.Data.IdentityServer4
@@ -16,13 +18,13 @@ namespace LinCms.Web.Data.IdentityServer4
     /// </summary>
     public class LinCmsResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly IFreeSql _fsql;
         private readonly ISystemClock _clock;
+        private readonly AuditBaseRepository<LinUser> _useRepository;
 
-        public LinCmsResourceOwnerPasswordValidator(ISystemClock clock, IFreeSql fsql)
+        public LinCmsResourceOwnerPasswordValidator(ISystemClock clock, AuditBaseRepository<LinUser> useRepository)
         {
             _clock = clock;
-            _fsql = fsql;
+            _useRepository = useRepository;
         }
 
         /// <summary>
@@ -32,7 +34,7 @@ namespace LinCms.Web.Data.IdentityServer4
         /// <returns></returns>
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            LinUser user = _fsql.Select<LinUser>().Where(r => r.Username == context.UserName||r.Email==context.UserName).ToOne();
+            LinUser user = _useRepository.Where(r => r.Username == context.UserName || r.Email == context.UserName).ToOne();
 
             //验证失败
             if (user == null)
@@ -46,6 +48,11 @@ namespace LinCms.Web.Data.IdentityServer4
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "请输入正确密码!");
                 return Task.CompletedTask;
             }
+
+            _useRepository.UpdateDiy.Set(r => new LinUser()
+            {
+                LastLoginTime = DateTime.Now
+            }).Where(r => r.Id == user.Id).ExecuteAffrows();
 
             //subjectId 为用户唯一标识 一般为用户id
             //authenticationMethod 描述自定义授权类型的认证方法 

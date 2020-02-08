@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System;
+using FreeSql.DataAnnotations;
 using LinCms.Core.Data.Enums;
 
 namespace LinCms.Core.Entities
@@ -62,6 +63,10 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(DbType = "varchar(100)")]
         public string Introduction { get; set; }
+        /// <summary>
+        /// 最后一次登录的时间
+        /// </summary>
+        public DateTime LastLoginTime { get; set; }
         /// <summary>
         /// 是否是管理员
         /// </summary>

@@ -8,6 +8,7 @@ using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Web.Data;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,13 +23,15 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IMapper _mapper;
         private readonly IUserSevice _userSevice;
         private readonly ICurrentUser _currentUser;
+        private readonly AuditBaseRepository<LinUser> _userRepository;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository)
         {
             _freeSql = freeSql;
             _mapper = mapper;
             _userSevice = userSevice;
             _currentUser = currentUser;
+            _userRepository = userRepository;
         }
 
         [HttpGet("get")]
@@ -147,13 +150,36 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("{userId}")]
         public OpenUserDto GetUserByUserId(long userId)
         {
-            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r =>  r.Id == userId).First();
+            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).First();
             OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
             if (openUser == null) return null;
             openUser.Avatar = _currentUser.GetFileUrl(openUser.Avatar);
 
             return openUser;
 
+        }
+
+        [AllowAnonymous]
+        [HttpGet("novices")]
+        public List<UserNoviceDto> GetNovices()
+        {
+            List<UserNoviceDto> userNoviceDtos = _userRepository.Select.OrderByDescending(r => r.CreateTime).Take(12)
+                .ToList(r => new UserNoviceDto()
+                {
+                    Id = r.Id,
+                    Introduction = r.Introduction,
+                    Nickname = r.Nickname,
+                    Avatar = r.Avatar,
+                    Username = r.Username,
+                    LastLoginTime = r.LastLoginTime,
+                    CreateTime = r.CreateTime,
+                }).Select(r =>
+                {
+                    r.Avatar = _currentUser.GetFileUrl(r.Avatar);
+                    return r;
+                }).ToList();
+
+            return userNoviceDtos;
         }
     }
 }

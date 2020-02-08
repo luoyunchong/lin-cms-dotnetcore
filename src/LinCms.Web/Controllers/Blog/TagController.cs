@@ -56,15 +56,7 @@ namespace LinCms.Web.Controllers.Blog
         [HttpGet("{id}")]
         public TagDto Get(Guid id)
         {
-            Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
-            if (tag == null)
-            {
-                throw new LinCmsException("不存在此标签");
-            }
-            TagDto tagDto = _mapper.Map<TagDto>(tag);
-            tagDto.IsSubscribe = _tagService.IsSubscribe(id);
-            tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
-            return tagDto;
+            return _tagService.Get(id);
         }
 
         [HttpPost]
