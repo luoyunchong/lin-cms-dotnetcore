@@ -9,6 +9,8 @@ namespace LinCms.Application.Contracts.Blog.Tags
         [Required(ErrorMessage = "标签为必填项")]
         public string TagName { get; set; }
 
+        public string Remark { get; set; }
+
         /// <summary>
         /// 别名
         /// </summary>

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using LinCms.Core.Extensions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -76,9 +77,10 @@ namespace LinCms.Core.Common
         public static string GetTimeDifferNow(DateTime dt)
         {
             TimeSpan span = DateTime.Now - dt;
+
             if (span.TotalDays > 60)
             {
-                return dt.ToShortDateString();
+                return dt.ToDateString();
             }
 
             if (span.TotalDays > 30)
