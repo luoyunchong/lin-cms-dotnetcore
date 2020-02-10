@@ -25,7 +25,6 @@ using LinCms.Infrastructure.Repositories;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Data.IdentityServer4;
 using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authentication;
@@ -55,7 +54,7 @@ namespace LinCms.Web
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public static IFreeSql Fsql { get; private set; }
+        public  IFreeSql Fsql { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
@@ -115,7 +114,6 @@ namespace LinCms.Web
         {
 
             #region IdentityServer4+FreeSql
-            InMemoryConfiguration.Configuration = this.Configuration;
             services.AddSingleton(Fsql);
             //services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddScoped<IUnitOfWork>(sp => sp.GetService<IFreeSql>().CreateUnitOfWork());
@@ -124,21 +122,6 @@ namespace LinCms.Web
             {
                 filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
-
-            services.AddIdentityServer()
-#if  DEBUG
-                .AddDeveloperSigningCredential()
-#endif
-#if !DEBUG
-                .AddSigningCredential(new X509Certificate2(Path.Combine(AppContext.BaseDirectory,
-                        Configuration["Certificates:Path"]),
-                    Configuration["Certificates:Password"]))
-#endif
-                .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
-                .AddInMemoryApiResources(InMemoryConfiguration.GetApis())
-                .AddInMemoryClients(InMemoryConfiguration.GetClients())
-                .AddProfileService<LinCmsProfileService>()
-                .AddResourceOwnerValidator<LinCmsResourceOwnerPasswordValidator>();
 
 
             #region AddAuthentication\AddIdentityServerAuthentication 
@@ -469,7 +452,6 @@ namespace LinCms.Web
 
             app.UseAuthentication();
 
-            app.UseIdentityServer();
 
             app.UseHttpsRedirection();
 

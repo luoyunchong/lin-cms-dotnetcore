@@ -16,6 +16,7 @@ namespace LinCms.Application.Contracts.Blog.Tags
         public int ViewHits { get; set; }
         public bool Status { get; set; }
         public  bool IsSubscribe { get; set; }
+        public string Remark { get; set; }
 
     }
 }

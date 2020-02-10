@@ -63,6 +63,7 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(DbType = "varchar(100)")]
         public string Introduction { get; set; }
+
         /// <summary>
         /// 最后一次登录的时间
         /// </summary>

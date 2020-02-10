@@ -5,7 +5,6 @@ using AutoMapper;
 using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
-using LinCms.Application.Cms.Logs;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Common;
@@ -27,14 +26,12 @@ namespace LinCms.Web.Controllers.Cms
     public class AccountController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly ILogService _logService;
         private readonly ILogger<AccountController> _logger;
         private readonly IUserSevice _userSevice;
         private readonly IMapper _mapper;
-        public AccountController(IConfiguration configuration, ILogService logService, ILogger<AccountController> logger, IUserSevice userSevice, IMapper mapper)
+        public AccountController(IConfiguration configuration, ILogger<AccountController> logger, IUserSevice userSevice, IMapper mapper)
         {
             _configuration = configuration;
-            _logService = logService;
             _logger = logger;
             _userSevice = userSevice;
             _mapper = mapper;

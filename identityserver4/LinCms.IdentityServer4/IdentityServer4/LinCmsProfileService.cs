@@ -7,7 +7,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Test;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Web.Data.IdentityServer4
+namespace LinCms.IdentityServer4.IdentityServer4
 {
     public class LinCmsProfileService : IProfileService
     {
