@@ -2,8 +2,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using DotNetCore.CAP;
-using FreeSql;
-using LinCms.Application.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.UserLikes;
 using LinCms.Core.Data;

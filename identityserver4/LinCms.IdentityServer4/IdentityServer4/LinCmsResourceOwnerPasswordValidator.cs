@@ -11,7 +11,7 @@ using LinCms.Core.Security;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
 
-namespace LinCms.Web.Data.IdentityServer4
+namespace LinCms.IdentityServer4.IdentityServer4
 {
     /// <summary>
     /// 自定义 Resource owner password 验证器

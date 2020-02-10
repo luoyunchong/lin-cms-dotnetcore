@@ -10,20 +10,15 @@
 😃 A simple and practical CMS implememted by .NET Core 3.1
 
 ## 项目简介
-<!-- ![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
-![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore) -->
-
-<!-- ![](https://img.shields.io/badge/版本-0.0.1.beta.2-3963bc.svg) -->
 
 ![Build Status](https://travis-ci.org/luoyunchong/lin-cms-dotnetcore.svg?branch=master)
 ![](https://img.shields.io/badge/.NETCore-3.1.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
-
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
-本项目是 Lin CMS 后端的 [.NET Core 3.1](https://docs.microsoft.com/zh-cn/dotnet/core/)的 实现，
+本项目是 Lin CMS 后端的 [.NET Core 3.1](https://docs.microsoft.com/zh-cn/dotnet/core/)的 实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
 
 ## 什么是 Lin CMS？
 
@@ -83,15 +78,20 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 简化对象映射：AutoMapper
 - 身份认证框架：IdentityServer4
 - Json Web令牌:JWT
-- 文档：Swagger
+- 文档API：Swagger(Swashbuckle.AspNetCore)
 - 序列化：Newtonsoft.Json
 - 测试框架：Xunit
 - 日志 NLog
 - 简化注入服务：Scrutor
 - 通用扩展方法 Z.ExtensionMethods
+- 云存储：七牛云 [MQiniu.Core](https://github.com/Hello-Mango/MQiniu.Core)
+- 分布式事务、EventBus：[DotNeteCore.CAP](https://github.com/dotnetcore/CAP)
+- GitHub第三方授权登录[AspNet.Security.OAuth.GitHub](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
 
 ### 前端 
 前端需要开发者比较熟悉 Vue 的，另外需要了解 ES6,axios,ElementUi、webpack、Vuex、Vue-Router等等等
+- vditor markdown编辑器
+- 
 
 ## 讨论交流
 

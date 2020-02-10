@@ -3,7 +3,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
 
-namespace LinCms.Web.Data
+namespace LinCms.IdentityServer4.IdentityServer4
 {
     public static class InMemoryConfiguration
     {
@@ -21,7 +21,7 @@ namespace LinCms.Web.Data
             return new List<ApiResource>
             {
                 //Configuration["Service:Name"]在AddJwtBearerAudience
-                new ApiResource(Configuration["Service:Name"], Configuration["Identity:DocName"])
+                new ApiResource(Configuration["Service:Name"], Configuration["Service:DocName"])
             };
         }
 
