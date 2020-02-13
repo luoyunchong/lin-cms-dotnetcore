@@ -7,6 +7,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
     <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,8 +30,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Dockerfile" />
     <None Remove="wwwroot\_Illegal\IllegalBit.iws" />
     <None Remove="wwwroot\_Illegal\IllegalInfo.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Dockerfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
