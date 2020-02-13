@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LinCms.IdentityServer4</name>
+    </assembly>
+    <members>
+        <member name="F:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService._logger">
+            <summary>
+            The logger
+            </summary>
+        </member>
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.#ctor(Microsoft.Extensions.Logging.ILogger{IdentityServer4.Test.TestUserProfileService},IFreeSql)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IdentityServer4.Test.TestUserProfileService"/> class.
+            </summary>
+            <param name="logger">The logger.</param>
+            <param name="freeSql"></param>
+        </member>
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.GetProfileDataAsync(IdentityServer4.Models.ProfileDataRequestContext)">
+            <summary>
+            只要有关用户的身份信息单元被请求（例如在令牌创建期间或通过用户信息终点），就会调用此方法
+            </summary>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.IsActiveAsync(IdentityServer4.Models.IsActiveContext)">
+            <summary>
+            验证用户是否有效 例如：token创建或者验证
+            </summary>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:LinCms.IdentityServer4.IdentityServer4.LinCmsResourceOwnerPasswordValidator">
+            <summary>
+            自定义 Resource owner password 验证器
+            </summary>
+        </member>
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsResourceOwnerPasswordValidator.ValidateAsync(IdentityServer4.Validation.ResourceOwnerPasswordValidationContext)">
+            <summary>
+            验证密码是否正确,生成Claims，返回用户身份信息
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
