@@ -21,19 +21,6 @@ steps:
       sed -i 's/{ConnectionStrings.Default}/$(ConnectionStrings.Default)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
       echo command executed
 
-- task: CopyFilesOverSSH@0
-  inputs:
-    sshEndpoint: 'aliyun_47.106.80.39'
-    sourceFolder: '$(sourceFolder)'
-    contents: '*.pfx'
-    targetFolder: 'identityserver4/LinCms.IdentityServer4/'
-    overwrite: false
-    failOnEmptySource: true
-    flattenFolders: true
-
 - script: |
-    docker build -f $(dockerfilepath) -t $(imageName) .
-    docker login -u $(dockerId) -p $(pwd) $(registry)
-    docker tag $(imageName) $(registry)/$(namespace)/$(imageName)
-    docker push $(registry)/$(namespace)/$(imageName)
+    docker-compose up
   displayName: push to aliyun
