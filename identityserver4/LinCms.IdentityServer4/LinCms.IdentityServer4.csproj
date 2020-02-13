@@ -7,6 +7,7 @@
     <UserSecretsId>75054c79-633b-497e-9b1c-f1b5fe1da2b7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dockerfile" />
     <None Remove="LinCms.IdentityServer4.xml" />
   </ItemGroup>
 
@@ -39,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Dockerfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="LinCms.IdentityServer4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
