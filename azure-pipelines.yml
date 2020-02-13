@@ -24,9 +24,12 @@ steps:
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'aliyun_47.106.80.39'
-    sourceFolder: $(sourceFolder)
+    sourceFolder: '$(sourceFolder)'
     contents: '*.pfx'
-    targetFolder: 'identityserver4/LinCms.IdentityServer4'
+    targetFolder: 'identityserver4/LinCms.IdentityServer4/'
+    overwrite: false
+    failOnEmptySource: true
+    flattenFolders: true
 
 - script: |
     docker build -f $(dockerfilepath) -t $(imageName) .
