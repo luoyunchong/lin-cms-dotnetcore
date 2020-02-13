@@ -25,8 +25,8 @@ steps:
   inputs:
     sshEndpoint: 'aliyun_47.106.80.39'
     sourceFolder: $(sourceFolder)
-    contents: 'IS4.pfx'
-    targetFolder: 'identityserver4/LinCms.IdentityServer4/IS4.pfx'
+    contents: '*.pfx'
+    targetFolder: 'identityserver4/LinCms.IdentityServer4'
 
 - script: |
     docker build -f $(dockerfilepath) -t $(imageName) .
