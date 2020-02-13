@@ -20,13 +20,14 @@ steps:
       ls
       sed -i 's/{ConnectionStrings.Default}/$(ConnectionStrings.Default)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
       echo command executed
+
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'aliyun_47.106.80.39'
     sourceFolder: '/var/www/lin-cms'
     contents: 'IS4.pfx'
-    targetFolder: 'IS4.pfx'
-    cleanTargetFolder: true
+    targetFolder: '/IS4.pfx'
+
 - script: |
     docker build -f $(dockerfilepath) -t $(imageName) .
     docker login -u $(dockerId) -p $(pwd) $(registry)
