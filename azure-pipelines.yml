@@ -24,9 +24,9 @@ steps:
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'aliyun_47.106.80.39'
-    sourceFolder: '/var/www/lin-cms'
+    sourceFolder: $(sourceFolder)
     contents: 'IS4.pfx'
-    targetFolder: '/IS4.pfx'
+    targetFolder: 'identityserver4/LinCms.IdentityServer4/IS4.pfx'
 
 - script: |
     docker build -f $(dockerfilepath) -t $(imageName) .
