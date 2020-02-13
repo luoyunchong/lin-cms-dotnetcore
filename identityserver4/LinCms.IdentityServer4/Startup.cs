@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 using FreeSql;
 using FreeSql.Internal;
-using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Core.Middleware;
 using LinCms.Core.Security;
@@ -14,20 +11,20 @@ using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace LinCms.IdentityServer4
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public IFreeSql Fsql { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -45,8 +42,6 @@ namespace LinCms.IdentityServer4
                 .UseSyncStructureToLower(true) // 转小写同步结构
                 .Build();
         }
-        public IConfiguration Configuration { get; }
-        public IFreeSql Fsql { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -65,10 +60,11 @@ namespace LinCms.IdentityServer4
 #if  DEBUG
                 .AddDeveloperSigningCredential()
 #endif
-#if !DEBUG
-                .AddSigningCredential(new X509Certificate2(Path.Combine(AppContext.BaseDirectory,
-                        Configuration["Certificates:Path"]),
-                    Configuration["Certificates:Password"]))
+#if DEBUG
+                .AddSigningCredential(new X509Certificate2(
+                    Path.Combine(AppContext.BaseDirectory, Configuration["Certificates:Path"]),
+                    Configuration["Certificates:Password"])
+                )
 #endif
                 .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
                 .AddInMemoryApiResources(InMemoryConfiguration.GetApis())
