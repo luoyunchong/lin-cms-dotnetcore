@@ -15,10 +15,10 @@ namespace LinCms.Web.Controllers.Cms
     [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class AdminController : ControllerBase
     {
-        private readonly IUserSevice _userSevice;
+        private readonly IUserService _userSevice;
         private readonly IFreeSql _freeSql;
 
-        public AdminController(IUserSevice userSevice, IFreeSql freeSql)
+        public AdminController(IUserService userSevice, IFreeSql freeSql)
         {
             _userSevice = userSevice;
             _freeSql = freeSql;
@@ -30,9 +30,9 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="searchDto"></param>
         /// <returns></returns>
         [HttpGet("users")]
-        public PagedResultDto<UserDto> GetUserList([FromQuery]UserSearchDto searchDto)
+        public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery]UserSearchDto searchDto)
         {
-            return _userSevice.GetUserList(searchDto);
+            return _userSevice.GetUserListByGroupId(searchDto);
         }
 
         /// <summary>

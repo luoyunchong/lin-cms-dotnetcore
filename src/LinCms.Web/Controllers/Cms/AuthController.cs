@@ -31,7 +31,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             foreach (string auth in authDto.Auths)
             {
-                _freeSql.Delete<LinAuth>().Where("group_id = ?GroupId and auth=?Auth", new LinAuth { Auth = auth, GroupId = authDto.GroupId }).ExecuteAffrows();
+                _freeSql.Delete<LinPermission>().Where("group_id = ?GroupId and auth=?Auth", new LinPermission { Name = auth, GroupId = authDto.GroupId }).ExecuteAffrows();
             }
 
             return ResultDto.Success("删除权限成功");
@@ -47,7 +47,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             List<PermissionDto> permissionDtos = ReflexHelper.GeAssemblyLinCmsAttributes();
 
-            List<LinAuth> linAuths = new List<LinAuth>();
+            List<LinPermission> linAuths = new List<LinPermission>();
             foreach (string auth in authDto.Auths)
             {
                 PermissionDto permission = permissionDtos.FirstOrDefault(r => r.Permission == auth);
@@ -55,10 +55,10 @@ namespace LinCms.Web.Controllers.Cms
                 {
                     throw new LinCmsException($"异常权限:{auth}");
                 }
-                linAuths.Add(new LinAuth(auth,permission.Module,authDto.GroupId));
+                linAuths.Add(new LinPermission(auth,permission.Module,authDto.GroupId));
             }
 
-            _freeSql.Insert<LinAuth>(linAuths).ExecuteAffrows();
+            _freeSql.Insert<LinPermission>(linAuths).ExecuteAffrows();
 
             return ResultDto.Success("添加权限成功");
         }

@@ -18,16 +18,6 @@ namespace LinCms.Core.Security
             return int.Parse(userIdOrNull.Value);
         }
 
-        public static int? FindGroupId(this ClaimsPrincipal principal)
-        {
-            Claim groupOrNull = principal.Claims?.FirstOrDefault(c => c.Type == LinCmsClaimTypes.GroupId);
-            if (groupOrNull == null || groupOrNull.Value.IsNullOrWhiteSpace())
-            {
-                return null;
-            }
-            return int.Parse(groupOrNull.Value);
-        }
-
         public static bool? IsAdmin(this ClaimsPrincipal principal)
         {
             Claim isAdminOrNull = principal.Claims?.FirstOrDefault(c => c.Type == LinCmsClaimTypes.IsAdmin);

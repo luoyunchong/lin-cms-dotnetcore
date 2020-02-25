@@ -1,10 +1,12 @@
 ﻿
+using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Core.Entities
 {
     [Table(Name = "lin_group")]
-    public class LinGroup : Entity
+    public class LinGroup : Entity<long>
     {
         /// <summary>
         /// 权限组名称
@@ -21,6 +23,10 @@ namespace LinCms.Core.Entities
         /// 是否是静态分组
         /// </summary>
         public bool IsStatic { get; set; } = false;
+
+        [Navigate(ManyToMany = typeof(LinUserGroup))]
+        public virtual ICollection<LinUser> LinUsers { get; set; }
+
         /// <summary>
         /// 超级管理员
         /// </summary>

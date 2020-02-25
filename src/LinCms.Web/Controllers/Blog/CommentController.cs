@@ -31,13 +31,13 @@ namespace LinCms.Web.Controllers.Blog
         private readonly AuditBaseRepository<Comment> _commentAuditBaseRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly IUserSevice _userService;
+        private readonly IUserService _userService;
         private readonly ICommentService _commentService;
         private readonly ICapPublisher _capBus;
         private readonly AuditBaseRepository<Article> _articleRepository;
 
         public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper,
-            ICurrentUser currentUser, IUserSevice userService, ICommentService commentService,
+            ICurrentUser currentUser, IUserService userService, ICommentService commentService,
             AuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;

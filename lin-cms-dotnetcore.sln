@@ -15,6 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Plugins", "src\LinCm
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{00EB91C2-D6CD-4A60-9733-32D0790D42A5}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
 		docs\README.md = docs\README.md
 	EndProjectSection
 EndProject

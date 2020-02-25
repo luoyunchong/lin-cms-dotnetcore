@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Entities;
 
 namespace LinCms.Application.Contracts.Cms.Users
@@ -29,8 +30,7 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <summary>
         /// 用户所属的权限组id
         /// </summary>
-        public int? GroupId { get; set; }
-        public string GroupName { get; set; }
+        public List<GroupDto> Groups { get; set; }
 
         public string Introduction { get; set; }
         public string Username { get; set; }

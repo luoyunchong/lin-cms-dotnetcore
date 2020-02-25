@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using LinCms.Application.Cms.Users;
 using LinCms.Core.Common;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
 
 namespace LinCms.IdentityServer4.IdentityServer4
@@ -19,12 +20,14 @@ namespace LinCms.IdentityServer4.IdentityServer4
     public class LinCmsResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly ISystemClock _clock;
-        private readonly AuditBaseRepository<LinUser> _useRepository;
+        private readonly IUserIdentityService _userIdentityService;
+        private readonly IUserService _userSevice;
 
-        public LinCmsResourceOwnerPasswordValidator(ISystemClock clock, AuditBaseRepository<LinUser> useRepository)
+        public LinCmsResourceOwnerPasswordValidator(ISystemClock clock, IUserIdentityService userIdentityService, IUserService userSevice)
         {
             _clock = clock;
-            _useRepository = useRepository;
+            this._userIdentityService = userIdentityService;
+            _userSevice = userSevice;
         }
 
         /// <summary>
@@ -32,27 +35,42 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
+        public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            LinUser user = _useRepository.Where(r => r.Username == context.UserName || r.Email == context.UserName).ToOne();
+            LinUser user = await _userSevice.GetUserAsync(r => r.Username == context.UserName);
 
-            //验证失败
             if (user == null)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户不存在");
-                return Task.CompletedTask;
+                return;
             }
 
-            if (user.Password != LinCmsUtils.Get32Md5(context.Password))
+            bool valid = _userIdentityService.VerifyUsernamePassword(user.Id, context.UserName, context.Password);
+
+            if (!valid)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "请输入正确密码!");
-                return Task.CompletedTask;
+                return;
             }
 
-            _useRepository.UpdateDiy.Set(r => new LinUser()
+            //_freeSql.Update<LinUser>().Set(r => new LinUser()
+            //{
+            //    LastLoginTime = DateTime.Now
+            //}).Where(r => r.Id == user.Id).ExecuteAffrows();
+
+            var claims = new List<Claim>()
             {
-                LastLoginTime = DateTime.Now
-            }).Where(r => r.Id == user.Id).ExecuteAffrows();
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email ?? ""),
+                new Claim(ClaimTypes.GivenName, user.Nickname ?? ""),
+                new Claim(ClaimTypes.Name, user.Username ?? ""),
+                new Claim(LinCmsClaimTypes.IsAdmin, user.IsAdmin().ToString()),
+            };
+
+            user.LinGroups.ForEach(r =>
+             {
+                 claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+             });
 
             //subjectId 为用户唯一标识 一般为用户id
             //authenticationMethod 描述自定义授权类型的认证方法 
@@ -61,18 +79,9 @@ namespace LinCms.IdentityServer4.IdentityServer4
             context.Result = new GrantValidationResult(
                 user.Id.ToString(),
                 OidcConstants.AuthenticationMethods.Password,
-                _clock.UtcNow.UtcDateTime,
-                new List<Claim>()
-                {
-                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                    new Claim(ClaimTypes.Email,user.Email??""),
-                    new Claim(ClaimTypes.GivenName,user.Nickname??""),
-                    new Claim(ClaimTypes.Name,user.Username??""),
-                    new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
-                    new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
-                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())
-                });
-            return Task.CompletedTask;
+                 _clock.UtcNow.UtcDateTime,
+                 claims
+                );
         }
     }
 }

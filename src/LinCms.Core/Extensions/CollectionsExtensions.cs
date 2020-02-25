@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FreeSql;
 using LinCms.Core.Data;
 
@@ -29,6 +30,11 @@ namespace LinCms.Core.Extensions
         public static List<TEntity> ToPagerList<TEntity>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
         {
             return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count).ToList();
+        }
+
+        public static Task<List<TEntity>> ToPagerListAsync<TEntity>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class
+        {
+            return source.Count(out count).Page(pageDto.Page + 1, pageDto.Count).ToListAsync();
         }
 
         public static List<TResult> ToPagerList<TEntity, TResult>(this ISelect<TEntity> source, PageDto pageDto, out long count) where TEntity : class

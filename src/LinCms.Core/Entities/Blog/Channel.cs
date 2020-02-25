@@ -16,10 +16,12 @@ namespace LinCms.Core.Entities.Blog
         /// </summary>
         [Column(DbType = "varchar(100)")]
         public string Thumbnail { get; set; }
+
         /// <summary>
         /// 排序
         /// </summary>
         public int SortCode { get; set; }
+
         /// <summary>
         /// 技术频道名称
         /// </summary>

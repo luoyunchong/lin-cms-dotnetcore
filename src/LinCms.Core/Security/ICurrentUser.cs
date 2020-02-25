@@ -1,14 +1,26 @@
-﻿namespace LinCms.Core.Security
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+
+namespace LinCms.Core.Security
 {
     public interface ICurrentUser
     {
         long? Id { get; }
 
         string UserName { get; }
-        int? GroupId { get; }
+        long[] Groups { get; }
 
         bool? IsAdmin { get; }
 
         string GetFileUrl(string hash);
+
+        Claim FindClaim(string claimType);
+
+        Claim[] FindClaims(string claimType);
+
+        Claim[] GetAllClaims();
+
+
+        bool IsInGroup(long groupId);
     }
 }

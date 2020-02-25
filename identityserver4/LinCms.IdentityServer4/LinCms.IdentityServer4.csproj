@@ -18,12 +18,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Dockerfile" />
-    <None Remove="LinCms.IdentityServer4.xml" />
+    <None Remove="IS4.pfx" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="3.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
@@ -36,12 +36,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\LinCms.Application\LinCms.Application.csproj" />
     <ProjectReference Include="..\..\src\LinCms.Core\LinCms.Core.csproj" />
     <ProjectReference Include="..\..\src\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Dockerfile">
+    <Content Include="IS4.pfx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LinCms.IdentityServer4.xml">
@@ -49,7 +50,7 @@
     </Content>
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1production_1json__JsonSchema="http://json.schemastore.org/appsettings" properties_4launchsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" /></VisualStudio></ProjectExtensions>
 
 
 </Project>

@@ -144,12 +144,12 @@ namespace LinCms.Web.Data
             return expandoObject;
         }
 
-        public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinAuth> listAuths)
+        public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinPermission> listAuths)
         {
             var groupAuths = listAuths.GroupBy(r => r.Module).Select(r => new
             {
                 r.Key,
-                Children = r.Select(u => u.Auth).ToList()
+                Children = r.Select(u => u.Name).ToList()
             }).ToList();
 
             List<IDictionary<string, object>> list=new List<IDictionary<string, object>>();

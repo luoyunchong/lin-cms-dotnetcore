@@ -7,9 +7,9 @@ services:
       context: .
       dockerfile: identityserver4/LinCms.IdentityServer4/Dockerfile
 
-  lincms.web:
-    image: ${DOCKER_REGISTRY-}lincmsweb
-    build:
-      context: .
-      dockerfile: src/LinCms.Web/Dockerfile
+#  lincms.web:
+#    image: ${DOCKER_REGISTRY-}lincmsweb
+#    build:
+#     context: .
+#      dockerfile: src/LinCms.Web/Dockerfile
 
