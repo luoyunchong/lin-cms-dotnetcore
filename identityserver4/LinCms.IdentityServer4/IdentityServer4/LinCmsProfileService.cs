@@ -2,9 +2,11 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
+using LinCms.Application.Cms.Users;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.IdentityServer4.IdentityServer4
@@ -16,17 +18,17 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         private readonly ILogger _logger;
 
-        private readonly IFreeSql _freeSql;
+        private readonly IUserService _userService;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestUserProfileService"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        /// <param name="freeSql"></param>
-        public LinCmsProfileService(ILogger<TestUserProfileService> logger, IFreeSql freeSql)
+        public LinCmsProfileService(ILogger<TestUserProfileService> logger, IUserService userService)
         {
             _logger = logger;
-            _freeSql = freeSql;
+            _userService = userService;
         }
 
         /// <summary>
@@ -38,8 +40,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         {
             context.LogProfileRequest(_logger);
 
-            List<Claim> claims = context.Subject.Claims.ToList();
-            context.IssuedClaims = claims.ToList();
+            context.IssuedClaims = context.Subject.Claims.ToList();
 
             context.LogIssuedClaims(_logger);
 
@@ -51,14 +52,12 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public virtual Task IsActiveAsync(IsActiveContext context)
+        public virtual async Task IsActiveAsync(IsActiveContext context)
         {
             _logger.LogDebug("IsActive called from: {caller}", context.Caller);
 
-            //var user = Users.FindBySubjectId(context.Subject.GetSubjectId());
-            context.IsActive = /*user?.IsActive == */true;
-
-            return Task.CompletedTask;
+            var user = await _userService.GetUserAsync(r => r.Id == context.Subject.GetSubjectId().ToLong());
+            context.IsActive = user.IsActive();
         }
     }
 }

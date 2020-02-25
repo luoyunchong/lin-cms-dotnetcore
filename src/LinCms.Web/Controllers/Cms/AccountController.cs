@@ -27,9 +27,9 @@ namespace LinCms.Web.Controllers.Cms
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
-        private readonly IUserSevice _userSevice;
+        private readonly IUserService _userSevice;
         private readonly IMapper _mapper;
-        public AccountController(IConfiguration configuration, ILogger<AccountController> logger, IUserSevice userSevice, IMapper mapper)
+        public AccountController(IConfiguration configuration, ILogger<AccountController> logger, IUserService userSevice, IMapper mapper)
         {
             _configuration = configuration;
             _logger = logger;
@@ -130,7 +130,6 @@ namespace LinCms.Web.Controllers.Cms
         public ResultDto Post([FromBody] RegisterDto registerDto)
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
-            user.GroupId = LinConsts.Group.User;
 
             _userSevice.Register(user);
 

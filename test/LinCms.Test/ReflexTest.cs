@@ -146,10 +146,10 @@ namespace LinCms.Test
             }
         }
 
-        //LinCms.Zero.Domain.LinAuth Auth:查询日志记录的用户、Module:日志
-        //LinCms.Zero.Domain.LinAuth Auth:查询所有日志、Module:日志
-        //LinCms.Zero.Domain.LinAuth Auth:搜索日志、Module:日志
-        //LinCms.Zero.Domain.LinAuth Auth:查看lin的信息、Module:信息
+        //LinCms.Zero.Domain.LinPermission Auth:查询日志记录的用户、Module:日志
+        //LinCms.Zero.Domain.LinPermission Auth:查询所有日志、Module:日志
+        //LinCms.Zero.Domain.LinPermission Auth:搜索日志、Module:日志
+        //LinCms.Zero.Domain.LinPermission Auth:查看lin的信息、Module:信息
         [Fact]
         public void ConvertToTree()
         {

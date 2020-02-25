@@ -1,22 +1,35 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
+using LinCms.Application;
+using LinCms.Application.AutoMapper.Cms;
+using LinCms.Application.Cms.Users;
+using LinCms.Core.Aop;
+using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
+using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
+using LinCms.Core.Extensions;
 using LinCms.Core.Middleware;
 using LinCms.Core.Security;
 using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace LinCms.IdentityServer4
 {
@@ -60,7 +73,7 @@ namespace LinCms.IdentityServer4
 #if  DEBUG
                 .AddDeveloperSigningCredential()
 #endif
-#if DEBUG
+#if !DEBUG
                 .AddSigningCredential(new X509Certificate2(
                     Path.Combine(AppContext.BaseDirectory, Configuration["Certificates:Path"]),
                     Configuration["Certificates:Password"])
@@ -107,9 +120,50 @@ namespace LinCms.IdentityServer4
             });
             #endregion
 
+            services.AddTransient<IUserIdentityService, UserIdentityService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICurrentUser,CurrentUser>();
 
-            services.AddControllers();
+            services.AddCors();
+            services.AddAutoMapper(typeof(UserProfile).Assembly);
+
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add<LinCmsExceptionFilter>();
+                })
+                .AddNewtonsoftJson(opt =>
+                {
+                    //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                    //设置时间戳格式
+                    opt.SerializerSettings.Converters = new List<JsonConverter>()
+                    {
+                        new LinCmsTimeConverter()
+                    };
+                    // 设置下划线方式，首字母是小写
+                    opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                        {
+                            ProcessDictionaryKeys = true
+                        }
+                    };
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressConsumesConstraintForFormFileParameters = true;
+                    //自定义 BadRequest 响应
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new ValidationProblemDetails(context.ModelState);
+
+                        var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+
+                        return new BadRequestObjectResult(resultDto)
+                        {
+                            ContentTypes = { "application/json" }
+                        };
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -126,6 +180,12 @@ namespace LinCms.IdentityServer4
 
             app.UseAuthorization();
 
+            app.UseCors(builder =>
+            {
+                string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
+
+                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
+            });
             app.UseIdentityServer();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

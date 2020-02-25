@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
 using LinCms.Application.Contracts.Cms.Admins;
@@ -9,46 +12,54 @@ using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
+using LinCms.Core.Extensions;
 using LinCms.Core.Security;
 using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Application.Cms.Users
 {
-    public class UserService : IUserSevice
+    public class UserService : IUserService
     {
         private readonly AuditBaseRepository<LinUser> _userRepository;
-        private readonly BaseRepository<LinGroup> _groupRepository;
+        private readonly AuditBaseRepository<LinUserIdentity> _userIdentityRepository;
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public UserService(AuditBaseRepository<LinUser> userRepository, IFreeSql freeSql, IMapper mapper, ICurrentUser currentUser, BaseRepository<LinGroup> groupRepository)
+        private readonly IUserIdentityService _userIdentityService;
+        public UserService(AuditBaseRepository<LinUser> userRepository,
+            IFreeSql freeSql,
+            IMapper mapper,
+            ICurrentUser currentUser,
+            AuditBaseRepository<LinUserIdentity> userIdentityRepository,
+            IUserIdentityService userIdentityService)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;
             _mapper = mapper;
             _currentUser = currentUser;
-            _groupRepository = groupRepository;
+            _userIdentityRepository = userIdentityRepository;
+            _userIdentityService = userIdentityService;
         }
 
-        public LinUser Authorization(string username, string password)
-        {
-            LinUser user = _userRepository.Select.Where(r => r.Username == username && r.Password == LinCmsUtils.Get32Md5(password)).ToOne();
 
-            return user;
+        public Task<LinUser> GetUserAsync(Expression<Func<LinUser, bool>> expression)
+        {
+            return _userRepository.Select.Where(expression).IncludeMany(r => r.LinGroups).ToOneAsync();
         }
 
-        public void ChangePassword(ChangePasswordDto passwordDto)
+        public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)
         {
-            string oldPassword = LinCmsUtils.Get32Md5(passwordDto.OldPassword);
+            long currentUserId = _currentUser.Id ?? 0;
 
-            _userRepository.Select.Any(r => r.Password == oldPassword && r.Id == _currentUser.Id);
-
-            string newPassword = LinCmsUtils.Get32Md5(passwordDto.NewPassword);
-
-            _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
+            bool valid = _userIdentityService.VerifyUsernamePassword(currentUserId, _currentUser.UserName,
+                  passwordDto.OldPassword);
+            if (valid)
             {
-                Password = newPassword
-            }).ExecuteAffrows();
+                throw new LinCmsException("旧密码不正确");
+            }
+
+            await _userIdentityService.ChangePasswordAsync(currentUserId, passwordDto.NewPassword);
+
         }
 
         public void Delete(int id)
@@ -65,7 +76,7 @@ namespace LinCms.Application.Cms.Users
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            string confirmPassword = LinCmsUtils.Get32Md5(resetPasswordDto.ConfirmPassword);
+            string confirmPassword = EncryptUtil.Encrypt(resetPasswordDto.ConfirmPassword);
 
             _freeSql.Update<LinUser>(id).Set(a => new LinUser()
             {
@@ -74,48 +85,24 @@ namespace LinCms.Application.Cms.Users
 
         }
 
-        /// <summary>
-        /// https://github.com/2881099/FreeSql/wiki/%e8%bf%94%e5%9b%9e%e6%9f%a5%e8%af%a2%e7%9a%84%e6%95%b0%e6%8d%ae   返回更为复杂的结构
-        /// </summary>
-        /// <param name="searchDto"></param>
-        /// <returns></returns>
-        public PagedResultDto<UserDto> GetUserList(UserSearchDto searchDto)
+        public PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto)
         {
-            ISelect<LinUser> select = _userRepository.Select
+            List<UserDto> linUsers = _userRepository.Select
                 .Where(r => r.Admin == (int)UserAdmin.Common)
-                .WhereIf(searchDto.GroupId != null, r => r.GroupId == searchDto.GroupId);
-
-            List<UserDto> linUsers = select
+                .WhereIf(searchDto.GroupId != null, r => r.LinGroups.Any(u => u.Id == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
-                .From<LinGroup>((a, b) =>
-                            a.LeftJoin(c => c.GroupId == b.Id)
-                )
-                .Page(searchDto.Page+1, searchDto.Count)
-                .ToList((a, b) => new
+                .ToPagerList(searchDto, out long totalCount)
+                .Select(r =>
                 {
-                    user = a,
-                    GroupName = b.Name
-                }).Select(r =>
-                {
-                    UserDto userDto = _mapper.Map<UserDto>(r.user);
-                    userDto.GroupName = r.GroupName;
+                    UserDto userDto = _mapper.Map<UserDto>(r);
                     return userDto;
                 }).ToList();
 
-            long totalNums = select.Count();
-
-            return new PagedResultDto<UserDto>(linUsers, totalNums);
+            return new PagedResultDto<UserDto>(linUsers, totalCount);
         }
 
-        public void Register(LinUser user)
+        public async Task Register(LinUser user)
         {
-            bool isExistGroup = _groupRepository.Select.Any(r => r.Id == user.GroupId);
-
-            if (!isExistGroup)
-            {
-                throw new LinCmsException("分组不存在", ErrorCode.NotFound);
-            }
-
             if (!string.IsNullOrEmpty(user.Username))
             {
                 bool isRepeatName = _userRepository.Select.Any(r => r.Username == user.Username);
@@ -124,7 +111,6 @@ namespace LinCms.Application.Cms.Users
                 {
                     throw new LinCmsException("用户名重复，请重新输入", ErrorCode.RepeatField);
                 }
-
             }
 
             if (!string.IsNullOrEmpty(user.Email.Trim()))
@@ -136,11 +122,19 @@ namespace LinCms.Application.Cms.Users
                 }
             }
 
-            user.Active = 1;
-            user.Admin = 1;
-            user.Password = LinCmsUtils.Get32Md5(user.Password);
+            user.Active = UserActive.Active.GetHashCode();
+            user.Admin = UserAdmin.Common.GetHashCode();
 
-            _userRepository.Insert(user);
+            await _userRepository.InsertAsync(user);
+
+            LinUserIdentity userIdentity = new LinUserIdentity()
+            {
+                IdentityType = LinUserIdentity.Password,
+                Credential = EncryptUtil.Encrypt(user.Password),
+                Identifier = user.Username
+            };
+            await _userIdentityRepository.InsertAsync(userIdentity);
+
         }
 
         /// <summary>
@@ -204,14 +198,9 @@ namespace LinCms.Application.Cms.Users
 
         public bool CheckPermission(int userId, string permission)
         {
-            int? groupId = _currentUser.GroupId;
+            long[] groups = _currentUser.Groups;
 
-            if (groupId == 0 || groupId == null)
-            {
-                throw new LinCmsException("当前用户无任何分组！");
-            }
-
-            bool existPermission = _freeSql.Select<LinAuth>().Any(r => r.GroupId == groupId && r.Auth == permission);
+            bool existPermission = _freeSql.Select<LinPermission>().Any(r => groups.Contains(r.GroupId) && r.Name == permission);
 
             return existPermission;
         }
@@ -220,7 +209,7 @@ namespace LinCms.Application.Cms.Users
         {
             if (_currentUser.Id != null)
             {
-                long userId = (long) _currentUser.Id;
+                long userId = (long)_currentUser.Id;
                 return _userRepository.Select.Where(r => r.Id == userId).ToOne();
             }
             return null;

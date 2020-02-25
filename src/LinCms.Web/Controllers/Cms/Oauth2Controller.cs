@@ -27,7 +27,7 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IHttpContextAccessor _contextAccessor;
         private const string LoginProviderKey = "LoginProvider";
         private readonly IConfiguration _configuration;
-        private readonly IUserCommunityService _userCommunityService;
+        private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
 
         public IFreeSql FreeSql { get; }
@@ -35,7 +35,7 @@ namespace LinCms.Web.Controllers.Cms
         public Oauth2Controller(IHttpContextAccessor contextAccessor,
                                 IConfiguration configuration,
                                 IFreeSql freeSql,
-                                IUserCommunityService userCommunityService,
+                                IUserIdentityService userCommunityService,
                                 ILogger<Oauth2Controller> logger)
         {
             _contextAccessor = contextAccessor;
@@ -73,14 +73,14 @@ namespace LinCms.Web.Controllers.Cms
             long id = 0;
             switch (provider)
             {
-                case LinUserCommunity.GitHub:
+                case LinUserIdentity.GitHub:
                     id = _userCommunityService.SaveGitHub(authenticateResult.Principal, openIdClaim.Value);
                     break;
 
-                case LinUserCommunity.QQ:
+                case LinUserIdentity.QQ:
 
                     break;
-                case LinUserCommunity.WeiXin:
+                case LinUserIdentity.WeiXin:
 
                     break;
                 default:
@@ -97,9 +97,9 @@ namespace LinCms.Web.Controllers.Cms
                     new Claim(ClaimTypes.Email,user.Email??""),
                     new Claim(ClaimTypes.GivenName,user.Nickname??""),
                     new Claim(ClaimTypes.Name,user.Username??""),
-                    new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
+                    //new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
                     new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
-                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())
+                    //new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())
                 };
 
             claims.AddRange(authClaims);

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using LinCms.Application.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
@@ -19,112 +21,49 @@ namespace LinCms.Web.Controllers.Cms
     public class GroupController : ControllerBase
     {
         private readonly IFreeSql _freeSql;
-        private readonly IMapper _mapper;
-        public GroupController(IFreeSql freeSql, IMapper mapper)
+        private readonly IGroupService _groupService;
+        public GroupController(IFreeSql freeSql, IGroupService groupService)
         {
             _freeSql = freeSql;
-            _mapper = mapper;
+            _groupService = groupService;
         }
 
         [HttpGet("all")]
-        public IEnumerable<LinGroup> Get()
+        public Task<PagedResultDto<LinGroup>> GetListAsync(PageDto input)
         {
-            return _freeSql.Select<LinGroup>().OrderByDescending(r => r.Id).ToList();
+            return _groupService.GetListAsync(input);
         }
 
         [HttpGet("{id}")]
-        public GroupDto Get(int id)
+        public async Task<GroupDto> GetAsync(long id)
         {
-            LinGroup group = _freeSql.Select<LinGroup>().Where(r => r.Id == id).First();
-
-            GroupDto groupDto = _mapper.Map<GroupDto>(group);
-
-            List<LinAuth> listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == id).ToList();
-
+            GroupDto groupDto = await _groupService.GetAsync(id);
+            List<LinPermission> listAuths = _freeSql.Select<LinPermission>().Where(r => r.GroupId == id).ToList();
             groupDto.Auths = ReflexHelper.AuthsConvertToTree(listAuths);
             return groupDto;
         }
 
         [AuditingLog("管理员新建了一个权限组")]
         [HttpPost]
-        public ResultDto Post([FromBody] CreateGroupDto inputDto)
+        public async Task<ResultDto> CreateAsync([FromBody] CreateGroupDto inputDto)
         {
-            bool exist = _freeSql.Select<LinGroup>().Any(r => r.Name == inputDto.Name);
-            if (exist)
-            {
-                throw new LinCmsException("分组已存在，不可创建同名分组", ErrorCode.RepeatField);
-            }
-
-            LinGroup linGroup = _mapper.Map<LinGroup>(inputDto);
-            List<PermissionDto> permissionDtos = ReflexHelper.GeAssemblyLinCmsAttributes();
-
-            _freeSql.Transaction(() =>
-            {
-                long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
-
-                //批量插入
-                List<LinAuth> linAuths = new List<LinAuth>();
-                inputDto.Auths.ForEach(r =>
-                {
-                    PermissionDto pdDto = permissionDtos.FirstOrDefault(u => u.Permission == r);
-                    if (pdDto == null)
-                    {
-                        throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
-                    }
-                    linAuths.Add(new LinAuth(r, pdDto.Module, (int)groupId));
-                });
-
-                _freeSql.Insert<LinAuth>().AppendData(linAuths).ExecuteAffrows();
-            });
+            await _groupService.CreateAsync(inputDto);
             return ResultDto.Success("新建分组成功");
         }
 
         [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] UpdateGroupDto updateGroupDto)
+        public async Task<ResultDto> UpdateAsync(long id, [FromBody] UpdateGroupDto updateGroupDto)
         {
-            _freeSql.Update<LinGroup>(id).Set(a => new LinGroup()
-            {
-                Info = updateGroupDto.Info,
-                Name = updateGroupDto.Name
-            }).ExecuteAffrows();
-
+            await _groupService.UpdateAsync(id, updateGroupDto);
             return ResultDto.Success("更新分组成功");
         }
 
-        /// <summary>
-        /// 删除一个权限组
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+     
         [HttpDelete("{id}")]
-        [AuditingLog("管理员删除一个权限组")]
-        public ResultDto Delete(int id)
+        [AuditingLog("管理员删除一个权限分组")]
+        public async Task<ResultDto> DeleteAsync(long id)
         {
-           LinGroup linGroup= _freeSql.Select<LinGroup>(new {id = id}).First();
-
-            if (linGroup.IsNull())
-            {
-                throw new LinCmsException("分组不存在，删除失败", ErrorCode.NotFound,StatusCodes.Status404NotFound);
-            }
-
-            if (linGroup.IsStatic)
-            {
-                throw new LinCmsException("无法删除静态权限组!");
-            }
-
-            bool exist = _freeSql.Select<LinUser>().Any(r => r.GroupId == id);
-            if (exist)
-            {
-                throw new LinCmsException("分组下存在用户，不可删除", ErrorCode.Inoperable);
-            }
-            _freeSql.Transaction(() =>
-            {
-                //删除group拥有的权限
-                _freeSql.Delete<LinAuth>().Where("group_id=?GroupId", new LinAuth() { GroupId = id }).ExecuteAffrows();
-                //删除group表
-                _freeSql.Delete<LinGroup>(new { id = id }).ExecuteAffrows();
-            });
-
+            await _groupService.DeleteAsync(id);
             return ResultDto.Success("删除分组成功");
         }
 

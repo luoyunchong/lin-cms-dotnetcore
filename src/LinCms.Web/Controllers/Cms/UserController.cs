@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Web.Data;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Core.Exceptions;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +24,11 @@ namespace LinCms.Web.Controllers.Cms
     {
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
-        private readonly IUserSevice _userSevice;
+        private readonly IUserService _userSevice;
         private readonly ICurrentUser _currentUser;
         private readonly AuditBaseRepository<LinUser> _userRepository;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserSevice userSevice, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository)
         {
             _freeSql = freeSql;
             _mapper = mapper;
@@ -44,39 +47,34 @@ namespace LinCms.Web.Controllers.Cms
         /// 得到当前登录人信息
         /// </summary>
         [HttpGet("information")]
-        public UserInformation GetInformation()
+        public async Task<UserInformation> GetInformationAsync()
         {
-            LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
+            LinUser linUser = await _userSevice.GetUserAsync(r => r.Id == _currentUser.Id);
             linUser.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
 
-            return _mapper.Map<UserInformation>(linUser);
+            UserInformation userInformation = _mapper.Map<UserInformation>(linUser);
+            userInformation.Groups = linUser.LinGroups.Select(r => _mapper.Map<GroupDto>(r)).ToList();
+
+            return userInformation;
         }
 
         /// <summary>
         /// 查询自己拥有的权限
         /// </summary>
         /// <returns></returns>
-        [HttpGet("auths")]
-        public UserInformation Auths()
+        [HttpGet("permissions")]
+        public async Task<UserInformation> Permissions()
         {
-            LinUser linUser = _freeSql.Select<LinUser>().Where(r => r.Id == _currentUser.Id).First();
+            UserInformation user = await this.GetInformationAsync();
 
-            UserInformation user = _mapper.Map<UserInformation>(linUser);
-            user.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
-            user.GroupName = user.GroupId != null ? _freeSql.Select<LinGroup>().Where(r => r.Id == user.GroupId).First()?.Info : "";
-            if (linUser.IsAdmin())
+            if (user.Groups.Count != 0)
             {
-                user.Auths = new List<IDictionary<string, object>>();
-            }
-            else
-            {
-                if (linUser.GroupId != 0)
-                {
-                    List<LinAuth> listAuths = _freeSql.Select<LinAuth>().Where(r => r.GroupId == linUser.GroupId).ToList();
+                var groupIds = user.Groups.Select(r => r.Id).ToArray();
 
-                    user.Auths = ReflexHelper.AuthsConvertToTree(listAuths); ;
+                List<LinPermission> listAuths = _freeSql.Select<LinPermission>().Where(a => groupIds.Contains(a.GroupId)).ToList();
 
-                }
+                user.Auths = ReflexHelper.AuthsConvertToTree(listAuths); ;
+
             }
 
             return user;
@@ -96,22 +94,23 @@ namespace LinCms.Web.Controllers.Cms
             return ResultDto.Success("用户创建成功");
         }
 
-        [AuditingLog("{0}修改了自己的密码")]
+        [AuditingLog("修改了自己的密码")]
         [HttpPut("change_password")]
-        public ResultDto ChangePassword([FromBody] ChangePasswordDto passwordDto)
+        public async Task<ResultDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
         {
-            _userSevice.ChangePassword(passwordDto);
+            await _userSevice.ChangePasswordAsync(passwordDto);
 
             return ResultDto.Success("密码修改成功");
         }
 
         [HttpPut("avatar")]
-        public ResultDto SetAvatar(UpdateAvatarDto avatarDto)
+        public async Task<ResultDto> SetAvatar(UpdateAvatarDto avatarDto)
         {
-            _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
+            await _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
                 Avatar = avatarDto.Avatar
-            }).ExecuteAffrows();
+            }).ExecuteAffrowsAsync();
+
             return ResultDto.Success("更新头像成功");
         }
 

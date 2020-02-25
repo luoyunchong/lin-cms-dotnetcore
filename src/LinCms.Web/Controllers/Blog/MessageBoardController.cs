@@ -29,10 +29,10 @@ namespace LinCms.Web.Controllers.Blog
     {
         private readonly AuditBaseRepository<MessageBoard> _messageBoardRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserSevice _userService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public MessageBoardController(AuditBaseRepository<MessageBoard> messageBoardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserSevice userService, ICurrentUser currentUser)
+        public MessageBoardController(AuditBaseRepository<MessageBoard> messageBoardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, ICurrentUser currentUser)
         {
             _messageBoardRepository = messageBoardRepository;
             _mapper = mapper;

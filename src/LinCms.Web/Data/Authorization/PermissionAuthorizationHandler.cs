@@ -9,13 +9,13 @@ namespace LinCms.Web.Data.Authorization
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
     {
-        private readonly IUserSevice _userService;
+        private readonly IUserService _userService;
 
         public PermissionAuthorizationHandler()
         {
         }
 
-        public PermissionAuthorizationHandler(IUserSevice userService)
+        public PermissionAuthorizationHandler(IUserService userService)
         {
             _userService = userService;
         }

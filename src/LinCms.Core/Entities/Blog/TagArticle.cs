@@ -7,9 +7,11 @@ namespace LinCms.Core.Entities.Blog
     public class TagArticle:Entity<Guid>
     {
         public Guid TagId { get; set; }
+
         public Guid ArticleId { get; set; }
 
         public virtual Tag Tag { get; set; }
+
         public virtual Article Article { get; set; }
     }
 }

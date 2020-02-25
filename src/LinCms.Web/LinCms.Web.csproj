@@ -30,15 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Dockerfile" />
     <None Remove="wwwroot\_Illegal\IllegalBit.iws" />
     <None Remove="wwwroot\_Illegal\IllegalInfo.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Dockerfile">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

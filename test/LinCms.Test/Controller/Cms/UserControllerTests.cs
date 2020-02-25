@@ -30,18 +30,16 @@ namespace LinCms.Test.Controller.Cms
                     CreateTime = DateTime.Now,
                     Email = "122",
                     Introduction = "122",
-                    GroupId = LinConsts.Group.User,
                     Nickname = "122",
                     Username = "122"
                 }).ExecuteIdentity();
 
-                FreeSql.Insert(new LinUserCommunity
+                FreeSql.Insert(new LinUserIdentity
                 {
                     CreateTime = DateTime.Now,
-                    OpenId = "122",
-                    IdentityType = LinUserCommunity.WeiXin,
-                    UserName = "122",
-                    BlogAddress = "122",
+                    Credential = "122",
+                    IdentityType = LinUserIdentity.WeiXin,
+                    Identifier = "122",
                     CreateUserId = insertId
                 }).ExecuteAffrows();
             }));

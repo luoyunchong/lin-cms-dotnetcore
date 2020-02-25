@@ -16,7 +16,7 @@ namespace LinCms.Test
         [Fact]
         public void Get32Md5One()
         {
-            string result = LinCmsUtils.Get32Md5("123qwe");
+            string result = EncryptUtil.Encrypt("123qwe");
             _testOutputHelper.WriteLine(result);
         }
     }
