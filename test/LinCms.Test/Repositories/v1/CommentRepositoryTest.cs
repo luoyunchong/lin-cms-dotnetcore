@@ -10,7 +10,7 @@ using LinCms.Core.Extensions;
 
 namespace LinCms.Test.Repositories.v1
 {
-    public class CommentRepositoryTest : BaseRepositoryTest
+    public class CommentRepositoryTest : BaseLinCmsTest
     {
         private readonly BaseRepository<Comment> _baseRepository;
 

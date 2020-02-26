@@ -7,7 +7,7 @@ namespace LinCms.Application.Cms.Users
  
     public interface IUserIdentityService
     {
-        long SaveGitHub(ClaimsPrincipal principal, string openId);
+        Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId);
         /// <summary>
         /// 验证用户密码是否正确
         /// </summary>

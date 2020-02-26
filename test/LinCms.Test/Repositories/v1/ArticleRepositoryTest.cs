@@ -1,7 +1,5 @@
-﻿using LinCms.Application.Contracts.Cms.Users;
-using Xunit;
+﻿using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 using Xunit.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,7 @@ using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Test.Repositories.v1
 {
-    public class ArticleRepositoryTest : BaseRepositoryTest
+    public class ArticleRepositoryTest : BaseLinCmsTest
     {
         private readonly AuditBaseRepository<Article> _articleRepository;
         private readonly AuditBaseRepository<Tag> _tagRepository;
@@ -211,6 +209,15 @@ namespace LinCms.Test.Repositories.v1
 
             _testOutputHelper.WriteLine(sql2);
 
+        }
+
+        [Fact]
+        public void TestIncludeManyList()
+        {
+            List<ArticleListDto> articles2 = _articleRepository.Select
+                .Include(r => r.UserInfo)
+                .ToList(r => new ArticleListDto())
+                .IncludeMany(_articleRepository.Orm, r => r.Tags, r => r.Where(u => u.Status));
         }
     }
 }

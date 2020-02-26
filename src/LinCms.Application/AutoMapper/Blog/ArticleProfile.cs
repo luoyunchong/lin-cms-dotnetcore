@@ -10,6 +10,7 @@ namespace LinCms.Application.AutoMapper.Blog
         {
             CreateMap<CreateUpdateArticleDto, Article>();
             CreateMap<Article, ArticleDto>();
+            CreateMap<Article, ArticleListDto>();
         }
     }
 }

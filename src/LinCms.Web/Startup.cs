@@ -313,8 +313,8 @@ namespace LinCms.Web
                     .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                     //表示将类型注册为提供其所有公共接口作为服务
                     .AsImplementedInterfaces()
-                    //表示注册的生命周期为 Transient
-                    .WithTransientLifetime()
+                    //表示注册的生命周期为 Scope
+                    .WithScopedLifetime()
                     // We start out with all types in the assembly of ITransientService
                     .FromAssemblyOf<IScopeDependency>()
                     // AddClasses starts out with all public, non-abstract types in this assembly.
@@ -418,7 +418,7 @@ namespace LinCms.Web
             //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Admins;
 using LinCms.Application.Contracts.Cms.Users;
@@ -55,10 +56,9 @@ namespace LinCms.Web.Controllers.Cms
         /// <returns></returns>
         [AuditingLog("管理员删除了一个用户")]
         [HttpDelete("{id}")]
-        public ResultDto Delete(int id)
+        public Task DeleteAsync(int id)
         {
-            _userSevice.Delete(id);
-            return ResultDto.Success();
+            return _userSevice.DeleteAsync(id);
         }
 
         /// <summary>

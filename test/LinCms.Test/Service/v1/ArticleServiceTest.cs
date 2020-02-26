@@ -9,7 +9,7 @@ using Xunit;
 
 namespace LinCms.Test.Service.v1
 {
-    public class ArticleServiceTest : BaseRepositoryTest
+    public class ArticleServiceTest : BaseLinCmsTest
     {
         private readonly ITestOutputHelper _testOutputHelper;
         private readonly IArticleService _articleService;

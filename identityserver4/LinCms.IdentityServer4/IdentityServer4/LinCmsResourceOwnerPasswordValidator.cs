@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Entities;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication;
 
 namespace LinCms.IdentityServer4.IdentityServer4
@@ -15,13 +17,13 @@ namespace LinCms.IdentityServer4.IdentityServer4
     {
         private readonly ISystemClock _clock;
         private readonly IUserIdentityService _userIdentityService;
-        private readonly IUserService _userSevice;
+        private readonly UserRepository _userRepository;
 
-        public LinCmsResourceOwnerPasswordValidator(ISystemClock clock, IUserIdentityService userIdentityService, IUserService userSevice)
+        public LinCmsResourceOwnerPasswordValidator(ISystemClock clock, IUserIdentityService userIdentityService, UserRepository userRepository)
         {
             _clock = clock;
             this._userIdentityService = userIdentityService;
-            _userSevice = userSevice;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// <returns></returns>
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            LinUser user = await _userSevice.GetUserAsync(r => r.Username == context.UserName);
+            LinUser user = await _userRepository.Select.Where(r => r.Username == context.UserName).ToOneAsync();
 
             if (user == null)
             {
@@ -47,10 +49,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 return;
             }
 
-            //_freeSql.Update<LinUser>().Set(r => new LinUser()
-            //{
-            //    LastLoginTime = DateTime.Now
-            //}).Where(r => r.Id == user.Id).ExecuteAffrows();
+            await _userRepository.UpdateLastLoginTimeAsync(user.Id);
 
             //subjectId 为用户唯一标识 一般为用户id
             //authenticationMethod 描述自定义授权类型的认证方法 

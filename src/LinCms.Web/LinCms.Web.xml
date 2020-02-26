@@ -261,7 +261,7 @@
             <param name="updateUserDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.Delete(System.Int32)">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.DeleteAsync(System.Int32)">
             <summary>
             删除用户
             </summary>

@@ -28,12 +28,12 @@ namespace LinCms.Web.Controllers.Blog
     public class UserSubscribeController : ControllerBase
     {
         private readonly AuditBaseRepository<UserSubscribe> _userSubscribeRepository;
-        private readonly AuditBaseRepository<LinUser> _userRepository;
+        private readonly UserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly BaseRepository<UserTag> _userTagRepository;
         private readonly ICapPublisher _capBus;
-        public UserSubscribeController(AuditBaseRepository<UserSubscribe> userSubscribeRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository, BaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher)
+        public UserSubscribeController(AuditBaseRepository<UserSubscribe> userSubscribeRepository, IMapper mapper, ICurrentUser currentUser, UserRepository userRepository, BaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher)
         {
             _userSubscribeRepository = userSubscribeRepository;
             _mapper = mapper;

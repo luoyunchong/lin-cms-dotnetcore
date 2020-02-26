@@ -74,7 +74,7 @@ namespace LinCms.Web.Controllers.Cms
             switch (provider)
             {
                 case LinUserIdentity.GitHub:
-                    id = _userCommunityService.SaveGitHub(authenticateResult.Principal, openIdClaim.Value);
+                    id = await _userCommunityService.SaveGitHubAsync(authenticateResult.Principal, openIdClaim.Value);
                     break;
 
                 case LinUserIdentity.QQ:
@@ -111,7 +111,7 @@ namespace LinCms.Web.Controllers.Cms
 
 
         /// <summary>
-        /// https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=http://localhost:8080/login-result
+        /// https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=http://localhost:8080/#login-result
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="redirectUrl"></param>

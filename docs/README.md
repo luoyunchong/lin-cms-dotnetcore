@@ -29,3 +29,10 @@ token_endpoint:
 - lincms-web [http://47.106.80.39:5011/swagger/index.html](http://47.106.80.39:5011/swagger/index.html)
 - cap [http://47.106.80.39:5011/cap](http://47.106.80.39:5011/cap)
 - Portainer  [http://47.106.80.39:9000/#/home](http://47.106.80.39:9000/#/home)
+
+
+
+
+github快速登录，使用的myget的源。
+
+[https://www.myget.org/feed/aspnet-contrib/package/nuget/AspNet.Security.OAuth.GitHub](https://www.myget.org/feed/aspnet-contrib/package/nuget/AspNet.Security.OAuth.GitHub)

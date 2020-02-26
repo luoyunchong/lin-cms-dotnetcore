@@ -22,7 +22,8 @@ namespace LinCms.Test.Controller
         protected BaseControllerTests()
         {
             var server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseStartup<Startup>()
+                .UseEnvironment("Development")
+                .UseStartup<TestStartup>()
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
