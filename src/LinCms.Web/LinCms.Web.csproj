@@ -11,8 +11,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.Web.xml</DocumentationFile>
-    <OutputPath>bin\Debug</OutputPath>
+    <DocumentationFile>LinCms.Web.xml</DocumentationFile>
+    <OutputPath></OutputPath>
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
@@ -25,7 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="LinCms.Web.xml" />
     <None Remove="wwwroot\_Illegal\IllegalBit.iws" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="LinCms.Web.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
