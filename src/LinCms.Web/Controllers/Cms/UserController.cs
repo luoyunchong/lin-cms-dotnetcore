@@ -26,9 +26,9 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IMapper _mapper;
         private readonly IUserService _userSevice;
         private readonly ICurrentUser _currentUser;
-        private readonly AuditBaseRepository<LinUser> _userRepository;
+        private readonly UserRepository _userRepository;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, AuditBaseRepository<LinUser> userRepository)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, UserRepository userRepository)
         {
             _freeSql = freeSql;
             _mapper = mapper;

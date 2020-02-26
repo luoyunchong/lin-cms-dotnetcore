@@ -14,8 +14,8 @@ namespace LinCms.Application.Cms.Logs
     {
         private readonly BaseRepository<LinLog> _linLogRepository;
         private readonly ICurrentUser _currentUser;
-        private readonly AuditBaseRepository<LinUser> _linUserAuditBaseRepository;
-        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, AuditBaseRepository<LinUser> linUserAuditBaseRepository)
+        private readonly UserRepository _linUserAuditBaseRepository;
+        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, UserRepository linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
             _currentUser = currentUser;

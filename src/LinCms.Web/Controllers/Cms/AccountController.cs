@@ -66,7 +66,7 @@ namespace LinCms.Web.Controllers.Cms
                 },
                 Scope = _configuration["Service:Name"]
             });
-
+            client.Dispose();
             if (response.IsError)
             {
                 throw new LinCmsException(response.ErrorDescription);

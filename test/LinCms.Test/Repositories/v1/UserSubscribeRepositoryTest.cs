@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Test.Repositories.v1
 {
-    public class UserSubscribeRepositoryTest : BaseRepositoryTest
+    public class UserSubscribeRepositoryTest : BaseLinCmsTest
     {
         private readonly AuditBaseRepository<UserSubscribe> _userSubscribeRepository;
         public UserSubscribeRepositoryTest() : base()

@@ -12,7 +12,7 @@ using Xunit;
 
 namespace LinCms.Test.Repositories
 {
-    public class AuditBaseRepositoryTests : BaseRepositoryTest
+    public class AuditBaseRepositoryTests : BaseLinCmsTest
     {
         private readonly AuditBaseRepository<Book> _bookRepository;
 

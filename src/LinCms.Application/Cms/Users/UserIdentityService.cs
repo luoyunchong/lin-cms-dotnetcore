@@ -7,15 +7,18 @@ using AspNet.Security.OAuth.GitHub;
 using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
+using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Application.Cms.Users
 {
     public class UserIdentityService : IUserIdentityService
     {
         private readonly IFreeSql _freeSql;
-        public UserIdentityService(IFreeSql freeSql)
+        private readonly UserRepository _userRepository;
+        public UserIdentityService(IFreeSql freeSql, UserRepository userRepository)
         {
             _freeSql = freeSql;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -24,7 +27,7 @@ namespace LinCms.Application.Cms.Users
         /// <param name="principal"></param>
         /// <param name="openId"></param>
         /// <returns></returns>
-        public long SaveGitHub(ClaimsPrincipal principal, string openId)
+        public async Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId)
         {
             string email = principal.FindFirst(ClaimTypes.Email)?.Value;
             string name = principal.FindFirst(ClaimTypes.Name)?.Value;
@@ -40,12 +43,13 @@ namespace LinCms.Application.Cms.Users
             long userId = 0;
             if (linUserIdentity == null)
             {
-                userId = _freeSql.Insert(new LinUser
+                LinUser user = new LinUser
                 {
                     Admin = (int)UserAdmin.Common,
                     Active = (int)UserActive.Active,
                     Avatar = avatarUrl,
                     CreateTime = DateTime.Now,
+                    LastLoginTime = DateTime.Now,
                     Email = email,
                     Introduction = bio,
                     LinUserGroups = new List<LinUserGroup>()
@@ -55,7 +59,6 @@ namespace LinCms.Application.Cms.Users
                             GroupId = LinConsts.Group.User
                         }
                     },
-
                     Nickname = gitHubName,
                     Username = email,
                     BlogAddress = blogAddress,
@@ -67,19 +70,16 @@ namespace LinCms.Application.Cms.Users
                             Credential = openId,
                             IdentityType = LinUserIdentity.GitHub,
                             Identifier = name,
-                            CreateUserId = userId
                         }
                     }
-                }).ExecuteIdentity();
+                };
+                await _userRepository.InsertAsync(user);
+                userId = user.Id;
             }
             else
             {
                 userId = linUserIdentity.CreateUserId;
-
-                //_freeSql.Update<LinUserIdentity>(linUserIdentity.Id).Set(r => new LinUserIdentity()
-                //{
-                //    BlogAddress = blogAddress,
-                //}).ExecuteAffrows();
+                await _userRepository.UpdateLastLoginTimeAsync(linUserIdentity.CreateUserId);
             }
 
             return userId;

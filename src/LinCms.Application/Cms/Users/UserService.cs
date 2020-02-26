@@ -20,27 +20,23 @@ namespace LinCms.Application.Cms.Users
 {
     public class UserService : IUserService
     {
-        private readonly AuditBaseRepository<LinUser> _userRepository;
-        private readonly AuditBaseRepository<LinUserIdentity> _userIdentityRepository;
+        private readonly UserRepository _userRepository;
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IUserIdentityService _userIdentityService;
-        public UserService(AuditBaseRepository<LinUser> userRepository,
+        public UserService(UserRepository userRepository,
             IFreeSql freeSql,
             IMapper mapper,
             ICurrentUser currentUser,
-            AuditBaseRepository<LinUserIdentity> userIdentityRepository,
             IUserIdentityService userIdentityService)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;
             _mapper = mapper;
             _currentUser = currentUser;
-            _userIdentityRepository = userIdentityRepository;
             _userIdentityService = userIdentityService;
         }
-
 
         public Task<LinUser> GetUserAsync(Expression<Func<LinUser, bool>> expression)
         {
@@ -59,12 +55,12 @@ namespace LinCms.Application.Cms.Users
             }
 
             await _userIdentityService.ChangePasswordAsync(currentUserId, passwordDto.NewPassword);
-
         }
 
-        public void Delete(int id)
+
+        public async Task DeleteAsync(int id)
         {
-            _userRepository.Delete(r => r.Id == id);
+            await _userRepository.DeleteAsync(r => r.Id == id);
         }
 
         public void ResetPassword(int id, ResetPasswordDto resetPasswordDto)
@@ -124,16 +120,16 @@ namespace LinCms.Application.Cms.Users
 
             user.Active = UserActive.Active.GetHashCode();
             user.Admin = UserAdmin.Common.GetHashCode();
-
-            await _userRepository.InsertAsync(user);
-
-            LinUserIdentity userIdentity = new LinUserIdentity()
+            user.LinUserIdentitys = new List<LinUserIdentity>()
             {
-                IdentityType = LinUserIdentity.Password,
-                Credential = EncryptUtil.Encrypt(user.Password),
-                Identifier = user.Username
+                new LinUserIdentity()
+                {
+                    IdentityType = LinUserIdentity.Password,
+                    Credential = EncryptUtil.Encrypt(user.Password),
+                    Identifier = user.Username
+                }
             };
-            await _userIdentityRepository.InsertAsync(userIdentity);
+            await _userRepository.InsertAsync(user);
 
         }
 
@@ -172,9 +168,9 @@ namespace LinCms.Application.Cms.Users
         }
 
 
-        public void ChangeStatus(int id, UserActive userActive)
+        public async Task ChangeStatusAsync(int id, UserActive userActive)
         {
-            LinUser user = _userRepository.Select.Where(r => r.Id == id).ToOne();
+            LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
 
             if (user == null)
             {
@@ -190,10 +186,10 @@ namespace LinCms.Application.Cms.Users
                 throw new LinCmsException("当前用户已处于激活状态");
             }
 
-            _freeSql.Update<LinUser>(id).Set(a => new LinUser()
+            await _freeSql.Update<LinUser>(id).Set(a => new LinUser()
             {
                 Active = userActive.GetHashCode()
-            }).ExecuteAffrows();
+            }).ExecuteAffrowsAsync();
         }
 
         public bool CheckPermission(int userId, string permission)

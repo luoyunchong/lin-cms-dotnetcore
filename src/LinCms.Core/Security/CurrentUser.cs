@@ -48,7 +48,7 @@ namespace LinCms.Core.Security
         public string GetFileUrl(string path)
         {
             if (string.IsNullOrEmpty(path)) return "";
-            if (path.Contains("http"))
+            if (path.StartsWith("http"))
             {
                 return path;
             }

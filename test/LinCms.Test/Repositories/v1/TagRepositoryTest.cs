@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LinCms.Test.Repositories.v1
 {
-    public class TagRepositoryTest : BaseRepositoryTest
+    public class TagRepositoryTest : BaseLinCmsTest
     {
 
         private readonly AuditBaseRepository<Tag> _tagRepository;

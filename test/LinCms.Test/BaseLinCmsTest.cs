@@ -1,38 +1,33 @@
 ﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using AutoMapper;
-using IdentityModel.Client;
-using IdentityServer4.Models;
-using LinCms.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
-using Xunit;
 
-using Microsoft.Extensions.DependencyInjection;
-
-namespace LinCms.Test.Repositories
+namespace LinCms.Test
 {
-    public abstract class BaseRepositoryTest
+    public abstract class BaseLinCmsTest
     {
 
         protected readonly IServiceProvider ServiceProvider;
         protected readonly IWebHostEnvironment HostingEnv;
         protected readonly IMapper Mapper;
         protected readonly IFreeSql FreeSql;
-        protected BaseRepositoryTest()
+        protected BaseLinCmsTest()
         {
             var server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseStartup<Startup>()
+                .UseEnvironment("Development")
+                .UseStartup<TestStartup>()
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Trace);
                     logging.AddConsole();
-                }).UseNLog()); ;
+                }).UseNLog()
+            ); ;
             ServiceProvider = server.Host.Services;
 
             HostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();

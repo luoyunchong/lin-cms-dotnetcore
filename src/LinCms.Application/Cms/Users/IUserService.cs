@@ -23,28 +23,35 @@ namespace LinCms.Application.Cms.Users
         /// </summary>
         /// <param name="passwordDto"></param>
         Task ChangePasswordAsync(ChangePasswordDto passwordDto);
+
         /// <summary>
         /// 根据分组条件查询用户信息
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
         PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto);
+
         /// <summary>
         /// 修改用户状态
         /// </summary>
         /// <param name="id"></param>
         /// <param name="userActive"></param>
-        void ChangeStatus(int id, UserActive userActive);
+        Task ChangeStatusAsync(int id, UserActive userActive);
 
         /// <summary>
         /// 注册-新增一个用户
         /// </summary>
         /// <param name="user"></param>
         Task Register(LinUser user);
+
         void UpdateUserInfo(int id, UpdateUserDto updateUserDto);
-        void Delete(int id);
+
+        Task DeleteAsync(int id);
+
         void ResetPassword(int id, ResetPasswordDto resetPasswordDto);
+
         bool CheckPermission(int userId, string permission);
+
         /// <summary>
         /// 得到当前用户上下文
         /// </summary>

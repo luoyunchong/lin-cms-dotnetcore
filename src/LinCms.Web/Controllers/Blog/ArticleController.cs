@@ -82,23 +82,17 @@ namespace LinCms.Web.Controllers.Blog
         [AllowAnonymous]
         public PagedResultDto<ArticleListDto> Get([FromQuery]ArticleSearchDto searchDto)
         {
-            var select = _articleRepository
+            List<ArticleListDto> articles = _articleRepository
                 .Select
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .Where(r => r.CreateUserId == _currentUser.Id)
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
                 .OrderByDescending(r => r.IsStickie)
-                .OrderByDescending(r => r.Id);
-
-            var articles = select
-            .ToPagerList(searchDto, out long totalCount)
-            .Select(a =>
-            {
-                ArticleListDto articleDto = _mapper.Map<ArticleListDto>(a);
-                return articleDto;
-            })
-            .ToList();
+                .OrderByDescending(r => r.Id)
+                .ToPagerList(searchDto, out long totalCount)
+                .Select(a => _mapper.Map<ArticleListDto>(a))
+                .ToList();
 
             return new PagedResultDto<ArticleListDto>(articles, totalCount);
         }
