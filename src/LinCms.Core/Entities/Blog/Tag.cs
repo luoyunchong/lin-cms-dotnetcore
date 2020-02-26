@@ -49,9 +49,14 @@ namespace LinCms.Core.Entities.Blog
         /// 关注数量
         /// </summary>
         public int SubscribersCount { get; set; } = 0;
+
+
         public virtual ICollection<Article> Articles { get; set; }
+
         public virtual ICollection<Channel> Channels { get; set; }
+        [Navigate("TagId")]
         public virtual ICollection<UserTag> UserTags { get; set; }
+
         public virtual ICollection<ChannelTag> ChannelTags { get; set; }
 
         [Navigate("CreateUserId")]

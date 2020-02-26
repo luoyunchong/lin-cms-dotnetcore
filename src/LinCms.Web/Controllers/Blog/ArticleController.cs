@@ -80,7 +80,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public PagedResultDto<ArticleDto> Get([FromQuery]ArticleSearchDto searchDto)
+        public PagedResultDto<ArticleListDto> Get([FromQuery]ArticleSearchDto searchDto)
         {
             var select = _articleRepository
                 .Select
@@ -95,12 +95,12 @@ namespace LinCms.Web.Controllers.Blog
             .ToPagerList(searchDto, out long totalCount)
             .Select(a =>
             {
-                ArticleDto articleDto = _mapper.Map<ArticleDto>(a);
+                ArticleListDto articleDto = _mapper.Map<ArticleListDto>(a);
                 return articleDto;
             })
             .ToList();
 
-            return new PagedResultDto<ArticleDto>(articles, totalCount);
+            return new PagedResultDto<ArticleListDto>(articles, totalCount);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("query")]
         [AllowAnonymous]
-        public PagedResultDto<ArticleDto> QueryArticles([FromQuery]ArticleSearchDto searchDto)
+        public PagedResultDto<ArticleListDto> QueryArticles([FromQuery]ArticleSearchDto searchDto)
         {
             DateTime monthDays = DateTime.Now.AddDays(-30);
             DateTime weeklyDays = DateTime.Now.AddDays(-7);
@@ -139,11 +139,11 @@ namespace LinCms.Web.Controllers.Blog
                     r => (r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30))
                 .OrderByDescending(r => r.CreateTime);
 
-            List<ArticleDto> articleDtos = articleSelect
+            List<ArticleListDto> articleDtos = articleSelect
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(a =>
                 {
-                    ArticleDto articleDto = _mapper.Map<ArticleDto>(a);
+                    ArticleListDto articleDto = _mapper.Map<ArticleListDto>(a);
                     articleDto.Tags = a.Tags.Select(r => new TagDto()
                     {
                         TagName = r.TagName,
@@ -157,7 +157,7 @@ namespace LinCms.Web.Controllers.Blog
                 })
                 .ToList();
 
-            return new PagedResultDto<ArticleDto>(articleDtos, totalCount);
+            return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("all")]
         [LinCmsAuthorize("所有随笔", "随笔")]
-        public PagedResultDto<ArticleDto> GetAllArticles([FromQuery]ArticleSearchDto searchDto)
+        public PagedResultDto<ArticleListDto> GetAllArticles([FromQuery]ArticleSearchDto searchDto)
         {
             var articles = _articleRepository
                 .Select
@@ -175,10 +175,10 @@ namespace LinCms.Web.Controllers.Blog
                 .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
                 .OrderByDescending(r => r.CreateTime)
                 .ToPagerList(searchDto, out long totalCount)
-                .Select(a => _mapper.Map<ArticleDto>(a))
+                .Select(a => _mapper.Map<ArticleListDto>(a))
                 .ToList();
 
-            return new PagedResultDto<ArticleDto>(articles, totalCount);
+            return new PagedResultDto<ArticleListDto>(articles, totalCount);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="pageDto"></param>
         /// <returns></returns>
         [HttpGet("subscribe")]
-        public PagedResultDto<ArticleDto> GetSubscribeArticle([FromQuery]PageDto pageDto)
+        public PagedResultDto<ArticleListDto> GetSubscribeArticle([FromQuery]PageDto pageDto)
         {
             long? userId = _currentUser.Id;
             List<long> subscribeUserIds = _userSubscribeRepository.Select.Where(r => r.CreateUserId == userId).ToList(r => r.SubscribeUserId);
@@ -274,23 +274,23 @@ namespace LinCms.Web.Controllers.Blog
 
             var articles = select
                 .ToPagerList(pageDto, out long totalCount)
-                .Select(a =>
+                .Select(r =>
                 {
-                    ArticleDto articleDto = _mapper.Map<ArticleDto>(a);
-                    articleDto.Tags = a.Tags.Select(r => new TagDto()
+                    ArticleListDto articleDto = _mapper.Map<ArticleListDto>(r);
+                    articleDto.Tags = r.Tags.Select(r => new TagDto()
                     {
                         TagName = r.TagName,
                         Id = r.Id,
                     }).ToList();
 
-                    articleDto.IsLiked = userId != null && a.UserLikes.Any();
+                    articleDto.IsLiked = userId != null && r.UserLikes.Any();
 
                     articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
                     return articleDto;
                 })
                 .ToList();
 
-            return new PagedResultDto<ArticleDto>(articles, totalCount);
+            return new PagedResultDto<ArticleListDto>(articles, totalCount);
         }
     }
 }
