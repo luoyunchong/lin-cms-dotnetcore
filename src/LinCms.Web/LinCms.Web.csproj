@@ -25,13 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\_Illegal\IllegalKeywords.txt" />
-    <Content Remove="wwwroot\_Illegal\IllegalUrls.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="wwwroot\_Illegal\IllegalBit.iws" />
-    <None Remove="wwwroot\_Illegal\IllegalInfo.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -79,7 +73,6 @@
     <Folder Include="wwwroot\assets\2019\12\12\" />
     <Folder Include="wwwroot\assets\2019\12\13\" />
     <Folder Include="wwwroot\assets\2019\12\14\" />
-    <Folder Include="wwwroot\_Illegal\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
 using FreeSql;
 using FreeSql.Internal;
-using IdentityServer4.AccessTokenValidation;
 using LinCms.Application;
 using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Files;
@@ -54,7 +51,7 @@ namespace LinCms.Web
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public  IFreeSql Fsql { get; private set; }
+        public IFreeSql Fsql { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
@@ -98,9 +95,9 @@ namespace LinCms.Web
                     {
                         string oldVal = (string)e.Value;
                         string newVal = illegalWords.Replace(oldVal);
-                    //第二种处理敏感词的方式
-                    //string newVal = oldVal.ReplaceStopWords();
-                    if (newVal != oldVal)
+                        //第二种处理敏感词的方式
+                        //string newVal = oldVal.ReplaceStopWords();
+                        if (newVal != oldVal)
                         {
                             e.Value = newVal;
                         }
@@ -258,7 +255,6 @@ namespace LinCms.Web
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
-            //services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().AllowAnyMethod().AllowCredentials().AllowAnyOrigin()));
             services.AddCors();
 
             #region Mvc
@@ -304,7 +300,7 @@ namespace LinCms.Web
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-          
+
 
             #region Scrutor 与单个单个注册等价，不过可批量注册 
             //services.AddScoped<ILogService, LogService>();
@@ -392,10 +388,16 @@ namespace LinCms.Web
             IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:Default");
             services.AddCap(x =>
             {
-
                 x.UseMySql(configurationSection.Value);
 
-                x.UseRabbitMQ("localhost");
+                x.UseRabbitMQ(options =>
+                {
+                    options.HostName = Configuration["RabbitMQ:HostName"];
+                    options.UserName = Configuration["RabbitMQ:UserName"];
+                    options.Password = Configuration["RabbitMQ:Password"];
+                    options.VirtualHost = Configuration["RabbitMQ:VirtualHost"];
+                });
+
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
                 x.FailedThresholdCallback = (type, msg) =>
@@ -426,7 +428,6 @@ namespace LinCms.Web
             app.UseHsts();
             app.UseStaticFiles();
 
-
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -451,7 +452,6 @@ namespace LinCms.Web
             });
 
             app.UseAuthentication();
-
 
             app.UseHttpsRedirection();
 

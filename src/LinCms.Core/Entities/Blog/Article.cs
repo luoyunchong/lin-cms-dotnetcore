@@ -122,7 +122,6 @@ namespace LinCms.Core.Entities.Blog
         public virtual  LinUser UserInfo { get; set; }
 
 
-        [Navigate(ManyToMany = typeof(UserTag))]
         public virtual ICollection<Tag> Tags { get; set; }
 
 

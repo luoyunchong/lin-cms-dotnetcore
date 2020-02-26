@@ -70,7 +70,7 @@ namespace LinCms.IdentityServer4
             }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
 
             services.AddIdentityServer()
-#if  DEBUG
+#if DEBUG
                 .AddDeveloperSigningCredential()
 #endif
 #if !DEBUG

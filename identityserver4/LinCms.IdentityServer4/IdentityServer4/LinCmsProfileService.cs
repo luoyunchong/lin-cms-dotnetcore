@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
 using LinCms.Application.Cms.Users;
+using LinCms.Core.Entities;
+using LinCms.Core.Security;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.IdentityServer4.IdentityServer4
@@ -20,11 +25,14 @@ namespace LinCms.IdentityServer4.IdentityServer4
 
         private readonly IUserService _userService;
 
-
+        /// <summary>
+        /// The claims factory.
+        /// </summary>
         /// <summary>
         /// Initializes a new instance of the <see cref="TestUserProfileService"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
+        /// <param name="userService"></param>
         public LinCmsProfileService(ILogger<TestUserProfileService> logger, IUserService userService)
         {
             _logger = logger;
@@ -36,15 +44,33 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public virtual Task GetProfileDataAsync(ProfileDataRequestContext context)
+        public virtual async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            context.LogProfileRequest(_logger);
+            var sub = context.Subject?.GetSubjectId();
+            if (sub == null) throw new Exception("No sub claim present");
 
-            context.IssuedClaims = context.Subject.Claims.ToList();
+            var user = await _userService.GetUserAsync(r => r.Id == sub.ToLong());
+            if (user == null)
+            {
+                _logger?.LogWarning("No user found matching subject Id: {0}", sub);
+            }
+            else
+            {
+                var claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Email, user.Email ?? ""),
+                    new Claim(ClaimTypes.GivenName, user.Nickname ?? ""),
+                    new Claim(ClaimTypes.Name, user.Username ?? ""),
+                    new Claim(LinCmsClaimTypes.IsAdmin, user.IsAdmin().ToString()),
+                };
 
-            context.LogIssuedClaims(_logger);
+                user.LinGroups.ForEach(r =>
+                 {
+                     claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+                 });
 
-            return Task.CompletedTask;
+                context.IssuedClaims = claims;
+            }
         }
 
         /// <summary>
@@ -59,5 +85,6 @@ namespace LinCms.IdentityServer4.IdentityServer4
             var user = await _userService.GetUserAsync(r => r.Id == context.Subject.GetSubjectId().ToLong());
             context.IsActive = user.IsActive();
         }
+
     }
 }

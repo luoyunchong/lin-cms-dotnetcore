@@ -11,9 +11,13 @@
         </member>
         <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.#ctor(Microsoft.Extensions.Logging.ILogger{IdentityServer4.Test.TestUserProfileService},LinCms.Application.Cms.Users.IUserService)">
             <summary>
+            The claims factory.
+            </summary>
+            <summary>
             Initializes a new instance of the <see cref="T:IdentityServer4.Test.TestUserProfileService"/> class.
             </summary>
             <param name="logger">The logger.</param>
+            <param name="userService"></param>
         </member>
         <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.GetProfileDataAsync(IdentityServer4.Models.ProfileDataRequestContext)">
             <summary>

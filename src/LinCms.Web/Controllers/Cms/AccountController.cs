@@ -51,7 +51,7 @@ namespace LinCms.Web.Controllers.Cms
 
             HttpClient client = new HttpClient();
 
-            TokenResponse response = await client.RequestTokenAsync(new TokenRequest
+            TokenResponse response = await client.RequestTokenAsync(new PasswordTokenRequest()
             {
                 Address = authority + "/connect/token",
                 GrantType = GrantType.ResourceOwnerPassword,
@@ -63,7 +63,8 @@ namespace LinCms.Web.Controllers.Cms
                 {
                     { "UserName",loginInputDto.Username},
                     { "Password",loginInputDto.Password}
-                }
+                },
+                Scope = _configuration["Service:Name"]
             });
 
             if (response.IsError)
