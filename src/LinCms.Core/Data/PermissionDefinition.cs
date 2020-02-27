@@ -2,9 +2,9 @@
 
 namespace LinCms.Core.Data
 {
-    public class PermissionDto
+    public class PermissionDefinition
     {
-        public PermissionDto(string permission, string module, string router)
+        public PermissionDefinition(string permission, string module, string router)
         {
             Permission = permission ?? throw new ArgumentNullException(nameof(permission));
             Module = module ?? throw new ArgumentNullException(nameof(module));

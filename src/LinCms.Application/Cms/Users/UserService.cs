@@ -4,8 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using FreeSql;
 using LinCms.Application.Contracts.Cms.Admins;
+using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
@@ -63,9 +63,9 @@ namespace LinCms.Application.Cms.Users
             await _userRepository.DeleteAsync(r => r.Id == id);
         }
 
-        public void ResetPassword(int id, ResetPasswordDto resetPasswordDto)
+        public async Task ResetPasswordAsync(int id, ResetPasswordDto resetPasswordDto)
         {
-            bool userExist = _userRepository.Where(r => r.Id == id).Any();
+            bool userExist = await _userRepository.Where(r => r.Id == id).AnyAsync();
 
             if (userExist == false)
             {
@@ -74,16 +74,17 @@ namespace LinCms.Application.Cms.Users
 
             string confirmPassword = EncryptUtil.Encrypt(resetPasswordDto.ConfirmPassword);
 
-            _freeSql.Update<LinUser>(id).Set(a => new LinUser()
+            await _freeSql.Update<LinUser>(id).Set(a => new LinUser()
             {
                 Password = confirmPassword
-            }).ExecuteAffrows();
+            }).ExecuteAffrowsAsync();
 
         }
 
         public PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto)
         {
             List<UserDto> linUsers = _userRepository.Select
+                .IncludeMany(r => r.LinGroups)
                 .Where(r => r.Admin == (int)UserAdmin.Common)
                 .WhereIf(searchDto.GroupId != null, r => r.LinGroups.Any(u => u.Id == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
@@ -91,6 +92,7 @@ namespace LinCms.Application.Cms.Users
                 .Select(r =>
                 {
                     UserDto userDto = _mapper.Map<UserDto>(r);
+                    userDto.Groups = _mapper.Map<List<GroupDto>>(r.LinGroups);
                     return userDto;
                 }).ToList();
 
@@ -196,8 +198,8 @@ namespace LinCms.Application.Cms.Users
         {
             long[] groups = _currentUser.Groups;
 
-            bool existPermission = _freeSql.Select<LinPermission>().Any(r => groups.Contains(r.GroupId) && r.Name == permission);
-
+            bool existPermission = _freeSql.Select<LinGroupPermission>().Any(r => groups.Contains(r.GroupId)); //&& r. == permission);
+                //TODO
             return existPermission;
         }
 

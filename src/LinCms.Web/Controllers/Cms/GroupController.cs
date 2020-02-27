@@ -6,11 +6,8 @@ using LinCms.Application.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
 using LinCms.Web.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
@@ -29,17 +26,17 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         [HttpGet("all")]
-        public Task<PagedResultDto<LinGroup>> GetListAsync(PageDto input)
+        public Task<List<LinGroup>> GetListAsync()
         {
-            return _groupService.GetListAsync(input);
+            return _groupService.GetListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<GroupDto> GetAsync(long id)
         {
             GroupDto groupDto = await _groupService.GetAsync(id);
-            List<LinPermission> listAuths = _freeSql.Select<LinPermission>().Where(r => r.GroupId == id).ToList();
-            groupDto.Auths = ReflexHelper.AuthsConvertToTree(listAuths);
+            List<LinGroupPermission> listPermissions = _freeSql.Select<LinGroupPermission>().Where(r => r.GroupId == id).ToList();
+            //groupDto.Permissions = ReflexHelper.AuthsConvertToTree(listPermissions);
             return groupDto;
         }
 
@@ -47,7 +44,8 @@ namespace LinCms.Web.Controllers.Cms
         [HttpPost]
         public async Task<ResultDto> CreateAsync([FromBody] CreateGroupDto inputDto)
         {
-            await _groupService.CreateAsync(inputDto);
+            List<PermissionDefinition> prmissionDefinitions = ReflexHelper.GeAssemblyLinCmsAttributes();
+            await _groupService.CreateAsync(inputDto, prmissionDefinitions);
             return ResultDto.Success("新建分组成功");
         }
 
@@ -58,7 +56,7 @@ namespace LinCms.Web.Controllers.Cms
             return ResultDto.Success("更新分组成功");
         }
 
-     
+
         [HttpDelete("{id}")]
         [AuditingLog("管理员删除一个权限分组")]
         public async Task<ResultDto> DeleteAsync(long id)

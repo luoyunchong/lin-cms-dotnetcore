@@ -41,9 +41,9 @@ namespace LinCms.Web.Data
         /// 通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
         /// </summary>
         /// <returns></returns>
-        public static List<PermissionDto> GeAssemblyLinCmsAttributes()
+        public static List<PermissionDefinition> GeAssemblyLinCmsAttributes()
         {
-            List<PermissionDto> linAuths = new List<PermissionDto>();
+            List<PermissionDefinition> linAuths = new List<PermissionDefinition>();
 
             List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
@@ -54,7 +54,7 @@ namespace LinCms.Web.Data
                 RouteAttribute routerAttribute = d.GetCustomAttribute<RouteAttribute>();
                 if (linCmsAuthorize?.Permission != null && routerAttribute?.Template != null)
                 {
-                    linAuths.Add(new PermissionDto(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template.Replace("/", ".")));
+                    linAuths.Add(new PermissionDefinition(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template.Replace("/", ".")));
                 }
             });
 
@@ -71,7 +71,7 @@ namespace LinCms.Web.Data
                             if (attribute is LinCmsAuthorizeAttribute linCmsAuthorize && linCmsAuthorize.Permission.IsNotNullOrEmpty() && linCmsAuthorize.Module.IsNotNullOrEmpty())
                             {
                                 linAuths.Add(
-                                        new PermissionDto(
+                                        new PermissionDefinition(
                                                 linCmsAuthorize.Permission,
                                                 linCmsAuthorize.Module,
                                                 $"{routerAttribute.Template.Replace("/", ".")}+{methodInfo.Name.ToSnakeCase()}"
@@ -116,7 +116,7 @@ namespace LinCms.Web.Data
         /// 使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
         /// </summary>
         /// <returns></returns>
-        public static dynamic AuthorizationConvertToTree(List<PermissionDto> listPermission)
+        public static dynamic AuthorizationConvertToTree(List<PermissionDefinition> listPermission)
         {
             var permissionTree = listPermission.GroupBy(r => r.Module).Select(r => new
             {
@@ -158,11 +158,11 @@ namespace LinCms.Web.Data
             {
                 IDictionary<string, object> moduleExpandoObject = new ExpandoObject();
                 List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
-                groupAuth.Children.ForEach(auth =>
+                groupAuth.Children.ForEach(permission =>
                 {
                     IDictionary<string, object> perExpandObject = new ExpandoObject();
                     perExpandObject["module"] = groupAuth.Key;
-                    perExpandObject["auth"] = auth;
+                    perExpandObject["permission"] = permission;
                     perExpandList.Add(perExpandObject);
                 });
 

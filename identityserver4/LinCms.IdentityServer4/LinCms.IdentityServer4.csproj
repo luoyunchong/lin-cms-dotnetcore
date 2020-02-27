@@ -28,8 +28,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
-    <PackageReference Include="FreeSql" Version="1.1.0" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="1.1.0" />
+    <PackageReference Include="FreeSql" Version="1.2.0-preview5" />
+    <PackageReference Include="FreeSql.Provider.MySql" Version="1.2.0-preview5" />
   </ItemGroup>
 
   <ItemGroup>    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />

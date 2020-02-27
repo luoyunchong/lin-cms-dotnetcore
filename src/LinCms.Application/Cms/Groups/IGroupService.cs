@@ -1,4 +1,5 @@
-﻿using LinCms.Core.Data;
+﻿using System.Collections.Generic;
+using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Groups;
@@ -7,9 +8,9 @@ namespace LinCms.Application.Cms.Groups
 {
     public interface IGroupService
     {
-        Task<PagedResultDto<LinGroup>> GetListAsync(PageDto input);
+        Task<List<LinGroup>> GetListAsync();
         Task<GroupDto> GetAsync(long id);
-        Task CreateAsync(CreateGroupDto inputDto);
+        Task CreateAsync(CreateGroupDto inputDto, List<PermissionDefinition> permissionDefinitions);
         Task UpdateAsync(long id, UpdateGroupDto inputDto);
         /// <summary>
         /// 管理员删除一个权限分组

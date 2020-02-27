@@ -110,7 +110,7 @@ namespace LinCms.Core.Extensions
         {
             if (dateTime == null)
                 return string.Empty;
-            return ToChineseDateString(dateTime ?? default(DateTime));
+            return ToChineseDateString((DateTime) dateTime);
         }
 
         /// <summary>

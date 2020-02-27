@@ -268,7 +268,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.ResetPassword(System.Int32,LinCms.Application.Contracts.Cms.Admins.ResetPasswordDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.ResetPasswordAsync(System.Int32,LinCms.Application.Contracts.Cms.Admins.ResetPasswordDto)">
             <summary>
             重置密码
             </summary>
@@ -276,24 +276,10 @@
             <param name="resetPasswordDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.GetAllAuths">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.GetAllPermissions">
             <summary>
             查询所有可分配的权限
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AuthController.RemoveAuths(LinCms.Application.Contracts.Cms.Auths.AuthDto)">
-            <summary>
-            删除某个组别的权限
-            </summary>
-            <param name="authDto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AuthController.DispatchAuths(LinCms.Application.Contracts.Cms.Auths.AuthDto)">
-            <summary>
-            分配多个权限
-            </summary>
-            <param name="authDto"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles">
@@ -343,6 +329,20 @@
             axios得到null，浏览器直接打开能得到github的id 
             </summary>
             <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.PermissionDto)">
+            <summary>
+            删除某个组别的权限
+            </summary>
+            <param name="permissionDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Application.Contracts.Cms.Permissions.PermissionDto)">
+            <summary>
+            分配多个权限
+            </summary>
+            <param name="permissionDto"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Cms.UserController.GetInformationAsync">
@@ -413,7 +413,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Data.ReflexHelper.AuthorizationConvertToTree(System.Collections.Generic.List{LinCms.Core.Data.PermissionDto})">
+        <member name="M:LinCms.Web.Data.ReflexHelper.AuthorizationConvertToTree(System.Collections.Generic.List{LinCms.Core.Data.PermissionDefinition})">
                          {
                                 "信息":{
                                     "查看lin的信息":[

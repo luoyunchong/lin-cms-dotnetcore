@@ -36,7 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identityserver4", "identity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.IdentityServer4", "identityserver4\LinCms.IdentityServer4\LinCms.IdentityServer4.csproj", "{37084D54-1A11-4C04-A091-EB502BB49B19}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9E82167D-A324-4E25-88B0-84C4702C3F34}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{6AB28B13-8226-4532-9146-5BB3A7FBC169}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore.CAP.MySql.Provider", "..\DotNetCore.CAP.Provider\src\DotNetCore.CAP.MySql.Provider\DotNetCore.CAP.MySql.Provider.csproj", "{7CCFE8DC-5AA2-411F-8AC5-8A42990F368E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,10 +78,10 @@ Global
 		{37084D54-1A11-4C04-A091-EB502BB49B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37084D54-1A11-4C04-A091-EB502BB49B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37084D54-1A11-4C04-A091-EB502BB49B19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E82167D-A324-4E25-88B0-84C4702C3F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E82167D-A324-4E25-88B0-84C4702C3F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E82167D-A324-4E25-88B0-84C4702C3F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E82167D-A324-4E25-88B0-84C4702C3F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCFE8DC-5AA2-411F-8AC5-8A42990F368E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCFE8DC-5AA2-411F-8AC5-8A42990F368E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCFE8DC-5AA2-411F-8AC5-8A42990F368E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCFE8DC-5AA2-411F-8AC5-8A42990F368E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +95,7 @@ Global
 		{244AF9CA-D0D7-4180-9918-5A349CE803C7} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{45F73A33-9E44-4DCF-A104-0D475FF9CA1E} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{37084D54-1A11-4C04-A091-EB502BB49B19} = {3EF28FC9-9518-401A-9DCC-FCCB4C72511F}
+		{7CCFE8DC-5AA2-411F-8AC5-8A42990F368E} = {6AB28B13-8226-4532-9146-5BB3A7FBC169}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3AFAB7C5-4289-48FF-89A0-FB63A94D0AF4}
