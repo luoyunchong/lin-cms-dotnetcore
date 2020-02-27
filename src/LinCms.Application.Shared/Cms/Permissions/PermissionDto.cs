@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LinCms.Application.Contracts.Cms.Auths
+namespace LinCms.Application.Contracts.Cms.Permissions
 {
-    public class AuthDto:IValidatableObject
+    public class PermissionDto:IValidatableObject
     {
-        public int GroupId { get; set; }
-        public List<string> Auths { get; set; }
+        public long GroupId { get; set; }
+        public List<long> Permission { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (GroupId <= 0)
             {
                 yield return new ValidationResult("分组id必须大于0", new List<string>(){ "GroupId" });
             }
-            if (Auths.Count == 0)
+            if (Permission.Count == 0)
             {
-                yield return new ValidationResult("请输入auths字段", new List<string>() { "Auths" });
+                yield return new ValidationResult("请输入Permission字段", new List<string>() { "Permission" });
             }
         }
     }

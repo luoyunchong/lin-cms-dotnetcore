@@ -17,12 +17,9 @@ namespace LinCms.Web.Controllers.Cms
     public class AdminController : ControllerBase
     {
         private readonly IUserService _userSevice;
-        private readonly IFreeSql _freeSql;
-
-        public AdminController(IUserService userSevice, IFreeSql freeSql)
+        public AdminController(IUserService userSevice)
         {
             _userSevice = userSevice;
-            _freeSql = freeSql;
         }
 
         /// <summary>
@@ -68,9 +65,9 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="resetPasswordDto"></param>
         /// <returns></returns>
         [HttpPut("password/{id}")]
-        public ResultDto ResetPassword(int id, [FromBody] ResetPasswordDto resetPasswordDto)
+        public async Task<ResultDto> ResetPasswordAsync(int id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
-            _userSevice.ResetPassword(id, resetPasswordDto);
+            await _userSevice.ResetPasswordAsync(id, resetPasswordDto);
             return ResultDto.Success("密码修改成功");
         }
 
@@ -78,13 +75,11 @@ namespace LinCms.Web.Controllers.Cms
         /// 查询所有可分配的权限
         /// </summary>
         /// <returns></returns>
-        [HttpGet("authority")]
-        public IActionResult GetAllAuths()
+        [HttpGet("permission")]
+        public IActionResult GetAllPermissions()
         {
-            List<PermissionDto> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
-
+            List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
             dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
-
             return Ok(obj);
         }
     }

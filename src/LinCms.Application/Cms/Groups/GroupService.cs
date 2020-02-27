@@ -23,13 +23,13 @@ namespace LinCms.Application.Cms.Groups
             _mapper = mapper;
         }
 
-        public async Task<PagedResultDto<LinGroup>> GetListAsync(PageDto input)
+        public async Task<List<LinGroup>> GetListAsync()
         {
             List<LinGroup> linGroups = await _freeSql.Select<LinGroup>()
                 .OrderByDescending(r => r.Id)
-                .ToPagerListAsync(input, out long totalCount);
+                .ToListAsync();
 
-            return new PagedResultDto<LinGroup>(linGroups, totalCount);
+            return linGroups;
         }
 
         public async Task<GroupDto> GetAsync(long id)
@@ -39,7 +39,7 @@ namespace LinCms.Application.Cms.Groups
             return groupDto;
         }
 
-        public async Task CreateAsync(CreateGroupDto inputDto)
+        public async Task CreateAsync(CreateGroupDto inputDto, List<PermissionDefinition> permissionDefinitions)
         {
             bool exist = await _freeSql.Select<LinGroup>().AnyAsync(r => r.Name == inputDto.Name);
             if (exist)
@@ -48,25 +48,25 @@ namespace LinCms.Application.Cms.Groups
             }
 
             LinGroup linGroup = _mapper.Map<LinGroup>(inputDto);
-            List<PermissionDto> permissionDtos = new List<PermissionDto>();//ReflexHelper.GeAssemblyLinCmsAttributes());
 
             _freeSql.Transaction(() =>
             {
                 long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
 
                 //批量插入
-                List<LinPermission> linAuths = new List<LinPermission>();
-                inputDto.Auths.ForEach(r =>
+                List<LinPermission> linPermissions = new List<LinPermission>();
+                inputDto.Permissions.ForEach(r =>
                 {
-                    PermissionDto pdDto = permissionDtos.FirstOrDefault(u => u.Permission == r);
+                    PermissionDefinition pdDto = permissionDefinitions.FirstOrDefault(u => u.Permission == r);
                     if (pdDto == null)
                     {
                         throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
                     }
-                    linAuths.Add(new LinPermission(r, pdDto.Module, (int)groupId));
+                    //TODO
+                    //linPermissions.Add(new LinGroupPermission(groupId, pe));
                 });
 
-                _freeSql.Insert<LinPermission>().AppendData(linAuths).ExecuteAffrows();
+                _freeSql.Insert<LinPermission>().AppendData(linPermissions).ExecuteAffrows();
             });
         }
 
@@ -101,7 +101,12 @@ namespace LinCms.Application.Cms.Groups
             _freeSql.Transaction(() =>
             {
                 //删除group拥有的权限
-                _freeSql.Delete<LinPermission>().Where("group_id=?GroupId", new LinPermission() { GroupId = id }).ExecuteAffrows();
+                _freeSql.Delete<LinGroupPermission>().Where("group_id=?GroupId",
+                    new LinGroupPermission()
+                    {
+                        GroupId = id
+                    })
+                    .ExecuteAffrows();
                 //删除group表
                 _freeSql.Delete<LinGroup>(new { id = id }).ExecuteAffrows();
             });

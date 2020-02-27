@@ -4,29 +4,17 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Core.Entities
 {
     [Table(Name = "lin_permission")]
-    public class LinPermission : Entity
+    public class LinPermission : FullAduitEntity<long>
     {
-        public LinPermission(string auth, string module, int groupId)
+        public LinPermission(string name, string module)
         {
-            Name = auth ?? throw new ArgumentNullException(nameof(auth));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Module = module ?? throw new ArgumentNullException(nameof(module));
-            GroupId = groupId;
         }
 
         public LinPermission()
         {
         }
-
-        public LinPermission(string auth, int groupId)
-        {
-            GroupId = groupId;
-            Name = auth ?? throw new ArgumentNullException(nameof(auth));
-        }
-
-        /// <summary>
-        /// 权限字段
-        /// </summary>
-        public long GroupId { get; set; }
 
         /// <summary>
         /// 所属权限、权限名称，例如：访问首页

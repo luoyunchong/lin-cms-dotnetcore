@@ -139,8 +139,8 @@ namespace LinCms.Test
         [Fact]
         public void ReflexHelperTest()
         {
-            List<PermissionDto> attributes = ReflexHelper.GeAssemblyLinCmsAttributes();
-            foreach (PermissionDto attribute in attributes)
+            List<PermissionDefinition> attributes = ReflexHelper.GeAssemblyLinCmsAttributes();
+            foreach (PermissionDefinition attribute in attributes)
             {
                 _testOutputHelper.WriteLine(attribute.ToString());
             }
@@ -153,12 +153,19 @@ namespace LinCms.Test
         [Fact]
         public void ConvertToTree()
         {
-            List<PermissionDto> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
+            List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
 
             dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
 
             string jsonSerializeObject =JsonConvert.SerializeObject(obj);
 
+        }
+
+
+        [Fact]
+        public void Test()
+        {
+            var assem = AppDomain.CurrentDomain.GetAssemblies().Where(r=>r.FullName.Contains("LinCms.")).ToList();
         }
     }
 }

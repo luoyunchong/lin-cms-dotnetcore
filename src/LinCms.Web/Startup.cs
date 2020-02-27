@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -104,6 +106,7 @@ namespace LinCms.Web
                     }
                 };
             }
+
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -302,11 +305,11 @@ namespace LinCms.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
-            #region Scrutor 与单个单个注册等价，不过可批量注册 
-            //services.AddScoped<ILogService, LogService>();
-            //services.AddScoped<IUserSevice, UserService>();
+            #region Scrutor 批量注册 
+
+            Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToArray();
             services.Scan(scan => scan
-                    //加载Startup这个类所在的程序集
+                    //加载IAppService这个类所在的程序集
                     .FromAssemblyOf<IAppService>()
                     // 表示要注册那些类，上面的代码还做了过滤，只留下了以 Service 结尾的类
                     .AddClasses(classes => classes.Where(t => t.Name != "IFileService" && t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
@@ -315,17 +318,9 @@ namespace LinCms.Web
                     .AsImplementedInterfaces()
                     //表示注册的生命周期为 Scope
                     .WithScopedLifetime()
-                    // We start out with all types in the assembly of ITransientService
-                    .FromAssemblyOf<IScopeDependency>()
-                    // AddClasses starts out with all public, non-abstract types in this assembly.
-                    // These types are then filtered by the delegate passed to the method.
-                    // In this case, we filter out only the classes that are assignable to ITransientService.
+                    .FromAssemblies(currentAssemblies)
                     .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
-                    // We then specify what type we want to register these classes as.
-                    // In this case, we want to register the types as all of its implemented interfaces.
-                    // So if a type implements 3 interfaces; A, B, C, we'd end up with three separate registrations.
                     .AsImplementedInterfaces()
-                    // And lastly, we specify the lifetime of these registrations.
                     .WithTransientLifetime()
                   );
 
@@ -406,6 +401,7 @@ namespace LinCms.Web
                         $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {msg.GetName()}");
                 };
             });
+            services.AddStartupTask<MigrationStartupTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -62,6 +62,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                     new Claim(ClaimTypes.GivenName, user.Nickname ?? ""),
                     new Claim(ClaimTypes.Name, user.Username ?? ""),
                     new Claim(LinCmsClaimTypes.IsAdmin, user.IsAdmin().ToString()),
+                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:"")
                 };
 
                 user.LinGroups.ForEach(r =>

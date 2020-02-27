@@ -10,7 +10,6 @@ using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Web.Data;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Exceptions;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,8 +69,8 @@ namespace LinCms.Web.Controllers.Cms
             if (user.Groups.Count != 0)
             {
                 var groupIds = user.Groups.Select(r => r.Id).ToArray();
-
-                List<LinPermission> listAuths = _freeSql.Select<LinPermission>().Where(a => groupIds.Contains(a.GroupId)).ToList();
+                //TODO
+                List<LinPermission> listAuths = new List<LinPermission>();//(_freeSql.Select<LinPermission>().Where(a => groupIds.Contains(a.GroupId)).ToList());
 
                 user.Auths = ReflexHelper.AuthsConvertToTree(listAuths); ;
 

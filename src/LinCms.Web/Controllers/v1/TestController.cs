@@ -9,7 +9,6 @@ using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace LinCms.Web.Controllers.v1
 {
     [Route("cms/test")]

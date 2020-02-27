@@ -48,7 +48,7 @@ namespace LinCms.Application.Cms.Users
 
         Task DeleteAsync(int id);
 
-        void ResetPassword(int id, ResetPasswordDto resetPasswordDto);
+        Task ResetPasswordAsync (int id, ResetPasswordDto resetPasswordDto);
 
         bool CheckPermission(int userId, string permission);
 
