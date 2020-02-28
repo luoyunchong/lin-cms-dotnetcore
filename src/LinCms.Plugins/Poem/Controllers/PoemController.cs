@@ -27,10 +27,10 @@ namespace LinCms.Plugins.Poem.Controllers
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除诗词", "诗词")]
-        public ResultDto DeletePoem(long id)
+        public UnifyResponseDto DeletePoem(long id)
         {
             _poemRepository.Delete(new LinPoem { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -49,15 +49,15 @@ namespace LinCms.Plugins.Poem.Controllers
         }
 
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdatePoemDto createPoem)
+        public UnifyResponseDto Post([FromBody] CreateUpdatePoemDto createPoem)
         {
             LinPoem poem = _mapper.Map<LinPoem>(createPoem);
             _poemRepository.Insert(poem);
-            return ResultDto.Success("新建诗词成功");
+            return UnifyResponseDto.Success("新建诗词成功");
         }
 
         [HttpPut("{id}")]
-        public ResultDto Put(long id, [FromBody] CreateUpdatePoemDto updatePoem)
+        public UnifyResponseDto Put(long id, [FromBody] CreateUpdatePoemDto updatePoem)
         {
             LinPoem poem = _poemRepository.Select.Where(r => r.Id == id).ToOne();
             if (poem == null)
@@ -70,7 +70,7 @@ namespace LinCms.Plugins.Poem.Controllers
 
             _poemRepository.Update(poem);
 
-            return ResultDto.Success("更新诗词成功");
+            return UnifyResponseDto.Success("更新诗词成功");
         }
     }
 }

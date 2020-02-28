@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Permissions;
@@ -104,7 +103,7 @@ namespace LinCms.Application.Cms.Users
             return new PagedResultDto<UserDto>(linUsers, totalCount);
         }
 
-        public async Task Register(LinUser user)
+        public async Task Register(LinUser user, List<long> groupIds)
         {
             if (!string.IsNullOrEmpty(user.Username))
             {
@@ -124,9 +123,19 @@ namespace LinCms.Application.Cms.Users
                     throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
                 }
             }
-
+           
             user.Active = UserActive.Active.GetHashCode();
             user.Admin = UserAdmin.Common.GetHashCode();
+
+            user.LinUserGroups = new List<LinUserGroup>();
+            groupIds?.ForEach(groupId =>
+            {
+                user.LinUserGroups.Add(new LinUserGroup()
+                {
+                    GroupId = groupId
+                });
+            });
+
             user.LinUserIdentitys = new List<LinUserIdentity>()
             {
                 new LinUserIdentity()
@@ -199,7 +208,6 @@ namespace LinCms.Application.Cms.Users
             }).ExecuteAffrowsAsync();
         }
 
-
         public LinUser GetCurrentUser()
         {
             if (_currentUser.Id != null)
@@ -229,11 +237,15 @@ namespace LinCms.Application.Cms.Users
             return _permissionService.StructuringPermissions(permissions);
         }
 
+        /// <summary>
+        /// 查找用户搜索分组，查找分组下的所有权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<List<LinPermission>> GetUserPermissions(long userId)
         {
             LinUser linUser = await this.GetUserAsync(r => r.Id == userId);
             List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();
-            // 查找用户搜索分组，查找分组下的所有权限
             if (linUser.LinGroups == null || linUser.LinGroups.Count == 0)
             {
                 return new List<LinPermission>();

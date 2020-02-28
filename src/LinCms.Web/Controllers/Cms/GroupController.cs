@@ -41,26 +41,26 @@ namespace LinCms.Web.Controllers.Cms
 
         [AuditingLog("管理员新建了一个权限组")]
         [HttpPost]
-        public async Task<ResultDto> CreateAsync([FromBody] CreateGroupDto inputDto)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateGroupDto inputDto)
         {
             await _groupService.CreateAsync(inputDto);
-            return ResultDto.Success("新建分组成功");
+            return UnifyResponseDto.Success("新建分组成功");
         }
 
         [HttpPut("{id}")]
-        public async Task<ResultDto> UpdateAsync(long id, [FromBody] UpdateGroupDto updateGroupDto)
+        public async Task<UnifyResponseDto> UpdateAsync(long id, [FromBody] UpdateGroupDto updateGroupDto)
         {
             await _groupService.UpdateAsync(id, updateGroupDto);
-            return ResultDto.Success("更新分组成功");
+            return UnifyResponseDto.Success("更新分组成功");
         }
 
 
         [HttpDelete("{id}")]
         [AuditingLog("管理员删除一个权限分组")]
-        public async Task<ResultDto> DeleteAsync(long id)
+        public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
             await _groupService.DeleteAsync(id);
-            return ResultDto.Success("删除分组成功");
+            return UnifyResponseDto.Success("删除分组成功");
         }
 
     }

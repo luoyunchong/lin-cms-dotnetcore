@@ -158,7 +158,7 @@ namespace LinCms.IdentityServer4
                     {
                         var problemDetails = new ValidationProblemDetails(context.ModelState);
 
-                        var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
 
                         return new BadRequestObjectResult(resultDto)
                         {

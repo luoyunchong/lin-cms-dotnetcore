@@ -80,7 +80,7 @@ namespace LinCms.Web.Controllers.Blog
 
         [AllowAnonymous]
         [HttpPost]
-        public ResultDto Post([FromBody] CreateMessageBoardDto createMessageBoardDto)
+        public UnifyResponseDto Post([FromBody] CreateMessageBoardDto createMessageBoardDto)
         {
             MessageBoard messageBoard = _mapper.Map<MessageBoard>(createMessageBoardDto);
 
@@ -105,7 +105,7 @@ namespace LinCms.Web.Controllers.Blog
             }
 
             _messageBoardRepository.Insert(messageBoard);
-            return ResultDto.Success("留言成功");
+            return UnifyResponseDto.Success("留言成功");
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核留言", "留言板")]
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id, bool isAudit)
+        public UnifyResponseDto Put(Guid id, bool isAudit)
         {
             MessageBoard messageBoard = _messageBoardRepository.Select.Where(r => r.Id == id).ToOne();
             if (messageBoard == null)
@@ -126,7 +126,7 @@ namespace LinCms.Web.Controllers.Blog
 
             messageBoard.IsAudit = isAudit;
             _messageBoardRepository.Update(messageBoard);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
     }

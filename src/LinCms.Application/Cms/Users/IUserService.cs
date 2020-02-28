@@ -43,7 +43,8 @@ namespace LinCms.Application.Cms.Users
         /// 注册-新增一个用户
         /// </summary>
         /// <param name="user"></param>
-        Task Register(LinUser user);
+        /// <param name="groupIds"></param>
+        Task Register(LinUser user,List<long>groupIds);
 
         void UpdateUserInfo(int id, UpdateUserDto updateUserDto);
 

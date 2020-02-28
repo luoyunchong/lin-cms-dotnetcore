@@ -26,10 +26,10 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除图书", "图书")]
-        public ResultDto DeleteBook(int id)
+        public UnifyResponseDto DeleteBook(int id)
         {
             _bookRepository.Delete(new Book { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -48,7 +48,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdateBookDto createBook)
+        public UnifyResponseDto Post([FromBody] CreateUpdateBookDto createBook)
         {
             bool exist = _bookRepository.Select.Any(r => r.Title == createBook.Title);
             if (exist)
@@ -58,11 +58,11 @@ namespace LinCms.Web.Controllers.v1
 
             Book book = _mapper.Map<Book>(createBook);
             _bookRepository.Insert(book);
-            return ResultDto.Success("新建图书成功");
+            return UnifyResponseDto.Success("新建图书成功");
         }
 
         [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] CreateUpdateBookDto updateBook)
+        public UnifyResponseDto Put(int id, [FromBody] CreateUpdateBookDto updateBook)
         {
             Book book = _bookRepository.Select.Where(r => r.Id == id).ToOne();
             if (book==null)
@@ -87,7 +87,7 @@ namespace LinCms.Web.Controllers.v1
 
             _bookRepository.Update(book);
 
-            return ResultDto.Success("更新图书成功");
+            return UnifyResponseDto.Success("更新图书成功");
         }
     }
 }

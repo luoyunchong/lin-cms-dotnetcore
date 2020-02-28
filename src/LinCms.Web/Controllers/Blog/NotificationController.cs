@@ -25,10 +25,10 @@ namespace LinCms.Web.Controllers.Blog
         
         [NonAction]
         [CapSubscribe("NotificationController.Post")]
-        public ResultDto Post([FromBody] CreateNotificationDto createNotification)
+        public UnifyResponseDto Post([FromBody] CreateNotificationDto createNotification)
         {
             _notificationService.Post(createNotification);
-            return ResultDto.Success("新建消息成功");
+            return UnifyResponseDto.Success("新建消息成功");
         }
 
         [HttpPut("{id}")]

@@ -27,10 +27,10 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="permissionDto"></param>
         /// <returns></returns>
         [HttpPost("remove")]
-        public async Task<ResultDto> RemovePermissions(RemovePermissionDto permissionDto)
+        public async Task<UnifyResponseDto> RemovePermissions(RemovePermissionDto permissionDto)
         {
             await _permissionService.RemovePermissions(permissionDto);
-            return ResultDto.Success("删除权限成功");
+            return UnifyResponseDto.Success("删除权限成功");
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="permissionDto"></param>
         /// <returns></returns>
         [HttpPost("dispatch/batch")]
-        public async Task<ResultDto> DispatchPermissions(DispatchPermissionsDto permissionDto)
+        public async Task<UnifyResponseDto> DispatchPermissions(DispatchPermissionsDto permissionDto)
         {
             List<PermissionDefinition> permissionDefinitions = ReflexHelper.GeAssemblyLinCmsAttributes();
             await _permissionService.DispatchPermissions(permissionDto, permissionDefinitions);
-            return ResultDto.Success("添加权限成功");
+            return UnifyResponseDto.Success("添加权限成功");
         }
     }
 }

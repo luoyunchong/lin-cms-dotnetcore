@@ -7,13 +7,13 @@ using Newtonsoft.Json.Serialization;
 
 namespace LinCms.Core.Data
 {
-    public class ResultDto
+    public class UnifyResponseDto
     {
     
         /// <summary>
         ///错误码
         /// </summary>
-        public ErrorCode ErrorCode { get; set; }
+        public ErrorCode Code { get; set; }
 
         /// <summary>
         ///错误信息
@@ -25,36 +25,36 @@ namespace LinCms.Core.Data
         /// </summary>
         public string Request { get; set; }
 
-        public ResultDto(ErrorCode errorCode, object message, HttpContext httpContext)
+        public UnifyResponseDto(ErrorCode errorCode, object message, HttpContext httpContext)
         {
-            ErrorCode = errorCode;
+            Code = errorCode;
             Message = message;
             Request = LinCmsUtils.GetRequest(httpContext);
         }
 
-        public ResultDto(ErrorCode errorCode, object message)
+        public UnifyResponseDto(ErrorCode errorCode, object message)
         {
-            ErrorCode = errorCode;
+            Code = errorCode;
             Message = message ?? throw new ArgumentNullException(nameof(message));
         }
 
-        public ResultDto(ErrorCode errorCode)
+        public UnifyResponseDto(ErrorCode errorCode)
         {
-            ErrorCode = errorCode;
+            Code = errorCode;
         }
 
-        public ResultDto()
+        public UnifyResponseDto()
         {
         }
 
-        public static ResultDto Success(string message="操作成功")
+        public static UnifyResponseDto Success(string message="操作成功")
         {
-            return  new ResultDto(ErrorCode.Success,message);
+            return  new UnifyResponseDto(ErrorCode.Success,message);
         }
 
-        public static ResultDto Error(string message="操作失败")
+        public static UnifyResponseDto Error(string message="操作失败")
         {
-            return new ResultDto(ErrorCode.Fail,message);
+            return new UnifyResponseDto(ErrorCode.Fail,message);
         }
 
         public override string ToString()

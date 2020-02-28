@@ -50,7 +50,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
+        public UnifyResponseDto Post([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
             Expression<Func<UserLike, bool>> predicate = r => r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == _currentUser.Id;
 
@@ -74,7 +74,7 @@ namespace LinCms.Web.Controllers.Blog
 
             if (exist)
             {
-                return ResultDto.Success("取消点赞成功");
+                return UnifyResponseDto.Success("取消点赞成功");
             }
 
             UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
@@ -83,7 +83,7 @@ namespace LinCms.Web.Controllers.Blog
             
             this.PublishUserLikeNotification(createUpdateUserLike);
             
-            return ResultDto.Success("点赞成功");
+            return UnifyResponseDto.Success("点赞成功");
         }
 
         private void UpdateArticleLike(Guid subjectId, int likesQuantity)

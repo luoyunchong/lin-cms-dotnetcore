@@ -66,10 +66,10 @@ namespace LinCms.Web.Middleware
         /// <returns></returns>
         private async Task JsonHandle(HttpContext context, string errorMsg, ErrorCode errorCode, int statusCode)
         {
-            ResultDto apiResponse = new ResultDto()
+            UnifyResponseDto apiResponse = new UnifyResponseDto()
             {
                 Message = errorMsg,
-                ErrorCode = errorCode,
+                Code = errorCode,
                 Request = LinCmsUtils.GetRequest(context)
             }; ;
 

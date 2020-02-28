@@ -3,14 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Users;
-using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
-using LinCms.Web.Data;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Common;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -66,59 +63,45 @@ namespace LinCms.Web.Controllers.Cms
             return userInformation;
         }
 
-        /// <summary>
-        /// 新增用户-不是注册，注册不可能让用户选择gourp_id
-        /// </summary>
-        /// <param name="userInput"></param>
-        [AuditingLog("管理员新建了一个用户")]
-        [HttpPost]
-        [LinCmsAuthorize(Roles = LinGroup.Admin)]
-        public ResultDto Post([FromBody] CreateUserDto userInput)
-        {
-            _userSevice.Register(_mapper.Map<LinUser>(userInput));
-
-            return ResultDto.Success("用户创建成功");
-        }
-
         [AuditingLog("修改了自己的密码")]
         [HttpPut("change_password")]
-        public async Task<ResultDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
+        public async Task<UnifyResponseDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
         {
             await _userSevice.ChangePasswordAsync(passwordDto);
 
-            return ResultDto.Success("密码修改成功");
+            return UnifyResponseDto.Success("密码修改成功");
         }
 
         [HttpPut("avatar")]
-        public async Task<ResultDto> SetAvatar(UpdateAvatarDto avatarDto)
+        public async Task<UnifyResponseDto> SetAvatar(UpdateAvatarDto avatarDto)
         {
             await _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
                 Avatar = avatarDto.Avatar
             }).ExecuteAffrowsAsync();
 
-            return ResultDto.Success("更新头像成功");
+            return UnifyResponseDto.Success("更新头像成功");
         }
 
         [HttpPut("nickname")]
-        public ResultDto SetNickname(UpdateNicknameDto updateNicknameDto)
+        public UnifyResponseDto SetNickname(UpdateNicknameDto updateNicknameDto)
         {
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
                 Nickname = updateNicknameDto.Nickname
             }).ExecuteAffrows();
-            return ResultDto.Success("更新昵称成功");
+            return UnifyResponseDto.Success("更新昵称成功");
         }
 
         [HttpPut]
-        public ResultDto SetProfileInfo(UpdateProfileDto updateProfileDto)
+        public UnifyResponseDto SetProfileInfo(UpdateProfileDto updateProfileDto)
         {
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
                 Nickname = updateProfileDto.Nickname,
                 Introduction = updateProfileDto.Introduction
             }).ExecuteAffrows();
-            return ResultDto.Success("更新基本信息成功");
+            return UnifyResponseDto.Success("更新基本信息成功");
         }
 
         [AllowAnonymous]

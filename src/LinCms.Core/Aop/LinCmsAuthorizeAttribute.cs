@@ -70,7 +70,7 @@ namespace LinCms.Core.Aop
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Result = new JsonResult(
-                new ResultDto(ErrorCode.AuthenticationFailed, errorMsg, context.HttpContext)
+                new UnifyResponseDto(ErrorCode.AuthenticationFailed, errorMsg, context.HttpContext)
             );
         }
 
