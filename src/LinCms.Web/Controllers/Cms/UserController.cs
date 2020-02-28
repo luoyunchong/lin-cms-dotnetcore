@@ -40,6 +40,20 @@ namespace LinCms.Web.Controllers.Cms
             return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
 
+
+        /// <summary>
+        /// 新增用户-不是注册，注册不可能让用户选择gourp_id
+        /// </summary>
+        /// <param name="userInput"></param>
+        [AuditingLog("管理员新建了一个用户")]
+        [HttpPost("register")]
+        [LinCmsAuthorize(Roles = LinGroup.Admin)]
+        public UnifyResponseDto Post([FromBody] CreateUserDto userInput)
+        {
+            _userSevice.Register(_mapper.Map<LinUser>(userInput), userInput.GroupIds);
+
+            return UnifyResponseDto.Success("用户创建成功");
+        }
         /// <summary>
         /// 得到当前登录人信息
         /// </summary>

@@ -37,7 +37,7 @@ namespace LinCms.Application.Cms.Users
         /// </summary>
         /// <param name="id"></param>
         /// <param name="userActive"></param>
-        Task ChangeStatusAsync(int id, UserActive userActive);
+        Task ChangeStatusAsync(long id, UserActive userActive);
 
         /// <summary>
         /// 注册-新增一个用户
@@ -46,11 +46,11 @@ namespace LinCms.Application.Cms.Users
         /// <param name="groupIds"></param>
         Task Register(LinUser user,List<long>groupIds);
 
-        void UpdateUserInfo(int id, UpdateUserDto updateUserDto);
+        void UpdateUserInfo(long id, UpdateUserDto updateUserDto);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(long id);
 
-        Task ResetPasswordAsync(int id, ResetPasswordDto resetPasswordDto);
+        Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto);
 
         /// <summary>
         /// 得到当前用户上下文
