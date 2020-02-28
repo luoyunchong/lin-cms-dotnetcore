@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinCms.Application.Cms.Groups;
 using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Admins;
 using LinCms.Application.Contracts.Cms.Groups;
@@ -27,12 +28,13 @@ namespace LinCms.Application.Cms.Users
         private readonly ICurrentUser _currentUser;
         private readonly IUserIdentityService _userIdentityService;
         private readonly IPermissionService _permissionService;
+        private readonly IGroupService _groupService;
 
         public UserService(UserRepository userRepository,
             IFreeSql freeSql,
             IMapper mapper,
             ICurrentUser currentUser,
-            IUserIdentityService userIdentityService, IPermissionService permissionService)
+            IUserIdentityService userIdentityService, IPermissionService permissionService, IGroupService groupService)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;
@@ -40,6 +42,7 @@ namespace LinCms.Application.Cms.Users
             _currentUser = currentUser;
             _userIdentityService = userIdentityService;
             _permissionService = permissionService;
+            _groupService = groupService;
         }
 
         public Task<LinUser> GetUserAsync(Expression<Func<LinUser, bool>> expression)
@@ -62,12 +65,12 @@ namespace LinCms.Application.Cms.Users
         }
 
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             await _userRepository.DeleteAsync(r => r.Id == id);
         }
 
-        public async Task ResetPasswordAsync(int id, ResetPasswordDto resetPasswordDto)
+        public async Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto)
         {
             bool userExist = await _userRepository.Where(r => r.Id == id).AnyAsync();
 
@@ -89,7 +92,7 @@ namespace LinCms.Application.Cms.Users
         {
             List<UserDto> linUsers = _userRepository.Select
                 .IncludeMany(r => r.LinGroups)
-                .Where(r => r.Admin == (int)UserAdmin.Common)
+                .Where(r => r.Admin == (long)UserAdmin.Common)
                 .WhereIf(searchDto.GroupId != null, r => r.LinGroups.Any(u => u.Id == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
                 .ToPagerList(searchDto, out long totalCount)
@@ -123,7 +126,7 @@ namespace LinCms.Application.Cms.Users
                     throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
                 }
             }
-           
+
             user.Active = UserActive.Active.GetHashCode();
             user.Admin = UserAdmin.Common.GetHashCode();
 
@@ -155,36 +158,30 @@ namespace LinCms.Application.Cms.Users
         /// <param name="id"></param>
         /// <param name="updateUserDto"></param>    
         /// <returns></returns>
-        public void UpdateUserInfo(int id, UpdateUserDto updateUserDto)
+        public void UpdateUserInfo(long id, UpdateUserDto updateUserDto)
         {
-            //此方法适用于更新字段少时
-            //_freeSql.Update<LinUser>(id).Set(a => new LinUser()
-            //{
-            //    Email = updateUserDto.Email,
-            //    GroupId = updateUserDto.GroupId
-            //}).ExecuteAffrows();
-
-            //需要多查一次
             LinUser linUser = _userRepository.Where(r => r.Id == id).ToOne();
             if (linUser == null)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
-            //赋值过程可使用AutoMapper简化
-            //只更新 Email、GroupId
-            // UPDATE `lin_user` SET `email` = ?p_0, `group_id` = ?p_1 
-            // WHERE(`id` = 1) AND(`is_deleted` = 0)
-            //linUser.Email = updateUserDto.Email;
-            //linUser.GroupId = updateUserDto.GroupId;
 
             _mapper.Map(updateUserDto, linUser);
 
-            _userRepository.Update(linUser);
+            List<long> existGroupIds = _groupService.GetUserGroupIdsByUserId(id);
 
+            //删除existGroupIds有，而newGroupIds没有的
+            List<long> deleteIds = existGroupIds.Where(r => !updateUserDto.GroupIds.Contains(r)).ToList();
+            //添加newGroupIds有，而existGroupIds没有的
+            List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
+
+            _userRepository.Update(linUser);
+            _groupService.DeleteUserGroupAsync(id, deleteIds);
+            _groupService.AddUserGroupAsync(id, addIds);
         }
 
 
-        public async Task ChangeStatusAsync(int id, UserActive userActive)
+        public async Task ChangeStatusAsync(long id, UserActive userActive)
         {
             LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
 

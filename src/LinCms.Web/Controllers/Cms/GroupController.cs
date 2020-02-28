@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Application.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
-using LinCms.Web.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms

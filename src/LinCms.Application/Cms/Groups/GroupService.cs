@@ -44,6 +44,11 @@ namespace LinCms.Application.Cms.Groups
             return groupDto;
         }
 
+        /// <summary>
+        /// 批量插入
+        /// </summary>
+        /// <param name="inputDto"></param>
+        /// <returns></returns>
         public async Task CreateAsync(CreateGroupDto inputDto)
         {
             bool exist = await _freeSql.Select<LinGroup>().AnyAsync(r => r.Name == inputDto.Name);
@@ -60,7 +65,6 @@ namespace LinCms.Application.Cms.Groups
 
                 List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
 
-                //批量插入
                 List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
                 inputDto.PermissionIds.ForEach(r =>
                 {
@@ -99,7 +103,8 @@ namespace LinCms.Application.Cms.Groups
                 throw new LinCmsException("无法删除静态权限组!");
             }
 
-            bool exist = await _freeSql.Select<LinUser>().AnyAsync(r => r.LinUserGroups.Any(u => u.UserId == id));
+            bool exist = await _freeSql.Select<LinUserGroup>().AnyAsync(r => r.GroupId==id);
+
             if (exist)
             {
                 throw new LinCmsException("分组下存在用户，不可删除", ErrorCode.Inoperable);
@@ -122,6 +127,50 @@ namespace LinCms.Application.Cms.Groups
         public bool CheckIsRootByUserId(long userId)
         {
             return _currentUser.IsInGroup(LinConsts.Group.Admin);
+        }
+
+        public List<long> GetUserGroupIdsByUserId(long userId)
+        {
+            return _freeSql.Select<LinUserGroup>().Where(r => r.UserId == userId).ToList(r => r.GroupId);
+        }
+
+        public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
+        {
+            await _freeSql.Select<LinUserGroup>().Where(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId)).ToDelete()
+                  .ExecuteAffrowsAsync();
+        }
+
+        public async Task AddUserGroupAsync(long userId, List<long> addGroupIds)
+        {
+            if (addGroupIds == null || addGroupIds.IsEmpty())
+                return;
+            bool valid = await this.CheckGroupExistByIds(addGroupIds);
+            if (!valid)
+            {
+                throw new LinCmsException("cant't add user to non-existent group");
+            }
+            List<LinUserGroup> userGroups = new List<LinUserGroup>();
+            addGroupIds.ForEach(groupId => { userGroups.Add(new LinUserGroup(userId, groupId)); });
+            await _freeSql.Insert(userGroups).ExecuteAffrowsAsync();
+        }
+
+        private async Task<bool> CheckGroupExistById(long id)
+        {
+            return await _freeSql.Select<LinGroup>().Where(r => r.Id == id).AnyAsync();
+        }
+
+        private async Task<bool> CheckGroupExistByIds(List<long> ids)
+        {
+            foreach (var id in ids)
+            {
+                bool valid = await CheckGroupExistById(id);
+                if (!valid)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

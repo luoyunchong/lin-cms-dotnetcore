@@ -19,5 +19,11 @@ namespace LinCms.Application.Cms.Groups
         /// <returns></returns>
         Task DeleteAsync(long id);
         bool CheckIsRootByUserId(long userId);
+
+        List<long> GetUserGroupIdsByUserId(long userId);
+
+        Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds);
+        Task AddUserGroupAsync(long userId, List<long> addGroupIds);
+
     }
 }
