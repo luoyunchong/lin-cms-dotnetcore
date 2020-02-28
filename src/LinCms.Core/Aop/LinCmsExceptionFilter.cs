@@ -32,7 +32,7 @@ namespace LinCms.Core.Aop
                 HandlerException(context,
                     new ResultDto()
                     {
-                        Msg = cmsException.Message,
+                        Message = cmsException.Message,
                         ErrorCode = cmsException.GetErrorCode()
                     },
                     cmsException.GetCode()
@@ -57,7 +57,7 @@ namespace LinCms.Core.Aop
             ResultDto apiResponse = new ResultDto()
             {
                 ErrorCode = ErrorCode.UnknownError,
-                Msg = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试."
+                Message = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试."
             };
 
             HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);

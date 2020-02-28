@@ -35,8 +35,7 @@ namespace LinCms.Web.Controllers.Cms
         public async Task<GroupDto> GetAsync(long id)
         {
             GroupDto groupDto = await _groupService.GetAsync(id);
-            List<LinGroupPermission> listPermissions = _freeSql.Select<LinGroupPermission>().Where(r => r.GroupId == id).ToList();
-            //groupDto.Permissions = ReflexHelper.AuthsConvertToTree(listPermissions);
+
             return groupDto;
         }
 
@@ -44,8 +43,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpPost]
         public async Task<ResultDto> CreateAsync([FromBody] CreateGroupDto inputDto)
         {
-            List<PermissionDefinition> prmissionDefinitions = ReflexHelper.GeAssemblyLinCmsAttributes();
-            await _groupService.CreateAsync(inputDto, prmissionDefinitions);
+            await _groupService.CreateAsync(inputDto);
             return ResultDto.Success("新建分组成功");
         }
 

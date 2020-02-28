@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Admins;
@@ -12,7 +13,7 @@ namespace LinCms.Application.Cms.Users
     public interface IUserService
     {
         /// <summary>
-        /// 验证条件
+        /// 根据条件得到用户信息
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
@@ -48,14 +49,18 @@ namespace LinCms.Application.Cms.Users
 
         Task DeleteAsync(int id);
 
-        Task ResetPasswordAsync (int id, ResetPasswordDto resetPasswordDto);
-
-        bool CheckPermission(int userId, string permission);
+        Task ResetPasswordAsync(int id, ResetPasswordDto resetPasswordDto);
 
         /// <summary>
         /// 得到当前用户上下文
         /// </summary>
         /// <returns></returns>
         LinUser GetCurrentUser();
+
+        Task<UserInformation> GetInformationAsync(long userId);
+        Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId);
+
+        Task<List<LinPermission>> GetUserPermissions(long userId);
+
     }
 }

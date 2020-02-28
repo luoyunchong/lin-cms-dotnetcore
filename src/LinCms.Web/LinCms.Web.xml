@@ -331,14 +331,14 @@
             <param name="provider"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.PermissionDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.RemovePermissionDto)">
             <summary>
             删除某个组别的权限
             </summary>
             <param name="permissionDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Application.Contracts.Cms.Permissions.PermissionDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Application.Contracts.Cms.Permissions.DispatchPermissionsDto)">
             <summary>
             分配多个权限
             </summary>

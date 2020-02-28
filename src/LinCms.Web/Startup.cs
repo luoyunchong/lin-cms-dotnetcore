@@ -211,32 +211,32 @@ namespace LinCms.Web
                             //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
                             context.HandleResponse();
 
-                            string msg;
+                            string message;
                             ErrorCode errorCode;
                             int statusCode = StatusCodes.Status401Unauthorized;
 
                             if (context.Error == "invalid_token" &&
                                context.ErrorDescription == "The token is expired")
                             {
-                                msg = "令牌过期";
+                                message = "令牌过期";
                                 errorCode = ErrorCode.TokenExpired;
                                 statusCode = StatusCodes.Status422UnprocessableEntity;
                             }
                             else if (context.Error == "invalid_token" && context.ErrorDescription.IsNullOrEmpty())
                             {
-                                msg = "令牌失效";
+                                message = "令牌失效";
                                 errorCode = ErrorCode.TokenInvalidation;
                             }
 
                             else
                             {
-                                msg = "请先登录";//""认证失败，请检查请求头或者重新登录";
+                                message = "请先登录";//""认证失败，请检查请求头或者重新登录";
                                 errorCode = ErrorCode.AuthenticationFailed;
                             }
 
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = statusCode;
-                            context.Response.WriteAsync(new ResultDto(errorCode, msg, context.HttpContext).ToString());
+                            context.Response.WriteAsync(new ResultDto(errorCode, message, context.HttpContext).ToString());
 
                             return Task.FromResult(0);
                         }
@@ -395,10 +395,10 @@ namespace LinCms.Web
 
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
-                x.FailedThresholdCallback = (type, msg) =>
+                x.FailedThresholdCallback = (type, message) =>
                 {
                     Console.WriteLine(
-                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {msg.GetName()}");
+                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {message.GetName()}");
                 };
             });
             services.AddStartupTask<MigrationStartupTask>();

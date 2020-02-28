@@ -1,7 +1,6 @@
 ﻿
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
-using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Core.Entities
 {

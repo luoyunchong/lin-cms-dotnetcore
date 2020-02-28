@@ -92,7 +92,7 @@ namespace LinCms.Web.Data
 
                     if (linLog.Message.IsNullOrEmpty())
                     {
-                        linLog.Message = resultDto.Msg?.ToString();
+                        linLog.Message = resultDto.Message?.ToString();
                     }
                 }
             }

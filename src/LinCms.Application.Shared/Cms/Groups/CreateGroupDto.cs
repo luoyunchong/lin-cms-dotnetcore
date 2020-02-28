@@ -5,13 +5,13 @@ namespace LinCms.Application.Contracts.Cms.Groups
 {
     public class CreateGroupDto : UpdateGroupDto, IValidatableObject
     {
-        public List<string> Permissions { get; set; }
+        public List<long> PermissionIds { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Permissions.Count == 0)
+            if (PermissionIds.Count == 0)
             {
-                yield return new ValidationResult("请输入auths字段", new List<string> { "Auths" });
+                yield return new ValidationResult("请选择权限", new List<string> { "PermissionIds" });
             }
         }
     }

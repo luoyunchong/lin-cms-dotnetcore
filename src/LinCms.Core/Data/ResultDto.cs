@@ -18,24 +18,24 @@ namespace LinCms.Core.Data
         /// <summary>
         ///错误信息
         /// </summary>
-        public object Msg { get; set; }
+        public object Message { get; set; }
 
         /// <summary>
         ///请求地址
         /// </summary>
         public string Request { get; set; }
 
-        public ResultDto(ErrorCode errorCode, object msg, HttpContext httpContext)
+        public ResultDto(ErrorCode errorCode, object message, HttpContext httpContext)
         {
             ErrorCode = errorCode;
-            Msg = msg;
+            Message = message;
             Request = LinCmsUtils.GetRequest(httpContext);
         }
 
-        public ResultDto(ErrorCode errorCode, object msg)
+        public ResultDto(ErrorCode errorCode, object message)
         {
             ErrorCode = errorCode;
-            Msg = msg ?? throw new ArgumentNullException(nameof(msg));
+            Message = message ?? throw new ArgumentNullException(nameof(message));
         }
 
         public ResultDto(ErrorCode errorCode)
@@ -47,14 +47,14 @@ namespace LinCms.Core.Data
         {
         }
 
-        public static ResultDto Success(string msg="操作成功")
+        public static ResultDto Success(string message="操作成功")
         {
-            return  new ResultDto(ErrorCode.Success,msg);
+            return  new ResultDto(ErrorCode.Success,message);
         }
 
-        public static ResultDto Error(string msg="操作失败")
+        public static ResultDto Error(string message="操作失败")
         {
-            return new ResultDto(ErrorCode.Fail,msg);
+            return new ResultDto(ErrorCode.Fail,message);
         }
 
         public override string ToString()

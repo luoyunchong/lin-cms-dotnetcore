@@ -26,8 +26,8 @@
 
 ## 线上文档地址(完善中)
 
-- [https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vuepress-docs/dotnetcore/lin-cms/)
-- [https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vuepress-docs/dotnetcore/lin-cms/)
+- [https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/)
+- [https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/)
 
 ## 线上 Demo
 - 本项目swagger地址 [http://47.106.80.39:7000/swagger/index.html](http://47.106.80.39:7000/swagger/index.html)
@@ -87,6 +87,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 云存储：七牛云 [MQiniu.Core](https://github.com/Hello-Mango/MQiniu.Core)
 - 分布式事务、EventBus：[DotNeteCore.CAP](https://github.com/dotnetcore/CAP)
 - GitHub第三方授权登录[AspNet.Security.OAuth.GitHub](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
+- 系统启动时的异步任务 running tasks asynchronously on ASP.NET Core app startup [NetEscapades.AspNetCore.StartupTasks](https://github.com/andrewlock/NetEscapades.AspNetCore.StartupTasks)
 
 ### 前端 
 前端需要开发者比较熟悉 Vue 的，另外需要了解 ES6,axios,ElementUi、webpack、Vuex、Vue-Router等等等

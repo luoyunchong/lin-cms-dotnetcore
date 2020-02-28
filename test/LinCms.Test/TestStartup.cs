@@ -16,7 +16,7 @@ namespace LinCms.Test
 
         public void ConfigureTestServices(IServiceCollection services)
         {
-            // todo:为测试环境配置服务
+            // TODO:为测试环境配置服务
         }
     }
 }

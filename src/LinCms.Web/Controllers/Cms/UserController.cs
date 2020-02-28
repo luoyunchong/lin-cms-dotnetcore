@@ -10,6 +10,7 @@ using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Web.Data;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Core.Common;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,12 +49,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("information")]
         public async Task<UserInformation> GetInformationAsync()
         {
-            LinUser linUser = await _userSevice.GetUserAsync(r => r.Id == _currentUser.Id);
-            linUser.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
-
-            UserInformation userInformation = _mapper.Map<UserInformation>(linUser);
-            userInformation.Groups = linUser.LinGroups.Select(r => _mapper.Map<GroupDto>(r)).ToList();
-
+            UserInformation userInformation = await _userSevice.GetInformationAsync(_currentUser.Id ?? 0);
             return userInformation;
         }
 
@@ -64,19 +60,10 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("permissions")]
         public async Task<UserInformation> Permissions()
         {
-            UserInformation user = await this.GetInformationAsync();
-
-            if (user.Groups.Count != 0)
-            {
-                var groupIds = user.Groups.Select(r => r.Id).ToArray();
-                //TODO
-                List<LinPermission> listAuths = new List<LinPermission>();//(_freeSql.Select<LinPermission>().Where(a => groupIds.Contains(a.GroupId)).ToList());
-
-                user.Auths = ReflexHelper.AuthsConvertToTree(listAuths); ;
-
-            }
-
-            return user;
+            UserInformation userInformation = await _userSevice.GetInformationAsync(_currentUser.Id ?? 0);
+            var permissions = await _userSevice.GetStructualUserPermissions(_currentUser.Id ?? 0);
+            userInformation.Permissions = permissions;
+            return userInformation;
         }
 
         /// <summary>
