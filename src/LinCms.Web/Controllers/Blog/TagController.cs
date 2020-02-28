@@ -33,10 +33,10 @@ namespace LinCms.Web.Controllers.Blog
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除标签", "标签管理")]
-        public ResultDto DeleteTag(Guid id)
+        public UnifyResponseDto DeleteTag(Guid id)
         {
             _tagRepository.Delete(new Tag { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -61,7 +61,7 @@ namespace LinCms.Web.Controllers.Blog
 
         [HttpPost]
         [LinCmsAuthorize("新增标签", "标签管理")]
-        public ResultDto Post([FromBody] CreateUpdateTagDto createTag)
+        public UnifyResponseDto Post([FromBody] CreateUpdateTagDto createTag)
         {
             bool exist = _tagRepository.Select.Any(r => r.TagName == createTag.TagName);
             if (exist)
@@ -71,12 +71,12 @@ namespace LinCms.Web.Controllers.Blog
 
             Tag tag = _mapper.Map<Tag>(createTag);
             _tagRepository.Insert(tag);
-            return ResultDto.Success("新建标签成功");
+            return UnifyResponseDto.Success("新建标签成功");
         }
 
         [LinCmsAuthorize("编辑标签", "标签管理")]
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id, [FromBody] CreateUpdateTagDto updateTag)
+        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateTagDto updateTag)
         {
             Tag tag = _tagRepository.Select.Where(r => r.Id == id).ToOne();
             if (tag == null)
@@ -94,7 +94,7 @@ namespace LinCms.Web.Controllers.Blog
 
             _tagRepository.Update(tag);
 
-            return ResultDto.Success("更新标签成功");
+            return UnifyResponseDto.Success("更新标签成功");
         }
 
         /// <summary>
@@ -104,11 +104,11 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("校正文章数量", "标签管理")]
         [HttpPut("correct/{tagId}")]
-        public ResultDto CorrectedTagCount(Guid tagId)
+        public UnifyResponseDto CorrectedTagCount(Guid tagId)
         {
             long count = _tagArticleRepository.Select.Where(r => r.TagId == tagId && r.Article.IsDeleted == false).Count();
             _tagRepository.UpdateDiy.Set(r => r.ArticleCount, count).Where(r => r.Id == tagId).ExecuteAffrows();
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
     }
 }

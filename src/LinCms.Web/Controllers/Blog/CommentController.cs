@@ -158,11 +158,11 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除评论", "评论")]
-        public ResultDto Delete(Guid id)
+        public UnifyResponseDto Delete(Guid id)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
             _commentService.Delete(comment);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>
@@ -171,19 +171,19 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ResultDto DeleteMyComment(Guid id)
+        public UnifyResponseDto DeleteMyComment(Guid id)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
             if (comment == null)
             {
-                return ResultDto.Error("该评论已删除");
+                return UnifyResponseDto.Error("该评论已删除");
             }
             if (comment.CreateUserId != _currentUser.Id)
             {
-                return ResultDto.Error("无权限删除他人的评论");
+                return UnifyResponseDto.Error("无权限删除他人的评论");
             }
             _commentService.Delete(comment);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
 
         }
 
@@ -193,7 +193,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="createCommentDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResultDto Post([FromBody] CreateCommentDto createCommentDto)
+        public UnifyResponseDto Post([FromBody] CreateCommentDto createCommentDto)
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
             _commentAuditBaseRepository.Insert(comment);
@@ -226,7 +226,7 @@ namespace LinCms.Web.Controllers.Blog
                 });
             }
 
-            return ResultDto.Success("评论成功");
+            return UnifyResponseDto.Success("评论成功");
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核评论", "评论")]
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id, bool isAudit)
+        public UnifyResponseDto Put(Guid id, bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
             if (comment == null)
@@ -247,7 +247,7 @@ namespace LinCms.Web.Controllers.Blog
 
             comment.IsAudit = isAudit;
             _commentAuditBaseRepository.Update(comment);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("校正评论量", "评论")]
         [HttpPut("{subjectId}/type/${subject_type}")]
-        public ResultDto CorrectedComment(Guid subjectId, int subjectType)
+        public UnifyResponseDto CorrectedComment(Guid subjectId, int subjectType)
         {
             long count = _commentAuditBaseRepository.Select.Where(r => r.SubjectId == subjectId).Count();
 
@@ -268,7 +268,7 @@ namespace LinCms.Web.Controllers.Blog
                     _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId).ExecuteAffrows();
                     break;
             }
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
     }

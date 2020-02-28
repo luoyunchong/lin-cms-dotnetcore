@@ -23,10 +23,10 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("删除技术频道", "技术频道")]
         [HttpDelete("{id}")]
-        public ResultDto Delete(Guid id)
+        public UnifyResponseDto Delete(Guid id)
         {
             _channelService.Delete(id);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -43,19 +43,19 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("新增技术频道", "技术频道")]
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdateChannelDto createChannel)
+        public UnifyResponseDto Post([FromBody] CreateUpdateChannelDto createChannel)
         {
             _channelService.Post(createChannel);
-            return ResultDto.Success("新建技术频道成功");
+            return UnifyResponseDto.Success("新建技术频道成功");
         }
 
         [LinCmsAuthorize("修改技术频道", "技术频道")]
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
+        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
         {
             _channelService.Put(id, updateChannel);
 
-            return ResultDto.Success("更新技术频道成功");
+            return UnifyResponseDto.Success("更新技术频道成功");
         }
     }
 }

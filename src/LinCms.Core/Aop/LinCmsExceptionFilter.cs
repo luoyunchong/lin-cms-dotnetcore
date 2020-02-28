@@ -30,10 +30,10 @@ namespace LinCms.Core.Aop
             if (context.Exception is LinCmsException cmsException)
             {
                 HandlerException(context,
-                    new ResultDto()
+                    new UnifyResponseDto()
                     {
                         Message = cmsException.Message,
-                        ErrorCode = cmsException.GetErrorCode()
+                        Code = cmsException.GetErrorCode()
                     },
                     cmsException.GetCode()
                     );
@@ -54,16 +54,16 @@ namespace LinCms.Core.Aop
 
             _logger.LogError(error);
 
-            ResultDto apiResponse = new ResultDto()
+            UnifyResponseDto apiResponse = new UnifyResponseDto()
             {
-                ErrorCode = ErrorCode.UnknownError,
+                Code = ErrorCode.UnknownError,
                 Message = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试."
             };
 
             HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);
         }
 
-        private void HandlerException(ExceptionContext context, ResultDto apiResponse, int statusCode)
+        private void HandlerException(ExceptionContext context, UnifyResponseDto apiResponse, int statusCode)
         {
             apiResponse.Request = LinCmsUtils.GetRequest(context.HttpContext);
 

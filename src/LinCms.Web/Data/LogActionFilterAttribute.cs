@@ -84,7 +84,7 @@ namespace LinCms.Web.Data
             {
                 if (objectResult.Value.ToString().Contains("ErrorCode"))
                 {
-                    ResultDto resultDto = JsonConvert.DeserializeObject<ResultDto>(objectResult.Value.ToString());
+                    UnifyResponseDto resultDto = JsonConvert.DeserializeObject<UnifyResponseDto>(objectResult.Value.ToString());
 
                     resultDto.Request = LinCmsUtils.GetRequest(context.HttpContext);
 

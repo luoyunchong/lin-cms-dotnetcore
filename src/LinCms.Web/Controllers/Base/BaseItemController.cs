@@ -27,10 +27,10 @@ namespace LinCms.Web.Controllers.Base
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除字典", "字典管理")]
-        public ResultDto DeleteBaseItem(int id)
+        public UnifyResponseDto DeleteBaseItem(int id)
         {
             _baseItemRepository.Delete(new BaseItem { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -57,7 +57,7 @@ namespace LinCms.Web.Controllers.Base
 
         [HttpPost]
         [LinCmsAuthorize("新增字典", "字典管理")]
-        public ResultDto Post([FromBody] CreateUpdateBaseItemDto createBaseItem)
+        public UnifyResponseDto Post([FromBody] CreateUpdateBaseItemDto createBaseItem)
         {
             bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == createBaseItem.BaseTypeId && r.ItemCode == createBaseItem.ItemCode);
             if (exist)
@@ -67,12 +67,12 @@ namespace LinCms.Web.Controllers.Base
 
             BaseItem baseItem = _mapper.Map<BaseItem>(createBaseItem);
             _baseItemRepository.Insert(baseItem);
-            return ResultDto.Success("新建字典成功");
+            return UnifyResponseDto.Success("新建字典成功");
         }
 
         [HttpPut("{id}")]
         [LinCmsAuthorize("编辑字典", "字典管理")]
-        public ResultDto Put(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
+        public UnifyResponseDto Put(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
         {
             BaseItem baseItem = _baseItemRepository.Select.Where(r => r.Id == id).ToOne();
             if (baseItem == null)
@@ -97,7 +97,7 @@ namespace LinCms.Web.Controllers.Base
 
             _baseItemRepository.Update(baseItem);
 
-            return ResultDto.Success("更新字典成功");
+            return UnifyResponseDto.Success("更新字典成功");
         }
     }
 }

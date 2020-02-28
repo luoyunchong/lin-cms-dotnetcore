@@ -253,6 +253,12 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.Post(LinCms.Application.Contracts.Cms.Users.CreateUserDto)">
+            <summary>
+            新增用户-不是注册，注册不可能让用户选择gourp_id
+            </summary>
+            <param name="userInput"></param>
+        </member>
         <member name="M:LinCms.Web.Controllers.Cms.AdminController.Put(System.Int32,LinCms.Application.Contracts.Cms.Admins.UpdateUserDto)">
             <summary>
             修改用户信息
@@ -355,12 +361,6 @@
             查询自己拥有的权限
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:LinCms.Web.Controllers.Cms.UserController.Post(LinCms.Application.Contracts.Cms.Users.CreateUserDto)">
-            <summary>
-            新增用户-不是注册，注册不可能让用户选择gourp_id
-            </summary>
-            <param name="userInput"></param>
         </member>
         <member name="T:LinCms.Web.Controllers.v1.QiniuController">
             <summary>

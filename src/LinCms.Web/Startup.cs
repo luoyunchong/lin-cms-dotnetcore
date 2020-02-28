@@ -236,7 +236,7 @@ namespace LinCms.Web
 
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = statusCode;
-                            context.Response.WriteAsync(new ResultDto(errorCode, message, context.HttpContext).ToString());
+                            context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext).ToString());
 
                             return Task.FromResult(0);
                         }
@@ -292,7 +292,7 @@ namespace LinCms.Web
                  {
                      var problemDetails = new ValidationProblemDetails(context.ModelState);
 
-                     var resultDto = new ResultDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+                     var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
 
                      return new BadRequestObjectResult(resultDto)
                      {

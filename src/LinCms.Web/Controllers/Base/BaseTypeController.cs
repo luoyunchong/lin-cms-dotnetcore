@@ -25,10 +25,10 @@ namespace LinCms.Web.Controllers.Base
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除字典类别", "字典类别")]
-        public ResultDto DeleteBaseType(int id)
+        public UnifyResponseDto DeleteBaseType(int id)
         {
             _baseTypeRepository.Delete(new BaseType { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -52,7 +52,7 @@ namespace LinCms.Web.Controllers.Base
 
         [LinCmsAuthorize("新增字典类别", "字典类别")]
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdateBaseTypeDto createBaseType)
+        public UnifyResponseDto Post([FromBody] CreateUpdateBaseTypeDto createBaseType)
         {
             bool exist = _baseTypeRepository.Select.Any(r => r.TypeCode == createBaseType.TypeCode);
             if (exist)
@@ -62,12 +62,12 @@ namespace LinCms.Web.Controllers.Base
 
             BaseType baseType = _mapper.Map<BaseType>(createBaseType);
             _baseTypeRepository.Insert(baseType);
-            return ResultDto.Success("新建类别成功");
+            return UnifyResponseDto.Success("新建类别成功");
         }
 
         [LinCmsAuthorize("编辑字典类别", "字典类别")]
         [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
+        public UnifyResponseDto Put(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
         {
             BaseType baseType = _baseTypeRepository.Select.Where(r => r.Id == id).ToOne();
             if (baseType == null)
@@ -85,7 +85,7 @@ namespace LinCms.Web.Controllers.Base
 
             _baseTypeRepository.Update(baseType);
 
-            return ResultDto.Success("更新类别成功");
+            return UnifyResponseDto.Success("更新类别成功");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using LinCms.Application.Cms.Admin;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Admins;
@@ -19,10 +20,12 @@ namespace LinCms.Web.Controllers.Cms
     {
         private readonly IUserService _userSevice;
         private readonly IAdminService _adminService;
-        public AdminController(IUserService userSevice, IAdminService adminService)
+        private readonly IMapper _mapper;
+        public AdminController(IUserService userSevice, IAdminService adminService, IMapper mapper)
         {
             _userSevice = userSevice;
             _adminService = adminService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,17 +39,31 @@ namespace LinCms.Web.Controllers.Cms
             return _userSevice.GetUserListByGroupId(searchDto);
         }
 
+
+        /// <summary>
+        /// 新增用户-不是注册，注册不可能让用户选择gourp_id
+        /// </summary>
+        /// <param name="userInput"></param>
+        [AuditingLog("管理员新建了一个用户")]
+        [HttpPost("register")]
+        [LinCmsAuthorize(Roles = LinGroup.Admin)]
+        public UnifyResponseDto Post([FromBody] CreateUserDto userInput)
+        {
+            _userSevice.Register(_mapper.Map<LinUser>(userInput), userInput.GroupIds);
+
+            return UnifyResponseDto.Success("用户创建成功");
+        }
         /// <summary>
         /// 修改用户信息
         /// </summary>
         /// <param name="id"></param>
         /// <param name="updateUserDto"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
-        public ResultDto Put(int id, [FromBody] UpdateUserDto updateUserDto)
+        [HttpPut("user/{id}")]
+        public UnifyResponseDto Put(int id, [FromBody] UpdateUserDto updateUserDto)
         {
             _userSevice.UpdateUserInfo(id, updateUserDto);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>
@@ -56,9 +73,10 @@ namespace LinCms.Web.Controllers.Cms
         /// <returns></returns>
         [AuditingLog("管理员删除了一个用户")]
         [HttpDelete("{id}")]
-        public Task DeleteAsync(int id)
+        public async Task<UnifyResponseDto> DeleteAsync(int id)
         {
-            return _userSevice.DeleteAsync(id);
+            await _userSevice.DeleteAsync(id);
+            return UnifyResponseDto.Success("删除用户成功");
         }
 
         /// <summary>
@@ -68,10 +86,10 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="resetPasswordDto"></param>
         /// <returns></returns>
         [HttpPut("password/{id}")]
-        public async Task<ResultDto> ResetPasswordAsync(int id, [FromBody] ResetPasswordDto resetPasswordDto)
+        public async Task<UnifyResponseDto> ResetPasswordAsync(int id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             await _userSevice.ResetPasswordAsync(id, resetPasswordDto);
-            return ResultDto.Success("密码修改成功");
+            return UnifyResponseDto.Success("密码修改成功");
         }
 
         /// <summary>

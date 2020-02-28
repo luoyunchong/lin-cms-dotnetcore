@@ -49,7 +49,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ResultDto DeleteMyArticle(Guid id)
+        public UnifyResponseDto DeleteMyArticle(Guid id)
         {
             bool isCreateArticle = _articleRepository.Select.Any(r => r.Id == id && r.CreateUserId == _currentUser.Id);
             if (!isCreateArticle)
@@ -57,7 +57,7 @@ namespace LinCms.Web.Controllers.Blog
                 throw new LinCmsException("无法删除别人的随笔!");
             }
             _articleService.Delete(id);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除随笔", "随笔")]
-        public ResultDto Delete(Guid id)
+        public UnifyResponseDto Delete(Guid id)
         {
             _articleService.Delete(id);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdateArticleDto createArticle)
+        public UnifyResponseDto Post([FromBody] CreateUpdateArticleDto createArticle)
         {
             _articleService.CreateArticle(createArticle);
 
@@ -198,12 +198,12 @@ namespace LinCms.Web.Controllers.Blog
 
             });
 
-            return ResultDto.Success("新建随笔成功");
+            return UnifyResponseDto.Success("新建随笔成功");
         }
 
 
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
+        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
             if (article.CreateUserId != _currentUser.Id)
@@ -218,7 +218,7 @@ namespace LinCms.Web.Controllers.Blog
             _mapper.Map(updateArticle, article);
             _articleService.UpdateArticle(updateArticle, article);
 
-            return ResultDto.Success("更新随笔成功");
+            return UnifyResponseDto.Success("更新随笔成功");
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核随笔", "随笔")]
         [HttpPut("audit/{id}")]
-        public ResultDto Put(Guid id, bool isAudit)
+        public UnifyResponseDto Put(Guid id, bool isAudit)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
             if (article == null)
@@ -239,7 +239,7 @@ namespace LinCms.Web.Controllers.Blog
 
             article.IsAudit = isAudit;
             _articleRepository.Update(article);
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>

@@ -27,9 +27,9 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpGet("info")]
         [LinCmsAuthorize("查看lin的信息", "信息")]
-        public ResultDto Info()
+        public UnifyResponseDto Info()
         {
-            return ResultDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
+            return UnifyResponseDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
         }
 
         [HttpGet("")]
@@ -75,7 +75,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet("lincms-exception")]
-        public ResultDto TestLinCmsException()
+        public UnifyResponseDto TestLinCmsException()
         {
             throw new LinCmsException("我报异常了-NotFound！", ErrorCode.NotFound,StatusCodes.Status404NotFound);
 
@@ -83,7 +83,7 @@ namespace LinCms.Web.Controllers.v1
         }
 
         [HttpGet("lincms-2")]
-        public ResultDto TestLinCms2Exception()
+        public UnifyResponseDto TestLinCms2Exception()
         {
             throw new Exception("我报异常了-Exeption");
             //return ResultDto.Success();

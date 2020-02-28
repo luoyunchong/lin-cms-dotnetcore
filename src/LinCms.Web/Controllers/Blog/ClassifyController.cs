@@ -29,7 +29,7 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpDelete("{id}")]
-        public ResultDto DeleteClassify(Guid id)
+        public UnifyResponseDto DeleteClassify(Guid id)
         {
             Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
             if (classify.CreateUserId != _currentUser.Id)
@@ -37,7 +37,7 @@ namespace LinCms.Web.Controllers.Blog
                 throw new LinCmsException("您无权删除他人的分类专栏");
             }
             _classifyRepository.Delete(new Classify { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [HttpGet]
@@ -63,10 +63,10 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("删除", "分类专栏")]
         [HttpDelete("cms/{id}")]
-        public ResultDto Delete(Guid id)
+        public UnifyResponseDto Delete(Guid id)
         {
             _classifyRepository.Delete(new Classify { Id = id });
-            return ResultDto.Success();
+            return UnifyResponseDto.Success();
         }
 
         [LinCmsAuthorize("分类专栏列表", "分类专栏")]
@@ -97,7 +97,7 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpPost]
-        public ResultDto Post([FromBody] CreateUpdateClassifyDto createClassify)
+        public UnifyResponseDto Post([FromBody] CreateUpdateClassifyDto createClassify)
         {
             bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
             if (exist)
@@ -107,11 +107,11 @@ namespace LinCms.Web.Controllers.Blog
 
             Classify classify = _mapper.Map<Classify>(createClassify);
             _classifyRepository.Insert(classify);
-            return ResultDto.Success("新建分类专栏成功");
+            return UnifyResponseDto.Success("新建分类专栏成功");
         }
 
         [HttpPut("{id}")]
-        public ResultDto Put(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
+        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
         {
             Classify classify = _classifyRepository.Select.Where(r => r.Id == id).ToOne();
             if (classify == null)
@@ -134,7 +134,7 @@ namespace LinCms.Web.Controllers.Blog
 
             _classifyRepository.Update(classify);
 
-            return ResultDto.Success("更新分类专栏成功");
+            return UnifyResponseDto.Success("更新分类专栏成功");
         }
 
     }

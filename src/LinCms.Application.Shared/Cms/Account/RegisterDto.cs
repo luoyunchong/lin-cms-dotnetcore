@@ -19,7 +19,7 @@ namespace LinCms.Application.Contracts.Cms.Account
         [RegularExpression("^[A-Za-z0-9_*&$#@]{6,22}$", ErrorMessage = "密码长度必须在6~22位之间，包含字符、数字和 _")]
         public string Password { get; set; }
         /// <summary>
-        /// 手机号
+        /// 邮件
         /// </summary>
         [Required(ErrorMessage = "邮件不能为空")]
         public string Email { get; set; }

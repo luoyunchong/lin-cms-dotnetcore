@@ -7,7 +7,6 @@ using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
-using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
@@ -127,14 +126,14 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="registerDto"></param>
         [AuditingLog("用户注册")]
-        [HttpPost("register")]
-        public ResultDto Post([FromBody] RegisterDto registerDto)
+        [HttpPost("account/register")]
+        public UnifyResponseDto Post([FromBody] RegisterDto registerDto)
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
 
-            _userSevice.Register(user);
+            _userSevice.Register(user,new List<long>());
 
-            return ResultDto.Success("注册成功");
+            return UnifyResponseDto.Success("注册成功");
         }
     }
 }
