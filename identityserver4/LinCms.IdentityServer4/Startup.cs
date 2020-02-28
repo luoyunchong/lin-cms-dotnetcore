@@ -8,6 +8,7 @@ using FreeSql;
 using FreeSql.Internal;
 using LinCms.Application;
 using LinCms.Application.AutoMapper.Cms;
+using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
@@ -122,7 +123,8 @@ namespace LinCms.IdentityServer4
 
             services.AddTransient<IUserIdentityService, UserIdentityService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ICurrentUser,CurrentUser>();
+            services.AddTransient<IPermissionService, PermissionService>();
+            services.AddTransient<ICurrentUser, CurrentUser>();
 
             services.AddCors();
             services.AddAutoMapper(typeof(UserProfile).Assembly);

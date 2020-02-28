@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Data;
+using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
+using LinCms.Core.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Application.Cms.Groups
@@ -17,10 +17,14 @@ namespace LinCms.Application.Cms.Groups
     {
         private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
-        public GroupService(IFreeSql freeSql, IMapper mapper)
+        private readonly IPermissionService _permissionService;
+        private readonly ICurrentUser _currentUser;
+        public GroupService(IFreeSql freeSql, IMapper mapper, IPermissionService permissionService, ICurrentUser currentUser)
         {
             _freeSql = freeSql;
             _mapper = mapper;
+            _permissionService = permissionService;
+            _currentUser = currentUser;
         }
 
         public async Task<List<LinGroup>> GetListAsync()
@@ -36,10 +40,11 @@ namespace LinCms.Application.Cms.Groups
         {
             LinGroup group = await _freeSql.Select<LinGroup>().Where(r => r.Id == id).FirstAsync();
             GroupDto groupDto = _mapper.Map<GroupDto>(group);
+            groupDto.Permissions = await _permissionService.GetPermissionByGroupIds(new List<long>() { id });
             return groupDto;
         }
 
-        public async Task CreateAsync(CreateGroupDto inputDto, List<PermissionDefinition> permissionDefinitions)
+        public async Task CreateAsync(CreateGroupDto inputDto)
         {
             bool exist = await _freeSql.Select<LinGroup>().AnyAsync(r => r.Name == inputDto.Name);
             if (exist)
@@ -53,20 +58,21 @@ namespace LinCms.Application.Cms.Groups
             {
                 long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
 
+                List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
+
                 //批量插入
-                List<LinPermission> linPermissions = new List<LinPermission>();
-                inputDto.Permissions.ForEach(r =>
+                List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+                inputDto.PermissionIds.ForEach(r =>
                 {
-                    PermissionDefinition pdDto = permissionDefinitions.FirstOrDefault(u => u.Permission == r);
+                    LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
                     if (pdDto == null)
                     {
                         throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
                     }
-                    //TODO
-                    //linPermissions.Add(new LinGroupPermission(groupId, pe));
+                    linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
                 });
 
-                _freeSql.Insert<LinPermission>().AppendData(linPermissions).ExecuteAffrows();
+                _freeSql.Insert<LinGroupPermission>().AppendData(linPermissions).ExecuteAffrows();
             });
         }
 
@@ -111,6 +117,11 @@ namespace LinCms.Application.Cms.Groups
                 _freeSql.Delete<LinGroup>(new { id = id }).ExecuteAffrows();
             });
 
+        }
+
+        public bool CheckIsRootByUserId(long userId)
+        {
+            return _currentUser.IsInGroup(LinConsts.Group.Admin);
         }
     }
 }

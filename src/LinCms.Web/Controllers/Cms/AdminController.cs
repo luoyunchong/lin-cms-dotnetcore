@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using LinCms.Application.Cms.Admin;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Admins;
+using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
-using LinCms.Web.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
@@ -17,9 +18,11 @@ namespace LinCms.Web.Controllers.Cms
     public class AdminController : ControllerBase
     {
         private readonly IUserService _userSevice;
-        public AdminController(IUserService userSevice)
+        private readonly IAdminService _adminService;
+        public AdminController(IUserService userSevice, IAdminService adminService)
         {
             _userSevice = userSevice;
+            _adminService = adminService;
         }
 
         /// <summary>
@@ -76,11 +79,9 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <returns></returns>
         [HttpGet("permission")]
-        public IActionResult GetAllPermissions()
+        public IDictionary<string, List<PermissionDto>> GetAllPermissions()
         {
-            List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
-            dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
-            return Ok(obj);
+            return _adminService.GetAllStructualPermissions();
         }
     }
 }

@@ -1,56 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using Microsoft.Extensions.Caching.Memory;
+using LinCms.Core.Security;
 
 namespace LinCms.Application.Cms.Permissions
 {
     public class PermissionService : IPermissionService
     {
         private readonly IFreeSql _freeSql;
-        private readonly IMemoryCache _cache;
-        public PermissionService(IFreeSql freeSql, IMemoryCache cache)
+        private readonly ICurrentUser _currentUser;
+        public PermissionService(IFreeSql freeSql, ICurrentUser currentUser)
         {
             _freeSql = freeSql;
-            this._cache = cache;
+            _currentUser = currentUser;
         }
 
-        public async Task RemovePermissions(PermissionDto permissionDto)
+
+        public async Task<bool> CheckPermissionAsync(string permission)
         {
-            foreach (long permissionId in permissionDto.Permission)
+            long[] groups = _currentUser.Groups;
+
+            LinPermission linPermission = await _freeSql.Select<LinPermission>().Where(r => r.Name == permission).FirstAsync();
+
+            bool existPermission = await _freeSql.Select<LinGroupPermission>()
+                .AnyAsync(r => groups.Contains(r.GroupId) && r.PermissionId == linPermission.Id);
+
+            return existPermission;
+        }
+        public async Task RemovePermissions(RemovePermissionDto permissionDto)
+        {
+            await _freeSql.Delete<LinGroupPermission>()
+                .Where(r => permissionDto.PermissionIds.Contains(r.PermissionId) && r.GroupId == permissionDto.GroupId)
+                .ExecuteAffrowsAsync();
+        }
+
+        public async Task DispatchPermissions(DispatchPermissionsDto permissionDto, List<PermissionDefinition> permissionDefinitions)
+        {
+            List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+            permissionDto.PermissionIds.ForEach(permissionId =>
             {
-                await _freeSql.Delete<LinGroupPermission>()
-                    .Where("group_id = ?GroupId and permission=?Permission",
-                            new LinGroupPermission
-                            {
-                                PermissionId = permissionId,
-                                GroupId = permissionDto.GroupId
-                            }
-                        )
-                    .ExecuteAffrowsAsync();
-            }
+                linPermissions.Add(new LinGroupPermission(permissionDto.GroupId, permissionId));
+            });
+            await _freeSql.Insert(linPermissions).ExecuteAffrowsAsync();
         }
 
-        public async Task DispatchPermissions(PermissionDto permissionDto, List<PermissionDefinition> permissionDefinitions)
+        public async Task<List<LinPermission>> GetPermissionByGroupIds(List<long> groupIds)
         {
-            List<LinPermission> linPermissions = new List<LinPermission>();
-            //foreach (long permission in permissionDto.Permission)
-            //{
-            //    PermissionDefinition permissionDefinition = permissionDefinitions.FirstOrDefault(r => r.== permission);
-            //    if (permissionDefinition == null)
-            //    {
-            //        throw new LinCmsException($"异常权限:{permission}");
-            //    }
-            //    linPermissions.Add(new LinPermission(permission, permissionDefinition.Module, permissionDto.GroupId));
-            //}
+            List<long> permissionIds = _freeSql.Select<LinGroupPermission>()
+                .Where(a => groupIds.Contains(a.GroupId))
+                .ToList(r => r.PermissionId);
 
-            await _freeSql.Insert(linPermissions).ExecuteAffrowsAsync();
+            List<LinPermission> listPermissions = await _freeSql
+                .Select<LinPermission>()
+                .Where(a => permissionIds.Contains(a.Id))
+                .ToListAsync();
+
+            return listPermissions;
+
+        }
+
+        public List<IDictionary<string, object>> StructuringPermissions(List<LinPermission> permissions)
+        {
+            var groupPermissions = permissions.GroupBy(r => r.Module).Select(r => new
+            {
+                r.Key,
+                Children = r.Select(u => u.Name).ToList()
+            }).ToList();
+
+            List<IDictionary<string, object>> list = new List<IDictionary<string, object>>();
+
+            foreach (var groupPermission in groupPermissions)
+            {
+                IDictionary<string, object> moduleExpandoObject = new ExpandoObject();
+                List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
+                groupPermission.Children.ForEach(permission =>
+                {
+                    IDictionary<string, object> perExpandObject = new ExpandoObject();
+                    perExpandObject["module"] = groupPermission.Key;
+                    perExpandObject["permission"] = permission;
+                    perExpandList.Add(perExpandObject);
+                });
+
+                moduleExpandoObject[groupPermission.Key] = perExpandList;
+                list.Add(moduleExpandoObject);
+            }
+
+            return list;
         }
     }
 }

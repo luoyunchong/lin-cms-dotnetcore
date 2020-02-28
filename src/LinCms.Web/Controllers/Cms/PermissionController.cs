@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
 {
-    [Route("cms/admin")]
+    [Route("cms/admin/permission")]
     [ApiController]
     [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class PermissionController : ControllerBase
@@ -27,7 +27,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="permissionDto"></param>
         /// <returns></returns>
         [HttpPost("remove")]
-        public async Task<ResultDto> RemovePermissions(PermissionDto permissionDto)
+        public async Task<ResultDto> RemovePermissions(RemovePermissionDto permissionDto)
         {
             await _permissionService.RemovePermissions(permissionDto);
             return ResultDto.Success("删除权限成功");
@@ -38,8 +38,8 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="permissionDto"></param>
         /// <returns></returns>
-        [HttpPost("dispatch/patch")]
-        public async Task<ResultDto> DispatchPermissions(PermissionDto permissionDto)
+        [HttpPost("dispatch/batch")]
+        public async Task<ResultDto> DispatchPermissions(DispatchPermissionsDto permissionDto)
         {
             List<PermissionDefinition> permissionDefinitions = ReflexHelper.GeAssemblyLinCmsAttributes();
             await _permissionService.DispatchPermissions(permissionDto, permissionDefinitions);

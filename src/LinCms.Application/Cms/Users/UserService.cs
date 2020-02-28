@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Admins;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Users;
@@ -25,17 +27,20 @@ namespace LinCms.Application.Cms.Users
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IUserIdentityService _userIdentityService;
+        private readonly IPermissionService _permissionService;
+
         public UserService(UserRepository userRepository,
             IFreeSql freeSql,
             IMapper mapper,
             ICurrentUser currentUser,
-            IUserIdentityService userIdentityService)
+            IUserIdentityService userIdentityService, IPermissionService permissionService)
         {
             _userRepository = userRepository;
             _freeSql = freeSql;
             _mapper = mapper;
             _currentUser = currentUser;
             _userIdentityService = userIdentityService;
+            _permissionService = permissionService;
         }
 
         public Task<LinUser> GetUserAsync(Expression<Func<LinUser, bool>> expression)
@@ -194,14 +199,6 @@ namespace LinCms.Application.Cms.Users
             }).ExecuteAffrowsAsync();
         }
 
-        public bool CheckPermission(int userId, string permission)
-        {
-            long[] groups = _currentUser.Groups;
-
-            bool existPermission = _freeSql.Select<LinGroupPermission>().Any(r => groups.Contains(r.GroupId)); //&& r. == permission);
-                //TODO
-            return existPermission;
-        }
 
         public LinUser GetCurrentUser()
         {
@@ -211,6 +208,37 @@ namespace LinCms.Application.Cms.Users
                 return _userRepository.Select.Where(r => r.Id == userId).ToOne();
             }
             return null;
+        }
+
+        public async Task<UserInformation> GetInformationAsync(long userId)
+        {
+            LinUser linUser = await this.GetUserAsync(r => r.Id == userId);
+            if (linUser == null) return null;
+            linUser.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
+
+            UserInformation userInformation = _mapper.Map<UserInformation>(linUser);
+            userInformation.Groups = linUser.LinGroups.Select(r => _mapper.Map<GroupDto>(r)).ToList();
+            userInformation.Admin = _currentUser.IsInGroup(LinConsts.Group.Admin);
+
+            return userInformation;
+        }
+
+        public async Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId)
+        {
+            List<LinPermission> permissions = await GetUserPermissions(userId);
+            return _permissionService.StructuringPermissions(permissions);
+        }
+
+        public async Task<List<LinPermission>> GetUserPermissions(long userId)
+        {
+            LinUser linUser = await this.GetUserAsync(r => r.Id == userId);
+            List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();
+            // 查找用户搜索分组，查找分组下的所有权限
+            if (linUser.LinGroups == null || linUser.LinGroups.Count == 0)
+            {
+                return new List<LinPermission>();
+            }
+            return await _permissionService.GetPermissionByGroupIds(groupIds);
         }
     }
 }

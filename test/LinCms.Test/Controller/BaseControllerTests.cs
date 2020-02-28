@@ -58,7 +58,7 @@ namespace LinCms.Test.Controller
 
             if (response.AccessToken == null)
             {
-                throw new LinCmsException(response.Json.TryGetValue("msg").ToString());
+                throw new LinCmsException(response.Json.TryGetValue("message").ToString());
             }
             Client.SetBearerToken(response.AccessToken);
         }

@@ -29,10 +29,6 @@ namespace LinCms.Test.Controller.Cms
         {
             CreateGroupDto inputDto = new CreateGroupDto()
             {
-                Permissions = new List<string>()
-                {
-                    "查询日志记录的用户"
-                },
                 Info = "11",
                 Name = "11"
             };

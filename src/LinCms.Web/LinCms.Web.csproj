@@ -54,7 +54,7 @@
   </ItemGroup>  
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\DotNetCore.CAP.Provider\src\DotNetCore.CAP.MySql.Provider\DotNetCore.CAP.MySql.Provider.csproj" />
+    <ProjectReference Include="..\..\framework\src\VoVo.CAP.MySql\VoVo.CAP.MySql.csproj" />
     <ProjectReference Include="..\LinCms.Application.Shared\LinCms.Application.Contracts.csproj" />
     <ProjectReference Include="..\LinCms.Application\LinCms.Application.csproj" />
     <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
@@ -81,12 +81,6 @@
     <Folder Include="wwwroot\assets\2019\12\12\" />
     <Folder Include="wwwroot\assets\2019\12\13\" />
     <Folder Include="wwwroot\assets\2019\12\14\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DotNetCore.CAP.MySql.Provider">
-      <HintPath>..\..\..\DotNetCore.CAP.Provider\src\DotNetCore.CAP.MySql.Provider\bin\Debug\netstandard2.1\DotNetCore.CAP.MySql.Provider.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/behat" /></VisualStudio></ProjectExtensions>

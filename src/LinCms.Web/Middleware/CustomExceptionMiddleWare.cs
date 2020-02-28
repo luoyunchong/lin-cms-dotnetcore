@@ -68,7 +68,7 @@ namespace LinCms.Web.Middleware
         {
             ResultDto apiResponse = new ResultDto()
             {
-                Msg = errorMsg,
+                Message = errorMsg,
                 ErrorCode = errorCode,
                 Request = LinCmsUtils.GetRequest(context)
             }; ;

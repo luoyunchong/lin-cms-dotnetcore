@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using FreeSql;
 using LinCms.Core.Entities;
-using LinCms.Core.Entities.Settings;
 using LinCms.Core.Security;
 
 namespace LinCms.Infrastructure.Repositories

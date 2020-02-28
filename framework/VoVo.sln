@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33F33892-2C9C-432A-B77C-E09E18E41C1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E94AA563-C2D9-4312-B296-DA6DE6DE13F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.RabbitMQ.MySql", "samples\Sample.RabbitMQ.MySql\Sample.RabbitMQ.MySql.csproj", "{45917EEB-75F8-46E0-BB8E-38D428C8175A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7A7054CA-747F-4E0A-8A6B-AD3D2F02484A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoVo.CAP.MySql", "src\VoVo.CAP.MySql\VoVo.CAP.MySql.csproj", "{C08591A8-53DD-4066-AFC9-C7F495454778}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45917EEB-75F8-46E0-BB8E-38D428C8175A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45917EEB-75F8-46E0-BB8E-38D428C8175A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45917EEB-75F8-46E0-BB8E-38D428C8175A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45917EEB-75F8-46E0-BB8E-38D428C8175A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C08591A8-53DD-4066-AFC9-C7F495454778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08591A8-53DD-4066-AFC9-C7F495454778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08591A8-53DD-4066-AFC9-C7F495454778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08591A8-53DD-4066-AFC9-C7F495454778}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{45917EEB-75F8-46E0-BB8E-38D428C8175A} = {E94AA563-C2D9-4312-B296-DA6DE6DE13F5}
+		{C08591A8-53DD-4066-AFC9-C7F495454778} = {33F33892-2C9C-432A-B77C-E09E18E41C1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A532480-28D6-4D1A-A85F-EA2EE2DBECD2}
+	EndGlobalSection
+EndGlobal

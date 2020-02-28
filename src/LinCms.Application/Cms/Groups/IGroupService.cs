@@ -10,7 +10,7 @@ namespace LinCms.Application.Cms.Groups
     {
         Task<List<LinGroup>> GetListAsync();
         Task<GroupDto> GetAsync(long id);
-        Task CreateAsync(CreateGroupDto inputDto, List<PermissionDefinition> permissionDefinitions);
+        Task CreateAsync(CreateGroupDto inputDto);
         Task UpdateAsync(long id, UpdateGroupDto inputDto);
         /// <summary>
         /// 管理员删除一个权限分组
@@ -18,6 +18,6 @@ namespace LinCms.Application.Cms.Groups
         /// <param name="id"></param>
         /// <returns></returns>
         Task DeleteAsync(long id);
-
+        bool CheckIsRootByUserId(long userId);
     }
 }

@@ -39,8 +39,8 @@ namespace LinCms.Test.Repositories.v1
                 OpenUserDto = new 
                 {
                     r.LinUser.Id,
-                    Username = r.LinUser.Username,
-                    Nickname = r.LinUser.Nickname
+                    r.LinUser.Username,
+                    r.LinUser.Nickname
                 }
             });
 

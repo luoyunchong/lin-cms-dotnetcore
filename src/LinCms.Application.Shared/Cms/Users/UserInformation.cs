@@ -22,7 +22,7 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <summary>
         /// 是否为超级管理员 ;  1 -> 普通用户 |  2 -> 超级管理员
         /// </summary>
-        public int Admin { get; set; } = 1;
+        public bool Admin { get; set; } = false;
         /// <summary>
         /// 当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
         /// </summary>
@@ -37,6 +37,6 @@ namespace LinCms.Application.Contracts.Cms.Users
         public DateTime UpdateTime { get; set; }
         public DateTime CreateTime { get; set; }
 
-        public List<IDictionary<string,object>> Auths { get; set; }
+        public List<IDictionary<string, object>> Permissions { get; set; }
     }
 }
