@@ -123,9 +123,6 @@ namespace LinCms.IdentityServer4
             #endregion
 
             services.AddTransient<IUserIdentityService, UserIdentityService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IPermissionService, PermissionService>();
-            services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
 
             services.AddCors();

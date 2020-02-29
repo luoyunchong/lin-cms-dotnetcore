@@ -9,6 +9,7 @@ using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Security;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Application.Cms.Groups
@@ -19,17 +20,21 @@ namespace LinCms.Application.Cms.Groups
         private readonly IMapper _mapper;
         private readonly IPermissionService _permissionService;
         private readonly ICurrentUser _currentUser;
-        public GroupService(IFreeSql freeSql, IMapper mapper, IPermissionService permissionService, ICurrentUser currentUser)
+        private readonly AuditBaseRepository<LinGroup> _groupRepository;
+        private readonly AuditBaseRepository<LinUserGroup> _userGroupRepository;
+        public GroupService(IFreeSql freeSql, IMapper mapper, IPermissionService permissionService, ICurrentUser currentUser, AuditBaseRepository<LinGroup> groupRepository, AuditBaseRepository<LinUserGroup> userGroupRepository)
         {
             _freeSql = freeSql;
             _mapper = mapper;
             _permissionService = permissionService;
             _currentUser = currentUser;
+            _groupRepository = groupRepository;
+            _userGroupRepository = userGroupRepository;
         }
 
         public async Task<List<LinGroup>> GetListAsync()
         {
-            List<LinGroup> linGroups = await _freeSql.Select<LinGroup>()
+            List<LinGroup> linGroups = await _groupRepository.Select
                 .OrderByDescending(r => r.Id)
                 .ToListAsync();
 
@@ -38,7 +43,7 @@ namespace LinCms.Application.Cms.Groups
 
         public async Task<GroupDto> GetAsync(long id)
         {
-            LinGroup group = await _freeSql.Select<LinGroup>().Where(r => r.Id == id).FirstAsync();
+            LinGroup group = await _groupRepository.Where(r => r.Id == id).FirstAsync();
             GroupDto groupDto = _mapper.Map<GroupDto>(group);
             groupDto.Permissions = await _permissionService.GetPermissionByGroupIds(new List<long>() { id });
             return groupDto;
@@ -51,7 +56,7 @@ namespace LinCms.Application.Cms.Groups
         /// <returns></returns>
         public async Task CreateAsync(CreateGroupDto inputDto)
         {
-            bool exist = await _freeSql.Select<LinGroup>().AnyAsync(r => r.Name == inputDto.Name);
+            bool exist = await _groupRepository.Select.AnyAsync(r => r.Name == inputDto.Name);
             if (exist)
             {
                 throw new LinCmsException("分组已存在，不可创建同名分组", ErrorCode.RepeatField);
@@ -89,9 +94,14 @@ namespace LinCms.Application.Cms.Groups
             }).ExecuteAffrowsAsync();
         }
 
+        /// <summary>
+        /// 删除group拥有的权限、删除group表的数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task DeleteAsync(long id)
         {
-            LinGroup linGroup = await _freeSql.Select<LinGroup>(new { id = id }).FirstAsync();
+            LinGroup linGroup = await _groupRepository.Where(r => r.Id == id).FirstAsync();
 
             if (linGroup.IsNull())
             {
@@ -103,25 +113,25 @@ namespace LinCms.Application.Cms.Groups
                 throw new LinCmsException("无法删除静态权限组!");
             }
 
-            bool exist = await _freeSql.Select<LinUserGroup>().AnyAsync(r => r.GroupId==id);
-
+            bool exist = await _userGroupRepository.Select.AnyAsync(r => r.GroupId == id);
             if (exist)
             {
                 throw new LinCmsException("分组下存在用户，不可删除", ErrorCode.Inoperable);
             }
+
             _freeSql.Transaction(() =>
             {
-                //删除group拥有的权限
-                _freeSql.Delete<LinGroupPermission>().Where("group_id=?GroupId",
-                    new LinGroupPermission()
-                    {
-                        GroupId = id
-                    })
-                    .ExecuteAffrows();
-                //删除group表
-                _freeSql.Delete<LinGroup>(new { id = id }).ExecuteAffrows();
+                //_freeSql.Select<LinGroupPermission>(new { GroupId = id }).ToDelete().ExecuteDeleted();
+                //_freeSql.Select<LinGroup>().Where(r => r.Id == id).ToDelete().ExecuteDeleted();
+                _freeSql.Delete<LinGroupPermission>(new LinGroupPermission { GroupId = id }).ExecuteDeleted();
+                _freeSql.Delete<LinGroup>(new LinGroup { Id = id }).ExecuteDeleted();
             });
 
+        }
+
+        public async Task DeleteUserGroupAsync(long userId)
+        {
+            await _userGroupRepository.Where(r => r.UserId == userId).ToDelete().ExecuteAffrowsAsync();
         }
 
         public bool CheckIsRootByUserId(long userId)
@@ -131,12 +141,12 @@ namespace LinCms.Application.Cms.Groups
 
         public List<long> GetUserGroupIdsByUserId(long userId)
         {
-            return _freeSql.Select<LinUserGroup>().Where(r => r.UserId == userId).ToList(r => r.GroupId);
+            return _userGroupRepository.Where(r => r.UserId == userId).ToList(r => r.GroupId);
         }
 
         public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
         {
-            await _freeSql.Select<LinUserGroup>().Where(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId)).ToDelete()
+            await _userGroupRepository.Where(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId)).ToDelete()
                   .ExecuteAffrowsAsync();
         }
 
@@ -156,7 +166,7 @@ namespace LinCms.Application.Cms.Groups
 
         private async Task<bool> CheckGroupExistById(long id)
         {
-            return await _freeSql.Select<LinGroup>().Where(r => r.Id == id).AnyAsync();
+            return await _groupRepository.Where(r => r.Id == id).AnyAsync();
         }
 
         private async Task<bool> CheckGroupExistByIds(List<long> ids)

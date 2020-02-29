@@ -45,7 +45,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 正文
         /// </summary>
-        [Column(DbType = "text")]
+        [Column(DbType = "longtext")]
         public string Content { get; set; }
 
         public int ViewHits { get; set; }

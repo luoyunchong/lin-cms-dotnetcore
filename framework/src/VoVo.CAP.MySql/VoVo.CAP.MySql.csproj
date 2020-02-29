@@ -39,8 +39,8 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.30" />
-    <PackageReference Include="DotNetCore.CAP" Version="3.0.0" />
-    <PackageReference Include="FreeSql.DbContext" Version="1.2.0-preview5" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.0.2" />
+    <PackageReference Include="FreeSql.DbContext" Version="1.2.0" />
     <PackageReference Include="MySqlConnector" Version="0.61.0" />
   </ItemGroup>
 

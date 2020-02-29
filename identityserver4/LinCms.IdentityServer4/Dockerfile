@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["identityserver4/LinCms.IdentityServer4/LinCms.IdentityServer4.csproj", "identityserver4/LinCms.IdentityServer4/"]
 COPY ["src/LinCms.Core/LinCms.Core.csproj", "src/LinCms.Core/"]
-COPY ["src/LinCms.Application/LinCmsLinCms.Application.csproj", "src/LinCms.Application/"]
+COPY ["src/LinCms.Application/LinCms.Application.csproj", "src/LinCms.Application/"]
 COPY ["src/LinCms.Infrastructure/LinCms.Infrastructure.csproj", "src/LinCms.Infrastructure/"]
 RUN dotnet restore "identityserver4/LinCms.IdentityServer4/LinCms.IdentityServer4.csproj"
 COPY . .

@@ -55,7 +55,7 @@ namespace LinCms.Core.Entities
         [Column(DbType = "varchar(20)")]
         public string UserName { get; set; } = string.Empty;
 
-        [Column(DbType = "text")]
+        [Column(DbType = "longtext")]
         public string OtherMessage { get; set; }
     }
 }

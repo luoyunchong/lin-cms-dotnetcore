@@ -13,13 +13,6 @@ namespace LinCms.Application.Cms.Users
     public interface IUserService
     {
         /// <summary>
-        /// 根据条件得到用户信息
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        Task<LinUser> GetUserAsync(Expression<Func<LinUser, bool>> expression);
-
-        /// <summary>
         /// 后台管理员修改用户密码
         /// </summary>
         /// <param name="passwordDto"></param>

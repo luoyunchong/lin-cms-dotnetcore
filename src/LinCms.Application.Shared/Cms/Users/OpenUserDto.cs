@@ -4,6 +4,15 @@ namespace LinCms.Application.Contracts.Cms.Users
 {
     public class OpenUserDto : EntityDto
     {
+        public OpenUserDto(string nickname)
+        {
+            Nickname = nickname;
+        }
+
+        public OpenUserDto()
+        {
+        }
+
         public string Introduction { get; set; }
         public string Username { get; set; }
         public string Nickname { get; set; }

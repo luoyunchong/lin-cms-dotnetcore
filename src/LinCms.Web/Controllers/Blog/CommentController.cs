@@ -7,6 +7,7 @@ using LinCms.Application.Blog.Comments;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
@@ -80,10 +81,16 @@ namespace LinCms.Web.Controllers.Blog
                     {
                         commentDto.Text = "[该评论因违规被拉黑]";
                     }
-                    if (commentDto.UserInfo != null)
+
+                    if (commentDto.UserInfo == null)
+                    {
+                        commentDto.UserInfo = new OpenUserDto("该用户已被系统删除");
+                    }
+                    else
                     {
                         commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
                     }
+
 
                     commentDto.IsLiked =
                         userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
