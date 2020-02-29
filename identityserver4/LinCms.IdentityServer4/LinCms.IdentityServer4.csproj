@@ -23,15 +23,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.2.0" />
     <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
-    <PackageReference Include="FreeSql" Version="1.2.0-preview5" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="1.2.0-preview5" />
-  </ItemGroup>
-
-  <ItemGroup>    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
+    <PackageReference Include="FreeSql" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +46,15 @@
     </Content>
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1production_1json__JsonSchema="http://json.schemastore.org/appsettings" properties_4launchsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" /></VisualStudio></ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1production_1json__JsonSchema="http://json.schemastore.org/appsettings" properties_4launchsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" />
+    </VisualStudio>
+  </ProjectExtensions>
 
 
 </Project>

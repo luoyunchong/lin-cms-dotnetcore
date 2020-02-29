@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Users;
 
 namespace LinCms.Application.Cms.Users
 {
@@ -24,5 +23,7 @@ namespace LinCms.Application.Cms.Users
         /// <param name="userId"></param>
         /// <param name="newpassword"></param>
         Task ChangePasswordAsync(long userId, string newpassword);
+
+        Task DeleteAsync(long userId);
     }
 }

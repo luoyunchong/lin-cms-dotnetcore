@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Groups;
@@ -45,17 +43,11 @@ namespace LinCms.Application.Cms.Users
             _groupService = groupService;
         }
 
-        public Task<LinUser> GetUserAsync(Expression<Func<LinUser, bool>> expression)
-        {
-            return _userRepository.Select.Where(expression).IncludeMany(r => r.LinGroups).ToOneAsync();
-        }
-
         public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)
         {
             long currentUserId = _currentUser.Id ?? 0;
 
-            bool valid = _userIdentityService.VerifyUsernamePassword(currentUserId, _currentUser.UserName,
-                  passwordDto.OldPassword);
+            bool valid = _userIdentityService.VerifyUsernamePassword(currentUserId, _currentUser.UserName, passwordDto.OldPassword);
             if (valid)
             {
                 throw new LinCmsException("旧密码不正确");
@@ -65,9 +57,11 @@ namespace LinCms.Application.Cms.Users
         }
 
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(long userId)
         {
-            await _userRepository.DeleteAsync(r => r.Id == id);
+            await _userRepository.DeleteAsync(r => r.Id == userId);
+            await _userIdentityService.DeleteAsync(userId);
+            await _groupService.DeleteUserGroupAsync(userId);
         }
 
         public async Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto)
@@ -217,7 +211,7 @@ namespace LinCms.Application.Cms.Users
 
         public async Task<UserInformation> GetInformationAsync(long userId)
         {
-            LinUser linUser = await this.GetUserAsync(r => r.Id == userId);
+            LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
             if (linUser == null) return null;
             linUser.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
 
@@ -241,7 +235,7 @@ namespace LinCms.Application.Cms.Users
         /// <returns></returns>
         public async Task<List<LinPermission>> GetUserPermissions(long userId)
         {
-            LinUser linUser = await this.GetUserAsync(r => r.Id == userId);
+            LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
             List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();
             if (linUser.LinGroups == null || linUser.LinGroups.Count == 0)
             {

@@ -104,5 +104,10 @@ namespace LinCms.Application.Cms.Users
                 Password = encryptPassword
             }).ExecuteAffrowsAsync();
         }
+
+        public async Task DeleteAsync(long userId)
+        {
+            await _freeSql.Select<LinUserIdentity>().Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
+        }
     }
 }

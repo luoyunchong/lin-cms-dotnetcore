@@ -39,8 +39,8 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.2" />
     <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.0.2" />
-    <PackageReference Include="FreeSql" Version="1.2.0-preview5" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="1.2.0-preview5" />
+    <PackageReference Include="FreeSql" Version="1.2.0" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.2.0" />
     <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />

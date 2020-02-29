@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -11,7 +10,7 @@ using IdentityServer4.Test;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
-using Microsoft.AspNetCore.Identity;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.IdentityServer4.IdentityServer4
@@ -23,7 +22,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         private readonly ILogger _logger;
 
-        private readonly IUserService _userService;
+        private readonly UserRepository _userRepository;
 
         /// <summary>
         /// The claims factory.
@@ -32,11 +31,11 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// Initializes a new instance of the <see cref="TestUserProfileService"/> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        /// <param name="userService"></param>
-        public LinCmsProfileService(ILogger<TestUserProfileService> logger, IUserService userService)
+        /// <param name="userRepository"></param>
+        public LinCmsProfileService(ILogger<LinCmsProfileService> logger, UserRepository userRepository)
         {
             _logger = logger;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
             var sub = context.Subject?.GetSubjectId();
             if (sub == null) throw new Exception("No sub claim present");
 
-            var user = await _userService.GetUserAsync(r => r.Id == sub.ToLong());
+            var user = await _userRepository.GetUserAsync(r => r.Id == sub.ToLong());
             if (user == null)
             {
                 _logger?.LogWarning("No user found matching subject Id: {0}", sub);
@@ -83,7 +82,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         {
             _logger.LogDebug("IsActive called from: {caller}", context.Caller);
 
-            var user = await _userService.GetUserAsync(r => r.Id == context.Subject.GetSubjectId().ToLong());
+            var user = await _userRepository.GetUserAsync(r => r.Id == context.Subject.GetSubjectId().ToLong());
             context.IsActive = user.IsActive();
         }
 
