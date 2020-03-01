@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
@@ -17,6 +18,7 @@ using LinCms.Core.Security;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -104,54 +106,13 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("query")]
         [AllowAnonymous]
-        public PagedResultDto<ArticleListDto> QueryArticles([FromQuery]ArticleSearchDto searchDto)
+        public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery]ArticleSearchDto searchDto)
         {
-            DateTime monthDays = DateTime.Now.AddDays(-30);
-            DateTime weeklyDays = DateTime.Now.AddDays(-7);
-            DateTime threeDays = DateTime.Now.AddDays(-3);
-
-            long? userId = _currentUser.Id;
-            ISelect<Article> articleSelect = _articleRepository
-                .Select
-                .Include(r => r.Classify)
-                .Include(r => r.UserInfo)
-                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
-                .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
-                .Where(r => r.IsAudit == true)
-                .WhereCascade(r => r.IsDeleted == false)
-                .WhereIf(searchDto.UserId != null, r => r.CreateUserId == searchDto.UserId)
-                .WhereIf(searchDto.TagId.HasValue, r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId))
-                .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
-                .WhereIf(searchDto.ChannelId.HasValue, r => r.ChannelId == searchDto.ChannelId)
-                .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
-                .WhereIf(searchDto.Sort == "THREE_DAYS_HOTTEST", r => r.CreateTime > threeDays)
-                .WhereIf(searchDto.Sort == "WEEKLY_HOTTEST", r => r.CreateTime > weeklyDays)
-                .WhereIf(searchDto.Sort == "MONTHLY_HOTTEST", r => r.CreateTime > monthDays)
-                .OrderByDescending(
-                    searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" || searchDto.Sort == "MONTHLY_HOTTEST" ||
-                            searchDto.Sort == "HOTTEST",
-                    r => (r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30))
-                .OrderByDescending(r => r.CreateTime);
-
-            List<ArticleListDto> articleDtos = articleSelect
-                .ToPagerList(searchDto, out long totalCount)
-                .Select(a =>
-                {
-                    ArticleListDto articleDto = _mapper.Map<ArticleListDto>(a);
-                    articleDto.Tags = a.Tags.Select(r => new TagDto()
-                    {
-                        TagName = r.TagName,
-                        Id = r.Id,
-                    }).ToList();
-
-                    articleDto.IsLiked = userId != null && a.UserLikes.Any();
-
-                    articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
-                    return articleDto;
-                })
-                .ToList();
-
-            return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
+            return await _articleService.GetArticleAsync(searchDto);
+            //string redisKey = "article:query:" + searchDto.ToString();
+            //return await RedisHelper.CacheShellAsync(
+            //    redisKey, 3600, async () => await _articleService.GetArticleAsync(searchDto)
+            //   );
         }
 
         /// <summary>
@@ -182,16 +143,16 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public ArticleDto Get(Guid id)
+        public Task<ArticleDto> GetAsync(Guid id)
         {
             _articleRepository.UpdateDiy.Set(r => r.ViewHits + 1).Where(r => r.Id == id).ExecuteAffrows();
-            return _articleService.Get(id);
+            return _articleService.GetAsync(id);
         }
 
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateUpdateArticleDto createArticle)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateArticleDto createArticle)
         {
-            _articleService.CreateArticle(createArticle);
+            await _articleService.CreateAsync(createArticle);
 
             _capBus.Publish("NotificationController.Post", new CreateNotificationDto()
             {
@@ -203,7 +164,7 @@ namespace LinCms.Web.Controllers.Blog
 
 
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
+        public UnifyResponseDto UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
             if (article.CreateUserId != _currentUser.Id)
@@ -216,7 +177,7 @@ namespace LinCms.Web.Controllers.Blog
             }
 
             _mapper.Map(updateArticle, article);
-            _articleService.UpdateArticle(updateArticle, article);
+            _articleService.UpdateAsync(updateArticle, article);
 
             return UnifyResponseDto.Success("更新随笔成功");
         }
@@ -229,16 +190,16 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核随笔", "随笔")]
         [HttpPut("audit/{id}")]
-        public UnifyResponseDto Put(Guid id, bool isAudit)
+        public async Task<UnifyResponseDto> AuditAsync(Guid id, bool isAudit)
         {
-            Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+            Article article = await _articleRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (article == null)
             {
                 throw new LinCmsException("没有找到相关随笔");
             }
 
             article.IsAudit = isAudit;
-            _articleRepository.Update(article);
+            await _articleRepository.UpdateAsync(article);
             return UnifyResponseDto.Success();
         }
 
@@ -250,41 +211,7 @@ namespace LinCms.Web.Controllers.Blog
         [HttpGet("subscribe")]
         public PagedResultDto<ArticleListDto> GetSubscribeArticle([FromQuery]PageDto pageDto)
         {
-            long? userId = _currentUser.Id;
-            List<long> subscribeUserIds = _userSubscribeRepository.Select.Where(r => r.CreateUserId == userId).ToList(r => r.SubscribeUserId);
-
-            var select = _articleRepository
-                .Select
-                .Include(r => r.Classify)
-                .Include(r => r.UserInfo)
-                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
-                .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
-                .Where(r => r.IsAudit)
-                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
-                .WhereIf(subscribeUserIds.Count > 0, r => subscribeUserIds.Contains(r.CreateUserId))
-                .WhereIf(subscribeUserIds.Count == 0, r => false)
-                .OrderByDescending(r => r.CreateTime);
-
-
-            var articles = select
-                .ToPagerList(pageDto, out long totalCount)
-                .Select(r =>
-                {
-                    ArticleListDto articleDto = _mapper.Map<ArticleListDto>(r);
-                    articleDto.Tags = r.Tags.Select(r => new TagDto()
-                    {
-                        TagName = r.TagName,
-                        Id = r.Id,
-                    }).ToList();
-
-                    articleDto.IsLiked = userId != null && r.UserLikes.Any();
-
-                    articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
-                    return articleDto;
-                })
-                .ToList();
-
-            return new PagedResultDto<ArticleListDto>(articles, totalCount);
+            return _articleService.GetSubscribeArticle(pageDto);
         }
     }
 }

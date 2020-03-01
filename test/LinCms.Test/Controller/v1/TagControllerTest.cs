@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using System.Threading.Tasks;
 using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
 using LinCms.Web.Controllers.Blog;
@@ -28,10 +29,10 @@ namespace LinCms.Test.Controller.v1
         }
 
         [Fact]
-        public void CorrectedTagCount()
+        public async Task CorrectedTagCountAsync()
         {
             Guid tagId = new Guid("5dc931fd-5e44-c190-008e-3fc4728735d6");
-            _tagController.CorrectedTagCount(tagId);
+            await _tagController.CorrectedTagCountAsync(tagId);
         }
     }
 }

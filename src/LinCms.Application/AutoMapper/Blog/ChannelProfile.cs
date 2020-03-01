@@ -10,6 +10,7 @@ namespace LinCms.Application.AutoMapper.Blog
         {
             CreateMap<CreateUpdateChannelDto, Channel>();
             CreateMap<Channel, ChannelDto>();
+            CreateMap<Channel, NavChannelListDto>();
         }
     }
 }

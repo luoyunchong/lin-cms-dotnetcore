@@ -85,7 +85,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public PagedResultDto<TagDto> GetUserTagList([FromQuery] UserSubscribeSearchDto userSubscribeDto)
+        public PagedResultDto<TagListDto> GetUserTagList([FromQuery] UserSubscribeSearchDto userSubscribeDto)
         {
             return _tagService.GetSubscribeTags(userSubscribeDto);
         }

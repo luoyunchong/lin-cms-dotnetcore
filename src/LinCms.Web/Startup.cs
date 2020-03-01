@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using CSRedis;
 using DotNetCore.CAP.Messages;
 using FreeSql;
 using FreeSql.Internal;
@@ -36,6 +37,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -254,6 +257,15 @@ namespace LinCms.Web
                 });
             #endregion
 
+            #endregion
+
+            #region 初始化 Redis配置
+            IConfigurationSection csRediSection = Configuration.GetSection("CsRedisConfig:DefaultConnectString");
+            CSRedisClient csredis = new CSRedisClient(csRediSection.Value);
+            //初始化 RedisHelper
+            RedisHelper.Initialization(csredis);
+            //注册mvc分布式缓存
+            services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance)); 
             #endregion
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);

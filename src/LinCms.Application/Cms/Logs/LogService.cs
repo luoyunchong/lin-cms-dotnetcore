@@ -22,7 +22,7 @@ namespace LinCms.Application.Cms.Logs
             _linUserAuditBaseRepository = linUserAuditBaseRepository;
         }
 
-        public void InsertLog(LinLog linlog)
+        public void CreateLog(LinLog linlog)
         {
             linlog.Time = DateTime.Now;
             linlog.UserName = _currentUser.UserName;

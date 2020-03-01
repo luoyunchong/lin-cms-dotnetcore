@@ -29,7 +29,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpPost("remove")]
         public async Task<UnifyResponseDto> RemovePermissions(RemovePermissionDto permissionDto)
         {
-            await _permissionService.RemovePermissions(permissionDto);
+            await _permissionService.DeletePermissionsAsync(permissionDto);
             return UnifyResponseDto.Success("删除权限成功");
         }
 

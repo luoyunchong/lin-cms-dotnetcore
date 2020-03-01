@@ -152,9 +152,9 @@ namespace LinCms.Application.Cms.Users
         /// <param name="id"></param>
         /// <param name="updateUserDto"></param>    
         /// <returns></returns>
-        public void UpdateUserInfo(long id, UpdateUserDto updateUserDto)
+        public async Task UpdateAync(long id, UpdateUserDto updateUserDto)
         {
-            LinUser linUser = _userRepository.Where(r => r.Id == id).ToOne();
+            LinUser linUser = await _userRepository.Where(r => r.Id == id).ToOneAsync();
             if (linUser == null)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
@@ -169,9 +169,9 @@ namespace LinCms.Application.Cms.Users
             //添加newGroupIds有，而existGroupIds没有的
             List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
 
-            _userRepository.Update(linUser);
-            _groupService.DeleteUserGroupAsync(id, deleteIds);
-            _groupService.AddUserGroupAsync(id, addIds);
+            await _userRepository.UpdateAsync(linUser);
+            await _groupService.DeleteUserGroupAsync(id, deleteIds);
+            await _groupService.AddUserGroupAsync(id, addIds);
         }
 
 

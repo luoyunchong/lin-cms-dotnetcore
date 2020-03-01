@@ -67,6 +67,6 @@ namespace LinCms.Application.Contracts.Blog.Articles
             get { return this.Tags.Select(r => r.Id).ToList(); }
         }
 
-        public List<TagDto> Tags { get; set; }
+        public List<TagListDto> Tags { get; set; }
     }
 }

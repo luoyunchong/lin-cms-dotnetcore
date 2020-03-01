@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using LinCms.Application.Blog.Channels;
 using LinCms.Application.Contracts.Blog.Channels;
 using LinCms.Core.Aop;
@@ -20,7 +21,6 @@ namespace LinCms.Web.Controllers.Blog
             _channelService = channelService;
         }
 
-
         [LinCmsAuthorize("删除技术频道", "技术频道")]
         [HttpDelete("{id}")]
         public UnifyResponseDto Delete(Guid id)
@@ -29,32 +29,38 @@ namespace LinCms.Web.Controllers.Blog
             return UnifyResponseDto.Success();
         }
 
+        [LinCmsAuthorize("技术频道列表", "技术频道")]
         [HttpGet]
-        public PagedResultDto<ChannelDto> Get([FromQuery]PageDto pageDto)
+        public Task<PagedResultDto<ChannelDto>> GetListAsync([FromQuery]PageDto pageDto)
         {
-            return _channelService.Get(pageDto);
+            return _channelService.GetListAsync(pageDto);
+        }
+
+        [HttpGet("nav")]
+        public Task<PagedResultDto<NavChannelListDto>> GetNavListAsync([FromQuery]PageDto pageDto)
+        {
+            return _channelService.GetNavListAsync(pageDto);
         }
 
         [HttpGet("{id}")]
-        public ChannelDto Get(Guid id)
+        public Task<ChannelDto> GetAsync(Guid id)
         {
-            return _channelService.Get(id);
+            return _channelService.GetAsync(id);
         }
 
         [LinCmsAuthorize("新增技术频道", "技术频道")]
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateUpdateChannelDto createChannel)
+        public UnifyResponseDto CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
         {
-            _channelService.Post(createChannel);
+            _channelService.CreateAsync(createChannel);
             return UnifyResponseDto.Success("新建技术频道成功");
         }
 
         [LinCmsAuthorize("修改技术频道", "技术频道")]
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
+        public UnifyResponseDto UpdateAsync(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
         {
-            _channelService.Put(id, updateChannel);
-
+            _channelService.UpdateAsync(id, updateChannel);
             return UnifyResponseDto.Success("更新技术频道成功");
         }
     }
