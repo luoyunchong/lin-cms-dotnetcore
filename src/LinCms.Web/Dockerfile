@@ -11,7 +11,7 @@ COPY ["src/LinCms.Web/LinCms.Web.csproj", "src/LinCms.Web/"]
 COPY ["src/LinCms.Plugins/LinCms.Plugins.csproj", "src/LinCms.Plugins/"]
 COPY ["src/LinCms.Infrastructure/LinCms.Infrastructure.csproj", "src/LinCms.Infrastructure/"]
 COPY ["src/LinCms.Core/LinCms.Core.csproj", "src/LinCms.Core/"]
-COPY ["src/LinCms.Application.Shared/LinCms.Application.Contracts.csproj", "src/LinCms.Application.Shared/"]
+COPY ["src/LinCms.Application.Contracts/LinCms.Application.Contracts.csproj", "src/LinCms.Application.Contracts/"]
 COPY ["src/LinCms.Application/LinCms.Application.csproj", "src/LinCms.Application/"]
 RUN dotnet restore "src/LinCms.Web/LinCms.Web.csproj"
 COPY . .
