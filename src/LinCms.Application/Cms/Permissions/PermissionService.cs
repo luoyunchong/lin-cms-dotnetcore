@@ -31,7 +31,7 @@ namespace LinCms.Application.Cms.Permissions
 
             return existPermission;
         }
-        public async Task RemovePermissions(RemovePermissionDto permissionDto)
+        public async Task DeletePermissionsAsync(RemovePermissionDto permissionDto)
         {
             await _freeSql.Delete<LinGroupPermission>()
                 .Where(r => permissionDto.PermissionIds.Contains(r.PermissionId) && r.GroupId == permissionDto.GroupId)

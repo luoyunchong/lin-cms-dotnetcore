@@ -4,6 +4,10 @@ namespace LinCms.Core.Data
 {
     public class PagedResultDto<T>
     {
+        public PagedResultDto()
+        {
+        }
+
         public long Total { get; set; }
 
         public IReadOnlyList<T> Items

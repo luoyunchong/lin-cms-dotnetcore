@@ -9,7 +9,12 @@ namespace LinCms.Application.Contracts.Blog.Articles
         public Guid? ChannelId { get; set; }
         public Guid? TagId { get; set; }
         public string Title { get; set; }
-
         public long? UserId { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ClassifyId}-{ChannelId}-{TagId}-{Title}-{UserId}";
+        }
+
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Channels;
-using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
@@ -34,45 +34,49 @@ namespace LinCms.Application.Blog.Channels
             _channelRepository.Delete(new Channel { Id = id });
         }
 
-        public PagedResultDto<ChannelDto> Get(PageDto pageDto)
+        public async Task<PagedResultDto<ChannelDto>> GetListAsync(PageDto pageDto)
         {
-            List<ChannelDto> channel = _channelRepository.Select
-                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
-                .OrderByDescending(r => r.SortCode)
-                .OrderBy(r => r.CreateTime)
-                .ToPagerList(pageDto, out long totalCount)
+            List<ChannelDto> channel = (await _channelRepository.Select
+                    .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                    .OrderByDescending(r => r.SortCode)
+                    .OrderBy(r => r.CreateTime)
+                    .ToPagerListAsync(pageDto, out long totalCount))
                 .Select(r =>
                 {
                     ChannelDto channelDto = _mapper.Map<ChannelDto>(r);
                     channelDto.ThumbnailDisplay = _currentUser.GetFileUrl(channelDto.Thumbnail);
-
-                    channelDto.Tags = r.Tags.Select(u => new TagDto()
-                    {
-                        TagName = u.TagName,
-                        Id = u.Id,
-                    }).ToList();
-
                     return channelDto;
                 }).ToList();
 
             return new PagedResultDto<ChannelDto>(channel, totalCount);
         }
 
-        public ChannelDto Get(Guid id)
+        public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
         {
-            Channel channel = _channelRepository.Select
+            List<NavChannelListDto> channel = (await _channelRepository.Select
+                    .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                    .OrderByDescending(r => r.SortCode)
+                    .OrderBy(r => r.CreateTime)
+                    .ToPagerListAsync(pageDto, out long totalCount))
+                    .Select(r => _mapper.Map<NavChannelListDto>(r)).ToList();
+            return new PagedResultDto<NavChannelListDto>(channel, totalCount);
+        }
+
+        public async Task<ChannelDto> GetAsync(Guid id)
+        {
+            Channel channel = await _channelRepository.Select
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .Where(a => a.Id == id)
-                .WhereCascade(r => r.IsDeleted == false).ToOne();
+                .WhereCascade(r => r.IsDeleted == false).ToOneAsync();
 
             ChannelDto channelDto = _mapper.Map<ChannelDto>(channel);
             channelDto.ThumbnailDisplay = _currentUser.GetFileUrl(channelDto.Thumbnail);
             return channelDto;
         }
 
-        public void Post([FromBody] CreateUpdateChannelDto createChannel)
+        public async Task CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
         {
-            bool exist = _channelRepository.Select.Any(r => r.ChannelName == createChannel.ChannelName && r.ChannelCode == createChannel.ChannelCode);
+            bool exist = await _channelRepository.Select.AnyAsync(r => r.ChannelName == createChannel.ChannelName && r.ChannelCode == createChannel.ChannelCode);
             if (exist)
             {
                 throw new LinCmsException($"技术频道[{createChannel.ChannelName}]已存在");
@@ -89,12 +93,12 @@ namespace LinCms.Application.Blog.Channels
                 });
             });
 
-            _channelRepository.Insert(channel);
+            await _channelRepository.InsertAsync(channel);
         }
 
-        public void Put(Guid id, CreateUpdateChannelDto updateChannel)
+        public async Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel)
         {
-            Channel channel = _channelRepository.Select.Where(r => r.Id == id).ToOne();
+            Channel channel = await _channelRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (channel == null)
             {
                 throw new LinCmsException("该数据不存在");
@@ -111,9 +115,9 @@ namespace LinCms.Application.Blog.Channels
             var channelTagLists = new List<ChannelTag>();
             updateChannel.TagIds?.ForEach(r => { channelTagLists.Add(new ChannelTag(id, r)); });
 
-            _channelTagRepository.Delete(r => r.ChannelId == id);
-            _channelRepository.Update(channel);
-            _channelTagRepository.Insert(channelTagLists);
+            await _channelTagRepository.DeleteAsync(r => r.ChannelId == id);
+            await _channelRepository.UpdateAsync(channel);
+            await _channelTagRepository.InsertAsync(channelTagLists);
 
         }
     }

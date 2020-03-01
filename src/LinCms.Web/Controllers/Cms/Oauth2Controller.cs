@@ -41,8 +41,8 @@ namespace LinCms.Web.Controllers.Cms
             _contextAccessor = contextAccessor;
             _configuration = configuration;
             FreeSql = freeSql;
-            this._userCommunityService = userCommunityService;
-            this._logger = logger;
+            _userCommunityService = userCommunityService;
+            _logger = logger;
         }
 
 
@@ -89,7 +89,8 @@ namespace LinCms.Web.Controllers.Cms
             }
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user = FreeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).First();
+            LinUser user = FreeSql.Select<LinUser>().IncludeMany(r => r.LinGroups)
+                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).First();
 
             List<Claim> claims = new List<Claim>()
                 {
@@ -97,13 +98,15 @@ namespace LinCms.Web.Controllers.Cms
                     new Claim(ClaimTypes.Email,user.Email??""),
                     new Claim(ClaimTypes.GivenName,user.Nickname??""),
                     new Claim(ClaimTypes.Name,user.Username??""),
-                    //new Claim(LinCmsClaimTypes.GroupId,user.GroupId.ToString()),
                     new Claim(LinCmsClaimTypes.IsAdmin,user.IsAdmin().ToString()),
-                    //new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:user.GroupId.ToString())
+                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:"")
                 };
+            user.LinGroups?.ForEach(r =>
+            {
+                claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+            });
 
             claims.AddRange(authClaims);
-
             string token = this.CreateToken(claims);
 
             return Redirect($"{redirectUrl}?token={token}");

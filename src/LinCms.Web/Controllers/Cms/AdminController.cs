@@ -48,7 +48,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpPut("user/{id}")]
         public UnifyResponseDto Put(long id, [FromBody] UpdateUserDto updateUserDto)
         {
-            _userSevice.UpdateUserInfo(id, updateUserDto);
+            _userSevice.UpdateAync(id, updateUserDto);
             return UnifyResponseDto.Success();
         }
 

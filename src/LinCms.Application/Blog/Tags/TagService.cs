@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using FreeSql;
 using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Core.Data;
@@ -19,32 +21,55 @@ namespace LinCms.Application.Blog.Tags
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly AuditBaseRepository<UserTag> _userTagRepository;
-        public TagService(AuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<UserTag> userTagRepository)
+        private readonly BaseRepository<TagArticle> _tagArticleRepository;
+        public TagService(AuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<UserTag> userTagRepository, BaseRepository<TagArticle> tagArticleRepository)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _userTagRepository = userTagRepository;
-        }
-        /// <summary>
-        /// 判断标签是否被关注
-        /// </summary>
-        /// <param name="tagId"></param>
-        /// <returns></returns>
-        public bool IsSubscribe(Guid tagId)
-        {
-            if (_currentUser.Id == null) return false;
-            return _userTagRepository.Select.Any(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
+            _tagArticleRepository = tagArticleRepository;
         }
 
-        public TagDto Get(Guid id)
+        public async Task CreateAsync(CreateUpdateTagDto createTag)
         {
-            Tag tag = _tagRepository.Select.Where(a => a.Id == id).ToOne();
+            bool exist = await _tagRepository.Select.AnyAsync(r => r.TagName == createTag.TagName);
+            if (exist)
+            {
+                throw new LinCmsException($"标签[{createTag.TagName}]已存在");
+            }
+
+            Tag tag = _mapper.Map<Tag>(createTag);
+            await _tagRepository.InsertAsync(tag);
+        }
+
+        public async Task UpdateAsync(Guid id, CreateUpdateTagDto updateTag)
+        {
+            Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            if (tag == null)
+            {
+                throw new LinCmsException("该数据不存在");
+            }
+
+            bool exist = await _tagRepository.Select.AnyAsync(r => r.TagName == updateTag.TagName && r.Id != id);
+            if (exist)
+            {
+                throw new LinCmsException($"标签[{updateTag.TagName}]已存在");
+            }
+
+            _mapper.Map(updateTag, tag);
+            await _tagRepository.UpdateAsync(tag);
+        }
+
+
+        public async Task<TagListDto> GetAsync(Guid id)
+        {
+            Tag tag = await _tagRepository.Select.Where(a => a.Id == id).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("不存在此标签");
             }
-            TagDto tagDto = _mapper.Map<TagDto>(tag);
+            TagListDto tagDto = _mapper.Map<TagListDto>(tag);
             tagDto.IsSubscribe = this.IsSubscribe(id);
             tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
@@ -55,14 +80,14 @@ namespace LinCms.Application.Blog.Tags
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        public PagedResultDto<TagDto> Get(TagSearchDto searchDto)
+        public PagedResultDto<TagListDto> Get(TagSearchDto searchDto)
         {
             if (searchDto.Sort.IsNullOrEmpty())
             {
                 searchDto.Sort = "create_time desc";
             }
 
-            List<TagDto> tags = _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == _currentUser.Id))
+            List<TagListDto> tags = _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == _currentUser.Id))
                 .WhereIf(searchDto.TagIds.IsNotNullOrEmpty(), r => searchDto.TagIds.Contains(r.Id))
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
                 .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
@@ -70,35 +95,36 @@ namespace LinCms.Application.Blog.Tags
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(r =>
                 {
-                    TagDto tagDto = _mapper.Map<TagDto>(r);
+                    TagListDto tagDto = _mapper.Map<TagListDto>(r);
                     tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
                     tagDto.IsSubscribe = r.UserTags.Any();
                     return tagDto;
                 }).ToList();
 
-            return new PagedResultDto<TagDto>(tags, totalCount);
+            return new PagedResultDto<TagListDto>(tags, totalCount);
         }
 
-        /// <summary>
-        /// 得到某个用户关注的标签
-        /// </summary>
-        /// <param name="userSubscribeDto"></param>
-        /// <returns></returns>
-        public PagedResultDto<TagDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto)
+        public bool IsSubscribe(Guid tagId)
+        {
+            if (_currentUser.Id == null) return false;
+            return _userTagRepository.Select.Any(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
+        }
+
+        public PagedResultDto<TagListDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto)
         {
             var userTags = _userTagRepository.Select.Include(r => r.Tag)
                 .Where(r => r.CreateUserId == userSubscribeDto.UserId)
                 .OrderByDescending(r => r.CreateTime)
-                .ToPagerList(userSubscribeDto,out long count)
+                .ToPagerList(userSubscribeDto, out long count)
                 .Select(r =>
                 {
-                    TagDto tagDto = _mapper.Map<TagDto>(r.Tag);
+                    TagListDto tagDto = _mapper.Map<TagListDto>(r.Tag);
                     tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
                     tagDto.IsSubscribe = true;
                     return tagDto;
                 }).ToList();
 
-            return new PagedResultDto<TagDto>(userTags, count);
+            return new PagedResultDto<TagListDto>(userTags, count);
 
         }
 
@@ -145,6 +171,11 @@ namespace LinCms.Application.Blog.Tags
             _tagRepository.UpdateDiy.Set(r => r.SubscribersCount + inCreaseCount)
                 .Where(r => r.Id == id)
                 .ExecuteAffrows();
+        }
+        public async Task CorrectedTagCountAsync(Guid tagId)
+        {
+            long count = await _tagArticleRepository.Select.Where(r => r.TagId == tagId && r.Article.IsDeleted == false).CountAsync();
+            await _tagRepository.UpdateDiy.Set(r => r.ArticleCount, count).Where(r => r.Id == tagId).ExecuteAffrowsAsync();
         }
     }
 }

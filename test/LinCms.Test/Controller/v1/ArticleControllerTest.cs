@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Web.Controllers.Blog;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,16 +21,16 @@ namespace LinCms.Test.Controller.v1
 
             _mapper = serviceProvider.GetService<IMapper>();
             _freeSql = serviceProvider.GetService<IFreeSql>();
-            _testOutputHelper =testOutputHelper;
+            _testOutputHelper = testOutputHelper;
         }
 
 
 
         [Fact]
-        public void Post()
+        public async Task CreateAsync()
         {
             CreateUpdateArticleDto createArticle = new CreateUpdateArticleDto();
-            _articleController.Post(createArticle);
+            await _articleController.CreateAsync(createArticle);
         }
 
 

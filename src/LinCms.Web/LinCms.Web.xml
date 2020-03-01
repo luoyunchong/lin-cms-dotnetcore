@@ -25,7 +25,7 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.QueryArticles(LinCms.Application.Contracts.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetArticleAsync(LinCms.Application.Contracts.Blog.Articles.ArticleSearchDto)">
             <summary>
             得到所有已审核过的随笔,最新的随笔/三天、七天、月榜、全部
             </summary>
@@ -39,14 +39,14 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.Get(System.Guid)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetAsync(System.Guid)">
             <summary>
             随笔详情
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.Put(System.Guid,System.Boolean)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.AuditAsync(System.Guid,System.Boolean)">
             <summary>
             审核随笔-拉黑/取消拉黑
             </summary>
@@ -149,7 +149,7 @@
             <param name="isAudit"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.TagController.CorrectedTagCount(System.Guid)">
+        <member name="M:LinCms.Web.Controllers.Blog.TagController.CorrectedTagCountAsync(System.Guid)">
             <summary>
             标签-校正标签对应文章数量
             </summary>

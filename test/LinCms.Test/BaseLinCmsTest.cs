@@ -28,14 +28,13 @@ namespace LinCms.Test
                     logging.AddConsole();
                 }).UseNLog()
             ); ;
-            ServiceProvider = server.Host.Services;
+            ServiceProvider = server.Host.Services.CreateScope().ServiceProvider;
 
             HostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();
 
             Mapper = ServiceProvider.GetService<IMapper>();
             FreeSql = ServiceProvider.GetService<IFreeSql>();
 
-            ServiceProvider = server.Host.Services;
 
         }
     }

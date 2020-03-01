@@ -14,11 +14,9 @@ namespace LinCms.Web.Controllers.Cms
     [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class GroupController : ControllerBase
     {
-        private readonly IFreeSql _freeSql;
         private readonly IGroupService _groupService;
-        public GroupController(IFreeSql freeSql, IGroupService groupService)
+        public GroupController(IGroupService groupService)
         {
-            _freeSql = freeSql;
             _groupService = groupService;
         }
 
@@ -32,7 +30,6 @@ namespace LinCms.Web.Controllers.Cms
         public async Task<GroupDto> GetAsync(long id)
         {
             GroupDto groupDto = await _groupService.GetAsync(id);
-
             return groupDto;
         }
 
@@ -50,7 +47,6 @@ namespace LinCms.Web.Controllers.Cms
             await _groupService.UpdateAsync(id, updateGroupDto);
             return UnifyResponseDto.Success("更新分组成功");
         }
-
 
         [HttpDelete("{id}")]
         [AuditingLog("管理员删除一个权限分组")]

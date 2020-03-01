@@ -11,7 +11,7 @@ namespace LinCms.Application.Cms.Permissions
     public interface IPermissionService
     {
         Task<bool> CheckPermissionAsync( string permission);
-        Task RemovePermissions(RemovePermissionDto permissionDto);
+        Task DeletePermissionsAsync(RemovePermissionDto permissionDto);
 
         Task DispatchPermissions(DispatchPermissionsDto permissionDto, List<PermissionDefinition> permissionDefinition);
 

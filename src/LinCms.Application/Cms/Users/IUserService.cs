@@ -39,7 +39,7 @@ namespace LinCms.Application.Cms.Users
         /// <param name="groupIds"></param>
         Task Register(LinUser user,List<long>groupIds);
 
-        void UpdateUserInfo(long id, UpdateUserDto updateUserDto);
+        Task UpdateAync(long id, UpdateUserDto updateUserDto);
 
         Task DeleteAsync(long id);
 
@@ -52,6 +52,7 @@ namespace LinCms.Application.Cms.Users
         LinUser GetCurrentUser();
 
         Task<UserInformation> GetInformationAsync(long userId);
+
         Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId);
 
         Task<List<LinPermission>> GetUserPermissions(long userId);

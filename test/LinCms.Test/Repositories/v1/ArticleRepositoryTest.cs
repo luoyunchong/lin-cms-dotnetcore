@@ -214,10 +214,10 @@ namespace LinCms.Test.Repositories.v1
         [Fact]
         public void TestIncludeManyList()
         {
-            List<ArticleListDto> articles2 = _articleRepository.Select
+            List<ArticleListDto> articles = _articleRepository.Select
                 .Include(r => r.UserInfo)
-                .ToList(r => new ArticleListDto())
-                .IncludeMany(_articleRepository.Orm, r => r.Tags, r => r.Where(u => u.Status));
+                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                .ToList(r => new ArticleListDto());
         }
     }
 }

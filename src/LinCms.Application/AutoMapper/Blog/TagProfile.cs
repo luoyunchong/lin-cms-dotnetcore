@@ -8,6 +8,7 @@ namespace LinCms.Application.AutoMapper.Blog
     {
         public TagProfile()
         {
+            CreateMap<Tag, TagListDto>();
             CreateMap<Tag, TagDto>();
             CreateMap<CreateUpdateTagDto, Tag>();
         }
