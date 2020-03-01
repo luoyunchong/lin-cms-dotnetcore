@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinCms.Application.Shared\LinCms.Application.Contracts.csproj" />
+    <ProjectReference Include="..\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj" />
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
     <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
   </ItemGroup>
