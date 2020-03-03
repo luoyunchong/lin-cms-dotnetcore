@@ -1,21 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+#if !DEBUG
+using System.Security.Cryptography.X509Certificates;
+#endif
 using AutoMapper;
-using FreeSql;
-using FreeSql.Internal;
 using HealthChecks.UI.Client;
 using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;
 using LinCms.IdentityServer4.IdentityServer4;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
