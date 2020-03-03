@@ -20,10 +20,10 @@ steps:
     script: |
       echo read to execute command
       ls
-      sed -i 's/{ConnectionStrings.Default}/$(ConnectionStrings.Default)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
+      sed -i 's/{ConnectionStrings.MySql}/$(ConnectionStrings.MySql)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
       sed -i 's/{Certificates.Password}/$(Certificates.Password)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
 
-      sed -i 's/{ConnectionStrings.Default}/$(ConnectionStrings.Default)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{ConnectionStrings.MySql}/$(ConnectionStrings.MySql)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{Authentication.GitHub.ClientId}/$(Authentication.GitHub.ClientId)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{Authentication.GitHub.ClientSecret}/$(Authentication.GitHub.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{RabbitMQ.UserName}/$(RabbitMQ.UserName)/g' src/LinCms.Web/appsettings.Production.json
