@@ -2,32 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using FreeSql;
 using FreeSql.Internal;
-using LinCms.Application;
+using HealthChecks.UI.Client;
 using LinCms.Application.AutoMapper.Cms;
-using LinCms.Application.Cms.Groups;
-using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
-using LinCms.Core.Middleware;
 using LinCms.Core.Security;
 using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -38,24 +32,11 @@ namespace LinCms.IdentityServer4
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IFreeSql Fsql { get; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:Default");
-
-            Fsql = new FreeSqlBuilder()
-                .UseConnectionString(DataType.MySql, configurationSection.Value)
-                .UseEntityPropertyNameConvert(StringConvertType.PascalCaseToUnderscoreWithLower)
-                .UseAutoSyncStructure(true)
-                .UseMonitorCommand(cmd =>
-                    {
-                        Trace.WriteLine(cmd.CommandText);
-                    }
-                )
-                .UseSyncStructureToLower(true) // 转小写同步结构
-                .Build();
+           
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -63,13 +44,7 @@ namespace LinCms.IdentityServer4
         {
             InMemoryConfiguration.Configuration = this.Configuration;
 
-            services.AddSingleton(Fsql);
-            services.AddScoped<IUnitOfWork>(sp => sp.GetService<IFreeSql>().CreateUnitOfWork());
-
-            services.AddFreeRepository(filter =>
-            {
-                filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
-            }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
+            services.AddContext();
 
             services.AddIdentityServer()
 #if DEBUG
@@ -88,9 +63,6 @@ namespace LinCms.IdentityServer4
                 .AddResourceOwnerValidator<LinCmsResourceOwnerPasswordValidator>();
 
             #region Swagger
-            //Swagger重写PascalCase，改成SnakeCase模式
-            services.TryAddEnumerable(ServiceDescriptor
-                .Transient<IApiDescriptionProvider, SnakeCaseQueryParametersApiDescriptionProvider>());
 
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
@@ -165,6 +137,7 @@ namespace LinCms.IdentityServer4
                         };
                     };
                 });
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -206,6 +179,11 @@ namespace LinCms.IdentityServer4
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
             });
         }
     }

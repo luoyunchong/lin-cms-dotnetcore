@@ -11,10 +11,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>LinCms.Web.xml</DocumentationFile>
-    <OutputPath></OutputPath>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.Web.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,17 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="LinCms.Web.xml" />
+    <None Remove="tempkey.rsa" />
     <None Remove="wwwroot\_Illegal\IllegalBit.iws" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="LinCms.Web.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.0.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Caching.CSRedis" Version="3.4.5" />
     <PackageReference Include="CSRedisCore" Version="3.4.5" />

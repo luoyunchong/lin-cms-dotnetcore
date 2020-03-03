@@ -11,21 +11,24 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath></OutputPath>
-    <DocumentationFile>LinCms.IdentityServer4.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.IdentityServer4.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="IS4.pfx" />
+    <None Remove="tempkey.rsa" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.0.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.2.0" />
     <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="FreeSql" Version="1.2.0" />
@@ -39,9 +42,6 @@
 
   <ItemGroup>
     <Content Include="IS4.pfx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LinCms.IdentityServer4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
