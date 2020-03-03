@@ -12,13 +12,14 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.IdentityServer4.xml</DocumentationFile>
+    <DocumentationFile>LinCms.IdentityServer4.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="IS4.pfx" />
+    <None Remove="LinCms.IdentityServer4.xml" />
     <None Remove="tempkey.rsa" />
   </ItemGroup>
 
@@ -42,6 +43,9 @@
 
   <ItemGroup>
     <Content Include="IS4.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LinCms.IdentityServer4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
