@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using FreeSql;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;

@@ -1,44 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CSRedis;
 using DotNetCore.CAP.Messages;
-using FreeSql;
-using FreeSql.Internal;
-using LinCms.Application;
+using HealthChecks.UI.Client;
 using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Files;
 using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
-using LinCms.Infrastructure.Repositories;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Data;
-using LinCms.Web.Data.Authorization;
 using LinCms.Web.Middleware;
-using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -48,84 +36,23 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Scrutor;
-using ToolGood.Words;
 
 namespace LinCms.Web
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IFreeSql Fsql { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:Default");
-
-            Fsql = new FreeSqlBuilder()
-                .UseConnectionString(DataType.MySql, configurationSection.Value)
-                .UseEntityPropertyNameConvert(StringConvertType.PascalCaseToUnderscoreWithLower)//全局转换实体属性名方法 https://github.com/2881099/FreeSql/pull/60
-                .UseAutoSyncStructure(true) //自动迁移实体的结构到数据库
-                .UseMonitorCommand(cmd =>
-                    {
-                        Trace.WriteLine(cmd.CommandText);
-                    }
-                )
-                .UseSyncStructureToLower(true) // 转小写同步结构
-                .Build();
-
-            Fsql.Aop.CurdBefore = (s, e) =>
-            {
-
-            };
-
-            Fsql.Aop.CurdAfter = (s, e) =>
-            {
-                if (e.ElapsedMilliseconds > 200)
-                {
-                    //记录日志
-                    //发送短信给负责人
-                }
-            };
-
-            //敏感词处理
-            if (Configuration["AuditValue:Enable"].ToBoolean())
-            {
-                IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
-
-                Fsql.Aop.AuditValue += (s, e) =>
-                {
-                    if (e.Column.CsType == typeof(string) && e.Value != null)
-                    {
-                        string oldVal = (string)e.Value;
-                        string newVal = illegalWords.Replace(oldVal);
-                        //第二种处理敏感词的方式
-                        //string newVal = oldVal.ReplaceStopWords();
-                        if (newVal != oldVal)
-                        {
-                            e.Value = newVal;
-                        }
-                    }
-                };
-            }
-
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            #region IdentityServer4+FreeSql
-            services.AddSingleton(Fsql);
-            //services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            services.AddScoped<IUnitOfWork>(sp => sp.GetService<IFreeSql>().CreateUnitOfWork());
-
-            services.AddFreeRepository(filter =>
-            {
-                filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
-            }, GetType().Assembly, typeof(AuditBaseRepository<>).Assembly);
-
+            services.AddContext();
+            #region IdentityServer4
 
             #region AddAuthentication\AddIdentityServerAuthentication 
             //AddAuthentication()是把验证服务注册到DI, 并配置了Bearer作为默认模式.
@@ -153,7 +80,6 @@ namespace LinCms.Web
                 {
                     opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    //opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddCookie(options =>
@@ -189,7 +115,6 @@ namespace LinCms.Web
                         // If you want to allow a certain amount of clock drift, set that here
                         //ClockSkew = TimeSpan.Zero
                     };
-
 
                     //options.TokenValidationParameters = new TokenValidationParameters()
                     //{
@@ -259,14 +184,7 @@ namespace LinCms.Web
 
             #endregion
 
-            #region 初始化 Redis配置
-            IConfigurationSection csRediSection = Configuration.GetSection("CsRedisConfig:DefaultConnectString");
-            CSRedisClient csredis = new CSRedisClient(csRediSection.Value);
-            //初始化 RedisHelper
-            RedisHelper.Initialization(csredis);
-            //注册mvc分布式缓存
-            services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance)); 
-            #endregion
+            services.AddCsRedisCore();
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
@@ -314,27 +232,7 @@ namespace LinCms.Web
              });
             #endregion
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-
-            #region Scrutor 批量注册 
-
-            Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToArray();
-            services.Scan(scan => scan
-                    //加载IAppService这个类所在的程序集
-                    .FromAssemblyOf<IAppService>()
-                    // 表示要注册那些类，上面的代码还做了过滤，只留下了以 Service 结尾的类
-                    .AddClasses(classes => classes.Where(t => t.Name != "IFileService" && t.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
-                    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                    //表示将类型注册为提供其所有公共接口作为服务
-                    .AsImplementedInterfaces()
-                    //表示注册的生命周期为 Scope
-                    .WithScopedLifetime()
-                    .FromAssemblies(currentAssemblies)
-                    .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
-                    .AsImplementedInterfaces()
-                    .WithTransientLifetime()
-                  );
+            services.AddServices();
 
             string serviceName = Configuration.GetSection("FILE:SERVICE").Value;
 
@@ -346,7 +244,6 @@ namespace LinCms.Web
             {
                 services.AddTransient<IFileService, QiniuService>();
             }
-            #endregion
 
             #region Swagger
             //Swagger重写PascalCase，改成SnakeCase模式
@@ -383,8 +280,6 @@ namespace LinCms.Web
             });
             #endregion
 
-            //将Handler注册到DI系统中
-            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             services.Configure<FormOptions>(options =>
             {
@@ -392,7 +287,7 @@ namespace LinCms.Web
                 options.MultipartHeadersCountLimit = 10;
             });
 
-            IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:Default");
+            IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:MySql");
             services.AddCap(x =>
             {
                 x.UseMySql(configurationSection.Value);
@@ -414,6 +309,7 @@ namespace LinCms.Web
                 };
             });
             services.AddStartupTask<MigrationStartupTask>();
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -446,10 +342,9 @@ namespace LinCms.Web
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
-
                 //c.RoutePrefix = string.Empty;
-                //c.OAuthClientId("demo_api_swagger");//客服端名称
-                //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
+                //c.OAuthClientId(Configuration["Service:ClientId"]);//客服端名称
+                //c.OAuthAppName(Configuration["Service:Name"]); // 描述
             });
 
             app.UseCors(builder =>
@@ -460,16 +355,18 @@ namespace LinCms.Web
             });
 
             app.UseAuthentication();
-
             app.UseHttpsRedirection();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+             app.UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
             });
         }
 

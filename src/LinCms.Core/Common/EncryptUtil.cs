@@ -34,7 +34,7 @@ namespace LinCms.Core.Common
         /// <returns></returns>
         public static bool Verify(string mdPwd, string source)
         {
-            return mdPwd == EncryptUtil.Encrypt(source).ToUpper();
+            return mdPwd == Encrypt(source).ToUpper();
         }
     }
 }

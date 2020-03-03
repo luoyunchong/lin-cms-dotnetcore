@@ -18,7 +18,6 @@ using LinCms.Core.Security;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -28,21 +27,20 @@ namespace LinCms.Web.Controllers.Blog
     public class ArticleController : ControllerBase
     {
         private readonly AuditBaseRepository<Article> _articleRepository;
-        private readonly GuidRepository<TagArticle> _tagArticleRepository;
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly BaseRepository<UserSubscribe> _userSubscribeRepository;
         private readonly ICapPublisher _capBus;
-        public ArticleController(AuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser,
-            GuidRepository<TagArticle> tagArticleRepository, IArticleService articleService, BaseRepository<UserSubscribe> userSubscribeRepository, ICapPublisher capBus)
+        public ArticleController(AuditBaseRepository<Article> articleRepository,
+            IMapper mapper,
+            ICurrentUser currentUser,
+            IArticleService articleService,
+            ICapPublisher capBus)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
             _currentUser = currentUser;
-            _tagArticleRepository = tagArticleRepository;
             _articleService = articleService;
-            _userSubscribeRepository = userSubscribeRepository;
             _capBus = capBus;
         }
         /// <summary>
