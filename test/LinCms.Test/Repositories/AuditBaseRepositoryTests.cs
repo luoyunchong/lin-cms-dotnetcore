@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Application.Contracts.v1.Books;
 using LinCms.Core.Entities;
 using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
-using LinCms.Test.Controller;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

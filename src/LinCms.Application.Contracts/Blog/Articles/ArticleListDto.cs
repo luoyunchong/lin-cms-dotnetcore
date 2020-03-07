@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using LinCms.Application.Contracts.Blog.Classifys;
 using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Common;

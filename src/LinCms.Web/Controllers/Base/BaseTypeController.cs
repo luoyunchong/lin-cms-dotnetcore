@@ -52,7 +52,7 @@ namespace LinCms.Web.Controllers.Base
 
         [LinCmsAuthorize("新增字典类别", "字典类别")]
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateUpdateBaseTypeDto createBaseType)
+        public UnifyResponseDto Create([FromBody] CreateUpdateBaseTypeDto createBaseType)
         {
             bool exist = _baseTypeRepository.Select.Any(r => r.TypeCode == createBaseType.TypeCode);
             if (exist)
@@ -67,7 +67,7 @@ namespace LinCms.Web.Controllers.Base
 
         [LinCmsAuthorize("编辑字典类别", "字典类别")]
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
+        public UnifyResponseDto Update(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
         {
             BaseType baseType = _baseTypeRepository.Select.Where(r => r.Id == id).ToOne();
             if (baseType == null)

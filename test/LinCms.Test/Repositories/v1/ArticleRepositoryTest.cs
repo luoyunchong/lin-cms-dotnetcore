@@ -4,6 +4,7 @@ using Xunit.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
@@ -13,6 +14,7 @@ namespace LinCms.Test.Repositories.v1
     public class ArticleRepositoryTest : BaseLinCmsTest
     {
         private readonly AuditBaseRepository<Article> _articleRepository;
+        private readonly AuditBaseRepository<TagArticle> _tagArticleRepository;
         private readonly AuditBaseRepository<Tag> _tagRepository;
         private readonly ITestOutputHelper _testOutputHelper;
 
@@ -20,6 +22,7 @@ namespace LinCms.Test.Repositories.v1
         {
             _articleRepository = ServiceProvider.GetService<AuditBaseRepository<Article>>();
             _tagRepository = ServiceProvider.GetService<AuditBaseRepository<Tag>>();
+            _tagArticleRepository = ServiceProvider.GetService<AuditBaseRepository<TagArticle>>();
             _testOutputHelper = testOutputHelper;
         }
 
@@ -218,6 +221,27 @@ namespace LinCms.Test.Repositories.v1
                 .Include(r => r.UserInfo)
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .ToList(r => new ArticleListDto());
+        }
+
+
+        [Fact]
+        public async Task CreateArticleAsyncTest()
+        {
+            Article article=new Article()
+            {
+                Id = new Guid("5dccaf53-b8ff-0750-00bf-8e9549e111a6"),
+            };
+            await _articleRepository.UpdateAsync(article);
+            List<TagArticle> tagArticles = new List<TagArticle>()
+            {
+                new TagArticle()
+                {
+                    TagId = Guid.NewGuid(),
+                    ArticleId = Guid.NewGuid()
+                }
+            };
+            await _tagArticleRepository.InsertAsync(tagArticles);
+            UnitOfWork.Commit();
         }
     }
 }

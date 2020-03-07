@@ -14,8 +14,11 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 点赞类型 1 是文章，2 是评论
         /// </summary>
+        [Column(MapType = typeof(int))]
         public UserLikeSubjectType SubjectType { get; set; }
+      
         public long CreateUserId { get; set; }
+     
         public DateTime CreateTime { get; set; }
 
 

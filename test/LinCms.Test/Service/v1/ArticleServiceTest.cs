@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using LinCms.Application.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Core.Data;
-using LinCms.Infrastructure.Repositories;
-using LinCms.Test.Repositories;
 using Xunit.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

@@ -58,9 +58,9 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("修改技术频道", "技术频道")]
         [HttpPut("{id}")]
-        public UnifyResponseDto UpdateAsync(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
+        public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
         {
-            _channelService.UpdateAsync(id, updateChannel);
+            await _channelService.UpdateAsync(id, updateChannel);
             return UnifyResponseDto.Success("更新技术频道成功");
         }
     }

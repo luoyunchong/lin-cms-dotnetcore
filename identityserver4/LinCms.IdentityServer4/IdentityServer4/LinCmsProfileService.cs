@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
-using LinCms.Application.Cms.Users;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Infrastructure.Repositories;

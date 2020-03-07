@@ -32,22 +32,23 @@ namespace LinCms.Web.Controllers.Blog
 
         [HttpGet]
         [LinCmsAuthorize("所有标签", "标签管理")]
-        public PagedResultDto<TagListDto> GetAll([FromQuery]TagSearchDto searchDto)
+        public Task<PagedResultDto<TagListDto>> GetAllAsync([FromQuery]TagSearchDto searchDto)
         {
-            return _tagService.Get(searchDto);
+            return _tagService.GetListAsync(searchDto);
         }
 
         [HttpGet("public")]
-        public PagedResultDto<TagListDto> Get([FromQuery]TagSearchDto searchDto)
+        public Task<PagedResultDto<TagListDto>> GetListAsync([FromQuery]TagSearchDto searchDto)
         {
             searchDto.Status = true;
-            return _tagService.Get(searchDto);
+            return _tagService.GetListAsync(searchDto);
         }
 
         [HttpGet("{id}")]
-        public Task<TagListDto> GetAsync(Guid id)
+        public async Task<TagListDto> GetAsync(Guid id)
         {
-            return _tagService.GetAsync(id);
+            await _tagService.IncreaseTagViewHits(id);
+            return await _tagService.GetAsync(id);
         }
 
         [HttpPost]

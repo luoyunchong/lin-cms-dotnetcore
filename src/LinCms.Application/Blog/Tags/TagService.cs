@@ -61,7 +61,6 @@ namespace LinCms.Application.Blog.Tags
             await _tagRepository.UpdateAsync(tag);
         }
 
-
         public async Task<TagListDto> GetAsync(Guid id)
         {
             Tag tag = await _tagRepository.Select.Where(a => a.Id == id).ToOneAsync();
@@ -80,26 +79,27 @@ namespace LinCms.Application.Blog.Tags
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        public PagedResultDto<TagListDto> Get(TagSearchDto searchDto)
+        public async Task<PagedResultDto<TagListDto>> GetListAsync(TagSearchDto searchDto)
         {
             if (searchDto.Sort.IsNullOrEmpty())
             {
                 searchDto.Sort = "create_time desc";
             }
 
-            List<TagListDto> tags = _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == _currentUser.Id))
-                .WhereIf(searchDto.TagIds.IsNotNullOrEmpty(), r => searchDto.TagIds.Contains(r.Id))
-                .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
-                .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
-                .OrderBy(searchDto.Sort)
-                .ToPagerList(searchDto, out long totalCount)
-                .Select(r =>
-                {
-                    TagListDto tagDto = _mapper.Map<TagListDto>(r);
-                    tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
-                    tagDto.IsSubscribe = r.UserTags.Any();
-                    return tagDto;
-                }).ToList();
+            List<TagListDto> tags = (await
+                    _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == _currentUser.Id))
+                        .WhereIf(searchDto.TagIds.IsNotNullOrEmpty(), r => searchDto.TagIds.Contains(r.Id))
+                        .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
+                        .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
+                        .OrderBy(searchDto.Sort)
+                        .ToPagerListAsync(searchDto, out long totalCount))
+                        .Select(r =>
+                        {
+                            TagListDto tagDto = _mapper.Map<TagListDto>(r);
+                            tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
+                            tagDto.IsSubscribe = r.UserTags.Any();
+                            return tagDto;
+                        }).ToList();
 
             return new PagedResultDto<TagListDto>(tags, totalCount);
         }
@@ -125,7 +125,6 @@ namespace LinCms.Application.Blog.Tags
                 }).ToList();
 
             return new PagedResultDto<TagListDto>(userTags, count);
-
         }
 
         public void UpdateArticleCount(Guid? id, int inCreaseCount)
@@ -176,6 +175,13 @@ namespace LinCms.Application.Blog.Tags
         {
             long count = await _tagArticleRepository.Select.Where(r => r.TagId == tagId && r.Article.IsDeleted == false).CountAsync();
             await _tagRepository.UpdateDiy.Set(r => r.ArticleCount, count).Where(r => r.Id == tagId).ExecuteAffrowsAsync();
+        }
+
+        public async Task IncreaseTagViewHits(Guid tagId)
+        {
+            await _tagRepository.UpdateDiy.Set(r => r.ViewHits + 1)
+                  .Where(r => r.Id == tagId)
+                  .ExecuteAffrowsAsync();
         }
     }
 }

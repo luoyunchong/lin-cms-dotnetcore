@@ -40,9 +40,9 @@
   - 密码：123qwe
 
 ## 前端
-- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客文章、评论、留言板、标签、文章分类专栏、插件式功能（还没有），具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/)
-- 管理端 [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
-- 用户端 [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
+- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客随笔、随笔评论、关注用户、标签、关注标签、技术频道（标签分类）、插件式功能（目前还没有）
+，具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/),开源地址见下方。
+
 ### Lin CMS 的特点
 
 Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin 的主要特点。
@@ -73,12 +73,12 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 该项目的Lin 的服务端框架是基于[.NET Core 3.1](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
 
 ### 相关技术
-- 数据库：FreeSql+MySQL5.6
+- 数据库相关：ORM:[FreeSql](https://github.com/2881099/FreeSql)+DataBase:MySQL5.6
 - ASP.NET Core3.1+WebAPI+RESTful
-- 简化对象映射：AutoMapper
-- 身份认证框架：IdentityServer4
+- 简化对象映射：[AutoMapper](https://automapper.org/)
+- 身份认证框架：[IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
 - Json Web令牌:JWT
-- 文档API：Swagger(Swashbuckle.AspNetCore)
+- 文档API：Swagger([Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore))
 - 序列化：Newtonsoft.Json
 - 测试框架：Xunit
 - 日志 NLog
@@ -129,9 +129,9 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 林间有风（lin-cms-vue） QQ 群号：643205479
 - .NET Core搬砖队(lin-cms-dotnetcore) QQ群号：762828442
 
-<img class="QR-img" width="258" height="300" src="https://ae01.alicdn.com/kf/Hed659970c86c4004b42480fe7d7f97acW.jpg">
+<img class="QR-img" style="margin-right:10px" width="258" height="300" src="https://ae01.alicdn.com/kf/Hed659970c86c4004b42480fe7d7f97acW.jpg">
 
-<img class="QR-img" style="margin-left:10px" width="258" height="300" src="https://ae01.alicdn.com/kf/H6c1668c7987a436caae6b19ee6b86af5J.jpg">
+<img class="QR-img"  width="258" height="300" src="https://ae01.alicdn.com/kf/H6c1668c7987a436caae6b19ee6b86af5J.jpg">
 
 ### 微信公众号
 
@@ -139,11 +139,18 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 <img class="QR-img" src="https://ae01.alicdn.com/kf/H4e69faac4a834b8a82f54ea05d2dd53av.jpg">
 
+
+## 下个版本开发计划
+- [功能模块的设计 ](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3)
+- [0.3.0系统权限模块更新](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/6 )
+
 ## azure devops
 
 - [.Net Core DevOps -免费用Azure四步实现自动化发布（CI/CD）](https://www.cnblogs.com/zhaozhengyan/p/azure-devops-aliyun.html)
 - [.Net Core DevOps - 替换 ConnectionStrings](https://www.cnblogs.com/zhaozhengyan/p/azure-replace-appsettings.html)
 
 ##  开源地址
-* Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
-* GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
+- 后端接口Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
+- 后端接口GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
+- 管理端UI [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
+- 用户端UI [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)

@@ -57,7 +57,7 @@ namespace LinCms.Web.Controllers.Base
 
         [HttpPost]
         [LinCmsAuthorize("新增字典", "字典管理")]
-        public UnifyResponseDto Post([FromBody] CreateUpdateBaseItemDto createBaseItem)
+        public UnifyResponseDto Create([FromBody] CreateUpdateBaseItemDto createBaseItem)
         {
             bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == createBaseItem.BaseTypeId && r.ItemCode == createBaseItem.ItemCode);
             if (exist)
@@ -72,7 +72,7 @@ namespace LinCms.Web.Controllers.Base
 
         [HttpPut("{id}")]
         [LinCmsAuthorize("编辑字典", "字典管理")]
-        public UnifyResponseDto Put(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
+        public UnifyResponseDto Update(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
         {
             BaseItem baseItem = _baseItemRepository.Select.Where(r => r.Id == id).ToOne();
             if (baseItem == null)

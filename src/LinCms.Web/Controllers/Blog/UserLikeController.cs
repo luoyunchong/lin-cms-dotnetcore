@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using DotNetCore.CAP;
+using FreeSql;
 using LinCms.Application.Contracts.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.UserLikes;
 using LinCms.Core.Data;
@@ -20,7 +21,7 @@ namespace LinCms.Web.Controllers.Blog
     [Route("v1/user-like")]
     [ApiController]
     [Authorize]
-    public class UserLikeController : ControllerBase
+    public class UserLikeController : ApiControllerBase
     {
         private readonly AuditBaseRepository<Article> _articleAuditBaseRepository;
         private readonly AuditBaseRepository<UserLike> _userLikeRepository;
@@ -34,7 +35,8 @@ namespace LinCms.Web.Controllers.Blog
             AuditBaseRepository<UserLike> userLikeRepository,
             AuditBaseRepository<Article> articleAuditBaseRepository,
             AuditBaseRepository<Comment> commentRepository,
-            ICapPublisher capBus)
+            ICapPublisher capBus,
+            IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _mapper = mapper;
             _currentUser = currentUser;
@@ -50,12 +52,14 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
+        public UnifyResponseDto Create([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            Expression<Func<UserLike, bool>> predicate = r => r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == _currentUser.Id;
+            Expression<Func<UserLike, bool>> predicate = r =>
+                r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == _currentUser.Id;
 
             bool exist = _userLikeRepository.Select.Any(predicate);
             int increaseLikeQuantity = 1;
+
             if (exist)
             {
                 increaseLikeQuantity = -1;
@@ -76,13 +80,12 @@ namespace LinCms.Web.Controllers.Blog
             {
                 return UnifyResponseDto.Success("取消点赞成功");
             }
-
+  
             UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
-
             _userLikeRepository.Insert(userLike);
-            
+
             this.PublishUserLikeNotification(createUpdateUserLike);
-            
+
             return UnifyResponseDto.Success("点赞成功");
         }
 
@@ -101,7 +104,9 @@ namespace LinCms.Web.Controllers.Blog
                     return;
                 }
             }
-            _articleAuditBaseRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
+
+            _articleAuditBaseRepository
+                .UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
 
         private void UpdateCommentLike(Guid subjectId, int likesQuantity)
@@ -119,7 +124,6 @@ namespace LinCms.Web.Controllers.Blog
                     return;
                 }
             }
-
             _commentRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
 
@@ -157,7 +161,11 @@ namespace LinCms.Web.Controllers.Blog
 
             if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
             {
+                using ICapTransaction trans = UnitOfWork.BeginTransaction(_capBus, false);
+
                 _capBus.Publish("NotificationController.Post", createNotificationDto);
+
+                trans.Commit();
             }
         }
     }

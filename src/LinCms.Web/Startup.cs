@@ -194,7 +194,7 @@ namespace LinCms.Web
             services.AddControllers(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 options.Filters.Add<LinCmsExceptionFilter>();
+                 //options.Filters.Add<LinCmsExceptionFilter>();
                  options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
              })
              .AddNewtonsoftJson(opt =>
@@ -315,24 +315,19 @@ namespace LinCms.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseHttpMethodOverride(new HttpMethodOverrideOptions { FormFieldName = "X-Http-Method-Override" });
-
-            app.UseMiddleware(typeof(RequestMvcMiddleWare));
-
-            //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHsts();
             app.UseStaticFiles();
-
-            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            //异常中间件应放在MVC执行事务的中件间的前面，否则异常时RequestMvcMiddleWare无法catch异常
+            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            app.UseMiddleware(typeof(RequestMvcMiddleWare));
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -357,17 +352,17 @@ namespace LinCms.Web
             app.UseAuthentication();
             app.UseHttpsRedirection();
 
-             app.UseRouting()
-                .UseAuthorization()
-                .UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                {
-                    Predicate = _ => true,
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
-            });
+            app.UseRouting()
+               .UseAuthorization()
+               .UseEndpoints(endpoints =>
+           {
+               endpoints.MapControllers();
+               endpoints.MapHealthChecks("/health", new HealthCheckOptions
+               {
+                   Predicate = _ => true,
+                   ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+               });
+           });
         }
 
     }

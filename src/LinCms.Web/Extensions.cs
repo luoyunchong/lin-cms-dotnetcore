@@ -33,24 +33,24 @@ namespace LinCms.Web
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             IConfigurationSection configurationSection = configuration.GetSection("ConnectionStrings:MySql");
-            var fsql = new FreeSqlBuilder()
+            IFreeSql fsql = new FreeSqlBuilder()
                    .UseConnectionString(DataType.MySql, configurationSection.Value)
                    .UseEntityPropertyNameConvert(StringConvertType.PascalCaseToUnderscoreWithLower)//全局转换实体属性名方法 https://github.com/2881099/FreeSql/pull/60
                    .UseAutoSyncStructure(true) //自动迁移实体的结构到数据库
                    .UseMonitorCommand(cmd =>
                        {
-                           Trace.WriteLine(cmd.CommandText);
+                           Trace.WriteLine(cmd.CommandText+";");
                        }
                    )
                    .UseSyncStructureToLower(true) // 转小写同步结构
                    .Build();
 
-            fsql.Aop.CurdBefore = (s, e) =>
+            fsql.Aop.CurdBefore += (s, e) =>
             {
 
             };
 
-            fsql.Aop.CurdAfter = (s, e) =>
+            fsql.Aop.CurdAfter += (s, e) =>
             {
                 if (e.ElapsedMilliseconds > 200)
                 {
@@ -86,7 +86,7 @@ namespace LinCms.Web
             {
                 filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             }, typeof(AuditBaseRepository<>).Assembly);
-        } 
+        }
         #endregion
 
         public static void AddCsRedisCore(this IServiceCollection services)
@@ -119,10 +119,22 @@ namespace LinCms.Web
                 .AsImplementedInterfaces()
                 //表示注册的生命周期为 Scope
                 .WithScopedLifetime()
+                //扫描当前以LinCms.开头类库 并且继承ITransientDependency的接口以“瞬时”注入到容器中
                 .FromAssemblies(currentAssemblies)
                 .AddClasses(classes => classes.AssignableTo<ITransientDependency>())
                 .AsImplementedInterfaces()
                 .WithTransientLifetime()
+                //继承IScopeDependency的接口注入到容器中以“范围（单次请求获取的是一个实例）注入到容器中
+                .FromAssemblies(currentAssemblies)
+                .AddClasses(classes => classes.AssignableTo<IScopedDependency>())
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+
+                //继承ISingletonDependency的接口以“单例”生命周期注入到容器中
+                .FromAssemblies(currentAssemblies)
+                .AddClasses(classes => classes.AssignableTo<ISingletonDependency>())
+                .AsImplementedInterfaces()
+                .WithSingletonLifetime()
             );
 
             #endregion

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
-using LinCms.Application.Contracts.Blog.MessageBoards;
 using LinCms.Application.Contracts.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Cms.Users;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FreeSql.DataAnnotations;
-using LinCms.Core.Entities.Blog;
+﻿using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities
 {
