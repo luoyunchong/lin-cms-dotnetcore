@@ -11,15 +11,14 @@ namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/log")]
     [ApiController]
+    [DisableAuditing]
     public class LogController : ControllerBase
     {
-        private readonly BaseRepository<LinLog> _linLogBaseRepository;
         private readonly ILogService _logService;
 
         public LogController(ILogService logService, BaseRepository<LinLog> linLogBaseRepository)
         {
             _logService = logService;
-            _linLogBaseRepository = linLogBaseRepository;
         }
 
         /// <summary>
