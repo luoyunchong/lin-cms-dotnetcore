@@ -1,4 +1,7 @@
-﻿using LinCms.Application.Contracts.Blog.Tags;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Core.Entities.Blog;
 using LinCms.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,10 +13,12 @@ namespace LinCms.Test.Repositories.v1
     {
 
         private readonly AuditBaseRepository<Tag> _tagRepository;
+        private readonly AuditBaseRepository<TagArticle> _tagArticleRepository;
 
         public TagRepositoryTest()
         {
             _tagRepository = ServiceProvider.GetService<AuditBaseRepository<Tag>>();
+            _tagArticleRepository = ServiceProvider.GetService<AuditBaseRepository<TagArticle>>();
         }
 
         [Fact]
@@ -46,6 +51,7 @@ namespace LinCms.Test.Repositories.v1
 
 
         }
+
 
     }
 }

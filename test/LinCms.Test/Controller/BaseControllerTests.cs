@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Core.Exceptions;
-using LinCms.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -17,7 +16,7 @@ namespace LinCms.Test.Controller
     public abstract class BaseControllerTests
     {
         protected HttpClient Client { get; }
-        protected IServiceProvider serviceProvider;
+        protected readonly IServiceProvider serviceProvider;
 
         protected BaseControllerTests()
         {

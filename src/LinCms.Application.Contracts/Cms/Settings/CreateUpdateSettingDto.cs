@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LinCms.Application.Contracts.Cms.Settings
+﻿namespace LinCms.Application.Contracts.Cms.Settings
 {
     public class CreateUpdateSettingDto
     {

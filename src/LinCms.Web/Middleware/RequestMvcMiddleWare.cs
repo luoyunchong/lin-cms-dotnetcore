@@ -17,19 +17,19 @@ namespace LinCms.Web.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context,IUnitOfWork unitOfWork)
+        public async Task InvokeAsync(HttpContext httpContext, IUnitOfWork unitOfWork)
         {
             try
             {
                 unitOfWork.Open();
-                await _next(context);
+                await _next.Invoke(httpContext);
                 unitOfWork.Commit();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 unitOfWork?.Rollback();
-                throw;
+                throw ex;
             }
             finally
             {

@@ -40,7 +40,6 @@ namespace LinCms.Web.Middleware
             }
             catch (Exception ex)
             {
-
                 if (ex is LinCmsException cmsException) //自定义业务异常
                 {
                     await JsonHandle(context, cmsException.Message, cmsException.GetErrorCode(),

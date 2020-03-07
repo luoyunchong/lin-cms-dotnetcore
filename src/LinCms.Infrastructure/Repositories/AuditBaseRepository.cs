@@ -26,10 +26,10 @@ namespace LinCms.Infrastructure.Repositories
     /// <typeparam name="TKey"></typeparam>
     public class AuditBaseRepository<T, TKey> : BaseRepository<T, TKey> where T : class, new()
     {
-        private readonly ICurrentUser _currentUser;
+        protected readonly ICurrentUser CurrentUser;
         public AuditBaseRepository(IUnitOfWork uow,ICurrentUser currentUser,IFreeSql fsql, Expression<Func<T, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
         {
-            _currentUser = currentUser;
+            CurrentUser = currentUser;
             base.UnitOfWork = uow;
         }
 
@@ -38,11 +38,11 @@ namespace LinCms.Infrastructure.Repositories
             if (!(entity is ICreateAduitEntity e)) return;
             e.CreateTime = DateTime.Now;
 
-            e.CreateUserId = _currentUser.Id??0;
+            e.CreateUserId = CurrentUser.Id??0;
 
             if (!(entity is IUpdateAuditEntity updateAuditEntity)) return;
             updateAuditEntity.UpdateTime = DateTime.Now;
-            updateAuditEntity.UpdateUserId = _currentUser.Id; ;
+            updateAuditEntity.UpdateUserId = CurrentUser.Id; ;
         }
 
         public override T Insert(T entity)
@@ -80,7 +80,7 @@ namespace LinCms.Infrastructure.Repositories
         {
             if (!(entity is IUpdateAuditEntity e)) return;
             e.UpdateTime = DateTime.Now;
-            e.UpdateUserId = _currentUser.Id;
+            e.UpdateUserId = CurrentUser.Id;
         }
 
         public new int Update(T entity)
@@ -119,7 +119,7 @@ namespace LinCms.Infrastructure.Repositories
             {
                 return Orm.Update<T>(entity)
                            .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
-                           .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                           .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)
                            .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                            .ExecuteAffrows();
             }
@@ -136,7 +136,7 @@ namespace LinCms.Infrastructure.Repositories
                 {
                     if (x1 is IDeleteAduitEntity softDelete)
                     {
-                        softDelete.DeleteUserId = _currentUser.Id;
+                        softDelete.DeleteUserId = CurrentUser.Id;
                         softDelete.DeleteTime = DateTime.Now;
                         softDelete.IsDeleted = true;
                     }
@@ -158,7 +158,7 @@ namespace LinCms.Infrastructure.Repositories
                 {
                     if (x1 is IDeleteAduitEntity softDelete)
                     {
-                        softDelete.DeleteUserId = _currentUser.Id;
+                        softDelete.DeleteUserId = CurrentUser.Id;
                         softDelete.DeleteTime = DateTime.Now;
                         softDelete.IsDeleted = true;
                     }
@@ -174,7 +174,7 @@ namespace LinCms.Infrastructure.Repositories
             {
                 return await Orm.Update<T>(entity)
                     .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
-                    .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                    .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)
                     .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                     .ExecuteAffrowsAsync();
             }
@@ -188,7 +188,7 @@ namespace LinCms.Infrastructure.Repositories
                 List<T> items = Orm.Select<T>().Where(predicate).ToList();
                 return Orm.Update<T>(items)
                     .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
-                    .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                    .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)
                     .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                     .ExecuteAffrows();
             }
@@ -203,7 +203,7 @@ namespace LinCms.Infrastructure.Repositories
                 List<T> items = Orm.Select<T>().Where(predicate).ToList();
                 return await Orm.Update<T>(items)
                      .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
-                     .Set(a => (a as IDeleteAduitEntity).DeleteUserId, _currentUser.Id)
+                     .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)
                      .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
                      .ExecuteAffrowsAsync();
             }

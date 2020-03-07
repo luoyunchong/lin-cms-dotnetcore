@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Security.Claims;
-using LinCms.Core.Extensions;
 
 namespace LinCms.Core.Security
 {

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace LinCms.Web.Middleware
 {
+    /// <summary>
+    /// 下划线写法（SnakeCase）
+    /// </summary>
     public class SnakeCaseQueryValueProvider : QueryStringValueProvider
     {
         public SnakeCaseQueryValueProvider(

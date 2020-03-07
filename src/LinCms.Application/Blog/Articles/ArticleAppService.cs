@@ -60,7 +60,6 @@ namespace LinCms.Application.Blog.Articles
             long? userId = _currentUser.Id;
             List<Article> articles = await _articleRepository
                 .Select
-                .Include(r => r.Classify)
                 .Include(r => r.UserInfo)
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
@@ -172,19 +171,17 @@ namespace LinCms.Application.Blog.Articles
 
             await _articleRepository.UpdateAsync(article);
 
-            Article oldArticle = await _articleRepository.Select.Where(r => r.Id == article.Id)
-                .IncludeMany(r => r.Tags).ToOneAsync();
+            List<Guid> tagIds = await _tagArticleRepository.Select
+                                .Where(r => r.ArticleId == article.Id)
+                                .ToListAsync(r => r.TagId);
 
-            oldArticle.Tags.ToList()
-                .ForEach(u =>
+            tagIds.ForEach(tagId =>
             {
-                _tagService.UpdateArticleCount(u.Id, -1);
+                _tagService.UpdateArticleCount(tagId, -1);
             });
-
             _tagArticleRepository.Delete(r => r.ArticleId == article.Id);
 
             List<TagArticle> tagArticles = new List<TagArticle>();
-
             updateArticleDto.TagIds.ForEach(tagId =>
                 {
                     tagArticles.Add(new TagArticle()
@@ -194,8 +191,8 @@ namespace LinCms.Application.Blog.Articles
                     });
                     _tagService.UpdateArticleCount(tagId, 1);
                 });
+            await _tagArticleRepository.InsertAsync(tagArticles);
 
-            _tagArticleRepository.Insert(tagArticles);
             if (article.ClassifyId != updateArticleDto.ClassifyId)
             {
                 _classifyService.UpdateArticleCount(article.ClassifyId, -1);

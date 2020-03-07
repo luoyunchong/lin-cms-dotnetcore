@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.CAP;
-using FreeSql;
 using LinCms.Application.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Notifications;
-using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
@@ -162,7 +160,7 @@ namespace LinCms.Web.Controllers.Blog
 
 
         [HttpPut("{id}")]
-        public UnifyResponseDto UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
+        public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticle)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
             if (article.CreateUserId != _currentUser.Id)
@@ -175,7 +173,7 @@ namespace LinCms.Web.Controllers.Blog
             }
 
             _mapper.Map(updateArticle, article);
-            _articleService.UpdateAsync(updateArticle, article);
+            await _articleService.UpdateAsync(updateArticle, article);
 
             return UnifyResponseDto.Success("更新随笔成功");
         }

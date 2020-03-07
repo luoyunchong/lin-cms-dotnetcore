@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using LinCms.Application.Contracts.Cms.Settings;
 using LinCms.Core.Entities.Settings;
 

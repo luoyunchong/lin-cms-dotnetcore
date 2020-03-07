@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using AutoMapper;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Entities;

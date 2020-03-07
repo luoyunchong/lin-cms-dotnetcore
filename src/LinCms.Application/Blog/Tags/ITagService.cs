@@ -14,7 +14,7 @@ namespace LinCms.Application.Blog.Tags
 
         Task<TagListDto> GetAsync(Guid id);
 
-        PagedResultDto<TagListDto> Get(TagSearchDto searchDto);
+        Task<PagedResultDto<TagListDto>> GetListAsync(TagSearchDto searchDto);
 
         /// <summary>
         /// 判断标签是否被关注
@@ -35,5 +35,12 @@ namespace LinCms.Application.Blog.Tags
         void UpdateSubscribersCount(Guid? id, int inCreaseCount);
 
         Task CorrectedTagCountAsync(Guid tagId);
+
+        /// <summary>
+        /// 标签浏览量+1
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <returns></returns>
+        Task IncreaseTagViewHits(Guid tagId);
     }
 }

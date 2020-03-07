@@ -82,7 +82,7 @@ namespace LinCms.Core.Data.Enums
         /// <summary>
         /// 失败
         /// </summary>
-        Error = 999,
+        Error = 1000,
 
         /// <summary>
         /// 认证失败

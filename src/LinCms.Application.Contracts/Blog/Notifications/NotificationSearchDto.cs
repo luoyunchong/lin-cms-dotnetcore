@@ -1,5 +1,4 @@
 ﻿using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Application.Contracts.Blog.Notifications
 {

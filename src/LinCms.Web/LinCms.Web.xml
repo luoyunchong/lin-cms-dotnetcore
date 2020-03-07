@@ -161,7 +161,7 @@
              用户点赞随笔
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.Post(LinCms.Application.Contracts.Blog.UserLikes.CreateUpdateUserLikeDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.Create(LinCms.Application.Contracts.Blog.UserLikes.CreateUpdateUserLikeDto)">
             <summary>
             用户点赞/取消点赞文章、评论 
             </summary>
@@ -392,16 +392,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Data.LogActionFilterAttribute">
-            <summary>
-            全局日志记录
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Data.LogActionFilterAttribute.ActionArguments">
-            <summary>
-            操作类型CRUD
-            </summary>
-        </member>
         <member name="T:LinCms.Web.Data.ReflexHelper">
             <summary>
             反射帮助类
@@ -467,6 +457,11 @@
         <member name="T:LinCms.Web.Middleware.RequestMvcMiddleWare">
             <summary>
             处理FreeSql中同一个请求处于一个事务，并一同提交
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Middleware.SnakeCaseQueryValueProvider">
+            <summary>
+            下划线写法（SnakeCase）
             </summary>
         </member>
         <member name="M:LinCms.Web.Utils.StopWords.ReplaceStopWords(System.String)">

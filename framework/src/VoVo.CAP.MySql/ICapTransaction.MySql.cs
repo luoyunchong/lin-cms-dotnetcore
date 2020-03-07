@@ -5,7 +5,6 @@ using System.Data;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using DotNetCore.CAP;
 using DotNetCore.CAP.Transport;
 using FreeSql;
 using Microsoft.Extensions.DependencyInjection;

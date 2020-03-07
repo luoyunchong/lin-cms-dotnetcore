@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Core.Entities;
 

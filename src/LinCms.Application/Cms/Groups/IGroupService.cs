@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Groups;
