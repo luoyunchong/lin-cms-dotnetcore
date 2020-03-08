@@ -43,7 +43,10 @@ namespace LinCms.Web
                        }
                    )
                    .UseSyncStructureToLower(true) // 转小写同步结构
-                   .Build();
+                   .Build()
+                   .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true);//联级保存功能开启（默认为关闭）
+
+
 
             fsql.Aop.CurdBefore += (s, e) =>
             {
