@@ -47,13 +47,17 @@ namespace LinCms.Web.Middleware
                 }
                 else
                 {
-                    string errorMsg = $"异常信息:{(ex.InnerException != null ? ex.InnerException.Message : ex.Message)}";
 
-                    _logger.LogError(errorMsg);
-
-                    await JsonHandle(context, _environment.IsDevelopment() ? errorMsg : "服务器正忙，请稍后再试!",
-                        ErrorCode.UnknownError, 500);
-
+                    _logger.LogError(ex,"系统异常信息");
+                    if (_environment.IsDevelopment())
+                    {
+                        string errorMsg = $"{(ex.InnerException != null ? ex.InnerException.Message : ex.Message)}\n{ex.StackTrace}";
+                        await JsonHandle(context, errorMsg, ErrorCode.UnknownError, 500);
+                    }
+                    else
+                    {
+                        await JsonHandle(context, "服务器正忙，请稍后再试!", ErrorCode.UnknownError, 500);
+                    }
                 }
             }
         }

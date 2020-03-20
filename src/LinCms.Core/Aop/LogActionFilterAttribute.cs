@@ -35,7 +35,6 @@ namespace LinCms.Core.Aop
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            //MiniProfiler.Current.Step($"OnActionExecuting->Begin ");
             ActionArguments = JsonConvert.SerializeObject(context.ActionArguments);
             Stopwatch = new Stopwatch();
             Stopwatch.Start();
@@ -102,8 +101,6 @@ namespace LinCms.Core.Aop
 
             //记录文本日志
             _logger.LogInformation(JsonConvert.SerializeObject(linLog));
-
-            //MiniProfiler.Current.CustomTiming($"OnActionExecuted ->", str);
         }
     }
 }
