@@ -23,7 +23,6 @@ namespace LinCms.Web.Controllers.Cms
     [ApiController]
     public class Oauth2Controller : ControllerBase
     {
-
         private readonly IHttpContextAccessor _contextAccessor;
         private const string LoginProviderKey = "LoginProvider";
         private readonly IConfiguration _configuration;
@@ -108,7 +107,6 @@ namespace LinCms.Web.Controllers.Cms
 
             claims.AddRange(authClaims);
             string token = this.CreateToken(claims);
-
             return Redirect($"{redirectUrl}?token={token}");
         }
 
@@ -134,9 +132,9 @@ namespace LinCms.Web.Controllers.Cms
                 return BadRequest();
             }
 
-            var request = _contextAccessor.HttpContext.Request;
-            var url =
-                $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}&redirectUrl={redirectUrl}";
+            HttpRequest request = _contextAccessor.HttpContext.Request;
+            string url =$"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
+                    $"&redirectUrl={redirectUrl}";
 
             _logger.LogInformation($"url:{url}");
             var properties = new AuthenticationProperties { RedirectUri = url };
@@ -162,9 +160,9 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("OpenId")]
         public async Task<string> OpenId(string provider = null)
         {
-            var authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return null;
-            var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            Claim openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             return openIdClaim?.Value;
 
         }

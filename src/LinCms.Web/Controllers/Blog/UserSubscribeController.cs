@@ -103,7 +103,7 @@ namespace LinCms.Web.Controllers.Blog
 
             _capBus.Publish("NotificationController.Post", new CreateNotificationDto()
             {
-                NotificationType= NotificationType.UserLikeUser,
+                NotificationType = NotificationType.UserLikeUser,
                 NotificationRespUserId = subscribeUserId,
                 UserInfoId = _currentUser.Id ?? 0,
                 CreateTime = DateTime.Now,
@@ -131,7 +131,7 @@ namespace LinCms.Web.Controllers.Blog
                     {
                         Id = r.SubscribeUser.Id,
                         Introduction = r.SubscribeUser.Introduction,
-                        Nickname = r.SubscribeUser.Nickname,
+                        Nickname = !r.SubscribeUser.IsDeleted ? r.SubscribeUser.Nickname : "该用户已注销",
                         Avatar = r.SubscribeUser.Avatar,
                         Username = r.SubscribeUser.Username,
                     },
@@ -165,13 +165,13 @@ namespace LinCms.Web.Controllers.Blog
                     {
                         Id = r.LinUser.Id,
                         Introduction = r.LinUser.Introduction,
-                        Nickname = r.LinUser.Nickname,
+                        Nickname = !r.LinUser.IsDeleted ? r.LinUser.Nickname:"该用户已注销",
                         Avatar = r.LinUser.Avatar,
                         Username = r.LinUser.Username,
                     },
                     //当前登录的用户是否关注了这个粉丝
-                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>
-                        u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.CreateUserId)
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(
+                        u => u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.CreateUserId)
                 });
 
             userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _currentUser.GetFileUrl(r.Subscribeer.Avatar); });
