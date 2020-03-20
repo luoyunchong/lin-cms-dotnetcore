@@ -5,7 +5,6 @@ namespace LinCms.Application.Cms.Files
 {
     public interface IFileService
     {
-
         /// <summary>
         /// 单文件上传，键为file
         /// </summary>

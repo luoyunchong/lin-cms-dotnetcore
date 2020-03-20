@@ -35,7 +35,7 @@ namespace LinCms.Application.Cms.Users
         /// </summary>
         /// <param name="user"></param>
         /// <param name="groupIds"></param>
-        Task Register(LinUser user,List<long>groupIds);
+        Task Register(LinUser user,List<long>groupIds,string password);
 
         Task UpdateAync(long id, UpdateUserDto updateUserDto);
 

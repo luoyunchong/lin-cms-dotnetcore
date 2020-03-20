@@ -73,13 +73,7 @@ namespace LinCms.Application.Cms.Users
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            string confirmPassword = EncryptUtil.Encrypt(resetPasswordDto.ConfirmPassword);
-
-            await _freeSql.Update<LinUser>(id).Set(a => new LinUser()
-            {
-                Password = confirmPassword
-            }).ExecuteAffrowsAsync();
-
+            await _userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword);
         }
 
         public PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto)
@@ -100,7 +94,7 @@ namespace LinCms.Application.Cms.Users
             return new PagedResultDto<UserDto>(linUsers, totalCount);
         }
 
-        public async Task Register(LinUser user, List<long> groupIds)
+        public async Task Register(LinUser user, List<long> groupIds,string password)
         {
             if (!string.IsNullOrEmpty(user.Username))
             {
@@ -138,7 +132,7 @@ namespace LinCms.Application.Cms.Users
                 new LinUserIdentity()
                 {
                     IdentityType = LinUserIdentity.Password,
-                    Credential = EncryptUtil.Encrypt(user.Password),
+                    Credential = EncryptUtil.Encrypt(password),
                     Identifier = user.Username
                 }
             };

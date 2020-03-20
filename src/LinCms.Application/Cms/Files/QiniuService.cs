@@ -55,11 +55,7 @@ namespace LinCms.Application.Cms.Files
                 };
             }
 
-            string fileName = ContentDispositionHeaderValue
-                .Parse(file.ContentDisposition)
-                .FileName.Trim().ToString();
-
-            string extension = Path.GetExtension(fileName);
+            string extension = Path.GetExtension(file.FileName);
 
             string path = this.UploadToQiniu(file);
 
@@ -68,7 +64,7 @@ namespace LinCms.Application.Cms.Files
             {
                 Extension = extension,
                 Md5 = md5,
-                Name = fileName,
+                Name = file.FileName,
                 Path = path,
                 Type = 2,
                 CreateTime = DateTime.Now,
@@ -100,11 +96,7 @@ namespace LinCms.Application.Cms.Files
                 UseHttps = _configuration[LinConsts.Qiniu.UseHttps].ToBoolean()
             });
 
-            string fileName = ContentDispositionHeaderValue
-                .Parse(file.ContentDisposition)
-                .FileName.Trim().ToString();
-
-            string path = _configuration["Qiniu:PrefixPath"] + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(fileName);
+            string path = _configuration["Qiniu:PrefixPath"] + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(file.FileName);
             Stream stream = file.OpenReadStream();
             HttpResult result = upload.UploadStream(stream, path, GetAccessToken(), null);
 

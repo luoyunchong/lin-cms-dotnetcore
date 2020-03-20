@@ -13,10 +13,9 @@ namespace LinCms.Core.Entities
     {
         public LinUser() { }
 
-        public LinUser(string username, string password)
+        public LinUser(string username)
         {
             this.Username = username;
-            this.Password = password;
         }
 
         /// <summary>
@@ -35,12 +34,6 @@ namespace LinCms.Core.Entities
         ///  用户默认生成图像，为null、头像url
         /// </summary>
         public string Avatar { get; set; }
-
-        /// <summary>
-        /// 密码
-        /// </summary>
-        [Column(DbType = "varchar(100)")]
-        public string Password { get; set; }
 
         /// <summary>
         /// 电子邮箱

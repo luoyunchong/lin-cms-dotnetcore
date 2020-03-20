@@ -50,7 +50,7 @@ namespace LinCms.Web.Controllers.Cms
         [LinCmsAuthorize(Roles = LinGroup.Admin)]
         public UnifyResponseDto Post([FromBody] CreateUserDto userInput)
         {
-            _userSevice.Register(_mapper.Map<LinUser>(userInput), userInput.GroupIds);
+            _userSevice.Register(_mapper.Map<LinUser>(userInput), userInput.GroupIds,userInput.Password);
 
             return UnifyResponseDto.Success("用户创建成功");
         }
