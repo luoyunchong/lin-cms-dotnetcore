@@ -7,7 +7,6 @@ using LinCms.Core.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Net.Http.Headers;
 
 namespace LinCms.Application.Cms.Files
 {
@@ -28,11 +27,9 @@ namespace LinCms.Application.Cms.Files
         {
             string domainUrl = _configuration[LinConsts.SITE_DOMAIN];
             string fileDir = _configuration[LinConsts.File.STORE_DIR];
-
             string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
 
             LinFile linFile = _freeSql.Select<LinFile>().Where(r => r.Md5 == md5 && r.Type == 1).OrderByDescending(r => r.CreateTime).First();
-
             if (linFile != null && File.Exists(Path.Combine(_hostingEnv.WebRootPath, fileDir, linFile.Path)))
             {
                 return new FileDto
@@ -44,12 +41,9 @@ namespace LinCms.Application.Cms.Files
                 };
             }
 
-            string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
-            string extension = Path.GetExtension(fileName);
+            string extension = Path.GetExtension(file.FileName);
             string now = DateTime.Now.ToString("yyy/MM/dd");
-
             string newSaveName = Guid.NewGuid() + extension;
-
             string savePath = Path.Combine(_hostingEnv.WebRootPath, fileDir, now);
 
             if (!Directory.Exists(savePath))
@@ -72,9 +66,9 @@ namespace LinCms.Application.Cms.Files
             {
                 LinFile saveLinFile = new LinFile()
                 {
-                    Extension = Path.GetExtension(fileName),
+                    Extension = Path.GetExtension(file.FileName),
                     Md5 = md5,
-                    Name = fileName,
+                    Name = file.FileName,
                     Path = path,
                     Type = 1,
                     CreateTime = DateTime.Now,

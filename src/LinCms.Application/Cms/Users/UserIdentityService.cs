@@ -99,10 +99,12 @@ namespace LinCms.Application.Cms.Users
         {
             string encryptPassword = EncryptUtil.Encrypt(newpassword);
 
-            await _freeSql.Update<LinUser>(userId).Set(a => new LinUser()
-            {
-                Password = encryptPassword
-            }).ExecuteAffrowsAsync();
+            await _freeSql.Update<LinUserIdentity>()
+                .Where(r=>r.CreateUserId==userId&&r.IdentityType==LinUserIdentity.Password)
+                .Set(a => new LinUserIdentity()
+                {
+                    Credential = encryptPassword
+                }).ExecuteAffrowsAsync();
         }
 
         public async Task DeleteAsync(long userId)

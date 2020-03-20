@@ -20,9 +20,13 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
+    <Compile Remove="wwwroot\assets\2019\**" />
     <Content Remove="bin\**" />
+    <Content Remove="wwwroot\assets\2019\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="wwwroot\assets\2019\**" />
     <None Remove="bin\**" />
+    <None Remove="wwwroot\assets\2019\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,18 +81,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\assets\2019\10\22\" />
-    <Folder Include="wwwroot\assets\2019\11\08\" />
-    <Folder Include="wwwroot\assets\2019\11\09\" />
-    <Folder Include="wwwroot\assets\2019\11\14\" />
-    <Folder Include="wwwroot\assets\2019\12\04\" />
-    <Folder Include="wwwroot\assets\2019\12\09\" />
-    <Folder Include="wwwroot\assets\2019\12\12\" />
-    <Folder Include="wwwroot\assets\2019\12\13\" />
-    <Folder Include="wwwroot\assets\2019\12\14\" />
+    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/appsettings" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
