@@ -234,16 +234,6 @@ namespace LinCms.Web
 
             services.AddServices();
 
-            string serviceName = Configuration.GetSection("FILE:SERVICE").Value;
-
-            if (serviceName == LinFile.LocalFileService)
-            {
-                services.AddTransient<IFileService, LocalFileService>();
-            }
-            else
-            {
-                services.AddTransient<IFileService, QiniuService>();
-            }
 
             #region Swagger
             //Swagger重写PascalCase，改成SnakeCase模式

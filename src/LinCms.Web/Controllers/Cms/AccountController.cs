@@ -131,7 +131,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
 
-            _userSevice.Register(user,new List<long>());
+            _userSevice.Register(user,new List<long>(),registerDto.Password);
 
             return UnifyResponseDto.Success("注册成功");
         }

@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using CSRedis;
 using FreeSql;
 using FreeSql.Internal;
 using LinCms.Application;
+using LinCms.Application.Cms.Files;
 using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Infrastructure.Repositories;
@@ -17,6 +19,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NLog.Web;
 using Scrutor;
 using ToolGood.Words;
 
@@ -33,13 +36,16 @@ namespace LinCms.Web
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             IConfigurationSection configurationSection = configuration.GetSection("ConnectionStrings:MySql");
+
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+
             IFreeSql fsql = new FreeSqlBuilder()
                    .UseConnectionString(DataType.MySql, configurationSection.Value)
                    .UseEntityPropertyNameConvert(StringConvertType.PascalCaseToUnderscoreWithLower)//全局转换实体属性名方法 https://github.com/2881099/FreeSql/pull/60
                    .UseAutoSyncStructure(true) //自动迁移实体的结构到数据库
                    .UseMonitorCommand(cmd =>
                        {
-                           Trace.WriteLine(cmd.CommandText+";");
+                           Trace.WriteLine(cmd.CommandText + ";");
                        }
                    )
                    .UseSyncStructureToLower(true) // 转小写同步结构
@@ -48,19 +54,12 @@ namespace LinCms.Web
 
 
 
-            fsql.Aop.CurdBefore += (s, e) =>
-            {
-
-            };
-
             fsql.Aop.CurdAfter += (s, e) =>
             {
-                if (e.ElapsedMilliseconds > 200)
-                {
-                    //记录日志
-                    //发送短信给负责人
-                }
+                logger.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
+                             $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
             };
+
 
             //敏感词处理
             if (configuration["AuditValue:Enable"].ToBoolean())
@@ -95,6 +94,7 @@ namespace LinCms.Web
         public static void AddCsRedisCore(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+
             #region 初始化 Redis配置
             IConfigurationSection csRediSection = configuration.GetSection("ConnectionStrings:CsRedis");
             CSRedisClient csredis = new CSRedisClient(csRediSection.Value);
@@ -144,6 +144,19 @@ namespace LinCms.Web
 
             //将Handler注册到DI系统中
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+        
+            string serviceName = configuration.GetSection("FILE:SERVICE").Value;
+            if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FILE:SERVICE未配置");
+            if (serviceName == LinFile.LocalFileService)
+            {
+                services.AddTransient<IFileService, LocalFileService>();
+            }
+            else
+            {
+                services.AddTransient<IFileService, QiniuService>();
+            }
         }
     }
 }
