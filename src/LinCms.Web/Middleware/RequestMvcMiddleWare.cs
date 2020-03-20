@@ -26,10 +26,10 @@ namespace LinCms.Web.Middleware
                 unitOfWork.Commit();
 
             }
-            catch (Exception ex)
+            catch
             {
                 unitOfWork?.Rollback();
-                throw ex;
+                throw;
             }
             finally
             {

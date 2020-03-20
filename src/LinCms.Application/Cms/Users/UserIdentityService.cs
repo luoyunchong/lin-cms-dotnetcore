@@ -36,9 +36,10 @@ namespace LinCms.Application.Cms.Users
             string avatarUrl = principal.FindFirst(LinConsts.Claims.AvatarUrl)?.Value;
             string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
             string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
-            Expression<Func<LinUserIdentity, bool>> expression = r => r.IdentityType == LinUserIdentity.GitHub && r.Credential == openId;
+            Expression<Func<LinUserIdentity, bool>> expression = r => 
+                r.IdentityType == LinUserIdentity.GitHub&& r.Credential == openId;
 
-            LinUserIdentity linUserIdentity = _freeSql.Select<LinUserIdentity>().Where(expression).First();
+            LinUserIdentity linUserIdentity =await _freeSql.Select<LinUserIdentity>().Where(expression).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
@@ -60,7 +61,7 @@ namespace LinCms.Application.Cms.Users
                         }
                     },
                     Nickname = gitHubName,
-                    Username = email,
+                    Username = openId,
                     BlogAddress = blogAddress,
                     LinUserIdentitys = new List<LinUserIdentity>()
                     {
@@ -74,6 +75,7 @@ namespace LinCms.Application.Cms.Users
                     }
                 };
                 await _userRepository.InsertAsync(user);
+                _userRepository.UnitOfWork.Commit();
                 userId = user.Id;
             }
             else

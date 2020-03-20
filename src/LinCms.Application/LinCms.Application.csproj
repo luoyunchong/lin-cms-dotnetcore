@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.0.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="DotNetCore.CAP" Version="3.0.2" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.0.3-preview-98619331" />
     <PackageReference Include="MQiniu.Core" Version="1.0.1" />
   </ItemGroup>
 

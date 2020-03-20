@@ -28,8 +28,8 @@ token_endpoint:
 - http://47.106.80.39:5010/.well-known/openid-configuration
 - lincms-web [http://47.106.80.39:5011/swagger/index.html](http://47.106.80.39:5011/swagger/index.html)
 - cap [http://47.106.80.39:5011/cap](http://47.106.80.39:5011/cap)
-- Portainer  [http://47.106.80.39:9000/#/home](http://47.106.80.39:9000/#/home)
-
+- Dockerπ‹¿ÌPortainer  [http://47.106.80.39:9000/#/home](http://47.106.80.39:9000/#/home)
+- [http://47.106.80.39:5005/healthchecks-ui#/healthchecks](http://47.106.80.39:5005/healthchecks-ui#/healthchecks)
 
 
 
