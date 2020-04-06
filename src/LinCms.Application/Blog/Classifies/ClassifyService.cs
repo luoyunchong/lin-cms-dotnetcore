@@ -1,14 +1,15 @@
 ﻿using System;
+using LinCms.Application.Contracts.Blog.Classifys;
 using LinCms.Core.Entities.Blog;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.Blog.Classifies
 {
     public class ClassifyService : IClassifyService
     {
-        private readonly AuditBaseRepository<Classify> _classifyBaseRepository;
+        private readonly IAuditBaseRepository<Classify> _classifyBaseRepository;
 
-        public ClassifyService(AuditBaseRepository<Classify> classifyBaseRepository)
+        public ClassifyService(IAuditBaseRepository<Classify> classifyBaseRepository)
         {
             _classifyBaseRepository = classifyBaseRepository;
         }

@@ -4,7 +4,7 @@
         <name>LinCms.IdentityServer4</name>
     </assembly>
     <members>
-        <member name="M:LinCms.IdentityServer4.Extensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:LinCms.IdentityServer4.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             FreeSql
             </summary>
@@ -15,7 +15,7 @@
             The logger
             </summary>
         </member>
-        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.#ctor(Microsoft.Extensions.Logging.ILogger{LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService},LinCms.Infrastructure.Repositories.UserRepository)">
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.#ctor(Microsoft.Extensions.Logging.ILogger{LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService},LinCms.Core.IRepositories.IUserRepository)">
             <summary>
             The claims factory.
             </summary>

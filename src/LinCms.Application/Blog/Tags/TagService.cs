@@ -5,24 +5,26 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
 using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Application.Contracts.Blog.Tags.Dtos;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
+using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Application.Blog.Tags
 {
     public class TagService : ITagService
     {
-        private readonly AuditBaseRepository<Tag> _tagRepository;
+        private readonly IAuditBaseRepository<UserTag> _userTagRepository;
+        private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly AuditBaseRepository<UserTag> _userTagRepository;
         private readonly BaseRepository<TagArticle> _tagArticleRepository;
-        public TagService(AuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, AuditBaseRepository<UserTag> userTagRepository, BaseRepository<TagArticle> tagArticleRepository)
+        public TagService(IAuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, IAuditBaseRepository<UserTag> userTagRepository, BaseRepository<TagArticle> tagArticleRepository)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;

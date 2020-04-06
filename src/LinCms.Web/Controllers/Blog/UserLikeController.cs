@@ -4,14 +4,16 @@ using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Application.Contracts.Blog.UserLikes;
+using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -23,18 +25,18 @@ namespace LinCms.Web.Controllers.Blog
     [Authorize]
     public class UserLikeController : ApiControllerBase
     {
-        private readonly AuditBaseRepository<Article> _articleAuditBaseRepository;
-        private readonly AuditBaseRepository<UserLike> _userLikeRepository;
+        private readonly IAuditBaseRepository<Article> _articleAuditBaseRepository;
+        private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly AuditBaseRepository<Comment> _commentRepository;
+        private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly ICapPublisher _capBus;
 
         public UserLikeController(IMapper mapper,
             ICurrentUser currentUser,
-            AuditBaseRepository<UserLike> userLikeRepository,
-            AuditBaseRepository<Article> articleAuditBaseRepository,
-            AuditBaseRepository<Comment> commentRepository,
+            IAuditBaseRepository<UserLike> userLikeRepository,
+            IAuditBaseRepository<Article> articleAuditBaseRepository,
+            IAuditBaseRepository<Comment> commentRepository,
             ICapPublisher capBus,
             IUnitOfWork unitOfWork) : base(unitOfWork)
         {

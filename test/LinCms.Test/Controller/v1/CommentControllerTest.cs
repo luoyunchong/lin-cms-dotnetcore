@@ -15,11 +15,11 @@ namespace LinCms.Test.Controller.v1
 
         public CommentControllerTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
+            _hostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();
 
-            _mapper = serviceProvider.GetService<IMapper>();
-            _baseRepository = serviceProvider.GetService<BaseRepository<Comment>>();
-            _freeSql = serviceProvider.GetService<IFreeSql>();
+            _mapper = ServiceProvider.GetService<IMapper>();
+            _baseRepository = ServiceProvider.GetService<BaseRepository<Comment>>();
+            _freeSql = ServiceProvider.GetService<IFreeSql>();
         }
 
 

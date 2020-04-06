@@ -4,6 +4,12 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
+        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            FreeSql
+            </summary>
+            <param name="services"></param>
+        </member>
         <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticle(System.Guid)">
             <summary>
             删除自己的随笔
@@ -18,21 +24,21 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.Get(LinCms.Application.Contracts.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.Get(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
             <summary>
             我所有的随笔
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetArticleAsync(LinCms.Application.Contracts.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetArticleAsync(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
             <summary>
             得到所有已审核过的随笔,最新的随笔/三天、七天、月榜、全部
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Application.Contracts.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
             <summary>
             得到所有已审核过的随笔
             </summary>
@@ -71,14 +77,14 @@
             随笔评论
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Get(LinCms.Application.Contracts.Blog.Comments.CommentSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Get(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
             <summary>
             评论分页列表页,当随笔Id有值时，查询出此随笔的评论
             </summary>
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetAll(LinCms.Application.Contracts.Blog.Comments.CommentSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetAll(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
             <summary>
             查询出此随笔的评论
             </summary>
@@ -99,7 +105,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Post(LinCms.Application.Contracts.Blog.Comments.CreateCommentDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Post(LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto)">
             <summary>
             用户评论
             </summary>
@@ -161,7 +167,7 @@
              用户点赞随笔
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.Create(LinCms.Application.Contracts.Blog.UserLikes.CreateUpdateUserLikeDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.Create(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto)">
             <summary>
             用户点赞/取消点赞文章、评论 
             </summary>
@@ -192,13 +198,13 @@
             </summary>
             <param name="subscribeUserId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserSubscribeeeList(LinCms.Application.Contracts.Blog.UserSubscribes.UserSubscribeSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserSubscribeeeList(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
             <summary>
             得到某个用户的关注
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserFansList(LinCms.Application.Contracts.Blog.UserSubscribes.UserSubscribeSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserFansList(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
             <summary>
             得到某个用户的粉丝
             </summary>
@@ -222,7 +228,7 @@
             </summary>
             <param name="tagId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.GetUserTagList(LinCms.Application.Contracts.Blog.UserSubscribes.UserSubscribeSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.GetUserTagList(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
             <summary>
             得到某个用户关注的标签
             </summary>
@@ -246,14 +252,14 @@
             </summary>
             <param name="registerDto"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.GetUserListByGroupId(LinCms.Application.Contracts.Cms.Admins.UserSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.GetUserListByGroupId(LinCms.Application.Contracts.Cms.Admins.Dtos.UserSearchDto)">
             <summary>
             用户信息分页列表项
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.Put(System.Int64,LinCms.Application.Contracts.Cms.Admins.UpdateUserDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.Put(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.UpdateUserDto)">
             <summary>
             修改用户信息
             </summary>
@@ -268,7 +274,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.ResetPasswordAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.ResetPasswordDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.ResetPasswordAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.ResetPasswordDto)">
             <summary>
             重置密码
             </summary>
@@ -302,13 +308,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetLogs(LinCms.Application.Contracts.Cms.Logs.LogSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetLogs(LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto)">
             <summary>
             日志浏览（人员，时间），分页展示
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetUserLogs(LinCms.Application.Contracts.Cms.Logs.LogSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetUserLogs(LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto)">
             <summary>
             日志搜素（人员，时间）（内容）， 分页展示
             </summary>
@@ -331,21 +337,21 @@
             <param name="provider"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.RemovePermissionDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.Dtos.RemovePermissionDto)">
             <summary>
             删除某个组别的权限
             </summary>
             <param name="permissionDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Application.Contracts.Cms.Permissions.DispatchPermissionsDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Application.Contracts.Cms.Permissions.Dtos.DispatchPermissionsDto)">
             <summary>
             分配多个权限
             </summary>
             <param name="permissionDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.UserController.Post(LinCms.Application.Contracts.Cms.Users.CreateUserDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.UserController.Post(LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto)">
             <summary>
             新增用户-不是注册，注册不可能让用户选择gourp_id
             </summary>
@@ -394,18 +400,44 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Data.ReflexHelper">
+        <member name="T:LinCms.Web.Middleware.CustomExceptionMiddleWare">
+            <summary>
+            如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
+            </summary>
+        </member>
+        <member name="F:LinCms.Web.Middleware.CustomExceptionMiddleWare._next">
+            <summary>
+            管道请求委托
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Core.Data.Enums.ErrorCode,System.Int32)">
+            <summary>
+            处理方式：返回Json格式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LinCms.Web.Middleware.RequestMvcMiddleWare">
+            <summary>
+            处理FreeSql中同一个请求处于一个事务，并一同提交
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Middleware.SnakeCaseQueryValueProvider">
+            <summary>
+            下划线写法（SnakeCase）
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Utils.ReflexHelper">
             <summary>
             反射帮助类
             </summary>
         </member>
-        <member name="M:LinCms.Web.Data.ReflexHelper.GeAssemblyLinCmsAttributes">
+        <member name="M:LinCms.Web.Utils.ReflexHelper.GeAssemblyLinCmsAttributes">
             <summary>
             通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Data.ReflexHelper.AuthorizationConvertToTree(System.Collections.Generic.List{LinCms.Core.Data.PermissionDefinition})">
+        <member name="M:LinCms.Web.Utils.ReflexHelper.AuthorizationConvertToTree(System.Collections.Generic.List{LinCms.Core.Data.PermissionDefinition})">
                          {
                                 "信息":{
                                     "查看lin的信息":[
@@ -433,38 +465,6 @@
             使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:LinCms.Web.Extensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            FreeSql
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="T:LinCms.Web.Middleware.CustomExceptionMiddleWare">
-            <summary>
-            如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
-            </summary>
-        </member>
-        <member name="F:LinCms.Web.Middleware.CustomExceptionMiddleWare._next">
-            <summary>
-            管道请求委托
-            </summary>
-        </member>
-        <member name="M:LinCms.Web.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Core.Data.Enums.ErrorCode,System.Int32)">
-            <summary>
-            处理方式：返回Json格式
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:LinCms.Web.Middleware.RequestMvcMiddleWare">
-            <summary>
-            处理FreeSql中同一个请求处于一个事务，并一同提交
-            </summary>
-        </member>
-        <member name="T:LinCms.Web.Middleware.SnakeCaseQueryValueProvider">
-            <summary>
-            下划线写法（SnakeCase）
-            </summary>
         </member>
         <member name="M:LinCms.Web.Utils.StopWords.ReplaceStopWords(System.String)">
             <summary>

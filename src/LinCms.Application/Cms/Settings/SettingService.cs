@@ -8,16 +8,16 @@ using LinCms.Core.Data;
 using LinCms.Core.Entities.Settings;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.Cms.Settings
 {
     public class SettingService : ISettingService
     {
         private readonly IMapper _mapper;
-        private readonly SettingRepository _settingRepository;
+        private readonly ISettingRepository _settingRepository;
 
-        public SettingService(SettingRepository settingRepository, IMapper mapper)
+        public SettingService(ISettingRepository settingRepository, IMapper mapper)
         {
             _settingRepository = settingRepository;
             _mapper = mapper;

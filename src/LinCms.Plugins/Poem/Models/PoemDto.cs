@@ -4,7 +4,7 @@ using LinCms.Core.Entities;
 
 namespace LinCms.Plugins.Poem.Models
 {
-    public class PoemDto:Entity
+    public class PoemDto:EntityDto
     {
         public string Author { get; set; } 
         public List<List<string>> Content { get; set; } 

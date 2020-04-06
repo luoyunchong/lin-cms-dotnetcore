@@ -6,16 +6,18 @@ using AutoMapper;
 using DotNetCore.CAP;
 using LinCms.Application.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Articles;
+using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -24,12 +26,12 @@ namespace LinCms.Web.Controllers.Blog
     [Authorize]
     public class ArticleController : ControllerBase
     {
-        private readonly AuditBaseRepository<Article> _articleRepository;
+        private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly ICapPublisher _capBus;
-        public ArticleController(AuditBaseRepository<Article> articleRepository,
+        public ArticleController(IAuditBaseRepository<Article> articleRepository,
             IMapper mapper,
             ICurrentUser currentUser,
             IArticleService articleService,

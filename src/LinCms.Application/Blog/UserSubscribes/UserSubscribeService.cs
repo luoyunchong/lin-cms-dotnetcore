@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FreeSql;
+using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Application.Blog.UserSubscribes

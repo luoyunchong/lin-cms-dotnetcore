@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using LinCms.Application.Blog.Tags;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Application.Contracts.Blog.Tags.Dtos;
 using LinCms.Application.Contracts.Cms.Files;
+using LinCms.Application.Contracts.Cms.Files.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +30,8 @@ namespace LinCms.Web.Controllers.v1
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly ITagService _tagService;
-        private readonly AuditBaseRepository<Tag> _tagAuditBaseRepository;
-        public QiniuController( IWebHostEnvironment hostingEnv, IFileService fileService, ITagService tagService, AuditBaseRepository<Tag> tagAuditBaseRepository)
+        private readonly IAuditBaseRepository<Tag> _tagAuditBaseRepository;
+        public QiniuController( IWebHostEnvironment hostingEnv, IFileService fileService, ITagService tagService, IAuditBaseRepository<Tag> tagAuditBaseRepository)
         {
             _hostingEnv = hostingEnv;
             _fileService = fileService;

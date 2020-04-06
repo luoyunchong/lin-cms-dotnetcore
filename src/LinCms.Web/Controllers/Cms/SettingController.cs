@@ -5,8 +5,8 @@ using LinCms.Application.Contracts.Cms.Settings;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -16,8 +16,8 @@ namespace LinCms.Web.Controllers.Cms
     {
         private readonly ISettingService _settingService;
         private readonly ICurrentUser _currentUser;
-        private readonly SettingRepository _settingRepository;
-        public SettingController(ISettingService settingService, ICurrentUser currentUser, SettingRepository settingRepository)
+        private readonly ISettingRepository _settingRepository;
+        public SettingController(ISettingService settingService, ICurrentUser currentUser, ISettingRepository settingRepository)
         {
             _settingService = settingService;
             _currentUser = currentUser;

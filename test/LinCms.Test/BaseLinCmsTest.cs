@@ -1,49 +1,74 @@
 ﻿using System;
+using System.Net.Http;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using FreeSql;
+using LinCms.Web;
+using LinCms.Web.Configs;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace LinCms.Test
 {
-    public abstract class BaseLinCmsTest : IDisposable
+    public abstract class BaseLinCmsTest
     {
-        protected readonly IServiceProvider ServiceProvider;
-        protected readonly IWebHostEnvironment HostingEnv;
-        protected readonly IMapper Mapper;
-        protected readonly IFreeSql FreeSql;
-        protected readonly IUnitOfWork UnitOfWork;
+        protected TestServer Server { get; }
+        protected HttpClient Client { get; }
+        protected IServiceProvider ServiceProvider { get; }
+
         protected BaseLinCmsTest()
         {
-            var server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseEnvironment("Development")
-                .UseStartup<TestStartup>()
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
-                    logging.AddConsole();
-                }).UseNLog()
-            ); ;
-            ServiceProvider = server.Host.Services.CreateScope().ServiceProvider;
 
-            HostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();
+            var builder = CreateHostBuilder();
+            var host = builder.Build();
+            host.Start();
 
-            Mapper = ServiceProvider.GetService<IMapper>();
-            FreeSql = ServiceProvider.GetService<IFreeSql>();
-            UnitOfWork = ServiceProvider.GetService<IUnitOfWork>();
+            Server = host.GetTestServer();
+            Client = host.GetTestClient();
+
+            ServiceProvider = Server.Services;
 
         }
 
-
-        public void Dispose()
+        private IHostBuilder CreateHostBuilder()
         {
-            FreeSql?.Dispose();
-            UnitOfWork?.Dispose();
+            return Host.CreateDefaultBuilder()
+                  .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                  .ConfigureWebHostDefaults(webBuilder =>
+                  {
+                      webBuilder.UseStartup<Startup>().UseEnvironment("Development");
+                      webBuilder.UseTestServer();
+                  })
+                  .ConfigureLogging(logging =>
+                  {
+                      logging.ClearProviders();
+                      logging.SetMinimumLevel(LogLevel.Trace);
+                  })
+                  .ConfigureServices(ConfigureServices);
+        }
+
+        protected virtual void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+        {
+
+        }
+
+        protected  T GetService<T>()
+        {
+            return this.ServiceProvider.GetService<T>();
+        }
+
+        protected  T GetRequiredService<T>()
+        {
+            return this.ServiceProvider.GetRequiredService<T>();
         }
 
     }

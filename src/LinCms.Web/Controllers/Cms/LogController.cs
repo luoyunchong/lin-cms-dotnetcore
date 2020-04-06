@@ -5,6 +5,7 @@ using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Application.Contracts.Cms.Logs;
+using LinCms.Application.Contracts.Cms.Logs.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms

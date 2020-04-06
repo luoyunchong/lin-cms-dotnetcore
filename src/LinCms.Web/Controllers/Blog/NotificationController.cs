@@ -2,6 +2,7 @@
 using DotNetCore.CAP;
 using LinCms.Application.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Core.Data;
 using Microsoft.AspNetCore.Mvc;
 

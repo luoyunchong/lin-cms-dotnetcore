@@ -4,18 +4,19 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.Cms.Users
 {
     public class UserIdentityService : IUserIdentityService
     {
         private readonly IFreeSql _freeSql;
-        private readonly UserRepository _userRepository;
-        public UserIdentityService(IFreeSql freeSql, UserRepository userRepository)
+        private readonly IUserRepository _userRepository;
+        public UserIdentityService(IFreeSql freeSql, IUserRepository userRepository)
         {
             _freeSql = freeSql;
             _userRepository = userRepository;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using LinCms.Application.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Groups;
+using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;

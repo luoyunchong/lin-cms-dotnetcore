@@ -9,7 +9,7 @@ namespace LinCms.Test.Controller.v1
 
         public BaseTypeControllerTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
+            _hostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Articles;
+using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Web.Controllers.Blog;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -13,15 +14,13 @@ namespace LinCms.Test.Controller.v1
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
         private readonly ArticleController _articleController;
-        private readonly ITestOutputHelper _testOutputHelper;
 
-        public ArticleControllerTest(ITestOutputHelper testOutputHelper) : base()
+        public ArticleControllerTest() : base()
         {
-            _articleController = serviceProvider.GetService<ArticleController>(); ;
+            _articleController = ServiceProvider.GetService<ArticleController>(); ;
 
-            _mapper = serviceProvider.GetService<IMapper>();
-            _freeSql = serviceProvider.GetService<IFreeSql>();
-            _testOutputHelper = testOutputHelper;
+            _mapper = ServiceProvider.GetService<IMapper>();
+            _freeSql = ServiceProvider.GetService<IFreeSql>();
         }
 
 

@@ -26,13 +26,13 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.0.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.3.0-preview8" />
-    <PackageReference Include="IdentityServer4" Version="4.0.0-preview.2" />
+    <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
-    <PackageReference Include="FreeSql" Version="1.3.0-preview8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.1" />
+    <PackageReference Include="FreeSql" Version="1.4.0-preview20200404" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.4.0-preview20200404" />
   </ItemGroup>
 
   <ItemGroup>
