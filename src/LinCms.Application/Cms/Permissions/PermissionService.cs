@@ -3,6 +3,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Permissions;
+using LinCms.Application.Contracts.Cms.Permissions.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;

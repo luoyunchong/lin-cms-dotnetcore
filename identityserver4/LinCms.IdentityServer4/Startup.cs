@@ -8,12 +8,15 @@ using AutoMapper;
 using HealthChecks.UI.Client;
 using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 using LinCms.IdentityServer4.IdentityServer4;
+using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -30,14 +33,12 @@ namespace LinCms.IdentityServer4
     public class Startup
     {
         public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
            
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             InMemoryConfiguration.Configuration = this.Configuration;
@@ -77,12 +78,12 @@ namespace LinCms.IdentityServer4
                         }
                     }, Array.Empty<string>() }
                 };
-                options.AddSecurityRequirement(security);//Ìí¼ÓÒ»¸ö±ØĞëµÄÈ«¾Ö°²È«ĞÅÏ¢£¬ºÍAddSecurityDefinition·½·¨Ö¸¶¨µÄ·½°¸Ãû³ÆÒªÒ»ÖÂ£¬ÕâÀïÊÇBearer¡£
+                options.AddSecurityRequirement(security);//æ·»åŠ ä¸€ä¸ªå¿…é¡»çš„å…¨å±€å®‰å…¨ä¿¡æ¯ï¼Œå’ŒAddSecurityDefinitionæ–¹æ³•æŒ‡å®šçš„æ–¹æ¡ˆåç§°è¦ä¸€è‡´ï¼Œè¿™é‡Œæ˜¯Bearerã€‚
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWTÊÚÈ¨(Êı¾İ½«ÔÚÇëÇóÍ·ÖĞ½øĞĞ´«Êä) ²ÎÊı½á¹¹: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",//jwtÄ¬ÈÏµÄ²ÎÊıÃû³Æ
-                    In = ParameterLocation.Header,//jwtÄ¬ÈÏ´æ·ÅAuthorizationĞÅÏ¢µÄÎ»ÖÃ(ÇëÇóÍ·ÖĞ)
+                    Description = "JWTæˆæƒ(æ•°æ®å°†åœ¨è¯·æ±‚å¤´ä¸­è¿›è¡Œä¼ è¾“) å‚æ•°ç»“æ„: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",//jwté»˜è®¤çš„å‚æ•°åç§°
+                    In = ParameterLocation.Header,//jwté»˜è®¤å­˜æ”¾Authorizationä¿¡æ¯çš„ä½ç½®(è¯·æ±‚å¤´ä¸­)
                     Type = SecuritySchemeType.ApiKey
                 });
 
@@ -92,6 +93,7 @@ namespace LinCms.IdentityServer4
             });
             #endregion
 
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<IUserIdentityService, UserIdentityService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
 
@@ -105,12 +107,12 @@ namespace LinCms.IdentityServer4
                 .AddNewtonsoftJson(opt =>
                 {
                     //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                    //ÉèÖÃÊ±¼ä´Á¸ñÊ½
+                    //è®¾ç½®è‡ªå®šä¹‰æ—¶é—´æˆ³æ ¼å¼
                     opt.SerializerSettings.Converters = new List<JsonConverter>()
                     {
                         new LinCmsTimeConverter()
                     };
-                    // ÉèÖÃÏÂ»®Ïß·½Ê½£¬Ê××ÖÄ¸ÊÇĞ¡Ğ´
+                    // è®¾ç½®ä¸‹åˆ’çº¿æ–¹å¼ï¼Œé¦–å­—æ¯æ˜¯å°å†™
                     opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
                     {
                         NamingStrategy = new SnakeCaseNamingStrategy()
@@ -122,7 +124,7 @@ namespace LinCms.IdentityServer4
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressConsumesConstraintForFormFileParameters = true;
-                    //×Ô¶¨Òå BadRequest ÏìÓ¦
+                    //è‡ªå®šä¹‰ BadRequest å“åº”
                     options.InvalidModelStateResponseFactory = context =>
                     {
                         var problemDetails = new ValidationProblemDetails(context.ModelState);
@@ -138,12 +140,11 @@ namespace LinCms.IdentityServer4
             services.AddHealthChecks();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
@@ -160,18 +161,13 @@ namespace LinCms.IdentityServer4
             });
             app.UseIdentityServer();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
-            //// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            //// specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
-
                 //c.RoutePrefix = string.Empty;
-                //c.OAuthClientId("demo_api_swagger");//¿Í·ş¶ËÃû³Æ
-                //c.OAuthAppName("Demo API - Swagger-ÑİÊ¾"); // ÃèÊö
+                //c.OAuthClientId("demo_api_swagger");//å®¢æœç«¯åç§°
+                //c.OAuthAppName("Demo API - Swagger-æ¼”ç¤º"); // æè¿°
             });
 
             app.UseEndpoints(endpoints =>

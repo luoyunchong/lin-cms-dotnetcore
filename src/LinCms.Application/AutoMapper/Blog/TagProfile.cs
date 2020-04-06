@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Application.Contracts.Blog.Tags.Dtos;
 using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Application.AutoMapper.Blog

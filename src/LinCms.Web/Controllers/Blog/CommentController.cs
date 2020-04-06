@@ -6,17 +6,20 @@ using DotNetCore.CAP;
 using LinCms.Application.Blog.Comments;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Blog.Comments;
+using LinCms.Application.Contracts.Blog.Comments.Dtos;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Application.Contracts.Cms.Users.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -29,17 +32,17 @@ namespace LinCms.Web.Controllers.Blog
     public class CommentController : ControllerBase
     {
 
-        private readonly AuditBaseRepository<Comment> _commentAuditBaseRepository;
+        private readonly IAuditBaseRepository<Comment> _commentAuditBaseRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IUserService _userService;
         private readonly ICommentService _commentService;
         private readonly ICapPublisher _capBus;
-        private readonly AuditBaseRepository<Article> _articleRepository;
+        private readonly IAuditBaseRepository<Article> _articleRepository;
 
-        public CommentController(AuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper,
+        public CommentController(IAuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper,
             ICurrentUser currentUser, IUserService userService, ICommentService commentService,
-            AuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
+            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;

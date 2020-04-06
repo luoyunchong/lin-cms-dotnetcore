@@ -20,7 +20,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         {
             return new List<ApiResource>
             {
-                //Configuration["Service:Name"]在AddJwtBearerAudience
+                //Configuration["Service:Scope"]在AddJwtBearerAudience
                 new ApiResource(Configuration["Service:Name"], Configuration["Service:DocName"])
             };
         }
@@ -36,11 +36,11 @@ namespace LinCms.IdentityServer4.IdentityServer4
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     //UpdateAccessTokenClaimsOnRefresh = true,
-                    AccessTokenLifetime = 3600 * 6, //6小时      //5  设置 5s，验证过期策略。
+                    AccessTokenLifetime = 3600 * 24 * 15, //15天      //5  设置 5s，验证过期策略。
                     SlidingRefreshTokenLifetime = 1296000, //15天
                     ClientSecrets =
                     {
-                        new Secret(Configuration["Service:ClientSecrets"].Sha256())
+                        new Secret(Configuration["Service:ClientSecret"].Sha256())
                     },
                     AllowedScopes =
                     {

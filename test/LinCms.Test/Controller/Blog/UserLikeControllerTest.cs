@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.UserLikes;
+using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
 using LinCms.Core.Entities.Blog;
 using LinCms.Web.Controllers.Blog;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,15 +17,12 @@ namespace LinCms.Test.Controller.Blog
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
         private readonly UserLikeController _userLikeController;
-        private readonly ITestOutputHelper _testOutputHelper;
 
-        public UserLikeControllerTest(ITestOutputHelper testOutputHelper) : base()
+        public UserLikeControllerTest() : base()
         {
-            _userLikeController = serviceProvider.GetService<UserLikeController>(); ;
-
-            _mapper = serviceProvider.GetService<IMapper>();
-            _freeSql = serviceProvider.GetService<IFreeSql>();
-            _testOutputHelper = testOutputHelper;
+            _userLikeController = ServiceProvider.GetService<UserLikeController>(); ;
+            _mapper = ServiceProvider.GetService<IMapper>();
+            _freeSql = ServiceProvider.GetService<IFreeSql>();
         }
 
 

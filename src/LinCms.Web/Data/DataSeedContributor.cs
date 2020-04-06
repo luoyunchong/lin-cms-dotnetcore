@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using LinCms.Core.Data;
 using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
+using LinCms.Web.Utils;
 
 namespace LinCms.Web.Data
 {
@@ -12,10 +13,10 @@ namespace LinCms.Web.Data
         Task SeedAsync();
 
     }
-    public class DataSeedContributor : IDataSeedContributor, ITransientDependency
+    public class DataSeedContributor : IDataSeedContributor, ISingletonDependency
     {
-        private readonly AuditBaseRepository<LinPermission> _permissionRepository;
-        public DataSeedContributor(AuditBaseRepository<LinPermission> permissionRepository)
+        private readonly IAuditBaseRepository<LinPermission> _permissionRepository;
+        public DataSeedContributor(IAuditBaseRepository<LinPermission> permissionRepository)
         {
             this._permissionRepository =permissionRepository;
         }

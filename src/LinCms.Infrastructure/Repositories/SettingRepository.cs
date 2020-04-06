@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Core.Entities;
 using LinCms.Core.Entities.Settings;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 
 namespace LinCms.Infrastructure.Repositories
 {
-    public class SettingRepository : AuditBaseRepository<LinSetting>
+    public class SettingRepository : AuditBaseRepository<LinSetting>, ISettingRepository
     {
         public SettingRepository(IUnitOfWork unitOfWork, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<LinSetting, bool>> filter = null, Func<string, string> asTable = null)
             : base(unitOfWork, currentUser, fsql, filter, asTable)

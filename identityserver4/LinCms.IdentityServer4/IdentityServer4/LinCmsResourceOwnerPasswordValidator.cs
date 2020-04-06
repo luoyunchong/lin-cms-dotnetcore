@@ -3,9 +3,9 @@ using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Entities;
-using LinCms.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.IdentityServer4.IdentityServer4
 {
@@ -15,9 +15,9 @@ namespace LinCms.IdentityServer4.IdentityServer4
     public class LinCmsResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IUserIdentityService _userIdentityService;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public LinCmsResourceOwnerPasswordValidator(IUserIdentityService userIdentityService, UserRepository userRepository)
+        public LinCmsResourceOwnerPasswordValidator(IUserIdentityService userIdentityService, IUserRepository userRepository)
         {
             _userIdentityService = userIdentityService;
             _userRepository = userRepository;

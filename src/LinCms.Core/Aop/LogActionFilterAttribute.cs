@@ -2,7 +2,7 @@
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
-using LinCms.Core.Repositories;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;

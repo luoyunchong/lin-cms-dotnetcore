@@ -7,14 +7,13 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.0.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="DotNetCore.CAP" Version="3.0.3-preview-98619331" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.0.4-preview-102596937" />
     <PackageReference Include="MQiniu.Core" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj" />
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
-    <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

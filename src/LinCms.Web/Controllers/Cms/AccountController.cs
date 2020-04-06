@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,6 +13,7 @@ using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Application.Contracts.Cms.Account;
+using LinCms.Application.Contracts.Cms.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +22,7 @@ using Newtonsoft.Json.Linq;
 
 namespace LinCms.Web.Controllers.Cms
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("cms/user")]
     public class AccountController : ControllerBase
@@ -46,17 +49,20 @@ namespace LinCms.Web.Controllers.Cms
         {
             _logger.LogInformation("login");
 
-            string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
-
             HttpClient client = new HttpClient();
+
+            var disco = await client.GetDiscoveryDocumentAsync(_configuration["Service:Authority"]);
+            if (disco.IsError)
+            {
+                throw new LinCmsException(disco.Error);
+            }
 
             TokenResponse response = await client.RequestTokenAsync(new PasswordTokenRequest()
             {
-                Address = authority + "/connect/token",
+                Address = disco.TokenEndpoint,
                 GrantType = GrantType.ResourceOwnerPassword,
-
                 ClientId = _configuration["Service:ClientId"],
-                ClientSecret = _configuration["Service:ClientSecrets"],
+                ClientSecret = _configuration["Service:ClientSecret"],
 
                 Parameters =
                 {
@@ -78,7 +84,6 @@ namespace LinCms.Web.Controllers.Cms
         /// 刷新用户的token
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpGet("refresh")]
         public async Task<JObject> GetRefreshToken()
         {

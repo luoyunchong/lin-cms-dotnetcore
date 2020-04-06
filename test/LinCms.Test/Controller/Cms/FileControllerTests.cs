@@ -12,7 +12,7 @@ namespace LinCms.Test.Controller.Cms
 
         public FileControllerTests() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
+            _hostingEnv = ServiceProvider.GetRequiredService<IWebHostEnvironment>();
         }
 
         [Fact]

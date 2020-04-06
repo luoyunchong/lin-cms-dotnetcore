@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LinCms.Application.Blog.Articles;
 using LinCms.Application.Cms.Logs;
 using LinCms.Application.Contracts.Blog.Articles;
+using LinCms.Application.Contracts.Cms.Logs;
 using LinCms.Core.Data;
 using Xunit;
 using Xunit.Abstractions;
@@ -14,13 +15,11 @@ namespace LinCms.Test.Service.Cms
 
     public class LogServiceTest : BaseLinCmsTest
     {
-        private readonly ITestOutputHelper _testOutputHelper;
         private readonly ILogService _logService;
 
-        public LogServiceTest(ITestOutputHelper testOutputHelper) : base()
+        public LogServiceTest() : base()
         {
             _logService = ServiceProvider.GetService<ILogService>();
-            _testOutputHelper = testOutputHelper;
         }
 
         [Fact]

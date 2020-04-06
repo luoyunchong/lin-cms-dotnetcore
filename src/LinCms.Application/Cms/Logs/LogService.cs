@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using FreeSql;
 using LinCms.Application.Contracts.Cms.Logs;
+using LinCms.Application.Contracts.Cms.Logs.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Application.Cms.Logs
 {
@@ -14,8 +15,8 @@ namespace LinCms.Application.Cms.Logs
     {
         private readonly BaseRepository<LinLog> _linLogRepository;
         private readonly ICurrentUser _currentUser;
-        private readonly UserRepository _linUserAuditBaseRepository;
-        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, UserRepository linUserAuditBaseRepository)
+        private readonly IUserRepository _linUserAuditBaseRepository;
+        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, IUserRepository linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
             _currentUser = currentUser;

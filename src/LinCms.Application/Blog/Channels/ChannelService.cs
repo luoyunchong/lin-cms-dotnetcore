@@ -4,24 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Channels;
+using LinCms.Application.Contracts.Blog.Channels.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Application.Blog.Channels
 {
     public class ChannelService : IChannelService
     {
-        private readonly AuditBaseRepository<Channel> _channelRepository;
-        private readonly AuditBaseRepository<ChannelTag> _channelTagRepository;
+        private readonly IAuditBaseRepository<Channel> _channelRepository;
+        private readonly IAuditBaseRepository<ChannelTag> _channelTagRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
 
-        public ChannelService(IMapper mapper, AuditBaseRepository<Channel> channelRepository, ICurrentUser currentUser, AuditBaseRepository<ChannelTag> channelTagRepository)
+        public ChannelService(IMapper mapper, IAuditBaseRepository<Channel> channelRepository, ICurrentUser currentUser, IAuditBaseRepository<ChannelTag> channelTagRepository)
         {
             _mapper = mapper;
             _channelRepository = channelRepository;

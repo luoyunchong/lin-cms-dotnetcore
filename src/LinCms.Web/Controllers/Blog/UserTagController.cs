@@ -1,14 +1,16 @@
 ﻿using System;
 using LinCms.Application.Blog.Tags;
 using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Application.Contracts.Blog.Tags.Dtos;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
+using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -18,13 +20,13 @@ namespace LinCms.Web.Controllers.Blog
     public class UserTagController : ControllerBase
     {
         private readonly ICurrentUser _currentUser;
-        private readonly AuditBaseRepository<Tag> _tagRepository;
-        private readonly AuditBaseRepository<UserTag> _userTagRepository;
+        private readonly IAuditBaseRepository<Tag> _tagRepository;
+        private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly ITagService _tagService;
 
         public UserTagController(ICurrentUser currentUser,
-            AuditBaseRepository<Tag> tagRepository,
-            AuditBaseRepository<UserTag> userTagRepository, ITagService tagService)
+            IAuditBaseRepository<Tag> tagRepository,
+            IAuditBaseRepository<UserTag> userTagRepository, ITagService tagService)
         {
             _currentUser = currentUser;
             _tagRepository = tagRepository;

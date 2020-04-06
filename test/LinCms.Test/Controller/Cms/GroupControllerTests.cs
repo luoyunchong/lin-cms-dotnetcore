@@ -1,6 +1,8 @@
 ﻿using System;
 using AutoMapper;
+using LinCms.Application;
 using LinCms.Application.Contracts.Cms.Groups;
+using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Core.Entities;
 using LinCms.Web;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,7 @@ namespace LinCms.Test.Controller.Cms
         public GroupControllerTests() 
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddAutoMapper((typeof(Startup).Assembly));
+            services.AddAutoMapper((typeof(AppService).Assembly));
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
