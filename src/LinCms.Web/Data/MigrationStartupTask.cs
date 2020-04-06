@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.Extensions.DependencyInjection;
-using NetEscapades.AspNetCore.StartupTasks;
 
 namespace LinCms.Web.Data
 {
-    public class MigrationStartupTask : IStartupTask
+    public class MigrationStartupTask
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -25,9 +25,5 @@ namespace LinCms.Web.Data
             }
         }
 
-        public Task ShutdownAsync(CancellationToken cancellationToken = default)
-        {
-            return Task.CompletedTask;
-        }
     }
 }

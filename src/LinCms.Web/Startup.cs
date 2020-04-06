@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Autofac.Extras.DynamicProxy;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
 using HealthChecks.UI.Client;
@@ -12,9 +17,13 @@ using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
+using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
+using LinCms.Infrastructure.Repositories;
 using LinCms.Plugins.Poem.AutoMapper;
+using LinCms.Web.Configs;
 using LinCms.Web.Data;
 using LinCms.Web.Middleware;
 using Microsoft.AspNetCore.Authentication;
@@ -39,6 +48,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace LinCms.Web
 {
+
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -48,10 +58,10 @@ namespace LinCms.Web
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddContext();
+
             #region IdentityServer4
 
             #region AddAuthentication\AddIdentityServerAuthentication 
@@ -90,16 +100,15 @@ namespace LinCms.Web
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     //identityserver4 地址 也就是本项目地址
-                    options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}";
-                    options.RequireHttpsMetadata = false;
+                    options.Authority = Configuration["Service:Authority"];
+                    options.RequireHttpsMetadata = true;
                     options.Audience = Configuration["Service:Name"];
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         // The signing key must match!
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
 
                         // Validate the JWT Issuer (iss) claim
                         ValidateIssuer = true,
@@ -158,7 +167,7 @@ namespace LinCms.Web
 
                             else
                             {
-                                message = "请先登录";//""认证失败，请检查请求头或者重新登录";
+                                message = "请先登录" + context.ErrorDescription;//""认证失败，请检查请求头或者重新登录";
                                 errorCode = ErrorCode.AuthenticationFailed;
                             }
 
@@ -194,13 +203,14 @@ namespace LinCms.Web
             services.AddControllers(options =>
              {
                  options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 //options.Filters.Add<LinCmsExceptionFilter>();
                  options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 //options.Filters.Add<LinCmsUowActionFilter>();
+
              })
              .AddNewtonsoftJson(opt =>
              {
                  //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                 //设置时间戳格式
+                 //设置自定义时间戳格式
                  opt.SerializerSettings.Converters = new List<JsonConverter>()
                  {
                         new LinCmsTimeConverter()
@@ -232,8 +242,7 @@ namespace LinCms.Web
              });
             #endregion
 
-            services.AddServices();
-
+            services.AddDIServices();
 
             #region Swagger
             //Swagger重写PascalCase，改成SnakeCase模式
@@ -298,11 +307,14 @@ namespace LinCms.Web
                         $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {message.GetName()}");
                 };
             });
-            services.AddStartupTask<MigrationStartupTask>();
             services.AddHealthChecks();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new AutofacModule());
+        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
@@ -319,11 +331,7 @@ namespace LinCms.Web
             app.UseMiddleware(typeof(CustomExceptionMiddleWare));
             app.UseMiddleware(typeof(RequestMvcMiddleWare));
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
-            //// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            //// specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");

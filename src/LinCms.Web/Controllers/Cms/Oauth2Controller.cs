@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;

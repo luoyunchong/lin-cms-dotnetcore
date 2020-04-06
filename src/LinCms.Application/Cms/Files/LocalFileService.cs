@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using LinCms.Application.Contracts.Cms.Files;
+using LinCms.Application.Contracts.Cms.Files.Dtos;
 using LinCms.Core.Common;
 using LinCms.Core.Entities;
 using Microsoft.AspNetCore.Hosting;

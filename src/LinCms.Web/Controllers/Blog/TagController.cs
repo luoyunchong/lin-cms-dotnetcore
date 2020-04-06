@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using LinCms.Application.Blog.Tags;
 using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Application.Contracts.Blog.Tags.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Blog
@@ -14,9 +15,9 @@ namespace LinCms.Web.Controllers.Blog
     [ApiController]
     public class TagController : ControllerBase
     {
-        private readonly AuditBaseRepository<Tag> _tagRepository;
+        private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly ITagService _tagService;
-        public TagController(AuditBaseRepository<Tag> tagRepository, ITagService tagService)
+        public TagController(IAuditBaseRepository<Tag> tagRepository, ITagService tagService)
         {
             _tagRepository = tagRepository;
             _tagService = tagService;

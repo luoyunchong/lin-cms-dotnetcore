@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using LinCms.Application.Cms.Permissions;
+using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;

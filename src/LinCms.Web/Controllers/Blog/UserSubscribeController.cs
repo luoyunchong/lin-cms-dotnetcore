@@ -4,15 +4,18 @@ using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
+using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Application.Contracts.Cms.Users.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,21 +29,20 @@ namespace LinCms.Web.Controllers.Blog
     [Authorize]
     public class UserSubscribeController : ControllerBase
     {
-        private readonly AuditBaseRepository<UserSubscribe> _userSubscribeRepository;
-        private readonly UserRepository _userRepository;
-        private readonly IMapper _mapper;
+        private readonly IAuditBaseRepository<UserSubscribe> _userSubscribeRepository;
+        private readonly IUserRepository _userRepository;
         private readonly ICurrentUser _currentUser;
         private readonly BaseRepository<UserTag> _userTagRepository;
         private readonly ICapPublisher _capBus;
-        public UserSubscribeController(AuditBaseRepository<UserSubscribe> userSubscribeRepository, IMapper mapper, ICurrentUser currentUser, UserRepository userRepository, BaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher)
+        public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository, ICurrentUser currentUser, IUserRepository userRepository, BaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher)
         {
             _userSubscribeRepository = userSubscribeRepository;
-            _mapper = mapper;
             _currentUser = currentUser;
             _userRepository = userRepository;
             _userTagRepository = userTagRepository;
             _capBus = capPublisher;
         }
+
         /// <summary>
         /// 判断当前登录的用户是否关注了beSubscribeUserId
         /// </summary>

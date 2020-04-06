@@ -2,11 +2,12 @@
 using System.Linq;
 using AutoMapper;
 using LinCms.Application.Contracts.Base.BaseItems;
+using LinCms.Application.Contracts.Base.BaseItems.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Base;
 using LinCms.Core.Exceptions;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Base
@@ -15,10 +16,10 @@ namespace LinCms.Web.Controllers.Base
     [ApiController]
     public class BaseItemController : ControllerBase
     {
-        private readonly AuditBaseRepository<BaseItem> _baseItemRepository;
-        private readonly AuditBaseRepository<BaseType> _baseTypeRepository;
+        private readonly IAuditBaseRepository<BaseItem> _baseItemRepository;
+        private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
         private readonly IMapper _mapper;
-        public BaseItemController(AuditBaseRepository<BaseItem> baseItemRepository, IMapper mapper, AuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseItemController(IAuditBaseRepository<BaseItem> baseItemRepository, IMapper mapper, IAuditBaseRepository<BaseType> baseTypeRepository)
         {
             _baseItemRepository = baseItemRepository;
             _mapper = mapper;

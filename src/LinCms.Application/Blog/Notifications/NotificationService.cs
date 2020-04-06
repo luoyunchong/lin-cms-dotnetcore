@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Notifications;
+using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Application.Blog.Notifications
 {
     public class NotificationService : INotificationService
     {
-        private readonly AuditBaseRepository<Notification> _notificationRepository;
+        private readonly IAuditBaseRepository<Notification> _notificationRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public NotificationService(AuditBaseRepository<Notification> notificationRepository, IMapper mapper, ICurrentUser currentUser)
+        public NotificationService(IAuditBaseRepository<Notification> notificationRepository, IMapper mapper, ICurrentUser currentUser)
         {
             _notificationRepository = notificationRepository;
             _mapper = mapper;

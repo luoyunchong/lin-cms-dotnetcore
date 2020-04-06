@@ -8,21 +8,25 @@ using LinCms.Application.Blog.Classifies;
 using LinCms.Application.Blog.Tags;
 using LinCms.Application.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Blog.Articles;
+using LinCms.Application.Contracts.Blog.Articles.Dtos;
+using LinCms.Application.Contracts.Blog.Classifys;
+using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 
 namespace LinCms.Application.Blog.Articles
 {
     public class ArticleAppService : IArticleService
     {
-        private readonly AuditBaseRepository<Article> _articleRepository;
-        private readonly GuidRepository<TagArticle> _tagArticleRepository;
-        private readonly AuditBaseRepository<UserLike> _userLikeRepository;
-        private readonly AuditBaseRepository<Comment> _commentBaseRepository;
+        private readonly IAuditBaseRepository<Article> _articleRepository;
+        private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
+        private readonly IAuditBaseRepository<Comment> _commentBaseRepository;
+        private readonly IBaseRepository<TagArticle> _tagArticleRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IClassifyService _classifyService;
@@ -30,12 +34,12 @@ namespace LinCms.Application.Blog.Articles
         private readonly IUserSubscribeService _userSubscribeService;
 
         public ArticleAppService(
-                AuditBaseRepository<Article> articleRepository,
-                GuidRepository<TagArticle> tagArticleRepository,
+                IAuditBaseRepository<Article> articleRepository,
+                IBaseRepository<TagArticle> tagArticleRepository,
                 IMapper mapper,
                 ICurrentUser currentUser,
-                AuditBaseRepository<UserLike> userLikeRepository,
-                AuditBaseRepository<Comment> commentBaseRepository,
+                IAuditBaseRepository<UserLike> userLikeRepository,
+                IAuditBaseRepository<Comment> commentBaseRepository,
                 IClassifyService classifyService,
                 ITagService tagService, IUserSubscribeService userSubscribeService)
         {
@@ -97,12 +101,15 @@ namespace LinCms.Application.Blog.Articles
         public void Delete(Guid id)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
-            _classifyService.UpdateArticleCount(article.ClassifyId, 1);
-            article.Tags.ToList()
-                .ForEach(u =>
-                {
-                    _tagService.UpdateArticleCount(u.Id, -1);
-                });
+            if (article.IsNotNull())
+            {
+                _classifyService.UpdateArticleCount(article.ClassifyId, 1);
+                article.Tags?
+                    .ForEach(u =>
+                    {
+                        _tagService.UpdateArticleCount(u.Id, -1);
+                    });
+            }
 
             _articleRepository.Delete(new Article { Id = id });
             _tagArticleRepository.Delete(r => r.ArticleId == id);

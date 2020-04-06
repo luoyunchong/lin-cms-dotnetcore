@@ -8,9 +8,10 @@ using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Application.Contracts.Cms.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -23,9 +24,9 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IMapper _mapper;
         private readonly IUserService _userSevice;
         private readonly ICurrentUser _currentUser;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, UserRepository userRepository)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository)
         {
             _freeSql = freeSql;
             _mapper = mapper;

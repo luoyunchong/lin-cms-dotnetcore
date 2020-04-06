@@ -5,6 +5,7 @@ using System.Net;
 using AutoMapper;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Blog.MessageBoards;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
@@ -13,10 +14,10 @@ using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -27,12 +28,12 @@ namespace LinCms.Web.Controllers.Blog
     [ApiController]
     public class MessageBoardController : ControllerBase
     {
-        private readonly AuditBaseRepository<MessageBoard> _messageBoardRepository;
+        private readonly IAuditBaseRepository<MessageBoard> _messageBoardRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public MessageBoardController(AuditBaseRepository<MessageBoard> messageBoardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, ICurrentUser currentUser)
+        public MessageBoardController(IAuditBaseRepository<MessageBoard> messageBoardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, ICurrentUser currentUser)
         {
             _messageBoardRepository = messageBoardRepository;
             _mapper = mapper;

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using LinCms.Application.Contracts.v1.Books;
+using LinCms.Application.Contracts.v1.Books.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
-using LinCms.Infrastructure.Repositories;
+using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +17,9 @@ namespace LinCms.Web.Controllers.v1
     [Authorize]
     public class BookController : ControllerBase
     {
-        private readonly AuditBaseRepository<Book> _bookRepository;
+        private readonly IAuditBaseRepository<Book> _bookRepository;
         private readonly IMapper _mapper;
-        public BookController(AuditBaseRepository<Book> bookRepository, IMapper mapper)
+        public BookController(IAuditBaseRepository<Book> bookRepository, IMapper mapper)
         {
             _bookRepository = bookRepository;
             _mapper = mapper;

@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Groups;
+using LinCms.Application.Contracts.Cms.Groups.Dtos;
+using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Application.Cms.Groups
@@ -20,9 +23,15 @@ namespace LinCms.Application.Cms.Groups
         private readonly IMapper _mapper;
         private readonly IPermissionService _permissionService;
         private readonly ICurrentUser _currentUser;
-        private readonly AuditBaseRepository<LinGroup> _groupRepository;
-        private readonly AuditBaseRepository<LinUserGroup> _userGroupRepository;
-        public GroupService(IFreeSql freeSql, IMapper mapper, IPermissionService permissionService, ICurrentUser currentUser, AuditBaseRepository<LinGroup> groupRepository, AuditBaseRepository<LinUserGroup> userGroupRepository)
+        private readonly IAuditBaseRepository<LinGroup> _groupRepository;
+        private readonly IAuditBaseRepository<LinUserGroup> _userGroupRepository;
+        public GroupService(IFreeSql freeSql, 
+            IMapper mapper,
+            IPermissionService permissionService, 
+            ICurrentUser currentUser, 
+            IAuditBaseRepository<LinGroup> groupRepository,
+            IAuditBaseRepository<LinUserGroup> userGroupRepository
+            )
         {
             _freeSql = freeSql;
             _mapper = mapper;
@@ -146,8 +155,7 @@ namespace LinCms.Application.Cms.Groups
 
         public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
         {
-            await _userGroupRepository.Where(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId)).ToDelete()
-                  .ExecuteAffrowsAsync();
+            await _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
         }
 
         public async Task AddUserGroupAsync(long userId, List<long> addGroupIds)
@@ -161,7 +169,7 @@ namespace LinCms.Application.Cms.Groups
             }
             List<LinUserGroup> userGroups = new List<LinUserGroup>();
             addGroupIds.ForEach(groupId => { userGroups.Add(new LinUserGroup(userId, groupId)); });
-            await _freeSql.Insert(userGroups).ExecuteAffrowsAsync();
+            await _userGroupRepository.InsertAsync(userGroups);
         }
 
         private async Task<bool> CheckGroupExistById(long id)

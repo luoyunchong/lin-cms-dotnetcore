@@ -1,13 +1,14 @@
-﻿using LinCms.Core.Entities.Blog;
-using LinCms.Infrastructure.Repositories;
+﻿using LinCms.Application.Contracts.Blog.Comments;
+using LinCms.Core.Entities.Blog;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.Blog.Comments
 {
     public class CommentService : ICommentService
     {
-        private readonly AuditBaseRepository<Comment> _commentAuditBaseRepository;
-        private readonly AuditBaseRepository<Article> _articleRepository;
-        public CommentService(AuditBaseRepository<Comment> commentAuditBaseRepository, AuditBaseRepository<Article> articleRepository)
+        private readonly IAuditBaseRepository<Comment> _commentAuditBaseRepository;
+        private readonly IAuditBaseRepository<Article> _articleRepository;
+        public CommentService(IAuditBaseRepository<Comment> commentAuditBaseRepository, IAuditBaseRepository<Article> articleRepository)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _articleRepository = articleRepository;

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Threading.Tasks;
 using LinCms.Core.Entities.Blog;
-using LinCms.Infrastructure.Repositories;
 using LinCms.Web.Controllers.Blog;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Test.Controller.v1
 {
@@ -15,17 +15,16 @@ namespace LinCms.Test.Controller.v1
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
-        private readonly AuditBaseRepository<Tag> _tagRepository;
+        private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly TagController _tagController;
 
         public TagControllerTest() : base()
         {
-            _hostingEnv = serviceProvider.GetService<IWebHostEnvironment>();
-            _tagController = serviceProvider.GetService<TagController>(); ;
-
-            _mapper = serviceProvider.GetService<IMapper>();
-            _tagRepository = serviceProvider.GetService<AuditBaseRepository<Tag>>();
-            _freeSql = serviceProvider.GetService<IFreeSql>();
+            _hostingEnv = ServiceProvider.GetService<IWebHostEnvironment>();
+            _tagController = ServiceProvider.GetService<TagController>(); ;
+            _mapper = ServiceProvider.GetService<IMapper>();
+            _tagRepository = ServiceProvider.GetService<IAuditBaseRepository<Tag>>();
+            _freeSql = ServiceProvider.GetService<IFreeSql>();
         }
 
         [Fact]

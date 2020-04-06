@@ -7,8 +7,8 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Test;
 using LinCms.Core.Entities;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.IdentityServer4.IdentityServer4
@@ -20,7 +20,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         private readonly ILogger _logger;
 
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// The claims factory.
@@ -30,7 +30,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         /// </summary>
         /// <param name="logger">The logger.</param>
         /// <param name="userRepository"></param>
-        public LinCmsProfileService(ILogger<LinCmsProfileService> logger, UserRepository userRepository)
+        public LinCmsProfileService(ILogger<LinCmsProfileService> logger, IUserRepository userRepository)
         {
             _logger = logger;
             _userRepository = userRepository;

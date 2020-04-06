@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Classifys;
+using LinCms.Application.Contracts.Blog.Classifys.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.Security;
-using LinCms.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -18,10 +19,10 @@ namespace LinCms.Web.Controllers.Blog
     [ApiController]
     public class ClassifyController : ControllerBase
     {
-        private readonly AuditBaseRepository<Classify> _classifyRepository;
+        private readonly IAuditBaseRepository<Classify> _classifyRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public ClassifyController(AuditBaseRepository<Classify> classifyRepository, IMapper mapper, ICurrentUser currentUser)
+        public ClassifyController(IAuditBaseRepository<Classify> classifyRepository, IMapper mapper, ICurrentUser currentUser)
         {
             _classifyRepository = classifyRepository;
             _mapper = mapper;

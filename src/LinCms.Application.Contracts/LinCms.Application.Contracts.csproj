@@ -1,15 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Constracts\**" />
+    <EmbeddedResource Remove="Constracts\**" />
+    <None Remove="Constracts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Constracts\" />
+    <Folder Include="Blog\MessageBoards\Dtos\" />
+    <Folder Include="Cms\Settings\Dtos\" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,18 @@
-﻿using LinCms.Core.Security;
+﻿using System;
+using LinCms.Application.Contracts;
+using LinCms.Core.Security;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Application
 {
 
-    public abstract class AppService: IAppService
+    public abstract class AppService : IAppService
     {
-        protected CurrentUser CurrentUser;
+        protected ICurrentUser CurrentUser { get; set; }
 
-        protected AppService(CurrentUser currentUser)
+        protected AppService(IServiceProvider serviceProvider)
         {
-            CurrentUser = currentUser;
+            CurrentUser = serviceProvider.GetRequiredService<ICurrentUser>();
         }
 
     }
