@@ -14,15 +14,9 @@ namespace LinCms.Test.Controller.Blog
 {
     public class UserLikeControllerTest : BaseControllerTests
     {
-        private readonly IMapper _mapper;
-        private readonly IFreeSql _freeSql;
-        private readonly UserLikeController _userLikeController;
 
         public UserLikeControllerTest() : base()
         {
-            _userLikeController = ServiceProvider.GetService<UserLikeController>(); ;
-            _mapper = ServiceProvider.GetService<IMapper>();
-            _freeSql = ServiceProvider.GetService<IFreeSql>();
         }
 
 
@@ -35,7 +29,6 @@ namespace LinCms.Test.Controller.Blog
                 SubjectId = new Guid("5e63dcd7-6e39-36e0-0001-059272461091"),
                 SubjectType = UserLikeSubjectType.UserLikeComment
             };
-            _userLikeController.Create(createUpdateUserLike);
         }
 
 

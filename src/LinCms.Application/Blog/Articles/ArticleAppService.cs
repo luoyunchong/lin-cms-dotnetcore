@@ -12,6 +12,7 @@ using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Application.Contracts.Blog.Classifys;
 using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
+using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
@@ -98,6 +99,7 @@ namespace LinCms.Application.Blog.Articles
             return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
         }
 
+        [UnitOfWork]
         public void Delete(Guid id)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
@@ -148,6 +150,7 @@ namespace LinCms.Application.Blog.Articles
             return articleDto;
         }
 
+        [UnitOfWork]
         public async Task CreateAsync(CreateUpdateArticleDto createArticle)
         {
             Article article = _mapper.Map<Article>(createArticle);
@@ -171,6 +174,7 @@ namespace LinCms.Application.Blog.Articles
 
         }
 
+        [UnitOfWork]
         public async Task UpdateAsync(CreateUpdateArticleDto updateArticleDto, Article article)
         {
             article.WordNumber = article.Content.Length;

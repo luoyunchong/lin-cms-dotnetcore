@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using CSRedis;
 using FreeSql;
@@ -7,7 +11,9 @@ using FreeSql.Internal;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Entities;
+using LinCms.Core.Middleware;
 using LinCms.Web.Data.Authorization;
+using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +21,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog.Web;
 using ToolGood.Words;
 
@@ -37,7 +44,7 @@ namespace LinCms.Web.Configs
             IFreeSql fsql = new FreeSqlBuilder()
                    .UseConnectionString(DataType.MySql, configurationSection.Value)
                    .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
-                   .UseAutoSyncStructure(true) 
+                   .UseAutoSyncStructure(true)
                    .UseMonitorCommand(cmd =>
                        {
                            Trace.WriteLine(cmd.CommandText + ";");
@@ -77,7 +84,11 @@ namespace LinCms.Web.Configs
 
             services.AddSingleton(fsql);
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
-            services.AddFreeRepository(filter => filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false));
+
+            Expression<Func<IDeleteAduitEntity, bool>> where = a => a.IsDeleted == false;
+            fsql.GlobalFilter.Apply("IsDeleted", where);
+
+            services.AddFreeRepository();
         }
         #endregion
 
@@ -99,6 +110,7 @@ namespace LinCms.Web.Configs
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddTransient<CustomExceptionMiddleWare>();
 
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             string serviceName = configuration.GetSection("FILE:SERVICE").Value;
@@ -111,6 +123,16 @@ namespace LinCms.Web.Configs
             {
                 services.AddTransient<IFileService, QiniuService>();
             }
+        }
+
+
+        public static IServiceCollection AddFreeRepository(this IServiceCollection services)
+        {
+            services.TryAddTransient(typeof(IBaseRepository<>), typeof(GuidRepository<>));
+            services.TryAddTransient(typeof(BaseRepository<>), typeof(GuidRepository<>));
+            services.TryAddTransient(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
+            services.TryAddTransient(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
+            return services;
         }
     }
 }

@@ -101,7 +101,7 @@ namespace LinCms.Test.Repositories
         [Fact]
         public void Update()
         {
-            Book book =  _bookRepository.Select.First();
+            Book book = _bookRepository.Select.First();
             book.Title = "112122123";
             int len = _bookRepository.Update(book);
             _unitOfWork.Commit();
@@ -119,13 +119,14 @@ namespace LinCms.Test.Repositories
             Assert.Equal(1, len);
         }
 
-     
-        
+
+
 
         [Fact]
         public void Delete()
         {
-            _bookRepository.Delete(new Book() { Id = 6 });
+            Book book = _bookRepository.Select.First();
+            _bookRepository.Delete(book);
             _unitOfWork.Commit();
         }
 
@@ -137,7 +138,7 @@ namespace LinCms.Test.Repositories
             _unitOfWork.Commit();
         }
 
-   
+
 
         [Fact]
         public void IsAssignableFromTest()

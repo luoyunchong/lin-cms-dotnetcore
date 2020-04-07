@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
@@ -28,6 +29,7 @@ namespace LinCms.Application.Cms.Users
         /// <param name="principal"></param>
         /// <param name="openId"></param>
         /// <returns></returns>
+        [UnitOfWork]
         public async Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId)
         {
             string email = principal.FindFirst(ClaimTypes.Email)?.Value;
@@ -76,7 +78,6 @@ namespace LinCms.Application.Cms.Users
                     }
                 };
                 await _userRepository.InsertAsync(user);
-                _userRepository.UnitOfWork.Commit();
                 userId = user.Id;
             }
             else

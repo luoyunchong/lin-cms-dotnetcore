@@ -21,11 +21,13 @@ using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
 using LinCms.Core.IRepositories;
+using LinCms.Core.Middleware;
 using LinCms.Infrastructure.Repositories;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Configs;
 using LinCms.Web.Data;
 using LinCms.Web.Middleware;
+using LinCms.Web.SnakeCaseQuery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -101,7 +103,7 @@ namespace LinCms.Web
                 {
                     //identityserver4 地址 也就是本项目地址
                     options.Authority = Configuration["Service:Authority"];
-                    options.RequireHttpsMetadata = true;
+                    options.RequireHttpsMetadata = false;
                     options.Audience = Configuration["Service:Name"];
 
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -202,9 +204,8 @@ namespace LinCms.Web
             #region Mvc
             services.AddControllers(options =>
              {
-                 options.ValueProviderFactories.Add(new SnakeCaseQueryValueProviderFactory());//设置SnakeCase形式的QueryString参数
+                 options.ValueProviderFactories.Add(new ValueProviderFactory());//设置SnakeCase形式的QueryString参数
                  options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
-                 //options.Filters.Add<LinCmsUowActionFilter>();
 
              })
              .AddNewtonsoftJson(opt =>
@@ -247,7 +248,7 @@ namespace LinCms.Web
             #region Swagger
             //Swagger重写PascalCase，改成SnakeCase模式
             services.TryAddEnumerable(ServiceDescriptor
-                .Transient<IApiDescriptionProvider, SnakeCaseQueryParametersApiDescriptionProvider>());
+                .Transient<IApiDescriptionProvider, ApiDescriptionProvider>());
 
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
@@ -327,9 +328,9 @@ namespace LinCms.Web
             }
             app.UseHsts();
             app.UseStaticFiles();
-            //异常中间件应放在MVC执行事务的中件间的前面，否则异常时RequestMvcMiddleWare无法catch异常
+            //异常中间件应放在MVC执行事务的中件间的前面，否则异常时UnitOfWorkMiddleware无法catch异常
             app.UseMiddleware(typeof(CustomExceptionMiddleWare));
-            app.UseMiddleware(typeof(RequestMvcMiddleWare));
+            app.UseMiddleware(typeof(UnitOfWorkMiddleware));
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
