@@ -51,7 +51,15 @@ namespace LinCms.Web.Controllers.Cms
 
             HttpClient client = new HttpClient();
 
-            var disco = await client.GetDiscoveryDocumentAsync(_configuration["Service:Authority"]);
+            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _configuration["Service:Authority"],
+                Policy =
+                {
+                    RequireHttps = false
+                }
+             });
+
             if (disco.IsError)
             {
                 throw new LinCmsException(disco.Error);
@@ -63,13 +71,12 @@ namespace LinCms.Web.Controllers.Cms
                 GrantType = GrantType.ResourceOwnerPassword,
                 ClientId = _configuration["Service:ClientId"],
                 ClientSecret = _configuration["Service:ClientSecret"],
-
                 Parameters =
                 {
                     { "UserName",loginInputDto.Username},
                     { "Password",loginInputDto.Password}
                 },
-                Scope = _configuration["Service:Name"]
+                Scope = _configuration["Service:Name"],
             });
             client.Dispose();
             if (response.IsError)
@@ -136,7 +143,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
 
-            _userSevice.Register(user,new List<long>(),registerDto.Password);
+            _userSevice.Register(user, new List<long>(), registerDto.Password);
 
             return UnifyResponseDto.Success("注册成功");
         }
