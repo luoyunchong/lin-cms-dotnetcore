@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using LinCms.Core.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace LinCms.Web.Middleware
+namespace LinCms.Web.SnakeCaseQuery
 {
     /// <summary>
     /// 下划线写法（SnakeCase）
@@ -28,25 +30,6 @@ namespace LinCms.Web.Middleware
         public override ValueProviderResult GetValue(string key)
         {
             return base.GetValue(key.ToSnakeCase());
-        }
-    }
-    public class SnakeCaseQueryValueProviderFactory : IValueProviderFactory
-    {
-        public Task CreateValueProviderAsync(ValueProviderFactoryContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var valueProvider = new SnakeCaseQueryValueProvider(
-                BindingSource.Query,
-                context.ActionContext.HttpContext.Request.Query,
-                CultureInfo.CurrentCulture);
-
-            context.ValueProviders.Add(valueProvider);
-
-            return Task.CompletedTask;
         }
     }
 }
