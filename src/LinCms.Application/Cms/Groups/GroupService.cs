@@ -7,6 +7,7 @@ using LinCms.Application.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Application.Contracts.Cms.Permissions;
+using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
@@ -140,7 +141,7 @@ namespace LinCms.Application.Cms.Groups
 
         public async Task DeleteUserGroupAsync(long userId)
         {
-            await _userGroupRepository.Where(r => r.UserId == userId).ToDelete().ExecuteAffrowsAsync();
+            await _userGroupRepository.DeleteAsync(r => r.UserId == userId);
         }
 
         public bool CheckIsRootByUserId(long userId)
@@ -158,6 +159,7 @@ namespace LinCms.Application.Cms.Groups
             await _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
         }
 
+        [UnitOfWork]
         public async Task AddUserGroupAsync(long userId, List<long> addGroupIds)
         {
             if (addGroupIds == null || addGroupIds.IsEmpty())

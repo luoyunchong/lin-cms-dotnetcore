@@ -2,9 +2,9 @@
 using LinCms.Core.Extensions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
-namespace LinCms.Web.Middleware
+namespace LinCms.Web.SnakeCaseQuery
 {
-    public class SnakeCaseQueryParametersApiDescriptionProvider : IApiDescriptionProvider
+    public class ApiDescriptionProvider : IApiDescriptionProvider
     {
         public int Order => 1;
 

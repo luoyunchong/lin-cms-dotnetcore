@@ -4,39 +4,33 @@ using System.Threading.Tasks;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
+using LinCms.Core.Dependency;
 using LinCms.Core.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Web.Middleware
+namespace LinCms.Core.Middleware
 {
     /// <summary>
     /// 如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
     /// </summary>
-    public class CustomExceptionMiddleWare
+    public class CustomExceptionMiddleWare : IMiddleware
     {
-        /// <summary>
-        /// 管道请求委托
-        /// </summary>
-        private readonly RequestDelegate _next;
-
         private readonly ILogger<CustomExceptionMiddleWare> _logger;
-
         private readonly IWebHostEnvironment _environment;
-        public CustomExceptionMiddleWare(RequestDelegate next, ILogger<CustomExceptionMiddleWare> logger, IWebHostEnvironment environment)
+        public CustomExceptionMiddleWare(ILogger<CustomExceptionMiddleWare> logger, IWebHostEnvironment environment)
         {
-            _next = next;
             _logger = logger;
             _environment = environment;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
             {
-                await _next(context); //调用管道执行下一个中间件
+                await next(context); //调用管道执行下一个中间件
             }
             catch (Exception ex)
             {
@@ -48,7 +42,7 @@ namespace LinCms.Web.Middleware
                 else
                 {
 
-                    _logger.LogError(ex,"系统异常信息");
+                    _logger.LogError(ex, "系统异常信息");
                     if (_environment.IsDevelopment())
                     {
                         string errorMsg = $"{(ex.InnerException != null ? ex.InnerException.Message : ex.Message)}\n{ex.StackTrace}";
@@ -62,6 +56,7 @@ namespace LinCms.Web.Middleware
             }
         }
 
+
         /// <summary>
         /// 处理方式：返回Json格式
         /// </summary>
@@ -73,7 +68,7 @@ namespace LinCms.Web.Middleware
                 Message = errorMsg,
                 Code = errorCode,
                 Request = LinCmsUtils.GetRequest(context)
-            }; ;
+            }; 
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;

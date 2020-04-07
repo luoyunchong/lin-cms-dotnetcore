@@ -400,30 +400,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Middleware.CustomExceptionMiddleWare">
-            <summary>
-            如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
-            </summary>
-        </member>
-        <member name="F:LinCms.Web.Middleware.CustomExceptionMiddleWare._next">
-            <summary>
-            管道请求委托
-            </summary>
-        </member>
-        <member name="M:LinCms.Web.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Core.Data.Enums.ErrorCode,System.Int32)">
-            <summary>
-            处理方式：返回Json格式
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:LinCms.Web.Middleware.RequestMvcMiddleWare">
-            <summary>
-            处理FreeSql中同一个请求处于一个事务，并一同提交
-            </summary>
-        </member>
-        <member name="T:LinCms.Web.Middleware.SnakeCaseQueryValueProvider">
+        <member name="T:LinCms.Web.SnakeCaseQuery.SnakeCaseQueryValueProvider">
             <summary>
             下划线写法（SnakeCase）
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Middleware.UnitOfWorkMiddleware">
+            <summary>
+            处理FreeSql中同一个请求处于一个事务，并一同提交
             </summary>
         </member>
         <member name="T:LinCms.Web.Utils.ReflexHelper">

@@ -2,7 +2,6 @@
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +9,12 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Core.Aop
+namespace LinCms.Core.Exceptions
 {
     /// <summary>
     /// 出现异常时，如LinCmsException业务异常，会先执行方法过滤器 （LogActionFilterAttribute）的OnActionExecuted才会执行此异常过滤器。
     /// </summary>
-    public class LinCmsExceptionFilter : Attribute, IExceptionFilter
+    public class LinCmsExceptionFilter : IExceptionFilter
     {
         private readonly ILogger _logger;
         private readonly IWebHostEnvironment _environment;
@@ -57,7 +56,7 @@ namespace LinCms.Core.Aop
             UnifyResponseDto apiResponse = new UnifyResponseDto()
             {
                 Code = ErrorCode.UnknownError,
-                Message = _environment.IsDevelopment() ?  error : "服务器正忙，请稍后再试."
+                Message = _environment.IsDevelopment() ? error : "服务器正忙，请稍后再试."
             };
 
             HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);

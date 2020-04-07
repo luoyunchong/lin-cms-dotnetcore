@@ -9,11 +9,12 @@ using HealthChecks.UI.Client;
 using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
+using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.IRepositories;
+using LinCms.Core.Middleware;
 using LinCms.Core.Security;
 using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.Infrastructure.Repositories;
@@ -96,6 +97,7 @@ namespace LinCms.IdentityServer4
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<IUserIdentityService, UserIdentityService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
+            services.AddTransient<CustomExceptionMiddleWare>();
 
             services.AddCors();
             services.AddAutoMapper(typeof(UserProfile).Assembly);
@@ -146,7 +148,7 @@ namespace LinCms.IdentityServer4
             {
                 //app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
             app.UseHttpsRedirection();
 
             app.UseRouting();

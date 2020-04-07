@@ -11,6 +11,7 @@ using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users.Dtos;
+using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
@@ -61,9 +62,10 @@ namespace LinCms.Application.Cms.Users
         }
 
 
+        [UnitOfWork]
         public async Task DeleteAsync(long userId)
         {
-            await _userRepository.DeleteAsync(r => r.Id == userId);
+            await _userRepository.DeleteAsync(new LinUser() {Id = userId});
             await _userIdentityService.DeleteAsync(userId);
             await _groupService.DeleteUserGroupAsync(userId);
         }

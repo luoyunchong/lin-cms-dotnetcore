@@ -134,7 +134,7 @@ namespace LinCms.Web.Controllers.Blog
             _mapper.Map(updateClassify, classify);
 
             _classifyRepository.Update(classify);
-
+            _classifyRepository.UnitOfWork.Commit();
             return UnifyResponseDto.Success("更新分类专栏成功");
         }
 
