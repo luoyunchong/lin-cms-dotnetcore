@@ -52,7 +52,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 用户当时的昵称
         /// </summary>
-        [Column(DbType = "varchar(20)")]
+        [Column(DbType = "varchar(24)")]
         public string UserName { get; set; } = string.Empty;
 
         [Column(DbType = "longtext")]
