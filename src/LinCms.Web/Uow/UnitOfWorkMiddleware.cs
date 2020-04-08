@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FreeSql;
+using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web.Middleware
@@ -10,19 +11,17 @@ namespace LinCms.Web.Middleware
     /// </summary>
     public class UnitOfWorkMiddleware
     {
-        private readonly RequestDelegate _next;
-
+        private readonly RequestDelegate next;
         public UnitOfWorkMiddleware(RequestDelegate next)
         {
-            _next = next;
+            this.next = next;
         }
 
         public async Task InvokeAsync(HttpContext httpContext, IUnitOfWork unitOfWork)
         {
             try
             {
-                unitOfWork.Open();
-                await _next.Invoke(httpContext);
+                await next.Invoke(httpContext);
                 unitOfWork.Commit();
             }
             catch

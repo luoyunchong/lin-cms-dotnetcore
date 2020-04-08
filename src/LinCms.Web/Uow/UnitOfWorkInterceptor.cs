@@ -11,11 +11,11 @@ namespace LinCms.Web.Uow
 {
     public class UnitOfWorkInterceptor : IInterceptor
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkManager unitOfWorkManager;
 
-        public UnitOfWorkInterceptor(IUnitOfWork unitOfWork)
+        public UnitOfWorkInterceptor(IUnitOfWorkManager unitOfWorkManager)
         {
-            this._unitOfWork = unitOfWork;
+            this.unitOfWorkManager = unitOfWorkManager;
         }
 
         public void Intercept(IInvocation invocation)
@@ -24,40 +24,31 @@ namespace LinCms.Web.Uow
             if (methodInfo == null)
                 methodInfo = invocation.Method;
 
-            UnitOfWorkAttribute transaction = UnitOfWorkHelper.GetUnitOfWorkAttributeOrNull(methodInfo);
-            //如果标记了 [UnitOfWork]，并且不在事务嵌套中。
-            if (transaction != null && _unitOfWork.Enable)
+            //如果标记了 [UnitOfWork]
+            if (!UnitOfWorkHelper.IsUnitOfWorkMethod(methodInfo, out var unitOfWorkAttribute))
             {
-                //开启事务
-                _unitOfWork.Open();
-                try
+                using (IUnitOfWork unitOfWork = unitOfWorkManager.Begin())
                 {
-                    invocation.Proceed();
-                    _unitOfWork.Commit();
+                    try
+                    {
+                        invocation.Proceed();
+                        unitOfWork.Commit();
+                    }
+                    catch
+                    {
+                        unitOfWork.Rollback();
+                        throw;
+                    }
+                    finally
+                    {
+                        unitOfWork.Dispose();
+                    }
                 }
-                catch
-                {
-                    //回滚
-                    _unitOfWork.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    _unitOfWork.Dispose();
-                }
+            
             }
             else
             {
-                //如果没有标记[UnitOfWork]，直接执行方法
-                if (UnitOfWorkHelper.IsAsync(methodInfo))
-                {
-                    var task = methodInfo.Invoke(invocation.InvocationTarget, invocation.Arguments) as Task;
-                    invocation.ReturnValue = task;
-                }
-                else
-                {
-                    invocation.Proceed();
-                }
+                invocation.Proceed();
             }
         }
     }
