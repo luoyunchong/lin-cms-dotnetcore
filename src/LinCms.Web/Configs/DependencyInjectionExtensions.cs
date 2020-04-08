@@ -111,6 +111,7 @@ namespace LinCms.Web.Configs
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddTransient<CustomExceptionMiddleWare>();
+            services.AddTransient<UnitOfWorkMiddleware>();
 
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             string serviceName = configuration.GetSection("FILE:SERVICE").Value;
