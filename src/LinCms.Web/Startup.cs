@@ -28,6 +28,7 @@ using LinCms.Web.Configs;
 using LinCms.Web.Data;
 using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
+using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -206,6 +207,7 @@ namespace LinCms.Web
              {
                  options.ValueProviderFactories.Add(new ValueProviderFactory());//设置SnakeCase形式的QueryString参数
                  options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                 //options.Filters.Add<UowActionFilter>(); // 添加请求方法时的日志记录过滤器
 
              })
              .AddNewtonsoftJson(opt =>
