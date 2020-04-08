@@ -97,7 +97,7 @@ namespace LinCms.Core.Aop
 
             linLog.Message += $"{_currentUser.UserName}访问{context.HttpContext.Request.Path},耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒";
 
-           _logRepository.Create(linLog);
+           //_logRepository.Create(linLog);
 
             //记录文本日志
             _logger.LogInformation(JsonConvert.SerializeObject(linLog));
