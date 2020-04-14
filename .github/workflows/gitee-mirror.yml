@@ -1,0 +1,23 @@
+name: Gitee repos mirror periodic job
+on:
+# 如果需要PR触发把push前的#去掉
+  pull_request:
+    paths:
+    - '.github/workflows/**'    
+    branches: [ master ]   
+  schedule:
+    # 每天北京时间9点跑
+    - cron:  '0 1 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Mirror the Github organization repos to Gitee.
+      uses: igeekfan/lin-cms-dotnetcore
+      with:
+        dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+        dst_token: ${{ secrets.GITEE_TOKEN }}
+        src: github/luoyunchong
+        dst:  gitee/igeekfan
+        account_type: user
+        
