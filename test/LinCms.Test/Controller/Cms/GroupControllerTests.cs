@@ -17,7 +17,7 @@ namespace LinCms.Test.Controller.Cms
         public GroupControllerTests() 
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddAutoMapper((typeof(AppService).Assembly));
+            services.AddAutoMapper((typeof(ApplicationService).Assembly));
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 

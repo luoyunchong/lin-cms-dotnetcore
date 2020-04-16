@@ -24,9 +24,9 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("删除技术频道", "技术频道")]
         [HttpDelete("{id}")]
-        public UnifyResponseDto Delete(Guid id)
+        public async Task<UnifyResponseDto> DeleteAsync(Guid id)
         {
-            _channelService.Delete(id);
+            await _channelService.DeleteAsync(id);
             return UnifyResponseDto.Success();
         }
 

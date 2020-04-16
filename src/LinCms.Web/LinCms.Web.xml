@@ -60,11 +60,18 @@
             <param name="isAudit"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetSubscribeArticle(LinCms.Core.Data.PageDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetSubscribeArticleAsync(LinCms.Core.Data.PageDto)">
             <summary>
             得到我关注的人发布的随笔
             </summary>
             <param name="pageDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleDraftController.GetAsync(System.Guid)">
+            <summary>
+            用户的随笔草稿详情
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="T:LinCms.Web.Controllers.Blog.ChannelController">
@@ -91,7 +98,7 @@
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Delete(System.Guid)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.DeleteAsync(System.Guid)">
             <summary>
             删除评论
             </summary>
@@ -105,14 +112,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Post(LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.CreateAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto)">
             <summary>
             用户评论
             </summary>
             <param name="createCommentDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Put(System.Guid,System.Boolean)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.UpdateAsync(System.Guid,System.Boolean)">
             <summary>
             审核评论-拉黑/取消拉黑
             </summary>
@@ -140,14 +147,14 @@
             <param name="pageDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.MessageBoardController.Post(LinCms.Application.Contracts.Blog.MessageBoards.CreateMessageBoardDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.MessageBoardController.CreateAsync(LinCms.Application.Contracts.Blog.MessageBoards.CreateMessageBoardDto)">
             <summary>
             用户留言，无须登录
             </summary>
             <param name="createMessageBoardDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.MessageBoardController.Put(System.Guid,System.Boolean)">
+        <member name="M:LinCms.Web.Controllers.Blog.MessageBoardController.UpdateAsync(System.Guid,System.Boolean)">
             <summary>
             审核评论-拉黑/取消拉黑
             </summary>
