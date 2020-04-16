@@ -50,9 +50,8 @@ namespace LinCms.Application.Cms.Logs
         {
             List<string> linLogs = _linLogRepository.Select
                 .Where(r => !string.IsNullOrEmpty(r.UserName))
-                .Select(r => r.UserName)
                 .Distinct()
-                .ToList();
+                .ToList(r=>r.UserName);
 
             return linLogs;
         }

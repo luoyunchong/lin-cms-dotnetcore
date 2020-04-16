@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DotNetCore.CAP;
 using LinCms.Application.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.Notifications;
@@ -13,22 +14,23 @@ namespace LinCms.Web.Controllers.Blog
     public class NotificationController : ControllerBase
     {
         private readonly INotificationService _notificationService;
+
         public NotificationController(INotificationService notificationService)
         {
             _notificationService = notificationService;
         }
 
         [HttpGet]
-        public PagedResultDto<NotificationDto> Get([FromQuery]NotificationSearchDto pageDto)
+        public PagedResultDto<NotificationDto> Get([FromQuery] NotificationSearchDto pageDto)
         {
             return _notificationService.Get(pageDto);
         }
-        
+
         [NonAction]
         [CapSubscribe("NotificationController.Post")]
-        public UnifyResponseDto Post([FromBody] CreateNotificationDto createNotification)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateNotificationDto createNotification)
         {
-            _notificationService.Post(createNotification);
+            await _notificationService.CreateAsync(createNotification);
             return UnifyResponseDto.Success("新建消息成功");
         }
 

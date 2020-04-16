@@ -10,15 +10,16 @@ namespace LinCms.Application.Contracts.Blog.Articles
     {
         Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto);
 
-        void Delete(Guid id);
+        Task DeleteAsync(Guid id);
 
         Task<ArticleDto> GetAsync(Guid id);
 
-        Task CreateAsync(CreateUpdateArticleDto createArticle);
+        Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle);
 
-        Task UpdateAsync(CreateUpdateArticleDto updateArticleDto, Article article);
+        Task<Article> UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
 
+        Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
 
-        PagedResultDto<ArticleListDto> GetSubscribeArticle(PageDto pageDto);
+        Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto);
     }
 }

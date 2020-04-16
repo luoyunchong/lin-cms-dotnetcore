@@ -65,7 +65,7 @@ namespace LinCms.Application.Cms.Users
         [UnitOfWork]
         public async Task DeleteAsync(long userId)
         {
-            await _userRepository.DeleteAsync(new LinUser() {Id = userId});
+            await _userRepository.DeleteAsync(new LinUser() { Id = userId });
             await _userIdentityService.DeleteAsync(userId);
             await _groupService.DeleteUserGroupAsync(userId);
         }
@@ -199,12 +199,12 @@ namespace LinCms.Application.Cms.Users
             }).ExecuteAffrowsAsync();
         }
 
-        public LinUser GetCurrentUser()
+        public async Task<LinUser> GetCurrentUserAsync()
         {
             if (_currentUser.Id != null)
             {
                 long userId = (long)_currentUser.Id;
-                return _userRepository.Select.Where(r => r.Id == userId).ToOne();
+                return await _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
             }
             return null;
         }
