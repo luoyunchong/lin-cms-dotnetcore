@@ -1,4 +1,5 @@
-﻿using LinCms.Application.Contracts.Blog.Comments;
+﻿using System.Threading.Tasks;
+using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.IRepositories;
 
@@ -17,25 +18,25 @@ namespace LinCms.Application.Blog.Comments
         /// 删除评论并同步随笔数量
         /// </summary>
         /// <param name="comment"></param>
-        public void Delete(Comment comment)
+        public async Task DeleteAsync(Comment comment)
         {
             int affrows = 0;
             //如果是根评论，删除所有的子评论
             if (!comment.RootCommentId.HasValue)
             {
-                affrows += _commentAuditBaseRepository.Delete(r => r.RootCommentId == comment.Id);
+                affrows += await _commentAuditBaseRepository.DeleteAsync(r => r.RootCommentId == comment.Id);
             }
             else
             {
-                _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount - 1).Where(r => r.Id == comment.RootCommentId).ExecuteAffrows();
+                await _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount - 1).Where(r => r.Id == comment.RootCommentId).ExecuteAffrowsAsync();
             }
-         
-            affrows += _commentAuditBaseRepository.Delete(new Comment { Id = comment.Id });
+
+            affrows += await _commentAuditBaseRepository.DeleteAsync(new Comment { Id = comment.Id });
 
             switch (comment.SubjectType)
             {
                 case 1:
-                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows).Where(r => r.Id == comment.SubjectId).ExecuteAffrows();
+                    await _articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows).Where(r => r.Id == comment.SubjectId).ExecuteAffrowsAsync();
                     break;
             }
         }

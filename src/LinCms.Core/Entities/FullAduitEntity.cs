@@ -3,23 +3,30 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities
 {
-    public abstract class EntityDto<T>
+    public interface IEntityDto
+    {
+    }
+    
+    public interface IEntityDto<TKey> : IEntityDto
+    {
+        TKey Id { get; set; }
+    }
+
+    public abstract class EntityDto<TKey>:IEntityDto<TKey>
     {
         /// <summary>
         /// 主键Id
         /// </summary>
-        public T Id { get; set; }
+        public TKey Id { get; set; }
     }
 
     public abstract class EntityDto : EntityDto<long>
     {
-
     }
 
     [Serializable]
     public class FullAduitEntity : FullAduitEntity<long>
     {
-
     }
 
     public class FullAduitEntity<T> : Entity<T>, IUpdateAuditEntity, IDeleteAduitEntity, ICreateAduitEntity
@@ -28,26 +35,32 @@ namespace LinCms.Core.Entities
         /// 创建者ID
         /// </summary>
         public long CreateUserId { get; set; }
+
         /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; }
+
         /// <summary>
         /// 是否删除
         /// </summary>
         public bool IsDeleted { get; set; }
+
         /// <summary>
         /// 删除人id
         /// </summary>
         public long? DeleteUserId { get; set; }
+
         /// <summary>
         /// 删除时间
         /// </summary>
         public DateTime? DeleteTime { get; set; }
+
         /// <summary>
         /// 最后修改人Id
         /// </summary>
         public long? UpdateUserId { get; set; }
+
         /// <summary>
         /// 修改时间
         /// </summary>
@@ -62,6 +75,7 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(Position = -7)]
         long CreateUserId { get; set; }
+
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -76,6 +90,7 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(Position = -5)]
         long? UpdateUserId { get; set; }
+
         /// <summary>
         /// 修改时间
         /// </summary>
@@ -90,11 +105,13 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(Position = -3)]
         bool IsDeleted { get; set; }
+
         /// <summary>
         /// 删除人id
         /// </summary>
         [Column(Position = -2)]
         long? DeleteUserId { get; set; }
+
         /// <summary>
         /// 删除时间
         /// </summary>
@@ -107,15 +124,13 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 主键Id
         /// </summary>
-        [Column(IsPrimary = true,IsIdentity = true,Position = 1)]
+        [Column(IsPrimary = true, IsIdentity = true, Position = 1)]
         public T Id { get; set; }
-
     }
 
     [Serializable]
     public abstract class Entity : Entity<long>
     {
-
     }
 
     public interface IEntity<T>
@@ -128,6 +143,5 @@ namespace LinCms.Core.Entities
 
     public interface IEntity : IEntity<int>
     {
-
     }
 }

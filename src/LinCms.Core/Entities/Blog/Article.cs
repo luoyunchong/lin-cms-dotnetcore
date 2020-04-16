@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
@@ -101,7 +102,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 状态：1.暂存，2.发布文章。
         /// </summary>
-        public int Status { get; set; }
+        public int Status { get; set; } = 1;
 
         /// <summary>
         /// 字数
@@ -118,13 +119,13 @@ namespace LinCms.Core.Entities.Blog
         public virtual Channel Channel { get; set; }
 
 
-        [Navigate("CreateUserId")]
-        public virtual  LinUser UserInfo { get; set; }
+        [Navigate(nameof(CreateUserId))]
+        public virtual LinUser UserInfo { get; set; }
 
 
         public virtual ICollection<Tag> Tags { get; set; }
 
-
+        public virtual ArticleDraft ArticleDraft { get; set; }
         [Navigate("SubjectId")]
         public virtual ICollection<UserLike> UserLikes { get; set; }
 

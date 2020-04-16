@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
+using LinCms.Application.Contracts.Cms.Books;
 using LinCms.Application.Contracts.v1.Books;
 using LinCms.Application.Contracts.v1.Books.Dtos;
 using LinCms.Core.Aop;
@@ -17,77 +19,43 @@ namespace LinCms.Web.Controllers.v1
     [Authorize]
     public class BookController : ControllerBase
     {
-        private readonly IAuditBaseRepository<Book> _bookRepository;
-        private readonly IMapper _mapper;
-        public BookController(IAuditBaseRepository<Book> bookRepository, IMapper mapper)
+        private readonly IBookService _bookService;
+        public BookController(IBookService bookService)
         {
-            _bookRepository = bookRepository;
-            _mapper = mapper;
+            _bookService = bookService;
         }
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除图书", "图书")]
         public UnifyResponseDto DeleteBook(int id)
         {
-            _bookRepository.Delete(new Book { Id = id });
+            _bookService.DeleteAsync(id);
             return UnifyResponseDto.Success();
         }
 
         [HttpGet]
-        public PagedResultDto<Book> Get([FromQuery] PageDto pageDto)
+        public async Task<PagedResultDto<BookDto>> Get([FromQuery] PageDto pageDto)
         {
-            return _bookRepository.Select.OrderByDescending(r => r.Id)
-                .ToPagerList(pageDto, out long count)
-                .ToPagedResultDto(count);
+            return await _bookService.GetListAsync(pageDto);
         }
 
         [HttpGet("{id}")]
-        public BookDto Get(int id)
+        public async Task<BookDto> GetAsync(int id)
         {
-            Book book = _bookRepository.Select.Where(a => a.Id == id).ToOne();
-            return _mapper.Map<BookDto>(book);
+            return await _bookService.GetAsync(id);
         }
 
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateUpdateBookDto createBook)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBookDto createBook)
         {
-            bool exist = _bookRepository.Select.Any(r => r.Title == createBook.Title);
-            if (exist)
-            {
-                throw new LinCmsException("图书已存在");
-            }
-
-            Book book = _mapper.Map<Book>(createBook);
-            _bookRepository.Insert(book);
+            await _bookService.CreateAsync(createBook);
             return UnifyResponseDto.Success("新建图书成功");
         }
 
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(int id, [FromBody] CreateUpdateBookDto updateBook)
+        public async Task<UnifyResponseDto> PutAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
         {
-            Book book = _bookRepository.Select.Where(r => r.Id == id).ToOne();
-            if (book==null)
-            {
-                throw new LinCmsException("没有找到相关书籍");
-            }
-
-            bool exist = _bookRepository.Select.Any(r => r.Title == updateBook.Title && r.Id != id);
-            if (exist)
-            {
-                throw new LinCmsException("图书已存在");
-            }
-
-            //book.Image = updateBook.Image;
-            //book.Title = updateBook.Title;
-            //book.Author = updateBook.Author;
-            //book.Summary = updateBook.Summary;
-            //book.Summary = updateBook.Summary;
-
-            //使用AutoMapper方法简化类与类之间的转换过程
-            _mapper.Map(updateBook,book);
-
-            _bookRepository.Update(book);
-
+            await _bookService.UpdateAsync(id, updateBook);
             return UnifyResponseDto.Success("更新图书成功");
         }
     }
