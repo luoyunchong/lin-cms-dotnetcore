@@ -3,7 +3,7 @@ using LinCms.Core.Entities;
 
 namespace LinCms.Application.Contracts.Base.BaseItems.Dtos
 {
-    public class BaseItemDto: Entity
+    public class BaseItemDto: EntityDto
     {
         public int BaseTypeId { get; set; }
         public string ItemCode { get; set; }

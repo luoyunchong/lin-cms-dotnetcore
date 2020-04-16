@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LinCms.Application.Contracts.Blog.UserSubscribes
 {
@@ -9,6 +10,6 @@ namespace LinCms.Application.Contracts.Blog.UserSubscribes
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        List<long> GetSubscribeUserId(long userId);
+        Task<List<long>> GetSubscribeUserIdAsync(long userId);
     }
 }

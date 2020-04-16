@@ -20,13 +20,8 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
-    <Compile Remove="wwwroot\assets\2019\**" />
-    <Content Remove="bin\**" />
-    <Content Remove="wwwroot\assets\2019\**" />
     <EmbeddedResource Remove="bin\**" />
-    <EmbeddedResource Remove="wwwroot\assets\2019\**" />
     <None Remove="bin\**" />
-    <None Remove="wwwroot\assets\2019\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.0.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
@@ -51,8 +46,8 @@
     <PackageReference Include="CSRedisCore" Version="3.6.1" />
     <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.4-preview-102596937" />
     <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.0.4-preview-102596937" />
-    <PackageReference Include="FreeSql" Version="1.4.0-preview20200404" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.4.0-preview20200404" />
+    <PackageReference Include="FreeSql" Version="1.4.0-preview20200411" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.4.0-preview20200411" />
     <PackageReference Include="IdentityServer4" Version="3.1.2" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
@@ -61,7 +56,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.1" />
-    <PackageReference Include="ToolGood.Words" Version="2.5.2.2" />
+    <PackageReference Include="ToolGood.Words" Version="3.0.0.5" />
   </ItemGroup>  
 
   <ItemGroup>
@@ -82,7 +77,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

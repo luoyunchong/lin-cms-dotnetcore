@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace LinCms.Application.Contracts.Blog.Classifys
 {
     public interface IClassifyService
     {
-        void UpdateArticleCount(Guid? id, int inCreaseCount);
+        Task UpdateArticleCountAsync(Guid? id, int inCreaseCount);
     }
 }

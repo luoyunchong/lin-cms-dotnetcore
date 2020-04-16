@@ -12,6 +12,7 @@ using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Entities;
 using LinCms.Core.Middleware;
+using LinCms.Core.Security;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
