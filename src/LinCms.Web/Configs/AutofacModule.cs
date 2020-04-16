@@ -28,8 +28,8 @@ namespace LinCms.Web.Configs
 
             var interceptorServiceTypes = new List<Type>();
             
-            builder.RegisterType<UnitOfWorkInterceptor>();
-            interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
+            //builder.RegisterType<UnitOfWorkInterceptor>();
+            //interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
 
             builder.RegisterAssemblyTypes(servicesDllFile).Where(a => a.Name.EndsWith("Service"))
                       .AsImplementedInterfaces()

@@ -25,11 +25,11 @@ namespace LinCms.Infrastructure.Repositories
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public  class AuditBaseRepository<TEntity, TKey> : BaseRepository<TEntity, TKey> , IAuditBaseRepository<TEntity, TKey>
+    public class AuditBaseRepository<TEntity, TKey> : BaseRepository<TEntity, TKey>, IAuditBaseRepository<TEntity, TKey>
         where TEntity : class, new()
     {
         protected readonly ICurrentUser CurrentUser;
-        public AuditBaseRepository(IUnitOfWork uow,ICurrentUser currentUser,IFreeSql fsql, Expression<Func<TEntity, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
+        public AuditBaseRepository(IUnitOfWork uow, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<TEntity, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
         {
             CurrentUser = currentUser;
             base.UnitOfWork = uow;
@@ -40,7 +40,7 @@ namespace LinCms.Infrastructure.Repositories
             if (!(entity is ICreateAduitEntity e)) return;
             e.CreateTime = DateTime.Now;
 
-            e.CreateUserId = CurrentUser.Id??0;
+            e.CreateUserId = CurrentUser.Id ?? 0;
 
             if (!(entity is IUpdateAuditEntity updateAuditEntity)) return;
             updateAuditEntity.UpdateTime = DateTime.Now;
@@ -211,6 +211,13 @@ namespace LinCms.Infrastructure.Repositories
             }
 
             return await base.DeleteAsync(predicate);
+        }
+        public  async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
+        {
+            BeforeInsert(entity);
+            BeforeUpdate(entity);
+            await base.InsertOrUpdateAsync(entity);
+            return entity;
         }
 
     }
