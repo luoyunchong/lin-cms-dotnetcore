@@ -1,10 +1,11 @@
 ﻿
+using System.Threading.Tasks;
 using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Application.Contracts.Blog.Comments
 {
     public interface ICommentService
     {
-        void Delete(Comment comment);
+        Task DeleteAsync(Comment comment);
     }
 }

@@ -20,6 +20,7 @@ using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
+using System.Threading.Tasks;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -168,10 +169,10 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpDelete("cms/{id}")]
         [LinCmsAuthorize("删除评论", "评论")]
-        public UnifyResponseDto Delete(Guid id)
+        public async Task<UnifyResponseDto> DeleteAsync(Guid id)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
-            _commentService.Delete(comment);
+            await _commentService.DeleteAsync(comment);
             return UnifyResponseDto.Success();
         }
 
@@ -181,7 +182,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public UnifyResponseDto DeleteMyComment(Guid id)
+        public async Task<UnifyResponseDto> DeleteMyComment(Guid id)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
             if (comment == null)
@@ -192,7 +193,7 @@ namespace LinCms.Web.Controllers.Blog
             {
                 return UnifyResponseDto.Error("无权限删除他人的评论");
             }
-            _commentService.Delete(comment);
+            await _commentService.DeleteAsync(comment);
             return UnifyResponseDto.Success();
 
         }
@@ -203,23 +204,23 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="createCommentDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateCommentDto createCommentDto)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateCommentDto createCommentDto)
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
             _commentAuditBaseRepository.Insert(comment);
 
             if (createCommentDto.RootCommentId.HasValue)
             {
-                _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount + 1).Where(r => r.Id == createCommentDto.RootCommentId).ExecuteAffrows();
+                await _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount + 1).Where(r => r.Id == createCommentDto.RootCommentId).ExecuteAffrowsAsync();
             }
 
             switch (createCommentDto.SubjectType)
             {
                 case 1:
-                    _articleRepository.UpdateDiy
+                    await _articleRepository.UpdateDiy
                         .Set(r => r.CommentQuantity + 1)
                         .Where(r => r.Id == createCommentDto.SubjectId)
-                        .ExecuteAffrows();
+                        .ExecuteAffrowsAsync();
                     break;
             }
 
@@ -247,7 +248,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核评论", "评论")]
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(Guid id, bool isAudit)
+        public async Task<UnifyResponseDto> UpdateAsync(Guid id, bool isAudit)
         {
             Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
             if (comment == null)
@@ -256,7 +257,7 @@ namespace LinCms.Web.Controllers.Blog
             }
 
             comment.IsAudit = isAudit;
-            _commentAuditBaseRepository.Update(comment);
+            await _commentAuditBaseRepository.UpdateAsync(comment);
             return UnifyResponseDto.Success();
         }
 

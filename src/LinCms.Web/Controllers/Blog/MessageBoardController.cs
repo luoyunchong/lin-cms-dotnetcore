@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Blog.MessageBoards;
@@ -81,7 +82,7 @@ namespace LinCms.Web.Controllers.Blog
 
         [AllowAnonymous]
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateMessageBoardDto createMessageBoardDto)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateMessageBoardDto createMessageBoardDto)
         {
             MessageBoard messageBoard = _mapper.Map<MessageBoard>(createMessageBoardDto);
 
@@ -95,7 +96,7 @@ namespace LinCms.Web.Controllers.Blog
                 messageBoard.GeoPosition = ipQueryResult.errno == 0 ? ipQueryResult.data : ipQueryResult.errmsg;
             }
 
-            LinUser linUser = _userService.GetCurrentUser();
+            LinUser linUser =await _userService.GetCurrentUserAsync();
             if (linUser == null)
             {
                 messageBoard.Avatar = "/assets/user/" + new Random().Next(1, 360) + ".png";
@@ -117,7 +118,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核留言", "留言板")]
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(Guid id, bool isAudit)
+        public UnifyResponseDto UpdateAsync(Guid id, bool isAudit)
         {
             MessageBoard messageBoard = _messageBoardRepository.Select.Where(r => r.Id == id).ToOne();
             if (messageBoard == null)
@@ -126,7 +127,7 @@ namespace LinCms.Web.Controllers.Blog
             }
 
             messageBoard.IsAudit = isAudit;
-            _messageBoardRepository.Update(messageBoard);
+            _messageBoardRepository.UpdateAsync(messageBoard);
             return UnifyResponseDto.Success();
         }
 

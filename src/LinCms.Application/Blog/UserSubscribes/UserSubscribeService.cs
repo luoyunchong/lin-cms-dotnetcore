@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FreeSql;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Core.Entities.Blog;
@@ -13,11 +14,11 @@ namespace LinCms.Application.Blog.UserSubscribes
             _userSubscribeRepository = userSubscribeRepository;
         }
 
-        public List<long> GetSubscribeUserId(long userId)
+        public async Task<List<long>> GetSubscribeUserIdAsync(long userId)
         {
-            List<long> subscribeUserIds = _userSubscribeRepository
+            List<long> subscribeUserIds = await _userSubscribeRepository
                 .Select.Where(r => r.CreateUserId == userId)
-                .ToList(r => r.SubscribeUserId);
+                .ToListAsync(r => r.SubscribeUserId);
             return subscribeUserIds;
         }
     }
