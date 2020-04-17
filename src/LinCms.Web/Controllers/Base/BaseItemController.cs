@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Base.BaseItems;
 using LinCms.Application.Contracts.Base.BaseItems.Dtos;
@@ -16,88 +17,46 @@ namespace LinCms.Web.Controllers.Base
     [ApiController]
     public class BaseItemController : ControllerBase
     {
-        private readonly IAuditBaseRepository<BaseItem> _baseItemRepository;
-        private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
-        private readonly IMapper _mapper;
-        public BaseItemController(IAuditBaseRepository<BaseItem> baseItemRepository, IMapper mapper, IAuditBaseRepository<BaseType> baseTypeRepository)
+        private readonly IBaseItemService _baseItemService;
+
+        public BaseItemController(IBaseItemService baseItemService)
         {
-            _baseItemRepository = baseItemRepository;
-            _mapper = mapper;
-            _baseTypeRepository = baseTypeRepository;
+            _baseItemService = baseItemService;
         }
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除字典", "字典管理")]
-        public UnifyResponseDto DeleteBaseItem(int id)
+        public UnifyResponseDto DeleteAsync(int id)
         {
-            _baseItemRepository.Delete(new BaseItem { Id = id });
+            _baseItemService.DeleteAsync(id);
             return UnifyResponseDto.Success();
         }
 
         [HttpGet]
-        public List<BaseItemDto> Get([FromQuery]string typeCode)
+        public async Task<List<BaseItemDto>> GetListAsync([FromQuery] string typeCode)
         {
-            long baseTypeId =_baseTypeRepository.Select.Where(r => r.TypeCode == typeCode).ToOne(r => r.Id);
-
-            List<BaseItemDto> baseItems = _baseItemRepository.Select
-                .OrderBy(r => r.SortCode)
-                .OrderBy(r => r.Id)
-                .Where( r => r.BaseTypeId == baseTypeId)
-                .ToList()
-                .Select(r => _mapper.Map<BaseItemDto>(r)).ToList();
-
-            return baseItems;
+            return await _baseItemService.GetListAsync(typeCode);;
         }
 
         [HttpGet("{id}")]
-        public BaseItemDto Get(int id)
+        public async Task<BaseItemDto> GetAsync(int id)
         {
-            BaseItem baseItem = _baseItemRepository.Select.Where(a => a.Id == id).ToOne();
-            return _mapper.Map<BaseItemDto>(baseItem);
+            return await _baseItemService.GetAsync(id);
         }
 
         [HttpPost]
         [LinCmsAuthorize("新增字典", "字典管理")]
-        public UnifyResponseDto Create([FromBody] CreateUpdateBaseItemDto createBaseItem)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseItemDto createBaseItem)
         {
-            bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == createBaseItem.BaseTypeId && r.ItemCode == createBaseItem.ItemCode);
-            if (exist)
-            {
-                throw new LinCmsException($"编码[{createBaseItem.ItemCode}]已存在");
-            }
-
-            BaseItem baseItem = _mapper.Map<BaseItem>(createBaseItem);
-            _baseItemRepository.Insert(baseItem);
+             await _baseItemService.CreateAsync(createBaseItem);
             return UnifyResponseDto.Success("新建字典成功");
         }
 
         [HttpPut("{id}")]
         [LinCmsAuthorize("编辑字典", "字典管理")]
-        public UnifyResponseDto Update(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
+        public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBaseItemDto updateBaseItem)
         {
-            BaseItem baseItem = _baseItemRepository.Select.Where(r => r.Id == id).ToOne();
-            if (baseItem == null)
-            {
-                throw new LinCmsException("该数据不存在");
-            }
-
-            bool typeExist= _baseTypeRepository.Select.Any(r => r.Id == updateBaseItem.BaseTypeId);
-
-            if (!typeExist)
-            {
-                throw new LinCmsException("请选择正确的类别");
-            }
-
-            bool exist = _baseItemRepository.Select.Any(r => r.BaseTypeId == updateBaseItem.BaseTypeId && r.ItemCode == updateBaseItem.ItemCode && r.Id != id);
-            if (exist)
-            {
-                throw new LinCmsException($"编码[{updateBaseItem.ItemCode}]已存在");
-            }
-
-            _mapper.Map(updateBaseItem, baseItem);
-
-            _baseItemRepository.Update(baseItem);
-
+            await _baseItemService.UpdateAsync(id,updateBaseItem);
             return UnifyResponseDto.Success("更新字典成功");
         }
     }

@@ -93,9 +93,15 @@ namespace LinCms.Test.Repositories
                 GetBook(),
                 GetBook(),
             };
-            List<Book> backBooks = await _bookRepository.InsertAsync(listBook);
-            _unitOfWork.Commit();
-            Assert.Equal(listBook[0].Author, backBooks[0].Author);
+            using (_unitOfWork)
+            {
+                //_unitOfWork.GetOrBeginTransaction();
+                List<Book> backBooks = await _bookRepository.InsertAsync(listBook);
+                _unitOfWork.Commit();
+                Assert.Equal(listBook[0].Author, backBooks[0].Author);
+
+            }
+
         }
 
         [Fact]

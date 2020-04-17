@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Blog\MessageBoards\Dtos\" />
     <Folder Include="Cms\Settings\Dtos\" />
   </ItemGroup>
 
