@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -26,10 +27,10 @@ namespace LinCms.Application.Cms.Groups
         private readonly ICurrentUser _currentUser;
         private readonly IAuditBaseRepository<LinGroup> _groupRepository;
         private readonly IAuditBaseRepository<LinUserGroup> _userGroupRepository;
-        public GroupService(IFreeSql freeSql, 
+        public GroupService(IFreeSql freeSql,
             IMapper mapper,
-            IPermissionService permissionService, 
-            ICurrentUser currentUser, 
+            IPermissionService permissionService,
+            ICurrentUser currentUser,
             IAuditBaseRepository<LinGroup> groupRepository,
             IAuditBaseRepository<LinUserGroup> userGroupRepository
             )
@@ -74,25 +75,56 @@ namespace LinCms.Application.Cms.Groups
 
             LinGroup linGroup = _mapper.Map<LinGroup>(inputDto);
 
-            _freeSql.Transaction(() =>
+            using (var conn = _freeSql.Ado.MasterPool.Get())
             {
-                long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
-
-                List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
-
-                List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
-                inputDto.PermissionIds.ForEach(r =>
+                DbTransaction transaction = conn.Value.BeginTransaction();
+                try
                 {
-                    LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
-                    if (pdDto == null)
-                    {
-                        throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
-                    }
-                    linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
-                });
+                    long groupId = _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentity();
 
-                _freeSql.Insert<LinGroupPermission>().AppendData(linPermissions).ExecuteAffrows();
-            });
+                    List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
+
+                    List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+                    inputDto.PermissionIds.ForEach(r =>
+                    {
+                        LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
+                        if (pdDto == null)
+                        {
+                            throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
+                        }
+                        linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
+                    });
+
+                    _freeSql.Insert<LinGroupPermission>().WithTransaction(transaction).AppendData(linPermissions).ExecuteAffrows();
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+
+            //_freeSql.Transaction(() =>
+            //{
+            //    long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
+
+            //    List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
+
+            //    List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+            //    inputDto.PermissionIds.ForEach(r =>
+            //    {
+            //        LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
+            //        if (pdDto == null)
+            //        {
+            //            throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
+            //        }
+            //        linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
+            //    });
+
+            //    _freeSql.Insert<LinGroupPermission>().AppendData(linPermissions).ExecuteAffrows();
+            //});
         }
 
         public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)

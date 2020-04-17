@@ -42,12 +42,12 @@ namespace LinCms.Application.Blog.Channels
                     .OrderByDescending(r => r.SortCode)
                     .OrderBy(r => r.CreateTime)
                     .ToPagerListAsync(pageDto, out long totalCount))
-                .Select(r =>
-                {
-                    ChannelDto channelDto = _mapper.Map<ChannelDto>(r);
-                    channelDto.ThumbnailDisplay = _currentUser.GetFileUrl(channelDto.Thumbnail);
-                    return channelDto;
-                }).ToList();
+                    .Select(r =>
+                    {
+                        ChannelDto channelDto = _mapper.Map<ChannelDto>(r);
+                        channelDto.ThumbnailDisplay = _currentUser.GetFileUrl(channelDto.Thumbnail);
+                        return channelDto;
+                    }).ToList();
 
             return new PagedResultDto<ChannelDto>(channel, totalCount);
         }

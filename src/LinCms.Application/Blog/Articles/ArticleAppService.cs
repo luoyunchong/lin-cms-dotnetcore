@@ -99,7 +99,7 @@ namespace LinCms.Application.Blog.Articles
             return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
         }
 
-        [UnitOfWork]
+
         public void Delete(Guid id)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
