@@ -12,6 +12,7 @@ using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Entities;
 using LinCms.Core.Middleware;
+using LinCms.Core.Security;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
@@ -111,6 +112,7 @@ namespace LinCms.Web.Configs
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddTransient<CustomExceptionMiddleWare>();
+            services.AddTransient<UnitOfWorkMiddleware>();
 
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             string serviceName = configuration.GetSection("FILE:SERVICE").Value;

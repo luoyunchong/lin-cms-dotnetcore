@@ -4,9 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FreeSql;
-using LinCms.Application.Blog.Classifies;
-using LinCms.Application.Blog.Tags;
-using LinCms.Application.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Application.Contracts.Blog.Classifys;
@@ -22,9 +19,10 @@ using LinCms.Core.Security;
 
 namespace LinCms.Application.Blog.Articles
 {
-    public class ArticleAppService : IArticleService
+    public class ArticleService : IArticleService
     {
         private readonly IAuditBaseRepository<Article> _articleRepository;
+        private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
         private readonly IAuditBaseRepository<Comment> _commentBaseRepository;
         private readonly IBaseRepository<TagArticle> _tagArticleRepository;
@@ -34,15 +32,16 @@ namespace LinCms.Application.Blog.Articles
         private readonly ITagService _tagService;
         private readonly IUserSubscribeService _userSubscribeService;
 
-        public ArticleAppService(
-                IAuditBaseRepository<Article> articleRepository,
-                IBaseRepository<TagArticle> tagArticleRepository,
-                IMapper mapper,
-                ICurrentUser currentUser,
-                IAuditBaseRepository<UserLike> userLikeRepository,
-                IAuditBaseRepository<Comment> commentBaseRepository,
-                IClassifyService classifyService,
-                ITagService tagService, IUserSubscribeService userSubscribeService)
+        public ArticleService(
+            IAuditBaseRepository<Article> articleRepository,
+            IBaseRepository<TagArticle> tagArticleRepository,
+            IMapper mapper,
+            ICurrentUser currentUser,
+            IAuditBaseRepository<UserLike> userLikeRepository,
+            IAuditBaseRepository<Comment> commentBaseRepository,
+            IClassifyService classifyService,
+            ITagService tagService, IUserSubscribeService userSubscribeService,
+            IAuditBaseRepository<ArticleDraft> articleDraftRepository)
         {
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
@@ -54,6 +53,7 @@ namespace LinCms.Application.Blog.Articles
             _classifyService = classifyService;
             _tagService = tagService;
             _userSubscribeService = userSubscribeService;
+            _articleDraftRepository = articleDraftRepository;
         }
 
         public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)
@@ -79,8 +79,9 @@ namespace LinCms.Application.Blog.Articles
                 .WhereIf(searchDto.Sort == "WEEKLY_HOTTEST", r => r.CreateTime > weeklyDays)
                 .WhereIf(searchDto.Sort == "MONTHLY_HOTTEST", r => r.CreateTime > monthDays)
                 .OrderByDescending(
-                    searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" || searchDto.Sort == "MONTHLY_HOTTEST" ||
-                            searchDto.Sort == "HOTTEST",
+                    searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" ||
+                    searchDto.Sort == "MONTHLY_HOTTEST" ||
+                    searchDto.Sort == "HOTTEST",
                     r => (r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30))
                 .OrderByDescending(r => r.CreateTime).ToPagerListAsync(searchDto, out long totalCount);
 
@@ -99,24 +100,20 @@ namespace LinCms.Application.Blog.Articles
             return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
         }
 
-
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
             if (article.IsNotNull())
             {
-                _classifyService.UpdateArticleCount(article.ClassifyId, 1);
+                await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
                 article.Tags?
-                    .ForEach(u =>
-                    {
-                        _tagService.UpdateArticleCount(u.Id, -1);
-                    });
+                    .ForEach(u => { _tagService.UpdateArticleCount(u.Id, -1); });
             }
 
-            _articleRepository.Delete(new Article { Id = id });
-            _tagArticleRepository.Delete(r => r.ArticleId == id);
-            _commentBaseRepository.Delete(r => r.SubjectId == id);
-            _userLikeRepository.Delete(r => r.SubjectId == id);
+            await _articleRepository.DeleteAsync(new Article {Id = id});
+            await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
+            await _commentBaseRepository.DeleteAsync(r => r.SubjectId == id);
+            await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
         }
 
         public async Task<ArticleDto> GetAsync(Guid id)
@@ -143,15 +140,17 @@ namespace LinCms.Application.Blog.Articles
                 articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);
             }
 
-            articleDto.IsLiked = await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
-            articleDto.IsComment = await _commentBaseRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
+            articleDto.IsLiked =
+                await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
+            articleDto.IsComment =
+                await _commentBaseRepository.Select.AnyAsync(
+                    r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
             articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(article.Thumbnail);
 
             return articleDto;
         }
 
-        [UnitOfWork]
-        public async Task CreateAsync(CreateUpdateArticleDto createArticle)
+        public async Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle)
         {
             Article article = _mapper.Map<Article>(createArticle);
             article.Archive = DateTime.Now.ToString("yyy年MM月");
@@ -168,56 +167,76 @@ namespace LinCms.Application.Blog.Articles
                 _tagService.UpdateArticleCount(articleTagId, 1);
             }
 
+            ArticleDraft articleDraft = new ArticleDraft()
+            {
+                Content = createArticle.Content,
+                Editor = createArticle.Editor,
+                Title = createArticle.Title
+            };
+
             await _articleRepository.InsertAsync(article);
 
-            _classifyService.UpdateArticleCount(createArticle.ClassifyId, 1);
-
+            articleDraft.Id = article.Id;
+            await _articleDraftRepository.InsertAsync(articleDraft);
+            await _classifyService.UpdateArticleCountAsync(createArticle.ClassifyId, 1);
+            return article.Id;
         }
 
-        [UnitOfWork]
-        public async Task UpdateAsync(CreateUpdateArticleDto updateArticleDto, Article article)
+        public async Task<Article> UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
+            Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+            if (article.CreateUserId != _currentUser.Id)
+            {
+                throw new LinCmsException("您无权修改他人的随笔");
+            }
+
+            if (article == null)
+            {
+                throw new LinCmsException("没有找到相关随笔");
+            }
+
+            _mapper.Map(updateArticleDto, article);
             article.WordNumber = article.Content.Length;
-            article.ReadingTime = article.Content.Length / 800;
+            article.ReadingTime = article.Content.Length / 400;
 
             await _articleRepository.UpdateAsync(article);
-
-            List<Guid> tagIds = await _tagArticleRepository.Select
-                                .Where(r => r.ArticleId == article.Id)
-                                .ToListAsync(r => r.TagId);
-
-            tagIds.ForEach(tagId =>
-            {
-                _tagService.UpdateArticleCount(tagId, -1);
-            });
-            _tagArticleRepository.Delete(r => r.ArticleId == article.Id);
-
-            List<TagArticle> tagArticles = new List<TagArticle>();
-            updateArticleDto.TagIds.ForEach(tagId =>
-                {
-                    tagArticles.Add(new TagArticle()
-                    {
-                        ArticleId = article.Id,
-                        TagId = tagId
-                    });
-                    _tagService.UpdateArticleCount(tagId, 1);
-                });
-            await _tagArticleRepository.InsertAsync(tagArticles);
-
-            if (article.ClassifyId != updateArticleDto.ClassifyId)
-            {
-                _classifyService.UpdateArticleCount(article.ClassifyId, -1);
-                _classifyService.UpdateArticleCount(updateArticleDto.ClassifyId, 1);
-            }
+            ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
+            await _articleDraftRepository.UpdateAsync(articleDraft);
+            
+            return article;
         }
 
 
-        public PagedResultDto<ArticleListDto> GetSubscribeArticle(PageDto pageDto)
+        public async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
+        {
+            List<Guid> tagIds =
+                await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
+
+            tagIds.ForEach(tagId => { _tagService.UpdateArticleCount(tagId, -1); });
+
+            _tagArticleRepository.Delete(r => r.ArticleId == id);
+
+            List<TagArticle> tagArticles = new List<TagArticle>();
+
+            updateArticleDto.TagIds.ForEach(tagId =>
+            {
+                tagArticles.Add(new TagArticle()
+                {
+                    ArticleId = id,
+                    TagId = tagId
+                });
+                _tagService.UpdateArticleCount(tagId, 1);
+            });
+            await _tagArticleRepository.InsertAsync(tagArticles);
+        }
+
+
+        public async Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto)
         {
             long userId = _currentUser.Id ?? 0;
-            List<long> subscribeUserIds = _userSubscribeService.GetSubscribeUserId(userId);
+            List<long> subscribeUserIds = await _userSubscribeService.GetSubscribeUserIdAsync(userId);
 
-            var articles = _articleRepository
+            var articles = await _articleRepository
                 .Select
                 .Include(r => r.Classify)
                 .Include(r => r.UserInfo)
@@ -227,7 +246,7 @@ namespace LinCms.Application.Blog.Articles
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
                 .WhereIf(subscribeUserIds.Count > 0, r => subscribeUserIds.Contains(r.CreateUserId))
                 .WhereIf(subscribeUserIds.Count == 0, r => false)
-                .OrderByDescending(r => r.CreateTime).ToPagerList(pageDto, out long totalCount);
+                .OrderByDescending(r => r.CreateTime).ToPagerListAsync(pageDto, out long totalCount);
 
             List<ArticleListDto> articleDtos = articles
                 .Select(r =>

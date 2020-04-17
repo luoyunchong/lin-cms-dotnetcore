@@ -47,7 +47,7 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// 得到当前用户上下文
         /// </summary>
         /// <returns></returns>
-        LinUser GetCurrentUser();
+        Task<LinUser> GetCurrentUserAsync();
 
         Task<UserInformation> GetInformationAsync(long userId);
 

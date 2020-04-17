@@ -11,11 +11,11 @@ namespace LinCms.Web.Uow
 {
     public class UowActionFilter : IAsyncActionFilter, ITransientDependency
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IFreeSql freeSql;
 
-        public UowActionFilter(IUnitOfWork unitOfWork)
+        public UowActionFilter(IFreeSql freeSql)
         {
-            this.unitOfWork = unitOfWork;
+            this.freeSql = freeSql;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -34,9 +34,10 @@ namespace LinCms.Web.Uow
                 await next();
                 return;
             }
-            using (var uow = unitOfWork.GetOrBeginTransaction())
+
+            using (var uow = freeSql.CreateUnitOfWork())
             {
-                unitOfWork.Open();
+                uow.GetOrBeginTransaction();
                 var result = await next();
                 if (Succeed(result))
                 {
