@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
+using JetBrains.Annotations;
 using LinCms.Core.Aop;
 
 namespace LinCms.Web.Uow
@@ -53,6 +54,31 @@ namespace LinCms.Web.Uow
             return null;
         }
 
+        public static bool IsUnitOfWorkMethod([NotNull] MethodInfo methodInfo, [CanBeNull] out UnitOfWorkAttribute unitOfWorkAttribute)
+        {
+
+            //Method declaration
+            var attrs = methodInfo.GetCustomAttributes(true).OfType<UnitOfWorkAttribute>().ToArray();
+            if (attrs.Any())
+            {
+                unitOfWorkAttribute = attrs.First();
+                return !unitOfWorkAttribute.IsDisabled;
+            }
+
+            if (methodInfo.DeclaringType != null)
+            {
+                //Class declaration
+                attrs = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(true).OfType<UnitOfWorkAttribute>().ToArray();
+                if (attrs.Any())
+                {
+                    unitOfWorkAttribute = attrs.First();
+                    return !unitOfWorkAttribute.IsDisabled;
+                }
+            }
+
+            unitOfWorkAttribute = null;
+            return false;
+        }
         private static bool AnyMethodHasUnitOfWorkAttribute(TypeInfo implementationType)
         {
             return implementationType

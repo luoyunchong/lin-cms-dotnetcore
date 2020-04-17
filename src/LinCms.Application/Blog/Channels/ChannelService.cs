@@ -30,9 +30,9 @@ namespace LinCms.Application.Blog.Channels
             _channelTagRepository = channelTagRepository;
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            _channelRepository.Delete(new Channel { Id = id });
+            await _channelRepository.DeleteAsync(new Channel { Id = id });
         }
 
         public async Task<PagedResultDto<ChannelDto>> GetListAsync(PageDto pageDto)

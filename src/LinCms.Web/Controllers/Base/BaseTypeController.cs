@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Base.BaseTypes;
 using LinCms.Application.Contracts.Base.BaseTypes.Dtos;
@@ -16,76 +17,45 @@ namespace LinCms.Web.Controllers.Base
     [ApiController]
     public class BaseTypeController : ControllerBase
     {
-        private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
-        private readonly IMapper _mapper;
-        public BaseTypeController(IMapper mapper, IAuditBaseRepository<BaseType> baseTypeRepository)
+        private readonly IBaseTypeService _baseTypeService;
+        public BaseTypeController(IBaseTypeService baseTypeService)
         {
-            _mapper = mapper;
-            _baseTypeRepository = baseTypeRepository;
+            _baseTypeService = baseTypeService;
         }
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除字典类别", "字典类别")]
-        public UnifyResponseDto DeleteBaseType(int id)
+        public async Task<UnifyResponseDto> DeleteAsync(int id)
         {
-            _baseTypeRepository.Delete(new BaseType { Id = id });
+            await _baseTypeService.DeleteAsync(id);
             return UnifyResponseDto.Success();
         }
 
         [HttpGet]
-        public List<BaseTypeDto> Get()
+        public async Task<List<BaseTypeDto>> GetListAsync()
         {
-            List<BaseTypeDto> baseTypes = _baseTypeRepository.Select
-                .OrderBy(r => r.SortCode)
-                .OrderBy(r => r.Id)
-                .ToList()
-                .Select(r => _mapper.Map<BaseTypeDto>(r)).ToList();
-
-            return baseTypes;
+            return await _baseTypeService.GetListAsync();
         }
 
         [HttpGet("{id}")]
-        public BaseTypeDto Get(int id)
+        public async Task<BaseTypeDto> GetAsync(int id)
         {
-            BaseType baseType = _baseTypeRepository.Select.Where(a => a.Id == id).ToOne();
-            return _mapper.Map<BaseTypeDto>(baseType);
+            return await _baseTypeService.GetAsync(id);
         }
 
         [LinCmsAuthorize("新增字典类别", "字典类别")]
         [HttpPost]
-        public UnifyResponseDto Create([FromBody] CreateUpdateBaseTypeDto createBaseType)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBaseTypeDto createBaseType)
         {
-            bool exist = _baseTypeRepository.Select.Any(r => r.TypeCode == createBaseType.TypeCode);
-            if (exist)
-            {
-                throw new LinCmsException($"类别-编码[{createBaseType.TypeCode}]已存在");
-            }
-
-            BaseType baseType = _mapper.Map<BaseType>(createBaseType);
-            _baseTypeRepository.Insert(baseType);
+             await _baseTypeService.CreateAsync(createBaseType);
             return UnifyResponseDto.Success("新建类别成功");
         }
 
         [LinCmsAuthorize("编辑字典类别", "字典类别")]
         [HttpPut("{id}")]
-        public UnifyResponseDto Update(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
+        public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBaseTypeDto updateBaseType)
         {
-            BaseType baseType = _baseTypeRepository.Select.Where(r => r.Id == id).ToOne();
-            if (baseType == null)
-            {
-                throw new LinCmsException("该数据不存在");
-            }
-
-            bool exist = _baseTypeRepository.Select.Any(r => r.TypeCode == updateBaseType.TypeCode && r.Id != id);
-            if (exist)
-            {
-                throw new LinCmsException($"基础类别-编码[{updateBaseType.TypeCode}]已存在");
-            }
-
-            _mapper.Map(updateBaseType, baseType);
-
-            _baseTypeRepository.Update(baseType);
-
+            await _baseTypeService.UpdateAsync(id,updateBaseType);
             return UnifyResponseDto.Success("更新类别成功");
         }
     }
