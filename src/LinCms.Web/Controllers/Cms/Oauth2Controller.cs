@@ -78,7 +78,7 @@ namespace LinCms.Web.Controllers.Cms
                     break;
 
                 case LinUserIdentity.QQ:
-
+                    id = await _userCommunityService.SaveQQAsync(authenticateResult.Principal, openIdClaim.Value);
                     break;
                 case LinUserIdentity.WeiXin:
 
