@@ -45,7 +45,17 @@ namespace LinCms.Core.Middleware
                     _logger.LogError(ex, "系统异常信息");
                     if (_environment.IsDevelopment())
                     {
-                        string errorMsg = $"{(ex.InnerException != null ? ex.InnerException.Message : ex.Message)}\n{ex.StackTrace}";
+                        string errorMsg = "异常信息：";
+
+                        void ReadException(Exception ex)
+                        {
+                            errorMsg += $"{ex.Message} | {ex.StackTrace}";
+                            if (ex.InnerException != null)
+                            {
+                                ReadException(ex.InnerException);
+                            }
+                        }
+                        ReadException(ex);
                         await JsonHandle(context, errorMsg, ErrorCode.UnknownError, 500);
                     }
                     else
