@@ -27,6 +27,8 @@ steps:
       sed -i 's/{ConnectionStrings.CsRedis}/$(ConnectionStrings.CsRedis)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{Authentication.GitHub.ClientId}/$(Authentication.GitHub.ClientId)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{Authentication.GitHub.ClientSecret}/$(Authentication.GitHub.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{Authentication.QQ.ClientId}/$(Authentication.QQ.ClientId)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{Authentication.QQ.ClientSecret}/$(Authentication.QQ.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{RabbitMQ.UserName}/$(RabbitMQ.UserName)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{RabbitMQ.Password}/$(RabbitMQ.Password)/g' src/LinCms.Web/appsettings.Production.json
       echo command executed
