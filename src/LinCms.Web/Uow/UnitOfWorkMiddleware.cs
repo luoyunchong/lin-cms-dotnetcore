@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Web.Middleware

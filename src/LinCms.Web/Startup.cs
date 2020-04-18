@@ -191,6 +191,11 @@ namespace LinCms.Web
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.AvatarUrl, "avatar_url");
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
+                })
+                .AddQQ(options =>
+                {
+                    options.ClientId = Configuration["Authentication:QQ:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:QQ:ClientSecret"];
                 });
             #endregion
 
