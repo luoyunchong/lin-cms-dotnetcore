@@ -6,7 +6,7 @@ using LinCms.Core.Entities.Blog;
 
 namespace LinCms.Application.Blog.UserSubscribes
 {
-    public class UserSubscribeService : IUserSubscribeService
+    public class UserSubscribeService : Contracts.Blog.UserSubscribes.IUserLikeService
     {
         private readonly BaseRepository<UserSubscribe> _userSubscribeRepository;
         public UserSubscribeService(BaseRepository<UserSubscribe> userSubscribeRepository)

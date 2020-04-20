@@ -27,14 +27,14 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除图书", "图书")]
-        public UnifyResponseDto DeleteBook(int id)
+        public async Task<UnifyResponseDto> DeleteAsync(int id)
         {
-            _bookService.DeleteAsync(id);
+            await _bookService.DeleteAsync(id);
             return UnifyResponseDto.Success();
         }
 
         [HttpGet]
-        public async Task<PagedResultDto<BookDto>> Get([FromQuery] PageDto pageDto)
+        public async Task<PagedResultDto<BookDto>> GetListAsync([FromQuery] PageDto pageDto)
         {
             return await _bookService.GetListAsync(pageDto);
         }

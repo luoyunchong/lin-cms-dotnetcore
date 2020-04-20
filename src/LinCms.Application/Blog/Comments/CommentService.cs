@@ -1,17 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Core.Entities.Blog;
+using LinCms.Core.Exceptions;
 using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.Blog.Comments
 {
     public class CommentService : ICommentService
     {
-        private readonly IAuditBaseRepository<Comment> _commentAuditBaseRepository;
+        private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly IAuditBaseRepository<Article> _articleRepository;
-        public CommentService(IAuditBaseRepository<Comment> commentAuditBaseRepository, IAuditBaseRepository<Article> articleRepository)
+        public CommentService(IAuditBaseRepository<Comment> commentRepository, IAuditBaseRepository<Article> articleRepository)
         {
-            _commentAuditBaseRepository = commentAuditBaseRepository;
+            _commentRepository = commentRepository;
             _articleRepository = articleRepository;
         }
         /// <summary>
@@ -24,14 +26,14 @@ namespace LinCms.Application.Blog.Comments
             //如果是根评论，删除所有的子评论
             if (!comment.RootCommentId.HasValue)
             {
-                affrows += await _commentAuditBaseRepository.DeleteAsync(r => r.RootCommentId == comment.Id);
+                affrows += await _commentRepository.DeleteAsync(r => r.RootCommentId == comment.Id);
             }
             else
             {
-                await _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount - 1).Where(r => r.Id == comment.RootCommentId).ExecuteAffrowsAsync();
+                await _commentRepository.UpdateDiy.Set(r => r.ChildsCount - 1).Where(r => r.Id == comment.RootCommentId).ExecuteAffrowsAsync();
             }
 
-            affrows += await _commentAuditBaseRepository.DeleteAsync(new Comment { Id = comment.Id });
+            affrows += await _commentRepository.DeleteAsync(new Comment { Id = comment.Id });
 
             switch (comment.SubjectType)
             {
@@ -39,6 +41,25 @@ namespace LinCms.Application.Blog.Comments
                     await _articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows).Where(r => r.Id == comment.SubjectId).ExecuteAffrowsAsync();
                     break;
             }
+        }
+
+        public async Task UpdateLikeQuantity(Guid subjectId, int likesQuantity)
+        {
+            Comment comment = _commentRepository.Select.Where(r => r.Id == subjectId).ToOne();
+            if (comment.IsAudit == false)
+            {
+                throw new LinCmsException("该评论因违规被拉黑");
+            }
+            if (likesQuantity < 0)
+            {
+                if (comment.LikesQuantity < -likesQuantity)
+                {
+                    return;
+                }
+            }
+            comment.LikesQuantity += likesQuantity;
+            await _commentRepository.UpdateAsync(comment);
+            //_commentRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
     }
 }

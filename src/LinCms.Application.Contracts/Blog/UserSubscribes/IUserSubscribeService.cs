@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace LinCms.Application.Contracts.Blog.UserSubscribes
 {
-    public interface IUserSubscribeService
+    public interface IUserLikeService
     {
         /// <summary>
         /// 得到某用户的关注的用户Id

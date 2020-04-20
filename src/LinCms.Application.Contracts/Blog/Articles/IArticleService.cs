@@ -21,5 +21,7 @@ namespace LinCms.Application.Contracts.Blog.Articles
         Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
 
         Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto);
+
+        Task UpdateLikeQuantity(Guid subjectId, int likesQuantity);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using LinCms.Application.Cms.Admin;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Admins;
@@ -12,6 +14,7 @@ using LinCms.Application.Contracts.Cms.Users.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
@@ -23,12 +26,10 @@ namespace LinCms.Web.Controllers.Cms
     {
         private readonly IUserService _userSevice;
         private readonly IAdminService _adminService;
-        private readonly IMapper _mapper;
-        public AdminController(IUserService userSevice, IAdminService adminService, IMapper mapper)
+        public AdminController(IUserService userSevice, IAdminService adminService)
         {
             _userSevice = userSevice;
             _adminService = adminService;
-            _mapper = mapper;
         }
 
         /// <summary>

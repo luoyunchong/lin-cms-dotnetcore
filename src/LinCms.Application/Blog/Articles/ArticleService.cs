@@ -9,7 +9,6 @@ using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Application.Contracts.Blog.Classifys;
 using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Blog.UserSubscribes;
-using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
@@ -30,7 +29,7 @@ namespace LinCms.Application.Blog.Articles
         private readonly ICurrentUser _currentUser;
         private readonly IClassifyService _classifyService;
         private readonly ITagService _tagService;
-        private readonly IUserSubscribeService _userSubscribeService;
+        private readonly IUserLikeService _userSubscribeService;
 
         public ArticleService(
             IAuditBaseRepository<Article> articleRepository,
@@ -40,7 +39,7 @@ namespace LinCms.Application.Blog.Articles
             IAuditBaseRepository<UserLike> userLikeRepository,
             IAuditBaseRepository<Comment> commentBaseRepository,
             IClassifyService classifyService,
-            ITagService tagService, IUserSubscribeService userSubscribeService,
+            ITagService tagService, IUserLikeService userSubscribeService,
             IAuditBaseRepository<ArticleDraft> articleDraftRepository)
         {
             _articleRepository = articleRepository;
@@ -110,7 +109,7 @@ namespace LinCms.Application.Blog.Articles
                     .ForEach(u => { _tagService.UpdateArticleCount(u.Id, -1); });
             }
 
-            await _articleRepository.DeleteAsync(new Article {Id = id});
+            await _articleRepository.DeleteAsync(new Article { Id = id });
             await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
             await _commentBaseRepository.DeleteAsync(r => r.SubjectId == id);
             await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
@@ -202,7 +201,7 @@ namespace LinCms.Application.Blog.Articles
             await _articleRepository.UpdateAsync(article);
             ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
             await _articleDraftRepository.UpdateAsync(articleDraft);
-            
+
             return article;
         }
 
@@ -259,6 +258,28 @@ namespace LinCms.Application.Blog.Articles
                 .ToList();
 
             return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
+        }
+
+        public async Task UpdateLikeQuantity(Guid subjectId, int likesQuantity)
+        {
+            Article article = await _articleRepository.Where(r => r.Id == subjectId).ToOneAsync();
+            if (article.IsAudit == false)
+            {
+                throw new LinCmsException("该文章因违规被拉黑");
+            }
+
+            if (likesQuantity < 0)
+            {
+                //防止数量一直减，减到小于0
+                if (article.LikesQuantity < -likesQuantity)
+                {
+                    return;
+                }
+            }
+
+            article.LikesQuantity += likesQuantity;
+            await _articleRepository.UpdateAsync(article);
+            //_articleRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
         }
     }
 }
