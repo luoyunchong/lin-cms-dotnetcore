@@ -67,7 +67,7 @@ namespace LinCms.Core.Entities.Blog
         public string Thumbnail { get; set; }
 
         /// <summary>
-        /// 是否审核
+        /// 是否审核（默认为true),为false是代表拉黑
         /// </summary>
         public bool IsAudit { get; set; }
 

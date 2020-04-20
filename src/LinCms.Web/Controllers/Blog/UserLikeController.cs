@@ -14,6 +14,8 @@ using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
+using LinCms.Application.Blog.UserSubscribes;
+using System.Threading.Tasks;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -25,27 +27,24 @@ namespace LinCms.Web.Controllers.Blog
     [Authorize]
     public class UserLikeController : ApiControllerBase
     {
-        private readonly IAuditBaseRepository<Article> _articleAuditBaseRepository;
-        private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
-        private readonly IMapper _mapper;
+        private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly ICurrentUser _currentUser;
         private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly ICapPublisher _capBus;
+        private readonly IUserLikeService _userLikeService;
 
-        public UserLikeController(IMapper mapper,
+        public UserLikeController(
             ICurrentUser currentUser,
-            IAuditBaseRepository<UserLike> userLikeRepository,
-            IAuditBaseRepository<Article> articleAuditBaseRepository,
+            IAuditBaseRepository<Article> articleRepository,
             IAuditBaseRepository<Comment> commentRepository,
             ICapPublisher capBus,
-            IUnitOfWork unitOfWork) : base(unitOfWork)
+            IUnitOfWork unitOfWork, IUserLikeService userLikeService) : base(unitOfWork)
         {
-            _mapper = mapper;
             _currentUser = currentUser;
-            _userLikeRepository = userLikeRepository;
-            _articleAuditBaseRepository = articleAuditBaseRepository;
+            _articleRepository = articleRepository;
             _commentRepository = commentRepository;
             _capBus = capBus;
+            _userLikeService = userLikeService;
         }
 
         /// <summary>
@@ -54,84 +53,22 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
         [HttpPost]
-        public UnifyResponseDto Create([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
+        public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            Expression<Func<UserLike, bool>> predicate = r =>
-                r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == _currentUser.Id;
+            string message = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
 
-            bool exist = _userLikeRepository.Select.Any(predicate);
-            int increaseLikeQuantity = 1;
+            await this.PublishUserLikeNotification(createUpdateUserLike);
 
-            if (exist)
-            {
-                increaseLikeQuantity = -1;
-                _userLikeRepository.Delete(predicate);
-            }
-
-            switch (createUpdateUserLike.SubjectType)
-            {
-                case UserLikeSubjectType.UserLikeArticle:
-                    this.UpdateArticleLike(createUpdateUserLike.SubjectId, increaseLikeQuantity);
-                    break;
-                case UserLikeSubjectType.UserLikeComment:
-                    this.UpdateCommentLike(createUpdateUserLike.SubjectId, increaseLikeQuantity);
-                    break;
-            }
-
-            if (exist)
-            {
-                return UnifyResponseDto.Success("取消点赞成功");
-            }
-  
-            UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
-            _userLikeRepository.Insert(userLike);
-
-            this.PublishUserLikeNotification(createUpdateUserLike);
-
-            return UnifyResponseDto.Success("点赞成功");
+            return UnifyResponseDto.Success(message);
         }
 
-        private void UpdateArticleLike(Guid subjectId, int likesQuantity)
+        /// <summary>
+        /// 根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
+        /// </summary>
+        /// <param name="createUpdateUserLike"></param>
+        /// <returns></returns>
+        private async Task PublishUserLikeNotification(CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            Article article = _articleAuditBaseRepository.Where(r => r.Id == subjectId).ToOne();
-            if (article.IsAudit == false)
-            {
-                throw new LinCmsException("该文章因违规被拉黑");
-            }
-            //防止数量一直减，减到小于0
-            if (likesQuantity < 0)
-            {
-                if (article.LikesQuantity < -likesQuantity)
-                {
-                    return;
-                }
-            }
-
-            _articleAuditBaseRepository
-                .UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
-        }
-
-        private void UpdateCommentLike(Guid subjectId, int likesQuantity)
-        {
-            Comment comment = _commentRepository.Select.Where(r => r.Id == subjectId).ToOne();
-            if (comment.IsAudit == false)
-            {
-                throw new LinCmsException("该评论因违规被拉黑");
-            }
-            //防止数量一直减，减到小于0
-            if (likesQuantity < 0)
-            {
-                if (comment.LikesQuantity < -likesQuantity)
-                {
-                    return;
-                }
-            }
-            _commentRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
-        }
-
-        private void PublishUserLikeNotification(CreateUpdateUserLikeDto createUpdateUserLike)
-        {
-            //根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
             var createNotificationDto = new CreateNotificationDto()
             {
                 UserInfoId = _currentUser.Id ?? 0,
@@ -142,7 +79,7 @@ namespace LinCms.Web.Controllers.Blog
             {
                 case UserLikeSubjectType.UserLikeArticle:
 
-                    Article subjectArticle = _articleAuditBaseRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOne();
+                    Article subjectArticle = await _articleRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
 
                     createNotificationDto.NotificationRespUserId = subjectArticle.CreateUserId;
                     createNotificationDto.NotificationType = NotificationType.UserLikeArticle;
@@ -151,7 +88,7 @@ namespace LinCms.Web.Controllers.Blog
 
                 case UserLikeSubjectType.UserLikeComment:
 
-                    Comment subjectComment = _commentRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOne();
+                    Comment subjectComment = await _commentRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
 
                     createNotificationDto.NotificationRespUserId = subjectComment.CreateUserId;
                     createNotificationDto.NotificationType = NotificationType.UserLikeArticleComment;

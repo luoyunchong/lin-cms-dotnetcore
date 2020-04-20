@@ -174,9 +174,16 @@
              用户点赞随笔
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.Create(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.CreateOrCancelAsync(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto)">
             <summary>
             用户点赞/取消点赞文章、评论 
+            </summary>
+            <param name="createUpdateUserLike"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.PublishUserLikeNotification(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto)">
+            <summary>
+            根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
             </summary>
             <param name="createUpdateUserLike"></param>
             <returns></returns>

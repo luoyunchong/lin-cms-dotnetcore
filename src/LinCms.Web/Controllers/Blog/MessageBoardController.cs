@@ -29,18 +29,10 @@ namespace LinCms.Web.Controllers.Blog
     [ApiController]
     public class MessageBoardController : ControllerBase
     {
-        private readonly IAuditBaseRepository<MessageBoard> _messageBoardRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserService _userService;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
-        public MessageBoardController(IAuditBaseRepository<MessageBoard> messageBoardRepository, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUserService userService, ICurrentUser currentUser)
+        private readonly IMessageBoardService _messageBoardService;
+        public MessageBoardController(IMessageBoardService messageBoardService)
         {
-            _messageBoardRepository = messageBoardRepository;
-            _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
-            _userService = userService;
-            _currentUser = currentUser;
+            _messageBoardService = messageBoardService;
         }
 
         /// <summary>
@@ -51,28 +43,10 @@ namespace LinCms.Web.Controllers.Blog
         [HttpGet]
         public PagedResultDto<MessageBoardDto> Get([FromQuery]PageDto pageDto)
         {
-            List<MessageBoardDto> entitiesBoardDtos = _messageBoardRepository
-                .Select
-                .OrderByDescending(r=>r.CreateTime)
-                .ToPagerList(pageDto, out long totalCount)
-                .Select(r => _mapper.Map<MessageBoardDto>(r)).ToList();
-
-            return new PagedResultDto<MessageBoardDto>(entitiesBoardDtos, totalCount);
+          return  _messageBoardService.GetList(pageDto);
         }
 
 
-        private string GetIp()
-        {
-            string ip = HttpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
-
-            if (string.IsNullOrEmpty(ip))
-            {
-
-                ip = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-
-            }
-            return ip;
-        }
 
         /// <summary>
         /// 用户留言，无须登录
@@ -84,29 +58,7 @@ namespace LinCms.Web.Controllers.Blog
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateMessageBoardDto createMessageBoardDto)
         {
-            MessageBoard messageBoard = _mapper.Map<MessageBoard>(createMessageBoardDto);
-
-            messageBoard.Ip = this.GetIp();
-            messageBoard.Agent = Request.Headers["User-agent"].ToString();
-            messageBoard.UserHost = Dns.GetHostName();
-            messageBoard.System = LinCmsUtils.GetOsNameByUserAgent(messageBoard.Agent);
-            if (messageBoard.Ip.IsNotNullOrEmpty())
-            {
-                IpQueryResult ipQueryResult = LinCmsUtils.IpQueryCity(messageBoard.Ip);
-                messageBoard.GeoPosition = ipQueryResult.errno == 0 ? ipQueryResult.data : ipQueryResult.errmsg;
-            }
-
-            LinUser linUser =await _userService.GetCurrentUserAsync();
-            if (linUser == null)
-            {
-                messageBoard.Avatar = "/assets/user/" + new Random().Next(1, 360) + ".png";
-            }
-            else
-            {
-                messageBoard.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
-            }
-
-            _messageBoardRepository.Insert(messageBoard);
+            await _messageBoardService.CreateAsync(createMessageBoardDto);
             return UnifyResponseDto.Success("留言成功");
         }
 
@@ -118,16 +70,9 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [LinCmsAuthorize("审核留言", "留言板")]
         [HttpPut("{id}")]
-        public UnifyResponseDto UpdateAsync(Guid id, bool isAudit)
+        public async Task<UnifyResponseDto> UpdateAsync(Guid id, bool isAudit)
         {
-            MessageBoard messageBoard = _messageBoardRepository.Select.Where(r => r.Id == id).ToOne();
-            if (messageBoard == null)
-            {
-                throw new LinCmsException("没有找到相关留言");
-            }
-
-            messageBoard.IsAudit = isAudit;
-            _messageBoardRepository.UpdateAsync(messageBoard);
+            await _messageBoardService.UpdateAsync(id, isAudit);
             return UnifyResponseDto.Success();
         }
 
