@@ -3,7 +3,7 @@ using LinCms.Application.Contracts.Blog.ArticleDrafts.Dtos;
 using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Core.Entities.Blog;
 
-namespace LinCms.Application.AutoMapper.Blog
+namespace LinCms.Application.Blog.Articles
 {
     public class ArticleProfile : Profile
     {
