@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FreeSql.DataAnnotations;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
+using LinCms.Core.Entities;
 using LinCms.Web;
 using LinCms.Web.Controllers.Cms;
 using LinCms.Web.Data;
@@ -158,7 +160,7 @@ namespace LinCms.Test
 
             dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
 
-            string jsonSerializeObject =JsonConvert.SerializeObject(obj);
+            string jsonSerializeObject = JsonConvert.SerializeObject(obj);
 
         }
 
@@ -166,7 +168,23 @@ namespace LinCms.Test
         [Fact]
         public void Test()
         {
-            var assem = AppDomain.CurrentDomain.GetAssemblies().Where(r=>r.FullName.Contains("LinCms.")).ToList();
+            var assem = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToList();
+        }
+
+        [Fact]
+        public void RelfexGetCustomAttributes()
+        {
+            Type[] tableAssembies = Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes().Where(o =>
+            {
+                foreach (Attribute a in Attribute.GetCustomAttributes(o, true))
+                {
+                    if (a is TableAttribute)
+                        return true;
+                }
+                return false;
+
+            }).ToArray();
+
         }
     }
 }

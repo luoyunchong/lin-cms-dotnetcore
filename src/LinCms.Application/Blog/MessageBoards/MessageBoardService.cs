@@ -40,12 +40,12 @@ namespace LinCms.Application.Blog.MessageBoards
             _currentUser = currentUser;
         }
 
-        public PagedResultDto<MessageBoardDto> GetList(PageDto pageDto)
+        public async Task<PagedResultDto<MessageBoardDto>> GetListAsync(PageDto pageDto)
         {
-            List<MessageBoardDto> entitiesBoardDtos = _messageBoardRepository
+            List<MessageBoardDto> entitiesBoardDtos =(await _messageBoardRepository
                 .Select
                 .OrderByDescending(r => r.CreateTime)
-                .ToPagerList(pageDto, out long totalCount)
+                .ToPagerListAsync(pageDto, out long totalCount))
                 .Select(r => _mapper.Map<MessageBoardDto>(r)).ToList();
 
             return new PagedResultDto<MessageBoardDto>(entitiesBoardDtos, totalCount);

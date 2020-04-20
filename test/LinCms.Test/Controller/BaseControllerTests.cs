@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using IdentityModel.Client;
@@ -20,30 +23,24 @@ namespace LinCms.Test.Controller
     public abstract class BaseControllerTests:BaseLinCmsTest
     {
         private readonly IConfiguration _configuration;
+        protected TestServer IdentityServer { get; }
+        protected HttpClient IdentityClient { get; }
         protected BaseControllerTests() : base()
         {
             _configuration = GetService<IConfiguration>();
            
-
             var builder = this.CreateHostBuilder(); ;
-            var host = builder.Build();
-            host.Start();
-
+            IdentityServer = new TestServer(builder);
+            IdentityServer.BaseAddress = new Uri("https://localhost:5003");
+            IdentityClient = IdentityServer.CreateClient();
         }
 
-        private IHostBuilder CreateHostBuilder()
+        private IWebHostBuilder CreateHostBuilder()
         {
-            return Host.CreateDefaultBuilder()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<LinCms.IdentityServer4.Startup>().UseEnvironment("Development");
-                    webBuilder.UseTestServer();
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
-                });
+            return  WebHost.CreateDefaultBuilder()
+                            .UseEnvironment("Development")
+                            // .UseUrls("https://*:5003")
+                            .UseStartup<LinCms.IdentityServer4.Startup>(); 
         }
 
         public async Task HttpClientResourePassword()
@@ -52,7 +49,7 @@ namespace LinCms.Test.Controller
             if (disco.IsError)
             {
                 Console.WriteLine(disco.Error);
-                return;
+                throw  new Exception(disco.Error);
             }
 
             TokenResponse response = await Client.RequestTokenAsync(new PasswordTokenRequest
@@ -76,6 +73,22 @@ namespace LinCms.Test.Controller
                 throw new LinCmsException(response.Json.TryGetValue("message").ToString());
             }
             Client.SetBearerToken(response.AccessToken);
+        }
+        
+        public  string ToParams( object source)
+        {
+            var buff = new StringBuilder(string.Empty);
+            if (source == null)
+                throw new ArgumentNullException("source", "Unable to convert object to a dictionary. The source object is null.");
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(source))
+            {
+                object value = property.GetValue(source);
+                if (value != null)
+                {
+                     buff.Append(WebUtility.UrlEncode(property.Name) + "=" + WebUtility.UrlEncode(value + "") + "&");
+                }
+            }
+            return buff.ToString().Trim('&');
         }
     }
 }
