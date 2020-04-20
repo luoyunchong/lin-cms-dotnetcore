@@ -41,19 +41,16 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="pageDto"></param>
         /// <returns></returns>
         [HttpGet]
-        public PagedResultDto<MessageBoardDto> Get([FromQuery]PageDto pageDto)
+        public async Task<PagedResultDto<MessageBoardDto>> GetListAsync([FromQuery]PageDto pageDto)
         {
-          return  _messageBoardService.GetList(pageDto);
+          return await _messageBoardService.GetListAsync(pageDto);
         }
-
-
 
         /// <summary>
         /// 用户留言，无须登录
         /// </summary>
         /// <param name="createMessageBoardDto"></param>
         /// <returns></returns>
-
         [AllowAnonymous]
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateMessageBoardDto createMessageBoardDto)

@@ -21,7 +21,7 @@ namespace LinCms.Application.Contracts.Blog.Tags
         /// </summary>
         /// <param name="tagId"></param>
         /// <returns></returns>
-        bool IsSubscribe(Guid tagId);
+        Task<bool> IsSubscribeAsync(Guid tagId);
 
         /// <summary>
         /// 得到某个用户关注的标签

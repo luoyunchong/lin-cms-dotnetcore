@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -88,9 +89,11 @@ namespace LinCms.Web.Configs
 
             Expression<Func<IDeleteAduitEntity, bool>> where = a => a.IsDeleted == false;
             fsql.GlobalFilter.Apply("IsDeleted", where);
-
+            //在运行时直接生成表结构
+            fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
             services.AddFreeRepository();
         }
+
         #endregion
 
         public static void AddCsRedisCore(this IServiceCollection services)
@@ -119,6 +122,7 @@ namespace LinCms.Web.Configs
             if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FILE:SERVICE未配置");
             if (serviceName == LinFile.LocalFileService)
             {
+                
                 services.AddTransient<IFileService, LocalFileService>();
             }
             else

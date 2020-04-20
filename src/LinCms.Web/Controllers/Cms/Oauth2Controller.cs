@@ -108,7 +108,7 @@ namespace LinCms.Web.Controllers.Cms
 
             claims.AddRange(authClaims);
             string token = this.CreateToken(claims);
-            return Redirect($"{redirectUrl}?token={token}");
+            return Redirect($"{redirectUrl}?token={token}#login-result");
         }
 
 

@@ -6,7 +6,7 @@ namespace LinCms.Application.Contracts.Blog.MessageBoards
 {
     public interface IMessageBoardService
     {
-        PagedResultDto<MessageBoardDto> GetList(PageDto pageDto);
+        Task<PagedResultDto<MessageBoardDto>> GetListAsync(PageDto pageDto);
 
         Task CreateAsync(CreateMessageBoardDto createMessageBoardDto);
 

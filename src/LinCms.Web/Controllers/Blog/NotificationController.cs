@@ -21,9 +21,9 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpGet]
-        public PagedResultDto<NotificationDto> Get([FromQuery] NotificationSearchDto pageDto)
+        public async Task<PagedResultDto<NotificationDto>> GetListAsync([FromQuery] NotificationSearchDto pageDto)
         {
-            return _notificationService.Get(pageDto);
+            return await _notificationService.GetListAsync(pageDto);
         }
 
         [NonAction]
@@ -35,9 +35,9 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpPut("{id}")]
-        public void SetNotificationRead(Guid id)
+        public async Task SetNotificationReadAsync(Guid id)
         {
-            _notificationService.SetNotificationRead(id);
+            await _notificationService.SetNotificationReadAsync(id);
         }
     }
 }

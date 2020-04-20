@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -152,7 +153,7 @@ namespace LinCms.Web.Utils
                 Children = r.Select(u => u.Name).ToList()
             }).ToList();
 
-            List<IDictionary<string, object>> list=new List<IDictionary<string, object>>();
+            List<IDictionary<string, object>> list = new List<IDictionary<string, object>>();
 
             foreach (var groupAuth in groupAuths)
             {
@@ -171,6 +172,25 @@ namespace LinCms.Web.Utils
             }
 
             return list;
+        }
+
+        /// <summary>
+        /// 扫描 IEntity类所在程序集，反射得到所有类上有特性标签为TableAttribute
+        /// </summary>
+        /// <returns></returns>
+        public static Type[] GetEntityTypes(Type type)
+        {
+            Type[] tableAssembies = Assembly.GetAssembly(type).GetExportedTypes().Where(o =>
+            {
+                foreach (Attribute a in Attribute.GetCustomAttributes(o, true))
+                {
+                    if (a is TableAttribute)
+                        return true;
+                }
+                return false;
+
+            }).ToArray();
+            return tableAssembies;
         }
     }
 }

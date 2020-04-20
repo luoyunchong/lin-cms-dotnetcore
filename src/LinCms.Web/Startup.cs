@@ -309,10 +309,10 @@ namespace LinCms.Web
 
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
-                x.FailedThresholdCallback = (type, message) =>
+                x.FailedThresholdCallback = (type) =>
                 {
                     Console.WriteLine(
-                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {message.GetName()}");
+                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
                 };
             });
             services.AddHealthChecks();

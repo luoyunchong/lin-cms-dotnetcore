@@ -38,7 +38,7 @@ namespace LinCms.Application.Base.BaseItems
                     .OrderBy(r => r.Id)
                     .Where(r => r.BaseTypeId == baseTypeId)
                     .ToListAsync())
-                .Select(r => _mapper.Map<BaseItemDto>(r)).ToList();
+                    .Select(r => _mapper.Map<BaseItemDto>(r)).ToList();
 
             return baseItems;
         }

@@ -140,7 +140,7 @@
             留言板
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.MessageBoardController.Get(LinCms.Core.Data.PageDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.MessageBoardController.GetListAsync(LinCms.Core.Data.PageDto)">
             <summary>
             留言板倒序
             </summary>
@@ -461,6 +461,12 @@
                         }
             <summary>
             使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Utils.ReflexHelper.GetEntityTypes(System.Type)">
+            <summary>
+            扫描 IEntity类所在程序集，反射得到所有类上有特性标签为TableAttribute
             </summary>
             <returns></returns>
         </member>

@@ -26,10 +26,9 @@ namespace LinCms.Application.Blog.Notifications
             _mapper = mapper;
             _currentUser = currentUser;
         }
-
-        public PagedResultDto<NotificationDto> Get(NotificationSearchDto pageDto)
+        public async Task<PagedResultDto<NotificationDto>> GetListAsync(NotificationSearchDto pageDto)
         {
-            List<NotificationDto> notification = _notificationRepository.Select
+            List<NotificationDto> notification = (await _notificationRepository.Select
                 .Include(r => r.ArticleEntry)
                 .Include(r => r.CommentEntry)
                 .Include(r => r.UserInfo)
@@ -43,7 +42,7 @@ namespace LinCms.Application.Blog.Notifications
                     r => r.NotificationType == NotificationType.UserLikeUser)
                 .Where(r => r.NotificationRespUserId == _currentUser.Id)
                 .OrderByDescending(r => r.CreateTime)
-                .ToPagerList(pageDto, out long totalCount)
+                .ToPagerListAsync(pageDto, out long totalCount))
                 .Select(r =>
                 {
                     NotificationDto notificationDto = _mapper.Map<NotificationDto>(r);
@@ -65,9 +64,9 @@ namespace LinCms.Application.Blog.Notifications
             _notificationRepository.UnitOfWork.Commit();
         }
 
-        public void SetNotificationRead(Guid id)
+        public async Task SetNotificationReadAsync(Guid id)
         {
-            _notificationRepository.UpdateDiy.Where(r => r.Id == id).Set(r => r.IsRead, true);
+           await _notificationRepository.UpdateDiy.Where(r => r.Id == id).Set(r => r.IsRead, true).ExecuteAffrowsAsync();
         }
     }
 }

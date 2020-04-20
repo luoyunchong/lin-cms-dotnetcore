@@ -7,7 +7,7 @@ namespace LinCms.Application.Contracts.Blog.Notifications
 {
     public interface INotificationService
     {
-        PagedResultDto<NotificationDto> Get(NotificationSearchDto pageDto);
+        Task<PagedResultDto<NotificationDto>> GetListAsync(NotificationSearchDto pageDto);
 
         /// <summary>
         /// 新增一个消息通知
@@ -19,6 +19,6 @@ namespace LinCms.Application.Contracts.Blog.Notifications
         /// 设置消息通知为已读状态
         /// </summary>
         /// <param name="id"></param>
-        void SetNotificationRead(Guid id);
+        Task SetNotificationReadAsync(Guid id);
     }
 }
