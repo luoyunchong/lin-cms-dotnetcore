@@ -45,6 +45,7 @@ namespace LinCms.Test.Controller
                     logging.SetMinimumLevel(LogLevel.Trace);
                 });
         }
+
         public async Task HttpClientResourePassword()
         {
             var disco = await Client.GetDiscoveryDocumentAsync(_configuration["Service:Authority"]);
