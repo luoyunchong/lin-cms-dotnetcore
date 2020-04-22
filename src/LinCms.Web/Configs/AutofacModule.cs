@@ -11,7 +11,6 @@ using LinCms.Core.IRepositories;
 using LinCms.Infrastructure.Repositories;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Middleware;
 using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

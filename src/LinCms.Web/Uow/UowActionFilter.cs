@@ -7,11 +7,11 @@ namespace LinCms.Web.Uow
 {
     public class UowActionFilter : IAsyncActionFilter, ITransientDependency
     {
-        private readonly IFreeSql freeSql;
+        private readonly IUnitOfWorkManager unitOfWorkManager;
 
-        public UowActionFilter(IFreeSql freeSql)
+        public UowActionFilter(IUnitOfWorkManager unitOfWorkManager)
         {
-            this.freeSql = freeSql;
+            this.unitOfWorkManager = unitOfWorkManager;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -22,7 +22,12 @@ namespace LinCms.Web.Uow
                 return;
             }
 
-            var methodInfo = (context.ActionDescriptor as ControllerActionDescriptor).MethodInfo;
+            var methodInfo = (context.ActionDescriptor as ControllerActionDescriptor)?.MethodInfo;
+            if (methodInfo==null)
+            {
+                await next();
+                return;
+            }
             var unitOfWorkAttr = UnitOfWorkHelper.GetUnitOfWorkAttributeOrNull(methodInfo);
 
             if (unitOfWorkAttr?.IsDisabled == true)
@@ -31,14 +36,12 @@ namespace LinCms.Web.Uow
                 return;
             }
 
-            using (var uow = freeSql.CreateUnitOfWork())
+            using var uow = unitOfWorkManager.Begin();
+            uow.GetOrBeginTransaction();
+            var result = await next();
+            if (Succeed(result))
             {
-                uow.GetOrBeginTransaction();
-                var result = await next();
-                if (Succeed(result))
-                {
-                    uow.Commit();
-                }
+                uow.Commit();
             }
         }
 

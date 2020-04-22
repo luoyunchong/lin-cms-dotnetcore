@@ -65,11 +65,8 @@ namespace LinCms.Plugins.Poem.Controllers
                 throw new LinCmsException("没有找到诗词");
             }
 
-            //使用AutoMapper方法简化类与类之间的转换过程
             _mapper.Map(updatePoem, poem);
-
             _poemRepository.Update(poem);
-
             return UnifyResponseDto.Success("更新诗词成功");
         }
     }

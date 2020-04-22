@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using IdentityModel;
 using IdentityModel.Client;
+
 using IdentityServer4.Models;
+
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts.Cms.Account;
+using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
-using LinCms.Application.Contracts.Cms.Account;
-using LinCms.Application.Contracts.Cms.Users;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json.Linq;
 
 namespace LinCms.Web.Controllers.Cms
@@ -31,12 +37,14 @@ namespace LinCms.Web.Controllers.Cms
         private readonly ILogger<AccountController> _logger;
         private readonly IUserService _userSevice;
         private readonly IMapper _mapper;
-        public AccountController(IConfiguration configuration, ILogger<AccountController> logger, IUserService userSevice, IMapper mapper)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public AccountController(IConfiguration configuration, ILogger<AccountController> logger, IUserService userSevice, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
             _logger = logger;
             _userSevice = userSevice;
             _mapper = mapper;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -49,7 +57,7 @@ namespace LinCms.Web.Controllers.Cms
         {
             _logger.LogInformation("login");
 
-            HttpClient client = new HttpClient();
+            HttpClient client = _httpClientFactory.CreateClient();
 
             DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
@@ -78,7 +86,7 @@ namespace LinCms.Web.Controllers.Cms
                 },
                 Scope = _configuration["Service:Name"],
             });
-            client.Dispose();
+            
             if (response.IsError)
             {
                 throw new LinCmsException(response.ErrorDescription);
@@ -107,13 +115,25 @@ namespace LinCms.Web.Controllers.Cms
                 throw new LinCmsException(" 请先登录.", ErrorCode.RefreshTokenError);
             }
 
-            string authority = $"{_configuration["Identity:Protocol"]}://{_configuration["Identity:IP"]}:{_configuration["Identity:Port"]}";
+            HttpClient client = _httpClientFactory.CreateClient();
 
-            HttpClient client = new HttpClient();
+            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _configuration["Service:Authority"],
+                Policy =
+                {
+                    RequireHttps = false
+                }
+            });
+
+            if (disco.IsError)
+            {
+                throw new LinCmsException(disco.Error);
+            }
 
             TokenResponse response = await client.RequestTokenAsync(new TokenRequest
             {
-                Address = authority + "/connect/token",
+                Address = disco.TokenEndpoint,
                 GrantType = OidcConstants.GrantTypes.RefreshToken,
 
                 ClientId = _configuration["Service:ClientId"],

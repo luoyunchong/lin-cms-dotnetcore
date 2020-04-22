@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Poem\Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
     <ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
   </ItemGroup>

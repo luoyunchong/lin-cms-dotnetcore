@@ -212,7 +212,7 @@ namespace LinCms.Infrastructure.Repositories
 
             return await base.DeleteAsync(predicate);
         }
-        public  async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
+        public new async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
         {
             BeforeInsert(entity);
             BeforeUpdate(entity);
