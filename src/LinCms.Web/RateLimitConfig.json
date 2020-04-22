@@ -1,0 +1,26 @@
+﻿{
+  "IpRateLimiting": {
+    //false则全局将应用限制，并且仅应用具有作为端点的规则* 。 true则限制将应用于每个端点，如{HTTP_Verb}{PATH}
+    "EnableEndpointRateLimiting": true,
+    //false则拒绝的API调用不会添加到调用次数计数器上
+    "StackBlockedRequests": false,
+    "RealIpHeader": "X-Real-IP",
+    "ClientIdHeader": "X-ClientId",
+    "HttpStatusCode": 200,
+    "QuotaExceededResponse": {
+      "Content": "{{\"code\":429,\"msg\":\"访问过于频繁，请稍后重试\",\"data\":null}}",
+      "ContentType": "application/json",
+      "StatusCode": 200
+    },
+    "IpWhitelist": [],
+    "EndpointWhitelist": [],
+    "ClientWhitelist": [],
+    "GeneralRules": [
+      {
+        "Endpoint": "*:/cms/test",
+        "Period": "5s",
+        "Limit": 3
+      }
+    ]
+  }
+}

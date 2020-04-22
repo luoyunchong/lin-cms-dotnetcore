@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using LinCms.Web.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -36,7 +37,10 @@ namespace LinCms.Web
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().ConfigureAppConfiguration((host, config) =>
+                    {
+                        config.AddJsonFile($"RateLimitConfig.json", optional: true, reloadOnChange: true);
+                    }); ;
                 })
                 .ConfigureLogging(logging =>
                 {

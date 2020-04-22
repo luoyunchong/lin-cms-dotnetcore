@@ -2,7 +2,7 @@
 using FreeSql;
 using Microsoft.AspNetCore.Http;
 
-namespace LinCms.Web.Middleware
+namespace LinCms.Web.Uow
 {
     /// <summary>
     /// 处理FreeSql中同一个请求处于一个事务，并一同提交

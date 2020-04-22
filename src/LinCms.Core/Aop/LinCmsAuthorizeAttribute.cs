@@ -21,10 +21,12 @@ namespace LinCms.Core.Aop
     {
         public string Permission { get; }
         public string Module { get; }
-
         public LinCmsAuthorizeAttribute()
         {
-
+        }
+        public LinCmsAuthorizeAttribute(string permission, string module, string role) : this(permission, module)
+        {
+            base.Roles = role;
         }
 
         public LinCmsAuthorizeAttribute(string permission, string module)
@@ -44,11 +46,11 @@ namespace LinCms.Core.Aop
             }
 
 
-            if (Permission == null  && Roles == LinGroup.Admin)
+            if (Permission == null && Roles == LinGroup.Admin)
             {
                 ICurrentUser currentUser = (ICurrentUser)context.HttpContext.RequestServices.GetService(typeof(ICurrentUser));
 
-                if (currentUser.IsAdmin!=true)
+                if (currentUser.IsAdmin != true)
                 {
                     HandlerAuthenticationFailed(context, "只有超级管理员可操作");
                     return;
@@ -62,11 +64,11 @@ namespace LinCms.Core.Aop
                 //通过报业务异常，统一返回结果，平均执行速度在500ms以上，直接返回无权限，则除第一次访问慢外，基本在80ms左右。
                 //throw new LinCmsException("权限不够，请联系超级管理员获得权限", ErrorCode.AuthenticationFailed, StatusCodes.Status401Unauthorized);
 
-                HandlerAuthenticationFailed(context,"权限不够，请联系超级管理员获得权限");
+                HandlerAuthenticationFailed(context, "权限不够，请联系超级管理员获得权限");
             }
         }
 
-        public void HandlerAuthenticationFailed(AuthorizationFilterContext context,string errorMsg)
+        public void HandlerAuthenticationFailed(AuthorizationFilterContext context, string errorMsg)
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Result = new JsonResult(

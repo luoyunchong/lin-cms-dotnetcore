@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading;
+using AspNetCoreRateLimit;
 using CSRedis;
 using FreeSql;
 using FreeSql.Internal;
@@ -13,9 +10,8 @@ using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Entities;
 using LinCms.Core.Middleware;
-using LinCms.Core.Security;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Middleware;
+using LinCms.Web.Uow;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -36,9 +32,8 @@ namespace LinCms.Web.Configs
         /// FreeSql
         /// </summary>
         /// <param name="services"></param>
-        public static void AddContext(this IServiceCollection services)
+        public static void AddContext(this IServiceCollection services, IConfiguration configuration)
         {
-            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             IConfigurationSection configurationSection = configuration.GetSection("ConnectionStrings:MySql");
 
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
@@ -116,6 +111,7 @@ namespace LinCms.Web.Configs
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddTransient<CustomExceptionMiddleWare>();
             services.AddTransient<UnitOfWorkMiddleware>();
+            services.AddHttpClient();
 
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             string serviceName = configuration.GetSection("FILE:SERVICE").Value;
@@ -138,6 +134,28 @@ namespace LinCms.Web.Configs
             services.TryAddTransient(typeof(BaseRepository<>), typeof(GuidRepository<>));
             services.TryAddTransient(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
             services.TryAddTransient(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
+            return services;
+        }
+
+        /// <summary>
+        /// 配置限流依赖的服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddIpRateLimiting(this IServiceCollection services,IConfiguration configuration)
+        {
+            //加载配置
+            services.AddOptions();
+            //从IpRateLimiting.json获取相应配置
+            services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+
+            //注入计数器和规则存储
+            services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
+
+            //配置（计数器密钥生成器）
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             return services;
         }
     }

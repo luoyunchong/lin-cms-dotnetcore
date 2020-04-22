@@ -21,7 +21,12 @@ namespace LinCms.Test.Controller.v1
         {
         
         }
+        [Fact]
 
+        public async Task HttpClientResourePasswordTest()
+        {
+            await HttpClientResourePassword();
+        }
         
         [Fact]
         public async Task CreateAsync()
