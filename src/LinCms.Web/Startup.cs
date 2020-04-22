@@ -1,32 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Autofac.Extras.DynamicProxy;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
 using HealthChecks.UI.Client;
 using LinCms.Application.AutoMapper.Cms;
-using LinCms.Application.Cms.Files;
 using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Dependency;
-using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
 using LinCms.Core.Middleware;
-using LinCms.Infrastructure.Repositories;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Configs;
-using LinCms.Web.Data;
-using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
 using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Authentication;
@@ -51,7 +41,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace LinCms.Web
 {
-
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -63,7 +52,7 @@ namespace LinCms.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddContext();
+            services.AddContext(Configuration);
 
             #region IdentityServer4
 
@@ -294,6 +283,8 @@ namespace LinCms.Web
                 options.MultipartHeadersCountLimit = 10;
             });
 
+
+
             IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:MySql");
             services.AddCap(x =>
             {
@@ -315,6 +306,10 @@ namespace LinCms.Web
                         $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
                 };
             });
+
+            //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
+            services.AddIpRateLimiting(Configuration);
+
             services.AddHealthChecks();
         }
 
@@ -357,6 +352,8 @@ namespace LinCms.Web
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
+     
+            app.UseIpRateLimiting();
 
             app.UseRouting()
                .UseAuthorization()

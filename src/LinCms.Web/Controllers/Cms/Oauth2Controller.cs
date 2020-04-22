@@ -53,7 +53,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="redirectUrl">授权成功后的跳转地址</param>
         /// <returns></returns>
         [HttpGet("signin-callback")]
-        public async Task<IActionResult> Home(string provider = null, string redirectUrl = "")
+        public async Task<IActionResult> Home(string provider, string redirectUrl = "")
         {
             if (string.IsNullOrWhiteSpace(provider))
             {
@@ -159,7 +159,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="provider"></param>
         /// <returns></returns>
         [HttpGet("OpenId")]
-        public async Task<string> OpenId(string provider = null)
+        public async Task<string> OpenId(string provider)
         {
             AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return null;

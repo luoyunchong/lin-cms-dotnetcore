@@ -419,7 +419,7 @@
             下划线写法（SnakeCase）
             </summary>
         </member>
-        <member name="T:LinCms.Web.Middleware.UnitOfWorkMiddleware">
+        <member name="T:LinCms.Web.Uow.UnitOfWorkMiddleware">
             <summary>
             处理FreeSql中同一个请求处于一个事务，并一同提交
             </summary>

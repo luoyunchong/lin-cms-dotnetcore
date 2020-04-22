@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using LinCms;
 using LinCms.Core.Extensions;
 using LinCms.Web;
-using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

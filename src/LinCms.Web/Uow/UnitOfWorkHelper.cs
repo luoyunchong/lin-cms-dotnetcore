@@ -44,7 +44,7 @@ namespace LinCms.Web.Uow
                 return attrs[0];
             }
 
-            attrs = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(true).OfType<UnitOfWorkAttribute>().ToArray();
+            attrs = methodInfo.DeclaringType?.GetTypeInfo()?.GetCustomAttributes(true)?.OfType<UnitOfWorkAttribute>()?.ToArray();
             if (attrs.Length > 0)
             {
                 return attrs[0];

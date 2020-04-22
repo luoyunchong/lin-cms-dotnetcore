@@ -10,6 +10,7 @@
 😃 A simple and practical CMS implememted by .NET Core 3.1
 
 ## 项目简介
+![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
 ![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![](https://img.shields.io/badge/.NETCore-3.1.0-3963bc.svg)
@@ -87,10 +88,11 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 云存储：七牛云 [MQiniu.Core](https://github.com/Hello-Mango/MQiniu.Core)
 - 分布式事务、EventBus：[DotNeteCore.CAP](https://github.com/dotnetcore/CAP)
 - GitHub第三方授权登录[AspNet.Security.OAuth.GitHub](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
-- 系统启动时的异步任务 running tasks asynchronously on ASP.NET Core app startup [NetEscapades.AspNetCore.StartupTasks](https://github.com/andrewlock/NetEscapades.AspNetCore.StartupTasks)
+- QQ第三方授权登录[AspNet.Security.OAuth.QQ](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
 - [Docker](https://docs.docker.com/)
 - [Azure DevOps](https://dev.azure.com/)
 - 健康检查[AspNetCore.HealthChecks.UI.Client](https://github.com/xabaril/AspNetCore.Diagnostics.HealthChecks)
+- [GitHub Action](https://help.github.com/en/actions)
 
 ### 实践
 - DDD(Domain-Driven Design)领域驱动设计 
@@ -146,10 +148,14 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - [0.3.0系统权限模块更新](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/6 )
 - [更新日志](https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
 
-## azure devops
+## 自动化构建CI/CD
 
+### azure devops
 - [.Net Core DevOps -免费用Azure四步实现自动化发布（CI/CD）](https://www.cnblogs.com/zhaozhengyan/p/azure-devops-aliyun.html)
 - [.Net Core DevOps - 替换 ConnectionStrings](https://www.cnblogs.com/zhaozhengyan/p/azure-replace-appsettings.html)
+
+### github action
+- [github gitee自动同步](https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/devops-ci-cd.html)
 
 ##  开源地址
 - 后端接口Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
