@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.4.0-preview0424" />
   </ItemGroup>
 
 </Project>

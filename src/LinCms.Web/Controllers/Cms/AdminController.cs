@@ -14,14 +14,14 @@ using LinCms.Application.Contracts.Cms.Users.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
-
+using LinCms.Web.Data.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/admin")]
     [ApiController]
-    [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class AdminController : ControllerBase
     {
         private readonly IUserService _userSevice;
@@ -38,6 +38,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="searchDto"></param>
         /// <returns></returns>
         [HttpGet("users")]
+        [LinCmsAuthorize("查询所有用户","管理员")]
         public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery]UserSearchDto searchDto)
         {
             return _userSevice.GetUserListByGroupId(searchDto);
@@ -50,6 +51,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="updateUserDto"></param>
         /// <returns></returns>
         [HttpPut("user/{id}")]
+        [LinCmsAuthorize("管理员更新用户信息","管理员")]
         public UnifyResponseDto Put(long id, [FromBody] UpdateUserDto updateUserDto)
         {
             _userSevice.UpdateAync(id, updateUserDto);
@@ -61,8 +63,8 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [AuditingLog("管理员删除了一个用户")]
-        [HttpDelete("{id}")]
+        [HttpDelete("user/{id}")]
+        [LinCmsAuthorize("删除用户","管理员")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
             await _userSevice.DeleteAsync(id);
@@ -75,21 +77,13 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="id">用户id</param>
         /// <param name="resetPasswordDto"></param>
         /// <returns></returns>
-        [HttpPut("password/{id}")]
+        [HttpPut("user/{id}/password")]
+        [LinCmsAuthorize("修改用户密码","管理员")]
         public async Task<UnifyResponseDto> ResetPasswordAsync(long id, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             await _userSevice.ResetPasswordAsync(id, resetPasswordDto);
             return UnifyResponseDto.Success("密码修改成功");
         }
 
-        /// <summary>
-        /// 查询所有可分配的权限
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("permission")]
-        public IDictionary<string, List<PermissionDto>> GetAllPermissions()
-        {
-            return _adminService.GetAllStructualPermissions();
-        }
     }
 }

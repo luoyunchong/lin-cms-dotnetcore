@@ -7,6 +7,7 @@ using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
+using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 namespace LinCms.Web.Controllers.v1

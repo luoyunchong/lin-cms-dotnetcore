@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Cms.Settings;
+using LinCms.Application.Contracts.Cms.Settings.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Settings;
 using LinCms.Core.Exceptions;

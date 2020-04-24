@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Core.Entities.Blog;
 
-namespace LinCms.Application.AutoMapper.Blog
+namespace LinCms.Application.Blog.Notifications
 {
     public class NotificationProfile : Profile
     {

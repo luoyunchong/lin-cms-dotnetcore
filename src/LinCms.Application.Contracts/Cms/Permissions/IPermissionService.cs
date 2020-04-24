@@ -8,6 +8,7 @@ namespace LinCms.Application.Contracts.Cms.Permissions
 {
     public interface IPermissionService
     {
+        IDictionary<string, List<PermissionDto>> GetAllStructualPermissions();
         Task<bool> CheckPermissionAsync( string permission);
         Task DeletePermissionsAsync(RemovePermissionDto permissionDto);
 

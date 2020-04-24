@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
@@ -12,6 +13,7 @@ using LinCms.Application.Contracts.Cms.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
+using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -25,14 +27,16 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IUserService _userSevice;
         private readonly ICurrentUser _currentUser;
         private readonly IUserRepository _userRepository;
+        private readonly IGroupService _groupService;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService)
         {
             _freeSql = freeSql;
             _mapper = mapper;
             _userSevice = userSevice;
             _currentUser = currentUser;
             _userRepository = userRepository;
+            _groupService = groupService;
         }
 
         [HttpGet("get")]
@@ -48,13 +52,14 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="userInput"></param>
         [AuditingLog("管理员新建了一个用户")]
         [HttpPost("register")]
-        [LinCmsAuthorize(Roles = LinGroup.Admin)]
+        [Authorize(Roles = LinGroup.Admin)]
         public UnifyResponseDto Post([FromBody] CreateUserDto userInput)
         {
             _userSevice.Register(_mapper.Map<LinUser>(userInput), userInput.GroupIds,userInput.Password);
 
             return UnifyResponseDto.Success("用户创建成功");
         }
+        
         /// <summary>
         /// 得到当前登录人信息
         /// </summary>
@@ -75,6 +80,7 @@ namespace LinCms.Web.Controllers.Cms
             UserInformation userInformation = await _userSevice.GetInformationAsync(_currentUser.Id ?? 0);
             var permissions = await _userSevice.GetStructualUserPermissions(_currentUser.Id ?? 0);
             userInformation.Permissions = permissions;
+            userInformation.Admin = _groupService.CheckIsRootByUserId(_currentUser.Id??0);
             return userInformation;
         }
 

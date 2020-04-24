@@ -42,11 +42,6 @@ namespace LinCms.Core.Entities
         public string Email { get; set; }
 
         /// <summary>
-        /// 是否为超级管理员 ;  1 -> 普通用户 |  2 -> 超级管理员
-        /// </summary>
-        public int Admin { get; set; } = 1;
-
-        /// <summary>
         /// 当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
         /// </summary>
         public int Active { get; set; }
@@ -80,15 +75,6 @@ namespace LinCms.Core.Entities
         public virtual ICollection<LinUserGroup> LinUserGroups { get; set; }
         [Navigate("CreateUserId")]
         public virtual ICollection<LinUserIdentity> LinUserIdentitys { get; set; }
-
-        /// <summary>
-        /// 是否是管理员
-        /// </summary>
-        /// <returns></returns>
-        public bool IsAdmin()
-        {
-            return Admin == (int)UserAdmin.Admin;
-        }
 
         public bool IsActive()
         {

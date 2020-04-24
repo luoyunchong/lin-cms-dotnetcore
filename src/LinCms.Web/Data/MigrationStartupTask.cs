@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using LinCms.Core.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Web.Data
@@ -17,12 +18,9 @@ namespace LinCms.Web.Data
 
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
-
-                await dataSeedContributor.SeedAsync();
-            }
+            using var scope = _serviceProvider.CreateScope();
+            IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
+            await dataSeedContributor.SeedAsync();
         }
 
     }

@@ -20,7 +20,7 @@ using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using NLog.Web;
+using Serilog;
 using ToolGood.Words;
 
 namespace LinCms.Web.Configs
@@ -36,7 +36,6 @@ namespace LinCms.Web.Configs
         {
             IConfigurationSection configurationSection = configuration.GetSection("ConnectionStrings:MySql");
 
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
             IFreeSql fsql = new FreeSqlBuilder()
                    .UseConnectionString(DataType.MySql, configurationSection.Value)
@@ -54,8 +53,8 @@ namespace LinCms.Web.Configs
 
             fsql.Aop.CurdAfter += (s, e) =>
             {
-                logger.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
-                             $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
+                Log.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
+                          $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
             };
 
             //敏感词处理
@@ -80,7 +79,8 @@ namespace LinCms.Web.Configs
             }
 
             services.AddSingleton(fsql);
-            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
+            // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
+            services.AddScoped<UnitOfWorkManager>();
 
             Expression<Func<IDeleteAduitEntity, bool>> where = a => a.IsDeleted == false;
             fsql.GlobalFilter.Apply("IsDeleted", where);
@@ -149,13 +149,14 @@ namespace LinCms.Web.Configs
             services.AddOptions();
             //从IpRateLimiting.json获取相应配置
             services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
-
+            services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
             //注入计数器和规则存储
             services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
             services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
 
             //配置（计数器密钥生成器）
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            
             return services;
         }
     }
