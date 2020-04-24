@@ -4,11 +4,19 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
-        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             FreeSql
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            配置限流依赖的服务
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticle(System.Guid)">
             <summary>
@@ -296,12 +304,6 @@
             <param name="resetPasswordDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.GetAllPermissions">
-            <summary>
-            查询所有可分配的权限
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles">
             <summary>
             上传多文件至本地或七牛云，swagger无法正常生成
@@ -349,6 +351,12 @@
             axios得到null，浏览器直接打开能得到github的id 
             </summary>
             <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.GetAllPermissions">
+            <summary>
+            查询所有可分配的权限
+            </summary>
             <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.Dtos.RemovePermissionDto)">

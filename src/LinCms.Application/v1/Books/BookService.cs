@@ -9,9 +9,8 @@ using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.IRepositories;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LinCms.Application.Cms.Users
+namespace LinCms.Application.v1.Books
 {
 
     public class BookService : IBookService
@@ -29,7 +28,7 @@ namespace LinCms.Application.Cms.Users
             bool exist = _bookRepository.Select.Any(r => r.Title == createBook.Title);
             if (exist)
             {
-                throw new LinCmsException("Í¼ÊéÒÑ´æÔÚ");
+                throw new LinCmsException("å›¾ä¹¦å·²å­˜åœ¨");
             }
 
             Book book = _mapper.Map<Book>(createBook);
@@ -60,13 +59,13 @@ namespace LinCms.Application.Cms.Users
             Book book = _bookRepository.Select.Where(r => r.Id == id).ToOne();
             if (book == null)
             {
-                throw new LinCmsException("Ã»ÓĞÕÒµ½Ïà¹ØÊé¼®");
+                throw new LinCmsException("æ²¡æœ‰æ‰¾åˆ°ç›¸å…³ä¹¦ç±");
             }
 
             bool exist = _bookRepository.Select.Any(r => r.Title == updateBook.Title && r.Id != id);
             if (exist)
             {
-                throw new LinCmsException("Í¼ÊéÒÑ´æÔÚ");
+                throw new LinCmsException("å›¾ä¹¦å·²å­˜åœ¨");
             }
 
             //book.Image = updateBook.Image;
@@ -75,7 +74,7 @@ namespace LinCms.Application.Cms.Users
             //book.Summary = updateBook.Summary;
             //book.Summary = updateBook.Summary;
 
-            //Ê¹ÓÃAutoMapper·½·¨¼ò»¯ÀàÓëÀàÖ®¼äµÄ×ª»»¹ı³Ì
+            //ä½¿ç”¨AutoMapperæ–¹æ³•ç®€åŒ–ç±»ä¸ç±»ä¹‹é—´çš„è½¬æ¢è¿‡ç¨‹
             _mapper.Map(updateBook, book);
 
             await _bookRepository.UpdateAsync(book);

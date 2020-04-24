@@ -7,6 +7,7 @@ using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.IRepositories;
+using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Blog

@@ -6,13 +6,14 @@ using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
+using LinCms.Web.Data.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/admin/group")]
     [ApiController]
-    [LinCmsAuthorize(Roles = LinGroup.Admin)]
     public class GroupController : ControllerBase
     {
         private readonly IGroupService _groupService;
@@ -22,20 +23,22 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         [HttpGet("all")]
+        [LinCmsAuthorize("查询所有权限组","管理员")]
         public Task<List<LinGroup>> GetListAsync()
         {
             return _groupService.GetListAsync();
         }
 
         [HttpGet("{id}")]
+        [LinCmsAuthorize("查询一个权限组及其权限","管理员")]
         public async Task<GroupDto> GetAsync(long id)
         {
             GroupDto groupDto = await _groupService.GetAsync(id);
             return groupDto;
         }
 
-        [AuditingLog("管理员新建了一个权限组")]
         [HttpPost]
+        [LinCmsAuthorize("新建权限组","管理员")]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateGroupDto inputDto)
         {
             await _groupService.CreateAsync(inputDto);
@@ -43,6 +46,7 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         [HttpPut("{id}")]
+        [LinCmsAuthorize("更新一个权限组","管理员")]
         public async Task<UnifyResponseDto> UpdateAsync(long id, [FromBody] UpdateGroupDto updateGroupDto)
         {
             await _groupService.UpdateAsync(id, updateGroupDto);
@@ -50,7 +54,7 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         [HttpDelete("{id}")]
-        [AuditingLog("管理员删除一个权限分组")]
+        [LinCmsAuthorize("删除一个权限组","管理员")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
             await _groupService.DeleteAsync(id);

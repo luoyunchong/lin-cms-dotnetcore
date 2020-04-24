@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LinCms.Application.Contracts.Cms.Settings.Dtos;
 using LinCms.Core.Data;
 
 namespace LinCms.Application.Contracts.Cms.Settings

@@ -62,7 +62,7 @@ namespace LinCms.Application.Cms.Users
         }
 
 
-        [UnitOfWork]
+   
         public async Task DeleteAsync(long userId)
         {
             await _userRepository.DeleteAsync(new LinUser() { Id = userId });
@@ -86,7 +86,6 @@ namespace LinCms.Application.Cms.Users
         {
             List<UserDto> linUsers = _userRepository.Select
                 .IncludeMany(r => r.LinGroups)
-                .Where(r => r.Admin == (long)UserAdmin.Common)
                 .WhereIf(searchDto.GroupId != null, r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
                 .ToPagerList(searchDto, out long totalCount)
@@ -122,7 +121,6 @@ namespace LinCms.Application.Cms.Users
             }
 
             user.Active = UserActive.Active.GetHashCode();
-            user.Admin = UserAdmin.Common.GetHashCode();
 
             user.LinUserGroups = new List<LinUserGroup>();
             groupIds?.ForEach(groupId =>

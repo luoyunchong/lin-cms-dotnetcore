@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Permissions.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 
 namespace LinCms.Application.Cms.Permissions
@@ -14,12 +17,27 @@ namespace LinCms.Application.Cms.Permissions
     {
         private readonly IFreeSql _freeSql;
         private readonly ICurrentUser _currentUser;
-        public PermissionService(IFreeSql freeSql, ICurrentUser currentUser)
+        private readonly IAuditBaseRepository<LinPermission,long> _permissionRepository;
+        private readonly IMapper _mapper;
+        public PermissionService(IFreeSql freeSql, ICurrentUser currentUser, IAuditBaseRepository<LinPermission,long> permissionRepository, IMapper mapper)
         {
             _freeSql = freeSql;
             _currentUser = currentUser;
+            _permissionRepository = permissionRepository;
+            _mapper = mapper;
         }
 
+        public IDictionary<string, List<PermissionDto>> GetAllStructualPermissions()
+        {
+            return _permissionRepository.Select.ToList()
+                .GroupBy(r => r.Module)
+                .ToDictionary(
+                    group => group.Key,
+                    group =>
+                        _mapper.Map<List<PermissionDto>>(group.ToList())
+                );
+
+        }
 
         public async Task<bool> CheckPermissionAsync(string permission)
         {

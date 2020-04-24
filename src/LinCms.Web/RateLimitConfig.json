@@ -8,19 +8,34 @@
     "ClientIdHeader": "X-ClientId",
     "HttpStatusCode": 200,
     "QuotaExceededResponse": {
-      "Content": "{{\"code\":429,\"msg\":\"访问过于频繁，请稍后重试\",\"data\":null}}",
+      "Content": "{{\"code\":10140,\"message\":\"访问过于频繁，请稍后重试\",\"data\":null}}",
       "ContentType": "application/json",
-      "StatusCode": 200
+      "StatusCode": 429
     },
     "IpWhitelist": [],
     "EndpointWhitelist": [],
     "ClientWhitelist": [],
     "GeneralRules": [
       {
-        "Endpoint": "*:/cms/test",
+        "Endpoint": "*",
+       // "Endpoint": "*:/cms/test",
         "Period": "5s",
         "Limit": 3
       }
+    ]
+  },
+  "IpRateLimitPolicies": {
+    "IpRules": [
+        {
+          "Ip": "192.168.2.136",
+          "Rules": [
+            {
+              "Endpoint": "*",
+              "Period": "1s",
+              "Limit": 10
+            }
+          ]
+        }
     ]
   }
 }
