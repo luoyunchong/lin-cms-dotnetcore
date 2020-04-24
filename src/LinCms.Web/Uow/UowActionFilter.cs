@@ -7,11 +7,11 @@ namespace LinCms.Web.Uow
 {
     public class UowActionFilter : IAsyncActionFilter, ITransientDependency
     {
-        private readonly IUnitOfWorkManager unitOfWorkManager;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         public UowActionFilter(IUnitOfWorkManager unitOfWorkManager)
         {
-            this.unitOfWorkManager = unitOfWorkManager;
+            this._unitOfWorkManager = unitOfWorkManager;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -36,7 +36,7 @@ namespace LinCms.Web.Uow
                 return;
             }
 
-            using var uow = unitOfWorkManager.Begin();
+            using var uow = _unitOfWorkManager.Begin();
             uow.GetOrBeginTransaction();
             var result = await next();
             if (Succeed(result))
