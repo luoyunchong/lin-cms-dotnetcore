@@ -12,8 +12,7 @@ namespace LinCms.Infrastructure.Repositories
 {
     public class AuditBaseRepository<TEntity> : AuditBaseRepository<TEntity, Guid>, IAuditBaseRepository<TEntity> where TEntity : class, new()
     {
-        public AuditBaseRepository(IUnitOfWork uow, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<TEntity, bool>> filter = null, Func<string, string> asTable = null)
-            : base(uow, currentUser, fsql, filter, asTable)
+        public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser): base(unitOfWorkManager, currentUser)
         {
         }
     }
@@ -25,14 +24,13 @@ namespace LinCms.Infrastructure.Repositories
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public class AuditBaseRepository<TEntity, TKey> : BaseRepository<TEntity, TKey>, IAuditBaseRepository<TEntity, TKey>
+    public class AuditBaseRepository<TEntity, TKey> : DefaultRepository<TEntity, TKey>, IAuditBaseRepository<TEntity, TKey>
         where TEntity : class, new()
     {
         protected readonly ICurrentUser CurrentUser;
-        public AuditBaseRepository(IUnitOfWork uow, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<TEntity, bool>> filter = null, Func<string, string> asTable = null) : base(fsql, filter, asTable)
+        public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager?.Orm, unitOfWorkManager) 
         {
             CurrentUser = currentUser;
-            base.UnitOfWork = uow;
         }
 
         private void BeforeInsert(TEntity entity)
@@ -44,7 +42,7 @@ namespace LinCms.Infrastructure.Repositories
 
             if (!(entity is IUpdateAuditEntity updateAuditEntity)) return;
             updateAuditEntity.UpdateTime = DateTime.Now;
-            updateAuditEntity.UpdateUserId = CurrentUser.Id; ;
+            updateAuditEntity.UpdateUserId = CurrentUser.Id;
         }
 
         public override TEntity Insert(TEntity entity)

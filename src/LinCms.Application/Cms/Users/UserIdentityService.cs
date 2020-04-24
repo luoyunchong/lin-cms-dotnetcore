@@ -30,7 +30,6 @@ namespace LinCms.Application.Cms.Users
         /// <param name="principal"></param>
         /// <param name="openId"></param>
         /// <returns></returns>
-        [UnitOfWork]
         public async Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId)
         {
             string email = principal.FindFirst(ClaimTypes.Email)?.Value;
@@ -50,7 +49,6 @@ namespace LinCms.Application.Cms.Users
             {
                 LinUser user = new LinUser
                 {
-                    Admin = (int)UserAdmin.Common,
                     Active = (int)UserActive.Active,
                     Avatar = avatarUrl,
                     CreateTime = DateTime.Now,
@@ -119,7 +117,6 @@ namespace LinCms.Application.Cms.Users
             {
                 LinUser user = new LinUser
                 {
-                    Admin = (int)UserAdmin.Common,
                     Active = (int)UserActive.Active,
                     Avatar = avatar_full,
                     CreateTime = DateTime.Now,

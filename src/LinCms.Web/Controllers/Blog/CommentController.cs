@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
 using System.Threading.Tasks;
+using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Blog
 {

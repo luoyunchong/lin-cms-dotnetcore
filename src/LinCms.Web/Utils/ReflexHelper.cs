@@ -8,6 +8,7 @@ using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
+using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Utils
@@ -84,7 +85,7 @@ namespace LinCms.Web.Utils
                 }
             });
 
-            return linAuths;
+            return linAuths.Distinct().ToList();
         }
 
         /**

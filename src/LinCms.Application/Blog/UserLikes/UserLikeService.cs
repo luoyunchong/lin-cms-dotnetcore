@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using LinCms.Application.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
@@ -9,7 +10,7 @@ using LinCms.Core.Entities.Blog;
 using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 
-namespace LinCms.Application.Blog.UserSubscribes
+namespace LinCms.Application.Blog.UserLikes
 {
     public class UserLikeService : IUserLikeService
     {

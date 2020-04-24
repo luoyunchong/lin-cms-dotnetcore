@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
 using Xunit;
 
 namespace LinCms.Test.Controller
@@ -39,7 +38,7 @@ namespace LinCms.Test.Controller
         {
             return  WebHost.CreateDefaultBuilder()
                             .UseEnvironment("Development")
-                            // .UseUrls("https://*:5003")
+                            .UseUrls("https://*:5003")
                             .UseStartup<LinCms.IdentityServer4.Startup>(); 
         }
 

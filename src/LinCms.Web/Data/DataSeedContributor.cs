@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LinCms.Core.Data;
 using LinCms.Core.Dependency;
@@ -21,24 +22,25 @@ namespace LinCms.Web.Data
             this._permissionRepository =permissionRepository;
         }
 
-        public Task SeedAsync()
+        public async Task SeedAsync()
         {
             List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
+
+            List<LinPermission> insertPermissions = new List<LinPermission>();
+            List<LinPermission>allPermissions=await  _permissionRepository.Select.ToListAsync();
+            
             linCmsAttributes.ForEach(async r =>
             {
-                bool exist = await _permissionRepository.Select
-                    .Where(u => u.Module == r.Module && u.Name == r.Permission)
-                    .AnyAsync();
+                bool exist = allPermissions.Any(u => u.Module == r.Module && u.Name == r.Permission);
 
                 if (!exist)
                 {
-                    await _permissionRepository.InsertAsync(new LinPermission(r.Permission, r.Module));
+                    insertPermissions.Add(new LinPermission(r.Permission, r.Module));
                 }
-
             });
+            
+            await _permissionRepository.InsertAsync(insertPermissions);
             _permissionRepository.UnitOfWork.Commit();
-
-            return Task.CompletedTask;
         }
     }
 }
