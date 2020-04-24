@@ -10,8 +10,8 @@ namespace LinCms.Infrastructure.Repositories
 {
     public class LogRepository : AuditBaseRepository<LinLog>, ILogRepository
     {
-        public LogRepository(IUnitOfWork unitOfWork, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<LinLog, bool>> filter = null, Func<string, string> asTable = null)
-            : base(unitOfWork, currentUser, fsql, filter, asTable)
+        public LogRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser)
+            : base(unitOfWorkManager, currentUser)
         {
 
         }

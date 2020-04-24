@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 
@@ -18,22 +17,12 @@ namespace LinCms.Web.Data.Authorization
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
-            if (context.User != null)
+            Claim userIdClaim = context.User?.FindFirst(_ => _.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim != null)
             {
-                if (context.User.IsInRole(LinGroup.Admin))
+                if (await _permissionService.CheckPermissionAsync(requirement.Name))
                 {
                     context.Succeed(requirement);
-                }
-                else
-                {
-                    Claim userIdClaim = context.User.FindFirst(_ => _.Type == ClaimTypes.NameIdentifier);
-                    if (userIdClaim != null)
-                    {
-                        if (await _permissionService.CheckPermissionAsync(requirement.Name))
-                        {
-                            context.Succeed(requirement);
-                        }
-                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Extensions;
@@ -53,17 +54,17 @@ namespace LinCms.IdentityServer4.IdentityServer4
             }
             else
             {
+                
                 var claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Email, user.Email ?? ""),
                     new Claim(ClaimTypes.GivenName, user.Nickname ?? ""),
                     new Claim(ClaimTypes.Name, user.Username ?? ""),
-                    new Claim(LinCmsClaimTypes.IsAdmin, user.IsAdmin().ToString()),
-                    new Claim(ClaimTypes.Role,user.IsAdmin()?LinGroup.Admin:"")
                 };
 
-                user.LinGroups.ForEach(r =>
+                user.LinGroups?.ForEach(r =>
                  {
+                     claims.Add(new Claim(ClaimTypes.Role, r.Name));
                      claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
                  });
 

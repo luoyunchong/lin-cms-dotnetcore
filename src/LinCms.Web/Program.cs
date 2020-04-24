@@ -1,34 +1,62 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using Autofac.Extensions.DependencyInjection;
-using LinCms.Web.Data;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
+using Serilog;
+using Serilog.Formatting.Compact;
 
 namespace LinCms.Web
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+            .AddEnvironmentVariables()
+            .Build();
+
+        public static async Task<int> Main(string[] args)
         {
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+                .MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(new RenderedCompactJsonFormatter())
+                .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Day,rollOnFileSizeLimit: true)
+                //.WriteTo.Fluentd("localhost", 30011, tag: "geektime-ordering-api", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
+                .CreateLogger();
+            // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
             try
             {
-                logger.Debug("init main");
-                await CreateWebHostBuilder(args).Build().RunAsync();
+                Log.Debug("init main");
+                IHost webHost=CreateWebHostBuilder(args).Build();
+                
+                using (var scope = webHost.Services.CreateScope())
+                {
+                    // get the IpPolicyStore instance
+                    var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
+
+                    // seed IP data from appsettings
+                    await ipPolicyStore.SeedAsync();
+                }
+                
+               await  webHost.RunAsync();
+               return 0;
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                logger.Error(exception, "Stopped program because of exception");
-                throw;
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                return 1;
             }
             finally
             {
-                NLog.LogManager.Shutdown();
+                Log.CloseAndFlush();
             }
         }
 
@@ -44,9 +72,10 @@ namespace LinCms.Web
                 })
                 .ConfigureLogging(logging =>
                 {
+                    logging.AddSerilog();
                     logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Trace);
                 })
-                .UseNLog();
+                .UseSerilog();
     }
 }

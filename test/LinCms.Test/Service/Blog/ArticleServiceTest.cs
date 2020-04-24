@@ -14,12 +14,12 @@ namespace LinCms.Test.Service.Blog
     public class ArticleServiceTest : BaseLinCmsTest
     {
         private readonly IArticleService _articleService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly UnitOfWorkManager _unitOfWorkManager;
 
         public ArticleServiceTest() : base()
         {
             _articleService = GetService<IArticleService>();
-            _unitOfWork = GetService<IUnitOfWork>();
+            _unitOfWorkManager = GetService<UnitOfWorkManager>();
             ;
         }
 
@@ -27,7 +27,6 @@ namespace LinCms.Test.Service.Blog
         public async Task DeleteAsync()
         {
             await _articleService.DeleteAsync(new Guid("5dc93286-5e44-c190-008e-3fc74d4fcee0"));
-            _unitOfWork.Commit();
         }
 
         [Fact]

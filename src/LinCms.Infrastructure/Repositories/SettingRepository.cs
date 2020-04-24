@@ -11,8 +11,7 @@ namespace LinCms.Infrastructure.Repositories
 {
     public class SettingRepository : AuditBaseRepository<LinSetting>, ISettingRepository
     {
-        public SettingRepository(IUnitOfWork unitOfWork, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<LinSetting, bool>> filter = null, Func<string, string> asTable = null)
-            : base(unitOfWork, currentUser, fsql, filter, asTable)
+        public SettingRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser): base(unitOfWorkManager, currentUser)
         {
         }
 

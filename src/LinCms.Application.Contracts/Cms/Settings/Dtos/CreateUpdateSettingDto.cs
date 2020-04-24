@@ -1,4 +1,4 @@
-﻿namespace LinCms.Application.Contracts.Cms.Settings
+﻿namespace LinCms.Application.Contracts.Cms.Settings.Dtos
 {
     public class CreateUpdateSettingDto
     {

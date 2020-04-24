@@ -9,10 +9,8 @@ namespace LinCms.Web.Controllers
 {
     public abstract class ApiControllerBase : ControllerBase
     {
-        internal readonly IUnitOfWork UnitOfWork;
-        protected ApiControllerBase(IUnitOfWork unitOfWork)
+        protected ApiControllerBase()
         {
-            UnitOfWork = unitOfWork;
         }
 
     }

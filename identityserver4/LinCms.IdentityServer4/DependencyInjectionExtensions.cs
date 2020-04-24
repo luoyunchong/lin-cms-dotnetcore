@@ -32,7 +32,8 @@ namespace LinCms.IdentityServer4
                    .Build();
             fsql.CodeFirst.IsSyncStructureToLower = true;
             services.AddSingleton(fsql);
-            services.AddScoped<IUnitOfWork>(sp => sp.GetService<IFreeSql>().CreateUnitOfWork());
+            // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
+            services.AddScoped<UnitOfWorkManager>();
             services.AddFreeRepository(filter =>
             {
                 filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);

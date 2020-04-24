@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using LinCms.Core.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Web.Data
@@ -19,7 +20,6 @@ namespace LinCms.Web.Data
         {
             using var scope = _serviceProvider.CreateScope();
             IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
-
             await dataSeedContributor.SeedAsync();
         }
 

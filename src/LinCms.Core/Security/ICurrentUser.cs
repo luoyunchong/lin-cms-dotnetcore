@@ -10,8 +10,6 @@ namespace LinCms.Core.Security
         string UserName { get; }
         long[] Groups { get; }
 
-        bool? IsAdmin { get; }
-
         string GetFileUrl(string hash);
 
         Claim FindClaim(string claimType);
