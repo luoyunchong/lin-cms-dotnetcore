@@ -9,7 +9,6 @@ using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Application.Contracts.Blog.Comments.Dtos;
 using LinCms.Application.Contracts.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.Notifications.Dtos;
-using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
@@ -36,19 +35,15 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<Comment> _commentAuditBaseRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly IUserService _userService;
         private readonly ICommentService _commentService;
         private readonly ICapPublisher _capBus;
         private readonly IAuditBaseRepository<Article> _articleRepository;
 
-        public CommentController(IAuditBaseRepository<Comment> commentAuditBaseRepository, IMapper mapper,
-            ICurrentUser currentUser, IUserService userService, ICommentService commentService,
-            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
+        public CommentController(IAuditBaseRepository<Comment> commentAuditBaseRepository,IMapper mapper, ICurrentUser currentUser,ICommentService commentService,IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
             _currentUser = currentUser;
-            _userService = userService;
             _commentService = commentService;
             _articleRepository = articleRepository;
             _capBus = capBus;

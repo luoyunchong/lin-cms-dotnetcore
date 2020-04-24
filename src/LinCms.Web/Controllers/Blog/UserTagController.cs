@@ -24,9 +24,7 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly ITagService _tagService;
 
-        public UserTagController(ICurrentUser currentUser,
-            IAuditBaseRepository<Tag> tagRepository,
-            IAuditBaseRepository<UserTag> userTagRepository, ITagService tagService)
+        public UserTagController(ICurrentUser currentUser, IAuditBaseRepository<Tag> tagRepository, IAuditBaseRepository<UserTag> userTagRepository, ITagService tagService)
         {
             _currentUser = currentUser;
             _tagRepository = tagRepository;

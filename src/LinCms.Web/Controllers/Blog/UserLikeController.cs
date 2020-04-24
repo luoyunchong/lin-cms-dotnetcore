@@ -38,7 +38,9 @@ namespace LinCms.Web.Controllers.Blog
             IAuditBaseRepository<Article> articleRepository,
             IAuditBaseRepository<Comment> commentRepository,
             ICapPublisher capBus,
-            IUnitOfWork unitOfWork, IUserLikeService userLikeService) : base(unitOfWork)
+            IUnitOfWork unitOfWork, 
+            IUserLikeService userLikeService
+            ) : base(unitOfWork)
         {
             _currentUser = currentUser;
             _articleRepository = articleRepository;
@@ -57,7 +59,7 @@ namespace LinCms.Web.Controllers.Blog
         {
             string message = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
 
-            await this.PublishUserLikeNotification(createUpdateUserLike);
+            await PublishUserLikeNotification(createUpdateUserLike);
 
             return UnifyResponseDto.Success(message);
         }
