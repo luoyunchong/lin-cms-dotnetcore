@@ -32,21 +32,22 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly ICapPublisher _capBus;
         private readonly IUserLikeService _userLikeService;
-
+        private readonly UnitOfWorkManager _unitOfWorkManager;
         public UserLikeController(
             ICurrentUser currentUser,
             IAuditBaseRepository<Article> articleRepository,
             IAuditBaseRepository<Comment> commentRepository,
             ICapPublisher capBus,
-            IUnitOfWork unitOfWork, 
+            UnitOfWorkManager unitOfWorkManager, 
             IUserLikeService userLikeService
-            ) : base(unitOfWork)
+            ) : base()
         {
             _currentUser = currentUser;
             _articleRepository = articleRepository;
             _commentRepository = commentRepository;
             _capBus = capBus;
             _userLikeService = userLikeService;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -102,7 +103,7 @@ namespace LinCms.Web.Controllers.Blog
 
             if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
             {
-                using ICapTransaction trans = UnitOfWork.BeginTransaction(_capBus, false);
+                using ICapTransaction trans = _unitOfWorkManager.Begin().BeginTransaction(_capBus, false);
 
                 _capBus.Publish("NotificationController.Post", createNotificationDto);
 

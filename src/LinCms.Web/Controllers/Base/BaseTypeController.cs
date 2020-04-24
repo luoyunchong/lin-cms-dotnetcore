@@ -9,6 +9,7 @@ using LinCms.Core.Data;
 using LinCms.Core.Entities.Base;
 using LinCms.Core.Exceptions;
 using LinCms.Core.IRepositories;
+using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Base

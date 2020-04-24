@@ -20,7 +20,7 @@ namespace LinCms.Application.Contracts.Cms.Users.Dtos
         /// </summary>
         public string Email { get; set; }
         /// <summary>
-        /// 是否为超级管理员 ;  1 -> 普通用户 |  2 -> 超级管理员
+        /// 是否为超级管理员 
         /// </summary>
         public bool Admin { get; set; } = false;
         /// <summary>

@@ -10,8 +10,7 @@ namespace LinCms.Infrastructure.Repositories
 {
     public class UserRepository : AuditBaseRepository<LinUser>, IUserRepository
     {
-        public UserRepository(IUnitOfWork unitOfWork, ICurrentUser currentUser, IFreeSql fsql, Expression<Func<LinUser, bool>> filter = null, Func<string, string> asTable = null)
-            : base(unitOfWork, currentUser, fsql, filter, asTable)
+        public UserRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser): base(unitOfWorkManager, currentUser)
         {
         }
 

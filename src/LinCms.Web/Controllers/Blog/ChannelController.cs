@@ -5,6 +5,7 @@ using LinCms.Application.Contracts.Blog.Channels;
 using LinCms.Application.Contracts.Blog.Channels.Dtos;
 using LinCms.Core.Aop;
 using LinCms.Core.Data;
+using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Blog

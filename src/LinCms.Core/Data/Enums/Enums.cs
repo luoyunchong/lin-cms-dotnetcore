@@ -3,27 +3,6 @@
 namespace LinCms.Core.Data.Enums
 {
     /**
-     * 枚举
-     */
-
-    /**
-     * 是否为超级管理员的枚举
-     * COMMON 代表 普通用户
-     * ADMIN 代表 超级管理员
-     */
-    public enum UserAdmin
-    {
-        /// <summary>
-        /// 普通用户
-        /// </summary>
-        Common = 1,
-        /// <summary>
-        /// 管理员
-        /// </summary>
-        Admin = 2
-    }
-
-    /**
     * 当前用户是否为激活状态的枚举
     * ACTIVE 代表 激活状态
     * NOT_ACTIVE 代表 非激活状态
@@ -89,6 +68,10 @@ namespace LinCms.Core.Data.Enums
         /// </summary>
         AuthenticationFailed = 10000,
         /// <summary>
+        /// 无权限
+        /// </summary>
+        NoPermission = 10001,
+        /// <summary>
         /// 失败
         /// </summary>
         Fail = 9999,
@@ -129,9 +112,9 @@ namespace LinCms.Core.Data.Enums
         //10120 文件数量过多
 
         //10130 文件扩展名不符合规范
-
+        
         //10140 请求过于频繁，请稍后重试
-
+        ManyRequests=10140
     }
 
     public enum Status

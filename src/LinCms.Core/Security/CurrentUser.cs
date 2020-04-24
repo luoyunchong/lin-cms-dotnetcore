@@ -23,8 +23,6 @@ namespace LinCms.Core.Security
         public string UserName => _claimsPrincipal?.FindUserName();
         public long[] Groups => FindClaims(LinCmsClaimTypes.Groups).Select(c => c.Value.ToLong()).ToArray();
 
-        public bool? IsAdmin => _claimsPrincipal?.IsAdmin();
-
         public virtual Claim FindClaim(string claimType)
         {
             return _claimsPrincipal?.Claims.FirstOrDefault(c => c.Type == claimType);

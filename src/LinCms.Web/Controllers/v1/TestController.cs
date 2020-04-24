@@ -7,6 +7,7 @@ using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
+using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 namespace LinCms.Web.Controllers.v1
@@ -15,12 +16,10 @@ namespace LinCms.Web.Controllers.v1
     [ApiController]
     public class TestController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IFreeSql _freeSql;
         private readonly ICapPublisher _capBus;
-        public TestController(IUnitOfWork unitOfWork, IFreeSql freeSql, ICapPublisher capBus)
+        public TestController(IFreeSql freeSql, ICapPublisher capBus)
         {
-            _unitOfWork = unitOfWork;
             _freeSql = freeSql;
             _capBus = capBus;
         }
