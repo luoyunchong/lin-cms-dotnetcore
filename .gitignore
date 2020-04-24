@@ -341,5 +341,3 @@ src/LinCms.Web/wwwroot/assets/
 src/LinCms.Web/appsettings.Private.json
 identityserver4/LinCms.IdentityServer4/appsettings.Private.json
 src/LinCms.Web/wwwroot/_Illegal
-src/LinCms.Web/Logs/*
-identityserver4/LinCms.IdentityServer4/Logs/*

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -10,7 +9,6 @@ using IdentityModel.Client;
 
 using IdentityServer4.Models;
 
-using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Account;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
@@ -19,12 +17,10 @@ using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json.Linq;
 
 namespace LinCms.Web.Controllers.Cms
