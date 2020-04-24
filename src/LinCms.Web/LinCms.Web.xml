@@ -4,11 +4,19 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
-        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             FreeSql
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            配置限流依赖的服务
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticle(System.Guid)">
             <summary>

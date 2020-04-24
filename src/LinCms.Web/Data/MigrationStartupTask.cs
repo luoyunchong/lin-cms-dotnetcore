@@ -17,12 +17,10 @@ namespace LinCms.Web.Data
 
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
+            using var scope = _serviceProvider.CreateScope();
+            IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
 
-                await dataSeedContributor.SeedAsync();
-            }
+            await dataSeedContributor.SeedAsync();
         }
 
     }

@@ -62,7 +62,7 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="id"></param>
         /// <returns></returns>
         [AuditingLog("管理员删除了一个用户")]
-        [HttpDelete("{id}")]
+        [HttpDelete("user/{id}")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
             await _userSevice.DeleteAsync(id);

@@ -34,11 +34,7 @@ namespace LinCms.Web.Controllers.Blog
         private readonly ICapPublisher _capBus;
         private readonly IClassifyService _classifyService;
 
-        public ArticleController(IAuditBaseRepository<Article> articleRepository,
-            IMapper mapper,
-            ICurrentUser currentUser,
-            IArticleService articleService,
-            ICapPublisher capBus, IClassifyService classifyService)
+        public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, IArticleService articleService, ICapPublisher capBus, IClassifyService classifyService)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;

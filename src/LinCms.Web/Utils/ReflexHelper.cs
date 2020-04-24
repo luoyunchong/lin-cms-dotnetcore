@@ -17,7 +17,7 @@ namespace LinCms.Web.Utils
     /// </summary>
     public class ReflexHelper
     {
-        public static List<T> GetAssembly<T>() where T : Attribute
+        public static List<T> GetAssemblies<T>() where T : Attribute
         {
             List<T> listT = new List<T>();
             List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()

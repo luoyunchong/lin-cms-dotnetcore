@@ -24,23 +24,18 @@ namespace LinCms.Web.Controllers.Cms
     [ApiController]
     public class Oauth2Controller : ControllerBase
     {
-        private readonly IHttpContextAccessor _contextAccessor;
         private const string LoginProviderKey = "LoginProvider";
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly IConfiguration _configuration;
         private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
+        private readonly IFreeSql _freeSql;
 
-        public IFreeSql FreeSql { get; }
-
-        public Oauth2Controller(IHttpContextAccessor contextAccessor,
-                                IConfiguration configuration,
-                                IFreeSql freeSql,
-                                IUserIdentityService userCommunityService,
-                                ILogger<Oauth2Controller> logger)
+        public Oauth2Controller(IHttpContextAccessor contextAccessor, IConfiguration configuration, IFreeSql freeSql, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger)
         {
             _contextAccessor = contextAccessor;
             _configuration = configuration;
-            FreeSql = freeSql;
+            _freeSql = freeSql;
             _userCommunityService = userCommunityService;
             _logger = logger;
         }
@@ -89,7 +84,7 @@ namespace LinCms.Web.Controllers.Cms
             }
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user = FreeSql.Select<LinUser>().IncludeMany(r => r.LinGroups)
+            LinUser user = _freeSql.Select<LinUser>().IncludeMany(r => r.LinGroups)
                 .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).First();
 
             List<Claim> claims = new List<Claim>()
