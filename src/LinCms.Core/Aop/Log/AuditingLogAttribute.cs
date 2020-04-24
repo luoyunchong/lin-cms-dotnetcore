@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Core.Aop
+namespace LinCms.Core.Aop.Log
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class AuditingLogAttribute : Attribute

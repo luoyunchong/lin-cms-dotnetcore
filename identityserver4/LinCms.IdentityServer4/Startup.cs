@@ -6,7 +6,6 @@ using System.Security.Cryptography.X509Certificates;
 #endif
 using AutoMapper;
 using HealthChecks.UI.Client;
-using LinCms.Application.AutoMapper.Cms;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Data;

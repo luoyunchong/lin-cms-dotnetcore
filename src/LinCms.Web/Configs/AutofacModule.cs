@@ -30,15 +30,17 @@ namespace LinCms.Web.Configs
             //builder.RegisterType<UnitOfWorkInterceptor>();
             //interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
 
-            builder.RegisterAssemblyTypes(servicesDllFile).Where(a => a.Name.EndsWith("Service"))
-                      .AsImplementedInterfaces()
-                      .InstancePerLifetimeScope()
-                      .EnableInterfaceInterceptors()
-                      .InterceptedBy(interceptorServiceTypes.ToArray());
+            builder.RegisterAssemblyTypes(servicesDllFile)
+                    .Where(a => a.Name.EndsWith("Service")&&a.Name!="QiniuService"&&a.Name!="LocalFileService")
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope()
+                    .EnableInterfaceInterceptors()
+                    .InterceptedBy(interceptorServiceTypes.ToArray());
 
-            builder.RegisterAssemblyTypes(assemblysRepository).Where(a => a.Name.EndsWith("Repository"))
-                   .AsImplementedInterfaces()
-                   .InstancePerLifetimeScope();
+            builder.RegisterAssemblyTypes(assemblysRepository)
+                    .Where(a => a.Name.EndsWith("Repository"))
+                    .AsImplementedInterfaces()
+                    .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(AuditBaseRepository<>)).As(typeof(IAuditBaseRepository<>)).InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(AuditBaseRepository<,>)).As(typeof(IAuditBaseRepository<,>)).InstancePerLifetimeScope();
@@ -63,7 +65,9 @@ namespace LinCms.Web.Configs
                 .Where(t => singletonDependency.GetTypeInfo().IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && !t.IsGenericType)
                 .AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterType<MigrationStartupTask>().SingleInstance().OnActivated(async args => await args.Instance.StartAsync());
+            // builder.RegisterType<MigrationStartupTask>().SingleInstance();
+            //
+            // builder.RegisterBuildCallback(async(c)=>await c.Resolve<MigrationStartupTask>().StartAsync());
 
         }
     }

@@ -12,6 +12,7 @@ using LinCms.Core.Extensions;
 using LinCms.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
+using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Blog
 {

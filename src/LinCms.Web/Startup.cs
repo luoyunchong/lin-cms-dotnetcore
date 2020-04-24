@@ -8,8 +8,9 @@ using Autofac;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
 using HealthChecks.UI.Client;
-using LinCms.Application.AutoMapper.Cms;
+using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Log;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
@@ -17,6 +18,7 @@ using LinCms.Core.Extensions;
 using LinCms.Core.Middleware;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Configs;
+using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
 using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Authentication;
@@ -243,8 +245,7 @@ namespace LinCms.Web
 
             #region Swagger
             //Swagger重写PascalCase，改成SnakeCase模式
-            services.TryAddEnumerable(ServiceDescriptor
-                .Transient<IApiDescriptionProvider, ApiDescriptionProvider>());
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IApiDescriptionProvider, ApiDescriptionProvider>());
 
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
@@ -283,8 +284,7 @@ namespace LinCms.Web
                 options.MultipartHeadersCountLimit = 10;
             });
 
-
-
+            #region 分布式事务一致性CAP
             IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:MySql");
             services.AddCap(x =>
             {
@@ -305,7 +305,8 @@ namespace LinCms.Web
                     Console.WriteLine(
                         $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
                 };
-            });
+            }); 
+            #endregion
 
             //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
             services.AddIpRateLimiting(Configuration);
@@ -353,7 +354,7 @@ namespace LinCms.Web
             app.UseAuthentication();
             app.UseHttpsRedirection();
      
-            app.UseIpRateLimiting();
+            app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()
                .UseAuthorization()

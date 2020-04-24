@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace LinCms.Core.Aop
+namespace LinCms.Core.Aop.Log
 {
     /// <summary>
     /// 全局日志记录
@@ -21,16 +21,14 @@ namespace LinCms.Core.Aop
         /// 操作类型CRUD
         /// </summary>
         //public LogEnum LogType { get; set; }
-        private readonly ILogRepository _logRepository;
         private string ActionArguments { get; set; }
         private Stopwatch Stopwatch { get; set; }
         private readonly ILogger<LogActionFilterAttribute> _logger;
         private readonly ICurrentUser _currentUser;
-        public LogActionFilterAttribute(ILogger<LogActionFilterAttribute> logger, ICurrentUser currentUser, ILogRepository logRepository)
+        public LogActionFilterAttribute(ILogger<LogActionFilterAttribute> logger, ICurrentUser currentUser)
         {
             _logger = logger;
             _currentUser = currentUser;
-            _logRepository = logRepository;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -96,8 +94,6 @@ namespace LinCms.Core.Aop
             }
 
             linLog.Message += $"{_currentUser.UserName}访问{context.HttpContext.Request.Path},耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒";
-
-           //_logRepository.Create(linLog);
 
             //记录文本日志
             _logger.LogInformation(JsonConvert.SerializeObject(linLog));

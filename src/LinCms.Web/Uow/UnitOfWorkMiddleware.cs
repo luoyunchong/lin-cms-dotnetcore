@@ -15,8 +15,9 @@ namespace LinCms.Web.Uow
             this.next = next;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext, IUnitOfWork unitOfWork)
+        public async Task InvokeAsync(HttpContext httpContext, UnitOfWorkManager unitOfWorkManager)
         {
+            using IUnitOfWork unitOfWork = unitOfWorkManager.Begin();
             try
             {
                 await next.Invoke(httpContext);
@@ -29,7 +30,7 @@ namespace LinCms.Web.Uow
             }
             finally
             {
-                unitOfWork.Dispose();
+                unitOfWorkManager.Dispose();
             }
         }
     }

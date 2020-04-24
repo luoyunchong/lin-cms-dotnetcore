@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
 using LinCms.Application.Contracts.Blog.Classifys;
+using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Blog
 {
