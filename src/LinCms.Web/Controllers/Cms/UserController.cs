@@ -10,6 +10,7 @@ using LinCms.Core.Entities;
 using LinCms.Core.Security;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users.Dtos;
+using LinCms.Core.Aop.Log;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
