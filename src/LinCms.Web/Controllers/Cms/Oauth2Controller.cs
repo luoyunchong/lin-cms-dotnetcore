@@ -106,7 +106,7 @@ namespace LinCms.Web.Controllers.Cms
 
 
         /// <summary>
-        /// https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=http://localhost:8080/#login-result
+        /// https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=http://localhost:8080/
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="redirectUrl"></param>
