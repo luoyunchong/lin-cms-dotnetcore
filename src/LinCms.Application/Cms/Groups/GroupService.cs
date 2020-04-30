@@ -73,35 +73,32 @@ namespace LinCms.Application.Cms.Groups
 
             LinGroup linGroup = _mapper.Map<LinGroup>(inputDto);
 
-            using (var conn = _freeSql.Ado.MasterPool.Get())
+            using var conn = _freeSql.Ado.MasterPool.Get();
+            DbTransaction transaction = conn.Value.BeginTransaction();
+            try
             {
-                DbTransaction transaction = conn.Value.BeginTransaction();
-                try
+                long groupId = _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentity();
+
+                List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
+
+                List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+                inputDto.PermissionIds.ForEach(r =>
                 {
-                    long groupId = _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentity();
-
-                    List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
-
-                    List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
-                    inputDto.PermissionIds.ForEach(r =>
+                    LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
+                    if (pdDto == null)
                     {
-                        LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
-                        if (pdDto == null)
-                        {
-                            throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
-                        }
-                        linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
-                    });
+                        throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
+                    }
+                    linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
+                });
 
-                    _freeSql.Insert<LinGroupPermission>().WithTransaction(transaction).AppendData(linPermissions).ExecuteAffrows();
-                    transaction.Commit();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    transaction.Rollback();
-                    throw;
-                }
+                _freeSql.Insert<LinGroupPermission>().WithTransaction(transaction).AppendData(linPermissions).ExecuteAffrows();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
             }
 
             //_freeSql.Transaction(() =>

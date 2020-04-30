@@ -27,9 +27,9 @@ namespace LinCms.Web
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .WriteTo.Console(new RenderedCompactJsonFormatter())
+                .WriteTo.Console()
+                .WriteTo.Debug(new RenderedCompactJsonFormatter())
                 .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Day,rollOnFileSizeLimit: true)
-                //.WriteTo.Fluentd("localhost", 30011, tag: "geektime-ordering-api", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
                 .CreateLogger();
             // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
             try
@@ -68,14 +68,14 @@ namespace LinCms.Web
                     webBuilder.UseStartup<Startup>().ConfigureAppConfiguration((host, config) =>
                     {
                         config.AddJsonFile($"RateLimitConfig.json", optional: true, reloadOnChange: true);
-                    }); ;
+                    }); 
                 })
-                .ConfigureLogging(logging =>
-                {
-                    logging.AddSerilog();
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
-                })
+                //.ConfigureLogging(logging =>
+                //{
+                //    logging.AddSerilog();
+                //    logging.ClearProviders();
+                //    logging.SetMinimumLevel(LogLevel.Trace);
+                //})
                 .UseSerilog();
     }
 }

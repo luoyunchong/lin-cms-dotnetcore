@@ -34,38 +34,49 @@ namespace LinCms.Core.Middleware
             }
             catch (Exception ex)
             {
-                if (ex is LinCmsException cmsException) //自定义业务异常
+                try
                 {
-                    await JsonHandle(context, cmsException.Message, cmsException.GetErrorCode(),
-                        cmsException.GetCode());
+                    await HandlerExceptionAsync(context, ex);
                 }
-                else
+                catch(Exception e)
                 {
-
-                    _logger.LogError(ex, "系统异常信息");
-                    if (_environment.IsDevelopment())
-                    {
-                        string errorMsg = "异常信息：";
-
-                        void ReadException(Exception ex)
-                        {
-                            errorMsg += $"{ex.Message} | {ex.StackTrace}";
-                            if (ex.InnerException != null)
-                            {
-                                ReadException(ex.InnerException);
-                            }
-                        }
-                        ReadException(ex);
-                        await JsonHandle(context, errorMsg, ErrorCode.UnknownError, 500);
-                    }
-                    else
-                    {
-                        await JsonHandle(context, "服务器正忙，请稍后再试!", ErrorCode.UnknownError, 500);
-                    }
+                    _logger.LogError(e.Message, "处理异常再出异常");
                 }
             }
         }
 
+        async Task HandlerExceptionAsync(HttpContext context, Exception ex)
+        {
+            if (ex is LinCmsException cmsException) //自定义业务异常
+            {
+                await JsonHandle(context, cmsException.Message, cmsException.GetErrorCode(),
+                    cmsException.GetCode());
+            }
+            else
+            {
+
+                _logger.LogError(ex, "系统异常信息");
+                if (_environment.IsDevelopment())
+                {
+                    string errorMsg = "异常信息：";
+
+                    void ReadException(Exception ex)
+                    {
+                        errorMsg += $"{ex.Message} | {ex.StackTrace}";
+                        if (ex.InnerException != null)
+                        {
+                            ReadException(ex.InnerException);
+                        }
+                    }
+                    ReadException(ex);
+                    await JsonHandle(context, errorMsg, ErrorCode.UnknownError, 500);
+                }
+                else
+                {
+                    await JsonHandle(context, "服务器正忙，请稍后再试!", ErrorCode.UnknownError, 500);
+                }
+            }
+        }
 
         /// <summary>
         /// 处理方式：返回Json格式
@@ -78,7 +89,7 @@ namespace LinCms.Core.Middleware
                 Message = errorMsg,
                 Code = errorCode,
                 Request = LinCmsUtils.GetRequest(context)
-            }; 
+            };
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;

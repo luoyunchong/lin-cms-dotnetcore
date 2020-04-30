@@ -11,7 +11,6 @@ using LinCms.Core.IRepositories;
 using LinCms.Infrastructure.Repositories;
 using LinCms.Web.Data;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Uow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,9 +64,9 @@ namespace LinCms.Web.Configs
                 .Where(t => singletonDependency.GetTypeInfo().IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && !t.IsGenericType)
                 .AsImplementedInterfaces().SingleInstance();
 
-            // builder.RegisterType<MigrationStartupTask>().SingleInstance();
-            //
-            // builder.RegisterBuildCallback(async(c)=>await c.Resolve<MigrationStartupTask>().StartAsync());
+            builder.RegisterType<MigrationStartupTask>().SingleInstance();
+
+            builder.RegisterBuildCallback(async (c) => await c.Resolve<MigrationStartupTask>().StartAsync());
 
         }
     }

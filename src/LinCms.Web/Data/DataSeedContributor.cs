@@ -5,6 +5,7 @@ using LinCms.Core.Data;
 using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
 using LinCms.Core.IRepositories;
+using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
 
 namespace LinCms.Web.Data
@@ -22,6 +23,7 @@ namespace LinCms.Web.Data
             _permissionRepository =permissionRepository;
         }
 
+        [Transactional]
         public async Task SeedAsync()
         {
             List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
@@ -38,7 +40,6 @@ namespace LinCms.Web.Data
                 }
             });
             await _permissionRepository.InsertAsync(insertPermissions);
-            _permissionRepository.UnitOfWork.Commit();
         }
     }
 }
