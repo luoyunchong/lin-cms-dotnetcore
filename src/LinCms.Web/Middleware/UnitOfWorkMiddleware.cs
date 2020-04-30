@@ -1,8 +1,11 @@
 ﻿using System.Threading.Tasks;
 using FreeSql;
+using LinCms;
+using LinCms.Web;
+using LinCms.Web.Middleware;
 using Microsoft.AspNetCore.Http;
 
-namespace LinCms.Web.Uow
+namespace LinCms.Web.Middleware
 {
     /// <summary>
     /// 处理FreeSql中同一个请求处于一个事务，并一同提交
@@ -17,7 +20,7 @@ namespace LinCms.Web.Uow
 
         public async Task InvokeAsync(HttpContext httpContext, UnitOfWorkManager unitOfWorkManager)
         {
-            using IUnitOfWork unitOfWork = unitOfWorkManager.Begin();
+            using IUnitOfWork unitOfWork = unitOfWorkManager.Begin(Propagation.Nested);
             try
             {
                 await next.Invoke(httpContext);

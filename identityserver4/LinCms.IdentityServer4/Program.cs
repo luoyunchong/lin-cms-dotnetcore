@@ -25,7 +25,7 @@ namespace LinCms.IdentityServer4
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .WriteTo.Console(new RenderedCompactJsonFormatter())
+                .WriteTo.Console()
                 .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Day,rollOnFileSizeLimit: true)
                 //.WriteTo.Fluentd("localhost", 30011, tag: "geektime-ordering-api", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
                 .CreateLogger();
