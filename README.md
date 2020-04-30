@@ -82,7 +82,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 文档API：Swagger([Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore))
 - 序列化：Newtonsoft.Json
 - 测试框架：Xunit
-- 日志 NLog
+- 日志 [Serilog](https://github.com/serilog/serilog-aspnetcore)
 - 依赖注入服务[AutoFac](https://github.com/autofac/Autofac.Extensions.DependencyInjection)
 - 通用扩展方法 Z.ExtensionMethods
 - 云存储：七牛云 [MQiniu.Core](https://github.com/Hello-Mango/MQiniu.Core)

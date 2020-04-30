@@ -11,7 +11,7 @@ using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Entities;
 using LinCms.Core.Middleware;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Uow;
+using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
