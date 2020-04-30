@@ -200,7 +200,16 @@ namespace LinCms.Application.Blog.Articles
 
             await _articleRepository.UpdateAsync(article);
             ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
-            await _articleDraftRepository.UpdateAsync(articleDraft);
+
+            bool exist=await _articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
+            if (exist)
+            {
+                await _articleDraftRepository.UpdateAsync(articleDraft);
+            }
+            else
+            {
+                await _articleDraftRepository.InsertAsync(articleDraft);
+            }
 
             return article;
         }

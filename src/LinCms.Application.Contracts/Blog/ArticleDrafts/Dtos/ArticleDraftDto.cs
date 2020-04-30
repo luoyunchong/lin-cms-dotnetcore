@@ -7,7 +7,7 @@ namespace LinCms.Application.Contracts.Blog.ArticleDrafts.Dtos
     public class ArticleDraftDto
     {
         public string Title { get; set; }
-
         public string Content { get; set; }
+        public int Editor { get; set; }
     }
 }
