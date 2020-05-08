@@ -2,7 +2,6 @@
 {
     public static class LinConsts
     {
-        public static string SITE_DOMAIN = "SITE_DOMAIN";
         public static class File
         {
             public static string STORE_DIR = "FILE:STORE_DIR";
@@ -14,6 +13,7 @@
             public static int CmsAdmin = 2;
             public static int User = 3;
         }
+
         public static class Qiniu
         {
             public static string AK = "Qiniu:AK";
