@@ -8,8 +8,8 @@ using FreeSql;
 using FreeSql.Internal;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
+using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Entities;
-using LinCms.Core.Middleware;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
@@ -55,6 +55,12 @@ namespace LinCms.Web.Configs
             {
                 Log.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
                           $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
+
+                if (e.ElapsedMilliseconds > 200)
+                {
+                    //记录日志
+                    //发送短信给负责人
+                }
             };
 
             //敏感词处理
@@ -79,11 +85,8 @@ namespace LinCms.Web.Configs
             }
 
             services.AddSingleton(fsql);
-            // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
             services.AddScoped<UnitOfWorkManager>();
-
-            Expression<Func<IDeleteAduitEntity, bool>> where = a => a.IsDeleted == false;
-            fsql.GlobalFilter.Apply("IsDeleted", where);
+            fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             //在运行时直接生成表结构
             fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
             services.AddFreeRepository();
@@ -109,8 +112,7 @@ namespace LinCms.Web.Configs
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            services.AddTransient<CustomExceptionMiddleWare>();
-            services.AddTransient<UnitOfWorkMiddleware>();
+            //services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
 
             IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
@@ -130,10 +132,10 @@ namespace LinCms.Web.Configs
 
         public static IServiceCollection AddFreeRepository(this IServiceCollection services)
         {
-            services.TryAddTransient(typeof(IBaseRepository<>), typeof(GuidRepository<>));
-            services.TryAddTransient(typeof(BaseRepository<>), typeof(GuidRepository<>));
-            services.TryAddTransient(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
-            services.TryAddTransient(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
+            services.TryAddScoped(typeof(IBaseRepository<>), typeof(GuidRepository<>));
+            services.TryAddScoped(typeof(BaseRepository<>), typeof(GuidRepository<>));
+            services.TryAddScoped(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
+            services.TryAddScoped(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
             return services;
         }
 

@@ -10,12 +10,14 @@ using DotNetCore.CAP.Messages;
 using HealthChecks.UI.Client;
 using LinCms.Application.Cms.Users;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Aop.Log;
+using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
+using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
-using LinCms.Core.Middleware;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Configs;
 using LinCms.Web.Middleware;
@@ -39,6 +41,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace LinCms.Web
 {
@@ -191,7 +194,7 @@ namespace LinCms.Web
 
             #endregion
 
-            services.AddCsRedisCore();
+            //services.AddCsRedisCore();
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
@@ -202,7 +205,7 @@ namespace LinCms.Web
              {
                  options.ValueProviderFactories.Add(new ValueProviderFactory());//设置SnakeCase形式的QueryString参数
                  options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
-                 //options.Filters.Add<UowActionFilter>(); // 添加请求方法时的日志记录过滤器
+                 options.Filters.Add<LinCmsExceptionFilter>(); // 添加请求方法时的日志记录过滤器
 
              })
              .AddNewtonsoftJson(opt =>
@@ -277,11 +280,11 @@ namespace LinCms.Web
             #endregion
 
 
-            services.Configure<FormOptions>(options =>
-            {
-                options.MultipartBodyLengthLimit = 1024 * 1024 * 2;
-                options.MultipartHeadersCountLimit = 10;
-            });
+            //services.Configure<FormOptions>(options =>
+            //{
+            //    options.MultipartBodyLengthLimit = 1024 * 1024 * 2;
+            //    options.MultipartHeadersCountLimit = 10;
+            //});
 
             #region 分布式事务一致性CAP
             IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:MySql");
@@ -304,13 +307,13 @@ namespace LinCms.Web
                     Console.WriteLine(
                         $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
                 };
-            }); 
+            });
             #endregion
 
-            //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
-            services.AddIpRateLimiting(Configuration);
+            ////之前请注入AddCsRedisCore，内部实现IDistributedCache接口
+            //services.AddIpRateLimiting(Configuration);
 
-            services.AddHealthChecks();
+            //services.AddHealthChecks();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -328,11 +331,14 @@ namespace LinCms.Web
             {
                 app.UseHsts();
             }
-            app.UseHsts();
+
             app.UseStaticFiles();
+
+            app.UseSerilogRequestLogging();
+
             //异常中间件应放在MVC执行事务的中件间的前面，否则异常时UnitOfWorkMiddleware无法catch异常
-            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
-            app.UseMiddleware(typeof(UnitOfWorkMiddleware));
+            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            // app.UseMiddleware(typeof(UnitOfWorkMiddleware));
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -346,25 +352,24 @@ namespace LinCms.Web
             app.UseCors(builder =>
             {
                 string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
-
                 builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
             });
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
-     
-            app.UseMiddleware<IpLimitMiddleware>();
+
+            //app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()
                .UseAuthorization()
                .UseEndpoints(endpoints =>
            {
                endpoints.MapControllers();
-               endpoints.MapHealthChecks("/health", new HealthCheckOptions
-               {
-                   Predicate = _ => true,
-                   ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-               });
+               //endpoints.MapHealthChecks("/health", new HealthCheckOptions
+               //{
+               //    Predicate = _ => true,
+               //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+               //});
            });
         }
 

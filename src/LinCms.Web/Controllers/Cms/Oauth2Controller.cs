@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Entities;
+using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -29,15 +31,15 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IConfiguration _configuration;
         private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
-        private readonly IFreeSql _freeSql;
+        private readonly IUserRepository _userRepository;
 
-        public Oauth2Controller(IHttpContextAccessor contextAccessor, IConfiguration configuration, IFreeSql freeSql, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger)
+        public Oauth2Controller(IHttpContextAccessor contextAccessor, IConfiguration configuration, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository)
         {
             _contextAccessor = contextAccessor;
             _configuration = configuration;
-            _freeSql = freeSql;
             _userCommunityService = userCommunityService;
             _logger = logger;
+            _userRepository = userRepository;
         }
 
 
@@ -60,7 +62,7 @@ namespace LinCms.Web.Controllers.Cms
                 return BadRequest();
             }
 
-            var authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return Redirect(redirectUrl);
             var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
@@ -80,12 +82,12 @@ namespace LinCms.Web.Controllers.Cms
                     break;
                 default:
                     _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
-                    break;
+                    throw new LinCmsException($"未知的privoder:{provider}！");
             }
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user = _freeSql.Select<LinUser>().IncludeMany(r => r.LinGroups)
-                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).First();
+            LinUser user =await _userRepository.Select.IncludeMany(r => r.LinGroups)
+                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
 
             List<Claim> claims = new List<Claim>()
                 {

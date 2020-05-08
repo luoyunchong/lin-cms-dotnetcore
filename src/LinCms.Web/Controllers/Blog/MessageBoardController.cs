@@ -8,6 +8,7 @@ using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Blog.MessageBoards;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;

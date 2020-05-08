@@ -17,15 +17,11 @@ namespace LinCms.Test.Repositories
     {
         private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
-        private readonly IFreeSql _freeSql;
-        private readonly IUnitOfWork _unitOfWork;
 
         public BookRepositoryTests() : base()
         {
             _bookRepository = GetRequiredService<IBookRepository>();
             _mapper = GetRequiredService<IMapper>();
-            _freeSql = GetRequiredService<IFreeSql>();
-            _unitOfWork = GetRequiredService<IUnitOfWork>();
         }
 
         private Book GetBook()
@@ -47,7 +43,6 @@ namespace LinCms.Test.Repositories
         {
             Book book = GetBook();
             Book backBook = _bookRepository.Insert(book);
-            _unitOfWork.Commit();
             Assert.Equal(book.Author, backBook.Author);
         }
 
@@ -57,7 +52,6 @@ namespace LinCms.Test.Repositories
 
             Book book = GetBook();
             Book backBook = await _bookRepository.InsertAsync(book);
-            _unitOfWork.Commit();
             Assert.Equal(book.Author, backBook.Author);
         }
 
@@ -76,7 +70,6 @@ namespace LinCms.Test.Repositories
                 GetBook(),
             };
             List<Book> backBooks = _bookRepository.Insert(listBook);
-            _unitOfWork.Commit();
             Assert.Equal(listBook[0].Author, backBooks[0].Author);
         }
 
@@ -93,14 +86,8 @@ namespace LinCms.Test.Repositories
                 GetBook(),
                 GetBook(),
             };
-            using (_unitOfWork)
-            {
-                //_unitOfWork.GetOrBeginTransaction();
-                List<Book> backBooks = await _bookRepository.InsertAsync(listBook);
-                _unitOfWork.Commit();
-                Assert.Equal(listBook[0].Author, backBooks[0].Author);
-
-            }
+            List<Book> backBooks = await _bookRepository.InsertAsync(listBook);
+            Assert.Equal(listBook[0].Author, backBooks[0].Author);
 
         }
 
@@ -110,7 +97,6 @@ namespace LinCms.Test.Repositories
             Book book = _bookRepository.Select.First();
             book.Title = "112122123";
             int len = _bookRepository.Update(book);
-            _unitOfWork.Commit();
             Assert.Equal(1, len);
         }
 
@@ -121,7 +107,6 @@ namespace LinCms.Test.Repositories
             Book book = await _bookRepository.Select.FirstAsync();
             book.Title = "123";
             int len = await _bookRepository.UpdateAsync(book);
-            _unitOfWork.Commit();
             Assert.Equal(1, len);
         }
 
@@ -133,7 +118,6 @@ namespace LinCms.Test.Repositories
         {
             Book book = _bookRepository.Select.First();
             _bookRepository.Delete(book);
-            _unitOfWork.Commit();
         }
 
         [Fact]
@@ -141,7 +125,6 @@ namespace LinCms.Test.Repositories
         {
             Book book = await _bookRepository.Select.FirstAsync();
             await _bookRepository.DeleteAsync(book);
-            _unitOfWork.Commit();
         }
 
 

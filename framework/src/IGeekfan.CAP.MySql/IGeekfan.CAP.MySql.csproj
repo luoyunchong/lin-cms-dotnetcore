@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <AssemblyName>VoVo.CAP.MySql</AssemblyName>
+    <AssemblyName>IGeekfan.CAP.MySql</AssemblyName>
     <PackageTags>MySQL</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>VoVo.CAP.MySql.xml</DocumentationFile>
+    <DocumentationFile>IGeekfan.CAP.MySql.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;CS1591</NoWarn>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.1</Version>
@@ -28,20 +28,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="VoVo.CAP.MySql.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="VoVo.CAP.MySql.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="DotNetCore.CAP" Version="3.0.4-preview-103991021" />
-    <PackageReference Include="FreeSql.DbContext" Version="1.4.0" />
-    <PackageReference Include="MySqlConnector" Version="0.64.1" />
+    <PackageReference Include="FreeSql.DbContext" Version="1.5.0-preview0509" />
+    <PackageReference Include="MySqlConnector" Version="0.66.0" />
   </ItemGroup>
 
 </Project>

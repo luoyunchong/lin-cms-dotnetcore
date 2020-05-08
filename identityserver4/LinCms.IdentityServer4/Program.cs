@@ -23,11 +23,7 @@ namespace LinCms.IdentityServer4
         public static int  Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
-                .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Day,rollOnFileSizeLimit: true)
-                //.WriteTo.Fluentd("localhost", 30011, tag: "geektime-ordering-api", restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
                 .CreateLogger();
                  // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
 
@@ -54,6 +50,6 @@ namespace LinCms.IdentityServer4
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .UseSerilog();// NLog: setup NLog for Dependency injection
+                .UseSerilog();
     }
 }

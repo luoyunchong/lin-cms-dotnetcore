@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>VoVo.CAP.MySql</name>
+        <name>IGeekfan.CAP.MySql</name>
     </assembly>
     <members>
         <member name="P:DotNetCore.CAP.MySqlOptions.ConnectionString">

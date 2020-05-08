@@ -422,11 +422,19 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Middleware.UnitOfWorkMiddleware">
+        <member name="M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
             <summary>
-            处理FreeSql中同一个请求处于一个事务，并一同提交
+            拦截同步执行的方法
             </summary>
+            <param name="invocation"></param>
         </member>
+        <member name="M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            拦截返回结果为Task的方法
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
         <member name="T:LinCms.Web.SnakeCaseQuery.SnakeCaseQueryValueProvider">
             <summary>
             下划线写法（SnakeCase）

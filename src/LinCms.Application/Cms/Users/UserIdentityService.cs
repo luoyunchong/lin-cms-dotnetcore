@@ -16,11 +16,11 @@ namespace LinCms.Application.Cms.Users
 {
     public class UserIdentityService : IUserIdentityService
     {
-        private readonly IFreeSql _freeSql;
         private readonly IUserRepository _userRepository;
-        public UserIdentityService(IFreeSql freeSql, IUserRepository userRepository)
+        private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
+        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, IUserRepository userRepository)
         {
-            _freeSql = freeSql;
+            _userIdentityRepository = userIdentityRepository;
             _userRepository = userRepository;
         }
 
@@ -42,7 +42,7 @@ namespace LinCms.Application.Cms.Users
             Expression<Func<LinUserIdentity, bool>> expression = r => 
                 r.IdentityType == LinUserIdentity.GitHub&& r.Credential == openId;
 
-            LinUserIdentity linUserIdentity =await _freeSql.Select<LinUserIdentity>().Where(expression).FirstAsync();
+            LinUserIdentity linUserIdentity =await _userIdentityRepository.Where(expression).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
@@ -77,7 +77,6 @@ namespace LinCms.Application.Cms.Users
                     }
                 };
                 await _userRepository.InsertAsync(user);
-                _userRepository.UnitOfWork.Commit();
                 userId = user.Id;
             }
             else
@@ -110,7 +109,7 @@ namespace LinCms.Application.Cms.Users
             Expression<Func<LinUserIdentity, bool>> expression = r => 
                 r.IdentityType == LinUserIdentity.QQ&& r.Credential == openId;
 
-            LinUserIdentity linUserIdentity =await _freeSql.Select<LinUserIdentity>().Where(expression).FirstAsync();
+            LinUserIdentity linUserIdentity =await _userIdentityRepository.Where(expression).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
@@ -159,7 +158,7 @@ namespace LinCms.Application.Cms.Users
 
         public bool VerifyUsernamePassword(long userId, string username, string password)
         {
-            LinUserIdentity userIdentity = _freeSql.Select<LinUserIdentity>()
+            LinUserIdentity userIdentity = _userIdentityRepository
                 .Where(r => r.CreateUserId == userId && r.Identifier == username)
                 .ToOne();
 
@@ -170,17 +169,15 @@ namespace LinCms.Application.Cms.Users
         {
             string encryptPassword = EncryptUtil.Encrypt(newpassword);
 
-            await _freeSql.Update<LinUserIdentity>()
-                .Where(r=>r.CreateUserId==userId&&r.IdentityType==LinUserIdentity.Password)
-                .Set(a => new LinUserIdentity()
-                {
-                    Credential = encryptPassword
-                }).ExecuteAffrowsAsync();
+             await _userIdentityRepository.UpdateDiy.Set(r => new LinUserIdentity()
+             {
+                 Credential = encryptPassword
+             }).ExecuteUpdatedAsync();
         }
 
         public async Task DeleteAsync(long userId)
         {
-            await _freeSql.Select<LinUserIdentity>().Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
+            await _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
         }
 
     }

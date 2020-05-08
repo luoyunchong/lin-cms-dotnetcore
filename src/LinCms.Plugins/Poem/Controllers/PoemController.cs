@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;

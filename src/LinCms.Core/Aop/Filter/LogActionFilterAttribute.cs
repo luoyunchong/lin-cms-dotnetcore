@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using LinCms.Core.Aop.Log;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace LinCms.Core.Aop.Log
+namespace LinCms.Core.Aop.Filter
 {
     /// <summary>
     /// 全局日志记录

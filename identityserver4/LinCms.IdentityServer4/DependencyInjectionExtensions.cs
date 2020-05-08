@@ -2,7 +2,6 @@
 using FreeSql;
 using FreeSql.Internal;
 using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,8 +30,8 @@ namespace LinCms.IdentityServer4
                    )
                    .Build();
             fsql.CodeFirst.IsSyncStructureToLower = true;
+
             services.AddSingleton(fsql);
-            // services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
             services.AddScoped<UnitOfWorkManager>();
             services.AddFreeRepository(filter =>
             {

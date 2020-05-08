@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Dependency;
 using LinCms.Core.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Core.Middleware
+namespace LinCms.Core.Aop.Middleware
 {
     /// <summary>
     /// 如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
@@ -38,7 +37,7 @@ namespace LinCms.Core.Middleware
                 {
                     await HandlerExceptionAsync(context, ex);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     _logger.LogError(e.Message, "处理异常再出异常");
                 }

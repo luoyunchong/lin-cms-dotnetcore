@@ -4,6 +4,7 @@ using LinCms.Application.Blog.Channels;
 using LinCms.Application.Contracts.Blog.Channels;
 using LinCms.Application.Contracts.Blog.Channels.Dtos;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +34,9 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("技术频道列表", "技术频道")]
         [HttpGet]
-        public Task<PagedResultDto<ChannelDto>> GetListAsync([FromQuery]PageDto pageDto)
+        public Task<PagedResultDto<ChannelDto>> GetListAsync([FromQuery]ChannelSearchDto searchDto)
         {
-            return _channelService.GetListAsync(pageDto);
+            return _channelService.GetListAsync(searchDto);
         }
 
         [HttpGet("nav")]
