@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Events;
 using Serilog.Formatting.Compact;
 
 namespace LinCms.Web
@@ -25,27 +26,23 @@ namespace LinCms.Web
         public static async Task<int> Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
-                .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.Debug(new RenderedCompactJsonFormatter())
-                .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Day,rollOnFileSizeLimit: true)
                 .CreateLogger();
             // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
             try
             {
                 Log.Debug("init main");
-                IHost webHost=CreateWebHostBuilder(args).Build();
-                
-                using (var scope = webHost.Services.CreateScope())
-                {
-                    // get the IpPolicyStore instance
-                    var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
-
-                    // seed IP data from appsettings
-                    await ipPolicyStore.SeedAsync();
-                }
-                
+               IHost webHost=CreateWebHostBuilder(args).Build();
+               //  
+               //  using (var scope = webHost.Services.CreateScope())
+               //  {
+               //      // get the IpPolicyStore instance
+               //      var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
+               //
+               //      // seed IP data from appsettings
+               //      await ipPolicyStore.SeedAsync();
+               //  }
+               //  
                await  webHost.RunAsync();
                return 0;
             }
@@ -70,12 +67,6 @@ namespace LinCms.Web
                         config.AddJsonFile($"RateLimitConfig.json", optional: true, reloadOnChange: true);
                     }); 
                 })
-                //.ConfigureLogging(logging =>
-                //{
-                //    logging.AddSerilog();
-                //    logging.ClearProviders();
-                //    logging.SetMinimumLevel(LogLevel.Trace);
-                //})
                 .UseSerilog();
     }
 }

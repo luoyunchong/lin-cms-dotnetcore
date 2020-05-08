@@ -26,7 +26,6 @@ namespace LinCms.Application.Cms.Users
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IFreeSql _freeSql;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IUserIdentityService _userIdentityService;
@@ -34,13 +33,12 @@ namespace LinCms.Application.Cms.Users
         private readonly IGroupService _groupService;
 
         public UserService(IUserRepository userRepository,
-            IFreeSql freeSql,
             IMapper mapper,
             ICurrentUser currentUser,
-            IUserIdentityService userIdentityService, IPermissionService permissionService, IGroupService groupService)
+            IUserIdentityService userIdentityService, 
+            IPermissionService permissionService, IGroupService groupService)
         {
             _userRepository = userRepository;
-            _freeSql = freeSql;
             _mapper = mapper;
             _currentUser = currentUser;
             _userIdentityService = userIdentityService;
@@ -191,10 +189,10 @@ namespace LinCms.Application.Cms.Users
                 throw new LinCmsException("当前用户已处于激活状态");
             }
 
-            await _freeSql.Update<LinUser>(id).Set(a => new LinUser()
-            {
-                Active = userActive.GetHashCode()
-            }).ExecuteAffrowsAsync();
+            await  _userRepository.UpdateDiy.Where(r=>r.Id==id)
+                .Set(r => new {  Active = userActive.GetHashCode()})
+                .ExecuteUpdatedAsync();
+         
         }
 
         public async Task<LinUser> GetCurrentUserAsync()

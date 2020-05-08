@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using FreeSql.DataAnnotations;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
@@ -181,17 +182,18 @@ namespace LinCms.Web.Utils
         /// <returns></returns>
         public static Type[] GetEntityTypes(Type type)
         {
-            Type[] tableAssembies = Assembly.GetAssembly(type).GetExportedTypes().Where(o =>
+            List<Type> tableAssembies = new List<Type>();
+            Assembly.GetAssembly(type).GetExportedTypes().ForEach(o =>
             {
-                foreach (Attribute a in Attribute.GetCustomAttributes(o, true))
+                foreach (Attribute attribute in o.GetCustomAttributes())
                 {
-                    if (a is TableAttribute)
-                        return true;
+                    if (attribute is TableAttribute linCmsAuthorize)
+                    {
+                        tableAssembies.Add(o);
+                    }
                 }
-                return false;
-
-            }).ToArray();
-            return tableAssembies;
+            });
+            return tableAssembies.ToArray();
         }
     }
 }

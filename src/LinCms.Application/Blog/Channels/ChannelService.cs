@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Channels;
 using LinCms.Application.Contracts.Blog.Channels.Dtos;
+using LinCms.Core.Aop.Attributes;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
@@ -17,12 +18,12 @@ namespace LinCms.Application.Blog.Channels
 {
     public class ChannelService : IChannelService
     {
-        private readonly IAuditBaseRepository<Channel> _channelRepository;
-        private readonly IAuditBaseRepository<ChannelTag> _channelTagRepository;
+        private readonly IAuditBaseRepository<Channel, Guid> _channelRepository;
+        private readonly IAuditBaseRepository<ChannelTag, Guid> _channelTagRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
 
-        public ChannelService(IMapper mapper, IAuditBaseRepository<Channel> channelRepository, ICurrentUser currentUser, IAuditBaseRepository<ChannelTag> channelTagRepository)
+        public ChannelService(IMapper mapper, IAuditBaseRepository<Channel, Guid> channelRepository, ICurrentUser currentUser, IAuditBaseRepository<ChannelTag, Guid> channelTagRepository)
         {
             _mapper = mapper;
             _channelRepository = channelRepository;
@@ -35,13 +36,14 @@ namespace LinCms.Application.Blog.Channels
             await _channelRepository.DeleteAsync(new Channel { Id = id });
         }
 
-        public async Task<PagedResultDto<ChannelDto>> GetListAsync(PageDto pageDto)
+        public async Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto)
         {
             List<ChannelDto> channel = (await _channelRepository.Select
                     .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                    .WhereIf(searchDto.ChannelName.IsNotNullOrEmpty(), r => r.ChannelName.Contains(searchDto.ChannelName))
                     .OrderByDescending(r => r.SortCode)
                     .OrderBy(r => r.CreateTime)
-                    .ToPagerListAsync(pageDto, out long totalCount))
+                    .ToPagerListAsync(searchDto, out long totalCount))
                     .Select(r =>
                     {
                         ChannelDto channelDto = _mapper.Map<ChannelDto>(r);
@@ -97,27 +99,27 @@ namespace LinCms.Application.Blog.Channels
             await _channelRepository.InsertAsync(channel);
         }
 
+        [Transactional]
         public async Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel)
         {
             Channel channel = await _channelRepository.Select.Where(r => r.Id == id).ToOneAsync();
-            if (channel == null)
-            {
-                throw new LinCmsException("该数据不存在");
-            }
+            //if (channel == null)
+            //{
+            //    throw new LinCmsException("该数据不存在");
+            //}
 
-            bool exist = _channelRepository.Select.Any(r => r.ChannelName == updateChannel.ChannelName && r.Id != id && r.ChannelCode == updateChannel.ChannelCode);
-            if (exist)
-            {
-                throw new LinCmsException($"技术频道[{updateChannel.ChannelName}]已存在");
-            }
+            //bool exist = await _channelRepository.Select.AnyAsync(r => r.ChannelName == updateChannel.ChannelName && r.Id != id && r.ChannelCode == updateChannel.ChannelCode);
+            //if (exist)
+            //{
+            //    throw new LinCmsException($"技术频道[{updateChannel.ChannelName}]已存在");
+            //}
 
             _mapper.Map(updateChannel, channel);
+            await _channelRepository.UpdateAsync(channel);
+            await _channelTagRepository.DeleteAsync(r => r.ChannelId == id);
 
             var channelTagLists = new List<ChannelTag>();
             updateChannel.TagIds?.ForEach(r => { channelTagLists.Add(new ChannelTag(id, r)); });
-
-            await _channelTagRepository.DeleteAsync(r => r.ChannelId == id);
-            await _channelRepository.UpdateAsync(channel);
             await _channelTagRepository.InsertAsync(channelTagLists);
 
         }

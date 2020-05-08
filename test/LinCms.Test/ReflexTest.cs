@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using FreeSql.DataAnnotations;
-using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Web;
@@ -169,23 +169,14 @@ namespace LinCms.Test
         [Fact]
         public void Test()
         {
-            var assem = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToList();
+            List<Assembly> assem = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToList();
         }
 
         [Fact]
         public void RelfexGetCustomAttributes()
         {
-            Type[] tableAssembies = Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes().Where(o =>
-            {
-                foreach (Attribute a in Attribute.GetCustomAttributes(o, true))
-                {
-                    if (a is TableAttribute)
-                        return true;
-                }
-                return false;
-
-            }).ToArray();
-
+            var entityTypes = ReflexHelper.GetEntityTypes(typeof(IEntity));
+            Assert.True(entityTypes.Length > 0);
         }
     }
 }

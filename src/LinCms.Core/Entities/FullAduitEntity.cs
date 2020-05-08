@@ -141,7 +141,7 @@ namespace LinCms.Core.Entities
         T Id { get; set; }
     }
 
-    public interface IEntity : IEntity<int>
+    public interface IEntity : IEntity<long>
     {
     }
 }

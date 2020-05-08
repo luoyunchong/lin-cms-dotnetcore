@@ -8,15 +8,13 @@ namespace LinCms.Application.Contracts.Blog.Articles
 {
     public interface IArticleService
     {
+        Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle);
+        Task<Article> UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
         Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto);
 
         Task DeleteAsync(Guid id);
 
         Task<ArticleDto> GetAsync(Guid id);
-
-        Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle);
-
-        Task<Article> UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
 
         Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
 

@@ -124,7 +124,7 @@ namespace LinCms.Application.Cms.Groups
 
         public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)
         {
-            await _freeSql.Update<LinGroup>(id).Set(a => new LinGroup()
+            await _groupRepository.UpdateDiy.Set(a => new LinGroup()
             {
                 Info = updateGroupDto.Info,
                 Name = updateGroupDto.Name

@@ -11,7 +11,7 @@ using LinCms.Core.Exceptions;
 using LinCms.Core.IRepositories;
 using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using LinCms.Core.Aop.Filter;
 namespace LinCms.Web.Controllers.Base
 {
     [Route("v1/type")]

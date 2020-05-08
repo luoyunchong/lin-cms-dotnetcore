@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
 using LinCms.Application.Contracts.Blog.Classifys;
+using LinCms.Core.Aop.Filter;
 using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Blog
@@ -32,16 +33,14 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly ICapPublisher _capBus;
         private readonly IClassifyService _classifyService;
 
-        public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, IArticleService articleService, ICapPublisher capBus, IClassifyService classifyService)
+        public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, IArticleService articleService, IClassifyService classifyService)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _articleService = articleService;
-            _capBus = capBus;
             _classifyService = classifyService;
         }
 
@@ -154,11 +153,6 @@ namespace LinCms.Web.Controllers.Blog
         public async Task<Guid> CreateAsync([FromBody] CreateUpdateArticleDto createArticle)
         {
             Guid id = await _articleService.CreateAsync(createArticle);
-
-            _capBus.Publish("NotificationController.Post", new CreateNotificationDto()
-            {
-            });
-
             return id;
         }
 

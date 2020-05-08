@@ -8,12 +8,12 @@ using AutoMapper;
 using HealthChecks.UI.Client;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Core.Aop.Filter;
+using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.IRepositories;
-using LinCms.Core.Middleware;
 using LinCms.Core.Security;
 using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.Infrastructure.Repositories;
@@ -36,7 +36,7 @@ namespace LinCms.IdentityServer4
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-           
+
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -96,6 +96,7 @@ namespace LinCms.IdentityServer4
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddTransient<IUserIdentityService, UserIdentityService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
+            services.AddTransient(typeof(IAuditBaseRepository<>),typeof(AuditBaseRepository<>));
             services.AddTransient<CustomExceptionMiddleWare>();
 
             services.AddCors();
@@ -103,7 +104,7 @@ namespace LinCms.IdentityServer4
 
             services.AddControllers(options =>
                 {
-                    options.Filters.Add<LinCmsExceptionFilter>();
+                    //options.Filters.Add<LinCmsExceptionFilter>();
                 })
                 .AddNewtonsoftJson(opt =>
                 {
@@ -165,10 +166,7 @@ namespace LinCms.IdentityServer4
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
-                //c.RoutePrefix = string.Empty;
-                //c.OAuthClientId("demo_api_swagger");//客服端名称
-                //c.OAuthAppName("Demo API - Swagger-演示"); // 描述
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms.IdentityServer4");
             });
 
             app.UseEndpoints(endpoints =>

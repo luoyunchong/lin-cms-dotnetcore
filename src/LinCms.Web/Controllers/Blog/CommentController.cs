@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
 using System.Threading.Tasks;
+using LinCms.Core.Aop.Filter;
 using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Blog
@@ -37,10 +38,13 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly ICommentService _commentService;
-        private readonly ICapPublisher _capBus;
         private readonly IAuditBaseRepository<Article> _articleRepository;
-
-        public CommentController(IAuditBaseRepository<Comment> commentAuditBaseRepository,IMapper mapper, ICurrentUser currentUser,ICommentService commentService,IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
+        private readonly ICapPublisher _capBus;
+        public CommentController(
+            IAuditBaseRepository<Comment> commentAuditBaseRepository,
+            IMapper mapper,
+            ICurrentUser currentUser, ICommentService commentService,
+            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
@@ -222,7 +226,7 @@ namespace LinCms.Web.Controllers.Blog
 
             if (_currentUser.Id != createCommentDto.RespUserId)
             {
-                _capBus.Publish("NotificationController.Post", new CreateNotificationDto()
+                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
                 {
                     NotificationType = NotificationType.UserCommentOnArticle,
                     ArticleId = createCommentDto.SubjectId,
