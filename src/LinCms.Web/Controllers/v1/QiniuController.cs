@@ -31,7 +31,7 @@ namespace LinCms.Web.Controllers.v1
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly ITagService _tagService;
         private readonly IAuditBaseRepository<Tag> _tagAuditBaseRepository;
-        public QiniuController( IWebHostEnvironment hostingEnv, IFileService fileService, ITagService tagService, IAuditBaseRepository<Tag> tagAuditBaseRepository)
+        public QiniuController(IWebHostEnvironment hostingEnv, IFileService fileService, ITagService tagService, IAuditBaseRepository<Tag> tagAuditBaseRepository)
         {
             _hostingEnv = hostingEnv;
             _fileService = fileService;
@@ -65,7 +65,7 @@ namespace LinCms.Web.Controllers.v1
                     continue;
                 }
 
-                FileDto fileDto = this.UploadToQiniu(tag["icon"].ToString());
+                FileDto fileDto =await this.UploadToQiniu(tag["icon"].ToString());
 
                 var tagEntity = new CreateUpdateTagDto()
                 {
@@ -81,10 +81,10 @@ namespace LinCms.Web.Controllers.v1
             return UnifyResponseDto.Success();
         }
 
-        private FileDto UploadToQiniu(string remoteImagePath)
+        private async Task<FileDto> UploadToQiniu(string remoteImagePath)
         {
             IFormFile file = GetUrlFormFile(remoteImagePath);
-            return _fileService.Upload(file);
+            return await _fileService.UploadAsync(file);
         }
 
 

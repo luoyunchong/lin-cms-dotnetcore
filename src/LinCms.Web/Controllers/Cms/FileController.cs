@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files.Dtos;
@@ -19,15 +20,18 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         /// <summary>
-        /// 上传多文件至本地或七牛云，swagger无法正常生成
+        /// 多文件上传
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public List<FileDto> UploadFiles()
+        public List<FileDto> UploadFiles(IFormFileCollection files)
         {
-            IFormFileCollection files = Request.Form.Files;
             List<FileDto> fileDtos = new List<FileDto>();
-            files.ForEach((file, index) => { fileDtos.Add(_fileService.Upload(file, index)); });
+            files.ForEach(async (file, index) =>
+            {
+                FileDto fileDto = await _fileService.UploadAsync(file, index);
+                fileDtos.Add(fileDto);
+            });
             return fileDtos;
         }
 
@@ -37,10 +41,10 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="file"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-       [HttpPost("upload")]
-        public FileDto Upload(IFormFile file, int key = 0)
+        [HttpPost("upload")]
+        public async Task<FileDto> UploadAsync(IFormFile file, int key = 0)
         {
-            return _fileService.Upload(file, key);
+            return await _fileService.UploadAsync(file, key);
         }
     }
 }

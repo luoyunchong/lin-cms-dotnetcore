@@ -13,10 +13,12 @@ namespace LinCms.Core.Security
         private static readonly Claim[] EmptyClaimsArray = new Claim[0];
         private readonly ClaimsPrincipal _claimsPrincipal;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CurrentUser(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
             _claimsPrincipal = httpContextAccessor.HttpContext?.User ?? Thread.CurrentPrincipal as ClaimsPrincipal;
         }
         public long? Id => _claimsPrincipal?.FindUserId();
@@ -56,7 +58,9 @@ namespace LinCms.Core.Security
                 return _configuration[LinConsts.Qiniu.Host] + path;
             }
 
-            return _configuration[LinConsts.SITE_DOMAIN] + _configuration[LinConsts.File.STORE_DIR] + "/" + path;
+            HttpRequest request = _httpContextAccessor.HttpContext.Request;
+            string domainUrl = $"{request.Scheme}://{request.Host}";
+            return domainUrl + "/" + path;
 
         }
     }
