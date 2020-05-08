@@ -9,6 +9,7 @@ using FreeSql.Internal;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Aop.Middleware;
+using LinCms.Core.Data.Options;
 using LinCms.Core.Entities;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Middleware;
@@ -110,12 +111,12 @@ namespace LinCms.Web.Configs
 
         public static void AddDIServices(this IServiceCollection services)
         {
+            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             //services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
 
-            IConfiguration configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             string serviceName = configuration.GetSection("FILE:SERVICE").Value;
             if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FILE:SERVICE未配置");
             if (serviceName == LinFile.LocalFileService)
@@ -125,6 +126,7 @@ namespace LinCms.Web.Configs
             }
             else
             {
+                services.Configure<QiniuOptions>(configuration.GetSection("Qiniu"));
                 services.AddTransient<IFileService, QiniuService>();
             }
         }
