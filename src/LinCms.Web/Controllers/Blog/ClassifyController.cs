@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Blog.Classifys;
 using LinCms.Application.Contracts.Blog.Classifys.Dtos;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
@@ -31,14 +33,14 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpDelete("{id}")]
-        public UnifyResponseDto DeleteClassify(Guid id)
+        public async Task<UnifyResponseDto> DeleteClassify(Guid id)
         {
-            Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
+            Classify classify =await _classifyRepository.Select.Where(a => a.Id == id).ToOneAsync();
             if (classify.CreateUserId != _currentUser.Id)
             {
                 throw new LinCmsException("您无权删除他人的分类专栏");
             }
-            _classifyRepository.Delete(new Classify { Id = id });
+            await    _classifyRepository.DeleteAsync(new Classify { Id = id });
             return UnifyResponseDto.Success();
         }
 
@@ -90,32 +92,32 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpGet("{id}")]
-        public ClassifyDto Get(Guid id)
+        public async Task<ClassifyDto> GetAsync(Guid id)
         {
-            Classify classify = _classifyRepository.Select.Where(a => a.Id == id).ToOne();
+            Classify classify =await _classifyRepository.Select.Where(a => a.Id == id).ToOneAsync();
             ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(classify);
             classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
             return classifyDto;
         }
 
         [HttpPost]
-        public UnifyResponseDto Post([FromBody] CreateUpdateClassifyDto createClassify)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateClassifyDto createClassify)
         {
-            bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
+            bool exist =await _classifyRepository.Select.AnyAsync(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException($"分类专栏[{createClassify.ClassifyName}]已存在");
             }
 
             Classify classify = _mapper.Map<Classify>(createClassify);
-            _classifyRepository.Insert(classify);
+            await _classifyRepository.InsertAsync(classify);
             return UnifyResponseDto.Success("新建分类专栏成功");
         }
 
         [HttpPut("{id}")]
-        public UnifyResponseDto Put(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
+        public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
         {
-            Classify classify = _classifyRepository.Select.Where(r => r.Id == id).ToOne();
+            Classify classify =await _classifyRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (classify == null)
             {
                 throw new LinCmsException("该数据不存在");
@@ -126,7 +128,7 @@ namespace LinCms.Web.Controllers.Blog
                 throw new LinCmsException("您无权编辑他人的分类专栏");
             }
 
-            bool exist = _classifyRepository.Select.Any(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == _currentUser.Id);
+            bool exist =await _classifyRepository.Select.AnyAsync(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException($"分类专栏[{updateClassify.ClassifyName}]已存在");
@@ -134,8 +136,7 @@ namespace LinCms.Web.Controllers.Blog
 
             _mapper.Map(updateClassify, classify);
 
-            _classifyRepository.Update(classify);
-            _classifyRepository.UnitOfWork.Commit();
+            await   _classifyRepository.UpdateAsync(classify);
             return UnifyResponseDto.Success("更新分类专栏成功");
         }
 

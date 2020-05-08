@@ -20,7 +20,6 @@ namespace LinCms.Test.Repositories.Blog
         private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly IMapper _mapper;
         private readonly IFreeSql _freeSql;
-        private readonly IUnitOfWork _unitOfWork;
         ITestOutputHelper _testOutputHelper;
         public ArticleRepositoryTest(ITestOutputHelper _testOutputHelper) : base()
         {
@@ -29,7 +28,6 @@ namespace LinCms.Test.Repositories.Blog
             _tagArticleRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<TagArticle>>();
             _mapper = ServiceProvider.GetRequiredService<IMapper>();
             _freeSql = ServiceProvider.GetRequiredService<IFreeSql>();
-            _unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
             this._testOutputHelper = _testOutputHelper;
         }
 
@@ -142,14 +140,6 @@ namespace LinCms.Test.Repositories.Blog
 
         }
 
-        [Fact]
-        public void Test()
-        {
-            Guid guid = new Guid("5dc93286-5e44-c190-008e-3fc74d4fcee0");
-            var error = _articleRepository.Select.IncludeMany(r => r.Tags)
-                .Where(r => r.Id == guid)
-                .ToList(); ;
-        }
 
         [Fact]
         public void Test2()
@@ -253,7 +243,6 @@ namespace LinCms.Test.Repositories.Blog
             };
 
             await _articleRepository.InsertAsync(article);
-            _unitOfWork.Commit();
         }
     }
 }

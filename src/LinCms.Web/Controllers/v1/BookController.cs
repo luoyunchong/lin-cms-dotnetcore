@@ -4,6 +4,7 @@ using LinCms.Application.Contracts.Cms.Books;
 using LinCms.Application.Contracts.v1.Books;
 using LinCms.Application.Contracts.v1.Books.Dtos;
 using LinCms.Core.Aop;
+using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;

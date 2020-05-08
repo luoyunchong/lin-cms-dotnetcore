@@ -12,7 +12,6 @@ using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.v1.Books
 {
-
     public class BookService : IBookService
     {
         private readonly IAuditBaseRepository<Book> _bookRepository;

@@ -20,7 +20,7 @@
         "Endpoint": "*",
        // "Endpoint": "*:/cms/test",
         "Period": "1s",
-        "Limit": 3
+        "Limit": 10
       }
     ]
   },

@@ -12,13 +12,13 @@ namespace LinCms.Core.Entities
         public const string WeiXin = "WeiXin";
 
         /// <summary>
-        ///认证类型， GitHub、QQ、WeiXin等
+        ///认证类型， Password，GitHub、QQ、WeiXin等
         /// </summary>
         [Column(DbType = "varchar(20)")]
         public string IdentityType { get; set; }
       
         /// <summary>
-        /// 认证，例如 用户名,
+        /// 认证者，例如 用户名,手机号，邮件等，
         /// </summary>
         [Column(DbType = "varchar(24)")]
         public string Identifier { get; set; }

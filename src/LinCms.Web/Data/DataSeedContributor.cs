@@ -23,7 +23,6 @@ namespace LinCms.Web.Data
             _permissionRepository =permissionRepository;
         }
 
-        [Transactional]
         public async Task SeedAsync()
         {
             List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();

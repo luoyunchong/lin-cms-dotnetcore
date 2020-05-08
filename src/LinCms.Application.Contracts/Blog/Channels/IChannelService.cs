@@ -9,7 +9,7 @@ namespace LinCms.Application.Contracts.Blog.Channels
     {
         Task DeleteAsync(Guid id);
       
-        Task<PagedResultDto<ChannelDto>> GetListAsync(PageDto pageDto);
+        Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto);
 
         /// <summary>
         /// 首页减少不必要的字段后，流量字节更少
