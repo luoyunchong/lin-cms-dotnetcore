@@ -304,9 +304,9 @@
             <param name="resetPasswordDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles">
+        <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles(Microsoft.AspNetCore.Http.IFormFileCollection)">
             <summary>
-            上传多文件至本地或七牛云，swagger无法正常生成
+            上传多文件
             </summary>
             <returns></returns>
         </member>

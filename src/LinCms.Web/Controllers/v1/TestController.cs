@@ -65,10 +65,11 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet("getDictionary")]
         public IDictionary<string, string> GetDictionary()
         {
-            IDictionary<string, string> dics = new Dictionary<string, string>();
-
-            dics.Add("Key", "Value");
-            dics.Add("Key_Test", "Value_Test");
+            IDictionary<string, string> dics = new Dictionary<string, string>
+            {
+                { "Key", "Value" },
+                { "Key_Test", "Value_Test" }
+            };
 
             return dics;
         }

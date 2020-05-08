@@ -14,6 +14,7 @@ using LinCms.Core.Aop.Log;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
+using LinCms.Core.Data.Options;
 using LinCms.Core.Extensions;
 using LinCms.Core.Middleware;
 using LinCms.Plugins.Poem.AutoMapper;
@@ -53,6 +54,7 @@ namespace LinCms.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddContext(Configuration);
 
             #region IdentityServer4
@@ -346,7 +348,6 @@ namespace LinCms.Web
             app.UseCors(builder =>
             {
                 string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
-
                 builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
             });
 

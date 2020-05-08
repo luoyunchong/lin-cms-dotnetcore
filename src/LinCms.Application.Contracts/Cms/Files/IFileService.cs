@@ -1,5 +1,6 @@
 ﻿using LinCms.Application.Contracts.Cms.Files.Dtos;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace LinCms.Application.Contracts.Cms.Files
 {
@@ -11,6 +12,6 @@ namespace LinCms.Application.Contracts.Cms.Files
         /// <param name="file"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        FileDto Upload(IFormFile file , int key = 0);
+        Task<FileDto> UploadAsync(IFormFile file, int key = 0);
     }
 }
