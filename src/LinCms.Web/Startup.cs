@@ -17,6 +17,7 @@ using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Exceptions;
+using LinCms.Core.Data.Options;
 using LinCms.Core.Extensions;
 using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Configs;
@@ -56,6 +57,7 @@ namespace LinCms.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddContext(Configuration);
 
             #region IdentityServer4
