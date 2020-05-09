@@ -114,14 +114,13 @@ namespace LinCms.Web.Configs
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            //services.AddTransient<CustomExceptionMiddleWare>();
+            services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
 
             string serviceName = configuration.GetSection("FILE:SERVICE").Value;
             if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FILE:SERVICE未配置");
             if (serviceName == LinFile.LocalFileService)
             {
-                
                 services.AddTransient<IFileService, LocalFileService>();
             }
             else

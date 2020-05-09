@@ -38,7 +38,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 return;
             }
 
-            bool valid = _userIdentityService.VerifyUsernamePassword(user.Id, context.UserName, context.Password);
+            bool valid =await _userIdentityService.VerifyUserPasswordAsync(user.Id,context.Password);
 
             if (!valid)
             {

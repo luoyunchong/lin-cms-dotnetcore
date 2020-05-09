@@ -148,8 +148,12 @@ namespace LinCms.IdentityServer4
             {
                 //app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
             app.UseMiddleware(typeof(CustomExceptionMiddleWare));
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
