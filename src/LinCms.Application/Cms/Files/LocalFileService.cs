@@ -17,15 +17,13 @@ namespace LinCms.Application.Cms.Files
     public class LocalFileService : IFileService
     {
         private readonly IWebHostEnvironment _hostingEnv;
-        private readonly IAuditBaseRepository<LinFile> _fileRepository;
+        private readonly IAuditBaseRepository<LinFile,long> _fileRepository;
         private readonly IConfiguration _configuration;
-        private readonly IHttpContextAccessor _contextAccessor;
 
-        public LocalFileService(IWebHostEnvironment hostingEnv, IConfiguration configuration, IHttpContextAccessor contextAccessor, IAuditBaseRepository<LinFile> fileRepository)
+        public LocalFileService(IWebHostEnvironment hostingEnv, IConfiguration configuration,IAuditBaseRepository<LinFile,long> fileRepository)
         {
             _hostingEnv = hostingEnv;
             _configuration = configuration;
-            _contextAccessor = contextAccessor;
             _fileRepository = fileRepository;
         }
 
@@ -41,25 +39,24 @@ namespace LinCms.Application.Cms.Files
             {
                 throw new LinCmsException("文件为空");
             }
-            string newSaveName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            string fileDir = _configuration[LinConsts.File.STORE_DIR];
-
-            string path = Path.Combine(fileDir, DateTime.Now.ToString("yyy/MM/dd"), newSaveName);
-
-            string savePath = Path.Combine(_hostingEnv.WebRootPath, path);
-            if (!Directory.Exists(savePath))
+            
+            string saveFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            string path = Path.Combine(_configuration[LinConsts.File.STORE_DIR], DateTime.Now.ToString("yyy/MM/dd"));
+            string createFolder = Path.Combine(_hostingEnv.WebRootPath, path);
+       
+            if (!Directory.Exists(createFolder))
             {
-                Directory.CreateDirectory(savePath);
+                Directory.CreateDirectory(createFolder);
             }
 
-            using (FileStream fs = File.Create(Path.Combine(savePath, newSaveName)))
+            using (FileStream fs = File.Create(Path.Combine(createFolder, saveFileName)))
             {
                 file.CopyTo(fs);
                 len = fs.Length;
                 fs.Flush();
             }
 
-            return path.Replace("\\", "/");
+            return Path.Combine(path,saveFileName).Replace("\\", "/");
         }
 
         /// <summary>
@@ -72,10 +69,10 @@ namespace LinCms.Application.Cms.Files
         {
             string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
             LinFile linFile = await _fileRepository.Where(r => r.Md5 == md5 && r.Type == 1).OrderByDescending(r => r.CreateTime).FirstAsync();
-
-            HttpRequest request = _contextAccessor.HttpContext.Request;
-            string Host = $"{request.Scheme}://{request.Host}";
-
+            
+            //HttpRequest request = _contextAccessor.HttpContext.Request;
+            //string Host = $"{request.Scheme}://{request.Host}";
+            string Host = _configuration[LinConsts.File.SITE_DOMAIN];
             if (linFile != null && File.Exists(Path.Combine(_hostingEnv.WebRootPath, linFile.Path)))
             {
                 return new FileDto

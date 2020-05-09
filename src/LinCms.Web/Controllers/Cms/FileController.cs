@@ -24,8 +24,9 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public List<FileDto> UploadFiles(IFormFileCollection files)
+        public List<FileDto> UploadFiles()
         {
+            IFormFileCollection files = Request.Form.Files;
             List<FileDto> fileDtos = new List<FileDto>();
             files.ForEach(async (file, index) =>
             {

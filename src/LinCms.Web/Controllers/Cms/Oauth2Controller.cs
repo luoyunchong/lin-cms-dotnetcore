@@ -129,7 +129,7 @@ namespace LinCms.Web.Controllers.Cms
             }
 
             HttpRequest request = _contextAccessor.HttpContext.Request;
-            string url =$"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
+            string url =$"//{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
                     $"&redirectUrl={redirectUrl}";
 
             _logger.LogInformation($"url:{url}");
