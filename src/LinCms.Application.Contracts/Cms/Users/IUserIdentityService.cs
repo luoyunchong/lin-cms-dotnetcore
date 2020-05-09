@@ -16,7 +16,7 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        bool VerifyUsernamePassword(long userId, string username, string password);
+        Task<bool> VerifyUserPasswordAsync(long userId, string password);
        
         /// <summary>
         /// 修改某用户的密码

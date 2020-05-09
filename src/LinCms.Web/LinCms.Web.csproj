@@ -83,6 +83,7 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
+		<Folder Include="wwwroot\assets\2020\05" />
 	</ItemGroup>
 
 	<ProjectExtensions>

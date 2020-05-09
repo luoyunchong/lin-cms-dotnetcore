@@ -5,6 +5,7 @@
         public static class File
         {
             public static string STORE_DIR = "FILE:STORE_DIR";
+            public static string SITE_DOMAIN = "FILE:SITE_DOMAIN";
         }
 
         public static class Group

@@ -182,8 +182,8 @@ namespace LinCms.Web
                     options.ClientId = Configuration["Authentication:GitHub:ClientId"];
                     options.ClientSecret = Configuration["Authentication:GitHub:ClientSecret"];
                     options.Scope.Add("user:email");
-                    //authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.AvatarUrl, "avatar_url");
+                    //登录成功后可通过  authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
                 })
@@ -207,7 +207,7 @@ namespace LinCms.Web
              {
                  options.ValueProviderFactories.Add(new ValueProviderFactory());//设置SnakeCase形式的QueryString参数
                  options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
-                 options.Filters.Add<LinCmsExceptionFilter>(); // 添加请求方法时的日志记录过滤器
+                 //options.Filters.Add<LinCmsExceptionFilter>(); // 添加请求方法时的日志记录过滤器
 
              })
              .AddNewtonsoftJson(opt =>
@@ -327,19 +327,20 @@ namespace LinCms.Web
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseHsts();
             }
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
             app.UseSerilogRequestLogging();
 
             //异常中间件应放在MVC执行事务的中件间的前面，否则异常时UnitOfWorkMiddleware无法catch异常
-            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
             // app.UseMiddleware(typeof(UnitOfWorkMiddleware));
 
             app.UseSwagger();
@@ -358,7 +359,6 @@ namespace LinCms.Web
             });
 
             app.UseAuthentication();
-            app.UseHttpsRedirection();
 
             //app.UseMiddleware<IpLimitMiddleware>();
 

@@ -156,11 +156,11 @@ namespace LinCms.Application.Cms.Users
             return userId;
         }
 
-        public bool VerifyUsernamePassword(long userId, string username, string password)
+        public async Task<bool> VerifyUserPasswordAsync(long userId,string password)
         {
-            LinUserIdentity userIdentity = _userIdentityRepository
-                .Where(r => r.CreateUserId == userId && r.Identifier == username)
-                .ToOne();
+            LinUserIdentity userIdentity =await _userIdentityRepository
+                .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
+                .ToOneAsync();
 
             return userIdentity != null && EncryptUtil.Verify(userIdentity.Credential, password);
         }

@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Cms.Groups;
-using LinCms.Application.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Admins;
 using LinCms.Application.Contracts.Cms.Admins.Dtos;
 using LinCms.Application.Contracts.Cms.Groups;
 using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
@@ -50,7 +47,7 @@ namespace LinCms.Application.Cms.Users
         {
             long currentUserId = _currentUser.Id ?? 0;
 
-            bool valid = _userIdentityService.VerifyUsernamePassword(currentUserId, _currentUser.UserName, passwordDto.OldPassword);
+            bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId,  passwordDto.OldPassword);
             if (valid)
             {
                 throw new LinCmsException("旧密码不正确");
@@ -97,7 +94,7 @@ namespace LinCms.Application.Cms.Users
             return new PagedResultDto<UserDto>(linUsers, totalCount);
         }
 
-        public async Task Register(LinUser user, List<long> groupIds, string password)
+        public async Task CreateAsync(LinUser user, List<long> groupIds, string password)
         {
             if (!string.IsNullOrEmpty(user.Username))
             {
@@ -125,7 +122,7 @@ namespace LinCms.Application.Cms.Users
             {
                 user.LinUserGroups.Add(new LinUserGroup()
                 {
-                    GroupId = groupId
+                    GroupId = groupId    
                 });
             });
 
@@ -135,7 +132,8 @@ namespace LinCms.Application.Cms.Users
                 {
                     IdentityType = LinUserIdentity.Password,
                     Credential = EncryptUtil.Encrypt(password),
-                    Identifier = user.Username
+                    Identifier = user.Username,
+                    CreateTime = DateTime.Now,
                 }
             };
             await _userRepository.InsertAsync(user);

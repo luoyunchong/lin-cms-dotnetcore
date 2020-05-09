@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using AutoMapper;
-
 using IdentityModel;
 using IdentityModel.Client;
-
 using IdentityServer4.Models;
-
 using LinCms.Application.Contracts.Cms.Account;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop;
@@ -159,8 +156,8 @@ namespace LinCms.Web.Controllers.Cms
         public UnifyResponseDto Post([FromBody] RegisterDto registerDto)
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
-
-            _userSevice.Register(user, new List<long>(), registerDto.Password);
+            user.Username = Guid.NewGuid().ToString().Substring(0, 24);
+            _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
 
             return UnifyResponseDto.Success("注册成功");
         }

@@ -304,7 +304,7 @@
             <param name="resetPasswordDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles(Microsoft.AspNetCore.Http.IFormFileCollection)">
+        <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles">
             <summary>
             多文件上传
             </summary>
