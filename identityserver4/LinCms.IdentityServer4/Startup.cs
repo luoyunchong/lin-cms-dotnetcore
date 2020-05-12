@@ -93,10 +93,11 @@ namespace LinCms.IdentityServer4
             });
             #endregion
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserIdentityService, UserIdentityService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
             services.AddTransient(typeof(IAuditBaseRepository<>),typeof(AuditBaseRepository<>));
+            services.AddTransient(typeof(IAuditBaseRepository<,>),typeof(AuditBaseRepository<,>));
             services.AddTransient<CustomExceptionMiddleWare>();
 
             services.AddCors();

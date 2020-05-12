@@ -281,7 +281,7 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.Put(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.UpdateUserDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.AdminController.UpdateAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.UpdateUserDto)">
             <summary>
             修改用户信息
             </summary>
@@ -373,7 +373,7 @@
             <param name="permissionDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.UserController.Post(LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.UserController.CreateAsync(LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto)">
             <summary>
             新增用户-不是注册，注册不可能让用户选择gourp_id
             </summary>

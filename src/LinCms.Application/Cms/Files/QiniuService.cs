@@ -69,7 +69,7 @@ namespace LinCms.Application.Cms.Files
         /// <returns></returns>
         public async Task<FileDto> UploadAsync(IFormFile file, int key = 0)
         {
-            string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
+            string md5 = LinCmsUtils.GetHash<SHA1>(file.OpenReadStream());
 
             LinFile linFile = await _fileRepository.Where(r => r.Md5 == md5 && r.Type == 2).FirstAsync();
 

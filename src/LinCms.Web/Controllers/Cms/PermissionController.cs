@@ -25,7 +25,6 @@ namespace LinCms.Web.Controllers.Cms
             _permissionService = permissionService;
         }
         
-        
         /// <summary>
         /// 查询所有可分配的权限
         /// </summary>

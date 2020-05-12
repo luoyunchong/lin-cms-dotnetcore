@@ -36,7 +36,7 @@ namespace LinCms.Web.Middleware
 
         private bool TryBegin(IInvocation invocation)
         {
-            _unitOfWork = _unitOfWorkManager.Begin(Propagation.Requierd);
+            _unitOfWork = _unitOfWorkManager.Begin(Propagation.Requierd, null);
             return true;
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             var attribute = method.GetCustomAttributes(typeof(TransactionalAttribute), false).FirstOrDefault();
@@ -57,8 +57,17 @@ namespace LinCms.Web.Middleware
         {
             if (TryBegin(invocation))
             {
-                invocation.Proceed();
-                OnAfter(null);
+                try
+                {
+                    invocation.Proceed();
+                    _logger.LogInformation($"事务{0}提交前！！！", invocation.GetHashCode());
+                    _unitOfWork.Commit();
+                    _logger.LogInformation($"事务{0}提交成功！！！", invocation.GetHashCode());
+                }
+                finally
+                {
+                    _unitOfWork.Dispose();
+                }
             }
             else
             {
@@ -70,13 +79,14 @@ namespace LinCms.Web.Middleware
         /// 拦截返回结果为Task的方法
         /// </summary>
         /// <param name="invocation"></param>
-        public void InterceptAsynchronous(IInvocation invocation)
+        public async void InterceptAsynchronous(IInvocation invocation)
         {
             if (TryBegin(invocation))
             {
                 invocation.Proceed();
-                var returnValue = (Task)invocation.ReturnValue;
-                OnAfter(returnValue.Exception);
+                var task = (Task)invocation.ReturnValue;
+                await task;
+                OnAfter(task.Exception);
             }
             else
             {
@@ -89,12 +99,13 @@ namespace LinCms.Web.Middleware
         /// </summary>
         /// <param name="invocation"></param>
         /// <typeparam name="TResult"></typeparam>
-        public void InterceptAsynchronous<TResult>(IInvocation invocation)
+        public async void InterceptAsynchronous<TResult>(IInvocation invocation)
         {
             if (TryBegin(invocation))
             {
                 invocation.Proceed();
-                var task = (Task<TResult>)invocation.ReturnValue;
+                Task task = (Task<TResult>)invocation.ReturnValue;
+                await task;
                 OnAfter(task.Exception);
             }
             else
@@ -103,25 +114,30 @@ namespace LinCms.Web.Middleware
             }
         }
 
-
         void OnAfter(Exception ex)
         {
             try
             {
-                if (ex == null) _unitOfWork.Commit();
-                else _unitOfWork.Rollback();
+                if (ex == null)
+                {
+                    _unitOfWork.Commit();
+                }
+                else
+                {
+                    _unitOfWork.Rollback();
+                    _logger.LogError("", ex);
+                }
             }
-            catch
+            catch (Exception e)
             {
-                _unitOfWork.Rollback();
-                throw;
+                _logger.LogError("", e);
+                throw ex;
             }
             finally
             {
                 _unitOfWork.Dispose();
             }
         }
-
     }
 }
 

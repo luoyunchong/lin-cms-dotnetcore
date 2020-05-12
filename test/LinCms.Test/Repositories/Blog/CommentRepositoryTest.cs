@@ -9,19 +9,20 @@ using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Application.Contracts.Blog.Comments.Dtos;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Extensions;
+using LinCms.Core.IRepositories;
 
 namespace LinCms.Test.Repositories.Blog
 {
     public class CommentRepositoryTest : BaseLinCmsTest
     {
-        private readonly BaseRepository<Comment> _baseRepository;
+        private readonly IAuditBaseRepository<Comment> _baseRepository;
         
         private readonly IMapper Mapper;
         private readonly IFreeSql FreeSql;
 
         public CommentRepositoryTest() : base()
         {
-            _baseRepository = ServiceProvider.GetRequiredService<BaseRepository<Comment>>();
+            _baseRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<Comment>>();
             Mapper = ServiceProvider.GetRequiredService<IMapper>();
             FreeSql = ServiceProvider.GetRequiredService<IFreeSql>();
         }

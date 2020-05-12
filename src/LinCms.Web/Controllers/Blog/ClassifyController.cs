@@ -25,22 +25,24 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<Classify> _classifyRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        public ClassifyController(IAuditBaseRepository<Classify> classifyRepository, IMapper mapper, ICurrentUser currentUser)
+        public readonly IFileRepository _fileRepository;
+        public ClassifyController(IAuditBaseRepository<Classify> classifyRepository, IMapper mapper, ICurrentUser currentUser, IFileRepository fileRepository)
         {
             _classifyRepository = classifyRepository;
             _mapper = mapper;
             _currentUser = currentUser;
+            _fileRepository = fileRepository;
         }
 
         [HttpDelete("{id}")]
         public async Task<UnifyResponseDto> DeleteClassify(Guid id)
         {
-            Classify classify =await _classifyRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            Classify classify = await _classifyRepository.Select.Where(a => a.Id == id).ToOneAsync();
             if (classify.CreateUserId != _currentUser.Id)
             {
                 throw new LinCmsException("您无权删除他人的分类专栏");
             }
-            await    _classifyRepository.DeleteAsync(new Classify { Id = id });
+            await _classifyRepository.DeleteAsync(new Classify { Id = id });
             return UnifyResponseDto.Success();
         }
 
@@ -58,7 +60,7 @@ namespace LinCms.Web.Controllers.Blog
                 .Select(r =>
                 {
                     ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(r);
-                    classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
+                    classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
                     return classifyDto;
                 }).ToList();
 
@@ -75,16 +77,16 @@ namespace LinCms.Web.Controllers.Blog
 
         [LinCmsAuthorize("分类专栏列表", "分类专栏")]
         [HttpGet("cms")]
-        public PagedResultDto<ClassifyDto> Get([FromQuery]ClassifySearchDto pageDto)
+        public PagedResultDto<ClassifyDto> Get([FromQuery] ClassifySearchDto pageDto)
         {
             List<ClassifyDto> classify = _classifyRepository.Select
-                .WhereIf(pageDto.ClassifyName.IsNotNullOrEmpty(),r=>r.ClassifyName.Contains(pageDto.ClassifyName))
+                .WhereIf(pageDto.ClassifyName.IsNotNullOrEmpty(), r => r.ClassifyName.Contains(pageDto.ClassifyName))
                 .OrderByDescending(r => r.CreateTime)
-                .ToPagerList(pageDto,out long totalCount)
+                .ToPagerList(pageDto, out long totalCount)
                 .Select(r =>
                 {
                     ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(r);
-                    classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
+                    classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
                     return classifyDto;
                 }).ToList();
 
@@ -94,16 +96,16 @@ namespace LinCms.Web.Controllers.Blog
         [HttpGet("{id}")]
         public async Task<ClassifyDto> GetAsync(Guid id)
         {
-            Classify classify =await _classifyRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            Classify classify = await _classifyRepository.Select.Where(a => a.Id == id).ToOneAsync();
             ClassifyDto classifyDto = _mapper.Map<ClassifyDto>(classify);
-            classifyDto.ThumbnailDisplay = _currentUser.GetFileUrl(classifyDto.Thumbnail);
+            classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
             return classifyDto;
         }
 
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateClassifyDto createClassify)
         {
-            bool exist =await _classifyRepository.Select.AnyAsync(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
+            bool exist = await _classifyRepository.Select.AnyAsync(r => r.ClassifyName == createClassify.ClassifyName && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException($"分类专栏[{createClassify.ClassifyName}]已存在");
@@ -117,7 +119,7 @@ namespace LinCms.Web.Controllers.Blog
         [HttpPut("{id}")]
         public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
         {
-            Classify classify =await _classifyRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            Classify classify = await _classifyRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (classify == null)
             {
                 throw new LinCmsException("该数据不存在");
@@ -128,7 +130,7 @@ namespace LinCms.Web.Controllers.Blog
                 throw new LinCmsException("您无权编辑他人的分类专栏");
             }
 
-            bool exist =await _classifyRepository.Select.AnyAsync(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == _currentUser.Id);
+            bool exist = await _classifyRepository.Select.AnyAsync(r => r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == _currentUser.Id);
             if (exist)
             {
                 throw new LinCmsException($"分类专栏[{updateClassify.ClassifyName}]已存在");
@@ -136,7 +138,7 @@ namespace LinCms.Web.Controllers.Blog
 
             _mapper.Map(updateClassify, classify);
 
-            await   _classifyRepository.UpdateAsync(classify);
+            await _classifyRepository.UpdateAsync(classify);
             return UnifyResponseDto.Success("更新分类专栏成功");
         }
 

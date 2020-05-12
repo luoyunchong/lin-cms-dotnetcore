@@ -144,7 +144,6 @@ namespace LinCms.Application.Cms.Users
                     }
                 };
                 await _userRepository.InsertAsync(user);
-                _userRepository.UnitOfWork.Commit();
                 userId = user.Id;
             }
             else

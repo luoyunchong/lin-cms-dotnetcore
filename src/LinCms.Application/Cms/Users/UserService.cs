@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Application.Contracts.Cms.Admins.Dtos;
@@ -28,12 +29,12 @@ namespace LinCms.Application.Cms.Users
         private readonly IUserIdentityService _userIdentityService;
         private readonly IPermissionService _permissionService;
         private readonly IGroupService _groupService;
-
+        private readonly IFileRepository _fileRepository;
         public UserService(IUserRepository userRepository,
             IMapper mapper,
             ICurrentUser currentUser,
-            IUserIdentityService userIdentityService, 
-            IPermissionService permissionService, IGroupService groupService)
+            IUserIdentityService userIdentityService,
+            IPermissionService permissionService, IGroupService groupService, IFileRepository fileRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -41,13 +42,14 @@ namespace LinCms.Application.Cms.Users
             _userIdentityService = userIdentityService;
             _permissionService = permissionService;
             _groupService = groupService;
+            _fileRepository = fileRepository;
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)
         {
             long currentUserId = _currentUser.Id ?? 0;
 
-            bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId,  passwordDto.OldPassword);
+            bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword);
             if (valid)
             {
                 throw new LinCmsException("旧密码不正确");
@@ -57,7 +59,7 @@ namespace LinCms.Application.Cms.Users
         }
 
 
-   
+
         public async Task DeleteAsync(long userId)
         {
             await _userRepository.DeleteAsync(new LinUser() { Id = userId });
@@ -122,7 +124,7 @@ namespace LinCms.Application.Cms.Users
             {
                 user.LinUserGroups.Add(new LinUserGroup()
                 {
-                    GroupId = groupId    
+                    GroupId = groupId
                 });
             });
 
@@ -153,18 +155,19 @@ namespace LinCms.Application.Cms.Users
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
-
-            _mapper.Map(updateUserDto, linUser);
-
-            List<long> existGroupIds = _groupService.GetUserGroupIdsByUserId(id);
-
+            List<long> existGroupIds =await _groupService.GetGroupIdsByUserIdAsync(id);
+    
             //删除existGroupIds有，而newGroupIds没有的
             List<long> deleteIds = existGroupIds.Where(r => !updateUserDto.GroupIds.Contains(r)).ToList();
+            
             //添加newGroupIds有，而existGroupIds没有的
             List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
-
+           
+            _mapper.Map(updateUserDto, linUser);
             await _userRepository.UpdateAsync(linUser);
+
             await _groupService.DeleteUserGroupAsync(id, deleteIds);
+
             await _groupService.AddUserGroupAsync(id, addIds);
         }
 
@@ -187,10 +190,10 @@ namespace LinCms.Application.Cms.Users
                 throw new LinCmsException("当前用户已处于激活状态");
             }
 
-            await  _userRepository.UpdateDiy.Where(r=>r.Id==id)
-                .Set(r => new {  Active = userActive.GetHashCode()})
+            await _userRepository.UpdateDiy.Where(r => r.Id == id)
+                .Set(r => new { Active = userActive.GetHashCode() })
                 .ExecuteUpdatedAsync();
-         
+
         }
 
         public async Task<LinUser> GetCurrentUserAsync()
@@ -207,7 +210,7 @@ namespace LinCms.Application.Cms.Users
         {
             LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
             if (linUser == null) return null;
-            linUser.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
+            linUser.Avatar = _fileRepository.GetFileUrl(linUser.Avatar);
 
             UserInformation userInformation = _mapper.Map<UserInformation>(linUser);
             userInformation.Groups = linUser.LinGroups.Select(r => _mapper.Map<GroupDto>(r)).ToList();

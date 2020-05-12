@@ -13,10 +13,10 @@ namespace LinCms.Application.Cms.Logs
 {
     public class LogService : ILogService
     {
-        private readonly BaseRepository<LinLog> _linLogRepository;
+        private readonly IAuditBaseRepository<LinLog> _linLogRepository;
         private readonly ICurrentUser _currentUser;
         private readonly IUserRepository _linUserAuditBaseRepository;
-        public LogService(BaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, IUserRepository linUserAuditBaseRepository)
+        public LogService(IAuditBaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, IUserRepository linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
             _currentUser = currentUser;

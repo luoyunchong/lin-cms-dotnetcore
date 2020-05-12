@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files.Dtos;
 using LinCms.Core.Common;
+using LinCms.Core.Data.Options;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace LinCms.Application.Cms.Files
 {
@@ -18,13 +20,13 @@ namespace LinCms.Application.Cms.Files
     {
         private readonly IWebHostEnvironment _hostingEnv;
         private readonly IAuditBaseRepository<LinFile,long> _fileRepository;
-        private readonly IConfiguration _configuration;
+        private readonly FileStorageOption _fileStorageOption;
 
-        public LocalFileService(IWebHostEnvironment hostingEnv, IConfiguration configuration,IAuditBaseRepository<LinFile,long> fileRepository)
+        public LocalFileService(IWebHostEnvironment hostingEnv,IAuditBaseRepository<LinFile,long> fileRepository,IOptions<FileStorageOption> fileStorageOption)
         {
             _hostingEnv = hostingEnv;
-            _configuration = configuration;
             _fileRepository = fileRepository;
+            _fileStorageOption = fileStorageOption.Value;
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace LinCms.Application.Cms.Files
             }
             
             string saveFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            string path = Path.Combine(_configuration[LinConsts.File.STORE_DIR], DateTime.Now.ToString("yyy/MM/dd"));
+            string path = _fileStorageOption.LocalFile.Host+ DateTime.Now.ToString("yyy/MM/dd");
             string createFolder = Path.Combine(_hostingEnv.WebRootPath, path);
        
             if (!Directory.Exists(createFolder))
@@ -70,9 +72,6 @@ namespace LinCms.Application.Cms.Files
             string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
             LinFile linFile = await _fileRepository.Where(r => r.Md5 == md5 && r.Type == 1).OrderByDescending(r => r.CreateTime).FirstAsync();
             
-            //HttpRequest request = _contextAccessor.HttpContext.Request;
-            //string Host = $"{request.Scheme}://{request.Host}";
-            string Host = _configuration[LinConsts.File.SITE_DOMAIN];
             if (linFile != null && File.Exists(Path.Combine(_hostingEnv.WebRootPath, linFile.Path)))
             {
                 return new FileDto
@@ -80,7 +79,7 @@ namespace LinCms.Application.Cms.Files
                     Id = linFile.Id,
                     Key = "file_" + key,
                     Path = linFile.Path,
-                    Url = Host + "/" + linFile.Path
+                    Url = _fileStorageOption.LocalFile.Host +  linFile.Path
                 };
             }
 
@@ -112,7 +111,7 @@ namespace LinCms.Application.Cms.Files
                 Id = id,
                 Key = "file_" + key,
                 Path = path,
-                Url = Host + "/" + path
+                Url = _fileStorageOption.LocalFile.Host + path
             };
 
         }

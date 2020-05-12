@@ -89,7 +89,7 @@ namespace LinCms.Web.Configs
             services.AddScoped<UnitOfWorkManager>();
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             //在运行时直接生成表结构
-            fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
+            fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity))); 
             services.AddFreeRepository();
         }
 
@@ -117,15 +117,20 @@ namespace LinCms.Web.Configs
             services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
 
-            string serviceName = configuration.GetSection("FILE:SERVICE").Value;
-            if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FILE:SERVICE未配置");
+            string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;
+            
+            
+            if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FileStorage:ServiceName未配置");
+
+            services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
+
             if (serviceName == LinFile.LocalFileService)
             {
                 services.AddTransient<IFileService, LocalFileService>();
             }
             else
             {
-                services.Configure<QiniuOptions>(configuration.GetSection("Qiniu"));
+      
                 services.AddTransient<IFileService, QiniuService>();
             }
         }

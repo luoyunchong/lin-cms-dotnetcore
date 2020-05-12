@@ -18,13 +18,14 @@ namespace LinCms.Application.Blog.Notifications
         private readonly IAuditBaseRepository<Notification> _notificationRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-
+        private readonly IFileRepository _fileRepository;
         public NotificationService(IAuditBaseRepository<Notification> notificationRepository, IMapper mapper,
-            ICurrentUser currentUser)
+            ICurrentUser currentUser, IFileRepository fileRepository)
         {
             _notificationRepository = notificationRepository;
             _mapper = mapper;
             _currentUser = currentUser;
+            _fileRepository = fileRepository;
         }
         public async Task<PagedResultDto<NotificationDto>> GetListAsync(NotificationSearchDto pageDto)
         {
@@ -48,7 +49,7 @@ namespace LinCms.Application.Blog.Notifications
                     NotificationDto notificationDto = _mapper.Map<NotificationDto>(r);
                     if (notificationDto.UserInfo != null)
                     {
-                        notificationDto.UserInfo.Avatar = _currentUser.GetFileUrl(notificationDto.UserInfo.Avatar);
+                        notificationDto.UserInfo.Avatar = _fileRepository.GetFileUrl(notificationDto.UserInfo.Avatar);
                     }
 
                     return notificationDto;
@@ -66,7 +67,7 @@ namespace LinCms.Application.Blog.Notifications
 
         public async Task SetNotificationReadAsync(Guid id)
         {
-           await _notificationRepository.UpdateDiy.Where(r => r.Id == id).Set(r => r.IsRead, true).ExecuteAffrowsAsync();
+            await _notificationRepository.UpdateDiy.Where(r => r.Id == id).Set(r => r.IsRead, true).ExecuteAffrowsAsync();
         }
     }
 }
