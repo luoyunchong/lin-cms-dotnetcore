@@ -27,10 +27,13 @@ namespace LinCms.Core.Common
             MethodInfo create = typeof(T).GetMethod("Create", new Type[] { });
             using (T crypt = (T)create.Invoke(null, null))
             {
-                byte[] hashBytes = crypt.ComputeHash(stream);
-                foreach (byte bt in hashBytes)
+                if (crypt != null)
                 {
-                    sb.Append(bt.ToString("x2"));
+                    byte[] hashBytes = crypt.ComputeHash(stream);
+                    foreach (byte bt in hashBytes)
+                    {
+                        sb.Append(bt.ToString("x2"));
+                    }
                 }
             }
             return sb.ToString();

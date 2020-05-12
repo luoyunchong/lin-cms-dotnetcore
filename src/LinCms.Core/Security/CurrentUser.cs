@@ -2,9 +2,13 @@
 using System.Security.Claims;
 using System.Threading;
 using LinCms.Core.Common;
+using LinCms.Core.Data.Options;
 using LinCms.Core.Dependency;
+using LinCms.Core.Entities;
+using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace LinCms.Core.Security
 {
@@ -12,13 +16,8 @@ namespace LinCms.Core.Security
     {
         private static readonly Claim[] EmptyClaimsArray = new Claim[0];
         private readonly ClaimsPrincipal _claimsPrincipal;
-        private readonly IConfiguration _configuration;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public CurrentUser(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public CurrentUser(IHttpContextAccessor httpContextAccessor)
         {
-            _configuration = configuration;
-            _httpContextAccessor = httpContextAccessor;
             _claimsPrincipal = httpContextAccessor.HttpContext?.User ?? Thread.CurrentPrincipal as ClaimsPrincipal;
         }
         public long? Id => _claimsPrincipal?.FindUserId();
@@ -45,24 +44,6 @@ namespace LinCms.Core.Security
             return FindClaims(LinCmsClaimTypes.Groups).Any(c => c.Value.ToLong() == groupId);
         }
 
-        public string GetFileUrl(string path)
-        {
-            if (string.IsNullOrEmpty(path)) return "";
-            if (path.StartsWith("http"))
-            {
-                return path;
-            }
-
-            if (path.StartsWith(_configuration[LinConsts.Qiniu.PrefixPath]))
-            {
-                return _configuration[LinConsts.Qiniu.Host] + path;
-            }
-
-            HttpRequest request = _httpContextAccessor.HttpContext.Request;
-            string domainUrl = $"{request.Scheme}://{request.Host}";
-            return domainUrl + "/" + path;
-
-        }
     }
 
 }

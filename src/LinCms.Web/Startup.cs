@@ -57,12 +57,12 @@ namespace LinCms.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddContext(Configuration);
 
             #region IdentityServer4
 
-            #region AddAuthentication\AddIdentityServerAuthentication 
+            #region AddAuthentication\AddIdentityServerAuthentication
+
             //AddAuthentication()是把验证服务注册到DI, 并配置了Bearer作为默认模式.
 
             //AddIdentityServerAuthentication()是在DI注册了token验证的处理者.
@@ -81,9 +81,11 @@ namespace LinCms.Web
             //        //options.JwtValidationClockSkew = TimeSpan.FromSeconds(60 * 5);
 
             //    });
+
             #endregion
 
             #region AddJwtBearer
+
             services.AddAuthentication(opts =>
                 {
                     opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -106,7 +108,9 @@ namespace LinCms.Web
                     {
                         // The signing key must match!
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(
+                                Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
 
                         // Validate the JWT Issuer (iss) claim
                         ValidateIssuer = true,
@@ -139,6 +143,7 @@ namespace LinCms.Web
                             {
                                 context.Response.Headers.Add("Token-Expired", "true");
                             }
+
                             return Task.CompletedTask;
                         },
                         OnChallenge = context =>
@@ -151,7 +156,7 @@ namespace LinCms.Web
                             int statusCode = StatusCodes.Status401Unauthorized;
 
                             if (context.Error == "invalid_token" &&
-                               context.ErrorDescription == "The token is expired")
+                                context.ErrorDescription == "The token is expired")
                             {
                                 message = "令牌过期";
                                 errorCode = ErrorCode.TokenExpired;
@@ -165,13 +170,14 @@ namespace LinCms.Web
 
                             else
                             {
-                                message = "请先登录" + context.ErrorDescription;//""认证失败，请检查请求头或者重新登录";
+                                message = "请先登录" + context.ErrorDescription; //""认证失败，请检查请求头或者重新登录";
                                 errorCode = ErrorCode.AuthenticationFailed;
                             }
 
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = statusCode;
-                            context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext).ToString());
+                            context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext)
+                                .ToString());
 
                             return Task.FromResult(0);
                         }
@@ -192,6 +198,7 @@ namespace LinCms.Web
                     options.ClientId = Configuration["Authentication:QQ:ClientId"];
                     options.ClientSecret = Configuration["Authentication:QQ:ClientSecret"];
                 });
+
             #endregion
 
             #endregion
@@ -203,97 +210,106 @@ namespace LinCms.Web
             services.AddCors();
 
             #region Mvc
+
             services.AddControllers(options =>
-             {
-                 options.ValueProviderFactories.Add(new ValueProviderFactory());//设置SnakeCase形式的QueryString参数
-                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
-                 //options.Filters.Add<LinCmsExceptionFilter>(); // 添加请求方法时的日志记录过滤器
-
-             })
-             .AddNewtonsoftJson(opt =>
-             {
-                 //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
-                 //设置自定义时间戳格式
-                 opt.SerializerSettings.Converters = new List<JsonConverter>()
-                 {
+                {
+                    options.ValueProviderFactories.Add(new ValueProviderFactory()); //设置SnakeCase形式的QueryString参数
+                    options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                    // options.Filters.Add<LinCmsExceptionFilter>(); // 添加请求方法时的日志记录过滤器
+                })
+                .AddNewtonsoftJson(opt =>
+                {
+                    opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                    // 设置自定义时间戳格式
+                    opt.SerializerSettings.Converters = new List<JsonConverter>()
+                    {
                         new LinCmsTimeConverter()
-                 };
-                 // 设置下划线方式，首字母是小写
-                 opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
-                 {
-                     NamingStrategy = new SnakeCaseNamingStrategy()
-                     {
-                         ProcessDictionaryKeys = true
-                     }
-                 };
-             })
-             .ConfigureApiBehaviorOptions(options =>
-             {
-                 options.SuppressConsumesConstraintForFormFileParameters = true;//SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
-                 //自定义 BadRequest 响应
-                 options.InvalidModelStateResponseFactory = context =>
-                 {
-                     var problemDetails = new ValidationProblemDetails(context.ModelState);
+                    };
+                    // 设置下划线方式，首字母是小写
+                    opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                        {
+                            ProcessDictionaryKeys = true
+                        }
+                    };
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressConsumesConstraintForFormFileParameters =
+                        true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                    //自定义 BadRequest 响应
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new ValidationProblemDetails(context.ModelState);
 
-                     var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors,
+                            context.HttpContext);
 
-                     return new BadRequestObjectResult(resultDto)
-                     {
-                         ContentTypes = { "application/json" }
-                     };
-                 };
-             });
+                        return new BadRequestObjectResult(resultDto)
+                        {
+                            ContentTypes = {"application/json"}
+                        };
+                    };
+                });
+
             #endregion
 
             services.AddDIServices();
 
             #region Swagger
+
             //Swagger重写PascalCase，改成SnakeCase模式
             services.TryAddEnumerable(ServiceDescriptor.Transient<IApiDescriptionProvider, ApiDescriptionProvider>());
 
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo() { Title = "LinCms", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo() {Title = "LinCms", Version = "v1"});
                 var security = new OpenApiSecurityRequirement()
                 {
-                    { new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference()
+                        new OpenApiSecurityScheme
                         {
-                            Id = "Bearer",
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    }, Array.Empty<string>() }
+                            Reference = new OpenApiReference()
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
                 };
-                options.AddSecurityRequirement(security);//添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
+                options.AddSecurityRequirement(security); //添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT授权(数据将在请求头中进行传输) 参数结构: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",//jwt默认的参数名称
-                    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
+                    Name = "Authorization", //jwt默认的参数名称
+                    In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
                 });
 
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                string xmlPath = Path.Combine(AppContext.BaseDirectory,
+                    $"{typeof(Startup).Assembly.GetName().Name}.xml");
                 options.IncludeXmlComments(xmlPath);
-
             });
+
             #endregion
 
 
             //services.Configure<FormOptions>(options =>
             //{
-            //    options.MultipartBodyLengthLimit = 1024 * 1024 * 2;
+            //    options.MultipartBodyLengthLimit = 1024 * 1024 AddControllers* 2;
             //    options.MultipartHeadersCountLimit = 10;
             //});
 
             #region 分布式事务一致性CAP
+
             IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:MySql");
             services.AddCap(x =>
             {
                 x.UseMySql(configurationSection.Value);
-
+            
                 x.UseRabbitMQ(options =>
                 {
                     options.HostName = Configuration["RabbitMQ:HostName"];
@@ -301,7 +317,7 @@ namespace LinCms.Web
                     options.Password = Configuration["RabbitMQ:Password"];
                     options.VirtualHost = Configuration["RabbitMQ:VirtualHost"];
                 });
-
+            
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
                 x.FailedThresholdCallback = (type) =>
@@ -310,6 +326,7 @@ namespace LinCms.Web
                         $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
                 };
             });
+
             #endregion
 
             ////之前请注入AddCsRedisCore，内部实现IDistributedCache接口
@@ -333,7 +350,8 @@ namespace LinCms.Web
             {
                 app.UseHsts();
             }
-            //app.UseHttpsRedirection();
+
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
@@ -363,17 +381,16 @@ namespace LinCms.Web
             //app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()
-               .UseAuthorization()
-               .UseEndpoints(endpoints =>
-           {
-               endpoints.MapControllers();
-               //endpoints.MapHealthChecks("/health", new HealthCheckOptions
-               //{
-               //    Predicate = _ => true,
-               //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-               //});
-           });
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    //endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    //{
+                    //    Predicate = _ => true,
+                    //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    //});
+                });
         }
-
     }
 }

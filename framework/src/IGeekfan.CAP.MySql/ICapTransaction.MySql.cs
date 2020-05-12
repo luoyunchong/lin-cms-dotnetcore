@@ -44,7 +44,7 @@ namespace DotNetCore.CAP
                     dbTransaction.Commit();
                     break;
                 case IUnitOfWork unitOfWork:
-                    unitOfWork.Commit();
+                    unitOfWork?.Commit();
                     break;
             }
             Flush();

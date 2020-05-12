@@ -20,7 +20,7 @@ namespace LinCms.Web.Controllers.Cms
     {
         private readonly ILogService _logService;
 
-        public LogController(ILogService logService, BaseRepository<LinLog> linLogBaseRepository)
+        public LogController(ILogService logService)
         {
             _logService = logService;
         }

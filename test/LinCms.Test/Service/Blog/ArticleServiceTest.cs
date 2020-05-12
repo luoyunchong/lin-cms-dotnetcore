@@ -39,12 +39,9 @@ namespace LinCms.Test.Service.Blog
         }
 
         [Fact]
-        public void GetSubscribeArticle()
+        public async Task GetSubscribeArticleAsyncTest()
         {
-            string redisKey = "article:query:GetSubscribeArticle";
-            var subscribute = RedisHelper.CacheShell(redisKey, 3600,
-                async () => { return await _articleService.GetSubscribeArticleAsync(new PageDto()); }
-            );
+              await _articleService.GetSubscribeArticleAsync(new PageDto());
         }
 
         [Fact]

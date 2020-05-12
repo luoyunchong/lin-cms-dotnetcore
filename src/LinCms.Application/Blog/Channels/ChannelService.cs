@@ -21,14 +21,14 @@ namespace LinCms.Application.Blog.Channels
         private readonly IAuditBaseRepository<Channel, Guid> _channelRepository;
         private readonly IAuditBaseRepository<ChannelTag, Guid> _channelTagRepository;
         private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
+        private readonly IFileRepository _fileRepository;
 
-        public ChannelService(IMapper mapper, IAuditBaseRepository<Channel, Guid> channelRepository, ICurrentUser currentUser, IAuditBaseRepository<ChannelTag, Guid> channelTagRepository)
+        public ChannelService(IMapper mapper, IAuditBaseRepository<Channel, Guid> channelRepository, IAuditBaseRepository<ChannelTag, Guid> channelTagRepository, IFileRepository fileRepository)
         {
             _mapper = mapper;
             _channelRepository = channelRepository;
-            _currentUser = currentUser;
             _channelTagRepository = channelTagRepository;
+            _fileRepository = fileRepository;
         }
 
         public async Task DeleteAsync(Guid id)
@@ -47,7 +47,7 @@ namespace LinCms.Application.Blog.Channels
                     .Select(r =>
                     {
                         ChannelDto channelDto = _mapper.Map<ChannelDto>(r);
-                        channelDto.ThumbnailDisplay = _currentUser.GetFileUrl(channelDto.Thumbnail);
+                        channelDto.ThumbnailDisplay = _fileRepository.GetFileUrl(channelDto.Thumbnail);
                         return channelDto;
                     }).ToList();
 
@@ -73,7 +73,7 @@ namespace LinCms.Application.Blog.Channels
                 .WhereCascade(r => r.IsDeleted == false).ToOneAsync();
 
             ChannelDto channelDto = _mapper.Map<ChannelDto>(channel);
-            channelDto.ThumbnailDisplay = _currentUser.GetFileUrl(channelDto.Thumbnail);
+            channelDto.ThumbnailDisplay = _fileRepository.GetFileUrl(channelDto.Thumbnail);
             return channelDto;
         }
 

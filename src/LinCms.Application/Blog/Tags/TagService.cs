@@ -17,20 +17,22 @@ using LinCms.Core.Security;
 
 namespace LinCms.Application.Blog.Tags
 {
-    public class TagService : ITagService
+    public class TagService :ApplicationService, ITagService
     {
         private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly BaseRepository<TagArticle> _tagArticleRepository;
-        public TagService(IAuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, IAuditBaseRepository<UserTag> userTagRepository, BaseRepository<TagArticle> tagArticleRepository)
+        private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
+        private readonly IFileRepository _fileRepository;
+        public TagService(IAuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, IAuditBaseRepository<UserTag> userTagRepository, IAuditBaseRepository<TagArticle> tagArticleRepository, IFileRepository fileRepository)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _userTagRepository = userTagRepository;
             _tagArticleRepository = tagArticleRepository;
+            _fileRepository = fileRepository;
         }
 
         public async Task CreateAsync(CreateUpdateTagDto createTag)
@@ -72,7 +74,7 @@ namespace LinCms.Application.Blog.Tags
             }
             TagListDto tagDto = _mapper.Map<TagListDto>(tag);
             tagDto.IsSubscribe = await this.IsSubscribeAsync(id);
-            tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
+            tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
         }
 
@@ -97,7 +99,7 @@ namespace LinCms.Application.Blog.Tags
                         .Select(r =>
                         {
                             TagListDto tagDto = _mapper.Map<TagListDto>(r);
-                            tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
+                            tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
                             tagDto.IsSubscribe = r.UserTags.Any();
                             return tagDto;
                         }).ToList();
@@ -120,7 +122,7 @@ namespace LinCms.Application.Blog.Tags
                 .Select(r =>
                 {
                     TagListDto tagDto = _mapper.Map<TagListDto>(r.Tag);
-                    tagDto.ThumbnailDisplay = _currentUser.GetFileUrl(tagDto.Thumbnail);
+                    tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
                     tagDto.IsSubscribe = true;
                     return tagDto;
                 }).ToList();

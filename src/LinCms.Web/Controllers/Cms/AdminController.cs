@@ -54,9 +54,9 @@ namespace LinCms.Web.Controllers.Cms
         /// <returns></returns>
         [HttpPut("user/{id}")]
         [LinCmsAuthorize("管理员更新用户信息","管理员")]
-        public UnifyResponseDto Put(long id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<UnifyResponseDto> UpdateAsync(long id, [FromBody] UpdateUserDto updateUserDto)
         {
-            _userSevice.UpdateAync(id, updateUserDto);
+            await _userSevice.UpdateAync(id, updateUserDto);
             return UnifyResponseDto.Success();
         }
 
