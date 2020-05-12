@@ -25,24 +25,25 @@ namespace LinCms.Application.Blog.MessageBoards
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
+        private readonly IFileRepository _fileRepository;
         public MessageBoardService(
             IAuditBaseRepository<MessageBoard> messageBoardRepository,
-            IMapper mapper, 
-            IHttpContextAccessor httpContextAccessor, 
-            IUserService userService, 
-            ICurrentUser currentUser
-            )
+            IMapper mapper,
+            IHttpContextAccessor httpContextAccessor,
+            IUserService userService,
+            ICurrentUser currentUser, IFileRepository fileRepository)
         {
             _messageBoardRepository = messageBoardRepository;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             _userService = userService;
             _currentUser = currentUser;
+            _fileRepository = fileRepository;
         }
 
         public async Task<PagedResultDto<MessageBoardDto>> GetListAsync(PageDto pageDto)
         {
-            List<MessageBoardDto> entitiesBoardDtos =(await _messageBoardRepository
+            List<MessageBoardDto> entitiesBoardDtos = (await _messageBoardRepository
                 .Select
                 .OrderByDescending(r => r.CreateTime)
                 .ToPagerListAsync(pageDto, out long totalCount))
@@ -87,16 +88,16 @@ namespace LinCms.Application.Blog.MessageBoards
             }
             else
             {
-                messageBoard.Avatar = _currentUser.GetFileUrl(linUser.Avatar);
+                messageBoard.Avatar = _fileRepository.GetFileUrl(linUser.Avatar);
             }
 
-            await  _messageBoardRepository.InsertAsync(messageBoard);
+            await _messageBoardRepository.InsertAsync(messageBoard);
         }
 
 
         public async Task UpdateAsync(Guid id, bool isAudit)
         {
-            MessageBoard messageBoard =await _messageBoardRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            MessageBoard messageBoard = await _messageBoardRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (messageBoard == null)
             {
                 throw new LinCmsException("没有找到相关留言");

@@ -40,11 +40,12 @@ namespace LinCms.Web.Controllers.Blog
         private readonly ICommentService _commentService;
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly ICapPublisher _capBus;
+        private readonly IFileRepository _fileRepository;
         public CommentController(
             IAuditBaseRepository<Comment> commentAuditBaseRepository,
             IMapper mapper,
             ICurrentUser currentUser, ICommentService commentService,
-            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus)
+            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus, IFileRepository fileRepository)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
@@ -52,6 +53,7 @@ namespace LinCms.Web.Controllers.Blog
             _commentService = commentService;
             _articleRepository = articleRepository;
             _capBus = capBus;
+            _fileRepository = fileRepository;
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace LinCms.Web.Controllers.Blog
                     }
                     else
                     {
-                        commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
+                        commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
                     }
 
 
@@ -104,7 +106,7 @@ namespace LinCms.Web.Controllers.Blog
                         CommentDto childrenDto = _mapper.Map<CommentDto>(u);
                         if (childrenDto.UserInfo != null)
                         {
-                            childrenDto.UserInfo.Avatar = _currentUser.GetFileUrl(childrenDto.UserInfo.Avatar);
+                            childrenDto.UserInfo.Avatar = _fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
                         }
 
                         if (childrenDto.IsAudit == false)
@@ -154,7 +156,7 @@ namespace LinCms.Web.Controllers.Blog
 
                     if (commentDto.UserInfo != null)
                     {
-                        commentDto.UserInfo.Avatar = _currentUser.GetFileUrl(commentDto.UserInfo.Avatar);
+                        commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
                     }
                     return commentDto;
                 }).ToList();

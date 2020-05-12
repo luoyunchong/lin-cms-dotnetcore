@@ -27,24 +27,24 @@ namespace LinCms.Web.Controllers.Blog
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除标签", "标签管理")]
-        public UnifyResponseDto DeleteTag(Guid id)
+        public async Task<UnifyResponseDto> DeleteAsync(Guid id)
         {
-            _tagRepository.Delete(new Tag { Id = id });
+            await _tagRepository.DeleteAsync(new Tag { Id = id });
             return UnifyResponseDto.Success();
         }
 
         [HttpGet]
         [LinCmsAuthorize("所有标签", "标签管理")]
-        public Task<PagedResultDto<TagListDto>> GetAllAsync([FromQuery]TagSearchDto searchDto)
+        public async Task<PagedResultDto<TagListDto>> GetAllAsync([FromQuery]TagSearchDto searchDto)
         {
-            return _tagService.GetListAsync(searchDto);
+            return await _tagService.GetListAsync(searchDto);
         }
 
         [HttpGet("public")]
-        public Task<PagedResultDto<TagListDto>> GetListAsync([FromQuery]TagSearchDto searchDto)
+        public async Task<PagedResultDto<TagListDto>> GetListAsync([FromQuery]TagSearchDto searchDto)
         {
             searchDto.Status = true;
-            return _tagService.GetListAsync(searchDto);
+            return await _tagService.GetListAsync(searchDto);
         }
 
         [HttpGet("{id}")]

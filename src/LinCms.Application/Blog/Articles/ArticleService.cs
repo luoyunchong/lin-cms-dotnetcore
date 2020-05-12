@@ -24,23 +24,23 @@ namespace LinCms.Application.Blog.Articles
         private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
         private readonly IAuditBaseRepository<Comment> _commentBaseRepository;
-        private readonly IBaseRepository<TagArticle> _tagArticleRepository;
+        private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
         private readonly IClassifyService _classifyService;
         private readonly ITagService _tagService;
         private readonly IUserLikeService _userSubscribeService;
-
+        private readonly IFileRepository _fileRepository;
         public ArticleService(
             IAuditBaseRepository<Article> articleRepository,
-            IBaseRepository<TagArticle> tagArticleRepository,
+            IAuditBaseRepository<TagArticle> tagArticleRepository,
             IMapper mapper,
             ICurrentUser currentUser,
             IAuditBaseRepository<UserLike> userLikeRepository,
             IAuditBaseRepository<Comment> commentBaseRepository,
             IClassifyService classifyService,
             ITagService tagService, IUserLikeService userSubscribeService,
-            IAuditBaseRepository<ArticleDraft> articleDraftRepository)
+            IAuditBaseRepository<ArticleDraft> articleDraftRepository, IFileRepository fileRepository)
         {
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
@@ -53,6 +53,7 @@ namespace LinCms.Application.Blog.Articles
             _tagService = tagService;
             _userSubscribeService = userSubscribeService;
             _articleDraftRepository = articleDraftRepository;
+            _fileRepository = fileRepository;
         }
 
         public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)
@@ -90,7 +91,7 @@ namespace LinCms.Application.Blog.Articles
                     ArticleListDto articleDto = _mapper.Map<ArticleListDto>(a);
 
                     articleDto.IsLiked = userId != null && a.UserLikes.Any();
-                    articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
+                    articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(articleDto.Thumbnail);
 
                     return articleDto;
                 })
@@ -131,12 +132,12 @@ namespace LinCms.Application.Blog.Articles
 
             if (articleDto.Tags.IsNotNull())
             {
-                articleDto.Tags.ForEach(r => { r.ThumbnailDisplay = _currentUser.GetFileUrl(r.Thumbnail); });
+                articleDto.Tags.ForEach(r => { r.ThumbnailDisplay = _fileRepository.GetFileUrl(r.Thumbnail); });
             }
 
             if (articleDto.UserInfo.IsNotNull())
             {
-                articleDto.UserInfo.Avatar = _currentUser.GetFileUrl(articleDto.UserInfo.Avatar);
+                articleDto.UserInfo.Avatar = _fileRepository.GetFileUrl(articleDto.UserInfo.Avatar);
             }
 
             articleDto.IsLiked =
@@ -144,7 +145,7 @@ namespace LinCms.Application.Blog.Articles
             articleDto.IsComment =
                 await _commentBaseRepository.Select.AnyAsync(
                     r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
-            articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(article.Thumbnail);
+            articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(article.Thumbnail);
 
             return articleDto;
         }
@@ -201,7 +202,7 @@ namespace LinCms.Application.Blog.Articles
             await _articleRepository.UpdateAsync(article);
             ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
 
-            bool exist=await _articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
+            bool exist = await _articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
             if (exist)
             {
                 await _articleDraftRepository.UpdateAsync(articleDraft);
@@ -249,9 +250,8 @@ namespace LinCms.Application.Blog.Articles
                 .Include(r => r.Classify)
                 .Include(r => r.UserInfo)
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
-                .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
+                .IncludeMany(r => r.UserLikes)//, r => r.Where(u => u.CreateUserId == userId))
                 .Where(r => r.IsAudit)
-                .IncludeMany(r => r.Tags, r => r.Where(u => u.Status))
                 .WhereIf(subscribeUserIds.Count > 0, r => subscribeUserIds.Contains(r.CreateUserId))
                 .WhereIf(subscribeUserIds.Count == 0, r => false)
                 .OrderByDescending(r => r.CreateTime).ToPagerListAsync(pageDto, out long totalCount);
@@ -261,7 +261,7 @@ namespace LinCms.Application.Blog.Articles
                 {
                     ArticleListDto articleDto = _mapper.Map<ArticleListDto>(r);
                     articleDto.IsLiked = r.UserLikes.Any();
-                    articleDto.ThumbnailDisplay = _currentUser.GetFileUrl(articleDto.Thumbnail);
+                    articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(articleDto.Thumbnail);
                     return articleDto;
                 })
                 .ToList();

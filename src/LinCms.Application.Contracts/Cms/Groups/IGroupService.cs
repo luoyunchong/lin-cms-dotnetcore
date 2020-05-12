@@ -36,7 +36,7 @@ namespace LinCms.Application.Contracts.Cms.Groups
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        List<long> GetUserGroupIdsByUserId(long userId);
+        Task<List<long>>  GetGroupIdsByUserIdAsync(long userId);
 
         /// <summary>
         /// 删除用户与分组直接的关联

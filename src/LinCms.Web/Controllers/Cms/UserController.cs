@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Security;
@@ -14,7 +12,6 @@ using LinCms.Core.Aop.Log;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
-using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -29,8 +26,9 @@ namespace LinCms.Web.Controllers.Cms
         private readonly ICurrentUser _currentUser;
         private readonly IUserRepository _userRepository;
         private readonly IGroupService _groupService;
+        private readonly IFileRepository _fileRepository;
 
-        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService)
+        public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService, IFileRepository fileRepository)
         {
             _freeSql = freeSql;
             _mapper = mapper;
@@ -38,6 +36,7 @@ namespace LinCms.Web.Controllers.Cms
             _currentUser = currentUser;
             _userRepository = userRepository;
             _groupService = groupService;
+            _fileRepository = fileRepository;
         }
 
         [HttpGet("get")]
@@ -54,13 +53,12 @@ namespace LinCms.Web.Controllers.Cms
         [AuditingLog("管理员新建了一个用户")]
         [HttpPost("register")]
         [Authorize(Roles = LinGroup.Admin)]
-        public UnifyResponseDto Post([FromBody] CreateUserDto userInput)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUserDto userInput)
         {
-            _userSevice.CreateAsync(_mapper.Map<LinUser>(userInput), userInput.GroupIds,userInput.Password);
-
+            await  _userSevice.CreateAsync(_mapper.Map<LinUser>(userInput), userInput.GroupIds, userInput.Password);
             return UnifyResponseDto.Success("用户创建成功");
         }
-        
+
         /// <summary>
         /// 得到当前登录人信息
         /// </summary>
@@ -81,7 +79,7 @@ namespace LinCms.Web.Controllers.Cms
             UserInformation userInformation = await _userSevice.GetInformationAsync(_currentUser.Id ?? 0);
             var permissions = await _userSevice.GetStructualUserPermissions(_currentUser.Id ?? 0);
             userInformation.Permissions = permissions;
-            userInformation.Admin = _groupService.CheckIsRootByUserId(_currentUser.Id??0);
+            userInformation.Admin = _groupService.CheckIsRootByUserId(_currentUser.Id ?? 0);
             return userInformation;
         }
 
@@ -128,33 +126,33 @@ namespace LinCms.Web.Controllers.Cms
 
         [AllowAnonymous]
         [HttpGet("avatar/{userId}")]
-        public string GetAvatar(long userId)
+        public async Task<string> GetAvatarAsync(long userId)
         {
-            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).First();
+            LinUser linUser =await _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).FirstAsync();
 
-            return _currentUser.GetFileUrl(linUser.Avatar);
+            return _fileRepository.GetFileUrl(linUser.Avatar);
 
         }
 
         [AllowAnonymous]
         [HttpGet("{userId}")]
-        public OpenUserDto GetUserByUserId(long userId)
+        public async Task<OpenUserDto> GetUserByUserId(long userId)
         {
-            LinUser linUser = _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).First();
+            LinUser linUser =await _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).FirstAsync();
             OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
             if (openUser == null) return null;
-            openUser.Avatar = _currentUser.GetFileUrl(openUser.Avatar);
-
+            openUser.Avatar = _fileRepository.GetFileUrl(openUser.Avatar);
             return openUser;
-
         }
 
         [AllowAnonymous]
         [HttpGet("novices")]
-        public List<UserNoviceDto> GetNovices()
+        public async Task<List<UserNoviceDto>> GetNovicesAsync()
         {
-            List<UserNoviceDto> userNoviceDtos = _userRepository.Select.OrderByDescending(r => r.CreateTime).Take(12)
-                .ToList(r => new UserNoviceDto()
+            List<UserNoviceDto> userNoviceDtos =(await _userRepository.Select
+                .OrderByDescending(r => r.CreateTime)
+                .Take(12)
+                .ToListAsync(r => new UserNoviceDto()
                 {
                     Id = r.Id,
                     Introduction = r.Introduction,
@@ -163,9 +161,9 @@ namespace LinCms.Web.Controllers.Cms
                     Username = r.Username,
                     LastLoginTime = r.LastLoginTime,
                     CreateTime = r.CreateTime,
-                }).Select(r =>
+                })).Select(r =>
                 {
-                    r.Avatar = _currentUser.GetFileUrl(r.Avatar);
+                    r.Avatar = _fileRepository.GetFileUrl(r.Avatar);
                     return r;
                 }).ToList();
 

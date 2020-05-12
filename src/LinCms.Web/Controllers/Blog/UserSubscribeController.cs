@@ -32,15 +32,17 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<UserSubscribe> _userSubscribeRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICurrentUser _currentUser;
-        private readonly BaseRepository<UserTag> _userTagRepository;
+        private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly ICapPublisher _capBus;
-        public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository, ICurrentUser currentUser, IUserRepository userRepository, BaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher)
+        private readonly IFileRepository _fileRepository;
+        public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository, ICurrentUser currentUser, IUserRepository userRepository, IAuditBaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher, IFileRepository fileRepository)
         {
             _userSubscribeRepository = userSubscribeRepository;
             _currentUser = currentUser;
             _userRepository = userRepository;
             _userTagRepository = userTagRepository;
             _capBus = capPublisher;
+            _fileRepository = fileRepository;
         }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery]UserSubscribeSearchDto searchDto)
+        public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery] UserSubscribeSearchDto searchDto)
         {
             var userSubscribes = _userSubscribeRepository.Select.Include(r => r.SubscribeUser)
                 .Where(r => r.CreateUserId == searchDto.UserId)
@@ -141,7 +143,7 @@ namespace LinCms.Web.Controllers.Blog
                         u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.SubscribeUserId)
                 });
 
-            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _currentUser.GetFileUrl(r.Subscribeer.Avatar); });
+            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
 
             return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
         }
@@ -153,7 +155,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("fans")]
         [AllowAnonymous]
-        public PagedResultDto<UserSubscribeDto> GetUserFansList([FromQuery]UserSubscribeSearchDto searchDto)
+        public PagedResultDto<UserSubscribeDto> GetUserFansList([FromQuery] UserSubscribeSearchDto searchDto)
         {
             List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.LinUser)
                 .Where(r => r.SubscribeUserId == searchDto.UserId)
@@ -167,7 +169,7 @@ namespace LinCms.Web.Controllers.Blog
                     {
                         Id = r.LinUser.Id,
                         Introduction = r.LinUser.Introduction,
-                        Nickname = !r.LinUser.IsDeleted ? r.LinUser.Nickname:"该用户已注销",
+                        Nickname = !r.LinUser.IsDeleted ? r.LinUser.Nickname : "该用户已注销",
                         Avatar = r.LinUser.Avatar,
                         Username = r.LinUser.Username,
                     },
@@ -176,7 +178,7 @@ namespace LinCms.Web.Controllers.Blog
                         u => u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.CreateUserId)
                 });
 
-            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _currentUser.GetFileUrl(r.Subscribeer.Avatar); });
+            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
 
             return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
         }
