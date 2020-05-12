@@ -236,8 +236,7 @@ namespace LinCms.Web
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
-                    options.SuppressConsumesConstraintForFormFileParameters =
-                        true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                    options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
                     //自定义 BadRequest 响应
                     options.InvalidModelStateResponseFactory = context =>
                     {
@@ -296,12 +295,14 @@ namespace LinCms.Web
 
             #endregion
 
+            
+            //应用程序级别设置
 
-            //services.Configure<FormOptions>(options =>
-            //{
-            //    options.MultipartBodyLengthLimit = 1024 * 1024 AddControllers* 2;
-            //    options.MultipartHeadersCountLimit = 10;
-            //});
+            services.Configure<FormOptions>(options =>
+            {
+                //单个文件上传的大小限制为8 MB      默认134217728 应该是128MB
+                options.MultipartBodyLengthLimit = 1024 * 1024 * 8;     //8MB
+            });
 
             #region 分布式事务一致性CAP
 

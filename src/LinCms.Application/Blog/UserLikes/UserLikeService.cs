@@ -5,6 +5,7 @@ using AutoMapper;
 using LinCms.Application.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Comments;
+using LinCms.Application.Contracts.Blog.UserLikes;
 using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.IRepositories;

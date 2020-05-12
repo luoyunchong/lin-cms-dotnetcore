@@ -20,18 +20,18 @@ namespace LinCms.Application.Cms.Files
     public class QiniuService : IFileService
     {
         private readonly IAuditBaseRepository<LinFile> _fileRepository;
-        private QiniuOptions _qiniuOptions;
+        private readonly FileStorageOption _fileStorageOption;
 
-        public QiniuService(IAuditBaseRepository<LinFile> fileRepository, IOptions<QiniuOptions> options)
+        public QiniuService(IAuditBaseRepository<LinFile> fileRepository, IOptions<FileStorageOption> fileStorageOption)
         {
             _fileRepository = fileRepository;
-            _qiniuOptions = options.Value;
+            _fileStorageOption = fileStorageOption.Value;
         }
 
         private string GetAccessToken()
         {
-            Mac mac = new Mac(_qiniuOptions.AK, _qiniuOptions.SK);
-            PutPolicy putPolicy = new PutPolicy { Scope = _qiniuOptions.Bucket };
+            Mac mac = new Mac(_fileStorageOption.Qiniu.AK, _fileStorageOption.Qiniu.SK);
+            PutPolicy putPolicy = new PutPolicy { Scope = _fileStorageOption.Qiniu.Bucket };
             return Auth.CreateUploadToken(mac, putPolicy.ToJsonString());
         }
 
@@ -50,15 +50,14 @@ namespace LinCms.Application.Cms.Files
             FormUploader upload = new FormUploader(new Config()
             {
                 Zone = Zone.ZONE_CN_South,
-                UseHttps = _qiniuOptions.UseHttps
+                UseHttps = _fileStorageOption.Qiniu.UseHttps
             });
 
-            string path = _qiniuOptions.PrefixPath + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(file.FileName);
-            Stream stream = file.OpenReadStream();
+            string path = _fileStorageOption.Qiniu.PrefixPath + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(file.FileName);
+            using Stream stream = file.OpenReadStream();
             HttpResult result = upload.UploadStream(stream, path, GetAccessToken(), null);
             if (result.Code != (int)HttpCode.OK) throw new LinCmsException("上传失败");
             return path;
-
         }
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace LinCms.Application.Cms.Files
         /// <returns></returns>
         public async Task<FileDto> UploadAsync(IFormFile file, int key = 0)
         {
-            string md5 = LinCmsUtils.GetHash<SHA1>(file.OpenReadStream());
+            string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
 
             LinFile linFile = await _fileRepository.Where(r => r.Md5 == md5 && r.Type == 2).FirstAsync();
 
@@ -80,7 +79,7 @@ namespace LinCms.Application.Cms.Files
                     Id = linFile.Id,
                     Key = "file_" + key,
                     Path = linFile.Path,
-                    Url = _qiniuOptions.Host + linFile.Path
+                    Url = _fileStorageOption.Qiniu.Host + linFile.Path
                 };
             }
 
@@ -103,7 +102,7 @@ namespace LinCms.Application.Cms.Files
                 Id = id,
                 Key = "file_" + key,
                 Path = path,
-                Url = _qiniuOptions.Host + "/" + path
+                Url = _fileStorageOption.Qiniu.Host + path
             };
 
         }

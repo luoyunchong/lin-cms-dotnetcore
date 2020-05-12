@@ -30,12 +30,12 @@ namespace LinCms.Application.Cms.Files
         }
 
         /// <summary>
-        /// 本地文件上传，生成目录格式 /{STORE_DIR}/{year}/{month}/{day}/{guid}.文件后缀
+        /// 本地文件上传，生成目录格式 {STORE_DIR}/{year}/{month}/{day}/{guid}.文件后缀
+        /// assets/2020/05/12/fba73a0c-f2f7-499a-8ed8-5b10554d43b0.jpg
         /// </summary>
         /// <param name="file"></param>
-        /// <param name="len"></param>
         /// <returns></returns>
-        private string LocalUpload(IFormFile file, out long len)
+        private async Task<Tuple<string,long>> LocalUploadAsync(IFormFile file)
         {
             if (file.Length == 0)
             {
@@ -43,22 +43,28 @@ namespace LinCms.Application.Cms.Files
             }
             
             string saveFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            string path = _fileStorageOption.LocalFile.Host+ DateTime.Now.ToString("yyy/MM/dd");
+            
+            //得到 assets/2020/05/12
+            string path = Path.Combine(_fileStorageOption.LocalFile.PrefixPath,DateTime.Now.ToString("yyy/MM/dd"));
+            //得到wwwroot/assets/2020/05/12
             string createFolder = Path.Combine(_hostingEnv.WebRootPath, path);
-       
+            //创建这种不存在的目录
             if (!Directory.Exists(createFolder))
             {
                 Directory.CreateDirectory(createFolder);
             }
 
-            using (FileStream fs = File.Create(Path.Combine(createFolder, saveFileName)))
+            long len=0;
+            await using (FileStream fs = File.Create(Path.Combine(createFolder, saveFileName)))
             {
-                file.CopyTo(fs);
-                len = fs.Length;
-                fs.Flush();
+              await  file.CopyToAsync(fs);
+              len = fs.Length;
+              await  fs.FlushAsync();
             }
-
-            return Path.Combine(path,saveFileName).Replace("\\", "/");
+                
+            //windows下Path.Combine,得到的\\，不符号路径的要求。替换一下
+            //得到 路径与文件大小    assets/2020/05/12/fba73a0c-f2f7-499a-8ed8-5b10554d43b0.jpg
+            return  Tuple.Create(Path.Combine(path,saveFileName).Replace("\\", "/"),len);
         }
 
         /// <summary>
@@ -85,8 +91,8 @@ namespace LinCms.Application.Cms.Files
 
             long id;
 
-            string path = this.LocalUpload(file, out long len);
-
+            var (path,len) =await this.LocalUploadAsync(file);
+            
             if (linFile == null)
             {
                 LinFile saveLinFile = new LinFile()

@@ -62,6 +62,11 @@ namespace LinCms.Web
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureKestrel((context, options) =>
+                    {
+                        //设置应用服务器Kestrel请求体最大为8MB，默认为
+                        options.Limits.MaxRequestBodySize = 1024*1024*8;
+                    });
                     webBuilder.UseStartup<Startup>().ConfigureAppConfiguration((host, config) =>
                     {
                         config.AddJsonFile($"RateLimitConfig.json", optional: true, reloadOnChange: true);
