@@ -36,6 +36,7 @@ namespace LinCms.Web.Middleware
 
         private bool TryBegin(IInvocation invocation)
         {
+            // return false;
             _unitOfWork = _unitOfWorkManager.Begin(Propagation.Requierd, null);
             return true;
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
@@ -125,12 +126,12 @@ namespace LinCms.Web.Middleware
                 else
                 {
                     _unitOfWork.Rollback();
-                    _logger.LogError("", ex);
+                    _logger.LogError("OnAfter-Rollback", ex);
                 }
             }
             catch (Exception e)
             {
-                _logger.LogError("", e);
+                _logger.LogError("Commit-OnAfter", e);
                 throw ex;
             }
             finally
