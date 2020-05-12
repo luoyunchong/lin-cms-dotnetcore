@@ -101,14 +101,14 @@ namespace LinCms.Web.Controllers.Blog
             }
 
 
-            if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
-            {
-                using ICapTransaction trans = _unitOfWorkManager.Begin().BeginTransaction(_capBus, false);
-
-                _capBus.Publish("NotificationController.Post", createNotificationDto);
-
-                trans.Commit();
-            }
+            // if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
+            // {
+            //     using ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
+            //
+            //     _capBus.Publish("NotificationController.Post", createNotificationDto);
+            //
+            //     trans.Commit();
+            // }
         }
     }
 }
