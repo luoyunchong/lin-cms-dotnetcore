@@ -116,7 +116,7 @@ namespace LinCms.Web.Controllers.Cms
                 Address = _configuration["Service:Authority"],
                 Policy =
                 {
-                    RequireHttps = false
+                    RequireHttps = true
                 }
             });
 
