@@ -23,14 +23,14 @@ namespace LinCms.Application.Cms.Groups
         private readonly IMapper _mapper;
         private readonly IPermissionService _permissionService;
         private readonly ICurrentUser _currentUser;
-        private readonly IAuditBaseRepository<LinGroup,long> _groupRepository;
-        private readonly IAuditBaseRepository<LinUserGroup,long> _userGroupRepository;
+        private readonly IAuditBaseRepository<LinGroup, long> _groupRepository;
+        private readonly IAuditBaseRepository<LinUserGroup, long> _userGroupRepository;
         public GroupService(IFreeSql freeSql,
             IMapper mapper,
             IPermissionService permissionService,
             ICurrentUser currentUser,
-            IAuditBaseRepository<LinGroup,long> groupRepository,
-            IAuditBaseRepository<LinUserGroup,long> userGroupRepository
+            IAuditBaseRepository<LinGroup, long> groupRepository,
+            IAuditBaseRepository<LinUserGroup, long> userGroupRepository
             )
         {
             _freeSql = freeSql;
@@ -74,11 +74,11 @@ namespace LinCms.Application.Cms.Groups
             LinGroup linGroup = _mapper.Map<LinGroup>(inputDto);
 
             using var conn = _freeSql.Ado.MasterPool.Get();
-            await using DbTransaction transaction =await conn.Value.BeginTransactionAsync();
+            await using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
             try
             {
-                long groupId =await _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
-                List<LinPermission> allPermissions =await _freeSql.Select<LinPermission>().WithTransaction(transaction).ToListAsync();
+                long groupId = await _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
+                List<LinPermission> allPermissions = await _freeSql.Select<LinPermission>().WithTransaction(transaction).ToListAsync();
                 List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
                 inputDto.PermissionIds.ForEach(r =>
                 {
@@ -90,18 +90,18 @@ namespace LinCms.Application.Cms.Groups
                     linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
                 });
 
-             await  _freeSql.Insert<LinGroupPermission>()
-                    .WithTransaction(transaction)
-                    .AppendData(linPermissions)
-                    .ExecuteAffrowsAsync();
-             await transaction.CommitAsync();
+                await _freeSql.Insert<LinGroupPermission>()
+                       .WithTransaction(transaction)
+                       .AppendData(linPermissions)
+                       .ExecuteAffrowsAsync();
+                await transaction.CommitAsync();
             }
             catch
             {
-                await  transaction.RollbackAsync();
+                await transaction.RollbackAsync();
                 throw;
             }
-            
+
             //_freeSql.Transaction(() =>
             //{
             //    long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
@@ -125,7 +125,7 @@ namespace LinCms.Application.Cms.Groups
 
         public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)
         {
-            await _groupRepository.UpdateDiy.Where(r=>r.Id==id).Set(a => new LinGroup()
+            await _groupRepository.UpdateDiy.Where(r => r.Id == id).Set(a => new LinGroup()
             {
                 Info = updateGroupDto.Info,
                 Name = updateGroupDto.Name
@@ -181,7 +181,7 @@ namespace LinCms.Application.Cms.Groups
         {
             return await _userGroupRepository.Where(r => r.UserId == userId).ToListAsync(r => r.GroupId);
         }
-   
+
         public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
         {
             await _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
