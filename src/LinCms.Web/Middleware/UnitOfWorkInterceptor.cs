@@ -37,8 +37,8 @@ namespace LinCms.Web.Middleware
         private bool TryBegin(IInvocation invocation)
         {
             // return false;
-            _unitOfWork = _unitOfWorkManager.Begin(Propagation.Requierd, null);
-            return true;
+            //_unitOfWork = _unitOfWorkManager.Begin(Propagation.Requierd, null);
+            //return true;
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             var attribute = method.GetCustomAttributes(typeof(TransactionalAttribute), false).FirstOrDefault();
             if (attribute is TransactionalAttribute transaction)
@@ -132,7 +132,7 @@ namespace LinCms.Web.Middleware
             catch (Exception e)
             {
                 _logger.LogError("Commit-OnAfter", e);
-                throw ex;
+                throw e;
             }
             finally
             {
