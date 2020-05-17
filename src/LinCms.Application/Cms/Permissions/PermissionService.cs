@@ -39,6 +39,11 @@ namespace LinCms.Application.Cms.Permissions
 
         }
 
+        /// <summary>
+        /// 检查当前登录的用户的分组权限
+        /// </summary>
+        /// <param name="permission"></param>
+        /// <returns></returns>
         public async Task<bool> CheckPermissionAsync(string permission)
         {
             long[] groups = _currentUser.Groups;
@@ -50,6 +55,7 @@ namespace LinCms.Application.Cms.Permissions
 
             return existPermission;
         }
+
         
         public async Task DeletePermissionsAsync(RemovePermissionDto permissionDto)
         {
@@ -108,6 +114,11 @@ namespace LinCms.Application.Cms.Permissions
             }
 
             return list;
+        }
+
+        public async Task<LinPermission> GetAsync(string permissionName)
+        {
+          return await _permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
         }
     }
 }

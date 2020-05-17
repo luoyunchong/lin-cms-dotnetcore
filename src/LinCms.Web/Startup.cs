@@ -3,31 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using AspNetCoreRateLimit;
 using Autofac;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
-using HealthChecks.UI.Client;
 using LinCms.Application.Cms.Users;
-using LinCms.Core.Aop;
 using LinCms.Core.Aop.Filter;
-using LinCms.Core.Aop.Log;
 using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Data.Options;
 using LinCms.Core.Extensions;
-using LinCms.Plugins.Poem.AutoMapper;
 using LinCms.Web.Configs;
-using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -43,6 +34,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
+using LinCms.Plugins.Poem.Services;
 
 namespace LinCms.Web
 {
@@ -58,31 +50,6 @@ namespace LinCms.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddContext(Configuration);
-
-            #region IdentityServer4
-
-            #region AddAuthentication\AddIdentityServerAuthentication
-
-            //AddAuthentication()是把验证服务注册到DI, 并配置了Bearer作为默认模式.
-
-            //AddIdentityServerAuthentication()是在DI注册了token验证的处理者.
-            //由于是本地运行, 所以就不使用https了, RequireHttpsMetadata = false.如果是生产环境, 一定要使用https.
-            //Authority指定Authorization Server的地址.
-            //ApiName要和Authorization Server里面配置ApiResource的name一样.
-            //和  AddJwtBearer不能同时使用，目前还不理解区别。
-            //services
-            //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //    .AddIdentityServerAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme, options =>
-            //    {
-            //        options.RequireHttpsMetadata = false; // for dev env
-            //        options.Authority = $"{Configuration["Identity:Protocol"]}://{Configuration["Identity:IP"]}:{Configuration["Identity:Port"]}"; ;
-            //        options.ApiName = Configuration["Service:Name"]; // match with configuration in IdentityServer
-
-            //        //options.JwtValidationClockSkew = TimeSpan.FromSeconds(60 * 5);
-
-            //    });
-
-            #endregion
 
             #region AddJwtBearer
 
@@ -108,9 +75,7 @@ namespace LinCms.Web
                     {
                         // The signing key must match!
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey =
-                            new SymmetricSecurityKey(
-                                Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
+                        IssuerSigningKey =new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
 
                         // Validate the JWT Issuer (iss) claim
                         ValidateIssuer = true,
@@ -201,7 +166,6 @@ namespace LinCms.Web
 
             #endregion
 
-            #endregion
 
             //services.AddCsRedisCore();
 
@@ -377,6 +341,7 @@ namespace LinCms.Web
                 builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
             });
 
+            //认证中间件
             app.UseAuthentication();
 
             //app.UseMiddleware<IpLimitMiddleware>();
