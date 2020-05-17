@@ -114,6 +114,10 @@ namespace LinCms.Web.Configs
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            // Replace the default authorization policy provider with our own
+            // custom provider which can return authorization policies for given
+            // policy names (instead of using the default policy provider)
+            services.AddSingleton<IAuthorizationPolicyProvider, LinCmsPolicyProvider>();
             services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
 
