@@ -18,6 +18,7 @@ namespace LinCms.Application.Contracts.Cms.Permissions
 
         List<IDictionary<string, object>> StructuringPermissions(List<LinPermission> permissions);
 
+        Task<LinPermission> GetAsync(string permissionName);
 
     }
 }

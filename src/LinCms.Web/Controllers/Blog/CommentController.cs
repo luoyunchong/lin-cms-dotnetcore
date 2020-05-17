@@ -209,11 +209,14 @@ namespace LinCms.Web.Controllers.Blog
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateCommentDto createCommentDto)
         {
             Comment comment = _mapper.Map<Comment>(createCommentDto);
-            _commentAuditBaseRepository.Insert(comment);
+            await _commentAuditBaseRepository.InsertAsync(comment);
 
             if (createCommentDto.RootCommentId.HasValue)
             {
-                await _commentAuditBaseRepository.UpdateDiy.Set(r => r.ChildsCount + 1).Where(r => r.Id == createCommentDto.RootCommentId).ExecuteAffrowsAsync();
+                await _commentAuditBaseRepository.UpdateDiy
+                    .Set(r => r.ChildsCount + 1)
+                    .Where(r => r.Id == createCommentDto.RootCommentId)
+                    .ExecuteAffrowsAsync();
             }
 
             switch (createCommentDto.SubjectType)

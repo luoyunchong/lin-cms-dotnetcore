@@ -18,6 +18,7 @@ using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LinCms.Application.Cms.Users
 {
@@ -57,8 +58,6 @@ namespace LinCms.Application.Cms.Users
 
             await _userIdentityService.ChangePasswordAsync(currentUserId, passwordDto.NewPassword);
         }
-
-
 
         public async Task DeleteAsync(long userId)
         {

@@ -129,7 +129,7 @@ namespace LinCms.Web.Controllers.Cms
             }
 
             HttpRequest request = _contextAccessor.HttpContext.Request;
-            string url =$"//{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
+            string url =$"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
                     $"&redirectUrl={redirectUrl}";
 
             _logger.LogInformation($"url:{url}");
@@ -172,14 +172,13 @@ namespace LinCms.Web.Controllers.Cms
         private string CreateToken(IEnumerable<Claim> Claims)
         {
             var handler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Authentication:JwtBearer:SecurityKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:JwtBearer:SecurityKey"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 _configuration["Authentication:JwtBearer:Issuer"],
                 _configuration["Authentication:JwtBearer:Audience"],
                 Claims,
-                expires: DateTime.Now.AddMinutes(120),
+                expires: DateTime.Now.AddDays(30),
                 signingCredentials: credentials
             );
 

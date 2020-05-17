@@ -4,7 +4,7 @@ using AutoMapper;
 using LinCms.Core.Entities;
 using LinCms.Plugins.Poem.Models;
 
-namespace LinCms.Plugins.Poem.AutoMapper
+namespace LinCms.Plugins.Poem.Services
 {
     public class PoemProfile : Profile
     {
