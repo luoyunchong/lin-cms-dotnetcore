@@ -35,6 +35,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using LinCms.Plugins.Poem.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace LinCms.Web
 {
@@ -204,9 +205,10 @@ namespace LinCms.Web
                     //自定义 BadRequest 响应
                     options.InvalidModelStateResponseFactory = context =>
                     {
-                        ValidationProblemDetails problemDetails = new ValidationProblemDetails(context.ModelState);
+                        var problemDetails = new ValidationProblemDetails(context.ModelState);
 
-                        UnifyResponseDto resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors,context.HttpContext);
+                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors,
+                            context.HttpContext);
 
                         return new BadRequestObjectResult(resultDto)
                         {
@@ -260,6 +262,7 @@ namespace LinCms.Web
 
             
             //应用程序级别设置
+
             services.Configure<FormOptions>(options =>
             {
                 //单个文件上传的大小限制为8 MB      默认134217728 应该是128MB
@@ -295,7 +298,7 @@ namespace LinCms.Web
             ////之前请注入AddCsRedisCore，内部实现IDistributedCache接口
             //services.AddIpRateLimiting(Configuration);
 
-            services.AddHealthChecks();
+            //services.AddHealthChecks();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -315,7 +318,12 @@ namespace LinCms.Web
             }
 
             app.UseHttpsRedirection();
-
+            
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            
             app.UseStaticFiles();
 
             app.UseSerilogRequestLogging();
@@ -349,11 +357,11 @@ namespace LinCms.Web
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
-                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                    {
-                        Predicate = _ => true,
-                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                    });
+                    //endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    //{
+                    //    Predicate = _ => true,
+                    //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    //});
                 });
         }
     }
