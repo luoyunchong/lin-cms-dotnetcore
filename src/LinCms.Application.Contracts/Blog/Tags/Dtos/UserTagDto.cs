@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Application.Contracts.Blog.UserTags.Dtos
+namespace LinCms.Application.Contracts.Blog.Tags.Dtos
 {
     public class UserTagDto
     {

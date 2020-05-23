@@ -48,6 +48,9 @@ namespace LinCms.Core.Data.Enums
 
     public enum ErrorCode
     {
+        /// <summary>
+        /// 操作成功
+        /// </summary>
         Success = 0,
         /// <summary>
         /// 未知错误

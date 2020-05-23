@@ -1,16 +1,11 @@
 ﻿using System;
-using LinCms.Application.Blog.Tags;
+using System.Threading.Tasks;
 using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
 using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using LinCms.Core.IRepositories;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -19,16 +14,12 @@ namespace LinCms.Web.Controllers.Blog
     [Authorize]
     public class UserTagController : ControllerBase
     {
-        private readonly ICurrentUser _currentUser;
-        private readonly IAuditBaseRepository<Tag> _tagRepository;
-        private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly ITagService _tagService;
+        private readonly IUserTagService _userTagService;
 
-        public UserTagController(ICurrentUser currentUser, IAuditBaseRepository<Tag> tagRepository, IAuditBaseRepository<UserTag> userTagRepository, ITagService tagService)
+        public UserTagController(ITagService tagService, IUserTagService userTagService)
         {
-            _currentUser = currentUser;
-            _tagRepository = tagRepository;
-            _userTagRepository = userTagRepository;
+            _userTagService = userTagService;
             _tagService = tagService;
         }
 
@@ -37,30 +28,9 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="tagId"></param>
         [HttpPost("{tagId}")]
-        public void Post(Guid tagId)
+        public async Task CreateUserTagAsync(Guid tagId)
         {
-            Tag tag = _tagRepository.Select.Where(r => r.Id == tagId).ToOne();
-            if (tag == null)
-            {
-                throw new LinCmsException("该标签不存在");
-            }
-
-            if (!tag.Status)
-            {
-                throw new LinCmsException("该标签已被拉黑");
-            }
-
-            bool any = _userTagRepository.Select.Any(r =>
-                  r.CreateUserId == _currentUser.Id && r.TagId == tagId);
-            if (any)
-            {
-                throw new LinCmsException("您已关注该标签");
-            }
-
-            UserTag userTag = new UserTag() { TagId = tagId };
-            _userTagRepository.Insert(userTag);
-
-            _tagService.UpdateSubscribersCount(tagId, 1);
+            await _userTagService.CreateUserTagAsync(tagId);
         }
 
         /// <summary>
@@ -68,15 +38,9 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="tagId"></param>
         [HttpDelete("{tagId}")]
-        public void Delete(Guid tagId)
+        public async Task DeleteUserTagAsync(Guid tagId)
         {
-            bool any = _userTagRepository.Select.Any(r => r.CreateUserId == _currentUser.Id && r.TagId == tagId);
-            if (!any)
-            {
-                throw new LinCmsException("已取消关注");
-            }
-            _userTagRepository.Delete(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
-            _tagService.UpdateSubscribersCount(tagId, -1);
+            await _userTagService.DeleteUserTagAsync(tagId);
         }
 
         /// <summary>

@@ -28,9 +28,9 @@ namespace LinCms.Web.Controllers.Blog
 
         [NonAction]
         [CapSubscribe("NotificationController.Post")]
-        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateNotificationDto createNotification)
+        public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateNotificationDto createNotification)
         {
-            await _notificationService.CreateAsync(createNotification);
+            await _notificationService.CreateOrCancelAsync(createNotification);
             return UnifyResponseDto.Success("新建消息成功");
         }
 

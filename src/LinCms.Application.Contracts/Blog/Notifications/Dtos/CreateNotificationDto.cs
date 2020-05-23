@@ -10,6 +10,8 @@ namespace LinCms.Application.Contracts.Blog.Notifications.Dtos
         public Guid? CommentId { get; set; }
         public long NotificationRespUserId { get; set; }
         public long UserInfoId { get; set; }
+        
+        public bool IsCancel { get; set; }
         public DateTime CreateTime { get; set; }
     }
 }

@@ -75,6 +75,11 @@
             <param name="pageDto"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Web.Controllers.Blog.ArticleDraftController">
+            <summary>
+            文章草稿箱，自动保存文章
+            </summary>
+        </member>
         <member name="M:LinCms.Web.Controllers.Blog.ArticleDraftController.GetAsync(System.Guid)">
             <summary>
             用户的随笔草稿详情
@@ -92,23 +97,23 @@
             随笔评论
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.Get(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetListByArticleAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
             <summary>
             评论分页列表页,当随笔Id有值时，查询出此随笔的评论
             </summary>
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetAll(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetListAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
             <summary>
-            查询出此随笔的评论
+            后台权限-评论列表页
             </summary>
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Blog.CommentController.DeleteAsync(System.Guid)">
             <summary>
-            删除评论
+            后台权限-删除评论
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -189,7 +194,7 @@
             <param name="createUpdateUserLike"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.PublishUserLikeNotification(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.PublishUserLikeNotification(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto,System.Boolean)">
             <summary>
             根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
             </summary>
@@ -208,7 +213,7 @@
             <param name="subscribeUserId"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.Delete(System.Int64)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.DeleteAsync(System.Int64)">
             <summary>
             取消关注用户
             </summary>
@@ -238,13 +243,13 @@
             </summary>
             <param name="userId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.Post(System.Guid)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.CreateUserTagAsync(System.Guid)">
             <summary>
             用户关注标签
             </summary>
             <param name="tagId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.Delete(System.Guid)">
+        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.DeleteUserTagAsync(System.Guid)">
             <summary>
             取消关注标签
             </summary>

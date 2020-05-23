@@ -58,11 +58,16 @@ namespace LinCms.Web.Controllers.Blog
         [HttpPost]
         public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            string message = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
+            using IUnitOfWork unitOfWork= _unitOfWorkManager.Begin();
+            using ICapTransaction trans = unitOfWork.BeginTransaction(_capBus, false);
 
-            await PublishUserLikeNotification(createUpdateUserLike);
+            bool isCancel = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
 
-            return UnifyResponseDto.Success(message);
+            await PublishUserLikeNotification(createUpdateUserLike,isCancel);
+            
+            trans.Commit();
+            
+            return UnifyResponseDto.Success(isCancel==false?"点赞成功":"已取消点赞");
         }
 
         /// <summary>
@@ -70,12 +75,13 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
-        private async Task PublishUserLikeNotification(CreateUpdateUserLikeDto createUpdateUserLike)
+        private async Task PublishUserLikeNotification(CreateUpdateUserLikeDto createUpdateUserLike,bool isCancel)
         {
             var createNotificationDto = new CreateNotificationDto()
             {
                 UserInfoId = _currentUser.Id ?? 0,
                 CreateTime = DateTime.Now,
+                IsCancel = isCancel
             };
 
             switch (createUpdateUserLike.SubjectType)
@@ -101,14 +107,10 @@ namespace LinCms.Web.Controllers.Blog
             }
 
 
-            // if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
-            // {
-            //     using ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
-            //
-            //     _capBus.Publish("NotificationController.Post", createNotificationDto);
-            //
-            //     trans.Commit();
-            // }
+            if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
+            {
+               await _capBus.PublishAsync("NotificationController.Post", createNotificationDto);
+            }
         }
     }
 }

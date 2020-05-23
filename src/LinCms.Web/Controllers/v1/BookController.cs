@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Books;
 using LinCms.Application.Contracts.v1.Books;
 using LinCms.Application.Contracts.v1.Books.Dtos;
 using LinCms.Core.Aop;
@@ -18,7 +17,7 @@ namespace LinCms.Web.Controllers.v1
 {
     [Route("v1/book")]
     [ApiController]
-    [Authorize]
+    // [Authorize]
     public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -33,8 +32,8 @@ namespace LinCms.Web.Controllers.v1
         {
             await _bookService.DeleteAsync(id);
             return UnifyResponseDto.Success();
-        }
 
+        }
         [HttpGet]
         public async Task<PagedResultDto<BookDto>> GetListAsync([FromQuery] PageDto pageDto)
         {

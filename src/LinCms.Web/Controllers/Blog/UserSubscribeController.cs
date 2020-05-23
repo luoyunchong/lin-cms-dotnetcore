@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
@@ -35,7 +36,11 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly ICapPublisher _capBus;
         private readonly IFileRepository _fileRepository;
-        public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository, ICurrentUser currentUser, IUserRepository userRepository, IAuditBaseRepository<UserTag> userTagRepository, ICapPublisher capPublisher, IFileRepository fileRepository)
+        private readonly UnitOfWorkManager _unitOfWorkManager;
+
+        public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
+            ICurrentUser currentUser, IUserRepository userRepository, IAuditBaseRepository<UserTag> userTagRepository,
+            ICapPublisher capPublisher, IFileRepository fileRepository, UnitOfWorkManager unitOfWorkManager)
         {
             _userSubscribeRepository = userSubscribeRepository;
             _currentUser = currentUser;
@@ -43,6 +48,7 @@ namespace LinCms.Web.Controllers.Blog
             _userTagRepository = userTagRepository;
             _capBus = capPublisher;
             _fileRepository = fileRepository;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -55,7 +61,8 @@ namespace LinCms.Web.Controllers.Blog
         public bool Get(long subscribeUserId)
         {
             if (_currentUser.Id == null) return false;
-            return _userSubscribeRepository.Select.Any(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
+            return _userSubscribeRepository.Select.Any(r =>
+                r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
         }
 
         /// <summary>
@@ -63,14 +70,31 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="subscribeUserId"></param>
         [HttpDelete("{subscribeUserId}")]
-        public void Delete(long subscribeUserId)
+        public async Task DeleteAsync(long subscribeUserId)
         {
-            bool any = _userSubscribeRepository.Select.Any(r => r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
+            bool any = await _userSubscribeRepository.Select.AnyAsync(r =>
+                r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
             if (!any)
             {
                 throw new LinCmsException("已取消关注");
             }
-            _userSubscribeRepository.Delete(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
+
+            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
+            using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
+            
+            await _userSubscribeRepository.DeleteAsync(r =>
+                r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
+                
+            await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
+            {
+                NotificationType = NotificationType.UserLikeUser,
+                NotificationRespUserId = subscribeUserId,
+                UserInfoId = _currentUser.Id ?? 0,
+                CreateTime = DateTime.Now,
+                IsCancel = true
+            });
+
+            await capTransaction.CommitAsync();
         }
 
         /// <summary>
@@ -78,12 +102,13 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="subscribeUserId"></param>
         [HttpPost("{subscribeUserId}")]
-        public void Post(long subscribeUserId)
+        public async Task Post(long subscribeUserId)
         {
             if (subscribeUserId == _currentUser.Id)
             {
                 throw new LinCmsException("您无法关注自己");
             }
+
             LinUser linUser = _userRepository.Select.Where(r => r.Id == subscribeUserId).ToOne();
             if (linUser == null)
             {
@@ -96,23 +121,29 @@ namespace LinCms.Web.Controllers.Blog
             }
 
             bool any = _userSubscribeRepository.Select.Any(r =>
-                  r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
+                r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
             if (any)
             {
                 throw new LinCmsException("您已关注该用户");
             }
 
-            UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
-            _userSubscribeRepository.Insert(userSubscribe);
-
-            _capBus.Publish("NotificationController.Post", new CreateNotificationDto()
+            using (IUnitOfWork unitOfWork = _unitOfWorkManager.Begin())
             {
-                NotificationType = NotificationType.UserLikeUser,
-                NotificationRespUserId = subscribeUserId,
-                UserInfoId = _currentUser.Id ?? 0,
-                CreateTime = DateTime.Now,
-            });
+                using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
 
+                UserSubscribe userSubscribe = new UserSubscribe() {SubscribeUserId = subscribeUserId};
+                await _userSubscribeRepository.InsertAsync(userSubscribe);
+
+                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
+                {
+                    NotificationType = NotificationType.UserLikeUser,
+                    NotificationRespUserId = subscribeUserId,
+                    UserInfoId = _currentUser.Id ?? 0,
+                    CreateTime = DateTime.Now,
+                });
+
+                await capTransaction.CommitAsync();
+            }
         }
 
         /// <summary>
