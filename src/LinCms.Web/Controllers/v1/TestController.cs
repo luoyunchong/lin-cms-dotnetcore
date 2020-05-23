@@ -96,8 +96,8 @@ namespace LinCms.Web.Controllers.v1
             Console.WriteLine(dateTime);
         }
 
-        [HttpGet("~/freesql/transaction")]
-        public DateTime FreeSqlTransaction()
+        [HttpGet("~/freesql/transaction/{id}")]
+        public DateTime FreeSqlTransaction(int id)
         {
             DateTime now = DateTime.Now;
             using (var uow = _freeSql.CreateUnitOfWork())
@@ -107,7 +107,7 @@ namespace LinCms.Web.Controllers.v1
 
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong",
+                    Author = "luoyunchong"+(id==1?"luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong":""),
                     Summary = "1",
                     Title = "122",
                     IsDeleted = false,
@@ -123,17 +123,19 @@ namespace LinCms.Web.Controllers.v1
                     CreateTime = DateTime.Now,
                     CreateUserId = 2
                 });
-
+                if (id == 0)
+                {
+                    throw new Exception("异常，事务不正常!!");
+                }
                 repo.Insert(new Book()
                 {
                     Author = "luoyunchong",
-                    Summary = "3",
+                    Summary = "summary",
                     Title = "122",
                     IsDeleted = false,
                     CreateTime = DateTime.Now,
                     CreateUserId = 3
                 });
-
 
                 _capBus.Publish("freesql.time", now);
                 trans.Commit();

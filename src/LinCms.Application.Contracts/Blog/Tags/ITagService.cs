@@ -30,9 +30,9 @@ namespace LinCms.Application.Contracts.Blog.Tags
         /// <returns></returns>
         PagedResultDto<TagListDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto);
 
-        void UpdateArticleCount(Guid? id, int inCreaseCount);
+        Task UpdateArticleCountAsync(Guid? id, int inCreaseCount);
 
-        void UpdateSubscribersCount(Guid? id, int inCreaseCount);
+        Task UpdateSubscribersCountAsync(Guid? id, int inCreaseCount);
 
         Task CorrectedTagCountAsync(Guid tagId);
 

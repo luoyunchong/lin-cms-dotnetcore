@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Books;
+using LinCms.Application.Contracts.v1.Books;
 using LinCms.Application.Contracts.v1.Books.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;

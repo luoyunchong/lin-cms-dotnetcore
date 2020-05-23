@@ -77,7 +77,7 @@ namespace LinCms.Application
             return query;
         }
 
-        public async Task<PagedResultDto<TGetListOutputDto>> GetListAsync(TGetListInput input)
+        public virtual async Task<PagedResultDto<TGetListOutputDto>> GetListAsync(TGetListInput input)
         {
             var select = CreateFilteredQuery(input);
             long totalCount = await select.CountAsync();
@@ -86,20 +86,20 @@ namespace LinCms.Application
             return new PagedResultDto<TGetListOutputDto>(entities.Select(MapToGetListOutputDto).ToList(), totalCount);
         }
 
-        public async Task<TGetOutputDto> GetAsync(TKey id)
+        public virtual async Task<TGetOutputDto> GetAsync(TKey id)
         {
             TEntity entity = await Repository.GetAsync(id);
             return Mapper.Map<TGetOutputDto>(entity);
         }
 
-        public async Task<TGetOutputDto> CreateAsync(TCreateInput createInput)
+        public virtual async Task<TGetOutputDto> CreateAsync(TCreateInput createInput)
         {
             TEntity entity = Mapper.Map<TEntity>(createInput);
             await Repository.InsertAsync(entity);
             return Mapper.Map<TGetOutputDto>(entity);
         }
 
-        public async Task<TGetOutputDto> UpdateAsync(TKey id, TUpdateInput updateInput)
+        public virtual async Task<TGetOutputDto> UpdateAsync(TKey id, TUpdateInput updateInput)
         {
             TEntity entity = await GetEntityByIdAsync(id);
             Mapper.Map(updateInput, entity);
@@ -107,7 +107,7 @@ namespace LinCms.Application
             return Mapper.Map<TGetOutputDto>(entity);
         }
 
-        public async Task DeleteAsync(TKey id)
+        public virtual async Task DeleteAsync(TKey id)
         {
             await Repository.DeleteAsync(id);
         }

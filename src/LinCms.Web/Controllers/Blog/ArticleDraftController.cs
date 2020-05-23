@@ -24,6 +24,9 @@ using LinCms.Application.Contracts.Blog.ArticleDrafts;
 
 namespace LinCms.Web.Controllers.Blog
 {
+    /// <summary>
+    /// 文章草稿箱，自动保存文章
+    /// </summary>
     [Route("v1/article/draft")]
     [ApiController]
     [Authorize]
