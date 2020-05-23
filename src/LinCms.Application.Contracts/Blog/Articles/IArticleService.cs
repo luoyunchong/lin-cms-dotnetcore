@@ -20,6 +20,6 @@ namespace LinCms.Application.Contracts.Blog.Articles
 
         Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto);
 
-        Task UpdateLikeQuantity(Guid subjectId, int likesQuantity);
+        Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity);
     }
 }

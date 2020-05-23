@@ -1,11 +1,11 @@
 ﻿using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Application.Contracts.Cms.Books;
 using LinCms.Application.Contracts.v1.Books.Dtos;
 using LinCms.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using LinCms.Application.Contracts.v1.Books;
 using Xunit;
 
 namespace LinCms.Test.Service.v1

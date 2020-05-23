@@ -7,6 +7,8 @@ using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Application.Contracts.Blog.UserLikes;
 using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
+using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
@@ -34,7 +36,7 @@ namespace LinCms.Application.Blog.UserLikes
             _commentService = commentService;
         }
 
-        public async Task<string> CreateOrCancelAsync(CreateUpdateUserLikeDto createUpdateUserLike)
+        public async Task<bool> CreateOrCancelAsync(CreateUpdateUserLikeDto createUpdateUserLike)
         {
             Expression<Func<UserLike, bool>> predicate = r =>
                 r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == _currentUser.Id;
@@ -52,23 +54,23 @@ namespace LinCms.Application.Blog.UserLikes
             switch (createUpdateUserLike.SubjectType)
             {
                 case UserLikeSubjectType.UserLikeArticle:
-                    await _articleService.UpdateLikeQuantity(createUpdateUserLike.SubjectId, increaseLikeQuantity);
+                    await _articleService.UpdateLikeQuantityAysnc(createUpdateUserLike.SubjectId, increaseLikeQuantity);
                     break;
                 case UserLikeSubjectType.UserLikeComment:
-                    await _commentService.UpdateLikeQuantity(createUpdateUserLike.SubjectId, increaseLikeQuantity);
+                    await _commentService.UpdateLikeQuantityAysnc(createUpdateUserLike.SubjectId, increaseLikeQuantity);
                     break;
             }
 
             if (exist)
             {
-                return "取消点赞成功";
+                return true;
             }
 
 
             UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
-            _userLikeRepository.Insert(userLike);
+            await _userLikeRepository.InsertAsync(userLike);
 
-            return "点赞成功";
+            return false;
         }
     }
 }

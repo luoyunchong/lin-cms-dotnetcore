@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using FreeSql;
 using LinCms.Application.Contracts.Blog.Articles;
 using LinCms.Application.Contracts.Blog.Articles.Dtos;
 using LinCms.Application.Contracts.Blog.Classifys;
@@ -107,7 +106,7 @@ namespace LinCms.Application.Blog.Articles
             {
                 await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
                 article.Tags?
-                    .ForEach(u => { _tagService.UpdateArticleCount(u.Id, -1); });
+                    .ForEach(async(u) => {await _tagService.UpdateArticleCountAsync(u.Id, -1); });
             }
 
             await _articleRepository.DeleteAsync(new Article { Id = id });
@@ -164,7 +163,7 @@ namespace LinCms.Application.Blog.Articles
                 {
                     Id = articleTagId,
                 });
-                _tagService.UpdateArticleCount(articleTagId, 1);
+               await _tagService.UpdateArticleCountAsync(articleTagId, 1);
             }
 
             ArticleDraft articleDraft = new ArticleDraft()
@@ -221,20 +220,20 @@ namespace LinCms.Application.Blog.Articles
             List<Guid> tagIds =
                 await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
 
-            tagIds.ForEach(tagId => { _tagService.UpdateArticleCount(tagId, -1); });
+            tagIds.ForEach(async(tagId) => {await  _tagService.UpdateArticleCountAsync(tagId, -1); });
 
             _tagArticleRepository.Delete(r => r.ArticleId == id);
 
             List<TagArticle> tagArticles = new List<TagArticle>();
 
-            updateArticleDto.TagIds.ForEach(tagId =>
+            updateArticleDto.TagIds.ForEach(async(tagId) =>
             {
                 tagArticles.Add(new TagArticle()
                 {
                     ArticleId = id,
                     TagId = tagId
                 });
-                _tagService.UpdateArticleCount(tagId, 1);
+               await _tagService.UpdateArticleCountAsync(tagId, 1);
             });
             await _tagArticleRepository.InsertAsync(tagArticles);
         }
@@ -269,7 +268,7 @@ namespace LinCms.Application.Blog.Articles
             return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
         }
 
-        public async Task UpdateLikeQuantity(Guid subjectId, int likesQuantity)
+        public async Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity)
         {
             Article article = await _articleRepository.Where(r => r.Id == subjectId).ToOneAsync();
             if (article.IsAudit == false)

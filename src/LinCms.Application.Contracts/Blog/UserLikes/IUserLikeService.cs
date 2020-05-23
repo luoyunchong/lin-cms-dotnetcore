@@ -5,6 +5,6 @@ namespace LinCms.Application.Contracts.Blog.UserLikes
 {
     public interface IUserLikeService
     {
-        Task<string> CreateOrCancelAsync(CreateUpdateUserLikeDto createUpdateUserLike);
+        Task<bool> CreateOrCancelAsync(CreateUpdateUserLikeDto createUpdateUserLike);
     }
 }

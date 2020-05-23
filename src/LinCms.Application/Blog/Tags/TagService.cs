@@ -131,7 +131,7 @@ namespace LinCms.Application.Blog.Tags
             return new PagedResultDto<TagListDto>(userTags, count);
         }
 
-        public void UpdateArticleCount(Guid? id, int inCreaseCount)
+        public async Task UpdateArticleCountAsync(Guid? id, int inCreaseCount)
         {
             if (id == null)
             {
@@ -141,20 +141,20 @@ namespace LinCms.Application.Blog.Tags
             //防止数量一直减，减到小于0
             if (inCreaseCount < 0)
             {
-                Tag tag = _tagRepository.Select.Where(r => r.Id == id).ToOne();
+                Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
                 if (tag.ArticleCount < -inCreaseCount)
                 {
                     return;
                 }
             }
 
-            _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount)
+           await _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount)
                 .Where(r => r.Id == id)
-                .ExecuteAffrows();
+                .ExecuteAffrowsAsync();
         }
 
 
-        public void UpdateSubscribersCount(Guid? id, int inCreaseCount)
+        public async Task UpdateSubscribersCountAsync(Guid? id, int inCreaseCount)
         {
             if (id == null)
             {
@@ -164,16 +164,16 @@ namespace LinCms.Application.Blog.Tags
             //防止数量一直减，减到小于0
             if (inCreaseCount < 0)
             {
-                Tag tag = _tagRepository.Select.Where(r => r.Id == id).ToOne();
+                Tag tag =await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
                 if (tag.SubscribersCount < -inCreaseCount)
                 {
                     return;
                 }
             }
 
-            _tagRepository.UpdateDiy.Set(r => r.SubscribersCount + inCreaseCount)
+           await _tagRepository.UpdateDiy.Set(r => r.SubscribersCount + inCreaseCount)
                 .Where(r => r.Id == id)
-                .ExecuteAffrows();
+                .ExecuteAffrowsAsync();
         }
         public async Task CorrectedTagCountAsync(Guid tagId)
         {

@@ -5,7 +5,7 @@ namespace LinCms.Core.Entities
     [Table(Name = "book")]
     public class Book : FullAduitEntity
     {
-        [Column(DbType = "varchar(30)")]
+        [Column(DbType = "varchar(20)")]
         public string Author { get; set; } = string.Empty;
 
         [Column(DbType = "varchar(50)")]
