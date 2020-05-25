@@ -20,7 +20,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 名称
         /// </summary>
-        [Column(DbType = "varchar(100)")]
+        [Column(DbType = "varchar(300)")]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>

@@ -119,6 +119,7 @@ namespace LinCms.Web.Configs
             // policy names (instead of using the default policy provider)
             services.AddSingleton<IAuthorizationPolicyProvider, LinCmsPolicyProvider>();
             services.AddTransient<CustomExceptionMiddleWare>();
+            // services.AddTransient<UnitOfWorkMiddleware>();
             services.AddHttpClient();
 
             string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;

@@ -81,16 +81,7 @@ namespace LinCms.Test.Controller.v1
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Fact]
-        public async Task GetAsync()
-        {
-        }
-
-        [Fact]
-        public void DeleteBook()
-        {
-        }
-
+   
 
     }
 }

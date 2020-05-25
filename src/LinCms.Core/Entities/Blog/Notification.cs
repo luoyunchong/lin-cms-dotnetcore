@@ -4,7 +4,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Core.Entities.Blog
 {
     [Table(Name = "blog_notification")]
-    public class Notification : Entity<Guid>
+    public class Notification : FullAduitEntity<Guid>
     {
         /// <summary>
         /// 消息类型
@@ -18,7 +18,6 @@ namespace LinCms.Core.Entities.Blog
         /// 当前登录人Id，消息接收者
         /// </summary>
         public long NotificationRespUserId { get; set; }
-        public DateTime CreateTime { get; set; }
 
         public Guid? ArticleId { get; set; }
 
