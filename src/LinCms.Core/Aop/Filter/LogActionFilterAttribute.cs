@@ -3,7 +3,6 @@ using LinCms.Core.Aop.Log;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;

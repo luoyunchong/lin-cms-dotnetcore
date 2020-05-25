@@ -42,8 +42,8 @@
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.1.0-alpha0011" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00876" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
-    <PackageReference Include="FreeSql" Version="1.5.0-preview0509" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.5.0-preview0509" />
+    <PackageReference Include="FreeSql" Version="1.5.0-preview0525" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.5.0-preview0525" />
   </ItemGroup>
 
   <ItemGroup>

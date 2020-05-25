@@ -440,6 +440,11 @@
             <param name="invocation"></param>
         </member>
         <!-- Badly formed XML comment ignored for member "M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
+        <member name="T:LinCms.Web.Middleware.UnitOfWorkMiddleware">
+            <summary>
+            处理FreeSql中同一个请求处于一个事务，并一同提交
+            </summary>
+        </member>
         <member name="T:LinCms.Web.SnakeCaseQuery.SnakeCaseQueryValueProvider">
             <summary>
             下划线写法（SnakeCase）

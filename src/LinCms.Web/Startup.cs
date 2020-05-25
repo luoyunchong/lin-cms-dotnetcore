@@ -35,6 +35,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using LinCms.Plugins.Poem.Services;
+using LinCms.Web.Middleware;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace LinCms.Web
