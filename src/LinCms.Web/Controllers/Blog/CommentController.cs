@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DotNetCore.CAP;
-using LinCms.Application.Blog.Comments;
-using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Blog.Comments;
 using LinCms.Application.Contracts.Blog.Comments.Dtos;
-using LinCms.Application.Contracts.Blog.Notifications;
 using LinCms.Application.Contracts.Blog.Notifications.Dtos;
 using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Aop;
 using LinCms.Core.Data;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
@@ -20,8 +16,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using LinCms.Core.IRepositories;
 using System.Threading.Tasks;
+using FreeSql;
 using LinCms.Core.Aop.Filter;
-using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Blog
 {
@@ -33,7 +29,6 @@ namespace LinCms.Web.Controllers.Blog
     [Authorize]
     public class CommentController : ControllerBase
     {
-
         private readonly IAuditBaseRepository<Comment> _commentAuditBaseRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
@@ -41,11 +36,14 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly ICapPublisher _capBus;
         private readonly IFileRepository _fileRepository;
+        private readonly UnitOfWorkManager _unitOfWorkManager;
+
         public CommentController(
             IAuditBaseRepository<Comment> commentAuditBaseRepository,
             IMapper mapper,
             ICurrentUser currentUser, ICommentService commentService,
-            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus, IFileRepository fileRepository)
+            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus, IFileRepository fileRepository,
+            UnitOfWorkManager unitOfWorkManager)
         {
             _commentAuditBaseRepository = commentAuditBaseRepository;
             _mapper = mapper;
@@ -54,6 +52,7 @@ namespace LinCms.Web.Controllers.Blog
             _articleRepository = articleRepository;
             _capBus = capBus;
             _fileRepository = fileRepository;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -63,109 +62,26 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("public")]
         [AllowAnonymous]
-        public PagedResultDto<CommentDto> Get([FromQuery] CommentSearchDto commentSearchDto)
+        public async Task<PagedResultDto<CommentDto>> GetListByArticleAsync(
+            [FromQuery] CommentSearchDto commentSearchDto)
         {
-            long? userId = _currentUser.Id;
-            List<CommentDto> comments = _commentAuditBaseRepository
-                .Select
-                .Include(r => r.UserInfo)
-                .Include(r => r.RespUserInfo)
-                .IncludeMany(r => r.Childs, //.Take(2)
-                    t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
-                .IncludeMany(r => r.UserLikes)
-                .WhereCascade(x => x.IsDeleted == false)
-                .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .Where(r => r.RootCommentId == commentSearchDto.RootCommentId)// && r.IsAudit == true
-                .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
-                .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
-                .Page(commentSearchDto.Page + 1, commentSearchDto.Count).ToList()
-                //.ToPagerList(commentSearchDto, out long totalCount)
-                .Select(r =>
-                {
-                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
-                    if (commentDto.IsAudit == false)
-                    {
-                        commentDto.Text = "[该评论因违规被拉黑]";
-                    }
-
-                    if (commentDto.UserInfo == null)
-                    {
-                        commentDto.UserInfo = new OpenUserDto("该用户已被系统删除");
-                    }
-                    else
-                    {
-                        commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
-                    }
-
-
-                    commentDto.IsLiked =
-                        userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
-
-                    commentDto.TopComment = r.Childs.ToList().Select(u =>
-                    {
-                        CommentDto childrenDto = _mapper.Map<CommentDto>(u);
-                        if (childrenDto.UserInfo != null)
-                        {
-                            childrenDto.UserInfo.Avatar = _fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
-                        }
-
-                        if (childrenDto.IsAudit == false)
-                        {
-                            childrenDto.Text = "[该评论因违规被拉黑]";
-                        }
-
-                        childrenDto.IsLiked =
-                            userId != null && u.UserLikes.Where(z => z.CreateUserId == userId).IsNotEmpty();
-                        return childrenDto;
-                    }).ToList();
-                    return commentDto;
-                }).ToList();
-
-            //计算一个文章多少个评论
-            long totalCount = GetCommentCount(commentSearchDto);
-
-            return new PagedResultDto<CommentDto>(comments, totalCount);
-        }
-
-        private long GetCommentCount(CommentSearchDto commentSearchDto)
-        {
-            return _commentAuditBaseRepository
-                 .Select
-                 .Where(r => r.IsDeleted == false && r.SubjectId == commentSearchDto.SubjectId).Count();
+            return await _commentService.GetListByArticleAsync(commentSearchDto);
         }
 
         /// <summary>
-        /// 查询出此随笔的评论
+        /// 后台权限-评论列表页
         /// </summary>
         /// <param name="commentSearchDto"></param>
         /// <returns></returns>
         [HttpGet]
         [LinCmsAuthorize("评论列表", "评论")]
-        public PagedResultDto<CommentDto> GetAll([FromQuery] CommentSearchDto commentSearchDto)
+        public async Task<PagedResultDto<CommentDto>> GetListAsync([FromQuery] CommentSearchDto commentSearchDto)
         {
-            List<CommentDto> comments = _commentAuditBaseRepository
-                .Select
-                .Include(r => r.UserInfo)
-                .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
-                .WhereIf(commentSearchDto.Text.IsNotNullOrEmpty(), r => r.Text.Contains(commentSearchDto.Text))
-                .OrderByDescending(r => r.CreateTime)
-                .ToPagerList(commentSearchDto, out long totalCount)
-                .Select(r =>
-                {
-                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
-
-                    if (commentDto.UserInfo != null)
-                    {
-                        commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
-                    }
-                    return commentDto;
-                }).ToList();
-
-            return new PagedResultDto<CommentDto>(comments, totalCount);
+            return await _commentService.GetListAsync(commentSearchDto);
         }
 
         /// <summary>
-        /// 删除评论
+        /// 后台权限-删除评论
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -186,18 +102,37 @@ namespace LinCms.Web.Controllers.Blog
         [HttpDelete("{id}")]
         public async Task<UnifyResponseDto> DeleteMyComment(Guid id)
         {
-            Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
+            Comment comment = await _commentAuditBaseRepository.Select.Where(r => r.Id == id).FirstAsync();
             if (comment == null)
             {
                 return UnifyResponseDto.Error("该评论已删除");
             }
+
             if (comment.CreateUserId != _currentUser.Id)
             {
                 return UnifyResponseDto.Error("无权限删除他人的评论");
             }
-            await _commentService.DeleteAsync(comment);
-            return UnifyResponseDto.Success();
 
+            using (IUnitOfWork uow = _unitOfWorkManager.Begin())
+            {
+                using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+
+                await _commentService.DeleteAsync(comment);
+
+                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
+                {
+                    NotificationType = NotificationType.UserCommentOnArticle,
+                    ArticleId = comment.SubjectId,
+                    UserInfoId = (long) _currentUser.Id,
+                    CommentId = comment.Id,
+                    IsCancel = true
+                });
+
+                await trans.CommitAsync();
+            }
+
+
+            return UnifyResponseDto.Success();
         }
 
         /// <summary>
@@ -208,6 +143,9 @@ namespace LinCms.Web.Controllers.Blog
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateCommentDto createCommentDto)
         {
+            using IUnitOfWork uow = _unitOfWorkManager.Begin();
+            using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+
             Comment comment = _mapper.Map<Comment>(createCommentDto);
             await _commentAuditBaseRepository.InsertAsync(comment);
 
@@ -241,6 +179,8 @@ namespace LinCms.Web.Controllers.Blog
                     CommentId = comment.Id
                 });
             }
+
+            await trans.CommitAsync();
 
             return UnifyResponseDto.Success("评论成功");
         }
@@ -281,11 +221,12 @@ namespace LinCms.Web.Controllers.Blog
             switch (subjectType)
             {
                 case 1:
-                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId).ExecuteAffrows();
+                    _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId)
+                        .ExecuteAffrows();
                     break;
             }
+
             return UnifyResponseDto.Success();
         }
-
     }
 }

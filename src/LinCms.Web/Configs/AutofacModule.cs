@@ -27,17 +27,17 @@ namespace LinCms.Web.Configs
 
             List<Type> interceptorServiceTypes = new List<Type>();
 
-            builder.RegisterType<UnitOfWorkInterceptor>();
-            builder.RegisterType<UnitOfWorkAsyncInterceptor>();
+            // builder.RegisterType<UnitOfWorkInterceptor>();
+            // builder.RegisterType<UnitOfWorkAsyncInterceptor>();
             
-            interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
+            // interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
 
             builder.RegisterAssemblyTypes(servicesDllFile)
-                    .Where(a => a.Name.EndsWith("Service") && a.Name != "QiniuService" && a.Name != "LocalFileService")
-                    .AsImplementedInterfaces()
-                    .InstancePerLifetimeScope()
-                    .InterceptedBy(interceptorServiceTypes.ToArray())
-                    .EnableInterfaceInterceptors();
+                .Where(a => a.Name.EndsWith("Service") && a.Name != "QiniuService" && a.Name != "LocalFileService")
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+                    // .InterceptedBy(interceptorServiceTypes.ToArray())
+                    // .EnableInterfaceInterceptors();
 
             builder.RegisterAssemblyTypes(assemblysRepository)
                     .Where(a => a.Name.EndsWith("Repository"))
