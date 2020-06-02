@@ -8,6 +8,7 @@ using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
+using LinCms.Web.Startup;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Utils
@@ -20,7 +21,7 @@ namespace LinCms.Web.Utils
         public static List<T> GetAssemblies<T>() where T : Attribute
         {
             List<T> listT = new List<T>();
-            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Program).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>
@@ -46,7 +47,7 @@ namespace LinCms.Web.Utils
         {
             List<PermissionDefinition> linAuths = new List<PermissionDefinition>();
 
-            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Program).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
             //通过反射得到控制器上的权限特性标签
             assembly.ForEach(d =>

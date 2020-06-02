@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Autofac.Extensions.DependencyInjection;
 using LinCms.Web;
+using LinCms.Web.Startup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;

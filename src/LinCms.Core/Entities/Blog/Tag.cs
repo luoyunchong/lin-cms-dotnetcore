@@ -4,6 +4,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities.Blog
 {
+    /// <summary>
+    /// 标签
+    /// </summary>
     [Table(Name = "blog_tag")]
     public class Tag : FullAduitEntity<Guid>
     {

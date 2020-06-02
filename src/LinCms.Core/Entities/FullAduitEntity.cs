@@ -119,6 +119,7 @@ namespace LinCms.Core.Entities
         DateTime? DeleteTime { get; set; }
     }
 
+    [Index("uk_id_index", "id asc", true)]
     public abstract class Entity<T> : IEntity<T>
     {
         /// <summary>

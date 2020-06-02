@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq.Expressions;
 using System.Threading;
 using AspNetCoreRateLimit;
 using CSRedis;
@@ -12,7 +11,6 @@ using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Data.Options;
 using LinCms.Core.Entities;
 using LinCms.Web.Data.Authorization;
-using LinCms.Web.Middleware;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +22,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using ToolGood.Words;
 
-namespace LinCms.Web.Configs
+namespace LinCms.Web.Startup
 {
     public static class DependencyInjectionExtensions
     {
@@ -42,6 +40,7 @@ namespace LinCms.Web.Configs
                    .UseConnectionString(DataType.MySql, configurationSection.Value)
                    .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                    .UseAutoSyncStructure(true)
+                   .UseNoneCommandParameter(true)
                    .UseMonitorCommand(cmd =>
                        {
                            Trace.WriteLine(cmd.CommandText + ";");

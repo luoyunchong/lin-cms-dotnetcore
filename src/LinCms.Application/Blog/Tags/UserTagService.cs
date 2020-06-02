@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Blog.Tags;
+using LinCms.Core.Aop.Attributes;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.IRepositories;
@@ -49,6 +50,7 @@ namespace LinCms.Application.Blog.Tags
             await _tagService.UpdateSubscribersCountAsync(tagId, 1);
         }
 
+        [Transactional]
         public async Task DeleteUserTagAsync(Guid tagId)
         {
             bool any =await _userTagRepository.Select.AnyAsync(r => r.CreateUserId == _currentUser.Id && r.TagId == tagId);

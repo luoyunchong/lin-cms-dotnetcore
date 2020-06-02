@@ -123,8 +123,21 @@ namespace LinCms.Application.Blog.Tags
                 .Select(r =>
                 {
                     TagListDto tagDto = _mapper.Map<TagListDto>(r.Tag);
-                    tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
-                    tagDto.IsSubscribe = true;
+                    if (tagDto != null)
+                    {
+                        
+                        tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
+                        tagDto.IsSubscribe = true;
+                    }
+                    else
+                    {
+                        return new TagListDto()
+                        {
+                            Id = r.TagId,
+                            TagName = "该标签已被拉黑",
+                            IsSubscribe = true
+                        };
+                    }
                     return tagDto;
                 }).ToList();
 
@@ -165,7 +178,7 @@ namespace LinCms.Application.Blog.Tags
             if (inCreaseCount < 0)
             {
                 Tag tag =await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
-                if (tag.SubscribersCount < -inCreaseCount)
+                if (tag==null||tag.SubscribersCount < -inCreaseCount)
                 {
                     return;
                 }

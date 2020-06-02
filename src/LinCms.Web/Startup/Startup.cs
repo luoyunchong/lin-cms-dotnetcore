@@ -13,7 +13,7 @@ using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Extensions;
-using LinCms.Web.Configs;
+using LinCms.Plugins.Poem.Services;
 using LinCms.Web.SnakeCaseQuery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
@@ -34,11 +35,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
-using LinCms.Plugins.Poem.Services;
-using LinCms.Web.Middleware;
-using Microsoft.AspNetCore.HttpOverrides;
 
-namespace LinCms.Web
+namespace LinCms.Web.Startup
 {
     public class Startup
     {
