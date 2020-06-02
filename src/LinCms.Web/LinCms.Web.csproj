@@ -47,10 +47,10 @@
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Caching.CSRedis" Version="3.6.3" />
-		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="1.7.0" />
+		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
 		<PackageReference Include="CSRedisCore" Version="3.6.3" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.4-preview-103991021" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.0.4-preview-103991021" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.0.4" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.0.4" />
 		<PackageReference Include="IdentityServer4" Version="3.1.3" />
 		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
@@ -60,10 +60,10 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.4" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
-		<PackageReference Include="Serilog" Version="2.9.1-dev-01169" />
-		<PackageReference Include="Serilog.AspNetCore" Version="3.3.0-dev-00161" />
-		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.1.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00876" />
+		<PackageReference Include="Serilog" Version="2.10.0-dev-01187" />
+		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0-dev-00168" />
+		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.2.0-alpha0001" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00880" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
 		<PackageReference Include="ToolGood.Words" Version="3.0.1.2" />
 	</ItemGroup>
@@ -83,7 +83,36 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
-		<Folder Include="wwwroot\assets\2020\05" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\04\24\395d1344-cebd-4439-8f71-8e1f708603c5.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\04\24\61f4fb30-5127-406f-b93b-c450c9cc35e7.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\10\36f616c8-30e3-415f-a613-8d16121f74ec.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\10\9438b54d-dbf0-4133-b681-24921dbbac00.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\10\a56f905a-9e50-493a-b6ec-2bbfcfaf4e22.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\10\d7e92191-8964-4d83-aadd-0fba1dfedb2b.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\4d11c829-bd15-432f-9406-80ab95db0c81.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\7891174f-e305-4e8b-ad57-8ef1da9831a6.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\87dccb57-4eb7-44c9-b1ac-dfd99c3e46c6.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\8d04693f-1b01-4613-9341-a3ad1fe79895.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\a843d3a8-e4fa-411e-956a-68a5e812c0ec.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\ad0468d7-6f98-4ae5-8874-4382c3c93dbe.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\eddc51d2-aaad-498b-9f8a-096b09f3bb0c.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\11\f2f521d6-2659-4b6e-90b0-7d3a1321ffce.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\18c3ec55-0a28-4638-8eba-6526f860019b.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\232300b0-e241-4b13-8536-ca7627c5466d.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\3eee1914-dd93-4f74-8fc8-467eef9e0653.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\b48100ce-d8f0-428d-aaf2-84660b4212ca.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\f1c35440-581d-4d06-8493-c0f61d5357e5.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\f4475c56-499c-4755-819b-6506d0c6b47d.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\12\fba73a0c-f2f7-499a-8ed8-5b10554d43b0.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\24\774b2155-045c-48d9-bb18-d6960278142f.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\25\b3076ac9-0afb-4b60-8904-dbbb18f395b9.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\26\47be1990-7006-4f63-a345-a69db2fdefab.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\26\92751a9a-e132-4ea6-b12a-16d416064faa.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\26\d3b8ed82-1881-46de-80d2-a9d6284b2723.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\assets\2020\05\30\8d7cb49d-e276-473d-8f42-c54726d31386.gif" />
 	</ItemGroup>
 
 	<ProjectExtensions>
