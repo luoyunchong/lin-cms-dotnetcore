@@ -8,7 +8,7 @@
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.1" />
     <PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.1" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="DotNetCore.CAP" Version="3.0.4-preview-103991021" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.0.4" />
     <PackageReference Include="MQiniu.Core" Version="1.0.1" />
   </ItemGroup>
 

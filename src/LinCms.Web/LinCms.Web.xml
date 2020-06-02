@@ -4,20 +4,6 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
-        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            FreeSql
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:LinCms.Web.Configs.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            配置限流依赖的服务
-            </summary>
-            <param name="services"></param>
-            <param name="configuration"></param>
-            <returns></returns>
-        </member>
         <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticle(System.Guid)">
             <summary>
             删除自己的随笔
@@ -449,6 +435,20 @@
             <summary>
             下划线写法（SnakeCase）
             </summary>
+        </member>
+        <member name="M:LinCms.Web.Startup.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            FreeSql
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:LinCms.Web.Startup.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            配置限流依赖的服务
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
         </member>
         <member name="T:LinCms.Web.Utils.ReflexHelper">
             <summary>

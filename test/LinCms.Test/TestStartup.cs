@@ -1,4 +1,5 @@
 ﻿using LinCms.Web;
+using LinCms.Web.Startup;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

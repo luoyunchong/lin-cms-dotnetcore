@@ -10,6 +10,7 @@ using Dapper;
 using DotNetCore.CAP.Internal;
 using DotNetCore.CAP.Messages;
 using DotNetCore.CAP.Monitoring;
+using DotNetCore.CAP.MySql;
 using DotNetCore.CAP.Persistence;
 using DotNetCore.CAP.Serialization;
 using FreeSql;
