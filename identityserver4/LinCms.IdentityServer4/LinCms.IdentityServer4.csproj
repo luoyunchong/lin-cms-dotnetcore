@@ -37,13 +37,13 @@
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Serilog" Version="2.10.0-dev-01187" />
-    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0-dev-00168" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0-dev-00171" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
     <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.2.0-alpha0001" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00880" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
-    <PackageReference Include="FreeSql" Version="1.6.0-preview0102" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.6.0-preview0102" />
+    <PackageReference Include="FreeSql" Version="1.6.0-preview0602" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.6.0-preview0602" />
   </ItemGroup>
 
   <ItemGroup>

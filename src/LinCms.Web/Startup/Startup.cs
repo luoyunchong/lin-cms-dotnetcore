@@ -293,7 +293,10 @@ namespace LinCms.Web.Startup
             });
 
             #endregion
-
+            services.Configure<ForwardedHeadersOptions>(options =>
+                {
+                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                });
             ////之前请注入AddCsRedisCore，内部实现IDistributedCache接口
             //services.AddIpRateLimiting(Configuration);
 
@@ -307,6 +310,7 @@ namespace LinCms.Web.Startup
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -317,11 +321,6 @@ namespace LinCms.Web.Startup
             }
 
             app.UseHttpsRedirection();
-            
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
             
             app.UseStaticFiles();
 

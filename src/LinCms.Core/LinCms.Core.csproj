@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="FreeSql" Version="1.6.0-preview0102" />
-    <PackageReference Include="FreeSql.DbContext" Version="1.6.0-preview0102" />
+    <PackageReference Include="FreeSql" Version="1.6.0-preview0602" />
+    <PackageReference Include="FreeSql.DbContext" Version="1.6.0-preview0602" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.4" />
     <PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />
   </ItemGroup>
