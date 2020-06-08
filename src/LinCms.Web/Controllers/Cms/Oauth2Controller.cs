@@ -132,7 +132,7 @@ namespace LinCms.Web.Controllers.Cms
             string url =$"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
                     $"&redirectUrl={redirectUrl}";
 
-            _logger.LogInformation($"url:{url}");
+            _logger.LogInformation($"SignIn-url:{url}");
             var properties = new AuthenticationProperties { RedirectUri = url };
             properties.Items[LoginProviderKey] = provider;
             return Challenge(properties, provider);
