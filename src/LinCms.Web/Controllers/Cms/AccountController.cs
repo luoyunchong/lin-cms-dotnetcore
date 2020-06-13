@@ -157,9 +157,7 @@ namespace LinCms.Web.Controllers.Cms
         public UnifyResponseDto Post([FromBody] RegisterDto registerDto)
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
-            user.Username = Guid.NewGuid().ToString().Substring(0, 24);
             _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
-
             return UnifyResponseDto.Success("注册成功");
         }
     }

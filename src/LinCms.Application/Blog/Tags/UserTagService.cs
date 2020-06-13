@@ -56,7 +56,7 @@ namespace LinCms.Application.Blog.Tags
             bool any =await _userTagRepository.Select.AnyAsync(r => r.CreateUserId == _currentUser.Id && r.TagId == tagId);
             if (!any)
             {
-                throw new LinCmsException("已取消关注");
+                    throw new LinCmsException("已取消关注");
             }
             await _userTagRepository.DeleteAsync(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
             await _tagService.UpdateSubscribersCountAsync(tagId, -1);

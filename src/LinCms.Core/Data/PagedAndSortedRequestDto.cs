@@ -1,7 +1,8 @@
-﻿namespace LinCms.Core.Data
-{
+﻿using System.ComponentModel.DataAnnotations;
 
-    public class PagedAndSortedRequestDto:PageDto,ISortedResultRequest
+namespace LinCms.Core.Data
+{
+    public class PagedAndSortedRequestDto : PageDto, ISortedResultRequest
     {
         public string Sorting { get; set; }
     }
@@ -10,12 +11,14 @@
     /// <summary>
     /// 分页
     /// </summary>
-    public class PageDto: IPageDto
+    public class PageDto : IPageDto
     {
         /// <summary>
         /// 每页个数
         /// </summary>
+        [Range(1, 30, ErrorMessage = "每页数量最多为30")]
         public int Count { get; set; } = 15;
+
 
         /// <summary>
         /// 从0开始，0时取第1页，1时取第二页
@@ -25,7 +28,7 @@
         public string Sort { get; set; }
     }
 
-    public interface IPageDto:ILimitedResultRequest
+    public interface IPageDto : ILimitedResultRequest
     {
         int Page { get; set; }
     }
@@ -38,7 +41,7 @@
         /// </summary>
         int Count { get; set; }
     }
-    
+
     /// <summary>
     /// This interface is defined to standardize to request a sorted result.
     /// </summary>

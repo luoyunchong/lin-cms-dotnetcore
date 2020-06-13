@@ -47,6 +47,7 @@ namespace LinCms.Web.Middleware
 
             return false;
         }
+        
         /// <summary>
         /// 拦截同步执行的方法
         /// </summary>

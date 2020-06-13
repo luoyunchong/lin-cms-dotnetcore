@@ -14,6 +14,7 @@ using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Extensions;
 using LinCms.Plugins.Poem.Services;
+using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -167,7 +168,7 @@ namespace LinCms.Web.Startup
             #endregion
 
 
-            //services.AddCsRedisCore();
+            services.AddCsRedisCore();
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
@@ -293,12 +294,13 @@ namespace LinCms.Web.Startup
             });
 
             #endregion
+
             services.Configure<ForwardedHeadersOptions>(options =>
                 {
                     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 });
-            ////之前请注入AddCsRedisCore，内部实现IDistributedCache接口
-            //services.AddIpRateLimiting(Configuration);
+            //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
+            services.AddIpRateLimiting(Configuration);
 
             //services.AddHealthChecks();
         }
@@ -348,7 +350,7 @@ namespace LinCms.Web.Startup
             //认证中间件
             app.UseAuthentication();
 
-            //app.UseMiddleware<IpLimitMiddleware>();
+            app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()
                 .UseAuthorization()

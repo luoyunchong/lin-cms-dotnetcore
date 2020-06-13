@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
 using AspNet.Security.OAuth.QQ;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Aop;
 using LinCms.Core.Common;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
@@ -18,7 +17,9 @@ namespace LinCms.Application.Cms.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, IUserRepository userRepository)
+
+        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
+            IUserRepository userRepository)
         {
             _userIdentityRepository = userIdentityRepository;
             _userRepository = userRepository;
@@ -39,17 +40,17 @@ namespace LinCms.Application.Cms.Users
             string avatarUrl = principal.FindFirst(LinConsts.Claims.AvatarUrl)?.Value;
             string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
             string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
-            Expression<Func<LinUserIdentity, bool>> expression = r => 
-                r.IdentityType == LinUserIdentity.GitHub&& r.Credential == openId;
+            Expression<Func<LinUserIdentity, bool>> expression = r =>
+                r.IdentityType == LinUserIdentity.GitHub && r.Credential == openId;
 
-            LinUserIdentity linUserIdentity =await _userIdentityRepository.Where(expression).FirstAsync();
+            LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(expression).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
             {
                 LinUser user = new LinUser
                 {
-                    Active = (int)UserActive.Active,
+                    Active = (int) UserActive.Active,
                     Avatar = avatarUrl,
                     CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,
@@ -86,7 +87,6 @@ namespace LinCms.Application.Cms.Users
             }
 
             return userId;
-
         }
 
         /// <summary>
@@ -103,25 +103,25 @@ namespace LinCms.Application.Cms.Users
             string picture = principal.FindFirst(QQAuthenticationConstants.Claims.PictureUrl)?.Value;
             string picture_medium = principal.FindFirst(QQAuthenticationConstants.Claims.PictureMediumUrl)?.Value;
             string picture_full = principal.FindFirst(QQAuthenticationConstants.Claims.PictureFullUrl)?.Value;
-            string avatar = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarUrl)?.Value;
-            string avatar_full = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarFullUrl)?.Value;
-            
-            Expression<Func<LinUserIdentity, bool>> expression = r => 
-                r.IdentityType == LinUserIdentity.QQ&& r.Credential == openId;
+            string avatarUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarUrl)?.Value;
+            string avatarFullUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarFullUrl)?.Value;
 
-            LinUserIdentity linUserIdentity =await _userIdentityRepository.Where(expression).FirstAsync();
+            Expression<Func<LinUserIdentity, bool>> expression = r =>
+                r.IdentityType == LinUserIdentity.QQ && r.Credential == openId;
+
+            LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(expression).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
             {
                 LinUser user = new LinUser
                 {
-                    Active = (int)UserActive.Active,
-                    Avatar = avatar_full,
+                    Active = (int) UserActive.Active,
+                    Avatar = avatarFullUrl,
                     CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,
                     Email = "",
-                    Introduction =  "",
+                    Introduction = "",
                     LinUserGroups = new List<LinUserGroup>()
                     {
                         new LinUserGroup()
@@ -138,7 +138,7 @@ namespace LinCms.Application.Cms.Users
                         {
                             CreateTime = DateTime.Now,
                             Credential = openId,
-                            IdentityType = LinUserIdentity.GitHub,
+                            IdentityType = LinUserIdentity.QQ,
                             Identifier = nickname,
                         }
                     }
@@ -155,23 +155,38 @@ namespace LinCms.Application.Cms.Users
             return userId;
         }
 
-        public async Task<bool> VerifyUserPasswordAsync(long userId,string password)
+        public async Task<bool> VerifyUserPasswordAsync(long userId, string password)
         {
-            LinUserIdentity userIdentity =await _userIdentityRepository
-                .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
-                .ToOneAsync();
+            LinUserIdentity userIdentity = await this.GetFirstByUserIdAsync(userId);
 
             return userIdentity != null && EncryptUtil.Verify(userIdentity.Credential, password);
         }
 
         public async Task ChangePasswordAsync(long userId, string newpassword)
         {
+            var linUserIdentity = await _userIdentityRepository.Where(a => a.CreateUserId == userId&& a.IdentityType==LinUserIdentity.Password).FirstAsync();
+            await this.ChangePasswordAsync(linUserIdentity, newpassword);
+        }
+        
+        public async Task ChangePasswordAsync(LinUserIdentity linUserIdentity,string newpassword)
+        {
             string encryptPassword = EncryptUtil.Encrypt(newpassword);
-
-             await _userIdentityRepository.UpdateDiy.Set(r => new LinUserIdentity()
-             {
-                 Credential = encryptPassword
-             }).ExecuteUpdatedAsync();
+            if (linUserIdentity == null)
+            {
+                linUserIdentity=new LinUserIdentity()
+                {
+                    IdentityType = LinUserIdentity.Password,
+                    Identifier = "",
+                    Credential = encryptPassword
+                };
+                await _userIdentityRepository.InsertAsync(linUserIdentity);
+            }
+            else
+            {
+                linUserIdentity.Credential = encryptPassword;
+                await _userIdentityRepository.UpdateAsync(linUserIdentity);
+            }
+      
         }
 
         public async Task DeleteAsync(long userId)
@@ -179,5 +194,11 @@ namespace LinCms.Application.Cms.Users
             await _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
         }
 
+        public async Task<LinUserIdentity> GetFirstByUserIdAsync(long userId)
+        {
+            return await _userIdentityRepository
+                .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
+                .ToOneAsync();
+        }
     }
 }
