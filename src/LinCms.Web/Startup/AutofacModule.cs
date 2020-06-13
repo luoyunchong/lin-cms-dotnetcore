@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using Autofac;
 using Autofac.Extras.DynamicProxy;
-
 using LinCms.Core.Dependency;
 using LinCms.Core.IRepositories;
 using LinCms.Infrastructure.Repositories;
+using LinCms.Web.Data;
 using LinCms.Web.Middleware;
 
 namespace LinCms.Web.Startup
@@ -63,8 +62,8 @@ namespace LinCms.Web.Startup
                             !t.IsGenericType)
                 .AsImplementedInterfaces().SingleInstance();
 
-            //builder.RegisterType<MigrationStartupTask>().SingleInstance();
-            //builder.RegisterBuildCallback(async (c) => await c.Resolve<MigrationStartupTask>().StartAsync());
+            builder.RegisterType<MigrationStartupTask>().SingleInstance();
+            builder.RegisterBuildCallback(async (c) => await c.Resolve<MigrationStartupTask>().StartAsync());
 
         }
     }

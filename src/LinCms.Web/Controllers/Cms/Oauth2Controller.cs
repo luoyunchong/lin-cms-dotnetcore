@@ -89,6 +89,10 @@ namespace LinCms.Web.Controllers.Cms
             LinUser user =await _userRepository.Select.IncludeMany(r => r.LinGroups)
                 .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
 
+            if (user == null)
+            {
+                throw new LinCmsException("第三方登录失败！");
+            }
             List<Claim> claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),

@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities
 {
+    /// <summary>
+    /// 用户身份认证登录表
+    /// </summary>
     [Table(Name = "lin_user_identity")]
     public class LinUserIdentity : Entity<Guid>, ICreateAduitEntity
     {
@@ -28,6 +31,7 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public string Credential { get; set; }
+        
         /// <summary>
         /// 绑定的用户Id
         /// </summary>

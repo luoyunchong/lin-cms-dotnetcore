@@ -90,7 +90,6 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(Position = -5)]
         long? UpdateUserId { get; set; }
-
         /// <summary>
         /// 修改时间
         /// </summary>
