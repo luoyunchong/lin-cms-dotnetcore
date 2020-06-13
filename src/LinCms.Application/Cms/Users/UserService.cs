@@ -31,6 +31,7 @@ namespace LinCms.Application.Cms.Users
         private readonly IPermissionService _permissionService;
         private readonly IGroupService _groupService;
         private readonly IFileRepository _fileRepository;
+
         public UserService(IUserRepository userRepository,
             IMapper mapper,
             ICurrentUser currentUser,
@@ -50,18 +51,22 @@ namespace LinCms.Application.Cms.Users
         {
             long currentUserId = _currentUser.Id ?? 0;
 
-            bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword);
-            if (valid)
+            LinUserIdentity userIdentity = await _userIdentityService.GetFirstByUserIdAsync(currentUserId);
+            if (userIdentity != null)
             {
-                throw new LinCmsException("旧密码不正确");
+                bool valid = EncryptUtil.Verify(userIdentity.Credential, passwordDto.OldPassword);
+                if (!valid)
+                {
+                    throw new LinCmsException("旧密码不正确");
+                }
             }
 
-            await _userIdentityService.ChangePasswordAsync(currentUserId, passwordDto.NewPassword);
+            await _userIdentityService.ChangePasswordAsync(userIdentity, passwordDto.NewPassword);
         }
 
         public async Task DeleteAsync(long userId)
         {
-            await _userRepository.DeleteAsync(new LinUser() { Id = userId });
+            await _userRepository.DeleteAsync(new LinUser() {Id = userId});
             await _userIdentityService.DeleteAsync(userId);
             await _groupService.DeleteUserGroupAsync(userId);
         }
@@ -82,7 +87,8 @@ namespace LinCms.Application.Cms.Users
         {
             List<UserDto> linUsers = _userRepository.Select
                 .IncludeMany(r => r.LinGroups)
-                .WhereIf(searchDto.GroupId != null, r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
+                .WhereIf(searchDto.GroupId != null,
+                    r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(r =>
@@ -99,7 +105,7 @@ namespace LinCms.Application.Cms.Users
         {
             if (!string.IsNullOrEmpty(user.Username))
             {
-                bool isRepeatName = _userRepository.Select.Any(r => r.Username == user.Username);
+                bool isRepeatName =await _userRepository.Select.AnyAsync(r => r.Username == user.Username);
 
                 if (isRepeatName)
                 {
@@ -109,7 +115,7 @@ namespace LinCms.Application.Cms.Users
 
             if (!string.IsNullOrEmpty(user.Email.Trim()))
             {
-                var isRepeatEmail = _userRepository.Select.Any(r => r.Email == user.Email.Trim());
+                var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == user.Email.Trim());
                 if (isRepeatEmail)
                 {
                     throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
@@ -138,7 +144,6 @@ namespace LinCms.Application.Cms.Users
                 }
             };
             await _userRepository.InsertAsync(user);
-
         }
 
         /// <summary>
@@ -154,22 +159,20 @@ namespace LinCms.Application.Cms.Users
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
-            List<long> existGroupIds =await _groupService.GetGroupIdsByUserIdAsync(id);
-    
+
+            List<long> existGroupIds = await _groupService.GetGroupIdsByUserIdAsync(id);
+
             //删除existGroupIds有，而newGroupIds没有的
             List<long> deleteIds = existGroupIds.Where(r => !updateUserDto.GroupIds.Contains(r)).ToList();
-            
+
             //添加newGroupIds有，而existGroupIds没有的
             List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
-           
+
             _mapper.Map(updateUserDto, linUser);
             await _userRepository.UpdateAsync(linUser);
-
             await _groupService.DeleteUserGroupAsync(id, deleteIds);
-
             await _groupService.AddUserGroupAsync(id, addIds);
         }
-
 
         public async Task ChangeStatusAsync(long id, UserActive userActive)
         {
@@ -184,24 +187,25 @@ namespace LinCms.Application.Cms.Users
             {
                 throw new LinCmsException("当前用户已处于禁止状态");
             }
+
             if (!user.IsActive() && userActive == UserActive.NotActive)
             {
                 throw new LinCmsException("当前用户已处于激活状态");
             }
 
             await _userRepository.UpdateDiy.Where(r => r.Id == id)
-                .Set(r => new { Active = userActive.GetHashCode() })
+                .Set(r => new {Active = userActive.GetHashCode()})
                 .ExecuteUpdatedAsync();
-
         }
 
         public async Task<LinUser> GetCurrentUserAsync()
         {
             if (_currentUser.Id != null)
             {
-                long userId = (long)_currentUser.Id;
+                long userId = (long) _currentUser.Id;
                 return await _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
             }
+
             return null;
         }
 
@@ -237,6 +241,7 @@ namespace LinCms.Application.Cms.Users
             {
                 return new List<LinPermission>();
             }
+
             return await _permissionService.GetPermissionByGroupIds(groupIds);
         }
     }

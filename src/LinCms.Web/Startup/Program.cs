@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Serilog;
 
 namespace LinCms.Web.Startup
@@ -27,19 +30,19 @@ namespace LinCms.Web.Startup
             try
             {
                 Log.Debug("init main");
-               IHost webHost=CreateWebHostBuilder(args).Build();
-               //  
-               //  using (var scope = webHost.Services.CreateScope())
-               //  {
-               //      // get the IpPolicyStore instance
-               //      var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
-               //
-               //      // seed IP data from appsettings
-               //      await ipPolicyStore.SeedAsync();
-               //  }
-               //  
-               await  webHost.RunAsync();
-               return 0;
+                IHost webHost = CreateWebHostBuilder(args).Build();
+
+                using (var scope = webHost.Services.CreateScope())
+                {
+                    // get the IpPolicyStore instance
+                    var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
+
+                    // seed IP data from appsettings
+                    await ipPolicyStore.SeedAsync();
+                }
+
+                await webHost.RunAsync();
+                return 0;
             }
             catch (Exception ex)
             {
@@ -60,12 +63,12 @@ namespace LinCms.Web.Startup
                     webBuilder.ConfigureKestrel((context, options) =>
                     {
                         //设置应用服务器Kestrel请求体最大为8MB，默认为
-                        options.Limits.MaxRequestBodySize = 1024*1024*8;
+                        options.Limits.MaxRequestBodySize = 1024 * 1024 * 8;
                     });
                     webBuilder.UseStartup<Startup>().ConfigureAppConfiguration((host, config) =>
                     {
                         config.AddJsonFile($"RateLimitConfig.json", optional: true, reloadOnChange: true);
-                    }); 
+                    });
                 })
                 .UseSerilog();
     }

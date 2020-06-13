@@ -10,10 +10,7 @@ namespace LinCms.Application.Contracts.Cms.Users
 {
     public interface IUserService
     {
-        /// <summary>
-        /// 后台管理员修改用户密码
-        /// </summary>
-        /// <param name="passwordDto"></param>
+     
         Task ChangePasswordAsync(ChangePasswordDto passwordDto);
 
         /// <summary>
@@ -41,6 +38,11 @@ namespace LinCms.Application.Contracts.Cms.Users
 
         Task DeleteAsync(long id);
 
+        /// <summary>
+        /// 后台管理员重置用户密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="resetPasswordDto"></param>
         Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto);
 
         /// <summary>
