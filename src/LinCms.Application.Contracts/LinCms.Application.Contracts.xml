@@ -1,0 +1,568 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LinCms.Application.Contracts</name>
+    </assembly>
+    <members>
+        <member name="P:LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleDto.ClassifyId">
+            <summary>
+            分类专栏Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleDto.ChannelId">
+            <summary>
+            技术频道Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleDto.Classify">
+            <summary>
+            类别名称
+            </summary>        
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleDto.TimeSpan">
+            <summary>
+            几小时/秒前
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleListDto.ChannelId">
+            <summary>
+            技术频道Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleListDto.TimeSpan">
+            <summary>
+            几小时/秒前
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.ChannelDto.Thumbnail">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.ChannelDto.SortCode">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.ChannelDto.ChannelName">
+            <summary>
+            技术频道名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.ChannelDto.ChannelCode">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.ChannelDto.Remark">
+            <summary>
+            备注描述
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.CreateUpdateChannelDto.Thumbnail">
+            <summary>
+            封面图
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.CreateUpdateChannelDto.SortCode">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.CreateUpdateChannelDto.ChannelName">
+            <summary>
+            技术频道名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.CreateUpdateChannelDto.ChannelCode">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.CreateUpdateChannelDto.Remark">
+            <summary>
+            备注描述
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.CreateUpdateChannelDto.Status">
+            <summary>
+            是否有效
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.NavChannelListDto.ChannelName">
+            <summary>
+            技术频道名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Channels.Dtos.NavChannelListDto.ChannelCode">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Channels.IChannelService.GetNavListAsync(LinCms.Core.Data.PageDto)">
+            <summary>
+            首页减少不必要的字段后，流量字节更少
+            </summary>
+            <param name="pageDto"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CommentDto.RespId">
+            <summary>
+            回复评论Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CommentDto.Text">
+            <summary>
+            回复的文本内容
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CommentDto.SubjectId">
+            <summary>
+            关联随笔id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CommentDto.UserInfo">
+            <summary>
+            评论的用户
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CommentDto.RespUserInfo">
+            <summary>
+            回复的用户
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CommentDto.TopComment">
+            <summary>
+            最新的二条回复
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto.RespId">
+            <summary>
+            回复评论Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto.RootCommentId">
+            <summary>
+            根回复id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto.Text">
+            <summary>
+            回复的文本内容
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto.SubjectId">
+            <summary>
+            关联随笔id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto.RespUserId">
+            <summary>
+            被回复的用户Id
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Comments.ICommentService.GetListByArticleAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
+            <summary>
+            文章下的评论列表
+            </summary>
+            <param name="commentSearchDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Comments.ICommentService.GetListAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
+            <summary>
+            评论分页项
+            </summary>
+            <param name="commentSearchDto"></param>
+            <returns></returns>
+        </member>
+        <member name="F:LinCms.Application.Contracts.Blog.Notifications.Dtos.NotificationSearchType.UserLike">
+            <summary>
+            用户点赞随笔、点赞评论
+            </summary>
+        </member>
+        <member name="F:LinCms.Application.Contracts.Blog.Notifications.Dtos.NotificationSearchType.UserComment">
+            <summary>
+            用户评论随笔、回复别人的评论
+            </summary>
+        </member>
+        <member name="F:LinCms.Application.Contracts.Blog.Notifications.Dtos.NotificationSearchType.UserLikeUser">
+            <summary>
+            用户关注用户
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Notifications.INotificationService.CreateOrCancelAsync(LinCms.Application.Contracts.Blog.Notifications.Dtos.CreateNotificationDto)">
+            <summary>
+            新增一个消息通知,或取消消息通知
+            </summary>
+            <param name="createNotificationDto"></param>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Notifications.INotificationService.SetNotificationReadAsync(System.Guid)">
+            <summary>
+            设置消息通知为已读状态
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.Tags.Dtos.CreateUpdateTagDto.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Blog.Tags.Dtos.TagListDto">
+            <summary>
+            后台列表List
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Tags.ITagService.IsSubscribeAsync(System.Guid)">
+            <summary>
+            判断标签是否被关注
+            </summary>
+            <param name="tagId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Tags.ITagService.GetSubscribeTags(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
+            <summary>
+            得到某个用户关注的标签
+            </summary>
+            <param name="userSubscribeDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Tags.ITagService.IncreaseTagViewHits(System.Guid)">
+            <summary>
+            标签浏览量+1
+            </summary>
+            <param name="tagId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Tags.IUserTagService.CreateUserTagAsync(System.Guid)">
+            <summary>
+            用户关注标签
+            </summary>
+            <param name="tagId"></param>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.Tags.IUserTagService.DeleteUserTagAsync(System.Guid)">
+            <summary>
+            当前用户取消关注标签
+            </summary>
+            <param name="tagId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto.SubjectType">
+            <summary>
+            1.文章 2 评论
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeDto.SubscribeUserId">
+            <summary>
+            被关注的用户Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeDto.CreateUserId">
+            <summary>
+            关注的用户Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeDto.Subscribeer">
+            <summary>
+            关注者
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Blog.UserSubscribes.IUserLikeService.GetSubscribeUserIdAsync(System.Int64)">
+            <summary>
+            得到某用户的关注的用户Id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Account.LoginInputDto.Username">
+            <summary>
+            登录名:admin
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Account.LoginInputDto.Password">
+            <summary>
+            密码：123qwe
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Account.RegisterDto.Nickname">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Account.RegisterDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Account.RegisterDto.Email">
+            <summary>
+            邮件
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Files.IFileService.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
+            <summary>
+            单文件上传，键为file
+            </summary>
+            <param name="file"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Groups.IGroupService.DeleteAsync(System.Int64)">
+            <summary>
+            管理员删除一个权限分组
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Groups.IGroupService.CheckIsRootByUserId(System.Int64)">
+            <summary>
+            检查该用户是否在root分组中
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Groups.IGroupService.GetGroupIdsByUserIdAsync(System.Int64)">
+            <summary>
+            根据用户Id得到获得用户的所有分组id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Groups.IGroupService.DeleteUserGroupAsync(System.Int64,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            删除用户与分组直接的关联
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="deleteGroupIds">删除的分组Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Groups.IGroupService.AddUserGroupAsync(System.Int64,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            添加用户与分组直接的关联
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="addGroupIds">要新增的分组Id</param>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto.Name">
+            <summary>
+            用户昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto.Start">
+            <summary>
+            起始时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto.End">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.VisitLogUserDto.TotalVisitsCount">
+            <summary>
+            总访问量
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.VisitLogUserDto.TotalUserCount">
+            <summary>
+            总用户数
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.VisitLogUserDto.MonthVisitsCount">
+            <summary>
+            新增访问量 (月)
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Logs.Dtos.VisitLogUserDto.MonthUserCount">
+            <summary>
+            新增用户数(月)
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Logs.ILogService.GetUserAndVisits">
+            <summary>
+            管理端访问与用户统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.Dtos.CreateUpdateSettingDto.Name">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.Dtos.CreateUpdateSettingDto.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.Dtos.CreateUpdateSettingDto.ProviderName">
+            <summary>
+            提供者键
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.Dtos.CreateUpdateSettingDto.ProviderKey">
+            <summary>
+            提供者值
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.SettingDto.Name">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.SettingDto.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.SettingDto.ProviderName">
+            <summary>
+            提供者键
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Settings.SettingDto.ProviderKey">
+            <summary>
+            提供者值
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.Username">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.Nickname">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.ConfirmPassword">
+            <summary>
+            确认密码
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.GroupIds">
+            <summary>
+            用户所属的权限组id
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.UserInformation.Nickname">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.UserInformation.Avatar">
+            <summary>
+             用户默认生成图像，为null、头像url
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.UserInformation.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.UserInformation.Admin">
+            <summary>
+            是否为超级管理员 
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.UserInformation.Active">
+            <summary>
+            当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.UserInformation.Groups">
+            <summary>
+            用户所属的权限组id
+            </summary>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserIdentityService.SaveGitHubAsync(System.Security.Claims.ClaimsPrincipal,System.String)">
+            <summary>
+            保存GitHub登录信息，生成用户表，用户身份认证表
+            </summary>
+            <param name="principal"></param>
+            <param name="openId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserIdentityService.SaveQQAsync(System.Security.Claims.ClaimsPrincipal,System.String)">
+            <summary>
+             保存QQ快速登录后的登录信息，生成用户
+            </summary>
+            <param name="principal"></param>
+            <param name="openId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserIdentityService.VerifyUserPasswordAsync(System.Int64,System.String)">
+            <summary>
+            验证用户密码是否正确
+            </summary>
+            <param name="userId"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserIdentityService.ChangePasswordAsync(LinCms.Core.Entities.LinUserIdentity,System.String)">
+            <summary>
+            根据linUserIdentity生成密码
+            </summary>
+            <param name="linUserIdentity"></param>
+            <param name="newpassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserIdentityService.ChangePasswordAsync(System.Int64,System.String)">
+            <summary>
+            根据用户ID，修改用户的密码
+            </summary>
+            <param name="userId"></param>
+            <param name="newpassword"></param>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserIdentityService.GetFirstByUserIdAsync(System.Int64)">
+            <summary>
+            根据用户id得到密码模式的
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserService.GetUserListByGroupId(LinCms.Application.Contracts.Cms.Admins.Dtos.UserSearchDto)">
+            <summary>
+            根据分组条件查询用户信息
+            </summary>
+            <param name="searchDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserService.ChangeStatusAsync(System.Int64,LinCms.Core.Data.Enums.UserActive)">
+            <summary>
+            修改用户状态
+            </summary>
+            <param name="id"></param>
+            <param name="userActive"></param>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserService.CreateAsync(LinCms.Core.Entities.LinUser,System.Collections.Generic.List{System.Int64},System.String)">
+            <summary>
+            注册-新增一个用户
+            </summary>
+            <param name="user"></param>
+            <param name="groupIds"></param>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserService.ResetPasswordAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.ResetPasswordDto)">
+            <summary>
+            后台管理员重置用户密码
+            </summary>
+            <param name="id"></param>
+            <param name="resetPasswordDto"></param>
+        </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Users.IUserService.GetCurrentUserAsync">
+            <summary>
+            得到当前用户上下文
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
