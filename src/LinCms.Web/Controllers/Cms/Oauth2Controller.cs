@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DotNetCore.Security;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Entities;
@@ -28,18 +29,18 @@ namespace LinCms.Web.Controllers.Cms
     {
         private const string LoginProviderKey = "LoginProvider";
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IConfiguration _configuration;
         private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IJsonWebTokenService _jsonWebTokenService;
 
-        public Oauth2Controller(IHttpContextAccessor contextAccessor, IConfiguration configuration, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository)
+        public Oauth2Controller(IHttpContextAccessor contextAccessor,IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService)
         {
             _contextAccessor = contextAccessor;
-            _configuration = configuration;
             _userCommunityService = userCommunityService;
             _logger = logger;
             _userRepository = userRepository;
+            _jsonWebTokenService = jsonWebTokenService;
         }
 
 
@@ -86,7 +87,7 @@ namespace LinCms.Web.Controllers.Cms
             }
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user =await _userRepository.Select.IncludeMany(r => r.LinGroups)
+            LinUser user = await _userRepository.Select.IncludeMany(r => r.LinGroups)
                 .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
 
             if (user == null)
@@ -94,19 +95,20 @@ namespace LinCms.Web.Controllers.Cms
                 throw new LinCmsException("第三方登录失败！");
             }
             List<Claim> claims = new List<Claim>()
-                {
+            {
                     new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                     new Claim(ClaimTypes.Email,user.Email??""),
                     new Claim(ClaimTypes.GivenName,user.Nickname??""),
                     new Claim(ClaimTypes.Name,user.Username??""),
-                };
+            };
+
             user.LinGroups?.ForEach(r =>
             {
                 claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
             });
 
             claims.AddRange(authClaims);
-            string token = this.CreateToken(claims);
+            string token = _jsonWebTokenService.Encode(claims);
             return Redirect($"{redirectUrl}?token={token}#login-result");
         }
 
@@ -133,7 +135,7 @@ namespace LinCms.Web.Controllers.Cms
             }
 
             HttpRequest request = _contextAccessor.HttpContext.Request;
-            string url =$"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
+            string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
                     $"&redirectUrl={redirectUrl}";
 
             _logger.LogInformation($"SignIn-url:{url}");
@@ -153,7 +155,7 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         /// <summary>
-        /// axios得到null，浏览器直接打开能得到github的id 
+        /// 通过axios请求得到null，浏览器直接打开能得到github的id 
         /// </summary>
         /// <param name="provider"></param>
         /// <returns></returns>
@@ -167,26 +169,14 @@ namespace LinCms.Web.Controllers.Cms
 
         }
 
+        /// <summary>
+        /// 通过axios请求，请在header（请求头）携带上文中signin-callback生成的Token值.可以得到openid
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetOpenIdByToken")]
         public string GetOpenIdByToken()
         {
             return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        }
-
-        private string CreateToken(IEnumerable<Claim> Claims)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:JwtBearer:SecurityKey"]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                _configuration["Authentication:JwtBearer:Issuer"],
-                _configuration["Authentication:JwtBearer:Audience"],
-                Claims,
-                expires: DateTime.Now.AddDays(30),
-                signingCredentials: credentials
-            );
-
-            return handler.WriteToken(token);
         }
     }
 

@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
+using DotNetCore.Security;
+using HealthChecks.UI.Client;
 using LinCms.Application.Cms.Users;
+using LinCms.Application.Contracts;
 using LinCms.Core.Aop.Filter;
 using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
+using LinCms.Core.Entities;
 using LinCms.Core.Extensions;
 using LinCms.Plugins.Poem.Services;
 using LinCms.Web.Middleware;
@@ -20,6 +25,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -51,9 +57,11 @@ namespace LinCms.Web.Startup
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddContext(Configuration);
+            services.AddCsRedisCore(Configuration);
+            services.AddSecurity(Configuration);
 
             #region AddJwtBearer
-
+            var jsonWebTokenSettings = services.BuildServiceProvider().GetRequiredService<JsonWebTokenSettings>();
             services.AddAuthentication(opts =>
                 {
                     opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -76,20 +84,20 @@ namespace LinCms.Web.Startup
                     {
                         // The signing key must match!
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey =new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jsonWebTokenSettings.Key)),
 
                         // Validate the JWT Issuer (iss) claim
                         ValidateIssuer = true,
-                        ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
+                        ValidIssuer = jsonWebTokenSettings.Issuer,
 
                         // Validate the JWT Audience (aud) claim
                         ValidateAudience = true,
-                        ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
+                        ValidAudience = jsonWebTokenSettings.Audience,
 
                         // Validate the token expiry
                         ValidateLifetime = true,
 
-                        // If you want to allow a certain amount of clock drift, set that here
+                        // If you want to allow a certain amount of clock drift, set thatValidIssuer  here
                         //ClockSkew = TimeSpan.Zero
                     };
 
@@ -168,7 +176,6 @@ namespace LinCms.Web.Startup
             #endregion
 
 
-            services.AddCsRedisCore();
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
@@ -212,7 +219,7 @@ namespace LinCms.Web.Startup
 
                         return new BadRequestObjectResult(resultDto)
                         {
-                            ContentTypes = {"application/json"}
+                            ContentTypes = { "application/json" }
                         };
                     };
                 });
@@ -229,7 +236,15 @@ namespace LinCms.Web.Startup
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo() {Title = "LinCms", Version = "v1"});
+                string ApiName = "LinCms.Web";
+                options.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = ApiName + RuntimeInformation.FrameworkDescription,
+                    Version = "v1",
+                    Contact = new OpenApiContact { Name = ApiName, Email = "luoyunchong@foxmail.com", Url = new Uri("https://www.cnblogs.com/igeekfan/") },
+                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
+                });
+
                 var security = new OpenApiSecurityRequirement()
                 {
                     {
@@ -253,14 +268,19 @@ namespace LinCms.Web.Startup
                     Type = SecuritySchemeType.ApiKey
                 });
 
-                string xmlPath = Path.Combine(AppContext.BaseDirectory,
-                    $"{typeof(Startup).Assembly.GetName().Name}.xml");
-                options.IncludeXmlComments(xmlPath);
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                options.IncludeXmlComments(xmlPath, true);
+                //实体层的xml文件名
+                string xmlEntityPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IEntity).Assembly.GetName().Name}.xml");
+                options.IncludeXmlComments(xmlEntityPath);
+                //Dto所在类库
+                string applicationPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IApplicationService).Assembly.GetName().Name}.xml");
+                options.IncludeXmlComments(applicationPath);
             });
 
             #endregion
 
-            
+
             //应用程序级别设置
 
             services.Configure<FormOptions>(options =>
@@ -275,7 +295,7 @@ namespace LinCms.Web.Startup
             services.AddCap(x =>
             {
                 x.UseMySql(configurationSection.Value);
-            
+
                 x.UseRabbitMQ(options =>
                 {
                     options.HostName = Configuration["RabbitMQ:HostName"];
@@ -283,7 +303,7 @@ namespace LinCms.Web.Startup
                     options.Password = Configuration["RabbitMQ:Password"];
                     options.VirtualHost = Configuration["RabbitMQ:VirtualHost"];
                 });
-            
+
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
                 x.FailedThresholdCallback = (type) =>
@@ -302,7 +322,7 @@ namespace LinCms.Web.Startup
             //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
             services.AddIpRateLimiting(Configuration);
 
-            //services.AddHealthChecks();
+            services.AddHealthChecks();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -323,7 +343,7 @@ namespace LinCms.Web.Startup
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseStaticFiles();
 
             app.UseSerilogRequestLogging();
@@ -357,11 +377,11 @@ namespace LinCms.Web.Startup
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
-                    //endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                    //{
-                    //    Predicate = _ => true,
-                    //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                    //});
+                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    {
+                        Predicate = _ => true,
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    });
                 });
         }
     }

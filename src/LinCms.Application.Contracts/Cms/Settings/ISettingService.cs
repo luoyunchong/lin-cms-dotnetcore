@@ -20,8 +20,8 @@ namespace LinCms.Application.Contracts.Cms.Settings
 
         Task SetAsync(CreateUpdateSettingDto createSetting);
 
-        Task PostAsync(CreateUpdateSettingDto createSettingDto);
+        Task CreateAsync(CreateUpdateSettingDto createSettingDto);
 
-        Task PutAsync(Guid id, CreateUpdateSettingDto updateSettingDto);
+        Task UpdateAsync(Guid id, CreateUpdateSettingDto updateSettingDto);
     }
 }

@@ -43,16 +43,16 @@ namespace LinCms.Web.Controllers.Cms
 
         [LinCmsAuthorize("新增设置", "设置")]
         [HttpPost]
-        public async Task PostAsync([FromBody]CreateUpdateSettingDto createSetting)
+        public async Task CreateAsync([FromBody]CreateUpdateSettingDto createSetting)
         {
-            await _settingService.PostAsync(createSetting);
+            await _settingService.CreateAsync(createSetting);
         }
 
         [LinCmsAuthorize("修改设置", "设置")]
         [HttpPut("{id}")]
-        public async Task PutAsync(Guid id,[FromBody]CreateUpdateSettingDto updateSettingDto)
+        public async Task UpdateAsync(Guid id,[FromBody]CreateUpdateSettingDto updateSettingDto)
         {
-            await _settingService.PutAsync(id, updateSettingDto);
+            await _settingService.UpdateAsync(id, updateSettingDto);
         }
 
         [HttpGet("{id}")]

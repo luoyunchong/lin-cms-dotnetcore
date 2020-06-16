@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using FreeSql;
 using LinCms.Application.Contracts.Blog.Tags;
 using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Application.Contracts.Blog.UserSubscribes;
 using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
 using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities.Blog;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
 using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
-using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Application.Blog.Tags
 {
-    public class TagService :ApplicationService, ITagService
+    public class TagService : ApplicationService, ITagService
     {
         private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly IAuditBaseRepository<Tag> _tagRepository;
@@ -116,7 +114,11 @@ namespace LinCms.Application.Blog.Tags
 
         public PagedResultDto<TagListDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto)
         {
-            var userTags = _userTagRepository.Select.Include(r => r.Tag)
+            List<Guid> userTagIds = _userTagRepository.Select
+                .Where(u => u.CreateUserId == _currentUser.Id)
+                .ToList(r => r.TagId);
+
+            List<TagListDto> tagListDtos = _userTagRepository.Select.Include(r => r.Tag)
                 .Where(r => r.CreateUserId == userSubscribeDto.UserId)
                 .OrderByDescending(r => r.CreateTime)
                 .ToPagerList(userSubscribeDto, out long count)
@@ -125,9 +127,8 @@ namespace LinCms.Application.Blog.Tags
                     TagListDto tagDto = _mapper.Map<TagListDto>(r.Tag);
                     if (tagDto != null)
                     {
-                        
                         tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
-                        tagDto.IsSubscribe = true;
+                        tagDto.IsSubscribe = userTagIds.Any(tagId => tagId == tagDto.Id);
                     }
                     else
                     {
@@ -135,13 +136,13 @@ namespace LinCms.Application.Blog.Tags
                         {
                             Id = r.TagId,
                             TagName = "该标签已被拉黑",
-                            IsSubscribe = true
+                            IsSubscribe = userTagIds.Any(tagId => tagId == r.TagId)
                         };
                     }
                     return tagDto;
                 }).ToList();
 
-            return new PagedResultDto<TagListDto>(userTags, count);
+            return new PagedResultDto<TagListDto>(tagListDtos, count);
         }
 
         public async Task UpdateArticleCountAsync(Guid? id, int inCreaseCount)
@@ -161,9 +162,9 @@ namespace LinCms.Application.Blog.Tags
                 }
             }
 
-           await _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount)
-                .Where(r => r.Id == id)
-                .ExecuteAffrowsAsync();
+            await _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount)
+                 .Where(r => r.Id == id)
+                 .ExecuteAffrowsAsync();
         }
 
 
@@ -174,19 +175,14 @@ namespace LinCms.Application.Blog.Tags
                 return;
             }
 
-            //防止数量一直减，减到小于0
-            if (inCreaseCount < 0)
+            Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+            if (tag == null)
             {
-                Tag tag =await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
-                if (tag==null||tag.SubscribersCount < -inCreaseCount)
-                {
-                    return;
-                }
+                throw new LinCmsException("标签不存在", ErrorCode.NotFound);
             }
 
-           await _tagRepository.UpdateDiy.Set(r => r.SubscribersCount + inCreaseCount)
-                .Where(r => r.Id == id)
-                .ExecuteAffrowsAsync();
+            tag.UpdateSubscribersCount(inCreaseCount);
+            await _tagRepository.UpdateAsync(tag);
         }
         public async Task CorrectedTagCountAsync(Guid tagId)
         {

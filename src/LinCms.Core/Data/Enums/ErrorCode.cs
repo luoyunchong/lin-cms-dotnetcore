@@ -1,51 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 
 namespace LinCms.Core.Data.Enums
 {
-    /**
-    * 当前用户是否为激活状态的枚举
-    * ACTIVE 代表 激活状态
-    * NOT_ACTIVE 代表 非激活状态
-    */
-    public enum UserActive
-    {
-        /// <summary>
-        /// 激活状态
-        /// </summary>
-        Active = 1,
-        /// <summary>
-        /// 非激活状态
-        /// </summary>
-        NotActive = 2
-    }
-
-
-    /**
-     * 令牌的类型
-     * ACCESS 代表 access token
-     * REFRESH 代表 refresh token
-     */
-    //public enum TokenType
-    //{
-    //    ACCESS,
-    //    REFRESH
-    //}
-
-    /*
-     * 令牌类型静态类
-     */
-    public class TokenType
-    {
-        /// <summary>
-        /// access token
-        /// </summary>
-        public static string Access = "access";
-        /// <summary>
-        /// refresh token
-        /// </summary>
-        public static string Refresh = "refresh";
-    }
-
     public enum ErrorCode
     {
         /// <summary>
@@ -115,20 +74,8 @@ namespace LinCms.Core.Data.Enums
         //10120 文件数量过多
 
         //10130 文件扩展名不符合规范
-        
-        //10140 请求过于频繁，请稍后重试
-        ManyRequests=10140
-    }
 
-    public enum Status
-    {
-        /// <summary>
-        /// 启用
-        /// </summary>
-        Enable = 1,
-        /// <summary>
-        /// 禁用
-        /// </summary>
-        Forbidden = 2
+        //10140 请求过于频繁，请稍后重试
+        ManyRequests = 10140
     }
 }
