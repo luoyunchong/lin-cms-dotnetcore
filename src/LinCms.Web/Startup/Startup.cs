@@ -267,15 +267,21 @@ namespace LinCms.Web.Startup
                     In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
                 });
-
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
-                options.IncludeXmlComments(xmlPath, true);
-                //实体层的xml文件名
-                string xmlEntityPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IEntity).Assembly.GetName().Name}.xml");
-                options.IncludeXmlComments(xmlEntityPath);
-                //Dto所在类库
-                string applicationPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IApplicationService).Assembly.GetName().Name}.xml");
-                options.IncludeXmlComments(applicationPath);
+                try
+                {
+                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                    options.IncludeXmlComments(xmlPath, true);
+                    //实体层的xml文件名
+                    string xmlEntityPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IEntity).Assembly.GetName().Name}.xml");
+                    options.IncludeXmlComments(xmlEntityPath);
+                    //Dto所在类库
+                    string applicationPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IApplicationService).Assembly.GetName().Name}.xml");
+                    options.IncludeXmlComments(applicationPath);
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Warning(ex.Message);
+                }
             });
 
             #endregion

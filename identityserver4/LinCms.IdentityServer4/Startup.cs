@@ -28,6 +28,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace LinCms.IdentityServer4
 {
@@ -94,9 +95,15 @@ namespace LinCms.IdentityServer4
                     In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
                 });
-
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
-                options.IncludeXmlComments(xmlPath, true);
+                try
+                {
+                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                    options.IncludeXmlComments(xmlPath, true);
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Warning(ex.Message);
+                }
 
             });
             #endregion

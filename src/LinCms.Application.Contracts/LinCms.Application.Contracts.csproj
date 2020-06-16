@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.Application.Contracts.xml</DocumentationFile>
+    <DocumentationFile>LinCms.Application.Contracts.xml</DocumentationFile>
     <OutputPath>bind\Debug</OutputPath>
   </PropertyGroup>
 
@@ -13,6 +13,16 @@
     <Compile Remove="Constracts\**" />
     <EmbeddedResource Remove="Constracts\**" />
     <None Remove="Constracts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="LinCms.Application.Contracts.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="LinCms.Application.Contracts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
