@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 #if !DEBUG
 using System.Security.Cryptography.X509Certificates;
 #endif
@@ -66,7 +67,14 @@ namespace LinCms.IdentityServer4
             //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo() { Title = "LinCms.IdentityServer4", Version = "v1" });
+                string ApiName = "LinCms.IdentityServer4";
+                options.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = ApiName + RuntimeInformation.FrameworkDescription,
+                    Version = "v1",
+                    Contact = new OpenApiContact { Name = ApiName, Email = "luoyunchong@foxmail.com", Url = new Uri("https://www.cnblogs.com/igeekfan/") },
+                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
+                });
                 var security = new OpenApiSecurityRequirement()
                 {
                     { new OpenApiSecurityScheme
@@ -88,7 +96,7 @@ namespace LinCms.IdentityServer4
                 });
 
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
-                options.IncludeXmlComments(xmlPath);
+                options.IncludeXmlComments(xmlPath, true);
 
             });
             #endregion
@@ -96,8 +104,8 @@ namespace LinCms.IdentityServer4
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserIdentityService, UserIdentityService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
-            services.AddTransient(typeof(IAuditBaseRepository<>),typeof(AuditBaseRepository<>));
-            services.AddTransient(typeof(IAuditBaseRepository<,>),typeof(AuditBaseRepository<,>));
+            services.AddTransient(typeof(IAuditBaseRepository<>), typeof(AuditBaseRepository<>));
+            services.AddTransient(typeof(IAuditBaseRepository<,>), typeof(AuditBaseRepository<,>));
             services.AddTransient<CustomExceptionMiddleWare>();
 
             services.AddCors();

@@ -7,7 +7,7 @@ namespace LinCms.Core.Entities
     /// 用户身份认证登录表
     /// </summary>
     [Table(Name = "lin_user_identity")]
-    public class LinUserIdentity : Entity<Guid>, ICreateAduitEntity
+    public class LinUserIdentity : FullAduitEntity<Guid>
     {
         public const string GitHub = "GitHub";
         public const string Password = "Password";
@@ -31,15 +31,5 @@ namespace LinCms.Core.Entities
         /// </summary>
         [Column(DbType = "varchar(50)")]
         public string Credential { get; set; }
-        
-        /// <summary>
-        /// 绑定的用户Id
-        /// </summary>
-        public long CreateUserId { get; set; }
-
-        [Navigate("CreateUserId")]
-        public virtual LinUser LinUser { get; set; }
-
-        public DateTime CreateTime { get; set; }
     }
 }

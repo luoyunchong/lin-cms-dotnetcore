@@ -34,6 +34,7 @@ namespace LinCms.Web.Controllers.v1
             return UnifyResponseDto.Success();
 
         }
+
         [HttpGet]
         public async Task<PagedResultDto<BookDto>> GetListAsync([FromQuery] PageDto pageDto)
         {

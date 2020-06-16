@@ -31,16 +31,18 @@ namespace LinCms.Web.Startup
             {
                 Log.Debug("init main");
                 IHost webHost = CreateWebHostBuilder(args).Build();
-
-                using (var scope = webHost.Services.CreateScope())
+                try
                 {
+                    using var scope = webHost.Services.CreateScope();
                     // get the IpPolicyStore instance
                     var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
-
                     // seed IP data from appsettings
                     await ipPolicyStore.SeedAsync();
                 }
-
+                catch (Exception ex)
+                {
+                    Log.Fatal(ex, "IIpPolicyStore RUN Error");
+                }
                 await webHost.RunAsync();
                 return 0;
             }

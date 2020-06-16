@@ -64,6 +64,7 @@ namespace LinCms.Application.Cms.Settings
         {
             return _mapper.Map<SettingDto>(_settingRepository.Get(id));
         }
+
         public PagedResultDto<SettingDto> GetPagedListAsync(PageDto pageDto)
         {
             List<SettingDto> list = _settingRepository.Select.ToPagerList(pageDto, out long totalCount)
@@ -72,7 +73,7 @@ namespace LinCms.Application.Cms.Settings
             return new PagedResultDto<SettingDto>(list, totalCount);
         }
 
-        public async Task PostAsync(CreateUpdateSettingDto createSettingDto)
+        public async Task CreateAsync(CreateUpdateSettingDto createSettingDto)
         {
             LinSetting setting = await _settingRepository.FindAsync(createSettingDto.Name, createSettingDto.ProviderName, createSettingDto.ProviderKey); ;
             if (setting != null)
@@ -82,7 +83,7 @@ namespace LinCms.Application.Cms.Settings
             await _settingRepository.InsertAsync(_mapper.Map<LinSetting>(createSettingDto));
         }
 
-        public async Task PutAsync(Guid id, CreateUpdateSettingDto updateSettingDto)
+        public async Task UpdateAsync(Guid id, CreateUpdateSettingDto updateSettingDto)
         {
             LinSetting setting = await _settingRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (setting == null)
