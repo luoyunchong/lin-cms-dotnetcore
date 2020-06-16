@@ -4,6 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp3.1\LinCms.Application.Contracts.xml</DocumentationFile>
+    <OutputPath>bind\Debug</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Constracts\**" />
     <EmbeddedResource Remove="Constracts\**" />

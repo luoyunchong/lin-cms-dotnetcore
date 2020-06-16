@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.CAP;
@@ -81,10 +82,10 @@ namespace LinCms.Web.Controllers.Blog
 
             using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
             using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
-            
+
             await _userSubscribeRepository.DeleteAsync(r =>
                 r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
-                
+
             await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
             {
                 NotificationType = NotificationType.UserLikeUser,
@@ -131,7 +132,7 @@ namespace LinCms.Web.Controllers.Blog
             {
                 using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
 
-                UserSubscribe userSubscribe = new UserSubscribe() {SubscribeUserId = subscribeUserId};
+                UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
                 await _userSubscribeRepository.InsertAsync(userSubscribe);
 
                 await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
@@ -154,7 +155,7 @@ namespace LinCms.Web.Controllers.Blog
         [AllowAnonymous]
         public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery] UserSubscribeSearchDto searchDto)
         {
-            var userSubscribes = _userSubscribeRepository.Select.Include(r => r.SubscribeUser)
+            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.SubscribeUser)
                 .Where(r => r.CreateUserId == searchDto.UserId)
                 .OrderByDescending(r => r.CreateTime)
                 .ToPager(searchDto, out long count)
@@ -170,8 +171,7 @@ namespace LinCms.Web.Controllers.Blog
                         Avatar = r.SubscribeUser.Avatar,
                         Username = r.SubscribeUser.Username,
                     },
-                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>
-                        u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.SubscribeUserId)
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(r => r.CreateUserId == _currentUser.Id && r.SubscribeUserId == r.SubscribeUserId)
                 });
 
             userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });

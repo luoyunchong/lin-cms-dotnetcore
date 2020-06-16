@@ -53,7 +53,6 @@ namespace LinCms.Core.Entities.Blog
         /// </summary>
         public int SubscribersCount { get; set; } = 0;
 
-
         public virtual ICollection<Article> Articles { get; set; }
 
         public virtual ICollection<Channel> Channels { get; set; }
@@ -64,6 +63,18 @@ namespace LinCms.Core.Entities.Blog
 
         [Navigate("CreateUserId")]
         public virtual LinUser LinUser { get; set; }
+
+
+        public Tag UpdateSubscribersCount(int inCreaseCount)
+        {
+            //防止数量一直减，减到小于0
+            if (inCreaseCount < 0 && this.SubscribersCount < -inCreaseCount)
+            {
+                return this;
+            }
+            this.SubscribersCount += inCreaseCount;
+            return this;
+        }
 
     }
 }

@@ -4,27 +4,20 @@ namespace LinCms.Core.Data
 {
     public class PagedResultDto<T>
     {
+        public long Total { get; set; }
+        public IReadOnlyList<T> Items { get; set; }
+        public long Page { get; set; }
+        public long Count { get; set; }
+
         public PagedResultDto()
         {
         }
-
-        public long Total { get; set; }
-
-        public IReadOnlyList<T> Items
-        {
-            get => _items ?? new List<T>();
-            set => _items = value;
-        }
-        private IReadOnlyList<T> _items;
-
         public PagedResultDto(IReadOnlyList<T> items)
         {
             Total = items.Count;
-            _items = items;
+            Items = items;
         }
-
-
-        public PagedResultDto(IReadOnlyList<T> collection, long total) : this(collection)
+        public PagedResultDto(IReadOnlyList<T> items, long total) : this(items)
         {
             Total = total;
         }

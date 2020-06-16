@@ -16,7 +16,7 @@ namespace LinCms.Core.Data
         /// <summary>
         /// 每页个数
         /// </summary>
-        [Range(1, 30, ErrorMessage = "每页数量最多为30")]
+        [Range(1, int.MaxValue, ErrorMessage = "每页个数最小为1")]
         public int Count { get; set; } = 15;
 
 

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using AspNetCoreRateLimit;
 using CSRedis;
+using DotNetCore.Security;
 using FreeSql;
 using FreeSql.Internal;
 using LinCms.Application.Cms.Files;
@@ -10,6 +11,7 @@ using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Aop.Middleware;
 using LinCms.Core.Data.Options;
 using LinCms.Core.Entities;
+using LinCms.Core.Security;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -88,24 +90,37 @@ namespace LinCms.Web.Startup
             services.AddScoped<UnitOfWorkManager>();
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             //在运行时直接生成表结构
-            fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity))); 
+            fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
             services.AddFreeRepository();
         }
 
         #endregion
 
-        public static void AddCsRedisCore(this IServiceCollection services)
+        #region 初始化 Redis配置
+        public static void AddCsRedisCore(this IServiceCollection services, IConfiguration configuration)
         {
-            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
-            #region 初始化 Redis配置
             IConfigurationSection csRediSection = configuration.GetSection("ConnectionStrings:CsRedis");
-            CSRedisClient csredis = new CSRedisClient(csRediSection.Value);
+            CSRedisClient csRedisClient = new CSRedisClient(csRediSection.Value);
             //初始化 RedisHelper
-            RedisHelper.Initialization(csredis);
+            RedisHelper.Initialization(csRedisClient);
             //注册mvc分布式缓存
             services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
-            #endregion
+        }
+        #endregion
+
+        public static void AddSecurity(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHash(10000, 128);
+            services.AddCryptography("lin-cms-dotnetcore-cryptography");
+            services.AddJsonWebToken(
+                new JsonWebTokenSettings(
+                        configuration["Authentication:JwtBearer:SecurityKey"],
+                        new TimeSpan(30, 0, 0, 0),
+                        configuration["Authentication:JwtBearer:Audience"],
+                        configuration["Authentication:JwtBearer:Issuer"]
+                    )
+                );
         }
 
         public static void AddDIServices(this IServiceCollection services)
@@ -114,12 +129,11 @@ namespace LinCms.Web.Startup
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddTransient<CustomExceptionMiddleWare>();
-            // services.AddTransient<UnitOfWorkMiddleware>();
             services.AddHttpClient();
 
             string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;
-            
-            
+
+
             if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FileStorage:ServiceName未配置");
 
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
@@ -130,7 +144,6 @@ namespace LinCms.Web.Startup
             }
             else
             {
-      
                 services.AddTransient<IFileService, QiniuService>();
             }
         }
@@ -151,7 +164,7 @@ namespace LinCms.Web.Startup
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddIpRateLimiting(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddIpRateLimiting(this IServiceCollection services, IConfiguration configuration)
         {
             //加载配置
             services.AddOptions();
@@ -164,7 +177,7 @@ namespace LinCms.Web.Startup
 
             //配置（计数器密钥生成器）
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            
+
             return services;
         }
     }
