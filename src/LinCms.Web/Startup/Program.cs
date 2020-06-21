@@ -64,8 +64,8 @@ namespace LinCms.Web.Startup
                 {
                     webBuilder.ConfigureKestrel((context, options) =>
                     {
-                        //设置应用服务器Kestrel请求体最大为8MB，默认为
-                        options.Limits.MaxRequestBodySize = 1024 * 1024 * 8;
+                        //设置应用服务器Kestrel请求体最大为50MB，默认为28.6MB
+                        options.Limits.MaxRequestBodySize = 1024 * 1024 * 50;
                     });
                     webBuilder.UseStartup<Startup>().ConfigureAppConfiguration((host, config) =>
                     {

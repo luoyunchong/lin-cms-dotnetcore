@@ -8,8 +8,6 @@ using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Application.Contracts.Cms.Account;
 using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Attributes;
 using LinCms.Core.Aop.Log;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
@@ -25,7 +23,7 @@ namespace LinCms.Web.Controllers.Cms
 {
     [AllowAnonymous]
     [ApiController]
-    [Route("cms/user")]
+    [Route ("cms/user")]
     public class AccountController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -33,7 +31,7 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IUserService _userSevice;
         private readonly IMapper _mapper;
         private readonly IHttpClientFactory _httpClientFactory;
-        public AccountController(IConfiguration configuration, ILogger<AccountController> logger, IUserService userSevice, IMapper mapper, IHttpClientFactory httpClientFactory)
+        public AccountController (IConfiguration configuration, ILogger<AccountController> logger, IUserService userSevice, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
             _logger = logger;
@@ -47,102 +45,96 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="loginInputDto">用户名/密码：admin/123qwe</param>
         [DisableAuditing]
-        [HttpPost("login")]
-        public async Task<JObject> Login(LoginInputDto loginInputDto)
+        [HttpPost ("login")]
+        public async Task<JObject> Login (LoginInputDto loginInputDto)
         {
-            _logger.LogInformation("login");
+            _logger.LogInformation ("login");
 
-            HttpClient client = _httpClientFactory.CreateClient();
+            HttpClient client = _httpClientFactory.CreateClient ();
 
-            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync (new DiscoveryDocumentRequest
             {
                 Address = _configuration["Service:Authority"],
-                Policy =
-                {
-                    RequireHttps = false
-                }
-             });
+                    Policy = {
+                        RequireHttps = false
+                    }
+            });
 
             if (disco.IsError)
             {
-                throw new LinCmsException(disco.Error);
+                throw new LinCmsException (disco.Error);
             }
 
-            TokenResponse response = await client.RequestTokenAsync(new PasswordTokenRequest()
+            TokenResponse response = await client.RequestTokenAsync (new PasswordTokenRequest ()
             {
                 Address = disco.TokenEndpoint,
-                GrantType = GrantType.ResourceOwnerPassword,
-                ClientId = _configuration["Service:ClientId"],
-                ClientSecret = _configuration["Service:ClientSecret"],
-                Parameters =
-                {
-                    { "UserName",loginInputDto.Username},
-                    { "Password",loginInputDto.Password}
-                },
-                Scope = _configuration["Service:Name"],
+                    GrantType = GrantType.ResourceOwnerPassword,
+                    ClientId = _configuration["Service:ClientId"],
+                    ClientSecret = _configuration["Service:ClientSecret"],
+                    Parameters = { { "UserName", loginInputDto.Username },
+                        { "Password", loginInputDto.Password }
+                    },
+                    Scope = _configuration["Service:Name"],
             });
-            
+
             if (response.IsError)
             {
-                throw new LinCmsException(response.ErrorDescription);
+                throw new LinCmsException (response.ErrorDescription);
             }
             return response.Json;
         }
-
 
         /// <summary>
         /// 刷新用户的token
         /// </summary>
         /// <returns></returns>
-        [HttpGet("refresh")]
-        public async Task<JObject> GetRefreshToken()
+        [HttpGet ("refresh")]
+        public async Task<JObject> GetRefreshToken ()
         {
             string refreshToken;
 
             string authHeader = Request.Headers["Authorization"];
 
-            if (authHeader != null && authHeader.StartsWith("Bearer"))
+            if (authHeader != null && authHeader.StartsWith ("Bearer"))
             {
-                refreshToken = authHeader.Substring("Bearer ".Length).Trim();
+                refreshToken = authHeader.Substring ("Bearer ".Length).Trim ();
             }
             else
             {
-                throw new LinCmsException(" 请先登录.", ErrorCode.RefreshTokenError);
+                throw new LinCmsException (" 请先登录.", ErrorCode.RefreshTokenError);
             }
 
-            HttpClient client = _httpClientFactory.CreateClient();
+            HttpClient client = _httpClientFactory.CreateClient ();
 
-            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync (new DiscoveryDocumentRequest
             {
                 Address = _configuration["Service:Authority"],
-                Policy =
-                {
-                    RequireHttps = true
-                }
+                    Policy = {
+                        RequireHttps = true
+                    }
             });
 
             if (disco.IsError)
             {
-                throw new LinCmsException(disco.Error);
+                throw new LinCmsException (disco.Error);
             }
 
-            TokenResponse response = await client.RequestTokenAsync(new TokenRequest
+            TokenResponse response = await client.RequestTokenAsync (new TokenRequest
             {
                 Address = disco.TokenEndpoint,
-                GrantType = OidcConstants.GrantTypes.RefreshToken,
+                    GrantType = OidcConstants.GrantTypes.RefreshToken,
 
-                ClientId = _configuration["Service:ClientId"],
-                ClientSecret = _configuration["Service:ClientSecrets"],
+                    ClientId = _configuration["Service:ClientId"],
+                    ClientSecret = _configuration["Service:ClientSecrets"],
 
-                Parameters = new Dictionary<string, string>
-                    {
-                        { OidcConstants.TokenRequest.RefreshToken, refreshToken }
+                    Parameters = new Dictionary<string, string>
+                    { { OidcConstants.TokenRequest.RefreshToken, refreshToken }
                     }
             });
 
             if (response.IsError)
             {
-                throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
+                throw new LinCmsException ("请重新登录", ErrorCode.RefreshTokenError);
             }
 
             return response.Json;
@@ -152,13 +144,13 @@ namespace LinCms.Web.Controllers.Cms
         /// 注册
         /// </summary>
         /// <param name="registerDto"></param>
-        [AuditingLog("用户注册")]
-        [HttpPost("account/register")]
-        public UnifyResponseDto Post([FromBody] RegisterDto registerDto)
+        [AuditingLog ("用户注册")]
+        [HttpPost ("account/register")]
+        public UnifyResponseDto Post ([FromBody] RegisterDto registerDto)
         {
-            LinUser user = _mapper.Map<LinUser>(registerDto);
-            _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
-            return UnifyResponseDto.Success("注册成功");
+            LinUser user = _mapper.Map<LinUser> (registerDto);
+            _userSevice.CreateAsync (user, new List<long> (), registerDto.Password);
+            return UnifyResponseDto.Success ("注册成功");
         }
     }
 }

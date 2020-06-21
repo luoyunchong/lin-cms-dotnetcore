@@ -14,57 +14,58 @@ namespace LinCms.Web.Controllers.Blog
     /// <summary>
     /// 技术频道
     /// </summary>
-    [Route("v1/channel")]
+    [Area ("blog")]
+    [Route ("api/blog/channels")]
     [ApiController]
     public class ChannelController : ControllerBase
     {
         private readonly IChannelService _channelService;
-        public ChannelController(IChannelService channelService)
+        public ChannelController (IChannelService channelService)
         {
             _channelService = channelService;
         }
 
-        [LinCmsAuthorize("删除技术频道", "技术频道")]
-        [HttpDelete("{id}")]
-        public async Task<UnifyResponseDto> DeleteAsync(Guid id)
+        [LinCmsAuthorize ("删除技术频道", "技术频道")]
+        [HttpDelete ("{id}")]
+        public async Task<UnifyResponseDto> DeleteAsync (Guid id)
         {
-            await _channelService.DeleteAsync(id);
-            return UnifyResponseDto.Success();
+            await _channelService.DeleteAsync (id);
+            return UnifyResponseDto.Success ();
         }
 
-        [LinCmsAuthorize("技术频道列表", "技术频道")]
+        [LinCmsAuthorize ("技术频道列表", "技术频道")]
         [HttpGet]
-        public Task<PagedResultDto<ChannelDto>> GetListAsync([FromQuery]ChannelSearchDto searchDto)
+        public Task<PagedResultDto<ChannelDto>> GetListAsync ([FromQuery] ChannelSearchDto searchDto)
         {
-            return _channelService.GetListAsync(searchDto);
+            return _channelService.GetListAsync (searchDto);
         }
 
-        [HttpGet("nav")]
-        public Task<PagedResultDto<NavChannelListDto>> GetNavListAsync([FromQuery]PageDto pageDto)
+        [HttpGet ("nav")]
+        public Task<PagedResultDto<NavChannelListDto>> GetNavListAsync ([FromQuery] PageDto pageDto)
         {
-            return _channelService.GetNavListAsync(pageDto);
+            return _channelService.GetNavListAsync (pageDto);
         }
 
-        [HttpGet("{id}")]
-        public Task<ChannelDto> GetAsync(Guid id)
+        [HttpGet ("{id}")]
+        public Task<ChannelDto> GetAsync (Guid id)
         {
-            return _channelService.GetAsync(id);
+            return _channelService.GetAsync (id);
         }
 
-        [LinCmsAuthorize("新增技术频道", "技术频道")]
+        [LinCmsAuthorize ("新增技术频道", "技术频道")]
         [HttpPost]
-        public UnifyResponseDto CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
+        public UnifyResponseDto CreateAsync ([FromBody] CreateUpdateChannelDto createChannel)
         {
-            _channelService.CreateAsync(createChannel);
-            return UnifyResponseDto.Success("新建技术频道成功");
+            _channelService.CreateAsync (createChannel);
+            return UnifyResponseDto.Success ("新建技术频道成功");
         }
 
-        [LinCmsAuthorize("修改技术频道", "技术频道")]
-        [HttpPut("{id}")]
-        public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
+        [LinCmsAuthorize ("修改技术频道", "技术频道")]
+        [HttpPut ("{id}")]
+        public async Task<UnifyResponseDto> UpdateAsync (Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
         {
-            await _channelService.UpdateAsync(id, updateChannel);
-            return UnifyResponseDto.Success("更新技术频道成功");
+            await _channelService.UpdateAsync (id, updateChannel);
+            return UnifyResponseDto.Success ("更新技术频道成功");
         }
     }
 }

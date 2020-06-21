@@ -7,13 +7,14 @@
   Lin CMS .NET Core
   </h1>
 </h1>
-😃 A simple and practical CMS implememted by .NET Core 3.1
+😃 A simple and practical CMS implememted by .NET Core 3.1.5
 
 ## 项目简介
 ![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
-![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
+<!--![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
-![](https://img.shields.io/badge/.NETCore-3.1.0-3963bc.svg)
+-->
+![](https://img.shields.io/badge/.NETCore-3.1.5-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
@@ -32,11 +33,11 @@
 
 ## 线上 Demo
 - 本项目swagger地址 [https://baimocore.cn/swagger/index.html](https://baimocore.cn/swagger/index.html)
-- 用户端 lin-cms-vvlog [http://vvlog.baimocore.cn](http://vvlog.baimocore.cn) 
+- 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
   - 普通用户：710277267@qq.com
   - 密码：123qwe
 
-- 管理员 lin-cms-vue [http://cms.baimocore.cn/](http://cms.baimocore.cn)
+- 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
   - 管理员： admin
   - 密码：123qwe
 
