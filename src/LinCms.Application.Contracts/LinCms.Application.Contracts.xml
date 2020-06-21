@@ -424,6 +424,13 @@
             提供者值
             </summary>
         </member>
+        <member name="M:LinCms.Application.Contracts.Cms.Settings.ISettingService.SetAsync(LinCms.Application.Contracts.Cms.Settings.Dtos.CreateUpdateSettingDto)">
+            <summary>
+            用户设置自己的一些配置
+            </summary>
+            <param name="createSetting"></param>
+            <returns></returns>
+        </member>
         <member name="P:LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto.Username">
             <summary>
             用户名

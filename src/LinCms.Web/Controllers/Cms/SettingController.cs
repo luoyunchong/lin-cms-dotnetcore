@@ -1,26 +1,27 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Cms.Settings;
 using LinCms.Application.Contracts.Cms.Settings;
 using LinCms.Application.Contracts.Cms.Settings.Dtos;
-using LinCms.Core.Aop;
 using LinCms.Core.Aop.Filter;
 using LinCms.Core.Data;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 using Microsoft.AspNetCore.Mvc;
-using LinCms.Core.IRepositories;
-using LinCms.Web.Data.Authorization;
 
 namespace LinCms.Web.Controllers.Cms
 {
-    [Route("cms/setting")]
+    [Route("cms/settings")]
     [ApiController]
     public class SettingController : ControllerBase
     {
         private readonly ISettingService _settingService;
         private readonly ICurrentUser _currentUser;
         private readonly ISettingRepository _settingRepository;
-        public SettingController(ISettingService settingService, ICurrentUser currentUser, ISettingRepository settingRepository)
+
+        public SettingController(ISettingService settingService, ICurrentUser currentUser,
+            ISettingRepository settingRepository)
         {
             _settingService = settingService;
             _currentUser = currentUser;
@@ -29,9 +30,9 @@ namespace LinCms.Web.Controllers.Cms
 
         [LinCmsAuthorize("得到所有设置", "设置")]
         [HttpGet]
-        public PagedResultDto<SettingDto> GetPagedListAsync([FromQuery] PageDto pageDto)
+        public async Task<PagedResultDto<SettingDto>> GetPagedListAsync([FromQuery] PageDto pageDto)
         {
-            return _settingService.GetPagedListAsync(pageDto);
+            return await _settingService.GetPagedListAsync(pageDto);
         }
 
         [LinCmsAuthorize("删除设置", "设置")]
@@ -43,14 +44,14 @@ namespace LinCms.Web.Controllers.Cms
 
         [LinCmsAuthorize("新增设置", "设置")]
         [HttpPost]
-        public async Task CreateAsync([FromBody]CreateUpdateSettingDto createSetting)
+        public async Task CreateAsync([FromBody] CreateUpdateSettingDto createSetting)
         {
             await _settingService.CreateAsync(createSetting);
         }
 
         [LinCmsAuthorize("修改设置", "设置")]
         [HttpPut("{id}")]
-        public async Task UpdateAsync(Guid id,[FromBody]CreateUpdateSettingDto updateSettingDto)
+        public async Task UpdateAsync(Guid id, [FromBody] CreateUpdateSettingDto updateSettingDto)
         {
             await _settingService.UpdateAsync(id, updateSettingDto);
         }
@@ -61,29 +62,29 @@ namespace LinCms.Web.Controllers.Cms
             return _settingService.Get(id);
         }
 
-
-        [HttpPost("editor")]
-        public async Task SetEditorAsync(string value)
+        [HttpPost("set-values")]
+        public async Task SetSettingValues(IDictionary<string, string> settingValues)
         {
-            CreateUpdateSettingDto createSetting = new CreateUpdateSettingDto
+            foreach (var kValue in settingValues)
             {
-                Value = value,
-                ProviderName = "U",
-                ProviderKey = _currentUser.Id.ToString(),
-                Name = "Article.Editor"
-            };
-            await _settingService.SetAsync(createSetting);
+                string key = kValue.Key;
+                CreateUpdateSettingDto createSetting = new CreateUpdateSettingDto
+                {
+                    Value = kValue.Value,
+                    ProviderName = "U",
+                    ProviderKey = _currentUser.Id.ToString(),
+                    Name = key
+                };
+                await _settingService.SetAsync(createSetting);
+            }
         }
 
-        [HttpGet("editor")]
-        public async Task<string> GetOrNullAsync()
+        [HttpGet("by-key")]
+        public async Task<string> GetSettingByKey(string key)
         {
-            string name = "Article.Editor";
             string providerName = "U";
             string providerKey = _currentUser.Id.ToString();
-
-            return await _settingService.GetOrNullAsync(name, providerName, providerKey);
+            return await _settingService.GetOrNullAsync(key, providerName, providerKey);
         }
-
     }
 }

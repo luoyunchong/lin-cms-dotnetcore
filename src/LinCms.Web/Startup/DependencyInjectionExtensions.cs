@@ -90,7 +90,14 @@ namespace LinCms.Web.Startup
             services.AddScoped<UnitOfWorkManager>();
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             //在运行时直接生成表结构
-            fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
+            try
+            {
+                fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e+e.StackTrace+e.Message+e.InnerException);
+            }
             services.AddFreeRepository();
         }
 

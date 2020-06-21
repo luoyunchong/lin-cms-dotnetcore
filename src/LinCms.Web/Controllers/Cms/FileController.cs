@@ -8,6 +8,7 @@ using LinCms.Application.Contracts.Cms.Files.Dtos;
 using LinCms.Core.Data.Options;
 using LinCms.Core.Exceptions;
 using LinCms.Web.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,7 +17,7 @@ namespace LinCms.Web.Controllers.Cms
 {
     [Route("cms/file")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly FileStorageOption _fileStorageOption;

@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetCore.Security;
-using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
@@ -17,13 +16,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LinCms.Web.Controllers.Cms
 {
-    [Route("cms/oauth2")]
+    [Route ("cms/oauth2")]
     [ApiController]
     public class Oauth2Controller : ControllerBase
     {
@@ -34,7 +31,7 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IUserRepository _userRepository;
         private readonly IJsonWebTokenService _jsonWebTokenService;
 
-        public Oauth2Controller(IHttpContextAccessor contextAccessor,IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService)
+        public Oauth2Controller (IHttpContextAccessor contextAccessor, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService)
         {
             _contextAccessor = contextAccessor;
             _userCommunityService = userCommunityService;
@@ -43,75 +40,73 @@ namespace LinCms.Web.Controllers.Cms
             _jsonWebTokenService = jsonWebTokenService;
         }
 
-
         /// <summary>
         /// 授权成功后自动回调的地址
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="redirectUrl">授权成功后的跳转地址</param>
         /// <returns></returns>
-        [HttpGet("signin-callback")]
-        public async Task<IActionResult> Home(string provider, string redirectUrl = "")
+        [HttpGet ("signin-callback")]
+        public async Task<IActionResult> Home (string provider, string redirectUrl = "")
         {
-            if (string.IsNullOrWhiteSpace(provider))
+            if (string.IsNullOrWhiteSpace (provider))
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            if (!await HttpContext.IsProviderSupportedAsync(provider))
+            if (!await HttpContext.IsProviderSupportedAsync (provider))
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
-            if (!authenticateResult.Succeeded) return Redirect(redirectUrl);
-            var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
-            if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
-                return Redirect(redirectUrl);
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync (provider);
+            if (!authenticateResult.Succeeded) return Redirect (redirectUrl);
+            var openIdClaim = authenticateResult.Principal.FindFirst (ClaimTypes.NameIdentifier);
+            if (openIdClaim == null || string.IsNullOrWhiteSpace (openIdClaim.Value))
+                return Redirect (redirectUrl);
             long id = 0;
             switch (provider)
             {
                 case LinUserIdentity.GitHub:
-                    id = await _userCommunityService.SaveGitHubAsync(authenticateResult.Principal, openIdClaim.Value);
+                    id = await _userCommunityService.SaveGitHubAsync (authenticateResult.Principal, openIdClaim.Value);
                     break;
 
                 case LinUserIdentity.QQ:
-                    id = await _userCommunityService.SaveQQAsync(authenticateResult.Principal, openIdClaim.Value);
+                    id = await _userCommunityService.SaveQQAsync (authenticateResult.Principal, openIdClaim.Value);
                     break;
                 case LinUserIdentity.WeiXin:
 
                     break;
                 default:
-                    _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
-                    throw new LinCmsException($"未知的privoder:{provider}！");
+                    _logger.LogError ($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+                    throw new LinCmsException ($"未知的privoder:{provider}！");
             }
-            List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
+            List<Claim> authClaims = authenticateResult.Principal.Claims.ToList ();
 
-            LinUser user = await _userRepository.Select.IncludeMany(r => r.LinGroups)
-                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
+            LinUser user = await _userRepository.Select.IncludeMany (r => r.LinGroups)
+                .WhereCascade (r => r.IsDeleted == false).Where (r => r.Id == id).FirstAsync ();
 
             if (user == null)
             {
-                throw new LinCmsException("第三方登录失败！");
+                throw new LinCmsException ("第三方登录失败！");
             }
-            List<Claim> claims = new List<Claim>()
+            List<Claim> claims = new List<Claim> ()
             {
-                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                    new Claim(ClaimTypes.Email,user.Email??""),
-                    new Claim(ClaimTypes.GivenName,user.Nickname??""),
-                    new Claim(ClaimTypes.Name,user.Username??""),
+                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
+                new Claim (ClaimTypes.Email, user.Email?? ""),
+                new Claim (ClaimTypes.GivenName, user.Nickname?? ""),
+                new Claim (ClaimTypes.Name, user.Username?? ""),
             };
 
-            user.LinGroups?.ForEach(r =>
+            user.LinGroups?.ForEach (r =>
             {
-                claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+                claims.Add (new Claim (LinCmsClaimTypes.Groups, r.Id.ToString ()));
             });
 
-            claims.AddRange(authClaims);
-            string token = _jsonWebTokenService.Encode(claims);
-            return Redirect($"{redirectUrl}?token={token}#login-result");
+            claims.AddRange (authClaims);
+            string token = _jsonWebTokenService.Encode (claims);
+            return Redirect ($"{redirectUrl}?token={token}#login-result");
         }
-
 
         /// <summary>
         /// https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=http://localhost:8080/
@@ -119,39 +114,39 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="provider"></param>
         /// <param name="redirectUrl"></param>
         /// <returns></returns>
-        [HttpGet("signin")]
-        public async Task<IActionResult> SignIn(string provider, string redirectUrl)
+        [HttpGet ("signin")]
+        public async Task<IActionResult> SignIn (string provider, string redirectUrl)
         {
             // Note: the "provider" parameter corresponds to the external
             // authentication provider choosen by the user agent.
-            if (string.IsNullOrWhiteSpace(provider))
+            if (string.IsNullOrWhiteSpace (provider))
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
-            if (!await HttpContext.IsProviderSupportedAsync(provider))
+            if (!await HttpContext.IsProviderSupportedAsync (provider))
             {
-                return BadRequest();
+                return BadRequest ();
             }
 
             HttpRequest request = _contextAccessor.HttpContext.Request;
-            string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" +
-                    $"&redirectUrl={redirectUrl}";
+            string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}"
+                + $"&redirectUrl={redirectUrl}";
 
-            _logger.LogInformation($"SignIn-url:{url}");
+            _logger.LogInformation ($"SignIn-url:{url}");
             var properties = new AuthenticationProperties { RedirectUri = url };
             properties.Items[LoginProviderKey] = provider;
-            return Challenge(properties, provider);
+            return Challenge (properties, provider);
 
         }
 
-        [HttpGet("signout"), HttpPost("signout")]
-        public IActionResult SignOut()
+        [HttpGet ("signout"), HttpPost ("signout")]
+        public IActionResult SignOut ()
         {
             // Instruct the cookies middleware to delete the local cookie created
             // when the user agent is redirected from the external identity provider
             // after a successful authentication flow (e.g Google or Facebook).
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
+            return SignOut (new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         /// <summary>
@@ -159,12 +154,12 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="provider"></param>
         /// <returns></returns>
-        [HttpGet("OpenId")]
-        public async Task<string> OpenId(string provider)
+        [HttpGet ("OpenId")]
+        public async Task<string> OpenId (string provider)
         {
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync (provider);
             if (!authenticateResult.Succeeded) return null;
-            Claim openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            Claim openIdClaim = authenticateResult.Principal.FindFirst (ClaimTypes.NameIdentifier);
             return openIdClaim?.Value;
 
         }
@@ -173,10 +168,10 @@ namespace LinCms.Web.Controllers.Cms
         /// 通过axios请求，请在header（请求头）携带上文中signin-callback生成的Token值.可以得到openid
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetOpenIdByToken")]
-        public string GetOpenIdByToken()
+        [HttpGet ("GetOpenIdByToken")]
+        public string GetOpenIdByToken ()
         {
-            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return User.FindFirst (ClaimTypes.NameIdentifier)?.Value;
         }
     }
 

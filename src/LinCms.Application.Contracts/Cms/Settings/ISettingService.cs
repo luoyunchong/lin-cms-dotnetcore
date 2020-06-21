@@ -8,7 +8,7 @@ namespace LinCms.Application.Contracts.Cms.Settings
 {
     public interface ISettingService
     {
-        PagedResultDto<SettingDto> GetPagedListAsync(PageDto pageDto);
+        Task<PagedResultDto<SettingDto>> GetPagedListAsync(PageDto pageDto);
 
         SettingDto Get(Guid id);
 
@@ -18,6 +18,11 @@ namespace LinCms.Application.Contracts.Cms.Settings
 
         Task<string> GetOrNullAsync(string name, string providerName, string providerKey);
 
+        /// <summary>
+        /// 用户设置自己的一些配置
+        /// </summary>
+        /// <param name="createSetting"></param>
+        /// <returns></returns>
         Task SetAsync(CreateUpdateSettingDto createSetting);
 
         Task CreateAsync(CreateUpdateSettingDto createSettingDto);

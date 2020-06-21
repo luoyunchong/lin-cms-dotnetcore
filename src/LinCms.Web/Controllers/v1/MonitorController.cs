@@ -30,7 +30,7 @@ namespace LinCms.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("server-info")]
-        [LinCmsAuthorize("服务器配置信息", "监控管理")]
+        //[LinCmsAuthorize("服务器配置信息", "监控管理")]
         public ServerViewModel GetServerInfo()
         {
             return new ServerViewModel()

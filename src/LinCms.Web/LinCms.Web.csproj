@@ -115,7 +115,7 @@
 	</ItemGroup>
 
 	<ProjectExtensions>
-		<VisualStudio><UserProperties appsettings_1Production_1json__JsonSchema="http://json.schemastore.org/appsettings" appsettings_1json__JsonSchema="" /></VisualStudio>
+		<VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1Production_1json__JsonSchema="http://json.schemastore.org/appsettings" /></VisualStudio>
 	</ProjectExtensions>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
