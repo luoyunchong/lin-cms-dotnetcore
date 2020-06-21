@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Web.Controllers.Blog
 {
-    [Route("v1/user-tag")]
+    [Area ("blog")]
+    [Route ("api/blog/user-tag")]
     [ApiController]
     [Authorize]
     public class UserTagController : ControllerBase
@@ -17,7 +18,7 @@ namespace LinCms.Web.Controllers.Blog
         private readonly ITagService _tagService;
         private readonly IUserTagService _userTagService;
 
-        public UserTagController(ITagService tagService, IUserTagService userTagService)
+        public UserTagController (ITagService tagService, IUserTagService userTagService)
         {
             _userTagService = userTagService;
             _tagService = tagService;
@@ -27,20 +28,20 @@ namespace LinCms.Web.Controllers.Blog
         /// 用户关注标签
         /// </summary>
         /// <param name="tagId"></param>
-        [HttpPost("{tagId}")]
-        public async Task CreateUserTagAsync(Guid tagId)
+        [HttpPost ("{tagId}")]
+        public async Task CreateUserTagAsync (Guid tagId)
         {
-            await _userTagService.CreateUserTagAsync(tagId);
+            await _userTagService.CreateUserTagAsync (tagId);
         }
 
         /// <summary>
         /// 取消关注标签
         /// </summary>
         /// <param name="tagId"></param>
-        [HttpDelete("{tagId}")]
-        public async Task DeleteUserTagAsync(Guid tagId)
+        [HttpDelete ("{tagId}")]
+        public async Task DeleteUserTagAsync (Guid tagId)
         {
-            await _userTagService.DeleteUserTagAsync(tagId);
+            await _userTagService.DeleteUserTagAsync (tagId);
         }
 
         /// <summary>
@@ -49,9 +50,9 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public PagedResultDto<TagListDto> GetUserTagList([FromQuery] UserSubscribeSearchDto userSubscribeDto)
+        public PagedResultDto<TagListDto> GetUserTagList ([FromQuery] UserSubscribeSearchDto userSubscribeDto)
         {
-            return _tagService.GetSubscribeTags(userSubscribeDto);
+            return _tagService.GetSubscribeTags (userSubscribeDto);
         }
     }
 }
