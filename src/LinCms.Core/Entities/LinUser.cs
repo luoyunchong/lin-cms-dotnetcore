@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using FreeSql.DataAnnotations;
 using LinCms.Core.Data.Enums;
 
@@ -21,13 +22,13 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 用户名
         /// </summary>
-        [Column(DbType = "varchar(24)")]
+         [Column(StringLength =24)]
         public string Username { get; set; }
 
         /// <summary>
         /// 昵称
         /// </summary>
-        [Column(DbType = "varchar(24)")]
+         [Column(StringLength =24)]
         public string Nickname { get; set; }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 电子邮箱
         /// </summary>
-        [Column(DbType = "varchar(100)")]
+         [Column(StringLength =100)]
         public string Email { get; set; }
 
         /// <summary>
@@ -49,13 +50,13 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 手机号
         /// </summary>
-        [Column(DbType = "varchar(100)")]
+         [Column(StringLength =100)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// 个人介绍
         /// </summary>
-        [Column(DbType = "varchar(100)")]
+         [Column(StringLength =100)]
         public string Introduction { get; set; }
 
         /// <summary>

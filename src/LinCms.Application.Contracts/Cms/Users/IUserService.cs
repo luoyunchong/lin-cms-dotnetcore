@@ -10,7 +10,6 @@ namespace LinCms.Application.Contracts.Cms.Users
 {
     public interface IUserService
     {
-     
         Task ChangePasswordAsync(ChangePasswordDto passwordDto);
 
         /// <summary>
@@ -30,9 +29,10 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <summary>
         /// 注册-新增一个用户
         /// </summary>
-        /// <param name="user"></param>
-        /// <param name="groupIds"></param>
-        Task CreateAsync(LinUser user,List<long>groupIds,string password);
+        /// <param name="user">用户</param>
+        /// <param name="groupIds">分组Id集合</param>
+        /// <param name="password">密码</param>
+        Task CreateAsync(LinUser user, List<long> groupIds, string password);
 
         Task UpdateAync(long id, UpdateUserDto updateUserDto);
 

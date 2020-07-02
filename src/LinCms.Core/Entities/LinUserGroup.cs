@@ -5,8 +5,6 @@ namespace LinCms.Core.Entities
     [Table(Name = "lin_user_group")]
     public class LinUserGroup : Entity<long>
     {
-       
-
         public LinUserGroup()
         {
         }

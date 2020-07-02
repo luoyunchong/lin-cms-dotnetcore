@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities
@@ -10,12 +9,12 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 权限组名称
         /// </summary>
-        [Column(DbType = "varchar(60)")]
+        [Column(StringLength = 60)]
         public string Name { get; set; }
         /// <summary>
         /// 权限组描述
         /// </summary>
-        [Column(DbType = "varchar(500)")]
+        [Column(StringLength = 100)]
         public string Info { get; set; }
 
         /// <summary>

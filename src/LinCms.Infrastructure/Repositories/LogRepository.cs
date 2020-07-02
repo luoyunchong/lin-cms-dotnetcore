@@ -18,8 +18,8 @@ namespace LinCms.Infrastructure.Repositories
 
         public void Create(LinLog linlog)
         {
-            linlog.Time = DateTime.Now;
-            linlog.UserName = CurrentUser.UserName;
+            linlog.CreateTime = DateTime.Now;
+            linlog.Username = CurrentUser.UserName;
             linlog.UserId = CurrentUser.Id ?? 0;
 
             base.Insert(linlog);

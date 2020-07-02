@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using System.Text;
 using FreeSql.DataAnnotations;
 
@@ -16,7 +17,7 @@ namespace LinCms.Core.Entities.Blog
         /// </summary>
         [Column(DbType = "longtext")]
         public string Content { get; set; }
-
+         [Column(StringLength =200)]
         public string Title { get; set; }
         /// <summary>
         ///1:MarkDown编辑器  2:富文本编辑器,

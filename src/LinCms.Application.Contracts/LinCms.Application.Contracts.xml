@@ -555,8 +555,9 @@
             <summary>
             注册-新增一个用户
             </summary>
-            <param name="user"></param>
-            <param name="groupIds"></param>
+            <param name="user">用户</param>
+            <param name="groupIds">分组Id集合</param>
+            <param name="password">密码</param>
         </member>
         <member name="M:LinCms.Application.Contracts.Cms.Users.IUserService.ResetPasswordAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.ResetPasswordDto)">
             <summary>

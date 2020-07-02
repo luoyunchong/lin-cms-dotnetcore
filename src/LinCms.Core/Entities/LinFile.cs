@@ -8,25 +8,25 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 后缀
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string Extension { get; set; } = string.Empty;
 
         /// <summary>
         /// 图片md5值，防止上传重复图片
         /// </summary>
-        [Column(DbType = "varchar(40)")]
+         [Column(StringLength =40)]
         public string Md5 { get; set; } = string.Empty;
 
         /// <summary>
         /// 名称
         /// </summary>
-        [Column(DbType = "varchar(300)")]
+         [Column(StringLength =300)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// 路径
         /// </summary>
-        [Column(DbType = "varchar(500)")]
+         [Column(StringLength =500)]
         public string Path { get; set; } = string.Empty;
 
         /// <summary>

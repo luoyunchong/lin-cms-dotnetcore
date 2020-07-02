@@ -5,16 +5,16 @@ namespace LinCms.Core.Entities
     [Table(Name = "book")]
     public class Book : FullAduitEntity
     {
-        [Column(DbType = "varchar(20)")]
+        [Column(StringLength = 20)]
         public string Author { get; set; } = string.Empty;
 
-        [Column(DbType = "varchar(50)")]
+        [Column(StringLength = 50)]
         public string Image { get; set; } = string.Empty;
 
-        [Column(DbType = "varchar(1000)")]
+        [Column(StringLength = 1000)]
         public string Summary { get; set; } = string.Empty;
 
-        [Column(DbType = "varchar(50)")]
+        [Column(StringLength = 50)]
         public string Title { get; set; } = string.Empty;
 
     }
