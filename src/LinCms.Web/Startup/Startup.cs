@@ -324,10 +324,10 @@ namespace LinCms.Web.Startup
                 {
                     x.UseRabbitMQ(options =>
                     {
-                        options.HostName = Configuration["CAP.RabbitMQ:HostName"];
-                        options.UserName = Configuration["CAP.RabbitMQ:UserName"];
-                        options.Password = Configuration["CAP.RabbitMQ:Password"];
-                        options.VirtualHost = Configuration["CAP.RabbitMQ:VirtualHost"];
+                        options.HostName = Configuration["CAP:RabbitMQ:HostName"];
+                        options.UserName = Configuration["CAP:RabbitMQ:UserName"];
+                        options.Password = Configuration["CAP:RabbitMQ:Password"];
+                        options.VirtualHost = Configuration["CAP:RabbitMQ:VirtualHost"];
                     });
                 }
 
