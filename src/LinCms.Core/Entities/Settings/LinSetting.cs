@@ -1,4 +1,5 @@
 ﻿using System;
+
 using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities.Settings
@@ -9,22 +10,26 @@ namespace LinCms.Core.Entities.Settings
         /// <summary>
         /// 键
         /// </summary>
-        [Column(DbType = "varchar(128)", IsNullable=false)]
+        [Column(StringLength = 128)]
         public string Name { get; set; }
+
         /// <summary>
         /// 值
         /// </summary>
-        [Column(DbType = "varchar(2048)", IsNullable = false)]
+        [Column(StringLength = 2048)]
         public string Value { get; set; }
+
         /// <summary>
         /// 提供者
         /// </summary>
-        [Column(DbType = "varchar(64)")]
+
+        [Column(StringLength = 64)]
         public string ProviderName { get; set; }
+
         /// <summary>
         /// 提供者值
         /// </summary>
-        [Column(DbType = "varchar(64)")]
+        [Column(StringLength = 64)]
         public string ProviderKey { get; set; }
 
         public override string ToString()

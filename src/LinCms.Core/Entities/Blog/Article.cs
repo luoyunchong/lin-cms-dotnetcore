@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
@@ -22,19 +21,19 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 标题
         /// </summary>
-        [Column(DbType = "varchar(200)")]
+        [Column(StringLength = 200)]
         public string Title { get; set; }
 
         /// <summary>
         /// 关键字
         /// </summary>
-        [Column(DbType = "varchar(400)")]
+        [Column(StringLength = 400)]
         public string Keywords { get; set; }
 
         /// <summary>
         /// 来源
         /// </summary>
-        [Column(DbType = "varchar(400)")]
+        [Column(StringLength = 400)]
         public string Source { get; set; }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 随笔档案   如2019年1月
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+        [Column(StringLength = 50)]
         public string Archive { get; set; }
 
         /// <summary>

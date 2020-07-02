@@ -13,7 +13,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 封面图
         /// </summary>
-        [Column(DbType = "varchar(100)")]
+         [Column(StringLength =100)]
         public string Thumbnail { get; set; }
 
         /// <summary>
@@ -24,20 +24,20 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 技术频道名称
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+        [Column(StringLength = 50)]
 
         public string ChannelName { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string ChannelCode { get; set; }
 
         /// <summary>
         /// 备注描述
         /// </summary>
-        [Column(DbType = "varchar(500)")]
+         [Column(StringLength =500)]
         public string Remark { get; set; }
         /// <summary>
         /// 是否有效

@@ -10,6 +10,7 @@ using LinCms.Application.Contracts.Cms.Groups.Dtos;
 using LinCms.Application.Contracts.Cms.Permissions;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users.Dtos;
+using LinCms.Core.Aop.Attributes;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
@@ -64,6 +65,7 @@ namespace LinCms.Application.Cms.Users
             await _userIdentityService.ChangePasswordAsync(userIdentity, passwordDto.NewPassword);
         }
 
+        [Transactional]
         public async Task DeleteAsync(long userId)
         {
             await _userRepository.DeleteAsync(new LinUser() {Id = userId});
@@ -100,7 +102,8 @@ namespace LinCms.Application.Cms.Users
 
             return new PagedResultDto<UserDto>(linUsers, totalCount);
         }
-
+        
+        [Transactional]
         public async Task CreateAsync(LinUser user, List<long> groupIds, string password)
         {
             if (!string.IsNullOrEmpty(user.Username))
@@ -152,6 +155,7 @@ namespace LinCms.Application.Cms.Users
         /// <param name="id"></param>
         /// <param name="updateUserDto"></param>    
         /// <returns></returns>
+        [Transactional]
         public async Task UpdateAync(long id, UpdateUserDto updateUserDto)
         {
             LinUser linUser = await _userRepository.Where(r => r.Id == id).ToOneAsync();

@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities.Base
 {
@@ -7,10 +8,10 @@ namespace LinCms.Core.Entities.Base
     {
         public int BaseTypeId { get; set; }
 
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string ItemCode { get; set; }
 
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string ItemName { get; set; }
 
         public int? SortCode { get; set; }

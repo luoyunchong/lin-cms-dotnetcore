@@ -28,7 +28,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 回复的文本内容
         /// </summary>
-        [Column(DbType = "varchar(500)")]
+        [Column(StringLength =500)]
         public string Text { get; set; }
 
         /// <summary>
