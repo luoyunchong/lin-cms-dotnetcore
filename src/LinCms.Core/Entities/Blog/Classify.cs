@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities.Blog
@@ -14,7 +15,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 封面图
         /// </summary>
-        [Column(DbType = "varchar(100)")]
+         [Column(StringLength =100)]
         public string Thumbnail { get; set; }
         /// <summary>
         /// 排序
@@ -23,7 +24,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 分类专栏名称
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string ClassifyName { get; set; }
 
         /// <summary>

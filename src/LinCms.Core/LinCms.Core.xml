@@ -34,7 +34,7 @@
             全局日志记录
             </summary>
         </member>
-        <member name="P:LinCms.Core.Aop.Filter.LogActionFilterAttribute.ActionArguments">
+        <member name="F:LinCms.Core.Aop.Filter.LogActionFilterAttribute._currentUser">
             <summary>
             操作类型CRUD
             </summary>
@@ -844,17 +844,12 @@
             请求的http返回码
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.Time">
-            <summary>
-            日志创建时间
-            </summary>
-        </member>
         <member name="P:LinCms.Core.Entities.LinLog.UserId">
             <summary>
             用户id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.UserName">
+        <member name="P:LinCms.Core.Entities.LinLog.Username">
             <summary>
             用户当时的昵称
             </summary>

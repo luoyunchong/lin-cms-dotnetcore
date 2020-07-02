@@ -21,6 +21,7 @@ using LinCms.Core.Extensions;
 using LinCms.Plugins.Poem.Services;
 using LinCms.Web.Middleware;
 using LinCms.Web.SnakeCaseQuery;
+using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -41,6 +42,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
 
 namespace LinCms.Web.Startup
@@ -150,8 +152,7 @@ namespace LinCms.Web.Startup
 
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = statusCode;
-                            context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext)
-                                .ToString());
+                            context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext).ToString());
 
                             return Task.FromResult(0);
                         }
@@ -174,7 +175,6 @@ namespace LinCms.Web.Startup
                 });
 
             #endregion
-
 
 
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
@@ -203,12 +203,13 @@ namespace LinCms.Web.Startup
                         NamingStrategy = new SnakeCaseNamingStrategy()
                         {
                             ProcessDictionaryKeys = true
-                        }
+                        },
                     };
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
-                    options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                    options.SuppressConsumesConstraintForFormFileParameters =
+                        true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
                     //自定义 BadRequest 响应
                     options.InvalidModelStateResponseFactory = context =>
                     {
@@ -241,8 +242,18 @@ namespace LinCms.Web.Startup
                 {
                     Title = ApiName + RuntimeInformation.FrameworkDescription,
                     Version = "v1",
-                    Contact = new OpenApiContact { Name = ApiName, Email = "luoyunchong@foxmail.com", Url = new Uri("https://www.cnblogs.com/igeekfan/") },
-                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
+                    Contact = new OpenApiContact
+                    {
+                        Name = ApiName,
+                        Email = "luoyunchong@foxmail.com",
+                        Url = new Uri("https://www.cnblogs.com/igeekfan/")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = ApiName + " 官方文档",
+                        Url = new Uri(
+                            "https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html")
+                    }
                 });
 
                 var security = new OpenApiSecurityRequirement()
@@ -292,7 +303,7 @@ namespace LinCms.Web.Startup
             services.Configure<FormOptions>(options =>
             {
                 //单个文件上传的大小限制为8 MB      默认134217728 应该是128MB
-                options.MultipartBodyLengthLimit = 1024 * 1024 * 8;     //8MB
+                options.MultipartBodyLengthLimit = 1024 * 1024 * 8; //8MB
             });
 
             #region 分布式事务一致性CAP
@@ -302,13 +313,23 @@ namespace LinCms.Web.Startup
             {
                 x.UseMySql(configurationSection.Value);
 
-                x.UseRabbitMQ(options =>
+                bool isEnableInMemoryQueue = Configuration["CAP:InMemoryQueue:IsEnabled"].ToBoolean();
+                if (isEnableInMemoryQueue)
                 {
-                    options.HostName = Configuration["RabbitMQ:HostName"];
-                    options.UserName = Configuration["RabbitMQ:UserName"];
-                    options.Password = Configuration["RabbitMQ:Password"];
-                    options.VirtualHost = Configuration["RabbitMQ:VirtualHost"];
-                });
+                    x.UseInMemoryMessageQueue();
+                }
+
+                bool isEnableRabbitMq = Configuration["CAP:RabbitMQ:IsEnabled"].ToBoolean();
+                if (isEnableRabbitMq)
+                {
+                    x.UseRabbitMQ(options =>
+                    {
+                        options.HostName = Configuration["CAP.RabbitMQ:HostName"];
+                        options.UserName = Configuration["CAP.RabbitMQ:UserName"];
+                        options.Password = Configuration["CAP.RabbitMQ:Password"];
+                        options.VirtualHost = Configuration["CAP.RabbitMQ:VirtualHost"];
+                    });
+                }
 
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
@@ -322,9 +343,9 @@ namespace LinCms.Web.Startup
             #endregion
 
             services.Configure<ForwardedHeadersOptions>(options =>
-                {
-                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-                });
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
             //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
             services.AddIpRateLimiting(Configuration);
 
@@ -352,11 +373,14 @@ namespace LinCms.Web.Startup
 
             app.UseStaticFiles();
 
-            app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging(opts =>
+            {
+                opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
+                opts.GetLevel = LogHelper.ExcludeHealthChecks;// Use the custom level
+            });
 
             //异常中间件应放在MVC执行事务的中件间的前面，否则异常时UnitOfWorkMiddleware无法catch异常
             app.UseMiddleware(typeof(CustomExceptionMiddleWare));
-            // app.UseMiddleware(typeof(UnitOfWorkMiddleware));
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

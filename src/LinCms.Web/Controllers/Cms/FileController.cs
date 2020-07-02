@@ -41,7 +41,7 @@ namespace LinCms.Web.Controllers.Cms
             {
                 throw new LinCmsException($"最大文件数量{_fileStorageOption.NumLimit}");
             }
-             long len = 0;
+            long len = 0;
             foreach (var file in files)
             {
                 len += file.Length;
@@ -103,5 +103,6 @@ namespace LinCms.Web.Controllers.Cms
                 throw new LinCmsException($"文件类型{ext}被禁止上传");
             }
         }
+        
     }
 }

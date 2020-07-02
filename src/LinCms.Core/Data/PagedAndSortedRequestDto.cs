@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+
+using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Core.Data
 {
@@ -18,7 +20,6 @@ namespace LinCms.Core.Data
         /// </summary>
         [Range(1, int.MaxValue, ErrorMessage = "每页个数最小为1")]
         public int Count { get; set; } = 15;
-
 
         /// <summary>
         /// 从0开始，0时取第1页，1时取第二页

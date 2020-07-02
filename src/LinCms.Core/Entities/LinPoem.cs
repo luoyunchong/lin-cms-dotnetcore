@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities
 {
@@ -9,7 +10,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 作者
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string Author { get; set; } = string.Empty;
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 朝代
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string Dynasty { get; set; } = string.Empty;
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 标题
         /// </summary>
-        [Column(DbType = "varchar(50)")]
+         [Column(StringLength = 50)]
         public string Title { get; set; } = string.Empty;
 
 
