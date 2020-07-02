@@ -32,6 +32,9 @@ steps:
       sed -i 's/{CAP.RabbitMQ.HostName}/$(CAP.RabbitMQ.HostName)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{CAP.RabbitMQ.UserName}/$(CAP.RabbitMQ.UserName)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{CAP.RabbitMQ.Password}/$(CAP.RabbitMQ.Password)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{CAP.RabbitMQ.VirtualHost}/$(CAP.RabbitMQ.VirtualHost)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{FileStorage.Qiniu.AK}/$(FileStorage.Qiniu.AK)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{FileStorage.Qiniu.SK}/$(FileStorage.Qiniu.SK)/g' src/LinCms.Web/appsettings.Production.json
       echo command executed
 
 - script: |
