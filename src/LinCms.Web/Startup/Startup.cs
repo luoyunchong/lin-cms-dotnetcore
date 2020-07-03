@@ -44,6 +44,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
+using Serilog.Events;
 
 namespace LinCms.Web.Startup
 {
@@ -143,7 +144,6 @@ namespace LinCms.Web.Startup
                                 message = "令牌失效";
                                 errorCode = ErrorCode.TokenInvalidation;
                             }
-
                             else
                             {
                                 message = "请先登录" + context.ErrorDescription; //""认证失败，请检查请求头或者重新登录";
@@ -186,8 +186,8 @@ namespace LinCms.Web.Startup
             services.AddControllers(options =>
                 {
                     options.ValueProviderFactories.Add(new ValueProviderFactory()); //设置SnakeCase形式的QueryString参数
-                    options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
-                    // options.Filters.Add<LinCmsExceptionFilter>(); // 添加请求方法时的日志记录过滤器
+                    //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                    options.Filters.Add<LinCmsExceptionFilter>(); // 
                 })
                 .AddNewtonsoftJson(opt =>
                 {
@@ -208,8 +208,7 @@ namespace LinCms.Web.Startup
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
-                    options.SuppressConsumesConstraintForFormFileParameters =
-                        true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                    options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
                     //自定义 BadRequest 响应
                     options.InvalidModelStateResponseFactory = context =>
                     {
@@ -376,11 +375,21 @@ namespace LinCms.Web.Startup
             app.UseSerilogRequestLogging(opts =>
             {
                 opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
-                opts.GetLevel = LogHelper.ExcludeHealthChecks;// Use the custom level
+                opts.GetLevel = (ctx, _, ex) =>
+                {
+                    var path = ctx.Request.Path;
+                    switch (path)
+                    {
+                        case "/health":
+                        case "/cms/log/serilog":
+                            return LogEventLevel.Debug;
+                    }
+                    return ex != null || ctx.Response.StatusCode > 499 ? LogEventLevel.Error : LogEventLevel.Information;
+                };
             });
 
             //异常中间件应放在MVC执行事务的中件间的前面，否则异常时UnitOfWorkMiddleware无法catch异常
-            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

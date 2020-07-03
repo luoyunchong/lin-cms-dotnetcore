@@ -301,6 +301,13 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetSerilogListAsync(LinCms.Application.Contracts.Cms.Logs.Dtos.SerilogSearchDto)">
+            <summary>
+            Serilog日志
+            </summary>
+            <param name="searchDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.Home(System.String,System.String)">
             <summary>
             授权成功后自动回调的地址

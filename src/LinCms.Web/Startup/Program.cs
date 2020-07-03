@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace LinCms.Web.Startup
@@ -21,7 +21,7 @@ namespace LinCms.Web.Startup
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
-
+     
         public static async Task<int> Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
