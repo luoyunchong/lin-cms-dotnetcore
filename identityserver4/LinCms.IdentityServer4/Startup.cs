@@ -115,7 +115,6 @@ namespace LinCms.IdentityServer4
             services.AddTransient(typeof(IAuditBaseRepository<,>), typeof(AuditBaseRepository<,>));
             services.AddTransient<CustomExceptionMiddleWare>();
 
-            services.AddCors();
             services.AddAutoMapper(typeof(UserProfile).Assembly);
 
             services.AddControllers(options =>
@@ -175,12 +174,6 @@ namespace LinCms.IdentityServer4
 
             app.UseAuthorization();
 
-            app.UseCors(builder =>
-            {
-                string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
-
-                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
-            });
             app.UseIdentityServer();
 
             app.UseSwagger();
