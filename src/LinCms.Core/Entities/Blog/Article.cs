@@ -17,7 +17,6 @@ namespace LinCms.Core.Entities.Blog
         /// </summary>
         public Guid? ChannelId { get; set; }
 
-
         /// <summary>
         /// 标题
         /// </summary>
@@ -62,7 +61,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 列表缩略图封面
         /// </summary>
-        [Column(DbType = "varchar(400)")]
+        [Column(StringLength = 400)]
         public string Thumbnail { get; set; }
 
         /// <summary>
@@ -120,7 +119,6 @@ namespace LinCms.Core.Entities.Blog
 
         [Navigate(nameof(CreateUserId))]
         public virtual LinUser UserInfo { get; set; }
-
 
         public virtual ICollection<Tag> Tags { get; set; }
 

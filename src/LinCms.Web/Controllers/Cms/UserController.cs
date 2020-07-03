@@ -50,7 +50,7 @@ namespace LinCms.Web.Controllers.Cms
         /// 新增用户-不是注册，注册不可能让用户选择gourp_id
         /// </summary>
         /// <param name="userInput"></param>
-        [AuditingLog("管理员新建了一个用户")]
+        [Logger("管理员新建了一个用户")]
         [HttpPost("register")]
         [Authorize(Roles = LinGroup.Admin)]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUserDto userInput)
@@ -83,7 +83,7 @@ namespace LinCms.Web.Controllers.Cms
             return userInformation;
         }
 
-        [AuditingLog("修改了自己的密码")]
+        [Logger("修改了自己的密码")]
         [HttpPut("change_password")]
         public async Task<UnifyResponseDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
         {

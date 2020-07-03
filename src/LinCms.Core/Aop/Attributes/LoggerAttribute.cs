@@ -3,11 +3,11 @@
 namespace LinCms.Core.Aop.Log
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class AuditingLogAttribute : Attribute
+    public class LoggerAttribute : Attribute
     {
         public string Template { get; }
 
-        public AuditingLogAttribute(string template)
+        public LoggerAttribute(string template)
         {
             Template = template ?? throw new ArgumentNullException(nameof(template));
         }

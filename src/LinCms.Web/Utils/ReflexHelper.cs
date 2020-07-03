@@ -186,9 +186,12 @@ namespace LinCms.Web.Utils
             {
                 foreach (Attribute attribute in o.GetCustomAttributes())
                 {
-                    if (attribute is TableAttribute linCmsAuthorize)
+                    if (attribute is TableAttribute tableAttribute)
                     {
-                        tableAssembies.Add(o);
+                        if (tableAttribute.DisableSyncStructure == false)
+                        {
+                            tableAssembies.Add(o);
+                        }
                     }
                 }
             });

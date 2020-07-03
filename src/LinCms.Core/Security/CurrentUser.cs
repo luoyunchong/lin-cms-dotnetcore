@@ -1,14 +1,8 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Options;
 using LinCms.Core.Dependency;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 namespace LinCms.Core.Security
 {
@@ -22,6 +16,8 @@ namespace LinCms.Core.Security
         }
         public long? Id => _claimsPrincipal?.FindUserId();
         public string UserName => _claimsPrincipal?.FindUserName();
+        public string Nickname => _claimsPrincipal.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value;
+        public string Email => _claimsPrincipal.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
         public long[] Groups => FindClaims(LinCmsClaimTypes.Groups).Select(c => c.Value.ToLong()).ToArray();
 
         public virtual Claim FindClaim(string claimType)
