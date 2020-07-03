@@ -20,7 +20,7 @@ namespace LinCms.Web.Controllers.Blog
     public class ChannelController : ControllerBase
     {
         private readonly IChannelService _channelService;
-        public ChannelController (IChannelService channelService)
+        public ChannelController(IChannelService channelService)
         {
             _channelService = channelService;
         }

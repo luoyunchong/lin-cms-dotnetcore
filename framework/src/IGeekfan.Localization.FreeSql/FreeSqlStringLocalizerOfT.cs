@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using IGeekFan.Localization.FreeSql.Models;
 using Microsoft.Extensions.Localization;
 
@@ -45,7 +44,7 @@ namespace IGeekFan.Localization.FreeSql
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
         {
-            return _db.Select<Resource>()
+            return _db.Select<LocalResource>()
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
                 .ToList(r => new LocalizedString(r.Key, r.Value, true));
@@ -53,7 +52,7 @@ namespace IGeekFan.Localization.FreeSql
 
         private string GetString(string name)
         {
-            return _db.Select<Resource>()
+            return _db.Select<LocalResource>()
                 .Include(r => r.Culture)
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name&&r.Key==name)
                 .First()?.Value;
