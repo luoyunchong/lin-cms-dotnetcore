@@ -5,11 +5,12 @@ using FreeSql.DataAnnotations;
 
 namespace IGeekFan.Localization.FreeSql.Models
 {
-    public class Culture
+    public class LocalCulture
     {
         [Column(IsIdentity = true, IsPrimary = true)]
-        public int Id { get; set; }
+        public long Id { get; set; }
+        [Column(StringLength = 500)]
         public string Name { get; set; }
-        public virtual ICollection<Resource> Resources { get; set; }
+        public virtual ICollection<LocalResource> Resources { get; set; }
     }
 }
