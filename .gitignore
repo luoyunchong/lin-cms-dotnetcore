@@ -341,4 +341,5 @@ src/LinCms.Web/wwwroot/assets/
 src/LinCms.Web/wwwroot/_Illegal
 identityserver4/LinCms.IdentityServer4/Logs/
 src/LinCms.Web/Logs/
-/src/LinCms.Web/appsettings.Stageing.json
+/src/LinCms.Web/appsettings.Staging.json
+/identityserver4/LinCms.IdentityServer4/appsettings.Staging.json
