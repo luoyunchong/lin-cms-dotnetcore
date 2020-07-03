@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LinCms.Application.Contracts.Cms.Logs.Dtos;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
@@ -7,8 +8,7 @@ namespace LinCms.Application.Contracts.Cms.Logs
 {
     public interface ILogService
     {
-        void CreateLog(LinLog linlog);
-
+        Task CreateAsync(LinLog linlog);
         PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto);
 
         List<string> GetLoggedUsers(PageDto searchDto);

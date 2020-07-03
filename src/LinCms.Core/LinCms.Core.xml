@@ -34,11 +34,6 @@
             全局日志记录
             </summary>
         </member>
-        <member name="F:LinCms.Core.Aop.Filter.LogActionFilterAttribute._currentUser">
-            <summary>
-            操作类型CRUD
-            </summary>
-        </member>
         <member name="T:LinCms.Core.Aop.Middleware.CustomExceptionMiddleWare">
             <summary>
             如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
@@ -732,16 +727,6 @@
         <member name="P:LinCms.Core.Entities.IEntity`1.Id">
             <summary>
             主键Id
-            </summary>
-        </member>
-        <member name="P:LinCms.Core.Entities.LinEvent.GroupId">
-            <summary>
-            所属权限组id
-            </summary>
-        </member>
-        <member name="P:LinCms.Core.Entities.LinEvent.MessageEvents">
-            <summary>
-            信息
             </summary>
         </member>
         <member name="P:LinCms.Core.Entities.LinFile.Extension">

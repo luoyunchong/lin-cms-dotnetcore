@@ -4,6 +4,7 @@ using DotNetCore.CAP;
 using FreeSql;
 using LinCms.Core.Aop;
 using LinCms.Core.Aop.Filter;
+using LinCms.Core.Aop.Log;
 using LinCms.Core.Data;
 using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
@@ -27,6 +28,7 @@ namespace LinCms.Web.Controllers.v1
 
         [HttpGet("info")]
         [LinCmsAuthorize("查看lin的信息", "信息")]
+        [Logger(template: "{user.UserName}又皮了一波")]
         public UnifyResponseDto Info()
         {
             return UnifyResponseDto.Success("Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
@@ -78,7 +80,7 @@ namespace LinCms.Web.Controllers.v1
         [HttpGet("lincms-exception")]
         public UnifyResponseDto TestLinCmsException()
         {
-            throw new LinCmsException("我报异常了-NotFound！", ErrorCode.NotFound,StatusCodes.Status404NotFound);
+            throw new LinCmsException("我报异常了-NotFound！", ErrorCode.NotFound, StatusCodes.Status404NotFound);
 
             //return ResultDto.Success();
         }
@@ -107,7 +109,7 @@ namespace LinCms.Web.Controllers.v1
 
                 repo.Insert(new Book()
                 {
-                    Author = "luoyunchong"+(id==1?"luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong":""),
+                    Author = "luoyunchong" + (id == 1 ? "luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong" : ""),
                     Summary = "1",
                     Title = "122",
                     IsDeleted = false,
@@ -143,7 +145,7 @@ namespace LinCms.Web.Controllers.v1
 
             return now;
         }
-        
+
         [NonAction]
         [CapSubscribe("freesql.time")]
         public void GetTime(DateTime time)

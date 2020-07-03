@@ -1,9 +1,13 @@
 ﻿using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using LinCms.Core.Aop.Log;
 using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Entities;
+using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -18,18 +22,17 @@ namespace LinCms.Core.Aop.Filter
     /// </summary>
     public class LogActionFilterAttribute : ActionFilterAttribute
     {
-        /// <summary>
-        /// 操作类型CRUD
-        /// </summary>
-        //public LogEnum LogType { get; set; }
         private readonly ICurrentUser _currentUser;
-
         private readonly IDiagnosticContext _diagnosticContext;
+        private readonly IAuditBaseRepository<LinLog> _logRepository;
 
-        public LogActionFilterAttribute(ICurrentUser currentUser, IDiagnosticContext diagnosticContext)
+        Regex regex = new Regex("(?<=\\{)[^}]*(?=\\})");
+
+        public LogActionFilterAttribute(ICurrentUser currentUser, IDiagnosticContext diagnosticContext, IAuditBaseRepository<LinLog> logRepository)
         {
             _currentUser = currentUser;
             _diagnosticContext = diagnosticContext;
+            this._logRepository = logRepository;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -46,32 +49,73 @@ namespace LinCms.Core.Aop.Filter
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             //当方法或控制器上存在DisableAuditingAttribute特性标签时，不记录日志 
-            // if (context.ActionDescriptor is ControllerActionDescriptor d && d.MethodInfo.IsDefined(typeof(DisableAuditingAttribute), true) ||
-            //     context.Controller.GetType().IsDefined(typeof(DisableAuditingAttribute), true)
-            //     )
-            // {
-            //     base.OnActionExecuted(context);
-            //     return;
-            // }
+            if (context.ActionDescriptor is ControllerActionDescriptor d && d.MethodInfo.IsDefined(typeof(DisableAuditingAttribute), true) ||
+                context.Controller.GetType().IsDefined(typeof(DisableAuditingAttribute), true)
+                )
+            {
+                base.OnActionExecuted(context);
+                return;
+            }
+            LoggerAttribute loggerAttribute = context.ActionDescriptor.EndpointMetadata.OfType<LoggerAttribute>().FirstOrDefault();
+            var linLog = new LinLog
+            {
+                Path = context.HttpContext.Request.Path,
+                Method = context.HttpContext.Request.Method,
+                StatusCode = context.HttpContext.Response.StatusCode,
+                UserId = _currentUser.Id ?? 0,
+                Username = _currentUser.UserName
+            };
 
-            // OtherMessage = $"参数：{ActionArguments}\n耗时：{Stopwatch.Elapsed.TotalMilliseconds} 毫秒"
+            if (loggerAttribute != null)
+            {
+                linLog.Message = this.parseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
+            }
+            else
+            {
+                linLog.Message = $"访问{linLog.Path}";
+            }
 
-            // ControllerActionDescriptor auditActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            LinCmsAuthorizeAttribute linCmsAttribute = context.ActionDescriptor.EndpointMetadata.OfType<LinCmsAuthorizeAttribute>().FirstOrDefault();
+            if (linCmsAttribute != null)
+            {
+                linLog.Authority = $"{linCmsAttribute.Module}  {linCmsAttribute.Permission}";
+            }
 
-            // AuditingLogAttribute auditingLogAttribute = auditActionDescriptor.GetCustomAttribute<AuditingLogAttribute>();
-            // if (auditingLogAttribute != null)
-            // {
-            //      linLog.Message = auditingLogAttribute.Template;
-            // }
-            //
-            // LinCmsAuthorizeAttribute linCmsAttribute = auditActionDescriptor.GetCustomAttribute<LinCmsAuthorizeAttribute>();
-            // if (linCmsAttribute != null)
-            // {
-            //     linLog.Authority = linCmsAttribute.Permission;
-            // }
-
-
+            _logRepository.Insert(linLog);
             base.OnActionExecuted(context);
+        }
+
+        private string parseTemplate(string template, ICurrentUser userDo, HttpRequest request, HttpResponse response)
+        {
+            foreach (Match item in regex.Matches(template))
+            {
+                string propertyValue = extractProperty(item.Value, userDo, request, response);
+                template = template.Replace("{" + item.Value + "}", propertyValue);
+            }
+            return template;
+        }
+
+        private string extractProperty(string item, ICurrentUser userDo, HttpRequest request, HttpResponse response)
+        {
+            int i = item.LastIndexOf('.');
+            string obj = item.Substring(0, i);
+            string prop = item.Substring(i + 1);
+            switch (obj)
+            {
+                case "user":
+                    return getValueByPropName(userDo, prop);
+                case "request":
+                    return getValueByPropName(request, prop);
+                case "response":
+                    return getValueByPropName(response, prop);
+                default:
+                    return "";
+            }
+        }
+
+        private string getValueByPropName<T>(T t, string prop)
+        {
+            return t.GetType().GetProperty(prop)?.GetValue(t, null)?.ToString();
         }
     }
 }
