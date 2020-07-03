@@ -135,7 +135,7 @@ namespace LinCms.Web.Startup
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            services.AddTransient<CustomExceptionMiddleWare>();
+            //services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
 
             string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;
