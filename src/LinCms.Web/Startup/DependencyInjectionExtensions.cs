@@ -6,6 +6,7 @@ using CSRedis;
 using DotNetCore.Security;
 using FreeSql;
 using FreeSql.Internal;
+using IGeekFan.Localization.FreeSql.Models;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Aop.Middleware;
@@ -89,6 +90,7 @@ namespace LinCms.Web.Startup
             services.AddSingleton(fsql);
             services.AddScoped<UnitOfWorkManager>();
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
+            
             //在运行时直接生成表结构
             try
             {
@@ -96,7 +98,7 @@ namespace LinCms.Web.Startup
             }
             catch (Exception e)
             {
-                Log.Logger.Error(e+e.StackTrace+e.Message+e.InnerException);
+                Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
             }
             services.AddFreeRepository();
         }
