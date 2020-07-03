@@ -50,7 +50,7 @@ namespace IGeekFan.Localization.FreeSql
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeAncestorCultures)
         {
-            return _db.Select<Resource>()
+            return _db.Select<LocalResource>()
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name)
                 .ToList(r => new LocalizedString(r.Key, r.Value, true));
         }
@@ -61,7 +61,7 @@ namespace IGeekFan.Localization.FreeSql
             {
                 throw new ArgumentNullException(nameof(name));
             }
-            return _db.Select<Resource>()
+            return _db.Select<LocalResource>()
                 .Where(r => r.Culture.Name == CultureInfo.CurrentCulture.Name && r.Key == name)
                 .First()?.Value;
         }
