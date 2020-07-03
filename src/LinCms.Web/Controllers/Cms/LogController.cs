@@ -11,6 +11,7 @@ using LinCms.Core.Aop.Filter;
 using LinCms.Core.Aop.Log;
 using LinCms.Web.Data.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LinCms.Web.Controllers.Cms
 {
@@ -20,10 +21,12 @@ namespace LinCms.Web.Controllers.Cms
     public class LogController : ControllerBase
     {
         private readonly ILogService _logService;
+        private readonly ISerilogService _serilogService;
 
-        public LogController(ILogService logService)
+        public LogController(ILogService logService, ISerilogService serilogService)
         {
             _logService = logService;
+            _serilogService = serilogService;
         }
 
         /// <summary>
@@ -60,11 +63,22 @@ namespace LinCms.Web.Controllers.Cms
             return _logService.GetUserLogs(searchDto);
         }
 
+        /// <summary>
+        /// Serilog日志
+        /// </summary>
+        /// <param name="searchDto"></param>
+        /// <returns></returns>
+        [HttpGet("serilog")]
+        [LinCmsAuthorize("Serilog日志", "日志")]
+        public async Task<PagedResultDto<SerilogDO>> GetSerilogListAsync([FromQuery] SerilogSearchDto searchDto)
+        {
+            return await _serilogService.GetListAsync(searchDto);
+        }
+
         [HttpGet("visitis")]
         public VisitLogUserDto GetUserAndVisits()
         {
             return _logService.GetUserAndVisits();
-
         }
     }
 }

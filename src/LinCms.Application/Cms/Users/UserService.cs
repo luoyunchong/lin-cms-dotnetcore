@@ -65,10 +65,15 @@ namespace LinCms.Application.Cms.Users
             await _userIdentityService.ChangePasswordAsync(userIdentity, passwordDto.NewPassword);
         }
 
+        public async Task<LinUser> GetUserAsync(string username)
+        {
+            return await _userRepository.Where(r => r.Username == username).FirstAsync();
+        }
+
         [Transactional]
         public async Task DeleteAsync(long userId)
         {
-            await _userRepository.DeleteAsync(new LinUser() {Id = userId});
+            await _userRepository.DeleteAsync(new LinUser() { Id = userId });
             await _userIdentityService.DeleteAsync(userId);
             await _groupService.DeleteUserGroupAsync(userId);
         }
@@ -102,13 +107,13 @@ namespace LinCms.Application.Cms.Users
 
             return new PagedResultDto<UserDto>(linUsers, totalCount);
         }
-        
+
         [Transactional]
         public async Task CreateAsync(LinUser user, List<long> groupIds, string password)
         {
             if (!string.IsNullOrEmpty(user.Username))
             {
-                bool isRepeatName =await _userRepository.Select.AnyAsync(r => r.Username == user.Username);
+                bool isRepeatName = await _userRepository.Select.AnyAsync(r => r.Username == user.Username);
 
                 if (isRepeatName)
                 {
@@ -198,7 +203,7 @@ namespace LinCms.Application.Cms.Users
             }
 
             await _userRepository.UpdateDiy.Where(r => r.Id == id)
-                .Set(r => new {Active = userActive.GetHashCode()})
+                .Set(r => new { Active = userActive.GetHashCode() })
                 .ExecuteUpdatedAsync();
         }
 
@@ -206,7 +211,7 @@ namespace LinCms.Application.Cms.Users
         {
             if (_currentUser.Id != null)
             {
-                long userId = (long) _currentUser.Id;
+                long userId = (long)_currentUser.Id;
                 return await _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
             }
 
@@ -248,5 +253,6 @@ namespace LinCms.Application.Cms.Users
 
             return await _permissionService.GetPermissionByGroupIds(groupIds);
         }
+
     }
 }

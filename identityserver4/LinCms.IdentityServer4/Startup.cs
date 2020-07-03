@@ -113,14 +113,14 @@ namespace LinCms.IdentityServer4
             services.AddTransient<ICurrentUser, CurrentUser>();
             services.AddTransient(typeof(IAuditBaseRepository<>), typeof(AuditBaseRepository<>));
             services.AddTransient(typeof(IAuditBaseRepository<,>), typeof(AuditBaseRepository<,>));
-            services.AddTransient<CustomExceptionMiddleWare>();
+            //services.AddTransient<CustomExceptionMiddleWare>();
 
             services.AddCors();
             services.AddAutoMapper(typeof(UserProfile).Assembly);
 
             services.AddControllers(options =>
                 {
-                    //options.Filters.Add<LinCmsExceptionFilter>();
+                    options.Filters.Add<LinCmsExceptionFilter>();
                 })
                 .AddNewtonsoftJson(opt =>
                 {
@@ -168,7 +168,7 @@ namespace LinCms.IdentityServer4
             {
                 app.UseHsts();
             }
-            app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+            //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
             //app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FreeSql;
 using LinCms.Application.Contracts.Cms.Logs;
 using LinCms.Application.Contracts.Cms.Logs.Dtos;
@@ -23,13 +24,13 @@ namespace LinCms.Application.Cms.Logs
             _linUserAuditBaseRepository = linUserAuditBaseRepository;
         }
 
-        public void CreateLog(LinLog linlog)
+        public async Task CreateAsync(LinLog linlog)
         {
             linlog.CreateTime = DateTime.Now;
             linlog.Username = _currentUser.UserName;
             linlog.UserId = _currentUser.Id ?? 0;
 
-            _linLogRepository.Insert(linlog);
+            await _linLogRepository.InsertAsync(linlog);
         }
 
         public PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto)
@@ -51,7 +52,7 @@ namespace LinCms.Application.Cms.Logs
             List<string> linLogs = _linLogRepository.Select
                 .Where(r => !string.IsNullOrEmpty(r.Username))
                 .Distinct()
-                .ToList(r=>r.Username);
+                .ToList(r => r.Username);
 
             return linLogs;
         }
