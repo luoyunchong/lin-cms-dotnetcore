@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using AspNetCoreRateLimit;
@@ -10,9 +11,13 @@ using IGeekFan.Localization.FreeSql.Models;
 using LinCms.Application.Cms.Files;
 using LinCms.Application.Contracts.Cms.Files;
 using LinCms.Core.Aop.Middleware;
+using LinCms.Core.Common;
+using LinCms.Core.Data.Enums;
 using LinCms.Core.Data.Options;
 using LinCms.Core.Entities;
+using LinCms.Core.Entities.Base;
 using LinCms.Core.Security;
+using LinCms.Infrastructure.FreeSql;
 using LinCms.Web.Data.Authorization;
 using LinCms.Web.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +34,7 @@ namespace LinCms.Web.Startup
 {
     public static class DependencyInjectionExtensions
     {
+
         #region FreeSql
         /// <summary>
         /// FreeSql
@@ -36,11 +42,8 @@ namespace LinCms.Web.Startup
         /// <param name="services"></param>
         public static void AddContext(this IServiceCollection services, IConfiguration configuration)
         {
-            IConfigurationSection configurationSection = configuration.GetSection("ConnectionStrings:MySql");
-
-
             IFreeSql fsql = new FreeSqlBuilder()
-                   .UseConnectionString(DataType.MySql, configurationSection.Value)
+                   .UseConnectionString(configuration)
                    .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                    .UseAutoSyncStructure(true)
                    .UseNoneCommandParameter(true)
@@ -52,7 +55,7 @@ namespace LinCms.Web.Startup
                    .Build()
                    .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true);//联级保存功能开启（默认为关闭）
 
-
+            
 
             fsql.Aop.CurdAfter += (s, e) =>
             {
@@ -61,9 +64,9 @@ namespace LinCms.Web.Startup
 
                 if (e.ElapsedMilliseconds > 200)
                 {
-                    //记录日志
-                    //发送短信给负责人
-                }
+                            //记录日志
+                            //发送短信给负责人
+                        }
             };
 
             //敏感词处理
@@ -77,9 +80,9 @@ namespace LinCms.Web.Startup
                     {
                         string oldVal = (string)e.Value;
                         string newVal = illegalWords.Replace(oldVal);
-                        //第二种处理敏感词的方式
-                        //string newVal = oldVal.ReplaceStopWords();
-                        if (newVal != oldVal)
+                                //第二种处理敏感词的方式
+                                //string newVal = oldVal.ReplaceStopWords();
+                                if (newVal != oldVal)
                         {
                             e.Value = newVal;
                         }
@@ -90,11 +93,13 @@ namespace LinCms.Web.Startup
             services.AddSingleton(fsql);
             services.AddScoped<UnitOfWorkManager>();
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
-            
+
             //在运行时直接生成表结构
             try
             {
-                fsql.CodeFirst.SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
+                fsql.CodeFirst
+                    .SeedData()
+                    .SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
             }
             catch (Exception e)
             {
@@ -142,7 +147,6 @@ namespace LinCms.Web.Startup
 
             string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;
 
-
             if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FileStorage:ServiceName未配置");
 
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
@@ -183,7 +187,6 @@ namespace LinCms.Web.Startup
             //注入计数器和规则存储
             services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
             services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
-
             //配置（计数器密钥生成器）
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 

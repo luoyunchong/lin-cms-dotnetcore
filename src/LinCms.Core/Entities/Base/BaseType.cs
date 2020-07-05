@@ -1,17 +1,33 @@
 ﻿
 using FreeSql.DataAnnotations;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace LinCms.Core.Entities.Base
 {
     [Table(Name = "base_type")]
-    public class BaseType:FullAduitEntity
+    public class BaseType : FullAduitEntity
     {
-         [Column(StringLength = 50)]
+        public BaseType()
+        {
+        }
+
+        public BaseType(string typeCode, string fullName, int? sortCode)
+        {
+            TypeCode = typeCode ?? throw new ArgumentNullException(nameof(typeCode));
+            FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
+            SortCode = sortCode;
+        }
+
+        [Column(StringLength = 50)]
         public string TypeCode { get; set; }
 
-         [Column(StringLength = 50)]
+        [Column(StringLength = 50)]
         public string FullName { get; set; }
 
         public int? SortCode { get; set; }
+
+        public virtual ICollection<BaseItem> BaseItems { get; set; }
     }
 }

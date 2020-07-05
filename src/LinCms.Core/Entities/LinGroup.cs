@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities
@@ -6,6 +7,17 @@ namespace LinCms.Core.Entities
     [Table(Name = "lin_group")]
     public class LinGroup : Entity<long>
     {
+        public LinGroup()
+        {
+        }
+
+        public LinGroup(string name, string info, bool isStatic)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Info = info ?? throw new ArgumentNullException(nameof(info));
+            IsStatic = isStatic;
+        }
+
         /// <summary>
         /// 权限组名称
         /// </summary>

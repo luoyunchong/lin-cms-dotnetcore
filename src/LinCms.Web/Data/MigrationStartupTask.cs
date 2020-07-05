@@ -2,25 +2,36 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using Castle.Core.Logging;
 using LinCms.Core.Dependency;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Data
 {
     public class MigrationStartupTask
     {
         private readonly IServiceProvider _serviceProvider;
-
-        public MigrationStartupTask(IServiceProvider serviceProvider)
+        private readonly ILogger<MigrationStartupTask> _logger;
+        public MigrationStartupTask(IServiceProvider serviceProvider, ILogger<MigrationStartupTask> logger)
         {
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _serviceProvider.CreateScope();
-            IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
-            await dataSeedContributor.SeedAsync();
+            try
+            {
+                using var scope = _serviceProvider.CreateScope();
+                IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
+                await dataSeedContributor.SeedPermissionAsync();
+                await dataSeedContributor.InitAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("初始化数据失败！！！",ex);
+            };
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using AspNetCoreRateLimit;
@@ -21,16 +22,17 @@ namespace LinCms.Web.Startup
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
-     
+
         public static async Task<int> Main(string[] args)
         {
+            Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                 .Enrich.FromLogContext()
                 .CreateLogger();
             // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
             try
             {
-                Log.Debug("init main");
+                Log.Information("init main");
                 IHost webHost = CreateWebHostBuilder(args).Build();
                 try
                 {

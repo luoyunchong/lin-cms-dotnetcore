@@ -32,8 +32,7 @@ namespace LinCms.Test.Repositories.Blog
                     CreateUserId = r.CreateUserId,
                     BeSubscribeUserId = r.SubscribeUserId,
                     Subscribeer = r.SubscribeUser,
-                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>
-                        u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
                 });
 
             var userSubscribe2 = _userSubscribeRepository.Select

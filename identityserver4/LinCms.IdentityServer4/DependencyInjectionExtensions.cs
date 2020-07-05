@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using FreeSql;
 using FreeSql.Internal;
 using LinCms.Core.Entities;
+using LinCms.Infrastructure.FreeSql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,10 +19,9 @@ namespace LinCms.IdentityServer4
         public static void AddContext(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-            IConfigurationSection configurationSection = configuration.GetSection("ConnectionStrings:MySql");
 
             IFreeSql fsql = new FreeSqlBuilder()
-                   .UseConnectionString(DataType.MySql, configurationSection.Value)
+                   .UseConnectionString(configuration)
                    .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                    .UseAutoSyncStructure(true)
                    .UseMonitorCommand(cmd =>

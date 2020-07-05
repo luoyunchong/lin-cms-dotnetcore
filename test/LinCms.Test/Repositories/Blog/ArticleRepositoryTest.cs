@@ -16,22 +16,14 @@ namespace LinCms.Test.Repositories.Blog
     public class ArticleRepositoryTest : BaseLinCmsTest
     {
         private readonly IAuditBaseRepository<Article> _articleRepository;
-        private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
-        private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly IMapper _mapper;
-        private readonly IFreeSql _freeSql;
         ITestOutputHelper _testOutputHelper;
         public ArticleRepositoryTest(ITestOutputHelper _testOutputHelper) : base()
         {
             _articleRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<Article>>();
-            _tagRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<Tag>>();
-            _tagArticleRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<TagArticle>>();
             _mapper = ServiceProvider.GetRequiredService<IMapper>();
-            _freeSql = ServiceProvider.GetRequiredService<IFreeSql>();
             this._testOutputHelper = _testOutputHelper;
         }
-
-
 
         /// <summary>
         /// 使用BaseItem某一类别作为文件分类专栏时，使用From来join出分类专栏的名称。
@@ -54,14 +46,6 @@ namespace LinCms.Test.Repositories.Blog
                     ArticleDto articleDto = _mapper.Map<ArticleDto>(r.Article);
                     return articleDto;
                 }).ToList();
-
-            //使用SQL直接获取文章及其分类名称
-            List<ArticleDto> t9 = _freeSql.Ado.Query<ArticleDto>($@"
-                            SELECT a.*,b.item_name as classifyName 
-                            FROM blog_article a 
-                            LEFT JOIN base_item b 
-                            on a.classify_id=b.id where a.is_deleted=0"
-            );
 
             //属性Classify为null
             List<Article> articles1 = _articleRepository
