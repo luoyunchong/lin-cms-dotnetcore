@@ -130,8 +130,7 @@ namespace LinCms.Application.Cms.Users
                 }
             }
 
-            user.Active = UserActive.Active.GetHashCode();
-
+            user.Active = UserActive.Active;
             user.LinUserGroups = new List<LinUserGroup>();
             groupIds?.ForEach(groupId =>
             {
@@ -140,16 +139,9 @@ namespace LinCms.Application.Cms.Users
                     GroupId = groupId
                 });
             });
-
             user.LinUserIdentitys = new List<LinUserIdentity>()
             {
-                new LinUserIdentity()
-                {
-                    IdentityType = LinUserIdentity.Password,
-                    Credential = EncryptUtil.Encrypt(password),
-                    Identifier = user.Username,
-                    CreateTime = DateTime.Now,
-                }
+                new LinUserIdentity(LinUserIdentity.Password,user.Username,EncryptUtil.Encrypt(password))
             };
             await _userRepository.InsertAsync(user);
         }

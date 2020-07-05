@@ -22,13 +22,13 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 用户名
         /// </summary>
-         [Column(StringLength =24)]
+        [Column(StringLength = 24)]
         public string Username { get; set; }
 
         /// <summary>
         /// 昵称
         /// </summary>
-         [Column(StringLength =24)]
+        [Column(StringLength = 24)]
         public string Nickname { get; set; }
 
         /// <summary>
@@ -39,24 +39,24 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 电子邮箱
         /// </summary>
-         [Column(StringLength =100)]
+        [Column(StringLength = 100)]
         public string Email { get; set; }
 
         /// <summary>
         /// 当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
         /// </summary>
-        public int Active { get; set; }
+        public UserActive Active { get; set; }
 
         /// <summary>
         /// 手机号
         /// </summary>
-         [Column(StringLength =100)]
+        [Column(StringLength = 100)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// 个人介绍
         /// </summary>
-         [Column(StringLength =100)]
+        [Column(StringLength = 100)]
         public string Introduction { get; set; }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace LinCms.Core.Entities
 
         public bool IsActive()
         {
-            return Active == (int)UserActive.Active;
+            return Active == UserActive.Active;
         }
 
     }

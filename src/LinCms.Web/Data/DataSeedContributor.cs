@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using LinCms.Core.Common;
 using LinCms.Core.Data;
 using LinCms.Core.Dependency;
 using LinCms.Core.Entities;
@@ -18,7 +19,9 @@ namespace LinCms.Web.Data
 {
     public interface IDataSeedContributor
     {
-        Task SeedAsync();
+        Task SeedPermissionAsync();
+
+        Task InitAdminPermission();
 
     }
     public class DataSeedContributor : IDataSeedContributor, ISingletonDependency
@@ -33,11 +36,24 @@ namespace LinCms.Web.Data
             _logger = logger;
         }
 
+        public async Task InitAdminPermission()
+        {
+            bool valid = await _groupPermissionRepository.Select.AnyAsync();
+            if (valid) return;
+
+            List<LinPermission> allPermissions = await _permissionRepository.Select.ToListAsync();
+
+            List<LinGroupPermission> groupPermissions = allPermissions.Select(u => new LinGroupPermission(LinConsts.Group.Admin, u.Id)).ToList();
+
+            await _groupPermissionRepository.InsertAsync(groupPermissions);
+
+        }
+
         /// <summary>
         /// 权限标签上的Permission改变时，删除数据库中存在的无效权限，并生成新的权限。
         /// </summary>
         /// <returns></returns>
-        public async Task SeedAsync()
+        public async Task SeedPermissionAsync()
         {
             List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
 

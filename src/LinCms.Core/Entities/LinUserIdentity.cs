@@ -15,10 +15,21 @@ namespace LinCms.Core.Entities
         public const string QQ = "QQ";
         public const string WeiXin = "WeiXin";
 
+        public LinUserIdentity()
+        {
+        }
+
+        public LinUserIdentity(string identityType, string identifier, string credential)
+        {
+            IdentityType = identityType ?? throw new ArgumentNullException(nameof(identityType));
+            Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
+            Credential = credential ?? throw new ArgumentNullException(nameof(credential));
+        }
+
         /// <summary>
         ///认证类型， Password，GitHub、QQ、WeiXin等
         /// </summary>
-         [Column(StringLength =20)]
+        [Column(StringLength =20)]
         public string IdentityType { get; set; }
       
         /// <summary>

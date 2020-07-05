@@ -38,13 +38,13 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 摘要
         /// </summary>
-        [Column(DbType = "varchar(400)")]
+        [Column(StringLength = 400)]
         public string Excerpt { get; set; }
 
         /// <summary>
         /// 正文
         /// </summary>
-        [Column(DbType = "longtext")]
+        [Column(StringLength =-2)]
         public string Content { get; set; }
 
         public int ViewHits { get; set; }

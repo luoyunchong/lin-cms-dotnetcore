@@ -36,6 +36,7 @@ namespace LinCms.Web.Middleware
 
         private bool TryBegin(IInvocation invocation)
         {
+            //  return false;
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             var attribute = method.GetCustomAttributes(typeof(TransactionalAttribute), false).FirstOrDefault();
             if (attribute is TransactionalAttribute transaction)
@@ -47,7 +48,7 @@ namespace LinCms.Web.Middleware
 
             return false;
         }
-        
+
         /// <summary>
         /// 拦截同步执行的方法
         /// </summary>
@@ -56,17 +57,10 @@ namespace LinCms.Web.Middleware
         {
             if (TryBegin(invocation))
             {
-                try
-                {
-                    invocation.Proceed();
-                    _logger.LogInformation($"事务{0}提交前！！！", invocation.GetHashCode());
-                    _unitOfWork.Commit();
-                    _logger.LogInformation($"事务{0}提交成功！！！", invocation.GetHashCode());
-                }
-                finally
-                {
-                    _unitOfWork.Dispose();
-                }
+                invocation.Proceed();
+                _logger.LogInformation($"事务{0}提交前！！！", invocation.GetHashCode());
+                _unitOfWork.Commit();
+                _logger.LogInformation($"事务{0}提交成功！！！", invocation.GetHashCode());
             }
             else
             {
@@ -115,26 +109,15 @@ namespace LinCms.Web.Middleware
 
         void OnAfter(Exception ex)
         {
-            try
+            if (ex == null)
             {
-                if (ex == null)
-                {
-                    _unitOfWork.Commit();
-                }
-                else
-                {
-                    _unitOfWork.Rollback();
-                    _logger.LogError("OnAfter-Rollback", ex);
-                }
+                _unitOfWork.Commit();
+                _logger.LogInformation("OnAfter-Commit", ex);
             }
-            catch (Exception e)
+            else
             {
-                _logger.LogError("Commit-OnAfter", e);
-                throw e;
-            }
-            finally
-            {
-                _unitOfWork.Dispose();
+                _unitOfWork.Rollback();
+                _logger.LogInformation("OnAfter-Rollback", ex);
             }
         }
     }

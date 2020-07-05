@@ -65,12 +65,13 @@
 		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.2.0-alpha0001" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00880" />
 		<PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.0" />
+		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
 		<PackageReference Include="ToolGood.Words" Version="3.0.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\framework\src\IGeekfan.CAP.MySql\IGeekfan.CAP.MySql.csproj" />
+		<ProjectReference Include="..\..\framework\src\IGeekfan.CAP.MySql\IGeekFan.CAP.MySql.csproj" />
 		<ProjectReference Include="..\LinCms.Application\LinCms.Application.csproj" />
 		<ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
 		<ProjectReference Include="..\LinCms.Plugins\LinCms.Plugins.csproj" />
@@ -117,7 +118,7 @@
 	</ItemGroup>
 
 	<ProjectExtensions>
-		<VisualStudio><UserProperties appsettings_1json__JsonSchema="" appsettings_1Production_1json__JsonSchema="http://json.schemastore.org/appsettings" /></VisualStudio>
+		<VisualStudio><UserProperties appsettings_1Production_1json__JsonSchema="http://json.schemastore.org/appsettings" /></VisualStudio>
 	</ProjectExtensions>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">

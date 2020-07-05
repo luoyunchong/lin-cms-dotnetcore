@@ -50,7 +50,7 @@ namespace LinCms.Application.Cms.Users
             {
                 LinUser user = new LinUser
                 {
-                    Active = (int) UserActive.Active,
+                    Active = UserActive.Active,
                     Avatar = avatarUrl,
                     CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,
@@ -68,13 +68,7 @@ namespace LinCms.Application.Cms.Users
                     BlogAddress = blogAddress,
                     LinUserIdentitys = new List<LinUserIdentity>()
                     {
-                        new LinUserIdentity
-                        {
-                            CreateTime = DateTime.Now,
-                            Credential = openId,
-                            IdentityType = LinUserIdentity.GitHub,
-                            Identifier = name,
-                        }
+                        new LinUserIdentity(LinUserIdentity.GitHub,name,openId)
                     }
                 };
                 await _userRepository.InsertAsync(user);
@@ -116,9 +110,8 @@ namespace LinCms.Application.Cms.Users
             {
                 LinUser user = new LinUser
                 {
-                    Active = (int) UserActive.Active,
+                    Active = UserActive.Active,
                     Avatar = avatarFullUrl,
-                    CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,
                     Email = "",
                     Introduction = "",
@@ -134,13 +127,7 @@ namespace LinCms.Application.Cms.Users
                     BlogAddress = "",
                     LinUserIdentitys = new List<LinUserIdentity>()
                     {
-                        new LinUserIdentity
-                        {
-                            CreateTime = DateTime.Now,
-                            Credential = openId,
-                            IdentityType = LinUserIdentity.QQ,
-                            Identifier = nickname,
-                        }
+                        new LinUserIdentity(LinUserIdentity.QQ,nickname,openId)
                     }
                 };
                 await _userRepository.InsertAsync(user);
@@ -164,21 +151,16 @@ namespace LinCms.Application.Cms.Users
 
         public async Task ChangePasswordAsync(long userId, string newpassword)
         {
-            var linUserIdentity = await _userIdentityRepository.Where(a => a.CreateUserId == userId&& a.IdentityType==LinUserIdentity.Password).FirstAsync();
+            var linUserIdentity = await _userIdentityRepository.Where(a => a.CreateUserId == userId && a.IdentityType == LinUserIdentity.Password).FirstAsync();
             await this.ChangePasswordAsync(linUserIdentity, newpassword);
         }
-        
-        public async Task ChangePasswordAsync(LinUserIdentity linUserIdentity,string newpassword)
+
+        public async Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword)
         {
             string encryptPassword = EncryptUtil.Encrypt(newpassword);
             if (linUserIdentity == null)
             {
-                linUserIdentity=new LinUserIdentity()
-                {
-                    IdentityType = LinUserIdentity.Password,
-                    Identifier = "",
-                    Credential = encryptPassword
-                };
+                linUserIdentity = new LinUserIdentity(LinUserIdentity.Password, "", encryptPassword);
                 await _userIdentityRepository.InsertAsync(linUserIdentity);
             }
             else
@@ -186,7 +168,7 @@ namespace LinCms.Application.Cms.Users
                 linUserIdentity.Credential = encryptPassword;
                 await _userIdentityRepository.UpdateAsync(linUserIdentity);
             }
-      
+
         }
 
         public async Task DeleteAsync(long userId)
