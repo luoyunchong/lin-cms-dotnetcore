@@ -445,7 +445,7 @@
             启动时间
             </summary>
         </member>
-        <member name="M:LinCms.Web.Data.DataSeedContributor.SeedAsync">
+        <member name="M:LinCms.Web.Data.DataSeedContributor.SeedPermissionAsync">
             <summary>
             权限标签上的Permission改变时，删除数据库中存在的无效权限，并生成新的权限。
             </summary>

@@ -36,10 +36,10 @@ namespace Sample.RabbitMQ.MySql
                 x.UseRabbitMQ("localhost");
                 x.UseDashboard();
                 x.FailedRetryCount = 5;
-                x.FailedThresholdCallback = (type, msg) =>
+                x.FailedThresholdCallback = (type) =>
                 {
                     Console.WriteLine(
-                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {msg.GetName()}");
+                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
                 };
             });
 

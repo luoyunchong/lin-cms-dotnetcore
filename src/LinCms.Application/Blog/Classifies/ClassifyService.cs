@@ -53,7 +53,7 @@ namespace LinCms.Application.Blog.Classifies
                 userId = _currentUser.Id;
             }
 
-            List<ClassifyDto> classify = Repository.Select.OrderBy(r => r.SortCode)
+            List<ClassifyDto> classify = Repository.Select
                 .Where(r => r.CreateUserId == userId)
                 .OrderByDescending(r => r.SortCode)
                 .ToList()

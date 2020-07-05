@@ -1,19 +1,24 @@
-﻿using LinCms.Web;
+﻿using AutoMapper;
+using LinCms.Application.Cms.Users;
+using LinCms.Plugins.Poem.Services;
+using LinCms.Web;
 using LinCms.Web.Startup;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Test
 {
-    public class TestStartup : Startup
+    public class TestStartup 
     {
-        public TestStartup(IConfiguration configuration) : base(configuration)
+        public IConfiguration Configuration { get; }
+
+        public TestStartup(IConfiguration configuration)
         {
         }
 
         public void ConfigureTestServices(IServiceCollection services)
         {
-            // TODO:为测试环境配置服务
+
         }
     }
 }

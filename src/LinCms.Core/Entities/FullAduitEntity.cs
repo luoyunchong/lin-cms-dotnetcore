@@ -6,13 +6,13 @@ namespace LinCms.Core.Entities
     public interface IEntityDto
     {
     }
-    
+
     public interface IEntityDto<TKey> : IEntityDto
     {
         TKey Id { get; set; }
     }
 
-    public abstract class EntityDto<TKey>:IEntityDto<TKey>
+    public abstract class EntityDto<TKey> : IEntityDto<TKey>
     {
         /// <summary>
         /// 主键Id
@@ -34,37 +34,45 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 创建者ID
         /// </summary>
+
+        [Column(Position = -7)]
         public long CreateUserId { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
+        [Column(Position = -6)]
         public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
+        [Column(Position = -5)]
         public bool IsDeleted { get; set; }
 
         /// <summary>
         /// 删除人id
         /// </summary>
+        [Column(Position = -4)]
         public long? DeleteUserId { get; set; }
 
         /// <summary>
         /// 删除时间
         /// </summary>
+        [Column(Position = -3)]
         public DateTime? DeleteTime { get; set; }
 
         /// <summary>
         /// 最后修改人Id
         /// </summary>
+        [Column(Position = -2)]
         public long? UpdateUserId { get; set; }
 
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime UpdateTime { get; set; }
+        [Column(Position = -1)]
+        public DateTime? UpdateTime { get; set; }
     }
 
 
@@ -73,13 +81,11 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 创建者ID
         /// </summary>
-        [Column(Position = -7)]
         long CreateUserId { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
-        [Column(Position = -6)]
         DateTime CreateTime { get; set; }
     }
 
@@ -88,13 +94,11 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 最后修改人Id
         /// </summary>
-        [Column(Position = -5)]
         long? UpdateUserId { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>
-        [Column(Position = -4)]
-        DateTime UpdateTime { get; set; }
+        DateTime? UpdateTime { get; set; }
     }
 
     public interface IDeleteAduitEntity
@@ -102,23 +106,20 @@ namespace LinCms.Core.Entities
         /// <summary>
         /// 是否删除
         /// </summary>
-        [Column(Position = -3)]
         bool IsDeleted { get; set; }
 
         /// <summary>
         /// 删除人id
         /// </summary>
-        [Column(Position = -2)]
         long? DeleteUserId { get; set; }
 
         /// <summary>
         /// 删除时间
         /// </summary>
-        [Column(Position = -1)]
         DateTime? DeleteTime { get; set; }
     }
 
-    [Index("uk_id_index", "id asc", true)]
+    //[Index("uk_id_index", "id asc", true)]
     public abstract class Entity<T> : IEntity<T>
     {
         /// <summary>

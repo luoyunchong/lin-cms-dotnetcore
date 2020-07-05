@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using LinCms.Core.Entities;
+﻿using LinCms.Core.Entities;
 
 namespace LinCms.Core.IRepositories
 {

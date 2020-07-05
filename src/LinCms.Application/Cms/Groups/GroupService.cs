@@ -160,7 +160,7 @@ namespace LinCms.Application.Cms.Groups
             _freeSql.Transaction(() =>
             {
                 _freeSql.Delete<LinGroupPermission>(new LinGroupPermission { GroupId = id }).ExecuteAffrows();
-                _freeSql.Delete<LinGroup>(new LinGroup { Id = id }).ExecuteAffrows();
+                _freeSql.Delete<LinGroup>(id).ExecuteAffrows();
             });
 
         }

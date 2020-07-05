@@ -15,10 +15,12 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 正文
         /// </summary>
-        [Column(DbType = "longtext")]
+        [Column(StringLength = -2)]
         public string Content { get; set; }
-         [Column(StringLength =200)]
+
+        [Column(StringLength = 200)]
         public string Title { get; set; }
+
         /// <summary>
         ///1:MarkDown编辑器  2:富文本编辑器,
         /// </summary>

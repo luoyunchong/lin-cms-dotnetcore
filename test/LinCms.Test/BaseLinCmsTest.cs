@@ -1,13 +1,17 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper.Configuration;
 using LinCms.Web;
 using LinCms.Web.Startup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace LinCms.Test
 {
@@ -16,23 +20,32 @@ namespace LinCms.Test
         protected TestServer Server { get; }
         protected HttpClient Client { get; }
         protected IServiceProvider ServiceProvider { get; }
+        public static Microsoft.Extensions.Configuration.IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+            .AddEnvironmentVariables()
+            .Build();
 
         protected BaseLinCmsTest()
         {
-
             var builder = CreateHostBuilder();
             var host = builder.Build();
             host.Start();
 
             Server = host.GetTestServer();
             Client = host.GetTestClient();
-
             ServiceProvider = Server.Services;
 
         }
 
         private IHostBuilder CreateHostBuilder()
         {
+
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
             return Host.CreateDefaultBuilder()
                   .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                   .ConfigureWebHostDefaults(webBuilder =>
@@ -45,7 +58,7 @@ namespace LinCms.Test
                       logging.ClearProviders();
                       logging.SetMinimumLevel(LogLevel.Trace);
                   })
-                  .ConfigureServices(ConfigureServices);
+                  .ConfigureServices(ConfigureServices).UseSerilog();
         }
 
         protected virtual void ConfigureServices(HostBuilderContext context, IServiceCollection services)
