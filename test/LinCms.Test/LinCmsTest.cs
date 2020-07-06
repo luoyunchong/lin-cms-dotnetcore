@@ -6,13 +6,14 @@ namespace LinCms.Test
 {
     public class LinCmsTest : BaseLinCmsTest
     {
-        ITestOutputHelper testOutputHelper;
+        private readonly ITestOutputHelper testOutputHelper;
         private readonly IFreeSql freeSql;
         public LinCmsTest(ITestOutputHelper testOut)
         {
             testOutputHelper = testOut;
             freeSql = GetService<IFreeSql>();
         }
+
         [Fact]
         public void OutputTest()
         {
@@ -25,18 +26,16 @@ namespace LinCms.Test
         [Fact]
         public void CreateUnitOfWorkTest()
         {
-            using (IUnitOfWork uow = freeSql.CreateUnitOfWork())
+            using IUnitOfWork uow = freeSql.CreateUnitOfWork();
+            uow.GetOrBeginTransaction();
+
+            using (IUnitOfWork uow2 = freeSql.CreateUnitOfWork())
             {
-                uow.GetOrBeginTransaction();
+                uow2.GetOrBeginTransaction();
 
-                using (IUnitOfWork uow2 = freeSql.CreateUnitOfWork())
-                {
-                    uow2.GetOrBeginTransaction();
-
-                    uow2.Commit();
-                }
-                uow.Commit();
+                uow2.Commit();
             }
+            uow.Commit();
         }
     }
 }

@@ -19,8 +19,7 @@ namespace LinCms.Test.Service.Blog
         {
             _articleService = GetService<IArticleService>();
             _unitOfWorkManager = GetService<UnitOfWorkManager>();
-            ;
-        }
+         }
 
         [Fact]
         public async Task DeleteAsync()
