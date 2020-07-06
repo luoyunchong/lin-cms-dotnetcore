@@ -17,7 +17,7 @@ namespace LinCms.Test.Repositories.Blog
     {
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
-        ITestOutputHelper _testOutputHelper;
+        private readonly ITestOutputHelper _testOutputHelper;
         public ArticleRepositoryTest(ITestOutputHelper _testOutputHelper) : base()
         {
             _articleRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<Article>>();
