@@ -34,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\framework\src\IGeekfan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
+	  <ProjectReference Include="..\..\framework\src\IGeekfan.Localization.FreeSql\IGeekfan.Localization.FreeSql.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -132,7 +132,7 @@ namespace LinCms.Test.Repositories
         [Fact]
         public void IsAssignableFromTest()
         {
-            Type f = typeof(Book);
+            Type f1 = typeof(Book);
             Type f2 = typeof(IDeleteAduitEntity);
             bool f3 = typeof(Book).IsSubclassOf(typeof(IDeleteAduitEntity));
             bool f4 = typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(Book));

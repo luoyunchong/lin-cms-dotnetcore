@@ -41,9 +41,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Application.Contracts", "src\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj", "{70E47B1C-17F2-4F9A-9EF6-4F94548E506D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.CAP.MySql", "framework\src\IGeekfan.CAP.MySql\IGeekFan.CAP.MySql.csproj", "{B1694C15-269C-4E85-B83A-3D917EBBBBF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekfan.CAP.MySql", "framework\src\IGeekfan.CAP.MySql\IGeekfan.CAP.MySql.csproj", "{B1694C15-269C-4E85-B83A-3D917EBBBBF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Localization.FreeSql", "framework\src\IGeekfan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj", "{D0DC9051-E9F2-4E46-9B37-7F26203608A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekfan.Localization.FreeSql", "framework\src\IGeekfan.Localization.FreeSql\IGeekfan.Localization.FreeSql.csproj", "{D0DC9051-E9F2-4E46-9B37-7F26203608A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

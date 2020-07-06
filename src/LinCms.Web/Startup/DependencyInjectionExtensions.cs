@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Threading;
 using AspNetCoreRateLimit;
 using CSRedis;
+using CSRedis.Internal.ObjectPool;
 using DotNetCore.Security;
 using FreeSql;
 using FreeSql.Internal;
@@ -27,6 +29,7 @@ using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Serilog;
 using ToolGood.Words;
 
@@ -55,8 +58,6 @@ namespace LinCms.Web.Startup
                    .Build()
                    .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true);//联级保存功能开启（默认为关闭）
 
-            
-
             fsql.Aop.CurdAfter += (s, e) =>
             {
                 Log.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
@@ -64,9 +65,9 @@ namespace LinCms.Web.Startup
 
                 if (e.ElapsedMilliseconds > 200)
                 {
-                            //记录日志
-                            //发送短信给负责人
-                        }
+                    //记录日志
+                    //发送短信给负责人
+                }
             };
 
             //敏感词处理
@@ -80,9 +81,9 @@ namespace LinCms.Web.Startup
                     {
                         string oldVal = (string)e.Value;
                         string newVal = illegalWords.Replace(oldVal);
-                                //第二种处理敏感词的方式
-                                //string newVal = oldVal.ReplaceStopWords();
-                                if (newVal != oldVal)
+                        //第二种处理敏感词的方式
+                        //string newVal = oldVal.ReplaceStopWords();
+                        if (newVal != oldVal)
                         {
                             e.Value = newVal;
                         }
@@ -91,12 +92,22 @@ namespace LinCms.Web.Startup
             }
 
             services.AddSingleton(fsql);
+            services.AddFreeRepository();
             services.AddScoped<UnitOfWorkManager>();
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
-
+            try
+            {
+                using var objPool = fsql.Ado.MasterPool.Get();
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
+                return;
+            }
             //在运行时直接生成表结构
             try
             {
+                using var objPool = fsql.Ado.MasterPool.Get();
                 fsql.CodeFirst
                     .SeedData()
                     .SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
@@ -105,7 +116,6 @@ namespace LinCms.Web.Startup
             {
                 Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
             }
-            services.AddFreeRepository();
         }
 
         #endregion
