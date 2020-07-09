@@ -61,7 +61,7 @@ namespace LinCms.Application.Contracts.Blog.Articles.Dtos
         public long WordNumber { get; set; }
 
         public long ReadingTime { get; set; }
-
+        public bool Commentable { get; set; }
         public List<Guid> TagIds
         {
             get { return this.Tags.Select(r => r.Id).ToList(); }

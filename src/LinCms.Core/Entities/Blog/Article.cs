@@ -15,7 +15,7 @@ namespace LinCms.Core.Entities.Blog
         /// <summary>
         /// 系统内置技术频道Id
         /// </summary>
-        public Guid? ChannelId { get; set; }
+        public Guid ChannelId { get; set; }
 
         /// <summary>
         /// 标题
@@ -48,6 +48,7 @@ namespace LinCms.Core.Entities.Blog
         public string Content { get; set; }
 
         public int ViewHits { get; set; }
+
         /// <summary>
         /// 评论数量
         /// </summary>
@@ -98,7 +99,7 @@ namespace LinCms.Core.Entities.Blog
         public int Editor { get; set; } = 1;
 
         /// <summary>
-        /// 状态：1.暂存，2.发布文章。
+        /// 状态：1.暂存;2.发布;3.私密随笔
         /// </summary>
         public int Status { get; set; } = 1;
 
@@ -111,6 +112,11 @@ namespace LinCms.Core.Entities.Blog
         /// 预计阅读时长
         /// </summary>
         public long ReadingTime { get; set; }
+
+        /// <summary>
+        /// 随笔是否开启评论
+        /// </summary>
+        public bool Commentable { get; set; } = true;                                                                   
 
         public virtual Classify Classify { get; set; }
 

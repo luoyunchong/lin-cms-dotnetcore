@@ -79,12 +79,27 @@ namespace LinCms.Web.Controllers.Cms
             }
         }
 
-        [HttpGet("by-key")]
+        [HttpGet("key/{key}")]
         public async Task<string> GetSettingByKey(string key)
         {
             string providerName = "U";
             string providerKey = _currentUser.Id.ToString();
             return await _settingService.GetOrNullAsync(key, providerName, providerKey);
+        }
+
+        [HttpGet("keys")]
+        public async Task<IDictionary<string, string>> GetSettingKeys([FromQuery(Name = "keys[]")] List<string> keys)
+        {
+            string providerName = "U";
+            string providerKey = _currentUser.Id.ToString();
+            IDictionary<string, string> values = new Dictionary<string, string>();
+
+            foreach (var key in keys)
+            {
+                string value = await _settingService.GetOrNullAsync(key, providerName, providerKey);
+                values.Add(key, value);
+            }
+            return values;
         }
     }
 }

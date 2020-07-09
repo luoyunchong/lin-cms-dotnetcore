@@ -107,10 +107,9 @@ namespace LinCms.Web.Startup
             //在运行时直接生成表结构
             try
             {
-                using var objPool = fsql.Ado.MasterPool.Get();
                 fsql.CodeFirst
                     .SeedData()
-                    .SyncStructure(ReflexHelper.GetEntityTypes(typeof(IEntity)));
+                    .SyncStructure(ReflexHelper.GetTypesByTableAttribute());
             }
             catch (Exception e)
             {
