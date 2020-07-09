@@ -176,7 +176,14 @@ namespace LinCms.Test
         [Fact]
         public void RelfexGetCustomAttributes()
         {
-            var entityTypes = ReflexHelper.GetEntityTypes(typeof(IEntity));
+            var entityTypes = ReflexHelper.GetTypesByTableAttribute();
+            Assert.True(entityTypes.Length > 0);
+        }
+
+        [Fact]
+        public void GetTypes()
+        {
+            var entityTypes = ReflexHelper.GetTypesByNameSpace();
             Assert.True(entityTypes.Length > 0);
         }
     }

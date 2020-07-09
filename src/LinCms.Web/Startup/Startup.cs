@@ -202,7 +202,7 @@ namespace LinCms.Web.Startup
                     {
                         NamingStrategy = new SnakeCaseNamingStrategy()
                         {
-                            ProcessDictionaryKeys = true
+                            //ProcessDictionaryKeys = true
                         },
                     };
                 })
