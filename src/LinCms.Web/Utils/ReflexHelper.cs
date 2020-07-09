@@ -176,25 +176,51 @@ namespace LinCms.Web.Utils
         }
 
         /// <summary>
-        /// 扫描 IEntity类所在程序集，反射得到所有类上有特性标签为TableAttribute
+        /// 扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttributer 的所有类
         /// </summary>
         /// <returns></returns>
-        public static Type[] GetEntityTypes(Type type)
+        public static Type[] GetTypesByTableAttribute()
         {
             List<Type> tableAssembies = new List<Type>();
-            Assembly.GetAssembly(type).GetExportedTypes().ForEach(o =>
+            foreach (Type type in Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes())
             {
-                foreach (Attribute attribute in o.GetCustomAttributes())
+                foreach (Attribute attribute in type.GetCustomAttributes())
                 {
                     if (attribute is TableAttribute tableAttribute)
                     {
                         if (tableAttribute.DisableSyncStructure == false)
                         {
-                            tableAssembies.Add(o);
+                            tableAssembies.Add(type);
                         }
                     }
                 }
-            });
+            };
+            return tableAssembies.ToArray();
+        }
+
+        public static Type[] GetTypesByNameSpace()
+        {
+            List<Type> tableAssembies = new List<Type>();
+            List<string> entitiesFullName = new List<string>()
+            {
+                "LinCms.Core.Entities.Settings",
+                "LinCms.Core.Entities.Blog",
+                "LinCms.Core.Entities.Base",
+                "LinCms.Core.Entities.Lin",
+                "LinCms.Core.Entities.Book",
+            };
+
+            foreach (Type type in Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes())
+            {
+                foreach (var fullname in entitiesFullName)
+                {
+                    if (type.FullName.StartsWith(fullname) && type.IsClass)
+                    {
+                        tableAssembies.Add(type);
+                    }
+                }
+
+            }
             return tableAssembies.ToArray();
         }
     }

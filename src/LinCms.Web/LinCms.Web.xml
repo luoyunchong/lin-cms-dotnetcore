@@ -523,9 +523,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Utils.ReflexHelper.GetEntityTypes(System.Type)">
+        <member name="M:LinCms.Web.Utils.ReflexHelper.GetTypesByTableAttribute">
             <summary>
-            扫描 IEntity类所在程序集，反射得到所有类上有特性标签为TableAttribute
+            扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttributer 的所有类
             </summary>
             <returns></returns>
         </member>

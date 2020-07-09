@@ -341,7 +341,7 @@
         </member>
         <member name="P:LinCms.Core.Entities.Blog.Article.Status">
             <summary>
-            状态：1.暂存，2.发布文章。
+            状态：1.暂存;2.发布;3.私密随笔
             </summary>
         </member>
         <member name="P:LinCms.Core.Entities.Blog.Article.WordNumber">
@@ -352,6 +352,11 @@
         <member name="P:LinCms.Core.Entities.Blog.Article.ReadingTime">
             <summary>
             预计阅读时长
+            </summary>
+        </member>
+        <member name="P:LinCms.Core.Entities.Blog.Article.Commentable">
+            <summary>
+            随笔是否开启评论
             </summary>
         </member>
         <member name="T:LinCms.Core.Entities.Blog.ArticleType">

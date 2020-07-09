@@ -26,7 +26,7 @@ namespace Sample.RabbitMQ.MySql
     }
     public class AppDbContext : DbContext
     {
-        public const string ConnectionString = "Server=localhost;Database=captest;UserId=root;Password=123456;";
+        public const string ConnectionString = "Server=localhost;Database=samples-db;UserId=root;Password=123456;";
 
         public DbSet<Person> Persons { get; set; }
 
