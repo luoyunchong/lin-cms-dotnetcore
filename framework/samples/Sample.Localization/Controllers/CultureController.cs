@@ -38,12 +38,16 @@ namespace Sample.Localization.Controllers
                     new LocalCulture("ja-JP","日文",new List<LocalResource>(){ new LocalResource("Hello", "こんにちは") }),
                     new LocalCulture("fr-FR","法语",new List<LocalResource>(){ new LocalResource("Hello", "Bonjour") }),
                 };
-        
-            // freeSql.Insert(new List<LocalResource>() { new LocalResource("Hello", "Hello") }).ExecuteAffrows();
-            //
-            // freeSql.Insert(locals[0].Resources.ToList()).ExecuteAffrows();
-            //
-            // freeSql.Insert(locals[0].Resources).ExecuteAffrows();
+
+            freeSql.Insert(new List<LocalResource>() { new LocalResource("Hello", "Hello") }).ExecuteAffrows();
+
+            freeSql.Insert(locals[0].Resources.ToList()).ExecuteAffrows();
+
+            freeSql.Insert<LocalResource>(locals[0].Resources).ExecuteAffrows();
+
+            ICollection<LocalResource> resources = new List<LocalResource>() { new LocalResource("Hello", "Hello") };
+
+            freeSql.Insert(resources).ExecuteAffrows();
 
             List<LocalCulture> cultures = freeSql.Select<LocalCulture>().ToList();
             if (cultures.Count == 0)

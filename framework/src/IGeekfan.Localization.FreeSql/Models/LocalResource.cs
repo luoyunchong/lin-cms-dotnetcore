@@ -25,5 +25,6 @@ namespace IGeekFan.Localization.FreeSql.Models
         public long CultureId { get; set; }
 
         public virtual LocalCulture Culture { get; set; }
+
     }
 }
