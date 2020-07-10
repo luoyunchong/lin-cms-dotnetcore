@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Sample.Localization.Demo;
 
 namespace Sample.Localization
 {
@@ -42,6 +43,7 @@ namespace Sample.Localization
             services.AddControllers();
             services.AddSingleton(Fsql);
             services.AddSingleton<IStringLocalizerFactory, FreeSqlStringLocalizerFactory>();
+            services.AddTransient<ITest, Test>();
 
         }
 
