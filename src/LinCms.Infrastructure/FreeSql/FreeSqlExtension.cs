@@ -55,7 +55,7 @@ namespace LinCms.Infrastructure.FreeSql
                             IsDeleted=false,
                             LinUserIdentitys=new List<LinUserIdentity>()
                             {
-                               new LinUserIdentity(LinUserIdentity.Password,"admin",EncryptUtil.Encrypt("123qwe"))
+                               new LinUserIdentity(LinUserIdentity.Password,"admin",EncryptUtil.Encrypt("123qwe"),DateTime.Now)
                             },
                             LinUserGroups=new List<LinUserGroup>()
                             {
@@ -71,7 +71,7 @@ namespace LinCms.Infrastructure.FreeSql
                              IsDeleted=false,
                              LinUserIdentitys=new List<LinUserIdentity>()
                              {
-                                 new LinUserIdentity(LinUserIdentity.Password,"CmsAdmin",EncryptUtil.Encrypt("123qwe"))
+                                 new LinUserIdentity(LinUserIdentity.Password,"CmsAdmin",EncryptUtil.Encrypt("123qwe"),DateTime.Now)
                              },
                              LinUserGroups=new List<LinUserGroup>()
                              {

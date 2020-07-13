@@ -33,6 +33,7 @@ namespace LinCms.Application.Contracts.Cms.Users.Dtos
         public List<GroupDto> Groups { get; set; }
 
         public string Introduction { get; set; }
+        public string BlogAddress { get; set; }
         public string Username { get; set; }
         public DateTime UpdateTime { get; set; }
         public DateTime CreateTime { get; set; }

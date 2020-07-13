@@ -7,7 +7,8 @@ namespace Sample.Localization.Demo
 {
     public interface ITest
     {
+        void Insert<T1>(List<T1> source) where T1 : class;
         void Insert<T1>(IEnumerable<T1> source) where T1 : class;
-        void Insert<T1>(T1 t) where T1 : class;
+        void Insert<T1>(T1 t) where T1 : class,new();
     }
 }

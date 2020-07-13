@@ -34,7 +34,7 @@
         </member>
         <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
             <summary>
-            得到所有已审核过的随笔
+            得到所有的随笔
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
@@ -317,6 +317,30 @@
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:LinCms.Web.Controllers.Cms.Oauth2Controller.SignIn(System.String,System.String)" -->
+        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.SignInBindCallBack(System.String,System.String,System.String)">
+            <summary>
+            第三方账号绑定回调
+            </summary>
+            <param name="provider"></param>
+            <param name="redirectUrl"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.SignInBind(System.String,System.String,System.String)">
+            <summary>
+            第三方账号绑定，需要把token值传过来，用于与当前登录人绑定起来
+            </summary>
+            <param name="provider">GitHub/Gitee/QQ</param>
+            <param name="redirectUrl">http://localhost:8081/   http://vvlog.baimocore.cn/</param>
+            <param name="token">Bearer {Token}</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetExternalProvidersAsync">
+            <summary>
+            获取第三方登录的提供商
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.OpenId(System.String)">
             <summary>
             通过axios请求得到null，浏览器直接打开能得到github的id 
@@ -324,10 +348,24 @@
             <param name="provider"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetOpenIdByToken">
+        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetOpenIdByTokenAsync">
             <summary>
             通过axios请求，请在header（请求头）携带上文中signin-callback生成的Token值.可以得到openid
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetListAsync(LinCms.Core.Security.ICurrentUser)">
+            <summary>
+            得到当前用户绑定的第三方账号，除密码外
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.UnBind(System.Guid)">
+            <summary>
+            解绑用户的第三方账号。当用户没有密码时，无法解绑最后一个账号。只可以解绑自己的账号
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Web.Controllers.Cms.PermissionController.GetAllPermissions">

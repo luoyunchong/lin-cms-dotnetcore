@@ -36,7 +36,9 @@ namespace LinCms.Web.Middleware
 
         private bool TryBegin(IInvocation invocation)
         {
-            //  return false;
+            return false;
+            _unitOfWork = _unitOfWorkManager.Begin();
+            return true;
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             var attribute = method.GetCustomAttributes(typeof(TransactionalAttribute), false).FirstOrDefault();
             if (attribute is TransactionalAttribute transaction)
@@ -59,7 +61,7 @@ namespace LinCms.Web.Middleware
             {
                 invocation.Proceed();
                 _logger.LogInformation($"事务{0}提交前！！！", invocation.GetHashCode());
-                _unitOfWork.Commit();
+                _unitOfWork?.Commit();
                 _logger.LogInformation($"事务{0}提交成功！！！", invocation.GetHashCode());
             }
             else
@@ -111,12 +113,12 @@ namespace LinCms.Web.Middleware
         {
             if (ex == null)
             {
-                _unitOfWork.Commit();
+                _unitOfWork?.Commit();
                 _logger.LogInformation("OnAfter-Commit", ex);
             }
             else
             {
-                _unitOfWork.Rollback();
+                _unitOfWork?.Rollback();
                 _logger.LogInformation("OnAfter-Rollback", ex);
             }
         }

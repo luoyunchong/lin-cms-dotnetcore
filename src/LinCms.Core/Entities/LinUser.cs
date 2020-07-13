@@ -62,6 +62,7 @@ namespace LinCms.Core.Entities
         /// <summary>
         ///  个人主页
         /// </summary>
+        [Column(StringLength = 100)]
         public string BlogAddress { get; set; }
 
         /// <summary>

@@ -115,7 +115,7 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         /// <summary>
-        /// 得到所有已审核过的随笔
+        /// 得到所有的随笔
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>

@@ -170,6 +170,7 @@ namespace LinCms.IdentityServer4
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
             //app.UseHttpsRedirection();
 
+            //app.UseSerilogRequestLogging();
             app.UseRouting();
 
             app.UseAuthorization();

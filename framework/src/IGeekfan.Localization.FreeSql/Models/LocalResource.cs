@@ -6,16 +6,7 @@ namespace IGeekFan.Localization.FreeSql.Models
 {
     public class LocalResource
     {
-        public LocalResource()
-        {
-        }
-
-        public LocalResource(string key, string value)
-        {
-            Key = key ?? throw new ArgumentNullException(nameof(key));
-            Value = value ?? throw new ArgumentNullException(nameof(value));
-        }
-
+    
         [Column(IsIdentity = true, IsPrimary = true)]
         public long Id { get; set; }
         [Column(StringLength = 50)]

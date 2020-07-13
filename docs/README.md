@@ -31,8 +31,17 @@ token_endpoint:
 - Docker管理Portainer  [http://47.106.80.39:9000/#/home](http://111.231.197.142:9000/#/home)
 - [http://111.231.197.142:5005/healthchecks-ui#/healthchecks](http:/111.231.197.142:5005/healthchecks-ui#/healthchecks)
 
+### 第三方账号登录
+- https://localhost:5001/cms/oauth2/signin?provider=Gitee&redirectUrl=https://vvlog.baimocore.cn/
+- https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=https://vvlog.baimocore.cn/
+- https://localhost:5001/cms/oauth2/signin?provider=QQ&redirectUrl=https://vvlog.baimocore.cn/
 
-
+### 第三方账号绑定
+- https://localhost:5001/cms/oauth2/signin-bind?provider=GitHub&redirectUrl=https://vvlog.baimocore.cn&token=
+- https://localhost:5001/cms/oauth2/signin-bind?provider=QQ&redirectUrl=http://localhost:8081&token=
 github快速登录，使用的myget的源。
 
 [https://www.myget.org/feed/aspnet-contrib/package/nuget/AspNet.Security.OAuth.GitHub](https://www.myget.org/feed/aspnet-contrib/package/nuget/AspNet.Security.OAuth.GitHub)
+
+
+//https://github.com/login/oauth/authorize?client_id=0be6b05fc717bfc4fb67&state=github&redirect_uri=https://localhost:5001/signin-github
