@@ -217,7 +217,6 @@ namespace LinCms.Web.Startup
                 {
                     Log.Error($"CAP配置CAP:DefaultStorage:{defaultStorage.Value}无效");
                 }
-                IConfigurationSection configurationSection = Configuration.GetSection($"CAP:{defaultStorage}");
 
                 switch (capStorageType)
                 {
@@ -225,7 +224,8 @@ namespace LinCms.Web.Startup
                         @this.UseInMemoryStorage();
                         break;
                     case CapStorageType.Mysql:
-                        @this.UseMySql(configurationSection.Value);
+                        IConfigurationSection mySql = Configuration.GetSection($"ConnectionStrings:MySql");
+                        @this.UseMySql(mySql.Value);
                         break;
                     default:
                         break;
