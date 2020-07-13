@@ -54,9 +54,9 @@ namespace LinCms.IdentityServer4.IdentityServer4
             }
             else
             {
-                
-                var claims = new List<Claim>()
+                List<Claim> claims = new List<Claim>()
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email ?? ""),
                     new Claim(ClaimTypes.GivenName, user.Nickname ?? ""),
                     new Claim(ClaimTypes.Name, user.Username ?? ""),

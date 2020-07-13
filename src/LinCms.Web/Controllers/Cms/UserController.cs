@@ -114,12 +114,13 @@ namespace LinCms.Web.Controllers.Cms
         }
 
         [HttpPut]
-        public UnifyResponseDto SetProfileInfo(UpdateProfileDto updateProfileDto)
+        public UnifyResponseDto SetProfileInfo(UpdateProfileDto profileDto)
         {
             _freeSql.Update<LinUser>(_currentUser.Id).Set(a => new LinUser()
             {
-                Nickname = updateProfileDto.Nickname,
-                Introduction = updateProfileDto.Introduction
+                Nickname = profileDto.Nickname,
+                BlogAddress = profileDto.BlogAddress,
+                Introduction = profileDto.Introduction
             }).ExecuteAffrows();
             return UnifyResponseDto.Success("更新基本信息成功");
         }
@@ -128,9 +129,8 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("avatar/{userId}")]
         public async Task<string> GetAvatarAsync(long userId)
         {
-            LinUser linUser =await _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).FirstAsync();
-
-            return _fileRepository.GetFileUrl(linUser.Avatar);
+            string avatar = await _userRepository.Where(r => r.Id == userId).FirstAsync(r=>r.Avatar);
+            return _fileRepository.GetFileUrl(avatar);
 
         }
 
@@ -138,7 +138,7 @@ namespace LinCms.Web.Controllers.Cms
         [HttpGet("{userId}")]
         public async Task<OpenUserDto> GetUserByUserId(long userId)
         {
-            LinUser linUser =await _freeSql.Select<LinUser>().WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == userId).FirstAsync();
+            LinUser linUser =await _userRepository.Where(r => r.Id == userId).FirstAsync();
             OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
             if (openUser == null) return null;
             openUser.Avatar = _fileRepository.GetFileUrl(openUser.Avatar);

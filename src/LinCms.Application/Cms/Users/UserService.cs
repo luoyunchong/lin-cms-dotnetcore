@@ -141,7 +141,7 @@ namespace LinCms.Application.Cms.Users
             });
             user.LinUserIdentitys = new List<LinUserIdentity>()
             {
-                new LinUserIdentity(LinUserIdentity.Password,user.Username,EncryptUtil.Encrypt(password))
+                new LinUserIdentity(LinUserIdentity.Password,user.Username,EncryptUtil.Encrypt(password),DateTime.Now)
             };
             await _userRepository.InsertAsync(user);
         }

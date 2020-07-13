@@ -6,6 +6,8 @@ using System.Threading;
 using AspNetCoreRateLimit;
 using CSRedis;
 using CSRedis.Internal.ObjectPool;
+using DotNetCore.CAP;
+using DotNetCore.CAP.Messages;
 using DotNetCore.Security;
 using FreeSql;
 using FreeSql.Internal;
@@ -30,6 +32,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
 using ToolGood.Words;
 
@@ -116,6 +119,14 @@ namespace LinCms.Web.Startup
                 Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
             }
         }
+        public static IServiceCollection AddFreeRepository(this IServiceCollection services)
+        {
+            services.TryAddScoped(typeof(IBaseRepository<>), typeof(GuidRepository<>));
+            services.TryAddScoped(typeof(BaseRepository<>), typeof(GuidRepository<>));
+            services.TryAddScoped(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
+            services.TryAddScoped(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
+            return services;
+        }
 
         #endregion
 
@@ -171,14 +182,6 @@ namespace LinCms.Web.Startup
         }
 
 
-        public static IServiceCollection AddFreeRepository(this IServiceCollection services)
-        {
-            services.TryAddScoped(typeof(IBaseRepository<>), typeof(GuidRepository<>));
-            services.TryAddScoped(typeof(BaseRepository<>), typeof(GuidRepository<>));
-            services.TryAddScoped(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
-            services.TryAddScoped(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
-            return services;
-        }
 
         /// <summary>
         /// 配置限流依赖的服务
@@ -201,5 +204,99 @@ namespace LinCms.Web.Startup
 
             return services;
         }
+
+        #region 分布式事务一致性CAP
+
+        public static CapOptions UseCapOptions(this CapOptions @this, IConfiguration Configuration)
+        {
+            IConfigurationSection defaultStorage = Configuration.GetSection("CAP:DefaultStorage");
+            IConfigurationSection defaultMessageQueue = Configuration.GetSection("CAP:DefaultMessageQueue");
+            if (Enum.TryParse(defaultStorage.Value, out CapStorageType capStorageType))
+            {
+                if (!Enum.IsDefined(typeof(CapStorageType), capStorageType))
+                {
+                    Log.Error($"CAP配置CAP:DefaultStorage:{defaultStorage.Value}无效");
+                }
+                IConfigurationSection configurationSection = Configuration.GetSection($"CAP:{defaultStorage}");
+
+                switch (capStorageType)
+                {
+                    case CapStorageType.InMemoryStorage:
+                        @this.UseInMemoryStorage();
+                        break;
+                    case CapStorageType.Mysql:
+                        @this.UseMySql(configurationSection.Value);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            else
+            {
+                Log.Error($"CAP配置CAP:DefaultStorage:{defaultStorage.Value}无效");
+            }
+
+            if (Enum.TryParse(defaultMessageQueue.Value, out CapMessageQueueType capMessageQueueType))
+            {
+                if (!Enum.IsDefined(typeof(CapMessageQueueType), capMessageQueueType))
+                {
+                    Log.Error($"CAP配置CAP:DefaultMessageQueue:{defaultMessageQueue.Value}无效");
+                }
+                IConfigurationSection configurationSection = Configuration.GetSection($"ConnectionStrings:{capMessageQueueType}");
+
+                switch (capMessageQueueType)
+                {
+                    case CapMessageQueueType.InMemoryQueue:
+                        @this.UseInMemoryMessageQueue();
+                        break;
+                    case CapMessageQueueType.RabbitMQ:
+                        @this.UseRabbitMQ(options =>
+                        {
+                            options.HostName = Configuration["CAP:RabbitMQ:HostName"];
+                            options.UserName = Configuration["CAP:RabbitMQ:UserName"];
+                            options.Password = Configuration["CAP:RabbitMQ:Password"];
+                            options.VirtualHost = Configuration["CAP:RabbitMQ:VirtualHost"];
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                Log.Error($"CAP配置CAP:DefaultMessageQueue:{defaultMessageQueue.Value}无效");
+            }
+
+            return @this;
+        }
+
+        public static IServiceCollection AddCap(this IServiceCollection services, IConfiguration Configuration)
+        {
+
+            services.AddCap(x =>
+            {
+                try
+                {
+                    x.UseCapOptions(Configuration);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex.Message);
+                    throw;
+                }
+                x.UseDashboard();
+                x.FailedRetryCount = 5;
+                x.FailedThresholdCallback = (type) =>
+                {
+                    Log.Error($@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
+                };
+            });
+
+            return services;
+        }
+
+        #endregion
+
     }
 }
