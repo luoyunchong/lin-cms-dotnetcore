@@ -1,5 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using LinCms.Application.Contracts.Cms.Users.Dtos;
+using LinCms.Core.Data;
 using LinCms.Core.Entities;
 
 namespace LinCms.Application.Contracts.Cms.Users
@@ -14,7 +18,6 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <param name="openId"></param>
         /// <returns></returns>
         Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId);
-        
         /// <summary>
         ///  保存QQ快速登录后的登录信息，生成用户
         /// </summary>
@@ -22,7 +25,7 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <param name="openId"></param>
         /// <returns></returns>
         Task<long> SaveQQAsync(ClaimsPrincipal principal, string openId);
-
+        Task<long> SaveGiteeAsync(ClaimsPrincipal principal, string openId);
         /// <summary>
         /// 验证用户密码是否正确
         /// </summary>
@@ -53,5 +56,11 @@ namespace LinCms.Application.Contracts.Cms.Users
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<LinUserIdentity> GetFirstByUserIdAsync(long userId);
+
+        Task<List<UserIdentityDto>> GetListAsync(long userId);
+        Task<UnifyResponseDto> BindGitHubAsync(ClaimsPrincipal principal, string openId, long userId);
+        Task<UnifyResponseDto> BindQQAsync(ClaimsPrincipal principal, string openId, long userId);
+        Task<UnifyResponseDto> BindGiteeAsync(ClaimsPrincipal principal, string openId, long userId);
+        Task UnBind(Guid id);
     }
 }

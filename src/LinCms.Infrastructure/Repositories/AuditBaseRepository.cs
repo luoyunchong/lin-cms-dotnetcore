@@ -12,7 +12,7 @@ namespace LinCms.Infrastructure.Repositories
 {
     public class AuditBaseRepository<TEntity> : AuditBaseRepository<TEntity, Guid>, IAuditBaseRepository<TEntity> where TEntity : class, new()
     {
-        public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser): base(unitOfWorkManager, currentUser)
+        public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager, currentUser)
         {
         }
     }
@@ -28,7 +28,7 @@ namespace LinCms.Infrastructure.Repositories
         where TEntity : class, new()
     {
         protected readonly ICurrentUser CurrentUser;
-        public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager?.Orm, unitOfWorkManager) 
+        public AuditBaseRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager?.Orm, unitOfWorkManager)
         {
             CurrentUser = currentUser;
         }
@@ -36,9 +36,12 @@ namespace LinCms.Infrastructure.Repositories
         private void BeforeInsert(TEntity entity)
         {
             if (!(entity is ICreateAduitEntity e)) return;
-            e.CreateTime = DateTime.Now;
 
-            e.CreateUserId = CurrentUser.Id ?? 0;
+            e.CreateTime = DateTime.Now;
+            if (e.CreateUserId == 0 && CurrentUser.Id != null)
+            {
+                e.CreateUserId = CurrentUser.Id ?? 0;
+            }
 
             if (!(entity is IUpdateAuditEntity updateAuditEntity)) return;
             updateAuditEntity.UpdateTime = DateTime.Now;
@@ -95,7 +98,7 @@ namespace LinCms.Infrastructure.Repositories
             return base.UpdateAsync(entity);
         }
 
-        public new int Update(IEnumerable<TEntity> entitys)
+        public override int Update(IEnumerable<TEntity> entitys)
         {
             foreach (var entity in entitys)
             {
@@ -104,7 +107,7 @@ namespace LinCms.Infrastructure.Repositories
             return base.Update(entitys);
         }
 
-        public new Task<int> UpdateAsync(IEnumerable<TEntity> entitys)
+        public override Task<int> UpdateAsync(IEnumerable<TEntity> entitys)
         {
             foreach (var entity in entitys)
             {
@@ -113,7 +116,7 @@ namespace LinCms.Infrastructure.Repositories
             return base.UpdateAsync(entitys);
         }
 
-        public new int Delete(TEntity entity)
+        public override int Delete(TEntity entity)
         {
             if (entity is IDeleteAduitEntity)
             {
@@ -127,7 +130,7 @@ namespace LinCms.Infrastructure.Repositories
             return base.Delete(entity);
         }
 
-        public new int Delete(IEnumerable<TEntity> entitys)
+        public override int Delete(IEnumerable<TEntity> entitys)
         {
             if (entitys.Any())
             {
@@ -148,8 +151,23 @@ namespace LinCms.Infrastructure.Repositories
             return base.Delete(entitys);
         }
 
+        public override async Task<int> DeleteAsync(TKey id)
+        {
+            TEntity entity = await base.GetAsync(id);
+            if (entity is IDeleteAduitEntity)
+            {
+                return Orm.Update<TEntity>(entity)
+                           .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
+                           .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)
+                           .Set(a => (a as IDeleteAduitEntity).DeleteTime, DateTime.Now)
+                           .ExecuteAffrows();
+            }
 
-        public new Task<int> DeleteAsync(IEnumerable<TEntity> entitys)
+            return await base.DeleteAsync(id);
+        }
+
+
+        public override Task<int> DeleteAsync(IEnumerable<TEntity> entitys)
         {
             if (entitys.Any())
             {
@@ -168,7 +186,7 @@ namespace LinCms.Infrastructure.Repositories
             return base.DeleteAsync(entitys);
         }
 
-        public new async Task<int> DeleteAsync(TEntity entity)
+        public override async Task<int> DeleteAsync(TEntity entity)
         {
             if (entity is IDeleteAduitEntity)
             {
@@ -181,7 +199,7 @@ namespace LinCms.Infrastructure.Repositories
 
             return base.Delete(entity);
         }
-        public new int Delete(Expression<Func<TEntity, bool>> predicate)
+        public override int Delete(Expression<Func<TEntity, bool>> predicate)
         {
             if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(TEntity)))
             {
@@ -196,7 +214,7 @@ namespace LinCms.Infrastructure.Repositories
             return base.Delete(predicate);
         }
 
-        public new async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+        public override async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
         {
             if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(TEntity)))
             {
@@ -210,7 +228,7 @@ namespace LinCms.Infrastructure.Repositories
 
             return await base.DeleteAsync(predicate);
         }
-        public new async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
+        public override async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
         {
             BeforeInsert(entity);
             BeforeUpdate(entity);

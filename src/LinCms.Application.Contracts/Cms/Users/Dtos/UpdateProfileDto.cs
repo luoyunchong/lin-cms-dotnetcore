@@ -9,5 +9,7 @@ namespace LinCms.Application.Contracts.Cms.Users.Dtos
         public string Nickname { get; set; }
         [StringLength(100, ErrorMessage = "个人介绍应在100个字符内")]
         public string Introduction { get; set; }
+        [StringLength(100, ErrorMessage = "博客应在100个字符内")]
+        public string BlogAddress { get; set; }
     }
 }

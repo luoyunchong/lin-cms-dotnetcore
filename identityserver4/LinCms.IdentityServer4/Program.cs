@@ -15,13 +15,13 @@ namespace LinCms.IdentityServer4
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
-        
-        public static int  Main(string[] args)
+
+        public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                 .Enrich.FromLogContext()
                 .CreateLogger();
-                 // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
+            // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
 
             try
             {
@@ -45,7 +45,6 @@ namespace LinCms.IdentityServer4
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .UseSerilog();
+                }) .UseSerilog();
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.Gitee;
 using Autofac;
 using AutoMapper;
 using DotNetCore.CAP.Messages;
@@ -87,7 +88,7 @@ namespace LinCms.Web.Startup
                     {
                         // The signing key must match!
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jsonWebTokenSettings.Key)),
+                        IssuerSigningKey = jsonWebTokenSettings.SecurityKey,
 
                         // Validate the JWT Issuer (iss) claim
                         ValidateIssuer = true,
@@ -172,6 +173,26 @@ namespace LinCms.Web.Startup
                 {
                     options.ClientId = Configuration["Authentication:QQ:ClientId"];
                     options.ClientSecret = Configuration["Authentication:QQ:ClientSecret"];
+                })
+                .AddGitee(GiteeAuthenticationDefaults.AuthenticationScheme,"码云", options=> {
+                    options.ClientId = Configuration["Authentication:Gitee:ClientId"];
+                    options.ClientSecret = Configuration["Authentication:Gitee:ClientSecret"];
+
+                    options.ClaimActions.MapJsonKey("urn:gitee:avatar_url", "avatar_url");
+                    options.ClaimActions.MapJsonKey("urn:gitee:blog", "blog");
+                    options.ClaimActions.MapJsonKey("urn:gitee:bio", "bio");
+
+                    //options.Scope.Add("projects");
+                    //options.Scope.Add("pull_requests");
+                    //options.Scope.Add("issues");
+                    //options.Scope.Add("notes");
+                    //options.Scope.Add("keys");
+                    //options.Scope.Add("hook");
+                    //options.Scope.Add("groups");
+                    //options.Scope.Add("gists");
+                    //options.Scope.Add("enterprises");
+
+                    options.SaveTokens = true;
                 });
 
             #endregion
@@ -305,41 +326,8 @@ namespace LinCms.Web.Startup
                 options.MultipartBodyLengthLimit = 1024 * 1024 * 8; //8MB
             });
 
-            #region 分布式事务一致性CAP
-
-            IConfigurationSection configurationSection = Configuration.GetSection("ConnectionStrings:MySql");
-            services.AddCap(x =>
-            {
-                x.UseMySql(configurationSection.Value);
-
-                bool isEnableInMemoryQueue = Configuration["CAP:InMemoryQueue:IsEnabled"].ToBoolean();
-                if (isEnableInMemoryQueue)
-                {
-                    x.UseInMemoryMessageQueue();
-                }
-
-                bool isEnableRabbitMq = Configuration["CAP:RabbitMQ:IsEnabled"].ToBoolean();
-                if (isEnableRabbitMq)
-                {
-                    x.UseRabbitMQ(options =>
-                    {
-                        options.HostName = Configuration["CAP:RabbitMQ:HostName"];
-                        options.UserName = Configuration["CAP:RabbitMQ:UserName"];
-                        options.Password = Configuration["CAP:RabbitMQ:Password"];
-                        options.VirtualHost = Configuration["CAP:RabbitMQ:VirtualHost"];
-                    });
-                }
-
-                x.UseDashboard();
-                x.FailedRetryCount = 5;
-                x.FailedThresholdCallback = (type) =>
-                {
-                    Console.WriteLine(
-                        $@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {type.Message.GetName()}");
-                };
-            });
-
-            #endregion
+            // 分布式事务一致性CAP
+            services.AddCap(Configuration);
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -409,7 +397,7 @@ namespace LinCms.Web.Startup
             //认证中间件
             app.UseAuthentication();
 
-            app.UseMiddleware<IpLimitMiddleware>();
+            //app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()
                 .UseAuthorization()

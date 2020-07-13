@@ -25,15 +25,18 @@ namespace Sample.Localization.Controllers
         {
             ICollection<LocalResource> resources = new List<LocalResource>() { new LocalResource("Hello", "Hello") };
 
-            new List<LocalResource>().AddRange(resources);
-
-            IEnumerable<LocalResource> resources2 = new List<LocalResource>() { new LocalResource("Hello", "Hello") };
-            test.Insert(resources.ToList());
             test.Insert(resources.ToList());
             test.Insert(resources);
+
+            IEnumerable<LocalResource> resources2 = new List<LocalResource>() { new LocalResource("Hello", "Hello") };
+            test.Insert(resources2.ToList());
             test.Insert(resources2);
 
-            test.Insert(new LocalResource("Hello", "Hello"));
+            test.Insert(new HashSet<LocalResource>());
+            test.Insert(new LocalResource());
+
+            test.Insert(new Dictionary<string, string> { });
+
             return "ok";
         }
     }

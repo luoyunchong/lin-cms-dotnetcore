@@ -5,8 +5,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using DotNetCore.Security;
+using Elasticsearch.Net;
 using LinCms.Application.Contracts.Cms.Users;
+using LinCms.Application.Contracts.Cms.Users.Dtos;
+using LinCms.Core.Data;
+using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Core.Extensions;
@@ -14,13 +19,14 @@ using LinCms.Core.IRepositories;
 using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace LinCms.Web.Controllers.Cms
 {
-    [Route ("cms/oauth2")]
+    [Route("cms/oauth2")]
     [ApiController]
     public class Oauth2Controller : ControllerBase
     {
@@ -31,7 +37,7 @@ namespace LinCms.Web.Controllers.Cms
         private readonly IUserRepository _userRepository;
         private readonly IJsonWebTokenService _jsonWebTokenService;
 
-        public Oauth2Controller (IHttpContextAccessor contextAccessor, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService)
+        public Oauth2Controller(IHttpContextAccessor contextAccessor, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService)
         {
             _contextAccessor = contextAccessor;
             _userCommunityService = userCommunityService;
@@ -46,51 +52,59 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="provider"></param>
         /// <param name="redirectUrl">授权成功后的跳转地址</param>
         /// <returns></returns>
-        [HttpGet ("signin-callback")]
-        public async Task<IActionResult> Home (string provider, string redirectUrl = "")
+        [HttpGet("signin-callback")]
+        public async Task<IActionResult> Home(string provider, string redirectUrl = "")
         {
-            if (string.IsNullOrWhiteSpace (provider))
+            if (string.IsNullOrWhiteSpace(provider))
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            if (!await HttpContext.IsProviderSupportedAsync (provider))
+            if (!await HttpContext.IsProviderSupportedAsync(provider))
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync (provider);
-            if (!authenticateResult.Succeeded) return Redirect (redirectUrl);
-            var openIdClaim = authenticateResult.Principal.FindFirst (ClaimTypes.NameIdentifier);
-            if (openIdClaim == null || string.IsNullOrWhiteSpace (openIdClaim.Value))
-                return Redirect (redirectUrl);
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            if (!authenticateResult.Succeeded) return Redirect(redirectUrl);
+            var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
+                return Redirect(redirectUrl);
             long id = 0;
             switch (provider)
             {
                 case LinUserIdentity.GitHub:
-                    id = await _userCommunityService.SaveGitHubAsync (authenticateResult.Principal, openIdClaim.Value);
+                    id = await _userCommunityService.SaveGitHubAsync(authenticateResult.Principal, openIdClaim.Value);
                     break;
 
                 case LinUserIdentity.QQ:
-                    id = await _userCommunityService.SaveQQAsync (authenticateResult.Principal, openIdClaim.Value);
+                    id = await _userCommunityService.SaveQQAsync(authenticateResult.Principal, openIdClaim.Value);
+                    break;
+
+                case LinUserIdentity.Gitee:
+                    string access_token = authenticateResult.Properties.GetTokenValue("access_token");
+                    string refresh_token = authenticateResult.Properties.GetTokenValue("refresh_token");
+                    string token_type = authenticateResult.Properties.GetTokenValue("token_type");
+                    string expires_at = authenticateResult.Properties.GetTokenValue("expires_at");
+                    id = await _userCommunityService.SaveGiteeAsync(authenticateResult.Principal, openIdClaim.Value);
                     break;
                 case LinUserIdentity.WeiXin:
 
                     break;
                 default:
-                    _logger.LogError ($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
-                    throw new LinCmsException ($"未知的privoder:{provider}！");
+                    _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+                    throw new LinCmsException($"未知的privoder:{provider}！");
             }
-            List<Claim> authClaims = authenticateResult.Principal.Claims.ToList ();
+            List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user = await _userRepository.Select.IncludeMany (r => r.LinGroups)
-                .WhereCascade (r => r.IsDeleted == false).Where (r => r.Id == id).FirstAsync ();
+            LinUser user = await _userRepository.Select.IncludeMany(r => r.LinGroups)
+                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
 
             if (user == null)
             {
-                throw new LinCmsException ("第三方登录失败！");
+                throw new LinCmsException("第三方登录失败！");
             }
-            List<Claim> claims = new List<Claim> ()
+            List<Claim> claims = new List<Claim>()
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
                 new Claim (ClaimTypes.Email, user.Email?? ""),
@@ -98,14 +112,14 @@ namespace LinCms.Web.Controllers.Cms
                 new Claim (ClaimTypes.Name, user.Username?? ""),
             };
 
-            user.LinGroups?.ForEach (r =>
-            {
-                claims.Add (new Claim (LinCmsClaimTypes.Groups, r.Id.ToString ()));
-            });
+            user.LinGroups?.ForEach(r =>
+           {
+               claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+           });
 
-            claims.AddRange (authClaims);
-            string token = _jsonWebTokenService.Encode (claims);
-            return Redirect ($"{redirectUrl}?token={token}#login-result");
+            //claims.AddRange(authClaims);
+            string token = _jsonWebTokenService.Encode(claims);
+            return Redirect($"{redirectUrl}#login-result?token={token}");
         }
 
         /// <summary>
@@ -114,39 +128,148 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="provider"></param>
         /// <param name="redirectUrl"></param>
         /// <returns></returns>
-        [HttpGet ("signin")]
-        public async Task<IActionResult> SignIn (string provider, string redirectUrl)
+        [HttpGet("signin")]
+        public async Task<IActionResult> SignIn(string provider, string redirectUrl)
         {
             // Note: the "provider" parameter corresponds to the external
             // authentication provider choosen by the user agent.
-            if (string.IsNullOrWhiteSpace (provider))
+            if (string.IsNullOrWhiteSpace(provider))
             {
-                return BadRequest ();
+                return BadRequest();
             }
 
-            if (!await HttpContext.IsProviderSupportedAsync (provider))
+            if (!await HttpContext.IsProviderSupportedAsync(provider))
             {
-                return BadRequest ();
+                return BadRequest();
+            }
+
+            HttpRequest request = _contextAccessor.HttpContext.Request;
+            string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" + $"&redirectUrl={redirectUrl}";
+
+            _logger.LogInformation($"SignIn-url:{url}");
+            var properties = new AuthenticationProperties { RedirectUri = url };
+            properties.Items[LoginProviderKey] = provider;
+            return Challenge(properties, provider);
+
+        }
+
+        /// <summary>
+        /// 第三方账号绑定回调
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="redirectUrl"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet("signin-bind-callback")]
+        public async Task<IActionResult> SignInBindCallBack(string provider, string redirectUrl = "", string token = "")
+        {
+            if (string.IsNullOrWhiteSpace(provider))
+            {
+                return BadRequest();
+            }
+
+            if (!await HttpContext.IsProviderSupportedAsync(provider))
+            {
+                return BadRequest();
+            }
+
+            if (token.IsNullOrEmpty() || !token.StartsWith("Bearer "))
+            {
+                return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("请先登录")}");
+            }
+            else
+            {
+                token = token.Remove(0, 7);
+            }
+
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            if (!authenticateResult.Succeeded) return Redirect($"{redirectUrl}#bind-result?code=fail&message={authenticateResult.Failure.Message}");
+            var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
+                return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("未能获取openId")}");
+
+            JwtPayload jwtPayload = (JwtPayload)_jsonWebTokenService.Decode(token);
+            string nameIdentifier = jwtPayload.Claims.FirstOrDefault(r => r.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (nameIdentifier.IsNullOrWhiteSpace())
+            {
+                return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("请先登录")}");
+            }
+            long userId = long.Parse(nameIdentifier);
+            UnifyResponseDto unifyResponseDto;
+            switch (provider)
+            {
+                case LinUserIdentity.GitHub:
+                    unifyResponseDto = await _userCommunityService.BindGitHubAsync(authenticateResult.Principal, openIdClaim.Value, userId);
+                    break;
+                case LinUserIdentity.QQ:
+                    unifyResponseDto = await _userCommunityService.BindQQAsync(authenticateResult.Principal, openIdClaim.Value, userId);
+                    break;
+                case LinUserIdentity.Gitee:
+                    unifyResponseDto = await _userCommunityService.BindGiteeAsync(authenticateResult.Principal, openIdClaim.Value, userId);
+                    break;
+                //case LinUserIdentity.WeiXin:
+
+                //    break;
+                default:
+                    _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+                    unifyResponseDto = UnifyResponseDto.Error($"未知的privoder:{provider}！");
+                    break;
+            }
+
+            return Redirect($"{redirectUrl}#bind-result?code={unifyResponseDto.Code.ToString()}&message={HttpUtility.UrlEncode(unifyResponseDto.Message.ToString())}");
+        }
+
+        /// <summary>
+        /// 第三方账号绑定，需要把token值传过来，用于与当前登录人绑定起来
+        /// </summary>
+        /// <param name="provider">GitHub/Gitee/QQ</param>
+        /// <param name="redirectUrl">http://localhost:8081/   http://vvlog.baimocore.cn/</param>
+        /// <param name="token">Bearer {Token}</param>
+        /// <returns></returns>
+
+        [HttpGet("signin-bind")]
+        public async Task<IActionResult> SignInBind(string provider, string redirectUrl, string token)
+        {
+            // Note: the "provider" parameter corresponds to the external
+            // authentication provider choosen by the user agent.
+            if (string.IsNullOrWhiteSpace(provider))
+            {
+                return BadRequest();
+            }
+
+            if (!await HttpContext.IsProviderSupportedAsync(provider))
+            {
+                return BadRequest();
             }
 
             HttpRequest request = _contextAccessor.HttpContext.Request;
             string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}"
-                + $"&redirectUrl={redirectUrl}";
+                + $"&redirectUrl={redirectUrl}&token={token}";
 
-            _logger.LogInformation ($"SignIn-url:{url}");
+            _logger.LogInformation($"SignIn-url:{url}");
             var properties = new AuthenticationProperties { RedirectUri = url };
             properties.Items[LoginProviderKey] = provider;
-            return Challenge (properties, provider);
+            return Challenge(properties, provider);
 
         }
+        
+        /// <summary>
+        /// 获取第三方登录的提供商
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("external-providers")]
+        public async Task<AuthenticationScheme[]> GetExternalProvidersAsync()
+        {
+            return await HttpContext.GetExternalProvidersAsync();
+        }
 
-        [HttpGet ("signout"), HttpPost ("signout")]
-        public IActionResult SignOut ()
+        [HttpGet("signout"), HttpPost("signout")]
+        public IActionResult SignOut()
         {
             // Instruct the cookies middleware to delete the local cookie created
             // when the user agent is redirected from the external identity provider
             // after a successful authentication flow (e.g Google or Facebook).
-            return SignOut (new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         /// <summary>
@@ -154,12 +277,12 @@ namespace LinCms.Web.Controllers.Cms
         /// </summary>
         /// <param name="provider"></param>
         /// <returns></returns>
-        [HttpGet ("OpenId")]
-        public async Task<string> OpenId (string provider)
+        [HttpGet("OpenId")]
+        public async Task<string> OpenId(string provider)
         {
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync (provider);
+            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return null;
-            Claim openIdClaim = authenticateResult.Principal.FindFirst (ClaimTypes.NameIdentifier);
+            Claim openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             return openIdClaim?.Value;
 
         }
@@ -168,10 +291,34 @@ namespace LinCms.Web.Controllers.Cms
         /// 通过axios请求，请在header（请求头）携带上文中signin-callback生成的Token值.可以得到openid
         /// </summary>
         /// <returns></returns>
-        [HttpGet ("GetOpenIdByToken")]
-        public string GetOpenIdByToken ()
+        [HttpGet("GetOpenIdByToken")]
+        public string GetOpenIdByTokenAsync()
         {
-            return User.FindFirst (ClaimTypes.NameIdentifier)?.Value;
+            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        /// <summary>
+        /// 得到当前用户绑定的第三方账号，除密码外
+        /// </summary>
+        /// <param name="currentUser"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("bindlist")]
+        public async Task<List<UserIdentityDto>> GetListAsync([FromServices] ICurrentUser currentUser)
+        {
+            return (await _userCommunityService.GetListAsync(currentUser.Id ?? 0)).Where(r => r.IdentityType != LinUserIdentity.Password).ToList();
+        }
+
+        /// <summary>
+        /// 解绑用户的第三方账号。当用户没有密码时，无法解绑最后一个账号。只可以解绑自己的账号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpDelete("unbind/{id}")]
+        public async Task UnBind(Guid id)
+        {
+            await _userCommunityService.UnBind(id);
         }
     }
 
