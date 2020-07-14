@@ -165,6 +165,7 @@ namespace LinCms.Web.Startup
                     options.ClientSecret = Configuration["Authentication:GitHub:ClientSecret"];
                     options.Scope.Add("user:email");
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.AvatarUrl, "avatar_url");
+                    options.ClaimActions.MapJsonKey(LinConsts.Claims.HtmlUrl, "html_url");
                     //登录成功后可通过  authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
                     options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
@@ -181,7 +182,7 @@ namespace LinCms.Web.Startup
                     options.ClaimActions.MapJsonKey("urn:gitee:avatar_url", "avatar_url");
                     options.ClaimActions.MapJsonKey("urn:gitee:blog", "blog");
                     options.ClaimActions.MapJsonKey("urn:gitee:bio", "bio");
-
+                    options.ClaimActions.MapJsonKey("urn:gitee:html_url", "html_url");
                     //options.Scope.Add("projects");
                     //options.Scope.Add("pull_requests");
                     //options.Scope.Add("issues");
@@ -229,7 +230,7 @@ namespace LinCms.Web.Startup
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
-                    options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                    //options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
                     //自定义 BadRequest 响应
                     options.InvalidModelStateResponseFactory = context =>
                     {
@@ -244,7 +245,7 @@ namespace LinCms.Web.Startup
                         };
                     };
                 });
-
+            services.AddSwaggerGenNewtonsoftSupport();
             #endregion
 
             services.AddDIServices();
@@ -271,8 +272,7 @@ namespace LinCms.Web.Startup
                     License = new OpenApiLicense
                     {
                         Name = ApiName + " 官方文档",
-                        Url = new Uri(
-                            "https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html")
+                        Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html")
                     }
                 });
 

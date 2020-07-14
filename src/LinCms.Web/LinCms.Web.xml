@@ -4,7 +4,7 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticle(System.Guid)">
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
             <summary>
             删除自己的随笔
             </summary>

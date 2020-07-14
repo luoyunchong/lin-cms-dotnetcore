@@ -130,13 +130,13 @@ namespace LinCms.IdentityServer4
                         new LinCmsTimeConverter()
                     };
                     // 设置下划线方式，首字母是小写
-                    opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
-                    {
-                        NamingStrategy = new SnakeCaseNamingStrategy()
-                        {
-                            ProcessDictionaryKeys = true
-                        }
-                    };
+                    //opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                    //{
+                    //    NamingStrategy = new SnakeCaseNamingStrategy()
+                    //    {
+                    //        ProcessDictionaryKeys = true
+                    //    }
+                    //};
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {

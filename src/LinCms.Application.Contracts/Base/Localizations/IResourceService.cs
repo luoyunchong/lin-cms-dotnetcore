@@ -8,7 +8,7 @@ using LinCms.Core.Data;
 
 namespace LinCms.Application.Contracts.Base.Localizations
 {
-    public interface ILocalResourceService
+    public interface IResourceService
     {
         Task<PagedResultDto<ResourceDto>> GetListAsync(ResourceSearchDto searchDto);
 

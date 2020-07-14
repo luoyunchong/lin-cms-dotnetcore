@@ -44,19 +44,20 @@ namespace LinCms.Application.Cms.Users
         /// <returns></returns>
         public async Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId)
         {
-            string email = principal.FindFirst(ClaimTypes.Email)?.Value;
-            string name = principal.FindFirst(ClaimTypes.Name)?.Value;
-            string gitHubName = principal.FindFirst(GitHubAuthenticationConstants.Claims.Name)?.Value;
-            string gitHubApiUrl = principal.FindFirst(GitHubAuthenticationConstants.Claims.Url)?.Value;
-            string avatarUrl = principal.FindFirst(LinConsts.Claims.AvatarUrl)?.Value;
-            string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
-            string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
-
             LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.GitHub && r.Credential == openId).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
             {
+                string email = principal.FindFirst(ClaimTypes.Email)?.Value;
+                string name = principal.FindFirst(ClaimTypes.Name)?.Value;
+                string gitHubName = principal.FindFirst(GitHubAuthenticationConstants.Claims.Name)?.Value;
+                string gitHubApiUrl = principal.FindFirst(GitHubAuthenticationConstants.Claims.Url)?.Value;
+                string HtmlUrl = principal.FindFirst(LinConsts.Claims.HtmlUrl)?.Value;
+                string avatarUrl = principal.FindFirst(LinConsts.Claims.AvatarUrl)?.Value;
+                string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
+                string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
+
                 LinUser user = new LinUser
                 {
                     Active = UserActive.Active,
@@ -64,7 +65,7 @@ namespace LinCms.Application.Cms.Users
                     CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,
                     Email = email,
-                    Introduction = bio + gitHubApiUrl,
+                    Introduction = bio + HtmlUrl,
                     LinUserGroups = new List<LinUserGroup>()
                     {
                         new LinUserGroup()
@@ -102,19 +103,21 @@ namespace LinCms.Application.Cms.Users
         /// <returns></returns>
         public async Task<long> SaveQQAsync(ClaimsPrincipal principal, string openId)
         {
-            string nickname = principal.FindFirst(ClaimTypes.Name)?.Value ?? "默认昵称";
-            string gender = principal.FindFirst(ClaimTypes.Gender)?.Value;
-            string picture = principal.FindFirst(QQAuthenticationConstants.Claims.PictureUrl)?.Value;
-            string picture_medium = principal.FindFirst(QQAuthenticationConstants.Claims.PictureMediumUrl)?.Value;
-            string picture_full = principal.FindFirst(QQAuthenticationConstants.Claims.PictureFullUrl)?.Value;
-            string avatarUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarUrl)?.Value;
-            string avatarFullUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarFullUrl)?.Value;
 
             LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.QQ && r.Credential == openId).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
             {
+
+                string nickname = principal.FindFirst(ClaimTypes.Name)?.Value ?? "默认昵称";
+                string gender = principal.FindFirst(ClaimTypes.Gender)?.Value;
+                string picture = principal.FindFirst(QQAuthenticationConstants.Claims.PictureUrl)?.Value;
+                string picture_medium = principal.FindFirst(QQAuthenticationConstants.Claims.PictureMediumUrl)?.Value;
+                string picture_full = principal.FindFirst(QQAuthenticationConstants.Claims.PictureFullUrl)?.Value;
+                string avatarUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarUrl)?.Value;
+                string avatarFullUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarFullUrl)?.Value;
+
                 LinUser user = new LinUser
                 {
                     Active = UserActive.Active,
@@ -150,28 +153,31 @@ namespace LinCms.Application.Cms.Users
         }
         public async Task<long> SaveGiteeAsync(ClaimsPrincipal principal, string openId)
         {
-            string email = principal.FindFirst(ClaimTypes.Email)?.Value;
-            string name = principal.FindFirst(ClaimTypes.Name)?.Value;
-
-            string giteeUrl = principal.FindFirst(GiteeAuthenticationConstants.Claims.Url)?.Value;
-            string nickname = principal.FindFirst(GiteeAuthenticationConstants.Claims.Name)?.Value;
-
-            string avatarUrl = principal.FindFirst("urn:gitee:avatar_url")?.Value;
-            string blogAddress = principal.FindFirst("urn:gitee:blog")?.Value;
-            string bio = principal.FindFirst("urn:gitee:bio")?.Value;
 
             LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.Gitee && r.Credential == openId).FirstAsync();
 
             long userId = 0;
             if (linUserIdentity == null)
             {
+
+                string email = principal.FindFirst(ClaimTypes.Email)?.Value;
+                string name = principal.FindFirst(ClaimTypes.Name)?.Value;
+
+                //string giteeUrl = principal.FindFirst(GiteeAuthenticationConstants.Claims.Url)?.Value;
+                string nickname = principal.FindFirst(GiteeAuthenticationConstants.Claims.Name)?.Value;
+
+                string avatarUrl = principal.FindFirst("urn:gitee:avatar_url")?.Value;
+                string blogAddress = principal.FindFirst("urn:gitee:blog")?.Value;
+                string bio = principal.FindFirst("urn:gitee:bio")?.Value;
+                string htmlUrl = principal.FindFirst("urn:gitee:html_url")?.Value;
+
                 LinUser user = new LinUser
                 {
                     Active = UserActive.Active,
                     Avatar = avatarUrl,
                     LastLoginTime = DateTime.Now,
                     Email = email,
-                    Introduction = bio + giteeUrl,
+                    Introduction = bio + htmlUrl,
                     LinUserGroups = new List<LinUserGroup>()
                     {
                         new LinUserGroup()
@@ -211,6 +217,7 @@ namespace LinCms.Application.Cms.Users
             var linUserIdentity = await _userIdentityRepository.Where(a => a.CreateUserId == userId && a.IdentityType == LinUserIdentity.Password).FirstAsync();
             await this.ChangePasswordAsync(linUserIdentity, newpassword);
         }
+
         public async Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword)
         {
             string encryptPassword = EncryptUtil.Encrypt(newpassword);
@@ -225,10 +232,12 @@ namespace LinCms.Application.Cms.Users
                 await _userIdentityRepository.UpdateAsync(linUserIdentity);
             }
         }
+
         public async Task DeleteAsync(long userId)
         {
             await _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
         }
+
         public async Task<LinUserIdentity> GetFirstByUserIdAsync(long userId)
         {
             return await _userIdentityRepository
