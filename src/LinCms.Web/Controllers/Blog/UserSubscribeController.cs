@@ -26,8 +26,8 @@ namespace LinCms.Web.Controllers.Blog
     /// <summary>
     /// 用户订阅
     /// </summary>
-    [Area ("blog")]
-    [Route ("api/blog/subscribe")]
+    [Area("blog")]
+    [Route("api/blog/subscribe")]
     [ApiController]
     [Authorize]
     public class UserSubscribeController : ControllerBase
@@ -40,7 +40,7 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IFileRepository _fileRepository;
         private readonly UnitOfWorkManager _unitOfWorkManager;
 
-        public UserSubscribeController (IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
+        public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
             ICurrentUser currentUser, IUserRepository userRepository, IAuditBaseRepository<UserTag> userTagRepository,
             ICapPublisher capPublisher, IFileRepository fileRepository, UnitOfWorkManager unitOfWorkManager)
         {
@@ -58,93 +58,93 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="subscribeUserId"></param>
         /// <returns></returns>
-        [HttpGet ("{subscribeUserId}")]
+        [HttpGet("{subscribeUserId}")]
         [AllowAnonymous]
-        public bool Get (long subscribeUserId)
+        public bool Get(long subscribeUserId)
         {
             if (_currentUser.Id == null) return false;
-            return _userSubscribeRepository.Select.Any (r =>
-                r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
+            return _userSubscribeRepository.Select.Any(r =>
+               r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
         }
 
         /// <summary>
         /// 取消关注用户
         /// </summary>
         /// <param name="subscribeUserId"></param>
-        [HttpDelete ("{subscribeUserId}")]
-        public async Task DeleteAsync (long subscribeUserId)
+        [HttpDelete("{subscribeUserId}")]
+        public async Task DeleteAsync(long subscribeUserId)
         {
-            bool any = await _userSubscribeRepository.Select.AnyAsync (r =>
-                r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
+            bool any = await _userSubscribeRepository.Select.AnyAsync(r =>
+               r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
             if (!any)
             {
-                throw new LinCmsException ("已取消关注");
+                throw new LinCmsException("已取消关注");
             }
 
-            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin ();
-            using ICapTransaction capTransaction = unitOfWork.BeginTransaction (_capBus, false);
+            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
+            using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
 
-            await _userSubscribeRepository.DeleteAsync (r =>
-                r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
+            await _userSubscribeRepository.DeleteAsync(r =>
+               r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
 
-            await _capBus.PublishAsync ("NotificationController.Post", new CreateNotificationDto ()
+            await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
             {
                 NotificationType = NotificationType.UserLikeUser,
-                    NotificationRespUserId = subscribeUserId,
-                    UserInfoId = _currentUser.Id ?? 0,
-                    CreateTime = DateTime.Now,
-                    IsCancel = true
+                NotificationRespUserId = subscribeUserId,
+                UserInfoId = _currentUser.Id ?? 0,
+                CreateTime = DateTime.Now,
+                IsCancel = true
             });
 
-            await capTransaction.CommitAsync ();
+            await capTransaction.CommitAsync();
         }
 
         /// <summary>
         /// 关注用户
         /// </summary>
         /// <param name="subscribeUserId"></param>
-        [HttpPost ("{subscribeUserId}")]
-        public async Task Post (long subscribeUserId)
+        [HttpPost("{subscribeUserId}")]
+        public async Task Post(long subscribeUserId)
         {
             if (subscribeUserId == _currentUser.Id)
             {
-                throw new LinCmsException ("您无法关注自己");
+                throw new LinCmsException("您无法关注自己");
             }
 
-            LinUser linUser = _userRepository.Select.Where (r => r.Id == subscribeUserId).ToOne ();
+            LinUser linUser = _userRepository.Select.Where(r => r.Id == subscribeUserId).ToOne();
             if (linUser == null)
             {
-                throw new LinCmsException ("该用户不存在");
+                throw new LinCmsException("该用户不存在");
             }
 
-            if (!linUser.IsActive ())
+            if (!linUser.IsActive())
             {
-                throw new LinCmsException ("该用户已被拉黑");
+                throw new LinCmsException("该用户已被拉黑");
             }
 
-            bool any = _userSubscribeRepository.Select.Any (r =>
-                r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
+            bool any = _userSubscribeRepository.Select.Any(r =>
+               r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
             if (any)
             {
-                throw new LinCmsException ("您已关注该用户");
+                throw new LinCmsException("您已关注该用户");
             }
 
-            using (IUnitOfWork unitOfWork = _unitOfWorkManager.Begin ())
+            using (IUnitOfWork unitOfWork = _unitOfWorkManager.Begin())
             {
-                using ICapTransaction capTransaction = unitOfWork.BeginTransaction (_capBus, false);
+                using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
 
-                UserSubscribe userSubscribe = new UserSubscribe () { SubscribeUserId = subscribeUserId };
-                await _userSubscribeRepository.InsertAsync (userSubscribe);
+                UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
+                await _userSubscribeRepository.InsertAsync(userSubscribe);
 
-                await _capBus.PublishAsync ("NotificationController.Post", new CreateNotificationDto ()
+                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
                 {
                     NotificationType = NotificationType.UserLikeUser,
-                        NotificationRespUserId = subscribeUserId,
-                        UserInfoId = _currentUser.Id ?? 0,
-                        CreateTime = DateTime.Now,
+                    NotificationRespUserId = subscribeUserId,
+                    UserInfoId = _currentUser.Id ?? 0,
+                    CreateTime = DateTime.Now,
                 });
 
-                await capTransaction.CommitAsync ();
+                await capTransaction.CommitAsync();
             }
         }
 
@@ -154,90 +154,90 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList ([FromQuery] UserSubscribeSearchDto searchDto)
+        public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery] UserSubscribeSearchDto searchDto)
         {
-            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include (r => r.SubscribeUser)
-                .Where (r => r.CreateUserId == searchDto.UserId)
-                .OrderByDescending (r => r.CreateTime)
-                .ToPager (searchDto, out long count)
-                .ToList (r => new UserSubscribeDto
+            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.SubscribeUser)
+                .Where(r => r.CreateUserId == searchDto.UserId)
+                .OrderByDescending(r => r.CreateTime)
+                .ToPager(searchDto, out long count)
+                .ToList(r => new UserSubscribeDto
                 {
                     CreateUserId = r.CreateUserId,
-                        SubscribeUserId = r.SubscribeUserId,
-                        Subscribeer = new OpenUserDto ()
-                        {
-                            Id = r.SubscribeUser.Id,
-                                Introduction = r.SubscribeUser.Introduction,
-                                Nickname = !r.SubscribeUser.IsDeleted ? r.SubscribeUser.Nickname : "该用户已注销",
-                                Avatar = r.SubscribeUser.Avatar,
-                                Username = r.SubscribeUser.Username,
-                        },
-                        IsSubscribeed = _userSubscribeRepository.Select.Any (r => r.CreateUserId == _currentUser.Id && r.SubscribeUserId == r.SubscribeUserId)
+                    SubscribeUserId = r.SubscribeUserId,
+                    Subscribeer = new OpenUserDto()
+                    {
+                        Id = r.SubscribeUser.Id,
+                        Introduction = r.SubscribeUser.Introduction,
+                        Nickname = !r.SubscribeUser.IsDeleted ? r.SubscribeUser.Nickname : "该用户已注销",
+                        Avatar = r.SubscribeUser.Avatar,
+                        Username = r.SubscribeUser.Username,
+                    },
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(r => r.CreateUserId == _currentUser.Id && r.SubscribeUserId == r.SubscribeUserId)
                 });
 
-            userSubscribes.ForEach (r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl (r.Subscribeer.Avatar); });
+            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
 
-            return new PagedResultDto<UserSubscribeDto> (userSubscribes, count);
+            return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
         }
 
         /// <summary>
         /// 得到某个用户的粉丝
         /// </summary>
         /// <returns></returns>
-        [HttpGet ("fans")]
+        [HttpGet("fans")]
         [AllowAnonymous]
-        public PagedResultDto<UserSubscribeDto> GetUserFansList ([FromQuery] UserSubscribeSearchDto searchDto)
+        public PagedResultDto<UserSubscribeDto> GetUserFansList([FromQuery] UserSubscribeSearchDto searchDto)
         {
-            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include (r => r.LinUser)
-                .Where (r => r.SubscribeUserId == searchDto.UserId)
-                .OrderByDescending (r => r.CreateTime)
-                .ToPager (searchDto, out long count)
-                .ToList (r => new UserSubscribeDto
+            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.LinUser)
+                .Where(r => r.SubscribeUserId == searchDto.UserId)
+                .OrderByDescending(r => r.CreateTime)
+                .ToPager(searchDto, out long count)
+                .ToList(r => new UserSubscribeDto
                 {
                     CreateUserId = r.CreateUserId,
-                        SubscribeUserId = r.SubscribeUserId,
-                        Subscribeer = new OpenUserDto ()
-                        {
-                            Id = r.LinUser.Id,
-                                Introduction = r.LinUser.Introduction,
-                                Nickname = !r.LinUser.IsDeleted ? r.LinUser.Nickname : "该用户已注销",
-                                Avatar = r.LinUser.Avatar,
-                                Username = r.LinUser.Username,
-                        },
-                        //当前登录的用户是否关注了这个粉丝
-                        IsSubscribeed = _userSubscribeRepository.Select.Any (
-                            u => u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.CreateUserId)
+                    SubscribeUserId = r.SubscribeUserId,
+                    Subscribeer = new OpenUserDto()
+                    {
+                        Id = r.LinUser.Id,
+                        Introduction = r.LinUser.Introduction,
+                        Nickname = !r.LinUser.IsDeleted ? r.LinUser.Nickname : "该用户已注销",
+                        Avatar = r.LinUser.Avatar,
+                        Username = r.LinUser.Username,
+                    },
+                    //当前登录的用户是否关注了这个粉丝
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(
+                           u => u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.CreateUserId)
                 });
 
-            userSubscribes.ForEach (r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl (r.Subscribeer.Avatar); });
+            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
 
-            return new PagedResultDto<UserSubscribeDto> (userSubscribes, count);
+            return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
         }
 
         /// <summary>
         /// 得到某个用户的关注了、关注者、标签总数
         /// </summary>
         /// <param name="userId"></param>
-        [HttpGet ("user/{userId}")]
+        [HttpGet("user/{userId}")]
         [AllowAnonymous]
-        public SubscribeCountDto GetUserSubscribeInfo (long userId)
+        public SubscribeCountDto GetUserSubscribeInfo(long userId)
         {
             long subscribeCount = _userSubscribeRepository.Select
-                .Where (r => r.CreateUserId == userId)
-                .Count ();
+                .Where(r => r.CreateUserId == userId)
+                .Count();
 
             long fansCount = _userSubscribeRepository.Select
-                .Where (r => r.SubscribeUserId == userId)
-                .Count ();
+                .Where(r => r.SubscribeUserId == userId)
+                .Count();
 
-            long tagCount = _userTagRepository.Select.Include (r => r.Tag)
-                .Where (r => r.CreateUserId == userId).Count ();
+            long tagCount = _userTagRepository.Select.Include(r => r.Tag)
+                .Where(r => r.CreateUserId == userId).Count();
 
             return new SubscribeCountDto
             {
                 SubscribeCount = subscribeCount,
-                    FansCount = fansCount,
-                    TagCount = tagCount
+                FansCount = fansCount,
+                TagCount = tagCount
             };
         }
     }

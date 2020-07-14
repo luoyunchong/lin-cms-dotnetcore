@@ -69,6 +69,7 @@
 		<PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.0" />
 		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.5.1-dev-00358" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
 		<PackageReference Include="ToolGood.Words" Version="3.0.1.2" />
 	</ItemGroup>
 

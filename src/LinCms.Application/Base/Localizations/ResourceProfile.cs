@@ -5,9 +5,9 @@ using LinCms.Application.Contracts.Blog.Channels.Dtos;
 
 namespace LinCms.Application.Blog.Channels
 {
-    public class LocalResourceProfile : Profile
+    public class ResourceProfile : Profile
     {
-        public LocalResourceProfile()
+        public ResourceProfile()
         {
             CreateMap<LocalResource, ResourceDto>();
             CreateMap<ResourceDto, LocalResource>();

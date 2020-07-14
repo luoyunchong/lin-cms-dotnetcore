@@ -10,22 +10,22 @@ namespace LinCms.Web.Controllers.Blog
     /// <summary>
     /// 文章草稿箱，自动保存文章
     /// </summary>
-    [Area ("blog")]
-    [Route ("api/blog/articles/draft")]
+    [Area("blog")]
+    [Route("api/blog/articles/draft")]
     [ApiController]
     [Authorize]
     public class ArticleDraftController : ControllerBase
     {
         private readonly IArticleDraftService _articleDraftService;
-        public ArticleDraftController (IArticleDraftService articleDraftService)
+        public ArticleDraftController(IArticleDraftService articleDraftService)
         {
             _articleDraftService = articleDraftService;
         }
 
-        [HttpPut ("{id}")]
-        public async Task UpdateAsync (Guid id, [FromBody] UpdateArticleDraftDto updateArticleDto)
+        [HttpPut("{id}")]
+        public async Task UpdateAsync(Guid id, [FromBody] UpdateArticleDraftDto updateArticleDto)
         {
-            await _articleDraftService.UpdateAsync (id, updateArticleDto);
+            await _articleDraftService.UpdateAsync(id, updateArticleDto);
         }
 
         /// <summary>
@@ -33,10 +33,10 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet ("{id}")]
-        public Task<ArticleDraftDto> GetAsync (Guid id)
+        [HttpGet("{id}")]
+        public Task<ArticleDraftDto> GetAsync(Guid id)
         {
-            return _articleDraftService.GetAsync (id);
+            return _articleDraftService.GetAsync(id);
         }
     }
 }
