@@ -11,15 +11,15 @@ namespace LinCms.Web.Middleware
 {
     public class UnitOfWorkInterceptor : IInterceptor
     {
-        private readonly UnitOfWorkAsyncInterceptor _interceptor;
+        private readonly UnitOfWorkAsyncInterceptor asyncInterceptor;
         public UnitOfWorkInterceptor(UnitOfWorkAsyncInterceptor interceptor)
         {
-            _interceptor = interceptor;
+            asyncInterceptor = interceptor;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            _interceptor.ToInterceptor().Intercept(invocation);
+            asyncInterceptor.ToInterceptor().Intercept(invocation);
         }
     }
     public class UnitOfWorkAsyncInterceptor : IAsyncInterceptor
@@ -36,14 +36,12 @@ namespace LinCms.Web.Middleware
 
         private bool TryBegin(IInvocation invocation)
         {
-            return false;
-            _unitOfWork = _unitOfWorkManager.Begin();
-            return true;
+            //_unitOfWork = _unitOfWorkManager.Begin(Propagation.Requierd);
+            //return true;
             var method = invocation.MethodInvocationTarget ?? invocation.Method;
             var attribute = method.GetCustomAttributes(typeof(TransactionalAttribute), false).FirstOrDefault();
             if (attribute is TransactionalAttribute transaction)
             {
-                _logger.LogInformation($"事务开启中...");
                 _unitOfWork = _unitOfWorkManager.Begin(transaction.Propagation, transaction.IsolationLevel);
                 return true;
             }
@@ -59,10 +57,11 @@ namespace LinCms.Web.Middleware
         {
             if (TryBegin(invocation))
             {
+                int? hashCode = _unitOfWork?.GetHashCode();
                 invocation.Proceed();
-                _logger.LogInformation($"事务{0}提交前！！！", invocation.GetHashCode());
+                _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交前----- ");
                 _unitOfWork?.Commit();
-                _logger.LogInformation($"事务{0}提交成功！！！", invocation.GetHashCode());
+                _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交成功----- ");
             }
             else
             {
@@ -74,14 +73,36 @@ namespace LinCms.Web.Middleware
         /// 拦截返回结果为Task的方法
         /// </summary>
         /// <param name="invocation"></param>
-        public async void InterceptAsynchronous(IInvocation invocation)
+        public void InterceptAsynchronous(IInvocation invocation)
         {
+          
             if (TryBegin(invocation))
             {
-                invocation.Proceed();
-                var task = (Task)invocation.ReturnValue;
-                await task;
-                OnAfter(task.Exception);
+                var methodName = $"{invocation.MethodInvocationTarget.DeclaringType.FullName}.{invocation.Method.Name}()";
+                int? hashCode = _unitOfWork?.GetHashCode();
+
+                using (_logger.BeginScope("_unitOfWork:{hashCode}", hashCode))
+                {
+                    _logger.LogInformation($"----- async Task 开始事务{ hashCode} {methodName}----- ");
+                 
+                    invocation.Proceed();
+                   
+                    _ = ((Task)invocation.ReturnValue).ContinueWith(
+                    antecedent =>
+                    {
+                        if (antecedent.Exception == null)
+                        {
+                            _unitOfWork?.Commit();
+                            _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
+                        }
+                        else
+                        {
+                            _unitOfWork?.Rollback();
+                            _logger.LogInformation($"----- async Task 事务 { hashCode} Rollback----- ");
+                            _logger.LogInformation($"----- async Task 事务 { hashCode} Rollback----- ");
+                        }
+                    });
+                }
             }
             else
             {
@@ -94,14 +115,32 @@ namespace LinCms.Web.Middleware
         /// </summary>
         /// <param name="invocation"></param>
         /// <typeparam name="TResult"></typeparam>
-        public async void InterceptAsynchronous<TResult>(IInvocation invocation)
+        public void InterceptAsynchronous<TResult>(IInvocation invocation)
         {
             if (TryBegin(invocation))
             {
+                var methodName = $"{invocation.MethodInvocationTarget.DeclaringType.FullName}.{invocation.Method.Name}()";
+                int? hashCode = _unitOfWork?.GetHashCode();
+
+                _logger.LogInformation($"----- async Task<TResult> 开始事务{ hashCode} {methodName}----- ");
+
                 invocation.Proceed();
-                Task task = (Task<TResult>)invocation.ReturnValue;
-                await task;
-                OnAfter(task.Exception);
+             
+                var task = (Task<TResult>)invocation.ReturnValue;
+                _ = ((Task<TResult>)invocation.ReturnValue).ContinueWith(
+                       antecedent =>
+                       {
+                           if (antecedent.Exception == null)
+                           {
+                               _unitOfWork?.Commit();
+                               _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
+                           }
+                           else
+                           {
+                               _unitOfWork?.Rollback();
+                               _logger.LogInformation($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
+                           }
+                       });
             }
             else
             {
@@ -109,19 +148,6 @@ namespace LinCms.Web.Middleware
             }
         }
 
-        void OnAfter(Exception ex)
-        {
-            if (ex == null)
-            {
-                _unitOfWork?.Commit();
-                _logger.LogInformation("OnAfter-Commit", ex);
-            }
-            else
-            {
-                _unitOfWork?.Rollback();
-                _logger.LogInformation("OnAfter-Rollback", ex);
-            }
-        }
     }
 }
 
