@@ -191,10 +191,10 @@ namespace LinCms.Web.Controllers.Cms
         /// <param name="registerDto"></param>
         [Logger("用户注册")]
         [HttpPost("account/register")]
-        public UnifyResponseDto Post([FromBody] RegisterDto registerDto)
+        public async Task<UnifyResponseDto> Register([FromBody] RegisterDto registerDto)
         {
             LinUser user = _mapper.Map<LinUser>(registerDto);
-            _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
+            await _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
             return UnifyResponseDto.Success("注册成功");
         }
     }

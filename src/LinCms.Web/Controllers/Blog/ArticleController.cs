@@ -110,8 +110,8 @@ namespace LinCms.Web.Controllers.Blog
                 DefaultValueHandling = DefaultValueHandling.Ignore
             });
             return await RedisHelper.CacheShellAsync(
-                redisKey, 3600, async () => await _articleService.GetArticleAsync(searchDto)
-               );
+                redisKey, 60, async () => await _articleService.GetArticleAsync(searchDto)
+             );
         }
 
         /// <summary>
