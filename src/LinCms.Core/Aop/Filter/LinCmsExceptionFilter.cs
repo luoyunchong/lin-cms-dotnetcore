@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace LinCms.Core.Aop.Filter
 {
@@ -52,7 +53,7 @@ namespace LinCms.Core.Aop.Filter
             }
             ReadException(context.Exception);
 
-            _logger.LogError(error);
+            //_logger.LogError(error);
 
             UnifyResponseDto apiResponse = new UnifyResponseDto()
             {
@@ -66,6 +67,8 @@ namespace LinCms.Core.Aop.Filter
         private void HandlerException(ExceptionContext context, UnifyResponseDto apiResponse, int statusCode)
         {
             apiResponse.Request = LinCmsUtils.GetRequest(context.HttpContext);
+
+            _logger.LogError(JsonConvert.SerializeObject(apiResponse));
 
             context.Result = new JsonResult(apiResponse)
             {

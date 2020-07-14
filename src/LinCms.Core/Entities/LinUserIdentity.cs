@@ -23,7 +23,7 @@ namespace LinCms.Core.Entities
         public LinUserIdentity(string identityType, string identifier, string credential,DateTime createTime)
         {
             IdentityType = identityType ?? throw new ArgumentNullException(nameof(identityType));
-            Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
+            Identifier = identifier;
             Credential = credential ?? throw new ArgumentNullException(nameof(credential));
             CreateTime = createTime;
         }

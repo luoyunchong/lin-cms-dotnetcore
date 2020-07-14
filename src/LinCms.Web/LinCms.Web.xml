@@ -232,7 +232,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AccountController.Post(LinCms.Application.Contracts.Cms.Account.RegisterDto)">
+        <member name="M:LinCms.Web.Controllers.Cms.AccountController.Register(LinCms.Application.Contracts.Cms.Account.RegisterDto)">
             <summary>
             注册
             </summary>

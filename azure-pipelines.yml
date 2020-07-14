@@ -30,6 +30,8 @@ steps:
       sed -i 's/{Authentication.GitHub.ClientSecret}/$(Authentication.GitHub.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{Authentication.QQ.ClientId}/$(Authentication.QQ.ClientId)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{Authentication.QQ.ClientSecret}/$(Authentication.QQ.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{Authentication.Gitee.ClientId}/$(Authentication.Gitee.ClientId)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{Authentication.Gitee.ClientSecret}/$(Authentication.Gitee.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{IdentityServer.Authority}/$(IdentityServer.Authority)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{CAP.RabbitMQ.HostName}/$(CAP.RabbitMQ.HostName)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{CAP.RabbitMQ.UserName}/$(CAP.RabbitMQ.UserName)/g' src/LinCms.Web/appsettings.Production.json
