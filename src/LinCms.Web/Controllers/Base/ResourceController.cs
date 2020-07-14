@@ -15,13 +15,14 @@ namespace LinCms.Web.Controllers.Blog
     [ApiController]
     public class ResourceController : ControllerBase
     {
-        private readonly ILocalResourceService _resourceService;
-        public ResourceController(ILocalResourceService resourceService)
+        private readonly IResourceService _resourceService;
+        public ResourceController(IResourceService resourceService)
         {
             _resourceService = resourceService;
         }
 
         [HttpDelete("{id}")]
+        [LinCmsAuthorize("删除本地化资源", "本地化资源管理")]
         public async Task<UnifyResponseDto> DeleteAsync(long id)
         {
             await _resourceService.DeleteAsync(id);
@@ -41,14 +42,16 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpPost]
-        public UnifyResponseDto CreateAsync([FromBody] ResourceDto createResource)
+        [LinCmsAuthorize("创建本地化资源 ", "本地化资源管理")]
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] ResourceDto createResource)
         {
-            _resourceService.CreateAsync(createResource);
+            await _resourceService.CreateAsync(createResource);
             return UnifyResponseDto.Success("新建成功");
         }
 
-        [HttpPut("{id}")]
-        public async Task<UnifyResponseDto> UpdateAsync( [FromBody] ResourceDto updateResource)
+        [HttpPut]
+        [LinCmsAuthorize("更新本地化资源 ", "本地化资源管理")]
+        public async Task<UnifyResponseDto> UpdateAsync([FromBody] ResourceDto updateResource)
         {
             await _resourceService.UpdateAsync(updateResource);
             return UnifyResponseDto.Success("更新成功");

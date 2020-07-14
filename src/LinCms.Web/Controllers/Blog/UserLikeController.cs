@@ -22,8 +22,8 @@ namespace LinCms.Web.Controllers.Blog
     /// <summary>
     ///  用户点赞随笔
     /// </summary>
-    [Area ("blog")]
-    [Route ("api/blog/user-like")]
+    [Area("blog")]
+    [Route("api/blog/user-like")]
     [ApiController]
     [Authorize]
     public class UserLikeController : ApiControllerBase
@@ -34,14 +34,14 @@ namespace LinCms.Web.Controllers.Blog
         private readonly ICapPublisher _capBus;
         private readonly IUserLikeService _userLikeService;
         private readonly UnitOfWorkManager _unitOfWorkManager;
-        public UserLikeController (
+        public UserLikeController(
             ICurrentUser currentUser,
             IAuditBaseRepository<Article> articleRepository,
             IAuditBaseRepository<Comment> commentRepository,
             ICapPublisher capBus,
             UnitOfWorkManager unitOfWorkManager,
             IUserLikeService userLikeService
-        ) : base ()
+        ) : base()
         {
             _currentUser = currentUser;
             _articleRepository = articleRepository;
@@ -57,18 +57,18 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UnifyResponseDto> CreateOrCancelAsync ([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
+        public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin ();
-            using ICapTransaction trans = unitOfWork.BeginTransaction (_capBus, false);
+            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
+            using ICapTransaction trans = unitOfWork.BeginTransaction(_capBus, false);
 
-            bool isCancel = await _userLikeService.CreateOrCancelAsync (createUpdateUserLike);
+            bool isCancel = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
 
-            await PublishUserLikeNotification (createUpdateUserLike, isCancel);
+            await PublishUserLikeNotification(createUpdateUserLike, isCancel);
 
-            trans.Commit ();
+            trans.Commit();
 
-            return UnifyResponseDto.Success (isCancel == false? "点赞成功": "已取消点赞");
+            return UnifyResponseDto.Success(isCancel == false ? "点赞成功" : "已取消点赞");
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace LinCms.Web.Controllers.Blog
         /// </summary>
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
-        private async Task PublishUserLikeNotification (CreateUpdateUserLikeDto createUpdateUserLike, bool isCancel)
+        private async Task PublishUserLikeNotification(CreateUpdateUserLikeDto createUpdateUserLike, bool isCancel)
         {
-            var createNotificationDto = new CreateNotificationDto ()
+            var createNotificationDto = new CreateNotificationDto()
             {
                 UserInfoId = _currentUser.Id ?? 0,
                 CreateTime = DateTime.Now,
@@ -89,7 +89,7 @@ namespace LinCms.Web.Controllers.Blog
             {
                 case UserLikeSubjectType.UserLikeArticle:
 
-                    Article subjectArticle = await _articleRepository.Where (r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync ();
+                    Article subjectArticle = await _articleRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
 
                     createNotificationDto.NotificationRespUserId = subjectArticle.CreateUserId;
                     createNotificationDto.NotificationType = NotificationType.UserLikeArticle;
@@ -98,7 +98,7 @@ namespace LinCms.Web.Controllers.Blog
 
                 case UserLikeSubjectType.UserLikeComment:
 
-                    Comment subjectComment = await _commentRepository.Where (r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync ();
+                    Comment subjectComment = await _commentRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
 
                     createNotificationDto.NotificationRespUserId = subjectComment.CreateUserId;
                     createNotificationDto.NotificationType = NotificationType.UserLikeArticleComment;
@@ -109,7 +109,7 @@ namespace LinCms.Web.Controllers.Blog
 
             if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
             {
-                await _capBus.PublishAsync ("NotificationController.Post", createNotificationDto);
+                await _capBus.PublishAsync("NotificationController.Post", createNotificationDto);
             }
         }
     }

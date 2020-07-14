@@ -12,12 +12,12 @@ using LinCms.Core.IRepositories;
 
 namespace LinCms.Application.Base.Localizations
 {
-    class LocalResourceService : ILocalResourceService
+    public class ResourceService : IResourceService
     {
         private readonly IAuditBaseRepository<LocalResource, long> _resourceRepository;
         private readonly IMapper _mapper;
 
-        public LocalResourceService(IMapper mapper, IAuditBaseRepository<LocalResource, long> resourceRepository)
+        public ResourceService(IMapper mapper, IAuditBaseRepository<LocalResource, long> resourceRepository)
         {
             _mapper = mapper;
             _resourceRepository = resourceRepository;

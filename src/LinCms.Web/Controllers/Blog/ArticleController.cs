@@ -46,7 +46,7 @@ namespace LinCms.Web.Controllers.Blog
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<UnifyResponseDto> DeleteMyArticle(Guid id)
+        public async Task<UnifyResponseDto> DeleteMyArticleAsync(Guid id)
         {
             bool isCreateArticle = _articleRepository.Select.Any(r => r.Id == id && r.CreateUserId == _currentUser.Id);
             if (!isCreateArticle)
@@ -142,10 +142,10 @@ namespace LinCms.Web.Controllers.Blog
         /// <returns></returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public Task<ArticleDto> GetAsync(Guid id)
+        public async Task<ArticleDto> GetAsync(Guid id)
         {
-            _articleRepository.UpdateDiy.Set(r => r.ViewHits + 1).Where(r => r.Id == id).ExecuteAffrows();
-            return _articleService.GetAsync(id);
+            await _articleRepository.UpdateDiy.Set(r => r.ViewHits + 1).Where(r => r.Id == id).ExecuteAffrowsAsync();
+            return await _articleService.GetAsync(id);
         }
 
         [HttpPost]
