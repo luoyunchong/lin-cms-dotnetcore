@@ -25,16 +25,15 @@ namespace LinCms.Web.Controllers.Blog
 
         [HttpDelete("{id}")]
         [LinCmsAuthorize("删除本地化 ", "本地化语言")]
-        public async Task<UnifyResponseDto> DeleteAsync(long id)
+        public Task DeleteAsync(long id)
         {
-            await _cultureService.DeleteAsync(id);
-            return UnifyResponseDto.Success();
+            return _cultureService.DeleteAsync(id);
         }
 
         [HttpGet]
-        public async Task<List<CultureDto>> GetListAsync()
+        public Task<List<CultureDto>> GetListAsync()
         {
-            return await _cultureService.GetListAsync();
+            return _cultureService.GetListAsync();
         }
 
         [HttpGet("{id}")]
@@ -45,18 +44,16 @@ namespace LinCms.Web.Controllers.Blog
 
         [HttpPost]
         [LinCmsAuthorize("创建本地化", "本地化语言")]
-        public async Task<UnifyResponseDto> CreateAsync([FromBody] CultureDto createCulture)
+        public Task<CultureDto> CreateAsync([FromBody] CultureDto createCulture)
         {
-            await _cultureService.CreateAsync(createCulture);
-            return UnifyResponseDto.Success("新建成功");
+            return _cultureService.CreateAsync(createCulture);
         }
 
         [HttpPut]
         [LinCmsAuthorize("更新本地化", "本地化语言")]
-        public async Task<UnifyResponseDto> UpdateAsync([FromBody] CultureDto updateCulture)
+        public Task<CultureDto> UpdateAsync([FromBody] CultureDto updateCulture)
         {
-            await _cultureService.UpdateAsync(updateCulture);
-            return UnifyResponseDto.Success("更新成功");
+            return _cultureService.UpdateAsync(updateCulture);
         }
     }
 }

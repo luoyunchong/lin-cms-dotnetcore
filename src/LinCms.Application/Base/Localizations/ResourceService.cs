@@ -31,6 +31,8 @@ namespace LinCms.Application.Base.Localizations
         public async Task<PagedResultDto<ResourceDto>> GetListAsync(ResourceSearchDto searchDto)
         {
             List<ResourceDto> entity = (await _resourceRepository.Select
+                    .Where(r => r.CultureId == searchDto.CultureId)
+                    .WhereIf(searchDto.Key.IsNotNullOrEmpty(), r => r.Key.Contains(searchDto.Key))
                     .ToPagerListAsync(searchDto, out long totalCount))
                     .Select(r =>
                     {
@@ -43,40 +45,38 @@ namespace LinCms.Application.Base.Localizations
 
         public async Task<ResourceDto> GetAsync(long id)
         {
-            LocalResource entity = await _resourceRepository.Select
-                .Where(a => a.Id == id).ToOneAsync();
-
+            LocalResource entity = await _resourceRepository.Select.Where(a => a.Id == id).ToOneAsync();
             ResourceDto resourceDto = _mapper.Map<ResourceDto>(entity);
             return resourceDto;
         }
 
-        public async Task CreateAsync(ResourceDto createResource)
+        public async Task CreateAsync(ResourceDto resourceDto)
         {
-            bool exist = await _resourceRepository.Select.AnyAsync(r => r.Key == createResource.Key);
+            bool exist = await _resourceRepository.Select.AnyAsync(r => r.Key == resourceDto.Key && r.CultureId == resourceDto.CultureId);
             if (exist)
             {
-                throw new LinCmsException($"Key[{createResource.Key}]已存在");
+                throw new LinCmsException($"Key[{resourceDto.Key}]已存在");
             }
 
-            LocalResource entity = _mapper.Map<LocalResource>(createResource);
+            LocalResource entity = _mapper.Map<LocalResource>(resourceDto);
             await _resourceRepository.InsertAsync(entity);
         }
 
-        public async Task UpdateAsync(ResourceDto updateResource)
+        public async Task UpdateAsync(ResourceDto resourceDto)
         {
-            LocalResource entity = await _resourceRepository.Select.Where(r => r.Id == updateResource.Id).ToOneAsync();
+            LocalResource entity = await _resourceRepository.Select.Where(r => r.Id == resourceDto.Id).ToOneAsync();
             if (entity == null)
             {
                 throw new LinCmsException("该数据不存在");
             }
 
-            bool exist = await _resourceRepository.Select.AnyAsync(r => r.Key == updateResource.Key && r.Id != updateResource.Id);
+            bool exist = await _resourceRepository.Select.AnyAsync(r => r.Key == resourceDto.Key && r.Id != resourceDto.Id && r.CultureId == resourceDto.CultureId);
             if (exist)
             {
-                throw new LinCmsException($"Key[{updateResource.Key}]已存在");
+                throw new LinCmsException($"Key[{resourceDto.Key}]已存在");
             }
 
-            _mapper.Map(updateResource, entity);
+            _mapper.Map(resourceDto, entity);
             await _resourceRepository.UpdateAsync(entity);
         }
     }
