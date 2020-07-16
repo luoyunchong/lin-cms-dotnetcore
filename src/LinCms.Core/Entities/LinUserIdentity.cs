@@ -47,7 +47,6 @@ namespace LinCms.Core.Entities
         public string Credential { get; set; }
 
 
-        [Column(DbType = "json")]
         public string ExtraProperties { get; set; }
     }
 }

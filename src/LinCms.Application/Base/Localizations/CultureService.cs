@@ -42,34 +42,36 @@ namespace LinCms.Application.Base.Localizations
             return resourceDto;
         }
 
-        public async Task CreateAsync(CultureDto createCulture)
+        public async Task<CultureDto> CreateAsync(CultureDto cultureDto)
         {
-            bool exist = await _cultureRepository.Select.AnyAsync(r => r.Name == createCulture.Name);
+            bool exist = await _cultureRepository.Select.AnyAsync(r => r.Name == cultureDto.Name);
             if (exist)
             {
-                throw new LinCmsException($"Name[{createCulture.Name}]已存在");
+                throw new LinCmsException($"Name[{cultureDto.Name}]已存在");
             }
 
-            LocalCulture entity = _mapper.Map<LocalCulture>(createCulture);
-            await _cultureRepository.InsertAsync(entity);
+            LocalCulture localCulture = _mapper.Map<LocalCulture>(cultureDto);
+            await _cultureRepository.InsertAsync(localCulture);
+            return _mapper.Map<CultureDto>(localCulture);
         }
 
-        public async Task UpdateAsync(CultureDto updateCulture)
+        public async Task<CultureDto> UpdateAsync(CultureDto cultureDto)
         {
-            LocalCulture entity = await _cultureRepository.Select.Where(r => r.Id == updateCulture.Id).ToOneAsync();
-            if (entity == null)
+            LocalCulture localCulture = await _cultureRepository.Select.Where(r => r.Id == cultureDto.Id).ToOneAsync();
+            if (localCulture == null)
             {
                 throw new LinCmsException("该数据不存在");
             }
 
-            bool exist = await _cultureRepository.Select.AnyAsync(r => r.Name == updateCulture.Name && r.Id != updateCulture.Id);
+            bool exist = await _cultureRepository.Select.AnyAsync(r => r.Name == cultureDto.Name && r.Id != cultureDto.Id);
             if (exist)
             {
-                throw new LinCmsException($"Name[{updateCulture.Name}]已存在");
+                throw new LinCmsException($"Name[{cultureDto.Name}]已存在");
             }
 
-            _mapper.Map(updateCulture, entity);
-            await _cultureRepository.UpdateAsync(entity);
+            _mapper.Map(cultureDto, localCulture);
+            await _cultureRepository.UpdateAsync(localCulture);
+            return _mapper.Map<CultureDto>(localCulture);
         }
     }
 }
