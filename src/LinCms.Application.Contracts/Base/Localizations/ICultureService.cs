@@ -15,8 +15,8 @@ namespace LinCms.Application.Contracts.Base.Cultures
 
         Task<CultureDto> GetAsync(long id);
 
-        Task CreateAsync(CultureDto createChannel);
+        Task<CultureDto> CreateAsync(CultureDto createChannel);
 
-        Task UpdateAsync(CultureDto updateChannel);
+        Task<CultureDto> UpdateAsync(CultureDto updateChannel);
     }
 }
