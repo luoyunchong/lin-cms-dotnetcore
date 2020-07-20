@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Blog.Channels;
-using LinCms.Application.Contracts.Blog.Channels;
-using LinCms.Application.Contracts.Blog.Channels.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Web.Data.Authorization;
+using LinCms.Aop.Filter;
+using LinCms.Blog.Channels;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     /// <summary>
     /// 技术频道

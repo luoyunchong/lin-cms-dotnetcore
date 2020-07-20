@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>LinCms.IdentityServer4</RootNamespace>
     <AssemblyName>LinCms.IdentityServer4</AssemblyName>
     <UserSecretsId>75054c79-633b-497e-9b1c-f1b5fe1da2b7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

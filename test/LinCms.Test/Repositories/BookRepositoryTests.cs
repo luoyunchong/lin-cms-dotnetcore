@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using FreeSql;
-using LinCms.Application.Contracts.v1.Books;
-using LinCms.Application.Contracts.v1.Books.Dtos;
-using LinCms.Core.Entities;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
-using Microsoft.Extensions.DependencyInjection;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.v1.Books;
 using Xunit;
 
 namespace LinCms.Test.Repositories

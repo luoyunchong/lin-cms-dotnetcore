@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Threading.Tasks;
-using LinCms.Core.Entities.Blog;
-using LinCms.Web.Controllers.Blog;
+using LinCms.Controllers.Blog;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using LinCms.Core.IRepositories;
 
 namespace LinCms.Test.Controller.v1
 {

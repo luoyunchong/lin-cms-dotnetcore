@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using FreeSql;
-using LinCms.Application.Contracts;
-using LinCms.Application.Contracts.Blog.Channels.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
-using Microsoft.Extensions.DependencyInjection;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
-namespace LinCms.Application
+namespace LinCms
 {
     public abstract class CrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput,
             TUpdateInput>

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Admins.Dtos;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
+using LinCms.Cms.Admins;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities;
 
-namespace LinCms.Application.Contracts.Cms.Users
+namespace LinCms.Cms.Users
 {
     public interface IUserService
     {

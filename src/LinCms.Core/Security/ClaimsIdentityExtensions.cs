@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 
-namespace LinCms.Core.Security
+namespace LinCms.Security
 {
 
     public static class ClaimsIdentityExtensions

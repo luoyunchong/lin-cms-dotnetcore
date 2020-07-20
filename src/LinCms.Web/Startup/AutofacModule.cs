@@ -4,13 +4,13 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
-using LinCms.Core.Dependency;
-using LinCms.Core.IRepositories;
-using LinCms.Infrastructure.Repositories;
-using LinCms.Web.Data;
-using LinCms.Web.Middleware;
+using LinCms.Data;
+using LinCms.Dependency;
+using LinCms.IRepositories;
+using LinCms.Middleware;
+using LinCms.Repositories;
 
-namespace LinCms.Web.Startup
+namespace LinCms.Startup
 {
     public class AutofacModule : Autofac.Module
     {

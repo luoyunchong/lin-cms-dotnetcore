@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Core.Entities.Settings;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Entities.Settings;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Infrastructure.Repositories
+namespace LinCms.Repositories
 {
     public class SettingRepository : AuditBaseRepository<LinSetting>, ISettingRepository
     {

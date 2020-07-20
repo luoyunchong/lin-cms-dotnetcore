@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using ToolGood.Words;
 
-namespace LinCms.Web.Utils
+namespace LinCms.Utils
 {
     /// <summary>
     /// ToolGood.Words类库配合敏感库

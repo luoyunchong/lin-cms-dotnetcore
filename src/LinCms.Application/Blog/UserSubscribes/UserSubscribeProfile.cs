@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.UserSubscribes
+namespace LinCms.Blog.UserSubscribes
 {
 
     public class UserSubscribeProfile : Profile

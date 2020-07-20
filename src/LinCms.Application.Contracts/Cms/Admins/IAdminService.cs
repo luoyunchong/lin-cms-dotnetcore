@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
+using LinCms.Cms.Permissions;
 
-namespace LinCms.Application.Contracts.Cms.Admins
+namespace LinCms.Cms.Admins
 {
     public interface IAdminService
     {

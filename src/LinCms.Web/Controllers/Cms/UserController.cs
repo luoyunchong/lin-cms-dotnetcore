@@ -2,18 +2,17 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Security;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Aop.Log;
+using LinCms.Aop.Attributes;
+using LinCms.Cms.Groups;
+using LinCms.Cms.Users;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using LinCms.Core.IRepositories;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [ApiController]
     [Route("cms/user")]

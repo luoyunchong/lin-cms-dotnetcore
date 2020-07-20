@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LinCms.Core.Data
+namespace LinCms.Data
 {
     public class PagedResultDto<T>
     {

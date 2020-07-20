@@ -1,12 +1,8 @@
-﻿using System;
-using System.Threading;
-using LinCms.Core.Security;
+﻿using LinCms.Security;
 using Microsoft.AspNetCore.Http;
 using Serilog;
-using Serilog.Core;
-using Serilog.Events;
 
-namespace LinCms.Web.Utils
+namespace LinCms.Utils
 {
     public class LogHelper
     {

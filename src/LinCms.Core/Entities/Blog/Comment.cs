@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
-using LinCms.Core.Exceptions;
+using LinCms.Exceptions;
 
-namespace LinCms.Core.Entities.Blog
+namespace LinCms.Entities.Blog
 {
     /// <summary>
     /// 用户评论信息

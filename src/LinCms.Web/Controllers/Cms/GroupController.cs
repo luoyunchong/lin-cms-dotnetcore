@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Cms.Groups;
-using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Application.Contracts.Cms.Groups.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Web.Data.Authorization;
-using Microsoft.AspNetCore.Authorization;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Groups;
+using LinCms.Data;
+using LinCms.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [Route("cms/admin/group")]
     [ApiController]

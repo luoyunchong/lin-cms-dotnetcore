@@ -1,19 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Web.Data;
-using LinCms.Web.Data.Authorization;
-using LinCms.Web.Utils;
-using Microsoft.AspNetCore.Authorization;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Permissions;
+using LinCms.Data;
+using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [Route("cms/admin/permission")]
     [ApiController]

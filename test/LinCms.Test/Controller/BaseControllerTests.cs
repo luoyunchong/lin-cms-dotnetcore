@@ -4,17 +4,13 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Autofac.Extensions.DependencyInjection;
 using IdentityModel.Client;
 using IdentityServer4.Models;
-using LinCms.Core.Exceptions;
-using LinCms.Web;
+using LinCms.Exceptions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace LinCms.Test.Controller
@@ -39,7 +35,7 @@ namespace LinCms.Test.Controller
             return  WebHost.CreateDefaultBuilder()
                             .UseEnvironment("Development")
                             .UseUrls("https://*:5003")
-                            .UseStartup<LinCms.IdentityServer4.Startup>(); 
+                            .UseStartup<IdentityServer4.Startup>(); 
         }
 
         public async Task HttpClientResourePassword()

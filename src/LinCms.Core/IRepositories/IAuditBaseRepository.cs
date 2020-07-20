@@ -1,7 +1,7 @@
 ﻿using System;
 using FreeSql;
 
-namespace LinCms.Core.IRepositories
+namespace LinCms.IRepositories
 {
     public interface IAuditBaseRepository<TEntity> : IBaseRepository<TEntity, Guid> where TEntity : class
     {

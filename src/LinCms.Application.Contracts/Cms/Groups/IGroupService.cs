@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Groups.Dtos;
-using LinCms.Core.Entities;
+using LinCms.Entities;
 
-namespace LinCms.Application.Contracts.Cms.Groups
+namespace LinCms.Cms.Groups
 {
     public interface IGroupService
     {

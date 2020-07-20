@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Articles;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Application.Contracts.Blog.Classifys;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Application.Contracts.Blog.UserSubscribes;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Blog.Classifys;
+using LinCms.Blog.Tags;
+using LinCms.Blog.UserSubscribes;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Blog.Articles
+namespace LinCms.Blog.Articles
 {
     public class ArticleService : IArticleService
     {

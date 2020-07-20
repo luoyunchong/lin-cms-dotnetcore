@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using AutoMapper;
-using FreeSql;
-using LinCms.Application.Contracts.Blog.Comments;
-using LinCms.Application.Contracts.Blog.Comments.Dtos;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
+using LinCms.Blog.Comments;
+using LinCms.Entities.Blog;
+using LinCms.Extensions;
+using LinCms.IRepositories;
 
 namespace LinCms.Test.Repositories.Blog
 {

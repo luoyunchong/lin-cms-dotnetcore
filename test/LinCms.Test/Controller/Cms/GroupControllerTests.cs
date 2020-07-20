@@ -1,10 +1,7 @@
 ﻿using System;
 using AutoMapper;
-using LinCms.Application;
-using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Application.Contracts.Cms.Groups.Dtos;
-using LinCms.Core.Entities;
-using LinCms.Web;
+using LinCms.Cms.Groups;
+using LinCms.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

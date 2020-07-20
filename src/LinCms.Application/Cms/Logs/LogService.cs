@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FreeSql;
-using LinCms.Application.Contracts.Cms.Logs;
-using LinCms.Application.Contracts.Cms.Logs.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Cms.Logs
+namespace LinCms.Cms.Logs
 {
     public class LogService : ILogService
     {

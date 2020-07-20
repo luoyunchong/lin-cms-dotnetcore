@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using FreeSql;
-using LinCms.Core.Aop.Attributes;
-using LinCms.Web.Middleware;
+using LinCms.Aop.Attributes;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Web.Middleware
+namespace LinCms.Middleware
 {
     public class UnitOfWorkInterceptor : IInterceptor
     {

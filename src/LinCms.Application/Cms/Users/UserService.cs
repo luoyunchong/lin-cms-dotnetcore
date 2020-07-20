@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Admins.Dtos;
-using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Application.Contracts.Cms.Groups.Dtos;
-using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Aop.Attributes;
-using LinCms.Core.Common;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
-using Microsoft.AspNetCore.Authorization;
+using LinCms.Aop.Attributes;
+using LinCms.Cms.Admins;
+using LinCms.Cms.Groups;
+using LinCms.Cms.Permissions;
+using LinCms.Common;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Cms.Users
+namespace LinCms.Cms.Users
 {
     public class UserService : IUserService
     {

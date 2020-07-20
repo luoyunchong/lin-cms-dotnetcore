@@ -1,11 +1,11 @@
 ﻿using System;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Enums;
+using LinCms.Common;
+using LinCms.Data.Enums;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace LinCms.Core.Data
+namespace LinCms.Data
 {
     public class UnifyResponseDto
     {

@@ -8,6 +8,7 @@
 		<TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
 		<DockerfileContext>..\..</DockerfileContext>
 		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+		<RootNamespace>LinCms</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -87,6 +88,7 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
+		<Folder Include="wwwroot\assets" />
 		<Folder Include="wwwroot\assets\" />
 	</ItemGroup>
 

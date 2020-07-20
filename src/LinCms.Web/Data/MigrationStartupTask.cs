@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Autofac;
-using Castle.Core.Logging;
-using LinCms.Core.Dependency;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Web.Data
+namespace LinCms.Data
 {
     public class MigrationStartupTask
     {

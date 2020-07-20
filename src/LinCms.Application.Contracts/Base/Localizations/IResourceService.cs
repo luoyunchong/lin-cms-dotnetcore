@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using IGeekFan.Localization.FreeSql.Models;
-using LinCms.Application.Contracts.Base.Localizations.Dtos;
-using LinCms.Core.Data;
+﻿using System.Threading.Tasks;
+using LinCms.Data;
 
-namespace LinCms.Application.Contracts.Base.Localizations
+namespace LinCms.Base.Localizations
 {
     public interface IResourceService
     {

@@ -6,10 +6,9 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using FreeSql;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
+using LinCms.Blog.Articles;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 
 namespace LinCms.Test.Repositories.Blog
 {

@@ -1,6 +1,6 @@
-﻿using LinCms.Core.Entities;
+﻿using LinCms.Entities;
 
-namespace LinCms.Core.IRepositories
+namespace LinCms.IRepositories
 {
     public interface IFileRepository : IAuditBaseRepository<LinFile>
     {

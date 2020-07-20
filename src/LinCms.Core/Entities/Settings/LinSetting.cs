@@ -1,8 +1,7 @@
 ﻿using System;
-
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities.Settings
+namespace LinCms.Entities.Settings
 {
     [Table(Name = "lin_settings")]
     public class LinSetting : FullAduitEntity<Guid>

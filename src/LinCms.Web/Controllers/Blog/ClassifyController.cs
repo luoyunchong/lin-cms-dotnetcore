@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Classifys;
-using LinCms.Application.Contracts.Blog.Classifys.Dtos;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
+using LinCms.Aop.Filter;
+using LinCms.Blog.Classifys;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     [Area("blog")]
     [Route("api/blog/classifies")]

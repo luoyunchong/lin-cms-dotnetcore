@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Notifications.Dtos;
-using LinCms.Core.Data;
+using LinCms.Data;
 
-namespace LinCms.Application.Contracts.Blog.Notifications
+namespace LinCms.Blog.Notifications
 {
     public interface INotificationService
     {

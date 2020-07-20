@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Core.Aop.Log
+namespace LinCms.Aop.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class LoggerAttribute : Attribute

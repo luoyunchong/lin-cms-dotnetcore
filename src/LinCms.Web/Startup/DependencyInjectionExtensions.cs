@@ -1,29 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
 using System.Diagnostics;
 using System.Threading;
 using AspNetCoreRateLimit;
 using CSRedis;
-using CSRedis.Internal.ObjectPool;
 using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
 using DotNetCore.Security;
 using FreeSql;
 using FreeSql.Internal;
-using IGeekFan.Localization.FreeSql.Models;
-using LinCms.Application.Cms.Files;
-using LinCms.Application.Contracts.Cms.Files;
-using LinCms.Core.Aop.Middleware;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Data.Options;
-using LinCms.Core.Entities;
-using LinCms.Core.Entities.Base;
-using LinCms.Core.Security;
-using LinCms.Infrastructure.FreeSql;
-using LinCms.Web.Data.Authorization;
-using LinCms.Web.Utils;
+using LinCms.Cms.Files;
+using LinCms.Data.Authorization;
+using LinCms.Data.Enums;
+using LinCms.Data.Options;
+using LinCms.Entities;
+using LinCms.FreeSql;
+using LinCms.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
@@ -31,12 +22,11 @@ using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
 using ToolGood.Words;
 
-namespace LinCms.Web.Startup
+namespace LinCms.Startup
 {
     public static class DependencyInjectionExtensions
     {

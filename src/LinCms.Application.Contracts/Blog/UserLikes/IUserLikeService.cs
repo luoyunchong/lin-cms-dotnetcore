@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
 
-namespace LinCms.Application.Contracts.Blog.UserLikes
+namespace LinCms.Blog.UserLikes
 {
     public interface IUserLikeService
     {

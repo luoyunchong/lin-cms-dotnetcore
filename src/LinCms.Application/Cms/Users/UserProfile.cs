@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Cms.Account;
-using LinCms.Application.Contracts.Cms.Admins.Dtos;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Entities;
+using LinCms.Cms.Account;
+using LinCms.Cms.Admins;
+using LinCms.Entities;
 
-namespace LinCms.Application.Cms.Users
+namespace LinCms.Cms.Users
 {
     public class UserProfile : Profile
     {

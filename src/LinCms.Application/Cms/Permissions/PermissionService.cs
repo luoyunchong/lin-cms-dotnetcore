@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Cms.Permissions
+namespace LinCms.Cms.Permissions
 {
     public class PermissionService : IPermissionService
     {

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FreeSql;
-using LinCms.Application.Contracts.Blog.UserSubscribes;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.Blog.UserSubscribes
+namespace LinCms.Blog.UserSubscribes
 {
-    public class UserSubscribeService : Contracts.Blog.UserSubscribes.IUserLikeService
+    public class UserSubscribeService : IUserLikeService
     {
         private readonly IAuditBaseRepository<UserSubscribe,Guid> _userSubscribeRepository;
         public UserSubscribeService(IAuditBaseRepository<UserSubscribe,Guid> userSubscribeRepository)

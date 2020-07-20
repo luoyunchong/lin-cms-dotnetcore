@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.v1.Books.Dtos;
-using LinCms.Core.Entities;
+using LinCms.Entities;
 
-namespace LinCms.Application.v1.Books
+namespace LinCms.v1.Books
 {
     public class BookProfile:Profile
     {

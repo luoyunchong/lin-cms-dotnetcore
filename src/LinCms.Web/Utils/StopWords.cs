@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 
-namespace LinCms.Web.Utils
+namespace LinCms.Utils
 {
     public static class StopWords
     {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using FreeSql.DataAnnotations;
-using LinCms.Core.Data.Enums;
+using LinCms.Data.Enums;
 
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     /// <summary>
     /// 用户信息

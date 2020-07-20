@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.Classifys.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Blog.Classifys;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.Classifies
+namespace LinCms.Blog.Classifies
 {
     public class ClassifyProfile : Profile
     {

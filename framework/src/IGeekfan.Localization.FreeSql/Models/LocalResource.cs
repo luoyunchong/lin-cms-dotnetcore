@@ -1,8 +1,7 @@
 ﻿
 using FreeSql.DataAnnotations;
-using System;
 
-namespace IGeekFan.Localization.FreeSql.Models
+namespace IGeekfan.Localization.FreeSql.Models
 {
     public class LocalResource
     {

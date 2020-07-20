@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
-using LinCms.Core.Data;
+using LinCms.Blog.Tags;
+using LinCms.Blog.UserSubscribes;
+using LinCms.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     [Area("blog")]
     [Route("api/blog/user-tag")]

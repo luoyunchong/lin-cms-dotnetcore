@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.Channels.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.Channels
+namespace LinCms.Blog.Channels
 {
     public class ChannelProfile : Profile
     {

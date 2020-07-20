@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Castle.Core.Logging;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
-using LinCms.Core.Common;
-using LinCms.Core.Data;
-using LinCms.Core.Dependency;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
-using LinCms.Web.Middleware;
-using LinCms.Web.Utils;
-using Microsoft.EntityFrameworkCore;
+using LinCms.Common;
+using LinCms.Dependency;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Web.Data
+namespace LinCms.Data
 {
     public interface IDataSeedContributor
     {

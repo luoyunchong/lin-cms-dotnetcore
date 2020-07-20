@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.v1.Books.Dtos;
-using LinCms.Core.Data;
+using LinCms.Data;
 
-namespace LinCms.Application.Contracts.v1.Books
+namespace LinCms.v1.Books
 {
     public interface IBookService
     {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Comments.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
+using LinCms.Data;
+using LinCms.Entities.Blog;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Application.Contracts.Blog.Comments
+namespace LinCms.Blog.Comments
 {
     public interface ICommentService
     {

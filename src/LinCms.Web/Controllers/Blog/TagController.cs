@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
+using LinCms.Aop.Filter;
+using LinCms.Blog.Tags;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     [Area("blog")]
     [Route("api/blog/tags")]

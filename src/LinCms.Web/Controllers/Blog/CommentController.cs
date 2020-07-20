@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
-using LinCms.Application.Contracts.Blog.Comments;
-using LinCms.Application.Contracts.Blog.Comments.Dtos;
-using LinCms.Application.Contracts.Blog.Notifications.Dtos;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Filter;
+using LinCms.Blog.Comments;
+using LinCms.Blog.Notifications;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     /// <summary>
     /// 随笔评论

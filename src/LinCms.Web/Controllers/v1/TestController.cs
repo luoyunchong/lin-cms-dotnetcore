@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using DotNetCore.CAP;
-using FreeSql;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Aop.Log;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Web.Data.Authorization;
+using LinCms.Aop.Attributes;
+using LinCms.Aop.Filter;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-namespace LinCms.Web.Controllers.v1
+
+namespace LinCms.Controllers.v1
 {
     [Route("cms/test")]
     [ApiController]
