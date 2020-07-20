@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using LinCms.Application.Contracts.Base.BaseItems.Dtos;
-using LinCms.Application.Contracts.Base.BaseTypes.Dtos;
 
 namespace LinCms.Application.Contracts.Base.BaseItems
 {

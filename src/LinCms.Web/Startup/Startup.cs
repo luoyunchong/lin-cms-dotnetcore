@@ -62,10 +62,9 @@ namespace LinCms.Web.Startup
         {
             services.AddContext(Configuration);
             services.AddCsRedisCore(Configuration);
-            services.AddSecurity(Configuration);
+            JsonWebTokenSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
 
             #region AddJwtBearer
-            var jsonWebTokenSettings = services.BuildServiceProvider().GetRequiredService<JsonWebTokenSettings>();
             services.AddAuthentication(opts =>
                 {
                     opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -175,7 +174,8 @@ namespace LinCms.Web.Startup
                     options.ClientId = Configuration["Authentication:QQ:ClientId"];
                     options.ClientSecret = Configuration["Authentication:QQ:ClientSecret"];
                 })
-                .AddGitee(GiteeAuthenticationDefaults.AuthenticationScheme,"码云", options=> {
+                .AddGitee(GiteeAuthenticationDefaults.AuthenticationScheme, "码云", options =>
+                {
                     options.ClientId = Configuration["Authentication:Gitee:ClientId"];
                     options.ClientSecret = Configuration["Authentication:Gitee:ClientSecret"];
 
@@ -235,9 +235,7 @@ namespace LinCms.Web.Startup
                     options.InvalidModelStateResponseFactory = context =>
                     {
                         var problemDetails = new ValidationProblemDetails(context.ModelState);
-
-                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors,
-                            context.HttpContext);
+                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
 
                         return new BadRequestObjectResult(resultDto)
                         {

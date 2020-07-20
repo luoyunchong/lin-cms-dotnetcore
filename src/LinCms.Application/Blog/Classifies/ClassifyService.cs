@@ -15,7 +15,7 @@ using LinCms.Core.Security;
 
 namespace LinCms.Application.Blog.Classifies
 {
-    public class ClassifyService : CrudAppService<Classify, ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto,CreateUpdateClassifyDto>, IClassifyService
+    public class ClassifyService : CrudAppService<Classify, ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto, CreateUpdateClassifyDto>, IClassifyService
     {
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
@@ -28,7 +28,7 @@ namespace LinCms.Application.Blog.Classifies
             _currentUser = currentUser;
             _fileRepository = fileRepository;
         }
-        
+
         public override async Task<PagedResultDto<ClassifyDto>> GetListAsync(ClassifySearchDto searchDto)
         {
             List<ClassifyDto> classify = (await Repository.Select
@@ -46,7 +46,7 @@ namespace LinCms.Application.Blog.Classifies
             return new PagedResultDto<ClassifyDto>(classify, totalCount);
         }
 
-        public  List<ClassifyDto> GetListByUserId(long? userId)
+        public List<ClassifyDto> GetListByUserId(long? userId)
         {
             if (!userId.HasValue)
             {
@@ -123,7 +123,7 @@ namespace LinCms.Application.Blog.Classifies
                 throw new LinCmsException("您无权删除他人的分类专栏");
             }
 
-            await Repository.DeleteAsync(new Classify {Id = id});
+            await Repository.DeleteAsync(new Classify { Id = id });
         }
 
         public async Task UpdateArticleCountAsync(Guid? id, int inCreaseCount)
@@ -132,19 +132,9 @@ namespace LinCms.Application.Blog.Classifies
             {
                 return;
             }
-
-            //防止数量一直减，减到小于0
-            if (inCreaseCount < 0)
-            {
-                Classify classify = await Repository.Select.Where(r => r.Id == id).ToOneAsync();
-                if (classify.ArticleCount < -inCreaseCount)
-                {
-                    return;
-                }
-            }
-
-            await Repository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount).Where(r => r.Id == id)
-                .ExecuteAffrowsAsync();
+            Classify classify = await Repository.Select.Where(r => r.Id == id).ToOneAsync();
+            classify.UpdateArticleCount(inCreaseCount);
+            await Repository.UpdateAsync(classify);
         }
     }
 }
