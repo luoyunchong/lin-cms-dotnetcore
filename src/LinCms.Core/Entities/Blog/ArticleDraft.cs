@@ -1,7 +1,7 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities.Blog
+namespace LinCms.Entities.Blog
 {
     /// <summary>
     /// 文章草稿箱

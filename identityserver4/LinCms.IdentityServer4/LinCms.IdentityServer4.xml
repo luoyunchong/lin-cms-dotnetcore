@@ -15,7 +15,7 @@
             The logger
             </summary>
         </member>
-        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.#ctor(Microsoft.Extensions.Logging.ILogger{LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService},LinCms.Core.IRepositories.IUserRepository)">
+        <member name="M:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService.#ctor(Microsoft.Extensions.Logging.ILogger{LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService},LinCms.IRepositories.IUserRepository)">
             <summary>
             The claims factory.
             </summary>

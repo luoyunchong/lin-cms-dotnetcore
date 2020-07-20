@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Blog.Articles;
-using LinCms.Application.Contracts.Blog.Articles;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Core.Data;
-using Xunit.Abstractions;
 using Xunit;
 using FreeSql;
+using LinCms.Blog.Articles;
+using LinCms.Data;
 
 namespace LinCms.Test.Service.Blog
 {

@@ -1,16 +1,13 @@
 ﻿using DotNetCore.Security;
 using FreeSql;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
-using System.Web;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
+
 namespace LinCms.Test
 {
     public class LinCmsTest : BaseLinCmsTest

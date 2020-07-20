@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using FreeSql.DataAnnotations;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Web;
-using LinCms.Web.Controllers.Cms;
-using LinCms.Web.Data;
-using LinCms.Web.Data.Authorization;
-using LinCms.Web.Startup;
-using LinCms.Web.Utils;
+using LinCms.Aop.Filter;
+using LinCms.Controllers.Cms;
+using LinCms.Data;
+using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Xunit;
@@ -98,7 +92,7 @@ namespace LinCms.Test
         [Fact]
         public void GetAssemblyMethodsAttributes()
         {
-            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup.Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(r =>
@@ -124,7 +118,7 @@ namespace LinCms.Test
         [Fact]
         public void GetControllerAttributes()
         {
-            List<Type> assembly = typeof(Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup.Startup).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>

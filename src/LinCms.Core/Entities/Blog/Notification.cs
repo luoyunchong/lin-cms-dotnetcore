@@ -1,7 +1,7 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities.Blog
+namespace LinCms.Entities.Blog
 {
     [Table(Name = "blog_notification")]
     public class Notification : FullAduitEntity<Guid>

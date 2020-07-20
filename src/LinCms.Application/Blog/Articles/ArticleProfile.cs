@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.ArticleDrafts.Dtos;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Blog.ArticleDrafts;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.Articles
+namespace LinCms.Blog.Articles
 {
     public class ArticleProfile : Profile
     {

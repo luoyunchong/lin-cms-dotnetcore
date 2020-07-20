@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using FreeSql;
-using LinCms.Core.Entities.Blog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 

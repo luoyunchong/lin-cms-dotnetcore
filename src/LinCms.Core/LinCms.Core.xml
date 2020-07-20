@@ -4,55 +4,55 @@
         <name>LinCms.Core</name>
     </assembly>
     <members>
-        <member name="T:LinCms.Core.Aop.Attributes.TransactionalAttribute">
+        <member name="T:LinCms.Aop.Attributes.TransactionalAttribute">
             <summary>
             启用事物
             </summary>
         </member>
-        <member name="P:LinCms.Core.Aop.Attributes.TransactionalAttribute.Propagation">
+        <member name="P:LinCms.Aop.Attributes.TransactionalAttribute.Propagation">
             <summary>
             事务传播方式
             </summary>
         </member>
-        <member name="P:LinCms.Core.Aop.Attributes.TransactionalAttribute.IsolationLevel">
+        <member name="P:LinCms.Aop.Attributes.TransactionalAttribute.IsolationLevel">
             <summary>
             事务隔离级别
             </summary>
         </member>
-        <member name="T:LinCms.Core.Aop.Filter.LinCmsAuthorizeAttribute">
+        <member name="T:LinCms.Aop.Filter.LinCmsAuthorizeAttribute">
             <summary>
              自定义固定权限编码给动态角色及用户，支持验证登录，指定角色、Policy
             </summary>
         </member>
-        <member name="T:LinCms.Core.Aop.Filter.LinCmsExceptionFilter">
+        <member name="T:LinCms.Aop.Filter.LinCmsExceptionFilter">
             <summary>
             出现异常时，如LinCmsException业务异常，会先执行方法过滤器 （LogActionFilterAttribute）的OnActionExecuted才会执行此异常过滤器。
             </summary>
         </member>
-        <member name="T:LinCms.Core.Aop.Filter.LogActionFilterAttribute">
+        <member name="T:LinCms.Aop.Filter.LogActionFilterAttribute">
             <summary>
             全局日志记录
             </summary>
         </member>
-        <member name="T:LinCms.Core.Aop.Middleware.CustomExceptionMiddleWare">
+        <member name="T:LinCms.Aop.Middleware.CustomExceptionMiddleWare">
             <summary>
             如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
             </summary>
         </member>
-        <member name="M:LinCms.Core.Aop.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Core.Data.Enums.ErrorCode,System.Int32)">
+        <member name="M:LinCms.Aop.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Data.Enums.ErrorCode,System.Int32)">
             <summary>
             处理方式：返回Json格式
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Common.EncryptUtil.Encrypt(System.String)">
+        <member name="M:LinCms.Common.EncryptUtil.Encrypt(System.String)">
             <summary>
             通过创建哈希字符串适用于任何 MD5 哈希函数 （在任何平台） 上创建 32 个字符的十六进制格式哈希字符串
             </summary>
             <param name="source"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Common.EncryptUtil.Verify(System.String,System.String)">
+        <member name="M:LinCms.Common.EncryptUtil.Verify(System.String,System.String)">
             <summary>
             验证source加密码后是否生成mdPwd
             </summary>
@@ -60,7 +60,7 @@
             <param name="source"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Common.LinCmsUtils.GetHash``1(System.IO.Stream)">
+        <member name="M:LinCms.Common.LinCmsUtils.GetHash``1(System.IO.Stream)">
             <summary>
             继承HashAlgorithm
             </summary>
@@ -68,165 +68,165 @@
             <param name="stream"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Common.LinCmsUtils.ValidateMobile(System.String)">
+        <member name="M:LinCms.Common.LinCmsUtils.ValidateMobile(System.String)">
             <summary>
             校验手机号码是否符合标准。
             </summary>
             <param name="mobile"></param>
             <returns></returns>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.Success">
+        <member name="F:LinCms.Data.Enums.ErrorCode.Success">
             <summary>
             操作成功
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.UnknownError">
+        <member name="F:LinCms.Data.Enums.ErrorCode.UnknownError">
             <summary>
             未知错误
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.ServerUnknownError">
+        <member name="F:LinCms.Data.Enums.ErrorCode.ServerUnknownError">
             <summary>
             服务器未知错误
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.Error">
+        <member name="F:LinCms.Data.Enums.ErrorCode.Error">
             <summary>
             失败
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.AuthenticationFailed">
+        <member name="F:LinCms.Data.Enums.ErrorCode.AuthenticationFailed">
             <summary>
             认证失败
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.NoPermission">
+        <member name="F:LinCms.Data.Enums.ErrorCode.NoPermission">
             <summary>
             无权限
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.Fail">
+        <member name="F:LinCms.Data.Enums.ErrorCode.Fail">
             <summary>
             失败
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.RefreshTokenError">
+        <member name="F:LinCms.Data.Enums.ErrorCode.RefreshTokenError">
             <summary>
             refreshToken异常
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.NotFound">
+        <member name="F:LinCms.Data.Enums.ErrorCode.NotFound">
             <summary>
             资源不存在
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.ParameterError">
+        <member name="F:LinCms.Data.Enums.ErrorCode.ParameterError">
             <summary>
             参数错误
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.TokenInvalidation">
+        <member name="F:LinCms.Data.Enums.ErrorCode.TokenInvalidation">
             <summary>
             令牌失效
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.TokenExpired">
+        <member name="F:LinCms.Data.Enums.ErrorCode.TokenExpired">
             <summary>
             令牌过期
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.RepeatField">
+        <member name="F:LinCms.Data.Enums.ErrorCode.RepeatField">
             <summary>
             字段重复
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.ErrorCode.Inoperable">
+        <member name="F:LinCms.Data.Enums.ErrorCode.Inoperable">
             <summary>
             禁止操作
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.Status.Enable">
+        <member name="F:LinCms.Data.Enums.Status.Enable">
             <summary>
             启用
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.Status.Forbidden">
+        <member name="F:LinCms.Data.Enums.Status.Forbidden">
             <summary>
             禁用
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.TokenType.Access">
+        <member name="F:LinCms.Data.Enums.TokenType.Access">
             <summary>
             access token
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.TokenType.Refresh">
+        <member name="F:LinCms.Data.Enums.TokenType.Refresh">
             <summary>
             refresh token
             </summary>
         </member>
-        <member name="T:LinCms.Core.Data.Enums.UserActive">
+        <member name="T:LinCms.Data.Enums.UserActive">
             当前用户是否为激活状态的枚举
             ACTIVE 代表 激活状态
             NOT_ACTIVE 代表 非激活状态
         </member>
-        <member name="F:LinCms.Core.Data.Enums.UserActive.Active">
+        <member name="F:LinCms.Data.Enums.UserActive.Active">
             <summary>
             激活状态
             </summary>
         </member>
-        <member name="F:LinCms.Core.Data.Enums.UserActive.NotActive">
+        <member name="F:LinCms.Data.Enums.UserActive.NotActive">
             <summary>
             非激活状态
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.Options.FileStorageOption.MaxFileSize">
+        <member name="P:LinCms.Data.Options.FileStorageOption.MaxFileSize">
             <summary>
             上传文件总大小
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.Options.FileStorageOption.NumLimit">
+        <member name="P:LinCms.Data.Options.FileStorageOption.NumLimit">
             <summary>
             多文件上传时，支持的最大文件数量
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.Options.FileStorageOption.Include">
+        <member name="P:LinCms.Data.Options.FileStorageOption.Include">
             <summary>
             允许某些类型文件上传，文件格式以,隔开
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.Options.FileStorageOption.Exclude">
+        <member name="P:LinCms.Data.Options.FileStorageOption.Exclude">
             <summary>
             禁止某些类型文件上传，文件格式以,隔开
             </summary>
         </member>
-        <member name="T:LinCms.Core.Data.PageDto">
+        <member name="T:LinCms.Data.PageDto">
             <summary>
             分页
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.PageDto.Count">
+        <member name="P:LinCms.Data.PageDto.Count">
             <summary>
             每页个数
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.PageDto.Page">
+        <member name="P:LinCms.Data.PageDto.Page">
             <summary>
             从0开始，0时取第1页，1时取第二页
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.ILimitedResultRequest.Count">
+        <member name="P:LinCms.Data.ILimitedResultRequest.Count">
             <summary>
             Maximum result count should be returned.
             This is generally used to limit result count on paging.
             </summary>
         </member>
-        <member name="T:LinCms.Core.Data.ISortedResultRequest">
+        <member name="T:LinCms.Data.ISortedResultRequest">
             <summary>
             This interface is defined to standardize to request a sorted result.
             </summary>
         </member>
-        <member name="P:LinCms.Core.Data.ISortedResultRequest.Sorting">
+        <member name="P:LinCms.Data.ISortedResultRequest.Sorting">
             <summary>
             Sorting information.
             Should include sorting field and optionally a direction (ASC or DESC)
@@ -239,758 +239,758 @@
             "Name ASC, Age DESC"
             </example>
         </member>
-        <member name="P:LinCms.Core.Data.UnifyResponseDto.Code">
+        <member name="P:LinCms.Data.UnifyResponseDto.Code">
              <summary>
             错误码
              </summary>
         </member>
-        <member name="P:LinCms.Core.Data.UnifyResponseDto.Message">
+        <member name="P:LinCms.Data.UnifyResponseDto.Message">
              <summary>
             错误信息
              </summary>
         </member>
-        <member name="P:LinCms.Core.Data.UnifyResponseDto.Request">
+        <member name="P:LinCms.Data.UnifyResponseDto.Request">
              <summary>
             请求地址
              </summary>
         </member>
-        <member name="T:LinCms.Core.Dependency.IScopedDependency">
+        <member name="T:LinCms.Dependency.IScopedDependency">
             <summary>
             实现该接口将自动注册到Ioc容器，生命周期为每次请求创建一个实例
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.ClassifyId">
+        <member name="P:LinCms.Entities.Blog.Article.ClassifyId">
             <summary>
             文章所在分类专栏Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.ChannelId">
+        <member name="P:LinCms.Entities.Blog.Article.ChannelId">
             <summary>
             系统内置技术频道Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Title">
+        <member name="P:LinCms.Entities.Blog.Article.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Keywords">
+        <member name="P:LinCms.Entities.Blog.Article.Keywords">
             <summary>
             关键字
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Source">
+        <member name="P:LinCms.Entities.Blog.Article.Source">
             <summary>
             来源
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Excerpt">
+        <member name="P:LinCms.Entities.Blog.Article.Excerpt">
             <summary>
             摘要
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Content">
+        <member name="P:LinCms.Entities.Blog.Article.Content">
             <summary>
             正文
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.CommentQuantity">
+        <member name="P:LinCms.Entities.Blog.Article.CommentQuantity">
             <summary>
             评论数量
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.LikesQuantity">
+        <member name="P:LinCms.Entities.Blog.Article.LikesQuantity">
             <summary>
             点赞数量
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Thumbnail">
+        <member name="P:LinCms.Entities.Blog.Article.Thumbnail">
             <summary>
             列表缩略图封面
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.IsAudit">
+        <member name="P:LinCms.Entities.Blog.Article.IsAudit">
             <summary>
             是否审核（默认为true),为false是代表拉黑
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Recommend">
+        <member name="P:LinCms.Entities.Blog.Article.Recommend">
             <summary>
             是否推荐
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.IsStickie">
+        <member name="P:LinCms.Entities.Blog.Article.IsStickie">
             <summary>
             是否置顶
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Archive">
+        <member name="P:LinCms.Entities.Blog.Article.Archive">
             <summary>
             随笔档案   如2019年1月
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.ArticleType">
+        <member name="P:LinCms.Entities.Blog.Article.ArticleType">
             <summary>
             随笔类型
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Editor">
+        <member name="P:LinCms.Entities.Blog.Article.Editor">
              <summary>
             1:MarkDown编辑器  2:富文本编辑器,
              </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Status">
+        <member name="P:LinCms.Entities.Blog.Article.Status">
             <summary>
             状态：1.暂存;2.发布;3.私密随笔
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.WordNumber">
+        <member name="P:LinCms.Entities.Blog.Article.WordNumber">
             <summary>
             字数
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.ReadingTime">
+        <member name="P:LinCms.Entities.Blog.Article.ReadingTime">
             <summary>
             预计阅读时长
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Article.Commentable">
+        <member name="P:LinCms.Entities.Blog.Article.Commentable">
             <summary>
             随笔是否开启评论
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.ArticleType">
+        <member name="T:LinCms.Entities.Blog.ArticleType">
             <summary>
             随笔类型
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.ArticleType.Original">
+        <member name="F:LinCms.Entities.Blog.ArticleType.Original">
             <summary>
             原创
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.ArticleType.Repost">
+        <member name="F:LinCms.Entities.Blog.ArticleType.Repost">
             <summary>
             转载
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.ArticleType.Translated">
+        <member name="F:LinCms.Entities.Blog.ArticleType.Translated">
             <summary>
             翻译
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.ArticleDraft">
+        <member name="T:LinCms.Entities.Blog.ArticleDraft">
             <summary>
             文章草稿箱
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.ArticleDraft.Content">
+        <member name="P:LinCms.Entities.Blog.ArticleDraft.Content">
             <summary>
             正文
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.ArticleDraft.Editor">
+        <member name="P:LinCms.Entities.Blog.ArticleDraft.Editor">
              <summary>
             1:MarkDown编辑器  2:富文本编辑器,
              </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.Channel">
+        <member name="T:LinCms.Entities.Blog.Channel">
             <summary>
             技术频道，官方分类。标签的分类。
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Channel.Thumbnail">
+        <member name="P:LinCms.Entities.Blog.Channel.Thumbnail">
             <summary>
             封面图
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Channel.SortCode">
+        <member name="P:LinCms.Entities.Blog.Channel.SortCode">
             <summary>
             排序
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Channel.ChannelName">
+        <member name="P:LinCms.Entities.Blog.Channel.ChannelName">
             <summary>
             技术频道名称
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Channel.ChannelCode">
+        <member name="P:LinCms.Entities.Blog.Channel.ChannelCode">
             <summary>
             编码
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Channel.Remark">
+        <member name="P:LinCms.Entities.Blog.Channel.Remark">
             <summary>
             备注描述
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Channel.Status">
+        <member name="P:LinCms.Entities.Blog.Channel.Status">
             <summary>
             是否有效
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.Classify">
+        <member name="T:LinCms.Entities.Blog.Classify">
             <summary>
             文章专栏，由普通用户创建
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Classify.Thumbnail">
+        <member name="P:LinCms.Entities.Blog.Classify.Thumbnail">
             <summary>
             封面图
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Classify.SortCode">
+        <member name="P:LinCms.Entities.Blog.Classify.SortCode">
             <summary>
             排序
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Classify.ClassifyName">
+        <member name="P:LinCms.Entities.Blog.Classify.ClassifyName">
             <summary>
             分类专栏名称
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Classify.ArticleCount">
+        <member name="P:LinCms.Entities.Blog.Classify.ArticleCount">
             <summary>
             随笔数量
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.Comment">
+        <member name="T:LinCms.Entities.Blog.Comment">
             <summary>
             用户评论信息
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.RespId">
+        <member name="P:LinCms.Entities.Blog.Comment.RespId">
             <summary>
             回复评论Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.RootCommentId">
+        <member name="P:LinCms.Entities.Blog.Comment.RootCommentId">
             <summary>
             根回复id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.RespUserId">
+        <member name="P:LinCms.Entities.Blog.Comment.RespUserId">
             <summary>
             被回复的用户Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.Text">
+        <member name="P:LinCms.Entities.Blog.Comment.Text">
             <summary>
             回复的文本内容
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.LikesQuantity">
+        <member name="P:LinCms.Entities.Blog.Comment.LikesQuantity">
             <summary>
             点赞量
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.IsAudit">
+        <member name="P:LinCms.Entities.Blog.Comment.IsAudit">
             <summary>
             是否已审核
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.SubjectId">
+        <member name="P:LinCms.Entities.Blog.Comment.SubjectId">
             <summary>
             关联随笔id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.SubjectType">
+        <member name="P:LinCms.Entities.Blog.Comment.SubjectType">
             <summary>
             评论的对象 1 是随笔，其他为以后扩展
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.UserInfo">
+        <member name="P:LinCms.Entities.Blog.Comment.UserInfo">
             <summary>
             评论的用户-OneToOne
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Comment.RespUserInfo">
+        <member name="P:LinCms.Entities.Blog.Comment.RespUserInfo">
             <summary>
             被回复的用户-OneToOne
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.NotificationType">
+        <member name="P:LinCms.Entities.Blog.Notification.NotificationType">
             <summary>
             消息类型
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.IsRead">
+        <member name="P:LinCms.Entities.Blog.Notification.IsRead">
             <summary>
             默认消息未读
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.NotificationRespUserId">
+        <member name="P:LinCms.Entities.Blog.Notification.NotificationRespUserId">
             <summary>
             当前登录人Id，消息接收者
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.UserInfoId">
+        <member name="P:LinCms.Entities.Blog.Notification.UserInfoId">
             <summary>
             创建消息者
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.UserInfo">
+        <member name="P:LinCms.Entities.Blog.Notification.UserInfo">
             <summary>
             创建消息者 关联用户Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.CommentEntry">
+        <member name="P:LinCms.Entities.Blog.Notification.CommentEntry">
             <summary>
             评论消息
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Notification.ArticleEntry">
+        <member name="P:LinCms.Entities.Blog.Notification.ArticleEntry">
             <summary>
             文章内容
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.NotificationType.UserLikeArticle">
+        <member name="F:LinCms.Entities.Blog.NotificationType.UserLikeArticle">
             <summary>
             用户点赞随笔 
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.NotificationType.UserLikeArticleComment">
+        <member name="F:LinCms.Entities.Blog.NotificationType.UserLikeArticleComment">
             <summary>
             用户点赞随笔上的评论
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.NotificationType.UserCommentOnArticle">
+        <member name="F:LinCms.Entities.Blog.NotificationType.UserCommentOnArticle">
             <summary>
             用户评论随笔
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.NotificationType.UserCommentOnComment">
+        <member name="F:LinCms.Entities.Blog.NotificationType.UserCommentOnComment">
             <summary>
             用户回复随笔的评论
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.NotificationType.UserLikeUser">
+        <member name="F:LinCms.Entities.Blog.NotificationType.UserLikeUser">
             <summary>
             用户关注用户
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.Tag">
+        <member name="T:LinCms.Entities.Blog.Tag">
             <summary>
             标签
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.Alias">
+        <member name="P:LinCms.Entities.Blog.Tag.Alias">
             <summary>
             别名
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.Thumbnail">
+        <member name="P:LinCms.Entities.Blog.Tag.Thumbnail">
             <summary>
             标签封面图
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.TagName">
+        <member name="P:LinCms.Entities.Blog.Tag.TagName">
             <summary>
             标签名
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.Status">
+        <member name="P:LinCms.Entities.Blog.Tag.Status">
             <summary>
             标签状态，true:正常，false：拉黑
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.ArticleCount">
+        <member name="P:LinCms.Entities.Blog.Tag.ArticleCount">
             <summary>
             随笔数量
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.ViewHits">
+        <member name="P:LinCms.Entities.Blog.Tag.ViewHits">
             <summary>
             浏览次数
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.Remark">
+        <member name="P:LinCms.Entities.Blog.Tag.Remark">
             <summary>
             标签备注情况
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.Tag.SubscribersCount">
+        <member name="P:LinCms.Entities.Blog.Tag.SubscribersCount">
             <summary>
             关注数量
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.UserLike.SubjectId">
+        <member name="P:LinCms.Entities.Blog.UserLike.SubjectId">
             <summary>
             点赞对象
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.UserLike.SubjectType">
+        <member name="P:LinCms.Entities.Blog.UserLike.SubjectType">
             <summary>
             点赞类型 1 是文章，2 是评论
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.UserLikeSubjectType.UserLikeArticle">
+        <member name="F:LinCms.Entities.Blog.UserLikeSubjectType.UserLikeArticle">
             <summary>
             点赞随笔
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.Blog.UserLikeSubjectType.UserLikeComment">
+        <member name="F:LinCms.Entities.Blog.UserLikeSubjectType.UserLikeComment">
             <summary>
             点赞评论
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.Blog.UserSubscribe">
+        <member name="T:LinCms.Entities.Blog.UserSubscribe">
             <summary>
             用户关注用户
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.UserSubscribe.SubscribeUserId">
+        <member name="P:LinCms.Entities.Blog.UserSubscribe.SubscribeUserId">
             <summary>
             被关注的用户Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Blog.UserSubscribe.CreateUserId">
+        <member name="P:LinCms.Entities.Blog.UserSubscribe.CreateUserId">
             <summary>
             关注的用户Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.EntityDto`1.Id">
+        <member name="P:LinCms.Entities.EntityDto`1.Id">
             <summary>
             主键Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.CreateUserId">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.CreateUserId">
             <summary>
             创建者ID
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.CreateTime">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.CreateTime">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.IsDeleted">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.IsDeleted">
             <summary>
             是否删除
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.DeleteUserId">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.DeleteUserId">
             <summary>
             删除人id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.DeleteTime">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.DeleteTime">
             <summary>
             删除时间
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.UpdateUserId">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.UpdateUserId">
             <summary>
             最后修改人Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.FullAduitEntity`1.UpdateTime">
+        <member name="P:LinCms.Entities.FullAduitEntity`1.UpdateTime">
             <summary>
             修改时间
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.ICreateAduitEntity.CreateUserId">
+        <member name="P:LinCms.Entities.ICreateAduitEntity.CreateUserId">
             <summary>
             创建者ID
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.ICreateAduitEntity.CreateTime">
+        <member name="P:LinCms.Entities.ICreateAduitEntity.CreateTime">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.IUpdateAuditEntity.UpdateUserId">
+        <member name="P:LinCms.Entities.IUpdateAuditEntity.UpdateUserId">
             <summary>
             最后修改人Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.IUpdateAuditEntity.UpdateTime">
+        <member name="P:LinCms.Entities.IUpdateAuditEntity.UpdateTime">
             <summary>
             修改时间
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.IDeleteAduitEntity.IsDeleted">
+        <member name="P:LinCms.Entities.IDeleteAduitEntity.IsDeleted">
             <summary>
             是否删除
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.IDeleteAduitEntity.DeleteUserId">
+        <member name="P:LinCms.Entities.IDeleteAduitEntity.DeleteUserId">
             <summary>
             删除人id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.IDeleteAduitEntity.DeleteTime">
+        <member name="P:LinCms.Entities.IDeleteAduitEntity.DeleteTime">
             <summary>
             删除时间
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Entity`1.Id">
+        <member name="P:LinCms.Entities.Entity`1.Id">
             <summary>
             主键Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.IEntity`1.Id">
+        <member name="P:LinCms.Entities.IEntity`1.Id">
             <summary>
             主键Id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinFile.Extension">
+        <member name="P:LinCms.Entities.LinFile.Extension">
             <summary>
             后缀
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinFile.Md5">
+        <member name="P:LinCms.Entities.LinFile.Md5">
             <summary>
             图片md5值，防止上传重复图片
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinFile.Name">
+        <member name="P:LinCms.Entities.LinFile.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinFile.Path">
+        <member name="P:LinCms.Entities.LinFile.Path">
             <summary>
             路径
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinFile.Size">
+        <member name="P:LinCms.Entities.LinFile.Size">
             <summary>
             大小
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinFile.Type">
+        <member name="P:LinCms.Entities.LinFile.Type">
             <summary>
             1 local，2 代表七牛云 3 其他表示其他地方
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinGroup.Name">
+        <member name="P:LinCms.Entities.LinGroup.Name">
             <summary>
             权限组名称
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinGroup.Info">
+        <member name="P:LinCms.Entities.LinGroup.Info">
             <summary>
             权限组描述
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinGroup.IsStatic">
+        <member name="P:LinCms.Entities.LinGroup.IsStatic">
             <summary>
             是否是静态分组
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.LinGroup.Admin">
+        <member name="F:LinCms.Entities.LinGroup.Admin">
             <summary>
             超级管理员
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.LinGroup.CmsAdmin">
+        <member name="F:LinCms.Entities.LinGroup.CmsAdmin">
             <summary>
             Cms管理员
             </summary>
         </member>
-        <member name="F:LinCms.Core.Entities.LinGroup.User">
+        <member name="F:LinCms.Entities.LinGroup.User">
             <summary>
             普通用户
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinGroupPermission.GroupId">
+        <member name="P:LinCms.Entities.LinGroupPermission.GroupId">
             <summary>
             分组id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinGroupPermission.PermissionId">
+        <member name="P:LinCms.Entities.LinGroupPermission.PermissionId">
             <summary>
             权限Id
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.LinLog">
+        <member name="T:LinCms.Entities.LinLog">
             <summary>
             日志表
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.Authority">
+        <member name="P:LinCms.Entities.LinLog.Authority">
             <summary>
             访问哪个权限
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.Message">
+        <member name="P:LinCms.Entities.LinLog.Message">
             <summary>
             日志信息
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.Method">
+        <member name="P:LinCms.Entities.LinLog.Method">
             <summary>
             请求方法
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.Path">
+        <member name="P:LinCms.Entities.LinLog.Path">
             <summary>
             请求路径
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.StatusCode">
+        <member name="P:LinCms.Entities.LinLog.StatusCode">
             <summary>
             请求的http返回码
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.UserId">
+        <member name="P:LinCms.Entities.LinLog.UserId">
             <summary>
             用户id
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinLog.Username">
+        <member name="P:LinCms.Entities.LinLog.Username">
             <summary>
             用户当时的昵称
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPermission.Name">
+        <member name="P:LinCms.Entities.LinPermission.Name">
             <summary>
             所属权限、权限名称，例如：访问首页
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPermission.Module">
+        <member name="P:LinCms.Entities.LinPermission.Module">
             <summary>
             权限所属模块，例如：人员管理
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPoem.Author">
+        <member name="P:LinCms.Entities.LinPoem.Author">
             <summary>
             作者
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPoem.Content">
+        <member name="P:LinCms.Entities.LinPoem.Content">
             <summary>
             内容，以/来分割每一句，以|来分割宋词的上下片
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPoem.Dynasty">
+        <member name="P:LinCms.Entities.LinPoem.Dynasty">
             <summary>
             朝代
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPoem.Image">
+        <member name="P:LinCms.Entities.LinPoem.Image">
             <summary>
             配图
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinPoem.Title">
+        <member name="P:LinCms.Entities.LinPoem.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.LinUser">
+        <member name="T:LinCms.Entities.LinUser">
             <summary>
             用户信息
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.Username">
+        <member name="P:LinCms.Entities.LinUser.Username">
             <summary>
             用户名
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.Nickname">
+        <member name="P:LinCms.Entities.LinUser.Nickname">
             <summary>
             昵称
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.Avatar">
+        <member name="P:LinCms.Entities.LinUser.Avatar">
             <summary>
              用户默认生成图像，为null、头像url
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.Email">
+        <member name="P:LinCms.Entities.LinUser.Email">
             <summary>
             电子邮箱
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.Active">
+        <member name="P:LinCms.Entities.LinUser.Active">
             <summary>
             当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.PhoneNumber">
+        <member name="P:LinCms.Entities.LinUser.PhoneNumber">
             <summary>
             手机号
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.Introduction">
+        <member name="P:LinCms.Entities.LinUser.Introduction">
             <summary>
             个人介绍
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.BlogAddress">
+        <member name="P:LinCms.Entities.LinUser.BlogAddress">
             <summary>
              个人主页
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUser.LastLoginTime">
+        <member name="P:LinCms.Entities.LinUser.LastLoginTime">
             <summary>
             最后一次登录的时间
             </summary>
         </member>
-        <member name="T:LinCms.Core.Entities.LinUserIdentity">
+        <member name="T:LinCms.Entities.LinUserIdentity">
             <summary>
             用户身份认证登录表
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUserIdentity.IdentityType">
+        <member name="P:LinCms.Entities.LinUserIdentity.IdentityType">
              <summary>
             认证类型， Password，GitHub、QQ、WeiXin等
              </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUserIdentity.Identifier">
+        <member name="P:LinCms.Entities.LinUserIdentity.Identifier">
             <summary>
             认证者，例如 用户名,手机号，邮件等，
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.LinUserIdentity.Credential">
+        <member name="P:LinCms.Entities.LinUserIdentity.Credential">
             <summary>
              凭证，例如 密码,存OpenId、Id，同一IdentityType的OpenId的值是唯一的
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Settings.LinSetting.Name">
+        <member name="P:LinCms.Entities.Settings.LinSetting.Name">
             <summary>
             键
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Settings.LinSetting.Value">
+        <member name="P:LinCms.Entities.Settings.LinSetting.Value">
             <summary>
             值
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Settings.LinSetting.ProviderName">
+        <member name="P:LinCms.Entities.Settings.LinSetting.ProviderName">
             <summary>
             提供者
             </summary>
         </member>
-        <member name="P:LinCms.Core.Entities.Settings.LinSetting.ProviderKey">
+        <member name="P:LinCms.Entities.Settings.LinSetting.ProviderKey">
             <summary>
             提供者值
             </summary>
         </member>
-        <member name="F:LinCms.Core.Exceptions.LinCmsException._code">
+        <member name="F:LinCms.Exceptions.LinCmsException._code">
             <summary>
             状态码
             </summary>
         </member>
-        <member name="F:LinCms.Core.Exceptions.LinCmsException._errorCode">
+        <member name="F:LinCms.Exceptions.LinCmsException._errorCode">
             <summary>
             错误码，当为0时，代表正常
             </summary>
         </member>
-        <member name="M:LinCms.Core.Exceptions.LinCmsException.#ctor">
+        <member name="M:LinCms.Exceptions.LinCmsException.#ctor">
             <summary>
             
             </summary>
         </member>
-        <member name="M:LinCms.Core.Exceptions.LinCmsException.GetCode">
+        <member name="M:LinCms.Exceptions.LinCmsException.GetCode">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Extensions.CollectionsExtensions.ToPager``2(FreeSql.ISelect{``0,``1},LinCms.Core.Data.PageDto,System.Int64@)">
+        <member name="M:LinCms.Extensions.CollectionsExtensions.ToPager``2(FreeSql.ISelect{``0,``1},LinCms.Data.PageDto,System.Int64@)">
             <summary>
             Page 方法是从1开始
             </summary>
@@ -1001,7 +1001,7 @@
             <param name="count"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Extensions.CollectionsExtensions.GetOrDefault``2(System.Collections.Generic.Dictionary{``0,``1},``0)">
+        <member name="M:LinCms.Extensions.CollectionsExtensions.GetOrDefault``2(System.Collections.Generic.Dictionary{``0,``1},``0)">
             <summary>
             Gets a value from the dictionary with given key. Returns default value if can not find.
             </summary>
@@ -1011,144 +1011,144 @@
             <typeparam name="TValue">Type of the value</typeparam>
             <returns>Value if found, default if can not found.</returns>
         </member>
-        <member name="T:LinCms.Core.Extensions.DateTimeExtensions">
+        <member name="T:LinCms.Extensions.DateTimeExtensions">
             <summary>
             系统扩展 - 日期
             </summary>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToDateTimeString(System.DateTime,System.Boolean)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateTimeString(System.DateTime,System.Boolean)">
             <summary>
             获取格式化字符串，带时分秒，格式："yyyy-MM-dd HH:mm:ss"
             </summary>
             <param name="dateTime">日期</param>
             <param name="removeSecond">是否移除秒</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToDateTimeString(System.Nullable{System.DateTime},System.Boolean)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateTimeString(System.Nullable{System.DateTime},System.Boolean)">
             <summary>
             获取格式化字符串，带时分秒，格式："yyyy-MM-dd HH:mm:ss"
             </summary>
             <param name="dateTime">日期</param>
             <param name="removeSecond">是否移除秒</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToDateString(System.DateTime)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateString(System.DateTime)">
             <summary>
             获取格式化字符串，不带时分秒，格式："yyyy-MM-dd"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToDateString(System.Nullable{System.DateTime})">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateString(System.Nullable{System.DateTime})">
             <summary>
             获取格式化字符串，不带时分秒，格式："yyyy-MM-dd"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToTimeString(System.DateTime)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToTimeString(System.DateTime)">
             <summary>
             获取格式化字符串，不带年月日，格式："HH:mm:ss"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToTimeString(System.Nullable{System.DateTime})">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToTimeString(System.Nullable{System.DateTime})">
             <summary>
             获取格式化字符串，不带年月日，格式："HH:mm:ss"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToMillisecondString(System.DateTime)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToMillisecondString(System.DateTime)">
             <summary>
             获取格式化字符串，带毫秒，格式："yyyy-MM-dd HH:mm:ss.fff"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToMillisecondString(System.Nullable{System.DateTime})">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToMillisecondString(System.Nullable{System.DateTime})">
             <summary>
             获取格式化字符串，带毫秒，格式："yyyy-MM-dd HH:mm:ss.fff"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToChineseDateString(System.DateTime)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateString(System.DateTime)">
             <summary>
             获取格式化字符串，不带时分秒，格式："yyyy年MM月dd日"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToChineseDateString(System.Nullable{System.DateTime})">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateString(System.Nullable{System.DateTime})">
             <summary>
             获取格式化字符串，不带时分秒，格式："yyyy年MM月dd日"
             </summary>
             <param name="dateTime">日期</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToChineseDateTimeString(System.DateTime,System.Boolean)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateTimeString(System.DateTime,System.Boolean)">
             <summary>
             获取格式化字符串，带时分秒，格式："yyyy年MM月dd日 HH时mm分"
             </summary>
             <param name="dateTime">日期</param>
             <param name="removeSecond">是否移除秒</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.ToChineseDateTimeString(System.Nullable{System.DateTime},System.Boolean)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateTimeString(System.Nullable{System.DateTime},System.Boolean)">
             <summary>
             获取格式化字符串，带时分秒，格式："yyyy年MM月dd日 HH时mm分"
             </summary>
             <param name="dateTime">日期</param>
             <param name="removeSecond">是否移除秒</param>
         </member>
-        <member name="M:LinCms.Core.Extensions.DateTimeExtensions.Description(System.TimeSpan)">
+        <member name="M:LinCms.Extensions.DateTimeExtensions.Description(System.TimeSpan)">
             <summary>
             获取描述
             </summary>
             <param name="span">时间间隔</param>
         </member>
-        <member name="T:LinCms.Core.Extensions.LinCmsTimeConverter">
+        <member name="T:LinCms.Extensions.LinCmsTimeConverter">
             <summary>
             配合LinCMS中的时间戳 后台只返回 1562904163734
             </summary>
         </member>
-        <member name="M:LinCms.Core.Extensions.LinCmsTimeConverter.ConvertDateTimeInt(System.DateTime)">
+        <member name="M:LinCms.Extensions.LinCmsTimeConverter.ConvertDateTimeInt(System.DateTime)">
             <summary>
             日期转换为时间戳（时间戳单位毫秒）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.Extensions.StringExtensions.IsNullOrEmpty(System.String)">
+        <member name="M:LinCms.Extensions.StringExtensions.IsNullOrEmpty(System.String)">
             <summary>
             Indicates whether this string is null or an System.String.Empty string.
             </summary>
         </member>
-        <member name="M:LinCms.Core.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
+        <member name="M:LinCms.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
             <summary>
             indicates whether this string is null, empty, or consists only of white-space characters.
             </summary>
         </member>
-        <member name="M:LinCms.Core.IRepositories.IUserRepository.GetUserAsync(System.Linq.Expressions.Expression{System.Func{LinCms.Core.Entities.LinUser,System.Boolean}})">
+        <member name="M:LinCms.IRepositories.IUserRepository.GetUserAsync(System.Linq.Expressions.Expression{System.Func{LinCms.Entities.LinUser,System.Boolean}})">
             <summary>
             根据条件得到用户信息
             </summary>
             <param name="expression"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Core.IRepositories.IUserRepository.UpdateLastLoginTimeAsync(System.Int64)">
+        <member name="M:LinCms.IRepositories.IUserRepository.UpdateLastLoginTimeAsync(System.Int64)">
             <summary>
             根据用户Id更新用户的最后登录时间
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Core.LinCms.Core.NameValue">
+        <member name="T:LinCms.LinCms.Core.NameValue">
             <summary>
             Can be used to store Name/Value (or Key/Value) pairs.
             </summary>
         </member>
-        <member name="T:LinCms.Core.LinCms.Core.NameValue`1">
+        <member name="T:LinCms.LinCms.Core.NameValue`1">
             <summary>
             Can be used to store Name/Value (or Key/Value) pairs.
             </summary>
         </member>
-        <member name="P:LinCms.Core.LinCms.Core.NameValue`1.Name">
+        <member name="P:LinCms.LinCms.Core.NameValue`1.Name">
             <summary>
             Name.
             </summary>
         </member>
-        <member name="P:LinCms.Core.LinCms.Core.NameValue`1.Value">
+        <member name="P:LinCms.LinCms.Core.NameValue`1.Value">
             <summary>
             Value.
             </summary>

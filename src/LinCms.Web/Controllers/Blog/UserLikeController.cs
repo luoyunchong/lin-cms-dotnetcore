@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using DotNetCore.CAP;
 using FreeSql;
-using LinCms.Application.Blog.UserSubscribes;
-using LinCms.Application.Contracts.Blog.Notifications;
-using LinCms.Application.Contracts.Blog.Notifications.Dtos;
-using LinCms.Application.Contracts.Blog.UserLikes;
-using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Blog.Notifications;
+using LinCms.Blog.UserLikes;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     /// <summary>
     ///  用户点赞随笔

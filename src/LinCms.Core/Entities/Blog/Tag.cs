@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities.Blog
+namespace LinCms.Entities.Blog
 {
     /// <summary>
     /// 标签

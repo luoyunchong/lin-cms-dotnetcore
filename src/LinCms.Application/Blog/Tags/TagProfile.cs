@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.Tags
+namespace LinCms.Blog.Tags
 {
     public class TagProfile : Profile
     {

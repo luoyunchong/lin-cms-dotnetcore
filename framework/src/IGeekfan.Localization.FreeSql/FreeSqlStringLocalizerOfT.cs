@@ -3,10 +3,10 @@
 
 using System.Collections.Generic;
 using System.Globalization;
-using IGeekFan.Localization.FreeSql.Models;
+using IGeekfan.Localization.FreeSql.Models;
 using Microsoft.Extensions.Localization;
 
-namespace IGeekFan.Localization.FreeSql
+namespace IGeekfan.Localization.FreeSql
 {
     public class FreeSqlStringLocalizer<T> : IStringLocalizer<T>
     {

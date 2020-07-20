@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace LinCms.Core.Extensions
+namespace LinCms.Extensions
 {
     public static class StringExtensions
     {

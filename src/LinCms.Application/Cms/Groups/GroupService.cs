@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Groups;
-using LinCms.Application.Contracts.Cms.Groups.Dtos;
-using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Cms.Permissions;
+using LinCms.Common;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Http;
 
-namespace LinCms.Application.Cms.Groups
+namespace LinCms.Cms.Groups
 {
     public class GroupService : IGroupService
     {

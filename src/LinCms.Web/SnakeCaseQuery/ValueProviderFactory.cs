@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using LinCms;
-using LinCms.Core.Extensions;
-using LinCms.Web;
-using LinCms.Web.SnakeCaseQuery;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace LinCms.Web.SnakeCaseQuery
+namespace LinCms.SnakeCaseQuery
 {
 
     public class ValueProviderFactory : IValueProviderFactory

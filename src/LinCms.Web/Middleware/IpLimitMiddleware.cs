@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace LinCms.Web.Middleware
+namespace LinCms.Middleware
 {
     public class IpLimitMiddleware : IpRateLimitMiddleware
     {

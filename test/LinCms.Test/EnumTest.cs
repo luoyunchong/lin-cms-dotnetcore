@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LinCms.Core.Data.Enums;
+using LinCms.Data.Enums;
 using Xunit;
 
 namespace LinCms.Test

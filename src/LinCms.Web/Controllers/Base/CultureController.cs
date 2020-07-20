@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Base.Cultures;
-using LinCms.Application.Contracts.Base.Localizations;
-using LinCms.Application.Contracts.Base.Localizations.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Web.Data.Authorization;
+using LinCms.Aop.Filter;
+using LinCms.Base.Localizations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Base
 {
     [Area("base")]
     [Route("api/base/culture")]

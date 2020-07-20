@@ -2,19 +2,16 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Files;
-using LinCms.Application.Contracts.Cms.Files.Dtos;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Options;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
+using LinCms.Common;
+using LinCms.Data.Options;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace LinCms.Application.Cms.Files
+namespace LinCms.Cms.Files
 {
     public class LocalFileService : IFileService
     {

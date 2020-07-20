@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Base.BaseTypes.Dtos;
 
-namespace LinCms.Application.Contracts.Base.BaseTypes
+namespace LinCms.Base.BaseTypes
 {
     public interface IBaseTypeService
     {

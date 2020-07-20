@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Core.Aop.Attributes;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Attributes;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Blog.Tags
+namespace LinCms.Blog.Tags
 {
     public class UserTagService:IUserTagService
     {

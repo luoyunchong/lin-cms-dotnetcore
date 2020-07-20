@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 
-namespace LinCms.Application.Contracts.Cms.Account
+namespace LinCms.Cms.Account
 {
     public class RegisterDto : IValidatableObject
     {

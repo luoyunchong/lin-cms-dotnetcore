@@ -1,8 +1,7 @@
 ﻿using System;
-
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     /// <summary>
     /// 用户身份认证登录表

@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DotNetCore.Security;
-using Elasticsearch.Net;
 using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
-using IdentityServer4.Services;
-using LinCms.Application.Contracts.Cms.Account;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Aop.Log;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Attributes;
+using LinCms.Cms.Account;
+using LinCms.Cms.Users;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [AllowAnonymous]
     [ApiController]

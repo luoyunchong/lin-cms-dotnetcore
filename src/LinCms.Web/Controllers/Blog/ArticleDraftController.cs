@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.ArticleDrafts;
-using LinCms.Application.Contracts.Blog.ArticleDrafts.Dtos;
+using LinCms.Blog.ArticleDrafts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     /// <summary>
     /// 文章草稿箱，自动保存文章

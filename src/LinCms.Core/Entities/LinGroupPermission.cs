@@ -1,6 +1,6 @@
 ﻿using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     [Table(Name = "lin_group_permission")]
     public class LinGroupPermission : Entity<long>

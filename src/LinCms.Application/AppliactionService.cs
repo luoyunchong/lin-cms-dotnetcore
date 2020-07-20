@@ -1,13 +1,12 @@
 ﻿using System;
 using AutoMapper;
-using LinCms.Application.Contracts;
-using LinCms.Core.Security;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace LinCms.Application
+namespace LinCms
 {
     public abstract class ApplicationService : IApplicationService
     {

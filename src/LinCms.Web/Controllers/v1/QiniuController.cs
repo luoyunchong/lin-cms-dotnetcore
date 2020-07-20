@@ -3,22 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using LinCms.Application.Blog.Tags;
-using LinCms.Application.Cms.Files;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Application.Contracts.Cms.Files;
-using LinCms.Application.Contracts.Cms.Files.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
+using LinCms.Blog.Tags;
+using LinCms.Cms.Files;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LinCms.Web.Controllers.v1
+namespace LinCms.Controllers.v1
 {
     /// <summary>
     /// 七牛云上传服务

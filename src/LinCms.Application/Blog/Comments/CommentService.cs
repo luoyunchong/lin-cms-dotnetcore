@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Comments;
-using LinCms.Application.Contracts.Blog.Comments.Dtos;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Cms.Users;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Application.Blog.Comments
+namespace LinCms.Blog.Comments
 {
     public class CommentService : ICommentService
     {

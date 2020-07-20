@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Core.Entities.Settings;
+using LinCms.Entities.Settings;
 
-namespace LinCms.Core.IRepositories
+namespace LinCms.IRepositories
 {
     public interface ISettingRepository : IAuditBaseRepository<LinSetting>
     {

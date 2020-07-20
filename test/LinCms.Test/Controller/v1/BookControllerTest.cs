@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using FreeSql;
-using LinCms.Application.Contracts.v1.Books.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using Microsoft.AspNetCore.Hosting;
+using LinCms.Data;
+using LinCms.v1.Books;
 using Newtonsoft.Json;
 using Xunit;
 

@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Permissions;
+using LinCms.Cms.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 
-namespace LinCms.Web.Data.Authorization
+namespace LinCms.Data.Authorization
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
     {

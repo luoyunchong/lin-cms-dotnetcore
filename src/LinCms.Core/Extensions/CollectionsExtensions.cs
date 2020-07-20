@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Core.Data;
+using LinCms.Data;
 
-namespace LinCms.Core.Extensions
+namespace LinCms.Extensions
 {
     public static class CollectionsExtensions
     {

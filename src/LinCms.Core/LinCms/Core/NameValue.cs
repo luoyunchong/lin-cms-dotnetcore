@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Core.LinCms.Core
+namespace LinCms.LinCms.Core
 {
     /// <summary>
     /// Can be used to store Name/Value (or Key/Value) pairs.

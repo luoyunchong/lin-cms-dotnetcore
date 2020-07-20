@@ -1,14 +1,14 @@
-﻿using FreeSql;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.Entities.Base;
+﻿using System;
+using System.Collections.Generic;
+using FreeSql;
+using LinCms.Common;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Entities.Base;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using System;
-using System.Collections.Generic;
 
-namespace LinCms.Infrastructure.FreeSql
+namespace LinCms.FreeSql
 {
     public static class FreeSqlExtension
     {

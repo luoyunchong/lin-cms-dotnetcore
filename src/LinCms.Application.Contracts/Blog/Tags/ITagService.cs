@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
-using LinCms.Core.Data;
+using LinCms.Blog.UserSubscribes;
+using LinCms.Data;
 
-namespace LinCms.Application.Contracts.Blog.Tags
+namespace LinCms.Blog.Tags
 {
     public interface ITagService
     {

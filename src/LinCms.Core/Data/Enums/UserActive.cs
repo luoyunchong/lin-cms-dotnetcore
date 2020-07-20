@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LinCms.Core.Data.Enums
+﻿namespace LinCms.Data.Enums
 {
     /**
     * 当前用户是否为激活状态的枚举

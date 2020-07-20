@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Base.BaseItems.Dtos;
 
-namespace LinCms.Application.Contracts.Base.BaseItems
+namespace LinCms.Base.BaseItems
 {
     public interface IBaseItemService
     {

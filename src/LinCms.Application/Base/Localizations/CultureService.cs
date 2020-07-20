@@ -1,16 +1,11 @@
-﻿using AutoMapper;
-using IGeekFan.Localization.FreeSql.Models;
-using LinCms.Application.Contracts.Base.Cultures;
-using LinCms.Application.Contracts.Base.Localizations.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using IGeekfan.Localization.FreeSql.Models;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.Base.Localizations
+namespace LinCms.Base.Localizations
 {
     public class CultureService : ICultureService
     {

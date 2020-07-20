@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Core.Data
+namespace LinCms.Data
 {
     public class PermissionDefinition
     {

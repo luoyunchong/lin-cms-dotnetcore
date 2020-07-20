@@ -2,7 +2,7 @@
 using System.Data;
 using FreeSql;
 
-namespace LinCms.Core.Aop.Attributes
+namespace LinCms.Aop.Attributes
 {
     /// <summary>
     /// 启用事物

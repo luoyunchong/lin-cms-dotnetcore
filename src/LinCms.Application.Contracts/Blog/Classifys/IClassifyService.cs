@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Classifys.Dtos;
-using LinCms.Core.Data;
 
-namespace LinCms.Application.Contracts.Blog.Classifys
+namespace LinCms.Blog.Classifys
 {
     public interface IClassifyService:ICrudAppService<ClassifyDto,ClassifyDto,Guid,ClassifySearchDto,CreateUpdateClassifyDto,CreateUpdateClassifyDto>
     {

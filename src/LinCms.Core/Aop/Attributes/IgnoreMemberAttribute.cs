@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Core.Aop
+namespace LinCms.Aop.Attributes
 {
     // source: https://github.com/jhewlett/ValueObject
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace LinCms.Core.Extensions
+namespace LinCms.Extensions
 {
     /// <summary>
     /// 系统扩展 - 日期

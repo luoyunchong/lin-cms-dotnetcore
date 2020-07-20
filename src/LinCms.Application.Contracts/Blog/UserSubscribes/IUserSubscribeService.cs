@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinCms.Application.Contracts.Blog.UserSubscribes
+namespace LinCms.Blog.UserSubscribes
 {
     public interface IUserLikeService
     {

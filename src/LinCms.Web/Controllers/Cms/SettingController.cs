@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Settings;
-using LinCms.Application.Contracts.Cms.Settings.Dtos;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Settings;
+using LinCms.Data;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [Route("cms/settings")]
     [ApiController]

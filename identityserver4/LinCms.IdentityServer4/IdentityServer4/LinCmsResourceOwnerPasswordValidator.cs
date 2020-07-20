@@ -2,10 +2,9 @@
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using LinCms.Application.Cms.Users;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
+using LinCms.Cms.Users;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
 namespace LinCms.IdentityServer4.IdentityServer4
 {

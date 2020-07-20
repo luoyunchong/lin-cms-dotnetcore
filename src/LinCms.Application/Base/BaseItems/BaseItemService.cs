@@ -2,13 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Base.BaseItems;
-using LinCms.Application.Contracts.Base.BaseItems.Dtos;
-using LinCms.Core.Entities.Base;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
+using LinCms.Entities.Base;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.Base.BaseItems
+namespace LinCms.Base.BaseItems
 {
     public class BaseItemService : IBaseItemService
     {

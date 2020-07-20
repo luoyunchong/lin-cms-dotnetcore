@@ -1,4 +1,4 @@
-﻿namespace LinCms.Core.Common
+﻿namespace LinCms.Common
 {
     public static class LinConsts
     {

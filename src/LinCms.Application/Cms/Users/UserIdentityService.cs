@@ -1,24 +1,21 @@
-﻿using AspNet.Security.OAuth.GitHub;
-using AspNet.Security.OAuth.QQ;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Common;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.Gitee;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
+using AspNet.Security.OAuth.GitHub;
+using AspNet.Security.OAuth.QQ;
 using AutoMapper;
-using LinCms.Core.Data;
-using LinCms.Core.Security;
-using LinCms.Core.Exceptions;
-using System.Linq;
+using LinCms.Common;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Cms.Users
+namespace LinCms.Cms.Users
 {
     public class UserIdentityService : IUserIdentityService
     {

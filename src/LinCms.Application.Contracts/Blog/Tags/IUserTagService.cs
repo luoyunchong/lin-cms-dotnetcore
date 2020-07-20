@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LinCms.Application.Contracts.Blog.Tags
+namespace LinCms.Blog.Tags
 {
     public interface IUserTagService
     {

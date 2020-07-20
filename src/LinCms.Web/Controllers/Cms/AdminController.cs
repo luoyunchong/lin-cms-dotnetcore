@@ -1,27 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using AutoMapper;
-
-using LinCms.Application.Cms.Admin;
-using LinCms.Application.Cms.Users;
-using LinCms.Application.Contracts.Cms.Admins;
-using LinCms.Application.Contracts.Cms.Admins.Dtos;
-using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Attributes;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Aop.Log;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Web.Data.Authorization;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Admins;
+using LinCms.Cms.Users;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [Route("cms/admin")]
     [ApiController]

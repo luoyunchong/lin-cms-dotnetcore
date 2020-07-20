@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
+using LinCms.Data;
+using LinCms.Entities;
 
-namespace LinCms.Application.Contracts.Cms.Permissions
+namespace LinCms.Cms.Permissions
 {
     public interface IPermissionService
     {

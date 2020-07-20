@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
+﻿using LinCms.Blog.Tags;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

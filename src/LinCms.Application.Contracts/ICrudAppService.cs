@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using LinCms.Application.Contracts.Base.BaseTypes.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
+﻿using System.Threading.Tasks;
+using LinCms.Data;
+using LinCms.Entities;
 
-namespace LinCms.Application.Contracts
+namespace LinCms
 {
     public interface ICrudAppService<TGetOutputDto, TGetListOutputDto,in TKey,in TGetListInput,in TCreateInput,in TUpdateInput>
         where TGetOutputDto : IEntityDto<TKey>

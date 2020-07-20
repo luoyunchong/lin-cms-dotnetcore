@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
+using LinCms.Aop.Filter;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.IRepositories;
 using LinCms.Plugins.Poem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -14,7 +14,7 @@ using DotNetCore.CAP.Persistence;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 
-namespace DotNetCore.CAP.MySql
+namespace DotNetCore.CAP
 {
     internal class MySqlMonitoringApi : IMonitoringApi
     {

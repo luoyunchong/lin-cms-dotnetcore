@@ -1,14 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using LinCms.Application.Contracts.Base.Localizations;
-using LinCms.Application.Contracts.Base.Localizations.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Web.Data.Authorization;
+﻿using System.Threading.Tasks;
+using LinCms.Aop.Filter;
+using LinCms.Base.Localizations;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Base
 {
     [Area("base")]
     [Route("api/base/resource")]

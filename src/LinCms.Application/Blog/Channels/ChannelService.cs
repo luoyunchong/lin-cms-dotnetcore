@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Channels;
-using LinCms.Application.Contracts.Blog.Channels.Dtos;
-using LinCms.Core.Aop.Attributes;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Attributes;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Application.Blog.Channels
+namespace LinCms.Blog.Channels
 {
     public class ChannelService : IChannelService
     {
