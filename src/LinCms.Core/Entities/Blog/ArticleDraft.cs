@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
 using FreeSql.DataAnnotations;
 
 namespace LinCms.Core.Entities.Blog
@@ -12,6 +9,18 @@ namespace LinCms.Core.Entities.Blog
     [Table(Name = "blog_article_draft")]
     public class ArticleDraft : FullAduitEntity<Guid>
     {
+        public ArticleDraft()
+        {
+        }
+
+        public ArticleDraft(Guid id,string content, string title, int editor)
+        {
+            Id = id;
+            Content = content ?? throw new ArgumentNullException(nameof(content));
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Editor = editor;
+        }
+
         /// <summary>
         /// 正文
         /// </summary>

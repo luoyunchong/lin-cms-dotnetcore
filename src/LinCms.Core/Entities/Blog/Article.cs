@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using LinCms.Core.Exceptions;
 
 namespace LinCms.Core.Entities.Blog
 {
@@ -135,6 +136,25 @@ namespace LinCms.Core.Entities.Blog
         public void IncreaseViewHits()
         {
             this.ViewHits += 1;
+        }
+
+        public void UpdateLikeQuantity(int likesQuantity)
+        {
+            if (IsAudit == false)
+            {
+                throw new LinCmsException("该文章因违规被拉黑");
+            }
+
+            if (likesQuantity < 0)
+            {
+                //防止数量一直减，减到小于0
+                if (LikesQuantity < -likesQuantity)
+                {
+                    return;
+                }
+            }
+
+            this.LikesQuantity += likesQuantity;
         }
     }
 

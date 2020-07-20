@@ -94,8 +94,7 @@ namespace LinCms.Application.Cms.Users
         {
             List<UserDto> linUsers = _userRepository.Select
                 .IncludeMany(r => r.LinGroups)
-                .WhereIf(searchDto.GroupId != null,
-                    r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
+                .WhereIf(searchDto.GroupId != null,r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(r =>
@@ -195,8 +194,8 @@ namespace LinCms.Application.Cms.Users
             }
 
             await _userRepository.UpdateDiy.Where(r => r.Id == id)
-                .Set(r => new { Active = userActive.GetHashCode() })
-                .ExecuteUpdatedAsync();
+                                           .Set(r => new { Active = userActive.GetHashCode() })
+                                           .ExecuteUpdatedAsync();
         }
 
         public async Task<LinUser> GetCurrentUserAsync()

@@ -29,15 +29,13 @@ namespace LinCms.Web.Controllers.Blog
         private readonly IArticleService _articleService;
         private readonly IMapper _mapper;
         private readonly ICurrentUser _currentUser;
-        private readonly IClassifyService _classifyService;
 
-        public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, IArticleService articleService, IClassifyService classifyService)
+        public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, IArticleService articleService)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
             _currentUser = currentUser;
             _articleService = articleService;
-            _classifyService = classifyService;
         }
 
         /// <summary>
@@ -156,16 +154,10 @@ namespace LinCms.Web.Controllers.Blog
         }
 
         [HttpPut("{id}")]
-        public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticleDto)
+        public async Task<UnifyResponseDto> UpdateAsync([FromServices] IClassifyService _classifyService, Guid id, [FromBody] CreateUpdateArticleDto updateArticleDto)
         {
-            Article article = await _articleService.UpdateAsync(id, updateArticleDto);
+            await _articleService.UpdateAsync(id, updateArticleDto);
             await _articleService.UpdateTagAsync(id, updateArticleDto);
-            if (article.ClassifyId != updateArticleDto.ClassifyId)
-            {
-                await _classifyService.UpdateArticleCountAsync(article.ClassifyId, -1);
-                await _classifyService.UpdateArticleCountAsync(updateArticleDto.ClassifyId, 1);
-            }
-
             return UnifyResponseDto.Success("更新随笔成功");
         }
 
@@ -199,6 +191,18 @@ namespace LinCms.Web.Controllers.Blog
         public async Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync([FromQuery] PageDto pageDto)
         {
             return await _articleService.GetSubscribeArticleAsync(pageDto);
+        }
+
+        /// <summary>
+        /// 修改随笔是否验证评论
+        /// </summary>
+        /// <param name="id">随笔主键</param>
+        /// <param name="commetable">true:允许评论;false:不允许评论</param>
+        /// <returns></returns>
+        [HttpPut("{id}/comment-able/{commentable}")]
+        public Task UpdateCommentable(Guid id, bool commetable)
+        {
+            return _articleService.UpdateCommentable(id, commetable);
         }
     }
 }

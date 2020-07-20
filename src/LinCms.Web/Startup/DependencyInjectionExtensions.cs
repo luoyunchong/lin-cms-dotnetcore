@@ -143,18 +143,18 @@ namespace LinCms.Web.Startup
         }
         #endregion
 
-        public static void AddSecurity(this IServiceCollection services, IConfiguration configuration)
+        public static JsonWebTokenSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
         {
+            JsonWebTokenSettings jsonWebTokenSettings = new JsonWebTokenSettings(
+                           configuration["Authentication:JwtBearer:SecurityKey"],
+                           new TimeSpan(30, 0, 0, 0),
+                           configuration["Authentication:JwtBearer:Audience"],
+                           configuration["Authentication:JwtBearer:Issuer"]
+                       );
             services.AddHash(10000, 128);
             services.AddCryptography("lin-cms-dotnetcore-cryptography");
-            services.AddJsonWebToken(
-                new JsonWebTokenSettings(
-                        configuration["Authentication:JwtBearer:SecurityKey"],
-                        new TimeSpan(30, 0, 0, 0),
-                        configuration["Authentication:JwtBearer:Audience"],
-                        configuration["Authentication:JwtBearer:Issuer"]
-                    )
-                );
+            services.AddJsonWebToken(jsonWebTokenSettings);
+            return jsonWebTokenSettings;
         }
 
         public static void AddDIServices(this IServiceCollection services)

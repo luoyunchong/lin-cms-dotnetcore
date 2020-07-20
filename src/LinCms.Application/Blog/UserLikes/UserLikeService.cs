@@ -50,7 +50,6 @@ namespace LinCms.Application.Blog.UserLikes
                 await _userLikeRepository.DeleteAsync(predicate);
             }
 
-
             switch (createUpdateUserLike.SubjectType)
             {
                 case UserLikeSubjectType.UserLikeArticle:
@@ -69,7 +68,6 @@ namespace LinCms.Application.Blog.UserLikes
 
             UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
             await _userLikeRepository.InsertAsync(userLike);
-
             return false;
         }
     }
