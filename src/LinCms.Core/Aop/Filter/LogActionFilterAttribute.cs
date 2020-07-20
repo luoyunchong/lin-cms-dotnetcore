@@ -1,21 +1,16 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using LinCms.Core.Aop.Log;
-using LinCms.Core.Common;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Attributes;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace LinCms.Core.Aop.Filter
+namespace LinCms.Aop.Filter
 {
     /// <summary>
     /// 全局日志记录

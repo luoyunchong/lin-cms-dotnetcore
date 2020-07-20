@@ -4,15 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Notifications;
-using LinCms.Application.Contracts.Blog.Notifications.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Blog.Notifications
+namespace LinCms.Blog.Notifications
 {
     public class NotificationService : INotificationService
     {

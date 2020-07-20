@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Admins;
-using LinCms.Application.Contracts.Cms.Permissions;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
+using LinCms.Cms.Admins;
+using LinCms.Cms.Permissions;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.Cms.Admin
+namespace LinCms.Cms.Admin
 {
     public class AdminService : IAdminService
     {

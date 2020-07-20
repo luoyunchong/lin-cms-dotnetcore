@@ -1,4 +1,4 @@
-﻿using LinCms.Core.Common;
+﻿using LinCms.Common;
 using Xunit;
 using Xunit.Abstractions;
 

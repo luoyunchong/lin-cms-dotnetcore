@@ -2,15 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using IGeekFan.Localization.FreeSql.Models;
-using LinCms.Application.Contracts.Base.Localizations;
-using LinCms.Application.Contracts.Base.Localizations.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
+using IGeekfan.Localization.FreeSql.Models;
+using LinCms.Data;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.Base.Localizations
+namespace LinCms.Base.Localizations
 {
     public class ResourceService : IResourceService
     {

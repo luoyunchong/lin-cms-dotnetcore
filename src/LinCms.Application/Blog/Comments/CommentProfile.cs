@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.Comments.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.Comments
+namespace LinCms.Blog.Comments
 {
     public class CommentProfile : Profile
     {

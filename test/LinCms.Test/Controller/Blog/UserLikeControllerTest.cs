@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
-using LinCms.Application.Contracts.Blog.Articles;
-using LinCms.Application.Contracts.Blog.UserLikes;
-using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
-using LinCms.Core.Entities.Blog;
-using LinCms.Web.Controllers.Blog;
-using Microsoft.Extensions.DependencyInjection;
+using LinCms.Blog.UserLikes;
+using LinCms.Entities.Blog;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace LinCms.Test.Controller.Blog
 {

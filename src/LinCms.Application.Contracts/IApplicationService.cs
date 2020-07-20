@@ -1,4 +1,4 @@
-﻿namespace LinCms.Application.Contracts
+﻿namespace LinCms
 {
     public interface IApplicationService
     {

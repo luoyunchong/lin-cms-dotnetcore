@@ -2,24 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-#if !DEBUG
-using System.Security.Cryptography.X509Certificates;
-#endif
 using AutoMapper;
 using HealthChecks.UI.Client;
 using IdentityServer4.Configuration;
-using LinCms.Application.Cms.Users;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Aop.Middleware;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Users;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Extensions;
 using LinCms.IdentityServer4.IdentityServer4;
-using LinCms.Infrastructure.Repositories;
+using LinCms.IRepositories;
+using LinCms.Repositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -29,8 +23,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Serilog;
+
+#if !DEBUG
+using System.Security.Cryptography.X509Certificates;
+#endif
 
 namespace LinCms.IdentityServer4
 {

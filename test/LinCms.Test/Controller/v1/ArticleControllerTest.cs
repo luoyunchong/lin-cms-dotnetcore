@@ -1,11 +1,9 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Articles;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Web.Controllers.Blog;
+using LinCms.Blog.Articles;
+using LinCms.Controllers.Blog;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace LinCms.Test.Controller.v1
 {

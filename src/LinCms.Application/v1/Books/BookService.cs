@@ -2,15 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.v1.Books;
-using LinCms.Application.Contracts.v1.Books.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.v1.Books
+namespace LinCms.v1.Books
 {
     public class BookService : IBookService
     {

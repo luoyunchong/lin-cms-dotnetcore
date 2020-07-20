@@ -1,8 +1,6 @@
-﻿using System;
+﻿using FreeSql.DataAnnotations;
 
-using FreeSql.DataAnnotations;
-
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     /// <summary>
     /// 日志表

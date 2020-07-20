@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading;
-using LinCms.Core.Dependency;
+using LinCms.Dependency;
 using Microsoft.AspNetCore.Http;
 
-namespace LinCms.Core.Security
+namespace LinCms.Security
 {
     public class CurrentUser : ICurrentUser, ITransientDependency
     {

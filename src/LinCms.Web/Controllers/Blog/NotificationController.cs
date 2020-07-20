@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
-using LinCms.Application.Contracts.Blog.Notifications;
-using LinCms.Application.Contracts.Blog.Notifications.Dtos;
-using LinCms.Core.Data;
+using LinCms.Blog.Notifications;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     [Area("blog")]
     [Route("api/blog/notifications")]

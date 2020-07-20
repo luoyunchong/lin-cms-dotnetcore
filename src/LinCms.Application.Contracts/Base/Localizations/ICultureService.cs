@@ -1,11 +1,7 @@
-﻿using IGeekFan.Localization.FreeSql.Models;
-using LinCms.Application.Contracts.Base.Localizations.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinCms.Application.Contracts.Base.Cultures
+namespace LinCms.Base.Localizations
 {
     public interface ICultureService
     {

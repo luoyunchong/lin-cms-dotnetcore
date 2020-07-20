@@ -2,9 +2,6 @@
 using System.IO;
 using System.Net.Http;
 using Autofac.Extensions.DependencyInjection;
-using AutoMapper.Configuration;
-using LinCms.Web;
-using LinCms.Web.Startup;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +47,7 @@ namespace LinCms.Test
                   .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                   .ConfigureWebHostDefaults(webBuilder =>
                   {
-                      webBuilder.UseStartup<Startup>().UseEnvironment("Development");
+                      webBuilder.UseStartup<Startup.Startup>().UseEnvironment("Development");
                       webBuilder.UseTestServer();
                   })
                   .ConfigureLogging(logging =>

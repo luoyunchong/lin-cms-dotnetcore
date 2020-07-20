@@ -1,6 +1,6 @@
 ﻿using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     [Table(Name = "book")]
     public class Book : FullAduitEntity

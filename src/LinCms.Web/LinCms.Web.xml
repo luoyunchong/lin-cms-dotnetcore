@@ -4,49 +4,49 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
             <summary>
             删除自己的随笔
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.Delete(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.Delete(System.Guid)">
             <summary>
             管理员删除违规随笔
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.Get(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.Get(LinCms.Blog.Articles.ArticleSearchDto)">
             <summary>
             我所有的随笔
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetArticleAsync(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetArticleAsync(LinCms.Blog.Articles.ArticleSearchDto)">
             <summary>
             得到所有已审核过的随笔,最新的随笔/三天、七天、月榜、全部
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Application.Contracts.Blog.Articles.Dtos.ArticleSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Blog.Articles.ArticleSearchDto)">
             <summary>
             得到所有的随笔
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetAsync(System.Guid)">
             <summary>
             随笔详情
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.AuditAsync(System.Guid,System.Boolean)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.AuditAsync(System.Guid,System.Boolean)">
             <summary>
             审核随笔-拉黑/取消拉黑
             </summary>
@@ -54,14 +54,14 @@
             <param name="isAudit"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.GetSubscribeArticleAsync(LinCms.Core.Data.PageDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetSubscribeArticleAsync(LinCms.Data.PageDto)">
             <summary>
             得到我关注的人发布的随笔
             </summary>
             <param name="pageDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.UpdateCommentable(System.Guid,System.Boolean)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.UpdateCommentable(System.Guid,System.Boolean)">
             <summary>
             修改随笔是否验证评论
             </summary>
@@ -69,64 +69,64 @@
             <param name="commetable">true:允许评论;false:不允许评论</param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Controllers.Blog.ArticleDraftController">
+        <member name="T:LinCms.Controllers.Blog.ArticleDraftController">
             <summary>
             文章草稿箱，自动保存文章
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.ArticleDraftController.GetAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.ArticleDraftController.GetAsync(System.Guid)">
             <summary>
             用户的随笔草稿详情
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Controllers.Blog.ChannelController">
+        <member name="T:LinCms.Controllers.Blog.ChannelController">
             <summary>
             技术频道
             </summary>
         </member>
-        <member name="T:LinCms.Web.Controllers.Blog.CommentController">
+        <member name="T:LinCms.Controllers.Blog.CommentController">
             <summary>
             随笔评论
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetListByArticleAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.GetListByArticleAsync(LinCms.Blog.Comments.CommentSearchDto)">
             <summary>
             评论分页列表页,当随笔Id有值时，查询出此随笔的评论
             </summary>
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.GetListAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CommentSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.GetListAsync(LinCms.Blog.Comments.CommentSearchDto)">
             <summary>
             后台权限-评论列表页
             </summary>
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.DeleteAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.DeleteAsync(System.Guid)">
             <summary>
             后台权限-删除评论
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.DeleteMyComment(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.DeleteMyComment(System.Guid)">
             <summary>
             用户仅可删除自己的评论
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.CreateAsync(LinCms.Application.Contracts.Blog.Comments.Dtos.CreateCommentDto)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.CreateAsync(LinCms.Blog.Comments.CreateCommentDto)">
             <summary>
             用户评论
             </summary>
             <param name="createCommentDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.UpdateAsync(System.Guid,System.Boolean)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.UpdateAsync(System.Guid,System.Boolean)">
             <summary>
             审核评论-拉黑/取消拉黑
             </summary>
@@ -134,7 +134,7 @@
             <param name="isAudit"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.CommentController.CorrectedComment(System.Guid,System.Int32)">
+        <member name="M:LinCms.Controllers.Blog.CommentController.CorrectedComment(System.Guid,System.Int32)">
             <summary>
             评论-校正评论量,subjectType(1：文章)
             </summary>
@@ -142,118 +142,118 @@
             <param name="subjectType"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.TagController.CorrectedTagCountAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.TagController.CorrectedTagCountAsync(System.Guid)">
             <summary>
             标签-校正标签对应文章数量
             </summary>
             <param name="tagId"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Controllers.Blog.UserLikeController">
+        <member name="T:LinCms.Controllers.Blog.UserLikeController">
             <summary>
              用户点赞随笔
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.CreateOrCancelAsync(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto)">
+        <member name="M:LinCms.Controllers.Blog.UserLikeController.CreateOrCancelAsync(LinCms.Blog.UserLikes.CreateUpdateUserLikeDto)">
             <summary>
             用户点赞/取消点赞文章、评论 
             </summary>
             <param name="createUpdateUserLike"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserLikeController.PublishUserLikeNotification(LinCms.Application.Contracts.Blog.UserLikes.Dtos.CreateUpdateUserLikeDto,System.Boolean)">
+        <member name="M:LinCms.Controllers.Blog.UserLikeController.PublishUserLikeNotification(LinCms.Blog.UserLikes.CreateUpdateUserLikeDto,System.Boolean)">
             <summary>
             根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
             </summary>
             <param name="createUpdateUserLike"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Controllers.Blog.UserSubscribeController">
+        <member name="T:LinCms.Controllers.Blog.UserSubscribeController">
             <summary>
             用户订阅
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.Get(System.Int64)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.Get(System.Int64)">
             <summary>
             判断当前登录的用户是否关注了beSubscribeUserId
             </summary>
             <param name="subscribeUserId"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.DeleteAsync(System.Int64)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.DeleteAsync(System.Int64)">
             <summary>
             取消关注用户
             </summary>
             <param name="subscribeUserId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.Post(System.Int64)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.Post(System.Int64)">
             <summary>
             关注用户
             </summary>
             <param name="subscribeUserId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserSubscribeeeList(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeeeList(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)">
             <summary>
             得到某个用户的关注
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserFansList(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserFansList(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)">
             <summary>
             得到某个用户的粉丝
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64)">
             <summary>
             得到某个用户的关注了、关注者、标签总数
             </summary>
             <param name="userId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.CreateUserTagAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.UserTagController.CreateUserTagAsync(System.Guid)">
             <summary>
             用户关注标签
             </summary>
             <param name="tagId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.DeleteUserTagAsync(System.Guid)">
+        <member name="M:LinCms.Controllers.Blog.UserTagController.DeleteUserTagAsync(System.Guid)">
             <summary>
             取消关注标签
             </summary>
             <param name="tagId"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Blog.UserTagController.GetUserTagList(LinCms.Application.Contracts.Blog.UserSubscribes.Dtos.UserSubscribeSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.UserTagController.GetUserTagList(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)">
             <summary>
             得到某个用户关注的标签
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AccountController.Login(LinCms.Application.Contracts.Cms.Account.LoginInputDto)">
+        <member name="M:LinCms.Controllers.Cms.AccountController.Login(LinCms.Cms.Account.LoginInputDto)">
             <summary>
             登录接口
             </summary>
             <param name="loginInputDto">用户名/密码：admin/123qwe</param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AccountController.GetRefreshToken">
+        <member name="M:LinCms.Controllers.Cms.AccountController.GetRefreshToken">
             <summary>
             刷新用户的token
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AccountController.Register(LinCms.Application.Contracts.Cms.Account.RegisterDto)">
+        <member name="M:LinCms.Controllers.Cms.AccountController.Register(LinCms.Cms.Account.RegisterDto)">
             <summary>
             注册
             </summary>
             <param name="registerDto"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.GetUserListByGroupId(LinCms.Application.Contracts.Cms.Admins.Dtos.UserSearchDto)">
+        <member name="M:LinCms.Controllers.Cms.AdminController.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">
             <summary>
             用户信息分页列表项
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.UpdateAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.UpdateUserDto)">
+        <member name="M:LinCms.Controllers.Cms.AdminController.UpdateAsync(System.Int64,LinCms.Cms.Admins.UpdateUserDto)">
             <summary>
             修改用户信息
             </summary>
@@ -261,14 +261,14 @@
             <param name="updateUserDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.DeleteAsync(System.Int64)">
+        <member name="M:LinCms.Controllers.Cms.AdminController.DeleteAsync(System.Int64)">
             <summary>
             删除用户
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.AdminController.ResetPasswordAsync(System.Int64,LinCms.Application.Contracts.Cms.Admins.Dtos.ResetPasswordDto)">
+        <member name="M:LinCms.Controllers.Cms.AdminController.ResetPasswordAsync(System.Int64,LinCms.Cms.Admins.ResetPasswordDto)">
             <summary>
             重置密码
             </summary>
@@ -276,13 +276,13 @@
             <param name="resetPasswordDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadFiles">
+        <member name="M:LinCms.Controllers.Cms.FileController.UploadFiles">
             <summary>
             多文件上传
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.FileController.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
+        <member name="M:LinCms.Controllers.Cms.FileController.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
             <summary>
             单文件上传，键为file
             </summary>
@@ -290,33 +290,33 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetUsers(LinCms.Core.Data.PageDto)">
+        <member name="M:LinCms.Controllers.Cms.LogController.GetUsers(LinCms.Data.PageDto)">
             <summary>
             查询日志记录的用户
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetLogs(LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto)">
+        <member name="M:LinCms.Controllers.Cms.LogController.GetLogs(LinCms.Cms.Logs.LogSearchDto)">
             <summary>
             日志浏览（人员，时间），分页展示
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetUserLogs(LinCms.Application.Contracts.Cms.Logs.Dtos.LogSearchDto)">
+        <member name="M:LinCms.Controllers.Cms.LogController.GetUserLogs(LinCms.Cms.Logs.LogSearchDto)">
             <summary>
             日志搜素（人员，时间）（内容）， 分页展示
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.LogController.GetSerilogListAsync(LinCms.Application.Contracts.Cms.Logs.Dtos.SerilogSearchDto)">
+        <member name="M:LinCms.Controllers.Cms.LogController.GetSerilogListAsync(LinCms.Cms.Logs.SerilogSearchDto)">
             <summary>
             Serilog日志
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.Home(System.String,System.String)">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.Home(System.String,System.String)">
             <summary>
             授权成功后自动回调的地址
             </summary>
@@ -324,8 +324,8 @@
             <param name="redirectUrl">授权成功后的跳转地址</param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:LinCms.Web.Controllers.Cms.Oauth2Controller.SignIn(System.String,System.String)" -->
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.SignInBindCallBack(System.String,System.String,System.String)">
+        <!-- Badly formed XML comment ignored for member "M:LinCms.Controllers.Cms.Oauth2Controller.SignIn(System.String,System.String)" -->
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.SignInBindCallBack(System.String,System.String,System.String)">
             <summary>
             第三方账号绑定回调
             </summary>
@@ -334,7 +334,7 @@
             <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.SignInBind(System.String,System.String,System.String)">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.SignInBind(System.String,System.String,System.String)">
             <summary>
             第三方账号绑定，需要把token值传过来，用于与当前登录人绑定起来
             </summary>
@@ -343,82 +343,128 @@
             <param name="token">Bearer {Token}</param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetExternalProvidersAsync">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.GetExternalProvidersAsync">
             <summary>
             获取第三方登录的提供商
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.OpenId(System.String)">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.OpenId(System.String)">
             <summary>
             通过axios请求得到null，浏览器直接打开能得到github的id 
             </summary>
             <param name="provider"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetOpenIdByTokenAsync">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.GetOpenIdByTokenAsync">
             <summary>
             通过axios请求，请在header（请求头）携带上文中signin-callback生成的Token值.可以得到openid
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.GetListAsync(LinCms.Core.Security.ICurrentUser)">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.GetListAsync(LinCms.Security.ICurrentUser)">
             <summary>
             得到当前用户绑定的第三方账号，除密码外
             </summary>
             <param name="currentUser"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.Oauth2Controller.UnBind(System.Guid)">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.UnBind(System.Guid)">
             <summary>
             解绑用户的第三方账号。当用户没有密码时，无法解绑最后一个账号。只可以解绑自己的账号
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.GetAllPermissions">
+        <member name="M:LinCms.Controllers.Cms.PermissionController.GetAllPermissions">
             <summary>
             查询所有可分配的权限
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Application.Contracts.Cms.Permissions.Dtos.RemovePermissionDto)">
+        <member name="M:LinCms.Controllers.Cms.PermissionController.RemovePermissions(LinCms.Cms.Permissions.RemovePermissionDto)">
             <summary>
             删除某个组别的权限
             </summary>
             <param name="permissionDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Application.Contracts.Cms.Permissions.Dtos.DispatchPermissionsDto)">
+        <member name="M:LinCms.Controllers.Cms.PermissionController.DispatchPermissions(LinCms.Cms.Permissions.DispatchPermissionsDto)">
             <summary>
             分配多个权限
             </summary>
             <param name="permissionDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.UserController.CreateAsync(LinCms.Application.Contracts.Cms.Users.Dtos.CreateUserDto)">
+        <member name="M:LinCms.Controllers.Cms.UserController.CreateAsync(LinCms.Cms.Users.CreateUserDto)">
             <summary>
             新增用户-不是注册，注册不可能让用户选择gourp_id
             </summary>
             <param name="userInput"></param>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.UserController.GetInformationAsync">
+        <member name="M:LinCms.Controllers.Cms.UserController.GetInformationAsync">
             <summary>
             得到当前登录人信息
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Cms.UserController.Permissions">
+        <member name="M:LinCms.Controllers.Cms.UserController.Permissions">
             <summary>
             查询自己拥有的权限
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Controllers.v1.QiniuController">
+        <member name="M:LinCms.Controllers.v1.MonitorController.GetServerInfo">
+            <summary>
+            服务器配置信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.v1.ServerViewModel">
+            <summary>
+            服务器VM
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.EnvironmentName">
+            <summary>
+            环境变量
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.OSArchitecture">
+            <summary>
+            系统架构
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.ContentRootPath">
+            <summary>
+            ContentRootPath
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.WebRootPath">
+            <summary>
+            WebRootPath
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.FrameworkDescription">
+            <summary>
+            .NET Core版本
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.MemoryFootprint">
+            <summary>
+            内存占用
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.WorkingTime">
+            <summary>
+            启动时间
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.v1.QiniuController">
             <summary>
             七牛云上传服务
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.v1.QiniuController.UploadTagByJson">
+        <member name="M:LinCms.Controllers.v1.QiniuController.UploadTagByJson">
             <summary>
             将掘金中的取所有标签存到七牛云上，基本信息存入数据库
             从百度云下载后，放到wwwwroot中，swagger上执行下此方法，需要等很久，提取其中的tags，将Icon上传到七牛云上，tag信息存到数据库中。
@@ -426,102 +472,56 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.v1.QiniuController.GetUrlFormFile(System.String)">
+        <member name="M:LinCms.Controllers.v1.QiniuController.GetUrlFormFile(System.String)">
             <summary>
             获取远程服务器内容，并转换成流
             </summary>
             <param name="path">https://lc-gold-cdn.xitu.io/bac28828a49181c34110.png</param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.v1.TestController.Get">
+        <member name="M:LinCms.Controllers.v1.TestController.Get">
             <summary>
             下划线，首字母会小写
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.v1.TestController.GetDictionary">
+        <member name="M:LinCms.Controllers.v1.TestController.GetDictionary">
             <summary>
             这种方式不会变小写，怀疑人生，是不是他的key不是键？ https://github.com/JamesNK/Newtonsoft.Json/issues/2088
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Controllers.MonitorController.GetServerInfo">
-            <summary>
-            服务器配置信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:LinCms.Web.Controllers.ServerViewModel">
-            <summary>
-            服务器VM
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.EnvironmentName">
-            <summary>
-            环境变量
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.OSArchitecture">
-            <summary>
-            系统架构
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.ContentRootPath">
-            <summary>
-            ContentRootPath
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.WebRootPath">
-            <summary>
-            WebRootPath
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.FrameworkDescription">
-            <summary>
-            .NET Core版本
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.MemoryFootprint">
-            <summary>
-            内存占用
-            </summary>
-        </member>
-        <member name="P:LinCms.Web.Controllers.ServerViewModel.WorkingTime">
-            <summary>
-            启动时间
-            </summary>
-        </member>
-        <member name="M:LinCms.Web.Data.DataSeedContributor.SeedPermissionAsync">
+        <member name="M:LinCms.Data.DataSeedContributor.SeedPermissionAsync">
             <summary>
             权限标签上的Permission改变时，删除数据库中存在的无效权限，并生成新的权限。
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
+        <member name="M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
             <summary>
             拦截同步执行的方法
             </summary>
             <param name="invocation"></param>
         </member>
-        <member name="M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
+        <member name="M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
             <summary>
             拦截返回结果为Task的方法
             </summary>
             <param name="invocation"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:LinCms.Web.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
-        <member name="T:LinCms.Web.SnakeCaseQuery.SnakeCaseQueryValueProvider">
+        <!-- Badly formed XML comment ignored for member "M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
+        <member name="T:LinCms.SnakeCaseQuery.SnakeCaseQueryValueProvider">
             <summary>
             下划线写法（SnakeCase）
             </summary>
         </member>
-        <member name="M:LinCms.Web.Startup.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             FreeSql
             </summary>
             <param name="services"></param>
         </member>
-        <member name="M:LinCms.Web.Startup.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             配置限流依赖的服务
             </summary>
@@ -529,18 +529,18 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Utils.ReflexHelper">
+        <member name="T:LinCms.Utils.ReflexHelper">
             <summary>
             反射帮助类
             </summary>
         </member>
-        <member name="M:LinCms.Web.Utils.ReflexHelper.GeAssemblyLinCmsAttributes">
+        <member name="M:LinCms.Utils.ReflexHelper.GeAssemblyLinCmsAttributes">
             <summary>
             通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Utils.ReflexHelper.AuthorizationConvertToTree(System.Collections.Generic.List{LinCms.Core.Data.PermissionDefinition})">
+        <member name="M:LinCms.Utils.ReflexHelper.AuthorizationConvertToTree(System.Collections.Generic.List{LinCms.Data.PermissionDefinition})">
                          {
                                 "信息":{
                                     "查看lin的信息":[
@@ -569,25 +569,25 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Utils.ReflexHelper.GetTypesByTableAttribute">
+        <member name="M:LinCms.Utils.ReflexHelper.GetTypesByTableAttribute">
             <summary>
             扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttributer 的所有类
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Web.Utils.StopWords.ReplaceStopWords(System.String)">
+        <member name="M:LinCms.Utils.StopWords.ReplaceStopWords(System.String)">
             <summary>
             替换所有敏感词为 *
             </summary>
             <param name="that"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Web.Utils.ToolGoodUtils">
+        <member name="T:LinCms.Utils.ToolGoodUtils">
             <summary>
             ToolGood.Words类库配合敏感库
             </summary>
         </member>
-        <member name="M:LinCms.Web.Utils.ToolGoodUtils.GetIllegalWordsSearch">
+        <member name="M:LinCms.Utils.ToolGoodUtils.GetIllegalWordsSearch">
             <summary>
             本地敏感库,文件修改后，重新创建缓存Bit
             </summary>

@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
-using LinCms.Core.Dependency;
 
-namespace LinCms.Core.Security
+namespace LinCms.Security
 {
     public interface ICurrentUser
     {

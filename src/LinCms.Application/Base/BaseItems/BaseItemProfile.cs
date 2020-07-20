@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Base.BaseItems.Dtos;
-using LinCms.Core.Entities.Base;
+using LinCms.Entities.Base;
 
-namespace LinCms.Application.Base.BaseItems
+namespace LinCms.Base.BaseItems
 {
     public class BaseItemProfile :Profile
     {

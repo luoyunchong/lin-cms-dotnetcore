@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using LinCms.Core.Extensions;
+using LinCms.Extensions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
-namespace LinCms.Web.SnakeCaseQuery
+namespace LinCms.SnakeCaseQuery
 {
     public class ApiDescriptionProvider : IApiDescriptionProvider
     {

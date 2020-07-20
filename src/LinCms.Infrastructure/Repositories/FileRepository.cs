@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using FreeSql;
-using LinCms.Core.Data.Options;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+﻿using FreeSql;
+using LinCms.Data.Options;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.Extensions.Options;
 
-namespace LinCms.Infrastructure.Repositories
+namespace LinCms.Repositories
 {
     public class FileRepository : AuditBaseRepository<LinFile>, IFileRepository
     {

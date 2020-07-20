@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Web.Utils
+namespace LinCms.Utils
 {
     public class MultipartRequestHelper
     {

@@ -1,18 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using LinCms.Application.Contracts.Base.BaseTypes;
-using LinCms.Application.Contracts.Base.BaseTypes.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Base;
-using LinCms.Core.Exceptions;
-using LinCms.Core.IRepositories;
-using LinCms.Web.Data.Authorization;
+using LinCms.Aop.Filter;
+using LinCms.Base.BaseTypes;
+using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;
-namespace LinCms.Web.Controllers.Base
+
+namespace LinCms.Controllers.Base
 {
     [Area("base")]
     [Route("api/base/type")]

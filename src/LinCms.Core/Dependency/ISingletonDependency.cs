@@ -1,4 +1,4 @@
-﻿namespace LinCms.Core.Dependency
+﻿namespace LinCms.Dependency
 {
     public interface ISingletonDependency
     {

@@ -2,27 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.Gitee;
 using Autofac;
 using AutoMapper;
-using DotNetCore.CAP.Messages;
 using DotNetCore.Security;
 using HealthChecks.UI.Client;
-using LinCms.Application.Cms.Users;
-using LinCms.Application.Contracts;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Aop.Middleware;
-using LinCms.Core.Common;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities;
-using LinCms.Core.Extensions;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Users;
+using LinCms.Common;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.Extensions;
 using LinCms.Plugins.Poem.Services;
-using LinCms.Web.Middleware;
-using LinCms.Web.SnakeCaseQuery;
-using LinCms.Web.Utils;
+using LinCms.SnakeCaseQuery;
+using LinCms.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -43,11 +38,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
 using Serilog.Events;
 
-namespace LinCms.Web.Startup
+namespace LinCms.Startup
 {
     public class Startup
     {

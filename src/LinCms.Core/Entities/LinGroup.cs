@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     [Table(Name = "lin_group")]
     public class LinGroup : Entity<long>

@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using FreeSql;
-using LinCms.Application.Contracts.Blog.Classifys;
-using LinCms.Application.Contracts.Blog.Classifys.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Blog.Classifys;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Blog.Classifies
+namespace LinCms.Blog.Classifies
 {
     public class ClassifyService : CrudAppService<Classify, ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto, CreateUpdateClassifyDto>, IClassifyService
     {

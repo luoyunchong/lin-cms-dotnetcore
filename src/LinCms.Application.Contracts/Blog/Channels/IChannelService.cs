@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Channels.Dtos;
-using LinCms.Core.Data;
+using LinCms.Data;
 
-namespace LinCms.Application.Contracts.Blog.Channels
+namespace LinCms.Blog.Channels
 {
     public interface IChannelService
     {

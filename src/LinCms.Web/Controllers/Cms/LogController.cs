@@ -1,19 +1,13 @@
 ﻿using System.Collections.Generic;
-using FreeSql;
-using LinCms.Application.Cms.Logs;
-using LinCms.Core.Aop;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Application.Contracts.Cms.Logs;
-using LinCms.Application.Contracts.Cms.Logs.Dtos;
-using LinCms.Core.Aop.Attributes;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Aop.Log;
-using LinCms.Web.Data.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
+using LinCms.Aop.Filter;
+using LinCms.Cms.Logs;
+using LinCms.Data;
+using LinCms.Entities;
+using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [Route("cms/log")]
     [ApiController]

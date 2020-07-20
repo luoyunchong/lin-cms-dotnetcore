@@ -4,14 +4,14 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using FreeSql.DataAnnotations;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Extensions;
-using LinCms.Web.Startup;
+using LinCms.Aop.Filter;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.Extensions;
+using LinCms.Startup;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Utils
+namespace LinCms.Utils
 {
     /// <summary>
     /// 反射帮助类
@@ -203,11 +203,11 @@ namespace LinCms.Web.Utils
             List<Type> tableAssembies = new List<Type>();
             List<string> entitiesFullName = new List<string>()
             {
-                "LinCms.Core.Entities.Settings",
-                "LinCms.Core.Entities.Blog",
-                "LinCms.Core.Entities.Base",
-                "LinCms.Core.Entities.Lin",
-                "LinCms.Core.Entities.Book",
+                "LinCms.Entities.Settings",
+                "LinCms.Entities.Blog",
+                "LinCms.Entities.Base",
+                "LinCms.Entities.Lin",
+                "LinCms.Entities.Book",
             };
 
             foreach (Type type in Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes())

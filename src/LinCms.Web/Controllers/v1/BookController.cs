@@ -1,19 +1,10 @@
 ﻿using System.Threading.Tasks;
-using AutoMapper;
-using LinCms.Application.Contracts.v1.Books;
-using LinCms.Application.Contracts.v1.Books.Dtos;
-using LinCms.Core.Aop;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Web.Data.Authorization;
-using Microsoft.AspNetCore.Authorization;
+using LinCms.Aop.Filter;
+using LinCms.Data;
+using LinCms.v1.Books;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Web.Controllers.v1
+namespace LinCms.Controllers.v1
 {
     [Route("v1/book")]
     [ApiController]

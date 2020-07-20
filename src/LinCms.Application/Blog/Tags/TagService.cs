@@ -3,18 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Tags;
-using LinCms.Application.Contracts.Blog.Tags.Dtos;
-using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Blog.UserSubscribes;
+using LinCms.Data;
+using LinCms.Data.Enums;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Blog.Tags
+namespace LinCms.Blog.Tags
 {
     public class TagService : ApplicationService, ITagService
     {

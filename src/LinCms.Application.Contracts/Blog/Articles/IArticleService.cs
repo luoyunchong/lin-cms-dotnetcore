@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
+using LinCms.Data;
 
-namespace LinCms.Application.Contracts.Blog.Articles
+namespace LinCms.Blog.Articles
 {
     public interface IArticleService
     {

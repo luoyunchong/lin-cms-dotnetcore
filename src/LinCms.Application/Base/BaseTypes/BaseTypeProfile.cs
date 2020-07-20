@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Base.BaseTypes.Dtos;
-using LinCms.Core.Entities.Base;
+using LinCms.Entities.Base;
 
-namespace LinCms.Application.Base.BaseTypes
+namespace LinCms.Base.BaseTypes
 {
     public class BaseTypeProfile:Profile
     {

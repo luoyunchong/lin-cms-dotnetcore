@@ -1,5 +1,5 @@
 ﻿
-namespace LinCms.Core.Data.Options
+namespace LinCms.Data.Options
 {
     public class LocalFileOption
     {

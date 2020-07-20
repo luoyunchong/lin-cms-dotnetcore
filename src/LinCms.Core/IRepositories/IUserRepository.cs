@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using LinCms.Core.Entities;
+using LinCms.Entities;
 
-namespace LinCms.Core.IRepositories
+namespace LinCms.IRepositories
 {
     public interface IUserRepository : IAuditBaseRepository<LinUser>
     {

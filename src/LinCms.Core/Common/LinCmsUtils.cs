@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using LinCms.Core.Extensions;
+using LinCms.Extensions;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
-namespace LinCms.Core.Common
+namespace LinCms.Common
 {
     public class LinCmsUtils
     {

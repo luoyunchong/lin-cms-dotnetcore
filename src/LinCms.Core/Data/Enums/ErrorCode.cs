@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
-namespace LinCms.Core.Data.Enums
+namespace LinCms.Data.Enums
 {
     public enum ErrorCode
     {

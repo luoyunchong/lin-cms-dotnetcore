@@ -1,7 +1,7 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities
+namespace LinCms.Entities
 {
     public interface IEntityDto
     {

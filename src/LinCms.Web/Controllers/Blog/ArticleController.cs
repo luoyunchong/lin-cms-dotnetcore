@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Blog.Articles;
-using LinCms.Application.Contracts.Blog.Articles.Dtos;
-using LinCms.Application.Contracts.Blog.Classifys;
-using LinCms.Core.Aop.Filter;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Aop.Filter;
+using LinCms.Blog.Articles;
+using LinCms.Blog.Classifys;
+using LinCms.Data;
+using LinCms.Entities.Blog;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace LinCms.Web.Controllers.Blog
+namespace LinCms.Controllers.Blog
 {
     [Area("blog")]
     [Route("api/blog/articles")]

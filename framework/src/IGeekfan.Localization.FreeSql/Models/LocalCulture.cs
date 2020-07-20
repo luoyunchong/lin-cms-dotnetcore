@@ -1,10 +1,8 @@
-﻿
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
-namespace IGeekFan.Localization.FreeSql.Models
+namespace IGeekfan.Localization.FreeSql.Models
 {
     public class LocalCulture
     {

@@ -2,18 +2,13 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Blog.UserSubscribes;
-using LinCms.Application.Contracts.Blog.Articles;
-using LinCms.Application.Contracts.Blog.Comments;
-using LinCms.Application.Contracts.Blog.UserLikes;
-using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Data.Enums;
-using LinCms.Core.Entities.Blog;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Blog.Articles;
+using LinCms.Blog.Comments;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Application.Blog.UserLikes
+namespace LinCms.Blog.UserLikes
 {
     public class UserLikeService : IUserLikeService
     {

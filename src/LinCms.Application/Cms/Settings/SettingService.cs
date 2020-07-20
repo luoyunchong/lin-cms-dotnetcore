@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LinCms.Application.Contracts.Cms.Settings;
-using LinCms.Application.Contracts.Cms.Settings.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities.Settings;
-using LinCms.Core.Exceptions;
-using LinCms.Core.Extensions;
-using LinCms.Core.IRepositories;
+using LinCms.Data;
+using LinCms.Entities.Settings;
+using LinCms.Exceptions;
+using LinCms.Extensions;
+using LinCms.IRepositories;
 
-namespace LinCms.Application.Cms.Settings
+namespace LinCms.Cms.Settings
 {
     public class SettingService : ISettingService
     {

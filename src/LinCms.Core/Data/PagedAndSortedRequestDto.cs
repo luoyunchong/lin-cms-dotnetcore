@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace LinCms.Core.Data
+namespace LinCms.Data
 {
     public class PagedAndSortedRequestDto : PageDto, ISortedResultRequest
     {

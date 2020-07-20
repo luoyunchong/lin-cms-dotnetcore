@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using LinCms.Core.Aop.Filter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 
-namespace LinCms.Web.Controllers
+namespace LinCms.Controllers.v1
 {
     [Route("v1/monitor")]
     [ApiController]

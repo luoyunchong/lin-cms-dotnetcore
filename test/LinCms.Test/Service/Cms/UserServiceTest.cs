@@ -1,6 +1,5 @@
-﻿using LinCms.Application.Contracts.Cms.Users;
-using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
+﻿using System.Threading.Tasks;
+using LinCms.Cms.Users;
 using Xunit;
 
 namespace LinCms.Test.Service.Cms

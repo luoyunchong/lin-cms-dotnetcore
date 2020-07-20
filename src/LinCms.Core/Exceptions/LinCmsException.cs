@@ -1,7 +1,7 @@
 ﻿using System;
-using LinCms.Core.Data.Enums;
+using LinCms.Data.Enums;
 
-namespace LinCms.Core.Exceptions
+namespace LinCms.Exceptions
 {
     [Serializable]
     public class LinCmsException : ApplicationException

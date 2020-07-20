@@ -2,11 +2,11 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Core.Entities;
-using LinCms.Core.IRepositories;
-using LinCms.Core.Security;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using LinCms.Security;
 
-namespace LinCms.Infrastructure.Repositories
+namespace LinCms.Repositories
 {
     public class UserRepository : AuditBaseRepository<LinUser>, IUserRepository
     {

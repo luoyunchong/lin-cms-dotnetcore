@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace LinCms.Core.Security
+namespace LinCms.Security
 {
     public class Tokens
     {

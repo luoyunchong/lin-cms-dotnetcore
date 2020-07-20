@@ -1,10 +1,8 @@
-﻿
-using FreeSql.DataAnnotations;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using FreeSql.DataAnnotations;
 
-namespace LinCms.Core.Entities.Base
+namespace LinCms.Entities.Base
 {
     [Table(Name = "base_type")]
     public class BaseType : FullAduitEntity

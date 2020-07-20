@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using LinCms.Core.Data;
-using LinCms.Core.Entities;
+using LinCms.Data;
+using LinCms.Entities;
 
-namespace LinCms.Application.Contracts.Cms.Users
+namespace LinCms.Cms.Users
 {
  
     public interface IUserIdentityService

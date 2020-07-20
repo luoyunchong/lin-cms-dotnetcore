@@ -1,19 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using LinCms.Application.Cms.Files;
-using LinCms.Application.Contracts.Cms.Files;
-using LinCms.Application.Contracts.Cms.Files.Dtos;
-using LinCms.Core.Data.Options;
-using LinCms.Core.Exceptions;
-using LinCms.Web.Utils;
+using LinCms.Cms.Files;
+using LinCms.Data.Options;
+using LinCms.Exceptions;
+using LinCms.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace LinCms.Web.Controllers.Cms
+namespace LinCms.Controllers.Cms
 {
     [Route("cms/file")]
     [ApiController]

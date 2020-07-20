@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Cms.Permissions.Dtos;
-using LinCms.Core.Entities;
+using LinCms.Entities;
 
-namespace LinCms.Application.Cms.Permissions
+namespace LinCms.Cms.Permissions
 {
     public class PermissionProfile : Profile
     {

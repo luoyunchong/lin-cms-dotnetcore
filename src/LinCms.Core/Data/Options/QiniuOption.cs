@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LinCms.Core.Data.Options
+﻿namespace LinCms.Data.Options
 {
     public class QiniuOptions
     {

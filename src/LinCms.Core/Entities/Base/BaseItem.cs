@@ -1,8 +1,7 @@
-﻿
+﻿using System;
 using FreeSql.DataAnnotations;
-using System;
 
-namespace LinCms.Core.Entities.Base
+namespace LinCms.Entities.Base
 {
     [Table(Name = "base_item")]
     public class BaseItem : FullAduitEntity

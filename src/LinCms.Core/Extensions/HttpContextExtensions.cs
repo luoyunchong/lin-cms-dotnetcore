@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LinCms.Core.Extensions
+namespace LinCms.Extensions
 {
     public static class HttpContextExtensions
     {

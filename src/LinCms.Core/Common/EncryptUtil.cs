@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace LinCms.Core.Common
+namespace LinCms.Common
 {
     public class EncryptUtil
     {

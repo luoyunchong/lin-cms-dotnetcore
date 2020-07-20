@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
-using LinCms.Core.Extensions;
+using LinCms.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace LinCms.Web.SnakeCaseQuery
+namespace LinCms.SnakeCaseQuery
 {
     /// <summary>
     /// 下划线写法（SnakeCase）

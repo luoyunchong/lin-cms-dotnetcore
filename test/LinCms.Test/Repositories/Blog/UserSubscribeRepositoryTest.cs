@@ -1,11 +1,9 @@
-﻿using LinCms.Application.Contracts.Blog.UserSubscribes;
-using LinCms.Application.Contracts.Blog.UserSubscribes.Dtos;
-using LinCms.Core.Entities.Blog;
-using LinCms.Application.Contracts.Cms.Users;
-using LinCms.Application.Contracts.Cms.Users.Dtos;
-using Xunit;
+﻿using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using LinCms.Core.IRepositories;
+using LinCms.Blog.UserSubscribes;
+using LinCms.Cms.Users;
+using LinCms.Entities.Blog;
+using LinCms.IRepositories;
 
 namespace LinCms.Test.Repositories.Blog
 {

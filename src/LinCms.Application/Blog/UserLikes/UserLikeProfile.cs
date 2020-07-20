@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using LinCms.Application.Contracts.Blog.UserLikes.Dtos;
-using LinCms.Core.Entities.Blog;
+using LinCms.Entities.Blog;
 
-namespace LinCms.Application.Blog.UserLikes
+namespace LinCms.Blog.UserLikes
 {
     public class UserLikeProfile : Profile
     {
