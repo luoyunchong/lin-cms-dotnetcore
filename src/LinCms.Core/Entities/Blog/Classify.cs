@@ -44,9 +44,19 @@ namespace LinCms.Core.Entities.Blog
             this.ArticleCount += 1;
         }
 
-        public void UpdateDiyArticleCount(int articleCount)
+        public void UpdateArticleCount(int inCreaseCount)
         {
-            this.ArticleCount += articleCount;
+            //防止数量一直减，减到小于0
+            if (inCreaseCount < 0)
+            {
+                if (ArticleCount < -inCreaseCount)
+                {
+                    return;
+                }
+            }
+            this.ArticleCount += inCreaseCount;
         }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using LinCms.Core.Exceptions;
 
 namespace LinCms.Core.Entities.Blog
 {
@@ -71,6 +72,24 @@ namespace LinCms.Core.Entities.Blog
 
         [Navigate("RespId")]
         public virtual Comment Parent { get; set; }
+
+        public void UpdateLikeQuantity(int likesQuantity)
+        {
+            if (IsAudit == false)
+            {
+                throw new LinCmsException("该评论因违规被拉黑");
+            }
+
+            if (likesQuantity < 0)
+            {
+                if (LikesQuantity < -likesQuantity)
+                {
+                    return;
+                }
+            }
+
+            LikesQuantity += likesQuantity;
+        }
     }
 
 }

@@ -9,6 +9,7 @@ using Elasticsearch.Net;
 using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
+using IdentityServer4.Services;
 using LinCms.Application.Contracts.Cms.Account;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop.Log;
@@ -17,6 +18,7 @@ using LinCms.Core.Data.Enums;
 using LinCms.Core.Entities;
 using LinCms.Core.Exceptions;
 using LinCms.Core.IRepositories;
+using LinCms.Core.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -53,7 +55,7 @@ namespace LinCms.Web.Controllers.Cms
 
 
         [HttpPost("jwt-login")]
-        public async Task<string> JwtLogin(LoginInputDto loginInputDto)
+        public async Task<Tokens> JwtLogin(LoginInputDto loginInputDto)
         {
             LinUser user = await _userRepository.GetUserAsync(r => r.Username == loginInputDto.Username);
 
@@ -79,7 +81,7 @@ namespace LinCms.Web.Controllers.Cms
                 new Claim (ClaimTypes.Name, user.Username?? ""),
             };
             string token = _jsonWebTokenService.Encode(claims);
-            return token;
+            return new Tokens(token, "");
         }
 
         #region Ids4登录，刷新token
@@ -184,6 +186,42 @@ namespace LinCms.Web.Controllers.Cms
             return response.Json;
         }
         #endregion
+
+        [HttpGet("logout")]
+        public async Task<UnifyResponseDto> Logout()
+        {
+            HttpClient client = _httpClientFactory.CreateClient();
+            DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _configuration["Service:Authority"],
+                Policy = {
+                        RequireHttps = false
+                    }
+            });
+
+            if (disco.IsError)
+            {
+                throw new LinCmsException(disco.Error);
+            }
+            RequestUrl requestUrl = new RequestUrl(disco.EndSessionEndpoint);
+            string authorization = Request.Headers["Authorization"];
+            string token;
+            if (authorization != null && authorization.StartsWith("Bearer"))
+            {
+                token = authorization.Substring("Bearer ".Length).Trim();
+            }
+            else
+            {
+                return UnifyResponseDto.Success("退出登录");
+            }
+            
+            string endsessionUrl = requestUrl.CreateEndSessionUrl(token,System.Web.HttpUtility.UrlEncode("http://localhost:8081/"));
+
+            HttpResponseMessage response = await client.GetAsync(endsessionUrl);
+
+            return UnifyResponseDto.Success("退出登录");
+        }
+
 
         /// <summary>
         /// 注册

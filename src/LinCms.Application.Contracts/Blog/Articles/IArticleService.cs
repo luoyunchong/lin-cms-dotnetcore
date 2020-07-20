@@ -9,7 +9,7 @@ namespace LinCms.Application.Contracts.Blog.Articles
     public interface IArticleService
     {
         Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle);
-        Task<Article> UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
+        Task UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
         Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto);
 
         Task DeleteAsync(Guid id);
@@ -21,5 +21,6 @@ namespace LinCms.Application.Contracts.Blog.Articles
         Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto);
 
         Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity);
+        Task UpdateCommentable(Guid id,bool commetable);
     }
 }

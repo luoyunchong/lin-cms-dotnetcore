@@ -61,6 +61,14 @@
             <param name="pageDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Web.Controllers.Blog.ArticleController.UpdateCommentable(System.Guid,System.Boolean)">
+            <summary>
+            修改随笔是否验证评论
+            </summary>
+            <param name="id">随笔主键</param>
+            <param name="commetable">true:允许评论;false:不允许评论</param>
+            <returns></returns>
+        </member>
         <member name="T:LinCms.Web.Controllers.Blog.ArticleDraftController">
             <summary>
             文章草稿箱，自动保存文章

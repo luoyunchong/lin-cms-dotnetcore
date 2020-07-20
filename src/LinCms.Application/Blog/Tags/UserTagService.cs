@@ -46,7 +46,6 @@ namespace LinCms.Application.Blog.Tags
 
             UserTag userTag = new UserTag() { TagId = tagId };
             await _userTagRepository.InsertAsync(userTag);
-
             await _tagService.UpdateSubscribersCountAsync(tagId, 1);
         }
 

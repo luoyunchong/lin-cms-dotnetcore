@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 #if !DEBUG
 using System.Security.Cryptography.X509Certificates;
 #endif
 using AutoMapper;
 using HealthChecks.UI.Client;
+using IdentityServer4.Configuration;
 using LinCms.Application.Cms.Users;
 using LinCms.Application.Contracts.Cms.Users;
 using LinCms.Core.Aop.Filter;
@@ -47,7 +49,14 @@ namespace LinCms.IdentityServer4
 
             services.AddContext();
 
-            services.AddIdentityServer()
+            services.AddIdentityServer(options => new IdentityServerOptions
+            {
+                UserInteraction = new UserInteractionOptions
+                {
+                    LoginUrl = "/account/login",
+                    LogoutUrl = "/account/xxxx",
+                }
+            })
 #if DEBUG
                 .AddDeveloperSigningCredential()
 #endif
@@ -60,6 +69,7 @@ namespace LinCms.IdentityServer4
                 .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
                 .AddInMemoryApiResources(InMemoryConfiguration.GetApis())
                 .AddInMemoryClients(InMemoryConfiguration.GetClients())
+                .AddInMemoryApiScopes(InMemoryConfiguration.GetApiScopes())
                 .AddProfileService<LinCmsProfileService>()
                 .AddResourceOwnerValidator<LinCmsResourceOwnerPasswordValidator>();
 

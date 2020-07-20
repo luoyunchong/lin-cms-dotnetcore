@@ -25,7 +25,7 @@ token_endpoint:
 
 ## 发布
 - lincms-identityserver4 [http://111.231.197.142:5011/swagger/index.html](http://111.231.197.142:5011/swagger/index.html)
-- http://111.231.197.142:5011/.well-known/openid-configuration
+- http://111.231.197.142:5010/.well-known/openid-configuration
 - lincms-web [http://111.231.197.142:5012/swagger/index.html](http://111.231.197.142:5012/swagger/index.html)
 - cap [http://111.231.197.142:5012/cap](http://111.231.197.142:5012/cap)
 - Docker管理Portainer  [http://47.106.80.39:9000/#/home](http://111.231.197.142:9000/#/home)

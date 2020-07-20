@@ -73,8 +73,10 @@ namespace LinCms.Core.Entities
 
         [Navigate(ManyToMany = typeof(LinUserGroup))]
         public virtual ICollection<LinGroup> LinGroups { get; set; }
+
         [Navigate("UserId")]
         public virtual ICollection<LinUserGroup> LinUserGroups { get; set; }
+
         [Navigate("CreateUserId")]
         public virtual ICollection<LinUserIdentity> LinUserIdentitys { get; set; }
 

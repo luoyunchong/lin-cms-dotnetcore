@@ -106,7 +106,7 @@ namespace LinCms.Application.Blog.Articles
             {
                 await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
                 article.Tags?
-                    .ForEach(async(u) => {await _tagService.UpdateArticleCountAsync(u.Id, -1); });
+                    .ForEach(async (u) => { await _tagService.UpdateArticleCountAsync(u.Id, -1); });
             }
 
             await _articleRepository.DeleteAsync(new Article { Id = id });
@@ -118,9 +118,7 @@ namespace LinCms.Application.Blog.Articles
         public async Task<ArticleDto> GetAsync(Guid id)
         {
             Article article = await _articleRepository.Select
-                .Include(r => r.Classify)
-                .IncludeMany(r => r.Tags)
-                .Include(r => r.UserInfo).WhereCascade(r => r.IsDeleted == false).Where(a => a.Id == id).ToOneAsync();
+                .Include(r => r.Classify).IncludeMany(r => r.Tags).Include(r => r.UserInfo).WhereCascade(r => r.IsDeleted == false).Where(a => a.Id == id).ToOneAsync();
 
             if (article.IsNull())
             {
@@ -163,27 +161,24 @@ namespace LinCms.Application.Blog.Articles
                 {
                     Id = articleTagId,
                 });
-               await _tagService.UpdateArticleCountAsync(articleTagId, 1);
+                await _tagService.UpdateArticleCountAsync(articleTagId, 1);
             }
-
-            ArticleDraft articleDraft = new ArticleDraft()
-            {
-                Content = createArticle.Content,
-                Editor = createArticle.Editor,
-                Title = createArticle.Title
-            };
-
             await _articleRepository.InsertAsync(article);
 
-            articleDraft.Id = article.Id;
-            await _articleDraftRepository.InsertAsync(articleDraft);
-            await _classifyService.UpdateArticleCountAsync(createArticle.ClassifyId, 1);
+            await _articleDraftRepository.InsertAsync(new ArticleDraft(article.Id, createArticle.Content, createArticle.Title, createArticle.Editor));
+
+            if (createArticle.ClassifyId != null)
+            {
+                await _classifyService.UpdateArticleCountAsync(createArticle.ClassifyId, 1);
+            }
             return article.Id;
         }
 
-        public async Task<Article> UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
+        public async Task UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+
+
             if (article.CreateUserId != _currentUser.Id)
             {
                 throw new LinCmsException("您无权修改他人的随笔");
@@ -194,13 +189,18 @@ namespace LinCms.Application.Blog.Articles
                 throw new LinCmsException("没有找到相关随笔");
             }
 
+            if (article.ClassifyId != updateArticleDto.ClassifyId)
+            {
+                await _classifyService.UpdateArticleCountAsync(article.ClassifyId, -1);
+                await _classifyService.UpdateArticleCountAsync(updateArticleDto.ClassifyId, 1);
+            }
+
             _mapper.Map(updateArticleDto, article);
             article.WordNumber = article.Content.Length;
-            article.ReadingTime = article.Content.Length / 400;
-
+            article.ReadingTime = article.Content.Length / 800;
             await _articleRepository.UpdateAsync(article);
-            ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
 
+            ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
             bool exist = await _articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
             if (exist)
             {
@@ -210,29 +210,26 @@ namespace LinCms.Application.Blog.Articles
             {
                 await _articleDraftRepository.InsertAsync(articleDraft);
             }
-
-            return article;
         }
 
         public async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
         {
-            List<Guid> tagIds =
-                await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
+            List<Guid> tagIds = await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
 
-            tagIds.ForEach(async(tagId) => {await  _tagService.UpdateArticleCountAsync(tagId, -1); });
+            tagIds.ForEach(async (tagId) => { await _tagService.UpdateArticleCountAsync(tagId, -1); });
 
             _tagArticleRepository.Delete(r => r.ArticleId == id);
 
             List<TagArticle> tagArticles = new List<TagArticle>();
 
-            updateArticleDto.TagIds.ForEach(async(tagId) =>
+            updateArticleDto.TagIds.ForEach(async (tagId) =>
             {
                 tagArticles.Add(new TagArticle()
                 {
                     ArticleId = id,
                     TagId = tagId
                 });
-               await _tagService.UpdateArticleCountAsync(tagId, 1);
+                await _tagService.UpdateArticleCountAsync(tagId, 1);
             });
             await _tagArticleRepository.InsertAsync(tagArticles);
         }
@@ -270,23 +267,23 @@ namespace LinCms.Application.Blog.Articles
         public async Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity)
         {
             Article article = await _articleRepository.Where(r => r.Id == subjectId).ToOneAsync();
-            if (article.IsAudit == false)
-            {
-                throw new LinCmsException("该文章因违规被拉黑");
-            }
-
-            if (likesQuantity < 0)
-            {
-                //防止数量一直减，减到小于0
-                if (article.LikesQuantity < -likesQuantity)
-                {
-                    return;
-                }
-            }
-
-            article.LikesQuantity += likesQuantity;
+            article.UpdateLikeQuantity(likesQuantity);
             await _articleRepository.UpdateAsync(article);
-            //_articleRepository.UpdateDiy.Set(r => r.LikesQuantity + likesQuantity).Where(r => r.Id == subjectId).ExecuteAffrows();
+        }
+
+        public async Task UpdateCommentable(Guid id, bool commetable)
+        {
+            Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
+            if (article == null)
+            {
+                throw new LinCmsException("没有找到相关随笔");
+            }
+            if (article.CreateUserId != _currentUser.Id)
+            {
+                throw new LinCmsException("不是自己的随笔");
+            }
+            article.Commentable = commetable;
+            await _articleRepository.UpdateAsync(article);
         }
     }
 }

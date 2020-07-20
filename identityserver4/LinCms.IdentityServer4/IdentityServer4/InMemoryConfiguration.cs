@@ -16,13 +16,22 @@ namespace LinCms.IdentityServer4.IdentityServer4
             };
         }
 
-        public static IEnumerable<ApiResource> GetApis()
-        {
-            return new List<ApiResource>
+        public static IEnumerable<ApiResource> GetApis() => new List<ApiResource>
             {
                 //Configuration["Service:Scope"]在AddJwtBearerAudience
                 new ApiResource(Configuration["Service:Name"], Configuration["Service:DocName"])
+                {
+                    Scopes= { Configuration["Service:Name"] }
+                }
             };
+
+
+        public static IEnumerable<ApiScope> GetApiScopes()
+        {
+            return new ApiScope[]
+             {
+               new ApiScope(Configuration["Service:Name"], "scope1")
+             };
         }
 
         public static IEnumerable<Client> GetClients()
@@ -51,5 +60,6 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 }
             };
         }
-    }
+
+    };
 }

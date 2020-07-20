@@ -24,10 +24,10 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="DotNetCore.Security" Version="12.3.0" />
-		<PackageReference Include="FreeSql" Version="1.7.0-preview0705" />
-		<PackageReference Include="FreeSql.DbContext" Version="1.7.0-preview0705" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+		<PackageReference Include="DotNetCore.Security" Version="12.9.0" />
+		<PackageReference Include="FreeSql" Version="1.7.0-preview0718" />
+		<PackageReference Include="FreeSql.DbContext" Version="1.7.0-preview0718" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.6" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
