@@ -38,8 +38,8 @@ namespace LinCms.FreeSql
                      e.HasData(new List<LinGroup>()
                     {
                         new LinGroup(LinGroup.Admin,"系统管理员",true),
-                        new LinGroup(LinGroup.CmsAdmin,"系统管理员",true),
-                        new LinGroup(LinGroup.User,"系统管理员",true)
+                        new LinGroup(LinGroup.CmsAdmin,"CMS管理员",true),
+                        new LinGroup(LinGroup.User,"普通用户",true)
                     });
                  })
                 .Entity<LinUser>(e =>
@@ -64,7 +64,7 @@ namespace LinCms.FreeSql
                         },
                          new LinUser()
                          {
-                             Nickname="CmsAdmin",
+                             Nickname="CMS管理员",
                              Username="CmsAdmin",
                              Active=UserActive.Active,
                              CreateTime=DateTime.Now,

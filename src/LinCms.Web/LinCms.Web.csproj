@@ -88,8 +88,6 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
-		<Folder Include="wwwroot\assets" />
-		<Folder Include="wwwroot\assets\" />
 	</ItemGroup>
 
 	<ItemGroup>
