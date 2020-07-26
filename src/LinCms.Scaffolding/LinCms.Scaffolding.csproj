@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0-4.final" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.6" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="3.1.6" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="3.1.6" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.6" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.6" />
+		<PackageReference Include="Humanizer.Core" Version="2.8.26" />
+		<PackageReference Include="Scriban" Version="3.0.0-alpha.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Templates\**\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Templates\lin-cms-vue\view\{{EntityInfo.NameCamelize}}\{{EntityInfo.NameCamelize}}-form.vue.txt">
+	    <SubType>Code</SubType>
+	  </None>
+	  <None Update="Templates\lin-cms-vue\model\{{EntityInfo.NameCamelize}}.js.txt">
+	    <SubType>Code</SubType>
+	  </None>
+	  <None Update="Templates\lin-cms-vue\stage-config.js.txt">
+	    <SubType>Code</SubType>
+	  </None>
+	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+</Project>

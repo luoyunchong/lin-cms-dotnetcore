@@ -46,7 +46,7 @@ namespace LinCms.Controllers.v1
         }
 
         [HttpPut("{id}")]
-        public async Task<UnifyResponseDto> PutAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
+        public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
         {
             await _bookService.UpdateAsync(id, updateBook);
             return UnifyResponseDto.Success("更新图书成功");

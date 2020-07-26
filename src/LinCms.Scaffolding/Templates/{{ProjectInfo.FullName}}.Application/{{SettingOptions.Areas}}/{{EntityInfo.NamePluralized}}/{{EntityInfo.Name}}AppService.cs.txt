@@ -1,0 +1,69 @@
+﻿{{-
+if Option.CustomRepository
+    repositoryType = "I" + EntityInfo.Name + "Repository"
+    repositoryName = "_repository"
+else
+    repositoryType = "IAuditBaseRepository<" + EntityInfo.Name + ", " + EntityInfo.PrimaryKey + ">"
+    repositoryName = "Repository"
+end ~}}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using {{ProjectInfo.FullName}}.Data;
+using {{ProjectInfo.FullName}}.Entities.{{SettingOptions.Areas}};
+using {{ProjectInfo.FullName}}.Extensions;
+using {{ProjectInfo.FullName}}.Exceptions;
+using {{ProjectInfo.FullName}}.IRepositories;
+
+namespace {{ EntityInfo.Namespace }}
+{
+    public class {{ EntityInfo.Name }}Service : I{{ EntityInfo.Name }}Service
+    {
+        private readonly {{repositoryType}} {{repositoryName}};
+        private readonly IMapper _mapper;
+
+        public {{ EntityInfo.Name }}Service({{repositoryType}} repository, IMapper mapper)
+        {
+            {{repositoryName}} = repository;
+            _mapper = mapper;
+        }
+
+        public async Task DeleteAsync({{EntityInfo.PrimaryKey}} id)
+        {
+            await {{repositoryName}}.DeleteAsync(new {{ EntityInfo.Name }} {Id = id});
+        }
+
+        public async Task<PagedResultDto<{{ EntityInfo.Name }}Dto>> GetListAsync(PageDto pageDto)
+        {
+            List<{{EntityInfo.Name}}Dto> {{EntityInfo.NameCamelizePluralized}}s = (await {{repositoryName}}.Select
+                        .ToPagerListAsync(pageDto, out long count)).Select(r => _mapper.Map<{{EntityInfo.Name}}Dto>(r)).ToList();
+
+            return new PagedResultDto<{{EntityInfo.Name}}Dto>({{EntityInfo.NameCamelizePluralized}}s, count);
+        }
+
+        public async Task<{{ EntityInfo.Name }}Dto> GetAsync({{EntityInfo.PrimaryKey}} id)
+        {
+            {{ EntityInfo.Name }} {{EntityInfo.NameCamelize}} = await {{repositoryName}}.Select.Where(a => a.Id == id).ToOneAsync();
+            return _mapper.Map<{{ EntityInfo.Name }}Dto>({{EntityInfo.NameCamelize}});
+        }
+
+        public async Task CreateAsync(CreateUpdate{{ EntityInfo.Name }}Dto create{{ EntityInfo.Name }})
+        {
+            {{ EntityInfo.Name }} {{EntityInfo.NameCamelize}} = _mapper.Map<{{ EntityInfo.Name }}>(create{{ EntityInfo.Name }});
+            await {{repositoryName}}.InsertAsync({{EntityInfo.NameCamelize}});
+        }
+
+        public async Task UpdateAsync({{EntityInfo.PrimaryKey}} id, CreateUpdate{{ EntityInfo.Name }}Dto update{{ EntityInfo.Name }})
+        {
+            {{ EntityInfo.Name }} {{EntityInfo.NameCamelize}} = await {{repositoryName}}.Select.Where(r => r.Id == id).ToOneAsync();
+            if ({{EntityInfo.NameCamelize}} == null)
+            {
+                throw new LinCmsException("该数据不存在");
+            }
+            _mapper.Map(update{{ EntityInfo.Name }}, {{EntityInfo.NameCamelize}});
+            await {{repositoryName}}.UpdateAsync({{EntityInfo.NameCamelize}});
+        }
+    }
+}

@@ -259,6 +259,21 @@
             实现该接口将自动注册到Ioc容器，生命周期为每次请求创建一个实例
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Base.Doc">
+            <summary>
+            文档
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.Doc.Name">
+            <summary>
+            文档名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.Doc.DisplayName">
+            <summary>
+            显示名
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Blog.Article.ClassifyId">
             <summary>
             文章所在分类专栏Id
