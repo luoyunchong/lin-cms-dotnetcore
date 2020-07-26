@@ -1,0 +1,57 @@
+﻿using System.Threading.Tasks;
+using {{ProjectInfo.FullName}}.Aop.Filter;
+using {{ProjectInfo.FullName}}.Data;
+using {{ProjectInfo.FullName}}.{{SettingOptions.Areas}}.{{ EntityInfo.NamePluralized }};
+using Microsoft.AspNetCore.Mvc;
+
+namespace {{ProjectInfo.FullName}}.Controllers.{{SettingOptions.Areas}}
+{
+    [Route("api/{{SettingOptions.AreasCamelize}}/{{ EntityInfo.NameCamelizePluralized }}")]
+    [ApiController]
+    public class {{ EntityInfo.Name }}Controller : ControllerBase
+    {
+        private readonly I{{ EntityInfo.Name }}Service _{{ EntityInfo.NameCamelize }}Service;
+        public {{ EntityInfo.Name }}Controller(I{{ EntityInfo.Name }}Service {{ EntityInfo.NameCamelize }}Service)
+        {
+            _{{ EntityInfo.NameCamelize }}Service = {{ EntityInfo.NameCamelize }}Service;
+        }
+
+        [LinCmsAuthorize("删除{{EntityInfo.EntityRemark}}", "{{EntityInfo.EntityRemark}}管理")]
+        [HttpDelete("{id}")]
+        public async Task<UnifyResponseDto> DeleteAsync({{ EntityInfo.PrimaryKey }} id)
+        {
+            await _{{ EntityInfo.NameCamelize }}Service.DeleteAsync(id);
+            return UnifyResponseDto.Success();
+
+        }
+
+        [LinCmsAuthorize("所有{{EntityInfo.EntityRemark}}", "{{EntityInfo.EntityRemark}}管理")]
+        [HttpGet]
+        public async Task<PagedResultDto<{{ EntityInfo.Name }}Dto>> GetListAsync([FromQuery] PageDto pageDto)
+        {
+            return await _{{ EntityInfo.NameCamelize }}Service.GetListAsync(pageDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<{{ EntityInfo.Name }}Dto> GetAsync({{ EntityInfo.PrimaryKey }} id)
+        {
+            return await _{{ EntityInfo.NameCamelize }}Service.GetAsync(id);
+        }
+
+        [LinCmsAuthorize("新增{{EntityInfo.EntityRemark}}", "{{EntityInfo.EntityRemark}}管理")]
+        [HttpPost]
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdate{{ EntityInfo.Name }}Dto create{{ EntityInfo.Name }})
+        {
+            await _{{ EntityInfo.NameCamelize }}Service.CreateAsync(create{{ EntityInfo.Name }});
+            return UnifyResponseDto.Success("新增{{EntityInfo.EntityRemark}}成功");
+        }
+
+        [LinCmsAuthorize("编辑{{EntityInfo.EntityRemark}}", "{{EntityInfo.EntityRemark}}管理")]
+        [HttpPut("{id}")]
+        public async Task<UnifyResponseDto> UpdateAsync({{ EntityInfo.PrimaryKey }} id, [FromBody] CreateUpdate{{ EntityInfo.Name }}Dto update{{ EntityInfo.Name }})
+        {
+            await _{{ EntityInfo.NameCamelize }}Service.UpdateAsync(id, update{{ EntityInfo.Name }});
+            return UnifyResponseDto.Success("编辑{{EntityInfo.EntityRemark}}成功");
+        }
+    }
+}
