@@ -1,0 +1,24 @@
+﻿const {{SettingOptions.AreasCamelize}}Router = {
+  route: null,
+  name: null,
+  title: "工作台",
+  type: "folder", // 类型: folder, tab, view
+  icon: "iconfont icon-tushuguanli",
+  filePath: "view/{{SettingOptions.AreasCamelize}}/",
+  order: null,
+  inNav: true,
+  children: [
+    {
+      name: null,
+      title: "{{EntityInfo.EntityRemark}}管理",
+      type: "view",
+      name: "{{EntityInfo.Name}}List",
+      route: "/{{SettingOptions.AreasCamelize}}/{{EntityInfo.NameCamelize}}/list",
+      filePath: "plugin/{{SettingOptions.AreasCamelize}}/view/{{EntityInfo.NameCamelize}}/{{EntityInfo.NameCamelize}}-list.vue",
+      inNav: true,
+      permission: ["所有{{EntityInfo.EntityRemark}}"]
+    }
+  ]
+};
+
+export default {{SettingOptions.AreasCamelize}}Router;

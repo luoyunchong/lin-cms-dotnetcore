@@ -1,0 +1,14 @@
+﻿using AutoMapper;
+using {{ProjectInfo.FullName}}.Entities.{{SettingOptions.Areas}};
+
+namespace {{ EntityInfo.Namespace }}
+{
+    public class {{ EntityInfo.Name }}Profile : Profile
+    {
+        public {{ EntityInfo.Name }}Profile()
+        {
+            CreateMap<{{ EntityInfo.Name }}, {{ EntityInfo.Name }}Dto>();
+            CreateMap<CreateUpdate{{ EntityInfo.Name }}Dto, {{ EntityInfo.Name }}>();
+        }
+    }
+}

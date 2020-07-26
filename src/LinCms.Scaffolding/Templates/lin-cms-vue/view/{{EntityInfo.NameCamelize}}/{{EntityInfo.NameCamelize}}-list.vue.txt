@@ -1,0 +1,148 @@
+﻿<template>
+  <div>
+    <div class="container" v-if="!showEdit">
+      <div class="header">
+        <div class="header-left">
+          <div class="title">{{EntityInfo.EntityRemark}}</div>
+        </div>
+        <div class="header-right">
+         <!-- <el-input
+            size="medium"
+            style="margin-right:30px"
+            v-model="pagination.{{EntityInfo.NameCamelize}}_name"
+            placeholder="{{EntityInfo.EntityRemark}}名"
+          ></el-input>-->
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            v-permission="'新增{{EntityInfo.EntityRemark}}'"
+            @click="()=>{
+                this.showEdit = true;
+                this.id=0;
+            }"
+          >新增{{EntityInfo.EntityRemark}}</el-button>
+          <el-button type="default" icon="el-icon-search" @click="refresh">刷新</el-button>
+        </div>
+      </div>
+      <!-- 表格 -->
+      <lin-table
+        :tableColumn="tableColumn"
+        :tableData="tableData"
+        :operate="operate"
+        :operateWidth="230"
+        @handleEdit="handleEdit"
+        @handleDelete="handleDelete"
+        v-loading="loading"
+        :pagination="pagination"
+        @currentChange="handleCurrentChange"
+      >
+      </lin-table>
+      <!--表格结束-->
+    </div>
+    <{{EntityInfo.NameCamelize}}-form v-else :id="id" ref="{{EntityInfo.NameCamelize}}Form" @editClose="editClose"></{{EntityInfo.NameCamelize}}-form>
+  </div>
+</template>
+
+<script>
+import {{EntityInfo.NameCamelize}}Api from '../../model/{{EntityInfo.NameCamelize}}'
+import LinTable from '@/component/base/table/lin-table'
+import {{EntityInfo.Name}}Form from './{{EntityInfo.NameCamelize}}-form'
+export default {
+  name: '{{EntityInfo.Name}}List',
+  components: { LinTable, {{EntityInfo.Name}}Form },
+  inject: ['eventBus'],
+  data() {
+    return {
+      id: 0,
+      showEdit: false,
+      tableData: [], // 表格数据
+      tableColumn: [], // 表头数据
+      operate: [], // 表格按键操作区
+      loading: false,
+      pagination: {
+        pageSize: 10,
+        pageTotal: 0,
+        currentPage: 1, // 默认获取第一页的数据
+      },
+    }
+  },
+  methods: {
+    async get{{EntityInfo.Name}}s() {
+      const currentPage = this.pagination.currentPage - 1
+      this.loading = true
+      let res = await {{EntityInfo.NameCamelize}}Api
+        .get{{EntityInfo.Name}}s({
+          count: this.pagination.pageSize,
+          page: currentPage,
+        })
+        .finally(r => {
+          this.loading = false
+        })
+      this.tableData = [...res.items]
+      this.pagination.pageTotal = res.total
+    },
+    async handleEdit(val) {
+      this.showEdit = true
+      this.id = val.row.id
+    },
+    async handleCurrentChange(val) {
+      this.pagination.currentPage = val
+      this.loading = true
+      await this.get{{EntityInfo.Name}}s()
+      this.loading = false
+    },
+    handleDelete(val) {
+      let res
+      this.$confirm('此操作将永久删除该{{EntityInfo.EntityRemark}}项, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        try {
+          this.loading = true
+          res = await {{EntityInfo.NameCamelize}}Api.delete{{EntityInfo.Name}}(val.row.id)
+        } catch (e) {
+          this.loading = false
+        }
+        if (res.code === 0) {
+          this.loading = false
+          await this.get{{EntityInfo.Name}}s()
+
+          this.$message({
+            type: 'success',
+            message: `${res.message}`,
+          })
+        } else {
+          this.loading = false
+          this.$message.error(`${res.message}`)
+        }
+      })
+    },
+    async refresh() {
+      await this.get{{EntityInfo.Name}}s()
+    },
+    async editClose() {
+      this.showEdit = false
+      await this.get{{EntityInfo.Name}}s()
+    }
+  },
+  async created() {
+    this.tableColumn = [
+        {{~ for prop in EntityInfo.Properties ~}}
+          { prop: '{{ prop.NameUnderscore}}', label: '{{ prop.Remarks}}'},
+        {{~ end ~}}
+    ]
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary', permission: '编辑{{EntityInfo.EntityRemark}}' },
+      { name: '删除', func: 'handleDelete', type: 'danger', permission: '删除{{EntityInfo.EntityRemark}}' }
+    ]
+
+    await this.get{{EntityInfo.Name}}s()
+  },
+  beforeDestroy() {},
+}
+</script>
+
+<style lang="scss" scoped>
+@import '@/assets/style/list.scss';
+</style>
