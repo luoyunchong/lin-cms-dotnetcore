@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <AssemblyName>IGeekfan.CAP.MySql</AssemblyName>
+    <AssemblyName>IGeekFan.CAP.MySql</AssemblyName>
     <PackageTags>MySQL</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>IGeekfan.CAP.MySql.xml</DocumentationFile>
+    <DocumentationFile>IGeekFan.CAP.MySql.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;CS1591</NoWarn>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.1</Version>
@@ -30,8 +30,8 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="DotNetCore.CAP" Version="3.1.0-preview-111117527" />
-    <PackageReference Include="FreeSql.DbContext" Version="1.7.0-preview0718" />
-    <PackageReference Include="MySqlConnector" Version="0.69.5" />
+    <PackageReference Include="FreeSql.DbContext" Version="1.7.1" />
+    <PackageReference Include="MySqlConnector" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

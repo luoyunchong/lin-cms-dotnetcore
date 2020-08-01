@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.7.0-preview0718" />
-    <PackageReference Include="FreeSql.Provider.PostgreSQL" Version="1.7.0-preview0718" />
-    <PackageReference Include="FreeSql.Provider.Sqlite" Version="1.7.0-preview0718" />
-    <PackageReference Include="FreeSql.Provider.SqlServer" Version="1.7.0-preview0718" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.7.1" />
+    <PackageReference Include="FreeSql.Provider.PostgreSQL" Version="1.7.1" />
+    <PackageReference Include="FreeSql.Provider.Sqlite" Version="1.7.1" />
+    <PackageReference Include="FreeSql.Provider.SqlServer" Version="1.7.1" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,7 @@ using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Extensions;
+using LinCms.Middleware;
 using LinCms.Plugins.Poem.Services;
 using LinCms.SnakeCaseQuery;
 using LinCms.Utils;
@@ -65,16 +66,17 @@ namespace LinCms.Startup
                     opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/cms/oauth2/signin";
-                    options.LogoutPath = "/cms/oauth2/signout";
-                })
+                .AddCookie()
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    //identityserver4 地址 也就是本项目地址
-                    options.Authority = Configuration["Service:Authority"];
-                    options.RequireHttpsMetadata = false;
+                    bool isIds4 = Configuration["Service:IdentityServer4"].ToBoolean();
+
+                    if (isIds4)
+                    {
+                        //identityserver4 地址 也就是本项目地址
+                        options.Authority = Configuration["Service:Authority"];
+                    }
+                    options.RequireHttpsMetadata = Configuration["Service:UseHttps"].ToBoolean();
                     options.Audience = Configuration["Service:Name"];
 
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -275,7 +277,7 @@ namespace LinCms.Startup
                         {
                             Reference = new OpenApiReference()
                             {
-                                Id = "Bearer",
+                                Id =  JwtBearerDefaults.AuthenticationScheme,
                                 Type = ReferenceType.SecurityScheme
                             }
                         },
@@ -283,7 +285,7 @@ namespace LinCms.Startup
                     }
                 };
                 options.AddSecurityRequirement(security); //添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
                     Description = "JWT授权(数据将在请求头中进行传输) 参数结构: \"Authorization: Bearer {token}\"",
                     Name = "Authorization", //jwt默认的参数名称
@@ -389,7 +391,7 @@ namespace LinCms.Startup
             //认证中间件
             app.UseAuthentication();
 
-            //app.UseMiddleware<IpLimitMiddleware>();
+            app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()
                 .UseAuthorization()

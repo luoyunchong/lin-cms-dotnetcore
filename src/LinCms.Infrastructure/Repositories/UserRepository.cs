@@ -10,7 +10,7 @@ namespace LinCms.Repositories
 {
     public class UserRepository : AuditBaseRepository<LinUser>, IUserRepository
     {
-        public UserRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser): base(unitOfWorkManager, currentUser)
+        public UserRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager, currentUser)
         {
         }
 
@@ -29,10 +29,11 @@ namespace LinCms.Repositories
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task UpdateLastLoginTimeAsync(long userId)
+        public Task UpdateLastLoginTimeAsync(long userId, string refreshToken)
         {
             return UpdateDiy.Set(r => new LinUser()
             {
+                RefreshToken = refreshToken,
                 LastLoginTime = DateTime.Now
             }).Where(r => r.Id == userId).ExecuteAffrowsAsync();
         }

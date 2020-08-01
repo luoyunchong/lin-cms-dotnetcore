@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Localization.FreeS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Localization", "samples\Sample.Localization\Sample.Localization.csproj", "{74D48241-41CF-470D-8BAD-8B70318BBA3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGeekFan.Test", "test\IGeekFan.Test\IGeekFan.Test.csproj", "{8435070A-283C-4750-A04F-8A332D431FFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Test", "test\IGeekFan.Test\IGeekFan.Test.csproj", "{8435070A-283C-4750-A04F-8A332D431FFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

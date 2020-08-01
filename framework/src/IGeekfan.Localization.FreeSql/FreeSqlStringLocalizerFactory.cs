@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.Localization;
 
-namespace IGeekfan.Localization.FreeSql
+namespace IGeekFan.Localization.FreeSql
 {
     public class FreeSqlStringLocalizerFactory : IStringLocalizerFactory
     {
