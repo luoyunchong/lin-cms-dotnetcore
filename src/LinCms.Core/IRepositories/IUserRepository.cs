@@ -19,6 +19,6 @@ namespace LinCms.IRepositories
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task UpdateLastLoginTimeAsync(long userId, string refreshToken);
+        Task UpdateLastLoginTimeAsync(long userId);
     }
 }

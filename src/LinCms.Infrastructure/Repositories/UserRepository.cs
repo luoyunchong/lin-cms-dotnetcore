@@ -29,11 +29,10 @@ namespace LinCms.Repositories
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task UpdateLastLoginTimeAsync(long userId, string refreshToken)
+        public Task UpdateLastLoginTimeAsync(long userId)
         {
             return UpdateDiy.Set(r => new LinUser()
             {
-                RefreshToken = refreshToken,
                 LastLoginTime = DateTime.Now
             }).Where(r => r.Id == userId).ExecuteAffrowsAsync();
         }
