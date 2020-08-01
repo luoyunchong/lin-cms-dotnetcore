@@ -273,6 +273,20 @@
             关注者
             </summary>
         </member>
+        <member name="M:LinCms.Cms.Account.ITokenService.LoginAsync(LinCms.Cms.Account.LoginInputDto)">
+            <summary>
+            登录
+            </summary>
+            <param name="loginInputDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Account.ITokenService.GetRefreshTokenAsync(System.String)">
+            <summary>
+            刷新token
+            </summary>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
         <member name="P:LinCms.Cms.Account.LoginInputDto.Username">
             <summary>
             登录名:admin
@@ -547,7 +561,7 @@
         </member>
         <member name="M:LinCms.Cms.Users.IUserIdentityService.GetFirstByUserIdAsync(System.Int64)">
             <summary>
-            根据用户id得到密码模式的
+            根据用户id得到密码模式的用户授权信息
             </summary>
             <param name="userId"></param>
             <returns></returns>

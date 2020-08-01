@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\IGeekfan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
+    <ProjectReference Include="..\..\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
   </ItemGroup>
 
 

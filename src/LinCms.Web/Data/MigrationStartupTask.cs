@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using LinCms.FreeSql;
+using LinCms.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -22,7 +24,9 @@ namespace LinCms.Data
             {
                 using var scope = _serviceProvider.CreateScope();
                 IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
-                await dataSeedContributor.SeedPermissionAsync();
+
+                var permissions=ReflexHelper.GeAssemblyLinCmsAttributes();
+                await dataSeedContributor.SeedPermissionAsync(permissions);
                 await dataSeedContributor.InitAdminPermission();
             }
             catch (Exception ex)

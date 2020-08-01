@@ -116,6 +116,11 @@ namespace LinCms.Controllers.Cms
 
             //claims.AddRange(authClaims);
             string token = _jsonWebTokenService.Encode(claims);
+
+            //TODO 生成刷新token
+            //user.AddRefreshToken(token);
+            //await _userRepository.UpdateAsync(user);
+
             return Redirect($"{redirectUrl}#login-result?token={token}");
         }
 
@@ -249,7 +254,7 @@ namespace LinCms.Controllers.Cms
             return Challenge(properties, provider);
 
         }
-        
+
         /// <summary>
         /// 获取第三方登录的提供商
         /// </summary>

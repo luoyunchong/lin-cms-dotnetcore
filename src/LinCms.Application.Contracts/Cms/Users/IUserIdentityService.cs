@@ -50,7 +50,7 @@ namespace LinCms.Cms.Users
 
         Task DeleteAsync(long userId);
         /// <summary>
-        /// 根据用户id得到密码模式的
+        /// 根据用户id得到密码模式的用户授权信息
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>

@@ -84,7 +84,6 @@ namespace LinCms.Cms.Users
             else
             {
                 userId = linUserIdentity.CreateUserId;
-                await _userRepository.UpdateLastLoginTimeAsync(linUserIdentity.CreateUserId);
             }
 
             return userId;
@@ -143,7 +142,6 @@ namespace LinCms.Cms.Users
             else
             {
                 userId = linUserIdentity.CreateUserId;
-                await _userRepository.UpdateLastLoginTimeAsync(linUserIdentity.CreateUserId);
             }
 
             return userId;
@@ -196,7 +194,6 @@ namespace LinCms.Cms.Users
             else
             {
                 userId = linUserIdentity.CreateUserId;
-                await _userRepository.UpdateLastLoginTimeAsync(linUserIdentity.CreateUserId);
             }
 
             return userId;

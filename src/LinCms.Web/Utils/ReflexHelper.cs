@@ -77,7 +77,7 @@ namespace LinCms.Utils
                                                 linCmsAuthorize.Permission,
                                                 linCmsAuthorize.Module,
                                                 $"{routerAttribute.Template.Replace("/", ".")}+{methodInfo.Name.ToSnakeCase()}"
-                                                )
+                                            )
                                     );
                             }
                         }

@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\IGeekfan.CAP.MySql\IGeekFan.CAP.MySql.csproj" />
-    <ProjectReference Include="..\..\src\IGeekfan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
+    <ProjectReference Include="..\..\src\IGeekFan.CAP.MySql\IGeekFan.CAP.MySql.csproj" />
+    <ProjectReference Include="..\..\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
   </ItemGroup>
 
 </Project>
