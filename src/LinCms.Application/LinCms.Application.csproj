@@ -7,9 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="3.1.4-preview.20371.34" />
-		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.4-preview.20371.34" />
-		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.4-preview.20371.34" />
+		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="3.1.3" />
+		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.3" />
+		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="3.1.3" />
 		<PackageReference Include="AutoMapper" Version="10.0.0" />
 		<PackageReference Include="IdentityServer4" Version="4.0.4" />
 		<PackageReference Include="DotNetCore.CAP" Version="3.1.0-preview-112969177" />
