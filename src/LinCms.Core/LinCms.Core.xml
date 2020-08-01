@@ -1152,7 +1152,7 @@
             <param name="expression"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.IRepositories.IUserRepository.UpdateLastLoginTimeAsync(System.Int64,System.String)">
+        <member name="M:LinCms.IRepositories.IUserRepository.UpdateLastLoginTimeAsync(System.Int64)">
             <summary>
             根据用户Id更新用户的最后登录时间
             </summary>
