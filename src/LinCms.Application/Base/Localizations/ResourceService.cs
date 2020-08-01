@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using IGeekfan.Localization.FreeSql.Models;
+using IGeekFan.Localization.FreeSql.Models;
 using LinCms.Data;
 using LinCms.Exceptions;
 using LinCms.Extensions;

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="1.7.0-preview0718" />
+    <PackageReference Include="FreeSql" Version="1.7.1" />
     <PackageReference Include="FreeSql.DbContext" Version="1.7.0-preview0718" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.6" />
   </ItemGroup>

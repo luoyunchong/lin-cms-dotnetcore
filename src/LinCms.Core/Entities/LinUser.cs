@@ -69,6 +69,12 @@ namespace LinCms.Entities
         /// </summary>
         public DateTime LastLoginTime { get; set; }
 
+        /// <summary>
+        /// JWT 登录，保存生成的随机token值。
+        /// </summary>
+        [Column(StringLength = 200)]
+        public string RefreshToken { get; set; }
+
 
         [Navigate(ManyToMany = typeof(LinUserGroup))]
         public virtual ICollection<LinGroup> LinGroups { get; set; }
@@ -82,6 +88,16 @@ namespace LinCms.Entities
         public bool IsActive()
         {
             return Active == UserActive.Active;
+        }
+
+        /// <summary>
+        /// 登录后用户状态变化
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        public void AddRefreshToken(string refreshToken)
+        {
+            LastLoginTime = DateTime.Now;
+            RefreshToken = refreshToken;
         }
 
     }

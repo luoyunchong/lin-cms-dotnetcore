@@ -8,7 +8,10 @@ using DotNetCore.CAP.Messages;
 using DotNetCore.Security;
 using FreeSql;
 using FreeSql.Internal;
+using IdentityServer4.Services;
+using LinCms.Cms.Account;
 using LinCms.Cms.Files;
+using LinCms.Cms.Users;
 using LinCms.Data.Authorization;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
@@ -137,7 +140,7 @@ namespace LinCms.Startup
         {
             JsonWebTokenSettings jsonWebTokenSettings = new JsonWebTokenSettings(
                            configuration["Authentication:JwtBearer:SecurityKey"],
-                           new TimeSpan(30, 0, 0, 0),
+                           new TimeSpan(1, 0, 0, 0),
                            configuration["Authentication:JwtBearer:Audience"],
                            configuration["Authentication:JwtBearer:Issuer"]
                        );
@@ -168,6 +171,16 @@ namespace LinCms.Startup
             else
             {
                 services.AddTransient<IFileService, QiniuService>();
+            }
+
+            bool isIds4 = configuration.GetSection("Service:IdentityServer4").Value.ToBoolean();
+            if (isIds4)
+            {
+                services.AddTransient<Cms.Account.ITokenService, IdentityServer4Service>();
+            }
+            else
+            {
+                services.AddTransient<Cms.Account.ITokenService, JwtTokenService>();
             }
         }
 

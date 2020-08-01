@@ -1,11 +1,20 @@
 ﻿
 using FreeSql.DataAnnotations;
 
-namespace IGeekfan.Localization.FreeSql.Models
+namespace IGeekFan.Localization.FreeSql.Models
 {
     public class LocalResource
     {
-    
+        public LocalResource()
+        {
+        }
+
+        public LocalResource(string key, string value)
+        {
+            Key = key;
+            Value = value;
+        }
+
         [Column(IsIdentity = true, IsPrimary = true)]
         public long Id { get; set; }
         [Column(StringLength = 50)]

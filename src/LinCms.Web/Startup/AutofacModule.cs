@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
+using LinCms.Cms.Account;
+using LinCms.Cms.Files;
+using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Dependency;
 using LinCms.IRepositories;
@@ -26,8 +29,16 @@ namespace LinCms.Startup
 
             interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
 
+            string[] notIncludes = new string[]
+            {
+                typeof(QiniuService).Name,
+                typeof(LocalFileService).Name,
+                typeof(IdentityServer4Service).Name,
+                typeof(JwtTokenService).Name
+            };
+
             builder.RegisterAssemblyTypes(servicesDllFile)
-                .Where(a => a.Name.EndsWith("Service") && a.Name != "QiniuService" && a.Name != "LocalFileService")
+                .Where(a => a.Name.EndsWith("Service") && !notIncludes.Where(r => r == a.Name).Any())
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope()
                 .InterceptedBy(interceptorServiceTypes.ToArray())
@@ -40,6 +51,7 @@ namespace LinCms.Startup
 
             builder.RegisterGeneric(typeof(AuditBaseRepository<>)).As(typeof(IAuditBaseRepository<>)).InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(AuditBaseRepository<,>)).As(typeof(IAuditBaseRepository<,>)).InstancePerLifetimeScope();
+
 
             Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToArray();
 

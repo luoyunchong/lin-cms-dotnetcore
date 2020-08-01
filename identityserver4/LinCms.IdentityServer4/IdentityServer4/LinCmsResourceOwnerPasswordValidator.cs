@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
@@ -45,7 +46,8 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 return;
             }
 
-            await _userRepository.UpdateLastLoginTimeAsync(user.Id);
+            user.LastLoginTime = DateTime.Now;
+            await _userRepository.UpdateAsync(user);
 
             //subjectId 为用户唯一标识 一般为用户id
             //authenticationMethod 描述自定义授权类型的认证方法 

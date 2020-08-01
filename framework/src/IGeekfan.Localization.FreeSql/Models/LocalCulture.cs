@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
 
-namespace IGeekfan.Localization.FreeSql.Models
+namespace IGeekFan.Localization.FreeSql.Models
 {
     public class LocalCulture
     {

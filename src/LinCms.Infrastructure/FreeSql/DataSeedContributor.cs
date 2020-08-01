@@ -4,19 +4,20 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using LinCms.Common;
+using LinCms.Data;
 using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using LinCms.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace LinCms.Data
+namespace LinCms.FreeSql
 {
     public interface IDataSeedContributor
     {
-        Task SeedPermissionAsync();
 
         Task InitAdminPermission();
+
+        Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes);
 
     }
     public class DataSeedContributor : IDataSeedContributor, ISingletonDependency
@@ -48,9 +49,8 @@ namespace LinCms.Data
         /// 权限标签上的Permission改变时，删除数据库中存在的无效权限，并生成新的权限。
         /// </summary>
         /// <returns></returns>
-        public async Task SeedPermissionAsync()
+        public async Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes)
         {
-            List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
 
             List<LinPermission> insertPermissions = new List<LinPermission>();
             List<LinPermission> allPermissions = await _permissionRepository.Select.ToListAsync();

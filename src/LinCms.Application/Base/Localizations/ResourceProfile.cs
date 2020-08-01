@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using IGeekfan.Localization.FreeSql.Models;
+using IGeekFan.Localization.FreeSql.Models;
 
 namespace LinCms.Base.Localizations
 {
