@@ -21,7 +21,7 @@ namespace LinCms.Cms.Users
         private readonly IUserIdentityService _userIdentityService;
         private readonly ILogger<JwtTokenService> _logger;
         private readonly IJsonWebTokenService _jsonWebTokenService;
-        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService )
+        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService)
         {
             _userRepository = userRepository;
             _logger = logger;
@@ -54,11 +54,17 @@ namespace LinCms.Cms.Users
 
             List<Claim> claims = new List<Claim>()
             {
-                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
+                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim (ClaimTypes.Email, user.Email?? ""),
                 new Claim (ClaimTypes.GivenName, user.Nickname?? ""),
-                new Claim (ClaimTypes.Name, user.Username?? ""),
+                new Claim (ClaimTypes.Name, user.Username?? "")
             };
+
+            user.LinGroups?.ForEach(r =>
+            {
+                claims.Add(new Claim(ClaimTypes.Role, r.Name));
+                claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+            });
 
             _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(claims)}");
 
@@ -85,7 +91,7 @@ namespace LinCms.Cms.Users
         {
             LinUser user = await _userRepository.GetUserAsync(r => r.RefreshToken == refreshToken);
 
-            if(user.IsNull())
+            if (user.IsNull())
             {
                 throw new LinCmsException("该refreshToken无效!");
             }
