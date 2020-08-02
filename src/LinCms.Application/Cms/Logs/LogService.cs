@@ -9,23 +9,21 @@ using LinCms.Security;
 
 namespace LinCms.Cms.Logs
 {
-    public class LogService : ILogService
+    public class LogService :ApplicationService, ILogService
     {
         private readonly IAuditBaseRepository<LinLog> _linLogRepository;
-        private readonly ICurrentUser _currentUser;
         private readonly IUserRepository _linUserAuditBaseRepository;
-        public LogService(IAuditBaseRepository<LinLog> linLogRepository, ICurrentUser currentUser, IUserRepository linUserAuditBaseRepository)
+        public LogService(IAuditBaseRepository<LinLog> linLogRepository,IUserRepository linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
-            _currentUser = currentUser;
             _linUserAuditBaseRepository = linUserAuditBaseRepository;
         }
 
         public async Task CreateAsync(LinLog linlog)
         {
             linlog.CreateTime = DateTime.Now;
-            linlog.Username = _currentUser.UserName;
-            linlog.UserId = _currentUser.Id ?? 0;
+            linlog.Username = CurrentUser.UserName;
+            linlog.UserId = CurrentUser.Id ?? 0;
 
             await _linLogRepository.InsertAsync(linlog);
         }

@@ -20,7 +20,7 @@ namespace LinCms.Scaffolding
 {
     class Program
     {
-        static ProjectInfo ProjectParser(ServiceProvider provide, SettingOptions settingOptions)
+        static ProjectInfo ProjectParser( SettingOptions settingOptions)
         {
             Console.WriteLine($"baseDirectory：{settingOptions.BaseDirectory}"); ;
             var coreCsprojFile = Directory.EnumerateFiles(settingOptions.BaseDirectory, "*.Core.csproj", SearchOption.AllDirectories).FirstOrDefault();
@@ -49,7 +49,7 @@ namespace LinCms.Scaffolding
                 .FirstOrDefault();
 
             string baseType;
-            string? primaryKey;
+            string primaryKey;
             if (genericNameSyntax == null)
             {
                 // No generic parameter -> Entity with Composite Keys
@@ -84,8 +84,6 @@ namespace LinCms.Scaffolding
             }
             var relativeDirectory = @namespace.RemovePreFix(projectInfo.FullName + ".").Replace('.', '/');
 
-
-
             EntityInfo entityInfo = new EntityInfo(@namespace, className, baseType, primaryKey, relativeDirectory);
             entityInfo.Properties.AddRange(properties);
             entityInfo.EntityRemark = entityRemark;
@@ -110,18 +108,11 @@ namespace LinCms.Scaffolding
 
             ServiceProvider provider = GetProvider();
             SettingOptions settingOptions = provider.GetService<IOptionsMonitor<SettingOptions>>().CurrentValue;
-            ProjectInfo projectInfo = ProjectParser(provider, settingOptions);
+            ProjectInfo projectInfo = ProjectParser(settingOptions);
 
 
             string entityPath = Path.Combine(settingOptions.BaseDirectory, settingOptions.EntityFilePath);
             EntityInfo entityInfo = EntityParse(entityPath, projectInfo, settingOptions);
-
-            string templatePath = Path.Combine(Environment.CurrentDirectory, settingOptions.TemplatePath);
-            IFileProvider fileProvider = new PhysicalFileProvider(templatePath);
-            if (!Directory.Exists(settingOptions.OutputDirectory))
-            {
-                Directory.CreateDirectory(settingOptions.OutputDirectory);
-            }
 
             var model = new
             {
@@ -160,35 +151,11 @@ namespace LinCms.Scaffolding
                 TemplatePath	"./Templates"	string
 
         */
-            int count = 0;
-            foreach (var (path, file) in fileProvider.GetFilesRecursively("./"))
-            {
-                var templateText = await file.ReadAsStringAsync(Encoding.UTF8);
-                Console.WriteLine(templateText);
+            string templatePath = Path.Combine(Environment.CurrentDirectory, settingOptions.TemplatePath);
+            CodeScaffolding codeScaffolding = new CodeScaffolding(templatePath, settingOptions.OutputDirectory);
+            await codeScaffolding.GenerateAsync(model);
 
-                TemplateContext context = new TemplateContext();
-                var scriptObject = new ScriptObject();
-                scriptObject.Import(model, renamer: member => member.Name);
-                context.PushGlobal(scriptObject);
-                context.MemberRenamer = member => member.Name;
-
-                var template = Template.Parse(templateText);
-                var result = template.Render(context).Replace("\r\n", Environment.NewLine);
-                Console.WriteLine(result);
-
-                var outputDir = Path.Combine(settingOptions.OutputDirectory, path.RemovePostFix(".txt")).Replace('\\', '/');
-                var pathTemplate = Template.Parse(outputDir);
-                var targetFilePathName = pathTemplate.Render(context).Replace("\r\n", Environment.NewLine);
-
-                var dir = Path.GetDirectoryName(targetFilePathName);
-                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                File.WriteAllText(targetFilePathName, result);
-                count += 1;
-            }
-
-            Console.WriteLine(count);
-
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("EveryThings is Ok!");
         }
     }
 }

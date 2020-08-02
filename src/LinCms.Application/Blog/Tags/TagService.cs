@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Blog.UserSubscribes;
 using LinCms.Data;
 using LinCms.Data.Enums;
@@ -10,7 +9,6 @@ using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Blog.Tags
 {
@@ -18,15 +16,11 @@ namespace LinCms.Blog.Tags
     {
         private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly IAuditBaseRepository<Tag> _tagRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
         private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
         private readonly IFileRepository _fileRepository;
-        public TagService(IAuditBaseRepository<Tag> tagRepository, IMapper mapper, ICurrentUser currentUser, IAuditBaseRepository<UserTag> userTagRepository, IAuditBaseRepository<TagArticle> tagArticleRepository, IFileRepository fileRepository)
+        public TagService(IAuditBaseRepository<Tag> tagRepository, IAuditBaseRepository<UserTag> userTagRepository, IAuditBaseRepository<TagArticle> tagArticleRepository, IFileRepository fileRepository)
         {
             _tagRepository = tagRepository;
-            _mapper = mapper;
-            _currentUser = currentUser;
             _userTagRepository = userTagRepository;
             _tagArticleRepository = tagArticleRepository;
             _fileRepository = fileRepository;
@@ -40,7 +34,7 @@ namespace LinCms.Blog.Tags
                 throw new LinCmsException($"标签[{createTag.TagName}]已存在");
             }
 
-            Tag tag = _mapper.Map<Tag>(createTag);
+            Tag tag = Mapper.Map<Tag>(createTag);
             await _tagRepository.InsertAsync(tag);
         }
 
@@ -58,7 +52,7 @@ namespace LinCms.Blog.Tags
                 throw new LinCmsException($"标签[{updateTag.TagName}]已存在");
             }
 
-            _mapper.Map(updateTag, tag);
+            Mapper.Map(updateTag, tag);
             await _tagRepository.UpdateAsync(tag);
         }
 
@@ -69,7 +63,7 @@ namespace LinCms.Blog.Tags
             {
                 throw new LinCmsException("不存在此标签");
             }
-            TagListDto tagDto = _mapper.Map<TagListDto>(tag);
+            TagListDto tagDto = Mapper.Map<TagListDto>(tag);
             tagDto.IsSubscribe = await this.IsSubscribeAsync(id);
             tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
@@ -87,7 +81,7 @@ namespace LinCms.Blog.Tags
                 searchDto.Sort = "create_time desc";
             }
 
-            List<TagListDto> tags = (await _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == _currentUser.Id))
+            List<TagListDto> tags = (await _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == CurrentUser.Id))
                         .WhereIf(searchDto.TagIds.IsNotNullOrEmpty(), r => searchDto.TagIds.Contains(r.Id))
                         .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
                         .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
@@ -95,7 +89,7 @@ namespace LinCms.Blog.Tags
                         .ToPagerListAsync(searchDto, out long totalCount))
                         .Select(r =>
                         {
-                            TagListDto tagDto = _mapper.Map<TagListDto>(r);
+                            TagListDto tagDto = Mapper.Map<TagListDto>(r);
                             tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
                             tagDto.IsSubscribe = r.UserTags.Any();
                             return tagDto;
@@ -106,14 +100,14 @@ namespace LinCms.Blog.Tags
 
         public async Task<bool> IsSubscribeAsync(Guid tagId)
         {
-            if (_currentUser.Id == null) return false;
-            return await _userTagRepository.Select.AnyAsync(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
+            if (CurrentUser.Id == null) return false;
+            return await _userTagRepository.Select.AnyAsync(r => r.TagId == tagId && r.CreateUserId == CurrentUser.Id);
         }
 
         public PagedResultDto<TagListDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto)
         {
             List<Guid> userTagIds = _userTagRepository.Select
-                .Where(u => u.CreateUserId == _currentUser.Id)
+                .Where(u => u.CreateUserId == CurrentUser.Id)
                 .ToList(r => r.TagId);
 
             List<TagListDto> tagListDtos = _userTagRepository.Select.Include(r => r.Tag)
@@ -122,7 +116,7 @@ namespace LinCms.Blog.Tags
                 .ToPagerList(userSubscribeDto, out long count)
                 .Select(r =>
                 {
-                    TagListDto tagDto = _mapper.Map<TagListDto>(r.Tag);
+                    TagListDto tagDto = Mapper.Map<TagListDto>(r.Tag);
                     if (tagDto != null)
                     {
                         tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);

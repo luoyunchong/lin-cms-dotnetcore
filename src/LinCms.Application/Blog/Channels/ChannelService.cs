@@ -13,16 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Blog.Channels
 {
-    public class ChannelService : IChannelService
+    public class ChannelService : ApplicationService, IChannelService
     {
         private readonly IAuditBaseRepository<Channel, Guid> _channelRepository;
         private readonly IAuditBaseRepository<ChannelTag, Guid> _channelTagRepository;
-        private readonly IMapper _mapper;
         private readonly IFileRepository _fileRepository;
 
-        public ChannelService(IMapper mapper, IAuditBaseRepository<Channel, Guid> channelRepository, IAuditBaseRepository<ChannelTag, Guid> channelTagRepository, IFileRepository fileRepository)
+        public ChannelService(IAuditBaseRepository<Channel, Guid> channelRepository, IAuditBaseRepository<ChannelTag, Guid> channelTagRepository, IFileRepository fileRepository)
         {
-            _mapper = mapper;
             _channelRepository = channelRepository;
             _channelTagRepository = channelTagRepository;
             _fileRepository = fileRepository;
@@ -43,7 +41,7 @@ namespace LinCms.Blog.Channels
                     .ToPagerListAsync(searchDto, out long totalCount))
                     .Select(r =>
                     {
-                        ChannelDto channelDto = _mapper.Map<ChannelDto>(r);
+                        ChannelDto channelDto = Mapper.Map<ChannelDto>(r);
                         channelDto.ThumbnailDisplay = _fileRepository.GetFileUrl(channelDto.Thumbnail);
                         return channelDto;
                     }).ToList();
@@ -58,7 +56,7 @@ namespace LinCms.Blog.Channels
                     .OrderByDescending(r => r.SortCode)
                     .OrderBy(r => r.CreateTime)
                     .ToPagerListAsync(pageDto, out long totalCount))
-                    .Select(r => _mapper.Map<NavChannelListDto>(r)).ToList();
+                    .Select(r => Mapper.Map<NavChannelListDto>(r)).ToList();
             return new PagedResultDto<NavChannelListDto>(channel, totalCount);
         }
 
@@ -69,7 +67,7 @@ namespace LinCms.Blog.Channels
                 .Where(a => a.Id == id)
                 .WhereCascade(r => r.IsDeleted == false).ToOneAsync();
 
-            ChannelDto channelDto = _mapper.Map<ChannelDto>(channel);
+            ChannelDto channelDto = Mapper.Map<ChannelDto>(channel);
             channelDto.ThumbnailDisplay = _fileRepository.GetFileUrl(channelDto.Thumbnail);
             return channelDto;
         }
@@ -82,7 +80,7 @@ namespace LinCms.Blog.Channels
                 throw new LinCmsException($"技术频道[{createChannel.ChannelName}]已存在");
             }
 
-            Channel channel = _mapper.Map<Channel>(createChannel);
+            Channel channel = Mapper.Map<Channel>(createChannel);
 
             channel.Tags = new List<Tag>();
             createChannel.TagIds?.ForEach(r =>
@@ -100,18 +98,18 @@ namespace LinCms.Blog.Channels
         public async Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel)
         {
             Channel channel = await _channelRepository.Select.Where(r => r.Id == id).ToOneAsync();
-            //if (channel == null)
-            //{
-            //    throw new LinCmsException("该数据不存在");
-            //}
+            if (channel == null)
+            {
+                throw new LinCmsException("该数据不存在");
+            }
 
-            //bool exist = await _channelRepository.Select.AnyAsync(r => r.ChannelName == updateChannel.ChannelName && r.Id != id && r.ChannelCode == updateChannel.ChannelCode);
-            //if (exist)
-            //{
-            //    throw new LinCmsException($"技术频道[{updateChannel.ChannelName}]已存在");
-            //}
+            bool exist = await _channelRepository.Select.AnyAsync(r => r.ChannelName == updateChannel.ChannelName && r.Id != id && r.ChannelCode == updateChannel.ChannelCode);
+            if (exist)
+            {
+                throw new LinCmsException($"技术频道[{updateChannel.ChannelName}]已存在");
+            }
 
-            _mapper.Map(updateChannel, channel);
+            Mapper.Map(updateChannel, channel);
             await _channelRepository.UpdateAsync(channel);
             await _channelTagRepository.DeleteAsync(r => r.ChannelId == id);
 
