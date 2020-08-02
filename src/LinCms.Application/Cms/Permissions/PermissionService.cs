@@ -2,25 +2,19 @@
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Cms.Permissions
 {
-    public class PermissionService : IPermissionService
+    public class PermissionService :ApplicationService, IPermissionService
     {
-        private readonly ICurrentUser _currentUser;
         private readonly IAuditBaseRepository<LinPermission,long> _permissionRepository;
         private readonly IAuditBaseRepository<LinGroupPermission, long> _groupPermissionRepository;
-        private readonly IMapper _mapper;
-        public PermissionService(ICurrentUser currentUser, IAuditBaseRepository<LinPermission,long> permissionRepository, IMapper mapper, IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
+        public PermissionService(IAuditBaseRepository<LinPermission,long> permissionRepository,  IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
         {
-            _currentUser = currentUser;
             _permissionRepository = permissionRepository;
-            _mapper = mapper;
             _groupPermissionRepository = groupPermissionRepository;
         }
 
@@ -31,7 +25,7 @@ namespace LinCms.Cms.Permissions
                 .ToDictionary(
                     group => group.Key,
                     group =>
-                        _mapper.Map<List<PermissionDto>>(group.ToList())
+                        Mapper.Map<List<PermissionDto>>(group.ToList())
                 );
 
         }
@@ -43,7 +37,7 @@ namespace LinCms.Cms.Permissions
         /// <returns></returns>
         public async Task<bool> CheckPermissionAsync(string permission)
         {
-            long[] groups = _currentUser.Groups;
+            long[] groups = CurrentUser.Groups;
 
             LinPermission linPermission = await _permissionRepository.Where(r => r.Name == permission).FirstAsync();
 

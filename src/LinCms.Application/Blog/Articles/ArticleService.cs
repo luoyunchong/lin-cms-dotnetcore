@@ -15,15 +15,13 @@ using LinCms.Security;
 
 namespace LinCms.Blog.Articles
 {
-    public class ArticleService : IArticleService
+    public class ArticleService :ApplicationService, IArticleService
     {
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
         private readonly IAuditBaseRepository<Comment> _commentBaseRepository;
         private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
         private readonly IClassifyService _classifyService;
         private readonly ITagService _tagService;
         private readonly IUserLikeService _userSubscribeService;
@@ -31,8 +29,6 @@ namespace LinCms.Blog.Articles
         public ArticleService(
             IAuditBaseRepository<Article> articleRepository,
             IAuditBaseRepository<TagArticle> tagArticleRepository,
-            IMapper mapper,
-            ICurrentUser currentUser,
             IAuditBaseRepository<UserLike> userLikeRepository,
             IAuditBaseRepository<Comment> commentBaseRepository,
             IClassifyService classifyService,
@@ -41,8 +37,6 @@ namespace LinCms.Blog.Articles
         {
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
-            _mapper = mapper;
-            _currentUser = currentUser;
             _userLikeRepository = userLikeRepository;
             _commentBaseRepository = commentBaseRepository;
 
@@ -59,7 +53,7 @@ namespace LinCms.Blog.Articles
             DateTime weeklyDays = DateTime.Now.AddDays(-7);
             DateTime threeDays = DateTime.Now.AddDays(-3);
 
-            long? userId = _currentUser.Id;
+            long? userId = CurrentUser.Id;
             List<Article> articles = await _articleRepository
                 .Select
                 .Include(r => r.UserInfo)
@@ -85,7 +79,7 @@ namespace LinCms.Blog.Articles
             List<ArticleListDto> articleDtos = articles
                 .Select(a =>
                 {
-                    ArticleListDto articleDto = _mapper.Map<ArticleListDto>(a);
+                    ArticleListDto articleDto = Mapper.Map<ArticleListDto>(a);
 
                     articleDto.IsLiked = userId != null && a.UserLikes.Any();
                     articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(articleDto.Thumbnail);
@@ -123,7 +117,7 @@ namespace LinCms.Blog.Articles
                 throw new LinCmsException("该随笔不存在");
             }
 
-            ArticleDto articleDto = _mapper.Map<ArticleDto>(article);
+            ArticleDto articleDto = Mapper.Map<ArticleDto>(article);
 
             if (articleDto.Tags.IsNotNull())
             {
@@ -136,10 +130,10 @@ namespace LinCms.Blog.Articles
             }
 
             articleDto.IsLiked =
-                await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
+                await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == CurrentUser.Id);
             articleDto.IsComment =
                 await _commentBaseRepository.Select.AnyAsync(
-                    r => r.SubjectId == id && r.CreateUserId == _currentUser.Id);
+                    r => r.SubjectId == id && r.CreateUserId == CurrentUser.Id);
             articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(article.Thumbnail);
 
             return articleDto;
@@ -147,7 +141,7 @@ namespace LinCms.Blog.Articles
 
         public async Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle)
         {
-            Article article = _mapper.Map<Article>(createArticle);
+            Article article = Mapper.Map<Article>(createArticle);
             article.Archive = DateTime.Now.ToString("yyy年MM月");
             article.WordNumber = createArticle.Content.Length;
             article.ReadingTime = createArticle.Content.Length / 800;
@@ -177,7 +171,7 @@ namespace LinCms.Blog.Articles
             Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
 
 
-            if (article.CreateUserId != _currentUser.Id)
+            if (article.CreateUserId != CurrentUser.Id)
             {
                 throw new LinCmsException("您无权修改他人的随笔");
             }
@@ -193,12 +187,12 @@ namespace LinCms.Blog.Articles
                 await _classifyService.UpdateArticleCountAsync(updateArticleDto.ClassifyId, 1);
             }
 
-            _mapper.Map(updateArticleDto, article);
+            Mapper.Map(updateArticleDto, article);
             article.WordNumber = article.Content.Length;
             article.ReadingTime = article.Content.Length / 800;
             await _articleRepository.UpdateAsync(article);
 
-            ArticleDraft articleDraft = _mapper.Map<ArticleDraft>(article);
+            ArticleDraft articleDraft = Mapper.Map<ArticleDraft>(article);
             bool exist = await _articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
             if (exist)
             {
@@ -235,7 +229,7 @@ namespace LinCms.Blog.Articles
 
         public async Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto)
         {
-            long userId = _currentUser.Id ?? 0;
+            long userId = CurrentUser.Id ?? 0;
             List<long> subscribeUserIds = await _userSubscribeService.GetSubscribeUserIdAsync(userId);
 
             var articles = await _articleRepository
@@ -252,7 +246,7 @@ namespace LinCms.Blog.Articles
             List<ArticleListDto> articleDtos = articles
                 .Select(r =>
                 {
-                    ArticleListDto articleDto = _mapper.Map<ArticleListDto>(r);
+                    ArticleListDto articleDto = Mapper.Map<ArticleListDto>(r);
                     articleDto.IsLiked = r.UserLikes.Any();
                     articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(articleDto.Thumbnail);
                     return articleDto;
@@ -276,7 +270,7 @@ namespace LinCms.Blog.Articles
             {
                 throw new LinCmsException("没有找到相关随笔");
             }
-            if (article.CreateUserId != _currentUser.Id)
+            if (article.CreateUserId != CurrentUser.Id)
             {
                 throw new LinCmsException("不是自己的随笔");
             }

@@ -150,41 +150,12 @@ namespace LinCms.Startup
             return jsonWebTokenSettings;
         }
 
-        public static void AddDIServices(this IServiceCollection services)
+        public static void AddDIServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
             //services.AddTransient<CustomExceptionMiddleWare>();
             services.AddHttpClient();
-
-            string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;
-
-            if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FileStorage:ServiceName未配置");
-
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
-
-            if (serviceName == LinFile.LocalFileService)
-            {
-                services.AddTransient<IFileService, LocalFileService>();
-            }
-            else
-            {
-                services.AddTransient<IFileService, QiniuService>();
-            }
-
-            bool isIds4 = configuration.GetSection("Service:IdentityServer4").Value.ToBoolean();
-            if (isIds4)
-            {
-                services.AddTransient<Cms.Account.ITokenService, IdentityServer4Service>();
-            }
-            else
-            {
-                services.AddTransient<Cms.Account.ITokenService, JwtTokenService>();
-            }
         }
-
-
 
         /// <summary>
         /// 配置限流依赖的服务
