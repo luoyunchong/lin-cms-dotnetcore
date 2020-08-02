@@ -17,20 +17,15 @@ using LinCms.Security;
 
 namespace LinCms.Cms.Users
 {
-    public class UserIdentityService : IUserIdentityService
+    public class UserIdentityService :ApplicationService, IUserIdentityService
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
 
-        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
-            IUserRepository userRepository, IMapper mapper, ICurrentUser currentUser)
+        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,IUserRepository userRepository)
         {
             _userIdentityRepository = userIdentityRepository;
             _userRepository = userRepository;
-            _mapper = mapper;
-            this._currentUser = currentUser;
         }
 
         /// <summary>
@@ -245,7 +240,7 @@ namespace LinCms.Cms.Users
                 .Where(r => r.CreateUserId == userId)
                 .ToListAsync();
 
-            return _mapper.Map<List<UserIdentityDto>>(userIdentities);
+            return Mapper.Map<List<UserIdentityDto>>(userIdentities);
         }
 
         public async Task<UnifyResponseDto> BindGitHubAsync(ClaimsPrincipal principal, string openId, long userId)
@@ -285,12 +280,12 @@ namespace LinCms.Cms.Users
         public async Task UnBind(Guid id)
         {
             LinUserIdentity userIdentity = await _userIdentityRepository.GetAsync(id);
-            if (userIdentity == null || userIdentity.CreateUserId != _currentUser.Id)
+            if (userIdentity == null || userIdentity.CreateUserId != CurrentUser.Id)
             {
                 throw new LinCmsException("你无权解绑此账号");
             }
 
-            List<LinUserIdentity> userIdentities = await _userIdentityRepository.Select.Where(r => r.CreateUserId == _currentUser.Id).ToListAsync();
+            List<LinUserIdentity> userIdentities = await _userIdentityRepository.Select.Where(r => r.CreateUserId == CurrentUser.Id).ToListAsync();
 
             bool hasPwd = userIdentities.Where(r => r.IdentityType == LinUserIdentity.Password).Any();
 

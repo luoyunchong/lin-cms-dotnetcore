@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Comments;
 using LinCms.Entities.Blog;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Blog.UserLikes
 {
-    public class UserLikeService : IUserLikeService
+    public class UserLikeService :ApplicationService, IUserLikeService
     {
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
         private readonly IArticleService _articleService;
         private readonly ICommentService _commentService;
 
-        public UserLikeService(IMapper mapper,
-            ICurrentUser currentUser,
+        public UserLikeService(
             IAuditBaseRepository<UserLike> userLikeRepository,
             IArticleService articleService,
             ICommentService commentService)
         {
-            _mapper = mapper;
-            _currentUser = currentUser;
             _userLikeRepository = userLikeRepository;
             _articleService = articleService;
             _commentService = commentService;
@@ -34,7 +27,7 @@ namespace LinCms.Blog.UserLikes
         public async Task<bool> CreateOrCancelAsync(CreateUpdateUserLikeDto createUpdateUserLike)
         {
             Expression<Func<UserLike, bool>> predicate = r =>
-                r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == _currentUser.Id;
+                r.SubjectId == createUpdateUserLike.SubjectId && r.CreateUserId == CurrentUser.Id;
 
             bool exist = await _userLikeRepository.Select.AnyAsync(predicate);
             int increaseLikeQuantity = 1;
@@ -61,7 +54,7 @@ namespace LinCms.Blog.UserLikes
             }
 
 
-            UserLike userLike = _mapper.Map<UserLike>(createUpdateUserLike);
+            UserLike userLike = Mapper.Map<UserLike>(createUpdateUserLike);
             await _userLikeRepository.InsertAsync(userLike);
             return false;
         }

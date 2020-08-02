@@ -2,39 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Blog.Comments
 {
-    public class CommentService : ICommentService
+    public class CommentService : ApplicationService, ICommentService
     {
         private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly IAuditBaseRepository<Article> _articleRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
         private readonly IFileRepository _fileRepository;
 
         public CommentService(IAuditBaseRepository<Comment> commentRepository,
-            IAuditBaseRepository<Article> articleRepository, ICurrentUser currentUser, IMapper mapper,
+            IAuditBaseRepository<Article> articleRepository,
             IFileRepository fileRepository)
         {
             _commentRepository = commentRepository;
             _articleRepository = articleRepository;
-            _currentUser = currentUser;
-            _mapper = mapper;
             _fileRepository = fileRepository;
         }
 
         public async Task<PagedResultDto<CommentDto>> GetListByArticleAsync([FromQuery] CommentSearchDto commentSearchDto)
         {
-            long? userId = _currentUser.Id;
+            long? userId = CurrentUser.Id;
             List<CommentDto> comments = (await _commentRepository
                     .Select
                     .Include(r => r.UserInfo)
@@ -51,7 +45,7 @@ namespace LinCms.Blog.Comments
                 //.ToPagerList(commentSearchDto, out long totalCount)
                 .Select(r =>
                 {
-                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
+                    CommentDto commentDto = Mapper.Map<CommentDto>(r);
                     if (commentDto.IsAudit == false)
                     {
                         commentDto.Text = "[该评论因违规被拉黑]";
@@ -72,7 +66,7 @@ namespace LinCms.Blog.Comments
 
                     commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
-                        CommentDto childrenDto = _mapper.Map<CommentDto>(u);
+                        CommentDto childrenDto = Mapper.Map<CommentDto>(u);
                         if (childrenDto.UserInfo != null)
                         {
                             childrenDto.UserInfo.Avatar = _fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
@@ -115,7 +109,7 @@ namespace LinCms.Blog.Comments
                 )
                 .Select(r =>
                 {
-                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
+                    CommentDto commentDto = Mapper.Map<CommentDto>(r);
 
                     if (commentDto.UserInfo != null)
                     {

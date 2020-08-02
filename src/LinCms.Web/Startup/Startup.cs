@@ -18,6 +18,7 @@ using LinCms.Extensions;
 using LinCms.Middleware;
 using LinCms.Plugins.Poem.Services;
 using LinCms.SnakeCaseQuery;
+using LinCms.Startup.Configuration;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -194,7 +195,6 @@ namespace LinCms.Startup
 
             #endregion
 
-
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
             services.AddCors();
@@ -242,7 +242,7 @@ namespace LinCms.Startup
             services.AddSwaggerGenNewtonsoftSupport();
             #endregion
 
-            services.AddDIServices();
+            services.AddDIServices(Configuration);
 
             #region Swagger
 
@@ -327,6 +327,7 @@ namespace LinCms.Startup
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
+
             //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
             services.AddIpRateLimiting(Configuration);
 
@@ -335,7 +336,10 @@ namespace LinCms.Startup
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new AutofacModule());
+            builder.RegisterModule(new RepositoryModule());
+            builder.RegisterModule(new ServiceModule());
+            builder.RegisterModule(new AutofacModule(Configuration));
+            builder.RegisterModule(new DependencyModule());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)

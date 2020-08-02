@@ -2,38 +2,30 @@
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Cms.Permissions;
 using LinCms.Common;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
-using LinCms.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Cms.Groups
 {
-    public class GroupService : IGroupService
+    public class GroupService :ApplicationService, IGroupService
     {
         private readonly IFreeSql _freeSql;
-        private readonly IMapper _mapper;
         private readonly IPermissionService _permissionService;
-        private readonly ICurrentUser _currentUser;
         private readonly IAuditBaseRepository<LinGroup, long> _groupRepository;
         private readonly IAuditBaseRepository<LinUserGroup, long> _userGroupRepository;
         public GroupService(IFreeSql freeSql,
-            IMapper mapper,
             IPermissionService permissionService,
-            ICurrentUser currentUser,
             IAuditBaseRepository<LinGroup, long> groupRepository,
             IAuditBaseRepository<LinUserGroup, long> userGroupRepository
             )
         {
             _freeSql = freeSql;
-            _mapper = mapper;
             _permissionService = permissionService;
-            _currentUser = currentUser;
             _groupRepository = groupRepository;
             _userGroupRepository = userGroupRepository;
         }
@@ -50,7 +42,7 @@ namespace LinCms.Cms.Groups
         public async Task<GroupDto> GetAsync(long id)
         {
             LinGroup group = await _groupRepository.Where(r => r.Id == id).FirstAsync();
-            GroupDto groupDto = _mapper.Map<GroupDto>(group);
+            GroupDto groupDto = Mapper.Map<GroupDto>(group);
             groupDto.Permissions = await _permissionService.GetPermissionByGroupIds(new List<long>() { id });
             return groupDto;
         }
@@ -68,7 +60,7 @@ namespace LinCms.Cms.Groups
                 throw new LinCmsException("分组已存在，不可创建同名分组", ErrorCode.RepeatField);
             }
 
-            LinGroup linGroup = _mapper.Map<LinGroup>(inputDto);
+            LinGroup linGroup = Mapper.Map<LinGroup>(inputDto);
 
             using var conn = _freeSql.Ado.MasterPool.Get();
             await using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
@@ -169,7 +161,7 @@ namespace LinCms.Cms.Groups
 
         public bool CheckIsRootByUserId(long userId)
         {
-            return _currentUser.IsInGroup(LinConsts.Group.Admin);
+            return CurrentUser.IsInGroup(LinConsts.Group.Admin);
         }
 
         public async Task<List<long>> GetGroupIdsByUserIdAsync(long userId)

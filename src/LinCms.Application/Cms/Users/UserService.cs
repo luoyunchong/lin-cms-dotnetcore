@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Groups;
@@ -14,29 +13,22 @@ using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Cms.Users
 {
-    public class UserService : IUserService
+    public class UserService :ApplicationService, IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
         private readonly IUserIdentityService _userIdentityService;
         private readonly IPermissionService _permissionService;
         private readonly IGroupService _groupService;
         private readonly IFileRepository _fileRepository;
 
         public UserService(IUserRepository userRepository,
-            IMapper mapper,
-            ICurrentUser currentUser,
             IUserIdentityService userIdentityService,
             IPermissionService permissionService, IGroupService groupService, IFileRepository fileRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
-            _currentUser = currentUser;
             _userIdentityService = userIdentityService;
             _permissionService = permissionService;
             _groupService = groupService;
@@ -45,7 +37,7 @@ namespace LinCms.Cms.Users
 
         public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)
         {
-            long currentUserId = _currentUser.Id ?? 0;
+            long currentUserId = CurrentUser.Id ?? 0;
 
             LinUserIdentity userIdentity = await _userIdentityService.GetFirstByUserIdAsync(currentUserId);
             if (userIdentity != null)
@@ -94,8 +86,8 @@ namespace LinCms.Cms.Users
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(r =>
                 {
-                    UserDto userDto = _mapper.Map<UserDto>(r);
-                    userDto.Groups = _mapper.Map<List<GroupDto>>(r.LinGroups);
+                    UserDto userDto = Mapper.Map<UserDto>(r);
+                    userDto.Groups = Mapper.Map<List<GroupDto>>(r.LinGroups);
                     return userDto;
                 }).ToList();
 
@@ -163,7 +155,7 @@ namespace LinCms.Cms.Users
             //添加newGroupIds有，而existGroupIds没有的
             List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
 
-            _mapper.Map(updateUserDto, linUser);
+            Mapper.Map(updateUserDto, linUser);
             await _userRepository.UpdateAsync(linUser);
             await _groupService.DeleteUserGroupAsync(id, deleteIds);
             await _groupService.AddUserGroupAsync(id, addIds);
@@ -195,9 +187,9 @@ namespace LinCms.Cms.Users
 
         public async Task<LinUser> GetCurrentUserAsync()
         {
-            if (_currentUser.Id != null)
+            if (CurrentUser.Id != null)
             {
-                long userId = (long)_currentUser.Id;
+                long userId = (long)CurrentUser.Id;
                 return await _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
             }
 
@@ -210,9 +202,9 @@ namespace LinCms.Cms.Users
             if (linUser == null) return null;
             linUser.Avatar = _fileRepository.GetFileUrl(linUser.Avatar);
 
-            UserInformation userInformation = _mapper.Map<UserInformation>(linUser);
-            userInformation.Groups = linUser.LinGroups.Select(r => _mapper.Map<GroupDto>(r)).ToList();
-            userInformation.Admin = _currentUser.IsInGroup(LinConsts.Group.Admin);
+            UserInformation userInformation = Mapper.Map<UserInformation>(linUser);
+            userInformation.Groups = linUser.LinGroups.Select(r => Mapper.Map<GroupDto>(r)).ToList();
+            userInformation.Admin = CurrentUser.IsInGroup(LinConsts.Group.Admin);
 
             return userInformation;
         }

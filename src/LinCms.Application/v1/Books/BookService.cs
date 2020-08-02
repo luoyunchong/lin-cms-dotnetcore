@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Exceptions;
@@ -10,14 +9,12 @@ using LinCms.IRepositories;
 
 namespace LinCms.v1.Books
 {
-    public class BookService : IBookService
+    public class BookService : ApplicationService, IBookService
     {
         private readonly IAuditBaseRepository<Book> _bookRepository;
-        private readonly IMapper _mapper;
-        public BookService(IAuditBaseRepository<Book> bookRepository, IMapper mapper)
+        public BookService(IAuditBaseRepository<Book> bookRepository)
         {
             _bookRepository = bookRepository;
-            _mapper = mapper;
         }
 
         public async Task CreateAsync(CreateUpdateBookDto createBook)
@@ -28,7 +25,7 @@ namespace LinCms.v1.Books
                 throw new LinCmsException("图书已存在");
             }
 
-            Book book = _mapper.Map<Book>(createBook);
+            Book book = Mapper.Map<Book>(createBook);
             await _bookRepository.InsertAsync(book);
         }
 
@@ -40,13 +37,13 @@ namespace LinCms.v1.Books
         public async Task<BookDto> GetAsync(long id)
         {
             Book book = await _bookRepository.Select.Where(a => a.Id == id).ToOneAsync();
-            return _mapper.Map<BookDto>(book);
+            return Mapper.Map<BookDto>(book);
         }
 
         public async Task<PagedResultDto<BookDto>> GetListAsync(PageDto pageDto)
         {
             List<BookDto> items = (await _bookRepository.Select.OrderByDescending(r => r.Id)
-                        .ToPagerListAsync(pageDto, out long count)).Select(r => _mapper.Map<BookDto>(r)).ToList();
+                        .ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
 
             return new PagedResultDto<BookDto>(items, count);
         }
@@ -72,7 +69,7 @@ namespace LinCms.v1.Books
             //book.Summary = updateBook.Summary;
 
             //使用AutoMapper方法简化类与类之间的转换过程
-            _mapper.Map(updateBook, book);
+            Mapper.Map(updateBook, book);
 
             await _bookRepository.UpdateAsync(book);
         }

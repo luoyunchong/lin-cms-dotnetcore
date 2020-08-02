@@ -8,14 +8,12 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Admin
 {
-    public class AdminService : IAdminService
+    public class AdminService :ApplicationService, IAdminService
     {
         private readonly IAuditBaseRepository<LinPermission> _permissionRepository;
-        private readonly IMapper _mapper;
-        public AdminService(IAuditBaseRepository<LinPermission> permissionRepository, IMapper mapper)
+        public AdminService(IAuditBaseRepository<LinPermission> permissionRepository)
         {
             _permissionRepository = permissionRepository;
-            _mapper = mapper;
         }
 
         public IDictionary<string, List<PermissionDto>> GetAllStructualPermissions()
@@ -25,7 +23,7 @@ namespace LinCms.Cms.Admin
                  .ToDictionary(
                      group => group.Key,
                      group =>
-                         _mapper.Map<List<PermissionDto>>(group.ToList())
+                         Mapper.Map<List<PermissionDto>>(group.ToList())
                    );
 
         }
