@@ -17,7 +17,7 @@ namespace LinCms.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public static String GetHash<T>(Stream stream) where T : HashAlgorithm
+        public static string GetHash<T>(Stream stream) where T : HashAlgorithm
         {
             StringBuilder sb = new StringBuilder();
 

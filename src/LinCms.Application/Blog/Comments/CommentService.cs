@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCore.CAP;
+using FreeSql;
+using LinCms.Blog.Notifications;
 using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Entities.Blog;
+using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +20,16 @@ namespace LinCms.Blog.Comments
         private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IFileRepository _fileRepository;
+        private readonly ICapPublisher _capBus;
 
         public CommentService(IAuditBaseRepository<Comment> commentRepository,
             IAuditBaseRepository<Article> articleRepository,
-            IFileRepository fileRepository)
+            IFileRepository fileRepository, ICapPublisher capBus)
         {
             _commentRepository = commentRepository;
             _articleRepository = articleRepository;
             _fileRepository = fileRepository;
+            _capBus = capBus;
         }
 
         public async Task<PagedResultDto<CommentDto>> GetListByArticleAsync([FromQuery] CommentSearchDto commentSearchDto)
@@ -122,6 +128,54 @@ namespace LinCms.Blog.Comments
             return new PagedResultDto<CommentDto>(comments, totalCount);
         }
 
+        public async Task CreateAsync(CreateCommentDto createCommentDto)
+        {
+            using IUnitOfWork uow = UnitOfWorkManager.Begin();
+            using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+
+            Comment comment = Mapper.Map<Comment>(createCommentDto);
+            await _commentRepository.InsertAsync(comment);
+
+            if (createCommentDto.RootCommentId.HasValue)
+            {
+                await _commentRepository.UpdateDiy
+                    .Set(r => r.ChildsCount + 1)
+                    .Where(r => r.Id == createCommentDto.RootCommentId)
+                    .ExecuteAffrowsAsync();
+            }
+
+            switch (createCommentDto.SubjectType)
+            {
+                case 1:
+                    await _articleRepository.UpdateDiy
+                        .Set(r => r.CommentQuantity + 1)
+                        .Where(r => r.Id == createCommentDto.SubjectId)
+                        .ExecuteAffrowsAsync();
+                    break;
+            }
+
+            if (CurrentUser.Id != createCommentDto.RespUserId)
+            {
+                await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
+                {
+                    NotificationType = NotificationType.UserCommentOnArticle,
+                    ArticleId = createCommentDto.SubjectId,
+                    NotificationRespUserId = createCommentDto.RespUserId,
+                    UserInfoId = CurrentUser.Id ?? 0,
+                    CreateTime = comment.CreateTime,
+                    CommentId = comment.Id
+                });
+            }
+
+            await trans.CommitAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            Comment comment = _commentRepository.Select.Where(r => r.Id == id).First();
+            await DeleteAsync(comment);
+        }
+
         /// <summary>
         /// 删除评论并同步随笔数量
         /// </summary>
@@ -148,6 +202,38 @@ namespace LinCms.Blog.Comments
                     await _articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows)
                         .Where(r => r.Id == comment.SubjectId).ExecuteAffrowsAsync();
                     break;
+            }
+        }
+
+        public async Task DeleteMyComment(Guid id)
+        {
+            Comment comment = await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
+            if (comment == null)
+            {
+                throw new LinCmsException("该评论已删除");
+            }
+
+            if (comment.CreateUserId != CurrentUser.Id)
+            {
+                throw new LinCmsException("无权限删除他人的评论");
+            }
+
+            using (IUnitOfWork uow = UnitOfWorkManager.Begin())
+            {
+                using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+
+                await this.DeleteAsync(comment);
+
+                await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
+                {
+                    NotificationType = NotificationType.UserCommentOnArticle,
+                    ArticleId = comment.SubjectId,
+                    UserInfoId = (long)CurrentUser.Id,
+                    CommentId = comment.Id,
+                    IsCancel = true
+                });
+
+                await trans.CommitAsync();
             }
         }
 

@@ -186,7 +186,7 @@
             </summary>
             <param name="subscribeUserId"></param>
         </member>
-        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.Post(System.Int64)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.CreateAsync(System.Int64)">
             <summary>
             关注用户
             </summary>
@@ -204,7 +204,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64)">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64,LinCms.IRepositories.IAuditBaseRepository{LinCms.Entities.Blog.UserTag})">
             <summary>
             得到某个用户的关注了、关注者、标签总数
             </summary>
