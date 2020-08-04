@@ -103,7 +103,7 @@ namespace LinCms.Controllers.Blog
 
             if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.Id != createNotificationDto.NotificationRespUserId)
             {
-                await _capBus.PublishAsync("NotificationController.Post", createNotificationDto);
+                await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, createNotificationDto);
             }
         }
     }

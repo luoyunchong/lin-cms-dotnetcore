@@ -16,5 +16,6 @@
             public const string HtmlUrl = "urn:github:html_url";
             public const string BlogAddress = "urn:github:blog";
         }
+
     }
 }

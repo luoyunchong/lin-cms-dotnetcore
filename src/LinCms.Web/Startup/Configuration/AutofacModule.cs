@@ -25,15 +25,15 @@ namespace LinCms.Startup.Configuration
 {
     public class AutofacModule : Autofac.Module
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
         public AutofacModule(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            this._configuration = configuration;
         }
 
         protected override void Load(ContainerBuilder builder)
         {
-            string serviceName = configuration.GetSection("FileStorage:ServiceName").Value;
+            string serviceName = _configuration.GetSection("FileStorage:ServiceName").Value;
 
             if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FileStorage:ServiceName未配置");
 
@@ -46,7 +46,7 @@ namespace LinCms.Startup.Configuration
                 builder.RegisterType<QiniuService>().As<IFileService>().InstancePerLifetimeScope();
             }
 
-            bool isIds4 = configuration.GetSection("Service:IdentityServer4").Value.ToBoolean();
+            bool isIds4 = _configuration.GetSection("Service:IdentityServer4").Value.ToBoolean();
             if (isIds4)
             {
                 builder.RegisterType<IdentityServer4Service>().As<ITokenService>().InstancePerLifetimeScope();
