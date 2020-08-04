@@ -25,30 +25,17 @@ namespace LinCms.Controllers.Blog
     [Authorize]
     public class CommentController : ControllerBase
     {
-        private readonly IAuditBaseRepository<Comment> _commentAuditBaseRepository;
-        private readonly IMapper _mapper;
-        private readonly ICurrentUser _currentUser;
+        private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly ICommentService _commentService;
         private readonly IAuditBaseRepository<Article> _articleRepository;
-        private readonly ICapPublisher _capBus;
-        private readonly IFileRepository _fileRepository;
-        private readonly UnitOfWorkManager _unitOfWorkManager;
 
         public CommentController(
             IAuditBaseRepository<Comment> commentAuditBaseRepository,
-            IMapper mapper,
-            ICurrentUser currentUser, ICommentService commentService,
-            IAuditBaseRepository<Article> articleRepository, ICapPublisher capBus, IFileRepository fileRepository,
-            UnitOfWorkManager unitOfWorkManager)
+            ICommentService commentService, IAuditBaseRepository<Article> articleRepository)
         {
-            _commentAuditBaseRepository = commentAuditBaseRepository;
-            _mapper = mapper;
-            _currentUser = currentUser;
+            _commentRepository = commentAuditBaseRepository;
             _commentService = commentService;
             _articleRepository = articleRepository;
-            _capBus = capBus;
-            _fileRepository = fileRepository;
-            _unitOfWorkManager = unitOfWorkManager;
         }
 
         /// <summary>
@@ -84,8 +71,7 @@ namespace LinCms.Controllers.Blog
         [LinCmsAuthorize("删除评论", "评论")]
         public async Task<UnifyResponseDto> DeleteAsync(Guid id)
         {
-            Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).First();
-            await _commentService.DeleteAsync(comment);
+            await _commentService.DeleteAsync(id);
             return UnifyResponseDto.Success();
         }
 
@@ -97,35 +83,7 @@ namespace LinCms.Controllers.Blog
         [HttpDelete("{id}")]
         public async Task<UnifyResponseDto> DeleteMyComment(Guid id)
         {
-            Comment comment = await _commentAuditBaseRepository.Select.Where(r => r.Id == id).FirstAsync();
-            if (comment == null)
-            {
-                return UnifyResponseDto.Error("该评论已删除");
-            }
-
-            if (comment.CreateUserId != _currentUser.Id)
-            {
-                return UnifyResponseDto.Error("无权限删除他人的评论");
-            }
-
-            using (IUnitOfWork uow = _unitOfWorkManager.Begin())
-            {
-                using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
-
-                await _commentService.DeleteAsync(comment);
-
-                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
-                {
-                    NotificationType = NotificationType.UserCommentOnArticle,
-                    ArticleId = comment.SubjectId,
-                    UserInfoId = (long)_currentUser.Id,
-                    CommentId = comment.Id,
-                    IsCancel = true
-                });
-
-                await trans.CommitAsync();
-            }
-
+            await _commentService.DeleteMyComment(id);
             return UnifyResponseDto.Success();
         }
 
@@ -137,45 +95,7 @@ namespace LinCms.Controllers.Blog
         [HttpPost]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateCommentDto createCommentDto)
         {
-            using IUnitOfWork uow = _unitOfWorkManager.Begin();
-            using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
-
-            Comment comment = _mapper.Map<Comment>(createCommentDto);
-            await _commentAuditBaseRepository.InsertAsync(comment);
-
-            if (createCommentDto.RootCommentId.HasValue)
-            {
-                await _commentAuditBaseRepository.UpdateDiy
-                    .Set(r => r.ChildsCount + 1)
-                    .Where(r => r.Id == createCommentDto.RootCommentId)
-                    .ExecuteAffrowsAsync();
-            }
-
-            switch (createCommentDto.SubjectType)
-            {
-                case 1:
-                    await _articleRepository.UpdateDiy
-                        .Set(r => r.CommentQuantity + 1)
-                        .Where(r => r.Id == createCommentDto.SubjectId)
-                        .ExecuteAffrowsAsync();
-                    break;
-            }
-
-            if (_currentUser.Id != createCommentDto.RespUserId)
-            {
-                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
-                {
-                    NotificationType = NotificationType.UserCommentOnArticle,
-                    ArticleId = createCommentDto.SubjectId,
-                    NotificationRespUserId = createCommentDto.RespUserId,
-                    UserInfoId = _currentUser.Id ?? 0,
-                    CreateTime = comment.CreateTime,
-                    CommentId = comment.Id
-                });
-            }
-
-            await trans.CommitAsync();
-
+            await _commentService.CreateAsync(createCommentDto);
             return UnifyResponseDto.Success("评论成功");
         }
 
@@ -189,14 +109,14 @@ namespace LinCms.Controllers.Blog
         [HttpPut("{id}")]
         public async Task<UnifyResponseDto> UpdateAsync(Guid id, bool isAudit)
         {
-            Comment comment = _commentAuditBaseRepository.Select.Where(r => r.Id == id).ToOne();
+            Comment comment = _commentRepository.Select.Where(r => r.Id == id).ToOne();
             if (comment == null)
             {
                 throw new LinCmsException("没有找到相关评论");
             }
 
             comment.IsAudit = isAudit;
-            await _commentAuditBaseRepository.UpdateAsync(comment);
+            await _commentRepository.UpdateAsync(comment);
             return UnifyResponseDto.Success();
         }
 
@@ -210,7 +130,7 @@ namespace LinCms.Controllers.Blog
         [HttpPut("{subjectId}/type/${subject_type}")]
         public UnifyResponseDto CorrectedComment(Guid subjectId, int subjectType)
         {
-            long count = _commentAuditBaseRepository.Select.Where(r => r.SubjectId == subjectId).Count();
+            long count = _commentRepository.Select.Where(r => r.SubjectId == subjectId).Count();
 
             switch (subjectType)
             {

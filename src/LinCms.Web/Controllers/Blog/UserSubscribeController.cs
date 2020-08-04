@@ -28,24 +28,16 @@ namespace LinCms.Controllers.Blog
     public class UserSubscribeController : ControllerBase
     {
         private readonly IAuditBaseRepository<UserSubscribe> _userSubscribeRepository;
-        private readonly IUserRepository _userRepository;
         private readonly ICurrentUser _currentUser;
-        private readonly IAuditBaseRepository<UserTag> _userTagRepository;
-        private readonly ICapPublisher _capBus;
-        private readonly IFileRepository _fileRepository;
-        private readonly UnitOfWorkManager _unitOfWorkManager;
+        private readonly IUserSubscribeService userSubscribeService;
 
         public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
-            ICurrentUser currentUser, IUserRepository userRepository, IAuditBaseRepository<UserTag> userTagRepository,
-            ICapPublisher capPublisher, IFileRepository fileRepository, UnitOfWorkManager unitOfWorkManager)
+            ICurrentUser currentUser,
+             IUserSubscribeService userSubscribeService)
         {
             _userSubscribeRepository = userSubscribeRepository;
             _currentUser = currentUser;
-            _userRepository = userRepository;
-            _userTagRepository = userTagRepository;
-            _capBus = capPublisher;
-            _fileRepository = fileRepository;
-            _unitOfWorkManager = unitOfWorkManager;
+            this.userSubscribeService = userSubscribeService;
         }
 
         /// <summary>
@@ -58,8 +50,7 @@ namespace LinCms.Controllers.Blog
         public bool Get(long subscribeUserId)
         {
             if (_currentUser.Id == null) return false;
-            return _userSubscribeRepository.Select.Any(r =>
-               r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
+            return _userSubscribeRepository.Select.Any(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
         }
 
         /// <summary>
@@ -69,29 +60,7 @@ namespace LinCms.Controllers.Blog
         [HttpDelete("{subscribeUserId}")]
         public async Task DeleteAsync(long subscribeUserId)
         {
-            bool any = await _userSubscribeRepository.Select.AnyAsync(r =>
-               r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
-            if (!any)
-            {
-                throw new LinCmsException("已取消关注");
-            }
-
-            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
-            using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
-
-            await _userSubscribeRepository.DeleteAsync(r =>
-               r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.Id);
-
-            await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
-            {
-                NotificationType = NotificationType.UserLikeUser,
-                NotificationRespUserId = subscribeUserId,
-                UserInfoId = _currentUser.Id ?? 0,
-                CreateTime = DateTime.Now,
-                IsCancel = true
-            });
-
-            await capTransaction.CommitAsync();
+            await userSubscribeService.DeleteAsync(subscribeUserId);
         }
 
         /// <summary>
@@ -99,48 +68,9 @@ namespace LinCms.Controllers.Blog
         /// </summary>
         /// <param name="subscribeUserId"></param>
         [HttpPost("{subscribeUserId}")]
-        public async Task Post(long subscribeUserId)
+        public async Task CreateAsync(long subscribeUserId)
         {
-            if (subscribeUserId == _currentUser.Id)
-            {
-                throw new LinCmsException("您无法关注自己");
-            }
-
-            LinUser linUser = _userRepository.Select.Where(r => r.Id == subscribeUserId).ToOne();
-            if (linUser == null)
-            {
-                throw new LinCmsException("该用户不存在");
-            }
-
-            if (!linUser.IsActive())
-            {
-                throw new LinCmsException("该用户已被拉黑");
-            }
-
-            bool any = _userSubscribeRepository.Select.Any(r =>
-               r.CreateUserId == _currentUser.Id && r.SubscribeUserId == subscribeUserId);
-            if (any)
-            {
-                throw new LinCmsException("您已关注该用户");
-            }
-
-            using (IUnitOfWork unitOfWork = _unitOfWorkManager.Begin())
-            {
-                using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
-
-                UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
-                await _userSubscribeRepository.InsertAsync(userSubscribe);
-
-                await _capBus.PublishAsync("NotificationController.Post", new CreateNotificationDto()
-                {
-                    NotificationType = NotificationType.UserLikeUser,
-                    NotificationRespUserId = subscribeUserId,
-                    UserInfoId = _currentUser.Id ?? 0,
-                    CreateTime = DateTime.Now,
-                });
-
-                await capTransaction.CommitAsync();
-            }
+            await userSubscribeService.CreateAsync(subscribeUserId);
         }
 
         /// <summary>
@@ -151,28 +81,7 @@ namespace LinCms.Controllers.Blog
         [AllowAnonymous]
         public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery] UserSubscribeSearchDto searchDto)
         {
-            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.SubscribeUser)
-                .Where(r => r.CreateUserId == searchDto.UserId)
-                .OrderByDescending(r => r.CreateTime)
-                .ToPager(searchDto, out long count)
-                .ToList(r => new UserSubscribeDto
-                {
-                    CreateUserId = r.CreateUserId,
-                    SubscribeUserId = r.SubscribeUserId,
-                    Subscribeer = new OpenUserDto()
-                    {
-                        Id = r.SubscribeUser.Id,
-                        Introduction = r.SubscribeUser.Introduction,
-                        Nickname = !r.SubscribeUser.IsDeleted ? r.SubscribeUser.Nickname : "该用户已注销",
-                        Avatar = r.SubscribeUser.Avatar,
-                        Username = r.SubscribeUser.Username,
-                    },
-                    IsSubscribeed = _userSubscribeRepository.Select.Any(r => r.CreateUserId == _currentUser.Id && r.SubscribeUserId == r.SubscribeUserId)
-                });
-
-            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
-
-            return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
+            return userSubscribeService.GetUserSubscribeeeList(searchDto);
         }
 
         /// <summary>
@@ -183,30 +92,7 @@ namespace LinCms.Controllers.Blog
         [AllowAnonymous]
         public PagedResultDto<UserSubscribeDto> GetUserFansList([FromQuery] UserSubscribeSearchDto searchDto)
         {
-            List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.LinUser)
-                .Where(r => r.SubscribeUserId == searchDto.UserId)
-                .OrderByDescending(r => r.CreateTime)
-                .ToPager(searchDto, out long count)
-                .ToList(r => new UserSubscribeDto
-                {
-                    CreateUserId = r.CreateUserId,
-                    SubscribeUserId = r.SubscribeUserId,
-                    Subscribeer = new OpenUserDto()
-                    {
-                        Id = r.LinUser.Id,
-                        Introduction = r.LinUser.Introduction,
-                        Nickname = !r.LinUser.IsDeleted ? r.LinUser.Nickname : "该用户已注销",
-                        Avatar = r.LinUser.Avatar,
-                        Username = r.LinUser.Username,
-                    },
-                    //当前登录的用户是否关注了这个粉丝
-                    IsSubscribeed = _userSubscribeRepository.Select.Any(
-                           u => u.CreateUserId == _currentUser.Id && u.SubscribeUserId == r.CreateUserId)
-                });
-
-            userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
-
-            return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
+            return userSubscribeService.GetUserFansList(searchDto);
         }
 
         /// <summary>
@@ -215,7 +101,7 @@ namespace LinCms.Controllers.Blog
         /// <param name="userId"></param>
         [HttpGet("user/{userId}")]
         [AllowAnonymous]
-        public SubscribeCountDto GetUserSubscribeInfo(long userId)
+        public SubscribeCountDto GetUserSubscribeInfo(long userId, [FromServices] IAuditBaseRepository<UserTag> _userTagRepository)
         {
             long subscribeCount = _userSubscribeRepository.Select
                 .Where(r => r.CreateUserId == userId)

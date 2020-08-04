@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using FreeSql;
 using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +39,11 @@ namespace LinCms
 
         private IMapper _mapper;
         public IMapper Mapper => LazyGetRequiredService(ref _mapper);
-        
+
+
+        private UnitOfWorkManager unitOfWorkManager;
+        public UnitOfWorkManager UnitOfWorkManager => LazyGetRequiredService(ref unitOfWorkManager);
+
         public ILoggerFactory LoggerFactory => LazyGetRequiredService(ref _loggerFactory);
         private ILoggerFactory _loggerFactory;
         

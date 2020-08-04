@@ -153,6 +153,7 @@ namespace LinCms.Startup
         public static void AddDIServices(this IServiceCollection services, IConfiguration configuration)
         {
             //services.AddTransient<CustomExceptionMiddleWare>();
+
             services.AddHttpClient();
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
         }

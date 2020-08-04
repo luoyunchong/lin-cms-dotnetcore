@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Blog.Classifys;
 using LinCms.Blog.Tags;
 using LinCms.Blog.UserSubscribes;
@@ -11,7 +10,6 @@ using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Blog.Articles
 {
@@ -24,7 +22,7 @@ namespace LinCms.Blog.Articles
         private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
         private readonly IClassifyService _classifyService;
         private readonly ITagService _tagService;
-        private readonly IUserLikeService _userSubscribeService;
+        private readonly IUserSubscribeService _userSubscribeService;
         private readonly IFileRepository _fileRepository;
         public ArticleService(
             IAuditBaseRepository<Article> articleRepository,
@@ -32,8 +30,11 @@ namespace LinCms.Blog.Articles
             IAuditBaseRepository<UserLike> userLikeRepository,
             IAuditBaseRepository<Comment> commentBaseRepository,
             IClassifyService classifyService,
-            ITagService tagService, IUserLikeService userSubscribeService,
-            IAuditBaseRepository<ArticleDraft> articleDraftRepository, IFileRepository fileRepository)
+            ITagService tagService,
+            IUserSubscribeService userSubscribeService,
+            IAuditBaseRepository<ArticleDraft> articleDraftRepository, 
+            IFileRepository fileRepository
+            )
         {
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
