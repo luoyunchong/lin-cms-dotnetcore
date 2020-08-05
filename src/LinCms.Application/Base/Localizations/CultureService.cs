@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using IGeekFan.Localization.FreeSql.Models;
-using IGeekFan.Localization.FreeSql.Models;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
 

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IGeekFan.CAP.MySql</name>
+    </assembly>
+    <members>
+        <member name="P:DotNetCore.CAP.MySqlOptions.ConnectionString">
+            <summary>
+            Gets or sets the database's connection string that will be used to store database entities.
+            </summary>
+        </member>
+        <member name="P:DotNetCore.CAP.ProviderOptions.TableNamePrefix">
+            <summary>
+            Gets or sets the table name prefix to use when creating database objects.
+            </summary>
+        </member>
+        <member name="P:DotNetCore.CAP.ProviderOptions.Version">
+            <summary>
+            Data version
+            </summary>
+        </member>
+        <member name="M:DotNetCore.CAP.CapTransactionExtensions.BeginTransaction(System.Data.IDbConnection,DotNetCore.CAP.ICapPublisher,System.Boolean)">
+            <summary>
+            Start the CAP transaction
+            </summary>
+            <param name="dbConnection">The <see cref="T:System.Data.IDbConnection" />.</param>
+            <param name="publisher">The <see cref="T:DotNetCore.CAP.ICapPublisher" />.</param>
+            <param name="autoCommit">Whether the transaction is automatically committed when the message is published</param>
+            <returns>The <see cref="T:DotNetCore.CAP.ICapTransaction" /> object.</returns>
+        </member>
+    </members>
+</doc>

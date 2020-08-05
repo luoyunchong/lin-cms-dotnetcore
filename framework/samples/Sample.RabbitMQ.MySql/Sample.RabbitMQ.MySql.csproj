@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.CAP" Version="3.1.0-preview-111117527" />
-    <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.0-preview-108719052" />
-    <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.0-preview-108719052" />
-    <PackageReference Include="FreeSql" Version="1.7.1" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.7.0-preview0705" />
+    <PackageReference Include="DotNetCore.CAP" Version="3.1.0-preview-112969177" />
+    <PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.0-preview-112969177" />
+    <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.0-preview-112969177" />
+    <PackageReference Include="FreeSql" Version="1.8.0-preview0806" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.8.0-preview0806" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
