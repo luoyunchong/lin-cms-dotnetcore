@@ -18,10 +18,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\framework\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
+		<ProjectReference Include="..\..\framework\src\IGeekFan.CAP.MySql\IGeekFan.CAP.MySql.csproj" />
 		<ProjectReference Include="..\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj" />
 		<ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
-		<ProjectReference Include="..\..\framework\src\IGeekfan.CAP.MySql\IGeekFan.CAP.MySql.csproj" />
 	</ItemGroup>
 
 </Project>

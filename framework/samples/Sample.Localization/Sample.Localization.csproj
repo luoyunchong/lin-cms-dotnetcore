@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.7.0-preview0705" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.8.0-preview0806" />
   </ItemGroup>
 
   <ItemGroup>
