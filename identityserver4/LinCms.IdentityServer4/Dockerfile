@@ -7,8 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["framework/src/IGeekfan.Localization.FreeSql/IGeekfan.Localization.FreeSql.csproj", "framework/src/IGeekfan.Localization.FreeSql/"]
-COPY ["framework/src/IGeekfan.CAP.MySql/IGeekFan.CAP.MySql.csproj", "framework/src/IGeekfan.CAP.MySql/"]
+COPY ["framework/src/IGeekFan.Localization.FreeSql/IGeekFan.Localization.FreeSql.csproj", "framework/src/IGeekFan.Localization.FreeSql/"]
+COPY ["framework/src/IGeekFan.CAP.MySql/IGeekFan.CAP.MySql.csproj", "framework/src/IGeekFan.CAP.MySql/"]
 COPY ["identityserver4/LinCms.IdentityServer4/LinCms.IdentityServer4.csproj", "identityserver4/LinCms.IdentityServer4/"]
 COPY ["src/LinCms.Core/LinCms.Core.csproj", "src/LinCms.Core/"]
 COPY ["src/LinCms.Application/LinCms.Application.csproj", "src/LinCms.Application/"]

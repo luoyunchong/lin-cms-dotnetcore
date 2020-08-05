@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.RabbitMQ.MySql", "sa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7A7054CA-747F-4E0A-8A6B-AD3D2F02484A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.CAP.MySql", "src\IGeekfan.CAP.MySql\IGeekFan.CAP.MySql.csproj", "{BD3F855A-D5D2-4FF7-B2DF-3A6C5CC9C440}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.CAP.MySql", "src\IGeekFan.CAP.MySql\IGeekFan.CAP.MySql.csproj", "{BD3F855A-D5D2-4FF7-B2DF-3A6C5CC9C440}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Localization.FreeSql", "src\IGeekfan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj", "{481B0459-59B7-4502-B77F-0D15BA488BA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Localization.FreeSql", "src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj", "{481B0459-59B7-4502-B77F-0D15BA488BA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Localization", "samples\Sample.Localization\Sample.Localization.csproj", "{74D48241-41CF-470D-8BAD-8B70318BBA3C}"
 EndProject
