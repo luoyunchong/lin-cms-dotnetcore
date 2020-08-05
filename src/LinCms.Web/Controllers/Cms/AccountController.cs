@@ -33,7 +33,7 @@ namespace LinCms.Controllers.Cms
     [AllowAnonymous]
     [ApiController]
     [Route("cms/user")]
-    public class AccountController : ControllerBase
+    public class AccountController : ApiControllerBase
     {
         private readonly ITokenService _tokenService;
         public AccountController(ITokenService tokenService)
