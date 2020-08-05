@@ -36,8 +36,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
-    <PackageReference Include="FreeSql" Version="1.7.1" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.7.1" />
+    <PackageReference Include="FreeSql" Version="1.8.0-preview0806" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.8.0-preview0806" />
   </ItemGroup>
 
   <ItemGroup>

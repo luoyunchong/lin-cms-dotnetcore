@@ -35,6 +35,7 @@ namespace LinCms.Startup.Configuration
                 .Where(a => a.Name.EndsWith("Service") && !notIncludes.Where(r => r == a.Name).Any())
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope()
+                .PropertiesAutowired()// 属性注入
                 .InterceptedBy(interceptorServiceTypes.ToArray())
                 .EnableInterfaceInterceptors();
         }

@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace LinCms.Controllers
 {
     public abstract class ApiControllerBase : ControllerBase
     {
-        protected ApiControllerBase()
-        {
-        }
+        public IServiceProvider ServiceProvider { get; set; }
 
     }
 }

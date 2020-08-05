@@ -21,12 +21,16 @@ namespace LinCms.Cms.Users
         private readonly IUserIdentityService _userIdentityService;
         private readonly ILogger<JwtTokenService> _logger;
         private readonly IJsonWebTokenService _jsonWebTokenService;
-        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService)
+
+        private readonly IServiceProvider serviceProvider;
+
+        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService, IServiceProvider serviceProvider)
         {
             _userRepository = userRepository;
             _logger = logger;
             _userIdentityService = userIdentityService;
             _jsonWebTokenService = jsonWebTokenService;
+            this.serviceProvider = serviceProvider;
         }
         /// <summary>
         /// JWT登录
