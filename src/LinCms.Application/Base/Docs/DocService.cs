@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Data;
 using LinCms.Entities.Base;
 using LinCms.Extensions;
@@ -11,15 +10,13 @@ using LinCms.IRepositories;
 
 namespace LinCms.Base.Docs
 {
-    public class DocService : IDocService
+    public class DocService :ApplicationService, IDocService
     {
         private readonly IAuditBaseRepository<Doc, long> Repository;
-        private readonly IMapper _mapper;
 
-        public DocService(IAuditBaseRepository<Doc, long> repository, IMapper mapper)
+        public DocService(IAuditBaseRepository<Doc, long> repository)
         {
             Repository = repository;
-            _mapper = mapper;
         }
 
         public async Task DeleteAsync(long id)
@@ -30,7 +27,7 @@ namespace LinCms.Base.Docs
         public async Task<PagedResultDto<DocDto>> GetListAsync(PageDto pageDto)
         {
             List<DocDto> docss = (await Repository.Select
-                        .ToPagerListAsync(pageDto, out long count)).Select(r => _mapper.Map<DocDto>(r)).ToList();
+                        .ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<DocDto>(r)).ToList();
 
             return new PagedResultDto<DocDto>(docss, count);
         }
@@ -38,12 +35,12 @@ namespace LinCms.Base.Docs
         public async Task<DocDto> GetAsync(long id)
         {
             Doc doc = await Repository.Select.Where(a => a.Id == id).ToOneAsync();
-            return _mapper.Map<DocDto>(doc);
+            return Mapper.Map<DocDto>(doc);
         }
 
         public async Task CreateAsync(CreateUpdateDocDto createDoc)
         {
-            Doc doc = _mapper.Map<Doc>(createDoc);
+            Doc doc = Mapper.Map<Doc>(createDoc);
             await Repository.InsertAsync(doc);
         }
 
@@ -54,7 +51,7 @@ namespace LinCms.Base.Docs
             {
                 throw new LinCmsException("该数据不存在");
             }
-            _mapper.Map(updateDoc, doc);
+            Mapper.Map(updateDoc, doc);
             await Repository.UpdateAsync(doc);
         }
     }
