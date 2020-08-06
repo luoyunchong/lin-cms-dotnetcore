@@ -7,14 +7,14 @@
   Lin CMS .NET Core
   </h1>
 </h1>
-😃 A simple and practical CMS implememted by .NET Core 3.1.5
+😃 A simple and practical CMS implememted by .NET Core 3.1.6
 
 ## 项目简介
 ![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
 <!--![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 -->
-![](https://img.shields.io/badge/.NETCore-3.1.5-3963bc.svg)
+![](https://img.shields.io/badge/.NETCore-3.1.6-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
@@ -32,17 +32,16 @@
 - [https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/)
 
 ## 线上 Demo
-- 本项目swagger地址 [https://baimocore.cn/swagger/index.html](https://baimocore.cn/swagger/index.html)
+- 本项目swagger地址 [https://api.igeekfan.cn/swagger/index.html](https://api.igeekfan.cn/swagger/index.html)
 - 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
   - 普通用户：710277267@qq.com
   - 密码：123qwe
-
 - 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
   - 管理员： admin
   - 密码：123qwe
 
 ## 前端
-- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客随笔、随笔评论、关注用户、标签、关注标签、技术频道（标签分类）、插件式功能（目前还没有）
+- 在原[开源项目](https://github.com/TaleLin/lin-cms-vue)中增加了博客随笔、标签、随笔评论、关注用户、关注标签、技术频道（标签分类）、插件式功能（目前还没有）
 ，具体特点查看如下[lin-cms-dotnetcore功能模块的设计](https://blog.igeekfan.cn/2019/11/24/lin-cms-dotnetcore/design/),开源地址见下方。
 
 ### Lin CMS 的特点
@@ -109,7 +108,9 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 ### 分层结构（Layers）
 - framework
-   - VoVo.CAP.MySql：为CAP实现了配合FreeSql的事务一致性扩展
+  - src
+    - IGeekFan.CAP.MySql：为CAP实现了配合FreeSql的事务一致性扩展
+    - IGeekFan.Localization.FreeSql：本地化的FreeSql数据库存储方案
 - identityserver4
    - LinCms.IdentityServer4:使用id4授权登录
 - src
@@ -118,7 +119,8 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
   - LinCms.Application.Contracts:DTO,数据传输对象，应用服务接口
   - LinCms.Infrastructure:基础设施，数据库持久性的操作
   - LinCms.Core:该应用的核心，实体类，通用操作类，AOP扩展，分页对象，基础依赖对象接口，时间扩展方法，当前用户信息，异常类，值对象
-  - LinCms.Plugins 使用单项目实现某个业务的扩展，不需要主要项目结构，可暂时忽略。
+  - LinCms.Plugins 使用单项目实现某个业务的扩展，不是该项目的主要结构，可暂时忽略。
+  - LinCms.Scaffolding [代码生成器](https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/lincms-scaffolding.html)
 - test
   - LinCms.Test:对仓储，应用服务或工具类进行测试
 
@@ -147,7 +149,6 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 ## 开发计划
 - [功能模块的设计 ](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3)
 - [0.3.0系统权限模块更新](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/6 )
-- [更新日志](https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
 
 ## 自动化构建CI/CD
 
@@ -163,3 +164,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 后端接口GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
 - 管理端UI [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
 - 用户端UI [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
+
+
+## 更新日志
+https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97
