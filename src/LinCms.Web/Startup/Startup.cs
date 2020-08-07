@@ -7,7 +7,6 @@ using AspNet.Security.OAuth.Gitee;
 using Autofac;
 using AutoMapper;
 using DotNetCore.Security;
-using HealthChecks.UI.Client;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Common;
@@ -24,7 +23,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -402,12 +400,9 @@ namespace LinCms.Startup
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
-                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                    {
-                        Predicate = _ => true,
-                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                    });
+                    endpoints.MapHealthChecks("/health");
                 });
         }
     }
+
 }

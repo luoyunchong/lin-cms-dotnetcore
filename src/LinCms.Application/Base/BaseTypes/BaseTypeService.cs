@@ -1,27 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Entities.Base;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
 
 namespace LinCms.Base.BaseTypes
 {
-    public class BaseTypeService:IBaseTypeService
+    public class BaseTypeService : ApplicationService, IBaseTypeService
     {
         private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
-        private readonly IMapper _mapper;
 
-        public BaseTypeService(IMapper mapper, IAuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseTypeService( IAuditBaseRepository<BaseType> baseTypeRepository)
         {
-            _mapper = mapper;
             _baseTypeRepository = baseTypeRepository;
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _baseTypeRepository.DeleteAsync(new BaseType {Id = id});
+            await _baseTypeRepository.DeleteAsync(new BaseType { Id = id });
         }
 
         public async Task<List<BaseTypeDto>> GetListAsync()
@@ -30,7 +27,7 @@ namespace LinCms.Base.BaseTypes
                     .OrderBy(r => r.SortCode)
                     .OrderBy(r => r.Id)
                     .ToListAsync())
-                .Select(r => _mapper.Map<BaseTypeDto>(r)).ToList();
+                .Select(r => Mapper.Map<BaseTypeDto>(r)).ToList();
 
             return baseTypes;
         }
@@ -38,7 +35,7 @@ namespace LinCms.Base.BaseTypes
         public async Task<BaseTypeDto> GetAsync(int id)
         {
             BaseType baseType = await _baseTypeRepository.Select.Where(a => a.Id == id).ToOneAsync();
-            return _mapper.Map<BaseTypeDto>(baseType);
+            return Mapper.Map<BaseTypeDto>(baseType);
         }
 
         public async Task CreateAsync(CreateUpdateBaseTypeDto createBaseType)
@@ -49,7 +46,7 @@ namespace LinCms.Base.BaseTypes
                 throw new LinCmsException($"类别-编码[{createBaseType.TypeCode}]已存在");
             }
 
-            BaseType baseType = _mapper.Map<BaseType>(createBaseType);
+            BaseType baseType = Mapper.Map<BaseType>(createBaseType);
             await _baseTypeRepository.InsertAsync(baseType);
         }
 
@@ -68,7 +65,7 @@ namespace LinCms.Base.BaseTypes
                 throw new LinCmsException($"基础类别-编码[{updateBaseType.TypeCode}]已存在");
             }
 
-            _mapper.Map(updateBaseType, baseType);
+            Mapper.Map(updateBaseType, baseType);
             await _baseTypeRepository.UpdateAsync(baseType);
         }
     }

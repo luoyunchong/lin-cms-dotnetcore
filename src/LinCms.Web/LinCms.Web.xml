@@ -534,7 +534,7 @@
             反射帮助类
             </summary>
         </member>
-        <member name="M:LinCms.Utils.ReflexHelper.GeAssemblyLinCmsAttributes">
+        <member name="M:LinCms.Utils.ReflexHelper.GetAssemblyLinCmsAttributes">
             <summary>
             通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
             </summary>

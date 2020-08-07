@@ -11,15 +11,13 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Settings
 {
-    public class SettingService : ISettingService
+    public class SettingService :ApplicationService, ISettingService
     {
-        private readonly IMapper _mapper;
         private readonly ISettingRepository _settingRepository;
 
-        public SettingService(ISettingRepository settingRepository, IMapper mapper)
+        public SettingService(ISettingRepository settingRepository)
         {
             _settingRepository = settingRepository;
-            _mapper = mapper;
         }
 
         public async Task Delete(string name, string providerName, string providerKey)
@@ -36,7 +34,7 @@ namespace LinCms.Cms.Settings
         {
             var list = await _settingRepository.GetListAsync(providerName, providerName);
 
-            return _mapper.Map<List<SettingDto>>(list);
+            return Mapper.Map<List<SettingDto>>(list);
         }
 
         public async Task<string> GetOrNullAsync(string name, string providerName, string providerKey)
@@ -52,7 +50,7 @@ namespace LinCms.Cms.Settings
             ;
             if (setting == null)
             {
-                await _settingRepository.InsertAsync(_mapper.Map<LinSetting>(createSetting));
+                await _settingRepository.InsertAsync(Mapper.Map<LinSetting>(createSetting));
             }
             else
             {
@@ -63,13 +61,13 @@ namespace LinCms.Cms.Settings
 
         public SettingDto Get(Guid id)
         {
-            return _mapper.Map<SettingDto>(_settingRepository.Get(id));
+            return Mapper.Map<SettingDto>(_settingRepository.Get(id));
         }
 
         public async Task<PagedResultDto<SettingDto>> GetPagedListAsync(PageDto pageDto)
         {
             List<SettingDto> list = (await _settingRepository.Select.ToPagerListAsync(pageDto, out long totalCount))
-                .Select(r => _mapper.Map<SettingDto>(r)).ToList();
+                .Select(r => Mapper.Map<SettingDto>(r)).ToList();
 
             return new PagedResultDto<SettingDto>(list, totalCount);
         }
@@ -84,7 +82,7 @@ namespace LinCms.Cms.Settings
                 throw new LinCmsException("该配置已存在");
             }
 
-            await _settingRepository.InsertAsync(_mapper.Map<LinSetting>(createSettingDto));
+            await _settingRepository.InsertAsync(Mapper.Map<LinSetting>(createSettingDto));
         }
 
         public async Task UpdateAsync(Guid id, CreateUpdateSettingDto updateSettingDto)
@@ -105,7 +103,7 @@ namespace LinCms.Cms.Settings
                 throw new LinCmsException("该配置已存在");
             }
 
-            await _settingRepository.UpdateAsync(_mapper.Map(updateSettingDto, setting));
+            await _settingRepository.UpdateAsync(Mapper.Map(updateSettingDto, setting));
         }
     }
 }

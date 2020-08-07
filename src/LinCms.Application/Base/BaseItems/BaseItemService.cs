@@ -1,30 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Entities.Base;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
 
 namespace LinCms.Base.BaseItems
 {
-    public class BaseItemService : IBaseItemService
+    public class BaseItemService : ApplicationService, IBaseItemService
     {
         private readonly IAuditBaseRepository<BaseItem> _baseItemRepository;
         private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
-        private readonly IMapper _mapper;
 
-        public BaseItemService(IAuditBaseRepository<BaseItem> baseItemRepository, IMapper mapper,
-            IAuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseItemService(IAuditBaseRepository<BaseItem> baseItemRepository,IAuditBaseRepository<BaseType> baseTypeRepository)
         {
             _baseItemRepository = baseItemRepository;
-            _mapper = mapper;
             _baseTypeRepository = baseTypeRepository;
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _baseItemRepository.DeleteAsync(new BaseItem {Id = id});
+            await _baseItemRepository.DeleteAsync(new BaseItem { Id = id });
         }
 
         public async Task<List<BaseItemDto>> GetListAsync(string typeCode)
@@ -36,7 +32,7 @@ namespace LinCms.Base.BaseItems
                     .OrderBy(r => r.Id)
                     .Where(r => r.BaseTypeId == baseTypeId)
                     .ToListAsync())
-                    .Select(r => _mapper.Map<BaseItemDto>(r)).ToList();
+                    .Select(r => Mapper.Map<BaseItemDto>(r)).ToList();
 
             return baseItems;
         }
@@ -44,7 +40,7 @@ namespace LinCms.Base.BaseItems
         public async Task<BaseItemDto> GetAsync(int id)
         {
             BaseItem baseItem = await _baseItemRepository.Select.Where(a => a.Id == id).ToOneAsync();
-            return _mapper.Map<BaseItemDto>(baseItem);
+            return Mapper.Map<BaseItemDto>(baseItem);
         }
 
         public async Task CreateAsync(CreateUpdateBaseItemDto createBaseItem)
@@ -56,7 +52,7 @@ namespace LinCms.Base.BaseItems
                 throw new LinCmsException($"编码[{createBaseItem.ItemCode}]已存在");
             }
 
-            BaseItem baseItem = _mapper.Map<BaseItem>(createBaseItem);
+            BaseItem baseItem = Mapper.Map<BaseItem>(createBaseItem);
             await _baseItemRepository.InsertAsync(baseItem);
         }
 
@@ -82,7 +78,7 @@ namespace LinCms.Base.BaseItems
                 throw new LinCmsException($"编码[{updateBaseItem.ItemCode}]已存在");
             }
 
-            _mapper.Map(updateBaseItem, baseItem);
+            Mapper.Map(updateBaseItem, baseItem);
             await _baseItemRepository.UpdateAsync(baseItem);
         }
     }

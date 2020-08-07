@@ -869,6 +869,11 @@
             权限所属模块，例如：人员管理
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinPermission.Router">
+            <summary>
+            后台路由
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinPoem.Author">
             <summary>
             作者
