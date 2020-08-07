@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using AutoMapper;
-using HealthChecks.UI.Client;
 using IdentityServer4.Configuration;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
@@ -15,7 +14,6 @@ using LinCms.IRepositories;
 using LinCms.Repositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -193,11 +191,7 @@ namespace LinCms.IdentityServer4
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                {
-                    Predicate = _ => true,
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
+                endpoints.MapHealthChecks("/health");
             });
         }
     }

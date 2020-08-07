@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Blog.Notifications
 {
@@ -17,8 +15,7 @@ namespace LinCms.Blog.Notifications
         private readonly IAuditBaseRepository<Notification> _notificationRepository;
         private readonly IFileRepository _fileRepository;
 
-        public NotificationService(IAuditBaseRepository<Notification> notificationRepository, IMapper mapper,
-            ICurrentUser currentUser, IFileRepository fileRepository)
+        public NotificationService(IAuditBaseRepository<Notification> notificationRepository, IFileRepository fileRepository)
         {
             _notificationRepository = notificationRepository;
             _fileRepository = fileRepository;

@@ -51,7 +51,7 @@ namespace LinCms.Controllers.Cms
         [LinCmsAuthorize("分配多个权限","管理员")]
         public async Task<UnifyResponseDto> DispatchPermissions(DispatchPermissionsDto permissionDto)
         {
-            List<PermissionDefinition> permissionDefinitions = ReflexHelper.GeAssemblyLinCmsAttributes();
+            List<PermissionDefinition> permissionDefinitions = ReflexHelper.GetAssemblyLinCmsAttributes();
             await _permissionService.DispatchPermissions(permissionDto, permissionDefinitions);
             return UnifyResponseDto.Success("添加权限成功");
         }

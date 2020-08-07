@@ -53,10 +53,13 @@ namespace LinCms.FreeSql
         {
 
             List<LinPermission> insertPermissions = new List<LinPermission>();
+            List<LinPermission> updatePermissions = new List<LinPermission>();
+
             List<LinPermission> allPermissions = await _permissionRepository.Select.ToListAsync();
 
             Expression<Func<LinGroupPermission, bool>> expression = u => false;
             Expression<Func<LinPermission, bool>> permissionExpression = u => false;
+
             allPermissions.ForEach(permissioin =>
             {
                 if (!linCmsAttributes.Any(r => r.Permission == permissioin.Name))
@@ -65,21 +68,33 @@ namespace LinCms.FreeSql
                     permissionExpression = permissionExpression.Or(r => r.Id == permissioin.Id);
                 }
             });
-
             int effectRows = await _permissionRepository.DeleteAsync(permissionExpression);
             effectRows += await _groupPermissionRepository.DeleteAsync(expression);
             _logger.LogInformation($"删除了{effectRows}条数据");
 
+
             linCmsAttributes.ForEach(r =>
             {
-                bool exist = allPermissions.Any(u => u.Module == r.Module && u.Name == r.Permission);
-                if (!exist)
+                LinPermission permissionEntity = allPermissions.FirstOrDefault(u => u.Module == r.Module && u.Name == r.Permission);
+                if (permissionEntity == null)
                 {
-                    insertPermissions.Add(new LinPermission(r.Permission, r.Module));
+                    insertPermissions.Add(new LinPermission(r.Permission, r.Module, r.Router));
+                }
+                else
+                {
+                    bool routerExist = allPermissions.Any(u => u.Module == r.Module && u.Name == r.Permission && u.Router == r.Router);
+                    if (!routerExist)
+                    {
+                        permissionEntity.Router = r.Router;
+                        updatePermissions.Add(permissionEntity);
+                    }
                 }
             });
             await _permissionRepository.InsertAsync(insertPermissions);
             _logger.LogInformation($"新增了{insertPermissions.Count}条数据");
+
+            await _permissionRepository.UpdateAsync(updatePermissions);
+            _logger.LogInformation($"更新了{updatePermissions.Count}条数据");
         }
     }
 }
