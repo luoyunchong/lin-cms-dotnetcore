@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Autofac;
 using DotNetCore.Security;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -33,14 +34,15 @@ namespace LinCms.Controllers.Cms
         private readonly ILogger<Oauth2Controller> _logger;
         private readonly IUserRepository _userRepository;
         private readonly IJsonWebTokenService _jsonWebTokenService;
-
-        public Oauth2Controller(IHttpContextAccessor contextAccessor, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService)
+        private readonly IComponentContext _componentContext;
+        public Oauth2Controller(IHttpContextAccessor contextAccessor, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService, IComponentContext componentContext)
         {
             _contextAccessor = contextAccessor;
             _userCommunityService = userCommunityService;
             _logger = logger;
             _userRepository = userRepository;
             _jsonWebTokenService = jsonWebTokenService;
+            _componentContext = componentContext;
         }
 
         /// <summary>
@@ -67,31 +69,19 @@ namespace LinCms.Controllers.Cms
             var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
                 return Redirect(redirectUrl);
-            long id = 0;
-            switch (provider)
+
+            List<string> supportProviders = new List<string>{LinUserIdentity.Gitee,LinUserIdentity.GitHub,LinUserIdentity.QQ,};
+
+            if (!supportProviders.Contains(provider))
             {
-                case LinUserIdentity.GitHub:
-                    id = await _userCommunityService.SaveGitHubAsync(authenticateResult.Principal, openIdClaim.Value);
-                    break;
-
-                case LinUserIdentity.QQ:
-                    id = await _userCommunityService.SaveQQAsync(authenticateResult.Principal, openIdClaim.Value);
-                    break;
-
-                case LinUserIdentity.Gitee:
-                    string access_token = authenticateResult.Properties.GetTokenValue("access_token");
-                    string refresh_token = authenticateResult.Properties.GetTokenValue("refresh_token");
-                    string token_type = authenticateResult.Properties.GetTokenValue("token_type");
-                    string expires_at = authenticateResult.Properties.GetTokenValue("expires_at");
-                    id = await _userCommunityService.SaveGiteeAsync(authenticateResult.Principal, openIdClaim.Value);
-                    break;
-                case LinUserIdentity.WeiXin:
-
-                    break;
-                default:
-                    _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
-                    throw new LinCmsException($"未知的privoder:{provider}！");
+                _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+                throw new LinCmsException($"未知的privoder:{provider}！");
             }
+
+            IOAuth2Service oAuth2Service = _componentContext.ResolveNamed<IOAuth2Service>(provider);
+
+            long id = await oAuth2Service.SaveUserAsync(authenticateResult.Principal, openIdClaim.Value);
+
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
             LinUser user = await _userRepository.Select.IncludeMany(r => r.LinGroups)
@@ -198,24 +188,18 @@ namespace LinCms.Controllers.Cms
             }
             long userId = long.Parse(nameIdentifier);
             UnifyResponseDto unifyResponseDto;
-            switch (provider)
-            {
-                case LinUserIdentity.GitHub:
-                    unifyResponseDto = await _userCommunityService.BindGitHubAsync(authenticateResult.Principal, openIdClaim.Value, userId);
-                    break;
-                case LinUserIdentity.QQ:
-                    unifyResponseDto = await _userCommunityService.BindQQAsync(authenticateResult.Principal, openIdClaim.Value, userId);
-                    break;
-                case LinUserIdentity.Gitee:
-                    unifyResponseDto = await _userCommunityService.BindGiteeAsync(authenticateResult.Principal, openIdClaim.Value, userId);
-                    break;
-                //case LinUserIdentity.WeiXin:
 
-                //    break;
-                default:
-                    _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
-                    unifyResponseDto = UnifyResponseDto.Error($"未知的privoder:{provider}！");
-                    break;
+            List<string> supportProviders = new List<string> { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
+
+            if (!supportProviders.Contains(provider))
+            {
+                _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+                unifyResponseDto = UnifyResponseDto.Error($"未知的privoder:{provider}！");
+            }
+            else
+            {
+                IOAuth2Service oAuth2Service = _componentContext.ResolveNamed<IOAuth2Service>(provider);
+                unifyResponseDto = await oAuth2Service.BindAsync(authenticateResult.Principal, provider, openIdClaim.Value, userId);
             }
 
             return Redirect($"{redirectUrl}#bind-result?code={unifyResponseDto.Code.ToString()}&message={HttpUtility.UrlEncode(unifyResponseDto.Message.ToString())}");
