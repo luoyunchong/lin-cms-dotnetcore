@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Autofac;
 using LinCms.Cms.Files;
 using LinCms.Data.Options;
 using LinCms.Exceptions;
@@ -19,10 +20,10 @@ namespace LinCms.Controllers.Cms
     {
         private readonly FileStorageOption _fileStorageOption;
         private readonly IFileService _fileService;
-        public FileController(IFileService fileService, IOptionsSnapshot<FileStorageOption> fileStorageOption)
+        public FileController(IOptionsSnapshot<FileStorageOption> optionsSnapshot, IComponentContext componentContext)
         {
-            _fileService = fileService;
-            _fileStorageOption = fileStorageOption.Value;
+            _fileStorageOption = optionsSnapshot.Value;
+            _fileService = componentContext.ResolveNamed<IFileService>(_fileStorageOption.ServiceName);
         }
 
         /// <summary>
@@ -49,17 +50,17 @@ namespace LinCms.Controllers.Cms
             {
                 throw new LinCmsException($"文件总大小{len}，超过上传文件总大小{_fileStorageOption.MaxFileSize}");
             }
-            
+
             int i = 0;
             List<FileDto> fileDtos = new List<FileDto>();
             foreach (var file in files)
             {
-                FileDto fileDto = await _fileService.UploadAsync(file,i++);
+                FileDto fileDto = await _fileService.UploadAsync(file, i++);
                 fileDtos.Add(fileDto);
             }
             return fileDtos;
         }
-        
+
         /// <summary>
         /// 单文件上传，键为file
         /// </summary>
@@ -85,21 +86,21 @@ namespace LinCms.Controllers.Cms
             {
                 throw new LinCmsException($"不支持的文件类型");
             }
-            
+
             if (_fileStorageOption.Include.IsNotNullOrEmpty())
             {
-                if(!_fileStorageOption.Include.Contains(ext))
+                if (!_fileStorageOption.Include.Contains(ext))
                 {
                     throw new LinCmsException($"不支持文件类型{ext}");
                 }
                 return;
             }
 
-            if (_fileStorageOption.Exclude.IsNotNullOrEmpty()&&_fileStorageOption.Exclude.Contains(ext))
+            if (_fileStorageOption.Exclude.IsNotNullOrEmpty() && _fileStorageOption.Exclude.Contains(ext))
             {
                 throw new LinCmsException($"文件类型{ext}被禁止上传");
             }
         }
-        
+
     }
 }

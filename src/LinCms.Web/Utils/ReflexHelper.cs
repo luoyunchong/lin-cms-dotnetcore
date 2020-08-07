@@ -57,7 +57,7 @@ namespace LinCms.Utils
                 RouteAttribute routerAttribute = d.GetCustomAttribute<RouteAttribute>();
                 if (linCmsAuthorize?.Permission != null && routerAttribute?.Template != null)
                 {
-                    linAuths.Add(new PermissionDefinition(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template.Replace("/", ".")));
+                    linAuths.Add(new PermissionDefinition(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template));
                 }
             });
 
@@ -75,7 +75,8 @@ namespace LinCms.Utils
                         {
                             if (attribute is LinCmsAuthorizeAttribute linAttribute && linAttribute.Permission.IsNotNullOrEmpty() && linAttribute.Module.IsNotNullOrEmpty())
                             {
-                                string router = $"{routerAttribute.Template}/{methodAttribute.Template ?? ""} {methodAttribute.HttpMethods.FirstOrDefault()}";
+                                string actionTemplate = methodAttribute.Template != null ? "/" + methodAttribute.Template + " " : " ";
+                                string router = $"{routerAttribute.Template}{actionTemplate}{methodAttribute.HttpMethods.FirstOrDefault()}";
                                 linAuths.Add(
                                         new PermissionDefinition(
                                                 linAttribute.Permission,
