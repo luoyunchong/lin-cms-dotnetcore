@@ -138,7 +138,7 @@ namespace LinCms.Test
         [Fact]
         public void ReflexHelperTest()
         {
-            List<PermissionDefinition> attributes = ReflexHelper.GeAssemblyLinCmsAttributes();
+            List<PermissionDefinition> attributes = ReflexHelper.GetAssemblyLinCmsAttributes();
             foreach (PermissionDefinition attribute in attributes)
             {
                 _testOutputHelper.WriteLine(attribute.ToString());
@@ -152,7 +152,7 @@ namespace LinCms.Test
         [Fact]
         public void ConvertToTree()
         {
-            List<PermissionDefinition> linCmsAttributes = ReflexHelper.GeAssemblyLinCmsAttributes();
+            List<PermissionDefinition> linCmsAttributes = ReflexHelper.GetAssemblyLinCmsAttributes();
 
             dynamic obj = ReflexHelper.AuthorizationConvertToTree(linCmsAttributes);
 

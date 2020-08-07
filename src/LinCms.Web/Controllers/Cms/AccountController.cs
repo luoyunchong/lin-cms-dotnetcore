@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Autofac;
 using AutoMapper;
 using DotNetCore.Security;
 using IdentityModel;
@@ -36,9 +37,10 @@ namespace LinCms.Controllers.Cms
     public class AccountController : ApiControllerBase
     {
         private readonly ITokenService _tokenService;
-        public AccountController(ITokenService tokenService)
+        public AccountController(IComponentContext componentContext, IConfiguration configuration)
         {
-            _tokenService = tokenService;
+            bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
+            _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? typeof(IdentityServer4Service).Name : typeof(JwtTokenService).Name);
         }
         /// <summary>
         /// 登录接口

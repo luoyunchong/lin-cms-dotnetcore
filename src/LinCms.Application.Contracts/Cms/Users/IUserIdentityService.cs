@@ -11,21 +11,6 @@ namespace LinCms.Cms.Users
     public interface IUserIdentityService
     {
         /// <summary>
-        /// 保存GitHub登录信息，生成用户表，用户身份认证表
-        /// </summary>
-        /// <param name="principal"></param>
-        /// <param name="openId"></param>
-        /// <returns></returns>
-        Task<long> SaveGitHubAsync(ClaimsPrincipal principal, string openId);
-        /// <summary>
-        ///  保存QQ快速登录后的登录信息，生成用户
-        /// </summary>
-        /// <param name="principal"></param>
-        /// <param name="openId"></param>
-        /// <returns></returns>
-        Task<long> SaveQQAsync(ClaimsPrincipal principal, string openId);
-        Task<long> SaveGiteeAsync(ClaimsPrincipal principal, string openId);
-        /// <summary>
         /// 验证用户密码是否正确
         /// </summary>
         /// <param name="userId"></param>
@@ -57,9 +42,6 @@ namespace LinCms.Cms.Users
         Task<LinUserIdentity> GetFirstByUserIdAsync(long userId);
 
         Task<List<UserIdentityDto>> GetListAsync(long userId);
-        Task<UnifyResponseDto> BindGitHubAsync(ClaimsPrincipal principal, string openId, long userId);
-        Task<UnifyResponseDto> BindQQAsync(ClaimsPrincipal principal, string openId, long userId);
-        Task<UnifyResponseDto> BindGiteeAsync(ClaimsPrincipal principal, string openId, long userId);
         Task UnBind(Guid id);
     }
 }
