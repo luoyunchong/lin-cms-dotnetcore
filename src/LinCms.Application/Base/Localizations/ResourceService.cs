@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using IGeekFan.Localization.FreeSql.Models;
 using LinCms.Data;
 using LinCms.Exceptions;
@@ -10,14 +9,12 @@ using LinCms.IRepositories;
 
 namespace LinCms.Base.Localizations
 {
-    public class ResourceService : IResourceService
+    public class ResourceService :ApplicationService, IResourceService
     {
         private readonly IAuditBaseRepository<LocalResource, long> _resourceRepository;
-        private readonly IMapper _mapper;
 
-        public ResourceService(IMapper mapper, IAuditBaseRepository<LocalResource, long> resourceRepository)
+        public ResourceService(IAuditBaseRepository<LocalResource, long> resourceRepository)
         {
-            _mapper = mapper;
             _resourceRepository = resourceRepository;
         }
 
@@ -34,7 +31,7 @@ namespace LinCms.Base.Localizations
                     .ToPagerListAsync(searchDto, out long totalCount))
                     .Select(r =>
                     {
-                        ResourceDto resourceDto = _mapper.Map<ResourceDto>(r);
+                        ResourceDto resourceDto = Mapper.Map<ResourceDto>(r);
                         return resourceDto;
                     }).ToList();
 
@@ -44,7 +41,7 @@ namespace LinCms.Base.Localizations
         public async Task<ResourceDto> GetAsync(long id)
         {
             LocalResource entity = await _resourceRepository.Select.Where(a => a.Id == id).ToOneAsync();
-            ResourceDto resourceDto = _mapper.Map<ResourceDto>(entity);
+            ResourceDto resourceDto = Mapper.Map<ResourceDto>(entity);
             return resourceDto;
         }
 
@@ -56,7 +53,7 @@ namespace LinCms.Base.Localizations
                 throw new LinCmsException($"Key[{resourceDto.Key}]已存在");
             }
 
-            LocalResource entity = _mapper.Map<LocalResource>(resourceDto);
+            LocalResource entity = Mapper.Map<LocalResource>(resourceDto);
             await _resourceRepository.InsertAsync(entity);
         }
 
@@ -74,7 +71,7 @@ namespace LinCms.Base.Localizations
                 throw new LinCmsException($"Key[{resourceDto.Key}]已存在");
             }
 
-            _mapper.Map(resourceDto, entity);
+            Mapper.Map(resourceDto, entity);
             await _resourceRepository.UpdateAsync(entity);
         }
     }

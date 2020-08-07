@@ -10,6 +10,7 @@ using LinCms.Entities;
 using LinCms.Extensions;
 using LinCms.Startup;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace LinCms.Utils
 {
@@ -34,16 +35,16 @@ namespace LinCms.Utils
 
 
         //得到这样的结果
-        //LinCms.Zero.Data.PermissionDto Permission:查询日志记录的用户、Module:日志、Router:cms.log+get_users
-        //LinCms.Zero.Data.PermissionDto Permission:查询所有日志、Module:日志、Router:cms.log+get_logs
-        //LinCms.Zero.Data.PermissionDto Permission:搜索日志、Module:日志、Router:cms.log+get_user_logs
-        //LinCms.Zero.Data.PermissionDto Permission:查看lin的信息、Module:信息、Router:cms.test+info
-        //LinCms.Zero.Data.PermissionDto Permission:删除图书、Module:图书、Router:v1.book+delete_book
+        //LinCms.Zero.Data.PermissionDto Permission:查询日志记录的用户、Module:日志、Router:cms.log.get_users
+        //LinCms.Zero.Data.PermissionDto Permission:查询所有日志、Module:日志、Router:cms.log.get_logs
+        //LinCms.Zero.Data.PermissionDto Permission:搜索日志、Module:日志、Router:cms.log.get_user_logs
+        //LinCms.Zero.Data.PermissionDto Permission:查看lin的信息、Module:信息、Router:cms.test.info
+        //LinCms.Zero.Data.PermissionDto Permission:删除图书、Module:图书、Router:v1.book.delete_book
         /// <summary>
         /// 通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
         /// </summary>
         /// <returns></returns>
-        public static List<PermissionDefinition> GeAssemblyLinCmsAttributes()
+        public static List<PermissionDefinition> GetAssemblyLinCmsAttributes()
         {
             List<PermissionDefinition> linAuths = new List<PermissionDefinition>();
 
@@ -68,17 +69,21 @@ namespace LinCms.Utils
                 {
                     foreach (MethodInfo methodInfo in r.GetMethods())
                     {
+                        HttpMethodAttribute methodAttribute = GetMethodAttribute(methodInfo);
+
                         foreach (Attribute attribute in methodInfo.GetCustomAttributes())
                         {
-                            if (attribute is LinCmsAuthorizeAttribute linCmsAuthorize && linCmsAuthorize.Permission.IsNotNullOrEmpty() && linCmsAuthorize.Module.IsNotNullOrEmpty())
+                            if (attribute is LinCmsAuthorizeAttribute linAttribute && linAttribute.Permission.IsNotNullOrEmpty() && linAttribute.Module.IsNotNullOrEmpty())
                             {
+                                string router = $"{routerAttribute.Template}/{methodAttribute.Template ?? ""} {methodAttribute.HttpMethods.FirstOrDefault()}";
                                 linAuths.Add(
                                         new PermissionDefinition(
-                                                linCmsAuthorize.Permission,
-                                                linCmsAuthorize.Module,
-                                                $"{routerAttribute.Template.Replace("/", ".")}+{methodInfo.Name.ToSnakeCase()}"
+                                                linAttribute.Permission,
+                                                linAttribute.Module,
+                                                router
                                             )
                                     );
+                                //methodInfo.Name.ToSnakeCase()
                             }
                         }
                     }
@@ -86,6 +91,29 @@ namespace LinCms.Utils
             });
 
             return linAuths.Distinct().ToList();
+        }
+
+        private static HttpMethodAttribute GetMethodAttribute(MethodInfo methodInfo)
+        {
+            HttpMethodAttribute methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpGetAttribute>().FirstOrDefault();
+            if (methodAttribute != null)
+            {
+                return methodAttribute;
+            }
+            methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpDeleteAttribute>().FirstOrDefault();
+            if (methodAttribute != null)
+            {
+                return methodAttribute;
+            }
+            methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpPutAttribute>().FirstOrDefault();
+            if (methodAttribute != null)
+            {
+                return methodAttribute;
+            }
+            methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpPostAttribute>().FirstOrDefault();
+
+            return methodAttribute;
+
         }
 
         /**

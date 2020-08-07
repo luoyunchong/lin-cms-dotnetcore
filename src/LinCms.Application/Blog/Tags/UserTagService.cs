@@ -8,24 +8,23 @@ using LinCms.Security;
 
 namespace LinCms.Blog.Tags
 {
-    public class UserTagService:IUserTagService
+    public class UserTagService : ApplicationService, IUserTagService
     {
-        private readonly ICurrentUser _currentUser;
         private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly IAuditBaseRepository<UserTag> _userTagRepository;
         private readonly ITagService _tagService;
 
-        public UserTagService(ICurrentUser currentUser, ITagService tagService, IAuditBaseRepository<Tag> tagRepository, IAuditBaseRepository<UserTag> userTagRepository)
+        public UserTagService(ITagService tagService, IAuditBaseRepository<Tag> tagRepository, IAuditBaseRepository<UserTag> userTagRepository)
         {
-            _currentUser = currentUser;
             _tagService = tagService;
             _tagRepository = tagRepository;
             _userTagRepository = userTagRepository;
         }
 
+        [Transactional]
         public async Task CreateUserTagAsync(Guid tagId)
         {
-            Tag tag =await _tagRepository.Select.Where(r => r.Id == tagId).ToOneAsync();
+            Tag tag = await _tagRepository.Select.Where(r => r.Id == tagId).ToOneAsync();
             if (tag == null)
             {
                 throw new LinCmsException("该标签不存在");
@@ -36,8 +35,8 @@ namespace LinCms.Blog.Tags
                 throw new LinCmsException("该标签已被拉黑");
             }
 
-            bool any =await _userTagRepository.Select.AnyAsync(r =>
-                r.CreateUserId == _currentUser.Id && r.TagId == tagId);
+            bool any = await _userTagRepository.Select.AnyAsync(r =>
+                 r.CreateUserId == CurrentUser.Id && r.TagId == tagId);
             if (any)
             {
                 throw new LinCmsException("您已关注该标签");
@@ -51,12 +50,12 @@ namespace LinCms.Blog.Tags
         [Transactional]
         public async Task DeleteUserTagAsync(Guid tagId)
         {
-            bool any =await _userTagRepository.Select.AnyAsync(r => r.CreateUserId == _currentUser.Id && r.TagId == tagId);
+            bool any = await _userTagRepository.Select.AnyAsync(r => r.CreateUserId == CurrentUser.Id && r.TagId == tagId);
             if (!any)
             {
-                    throw new LinCmsException("已取消关注");
+                throw new LinCmsException("已取消关注");
             }
-            await _userTagRepository.DeleteAsync(r => r.TagId == tagId && r.CreateUserId == _currentUser.Id);
+            await _userTagRepository.DeleteAsync(r => r.TagId == tagId && r.CreateUserId == CurrentUser.Id);
             await _tagService.UpdateSubscribersCountAsync(tagId, -1);
         }
     }
