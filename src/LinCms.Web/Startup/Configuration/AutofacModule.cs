@@ -33,29 +33,6 @@ namespace LinCms.Startup.Configuration
 
         protected override void Load(ContainerBuilder builder)
         {
-            string serviceName = _configuration.GetSection("FileStorage:ServiceName").Value;
-
-            if (string.IsNullOrWhiteSpace(serviceName)) throw new ArgumentNullException("FileStorage:ServiceName未配置");
-
-            if (serviceName == LinFile.LocalFileService)
-            {
-                builder.RegisterType<LocalFileService>().As<IFileService>().InstancePerLifetimeScope();
-            }
-            else
-            {
-                builder.RegisterType<QiniuService>().As<IFileService>().InstancePerLifetimeScope();
-            }
-
-            bool isIds4 = _configuration.GetSection("Service:IdentityServer4").Value.ToBoolean();
-            if (isIds4)
-            {
-                builder.RegisterType<IdentityServer4Service>().As<ITokenService>().InstancePerLifetimeScope();
-            }
-            else
-            {
-                builder.RegisterType<JwtTokenService>().As<ITokenService>().InstancePerLifetimeScope();
-            }
-
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
             builder.RegisterType<PermissionAuthorizationHandler>().As<IAuthorizationHandler>().InstancePerLifetimeScope();
 
