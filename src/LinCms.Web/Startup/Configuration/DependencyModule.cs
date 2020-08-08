@@ -29,8 +29,7 @@ namespace LinCms.Startup.Configuration
             //单例模式，每次调用，都会使用同一个实例化的对象；每次都用同一个对象；
             Type singletonDependency = typeof(ISingletonDependency);
             builder.RegisterAssemblyTypes(currentAssemblies)
-                .Where(t => singletonDependency.GetTypeInfo().IsAssignableFrom(t) && t.IsClass && !t.IsAbstract &&
-                            !t.IsGenericType)
+                .Where(t => singletonDependency.GetTypeInfo().IsAssignableFrom(t) && t.IsClass && !t.IsAbstract &&!t.IsGenericType)
                 .AsImplementedInterfaces().SingleInstance();
 
         }
