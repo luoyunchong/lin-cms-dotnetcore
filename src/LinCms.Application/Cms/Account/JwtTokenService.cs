@@ -6,7 +6,6 @@ using LinCms.Exceptions;
 using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -22,15 +21,12 @@ namespace LinCms.Cms.Users
         private readonly ILogger<JwtTokenService> _logger;
         private readonly IJsonWebTokenService _jsonWebTokenService;
 
-        private readonly IServiceProvider serviceProvider;
-
-        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService, IServiceProvider serviceProvider)
+        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService)
         {
             _userRepository = userRepository;
             _logger = logger;
             _userIdentityService = userIdentityService;
             _jsonWebTokenService = jsonWebTokenService;
-            this.serviceProvider = serviceProvider;
         }
         /// <summary>
         /// JWT登录
@@ -55,41 +51,12 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("请输入正确密码", ErrorCode.ParameterError);
             }
 
+            _logger.LogInformation($"用户{loginInputDto.Username},登录成功");
 
-            List<Claim> claims = new List<Claim>()
-            {
-                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim (ClaimTypes.Email, user.Email?? ""),
-                new Claim (ClaimTypes.GivenName, user.Nickname?? ""),
-                new Claim (ClaimTypes.Name, user.Username?? "")
-            };
-
-            user.LinGroups?.ForEach(r =>
-            {
-                claims.Add(new Claim(ClaimTypes.Role, r.Name));
-                claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
-            });
-
-            _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(claims)}");
-
-            string token = _jsonWebTokenService.Encode(claims);
-
-            var refreshToken = GenerateToken();
-            user.AddRefreshToken(refreshToken);
-            await _userRepository.UpdateAsync(user);
-
-            return new Tokens(token, refreshToken);
+            Tokens tokens = await CreateTokenAsync(user);
+            return tokens;
         }
 
-        private string GenerateToken(int size = 32)
-        {
-            var randomNumber = new byte[size];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
-        }
 
         public async Task<Tokens> GetRefreshTokenAsync(string refreshToken)
         {
@@ -105,6 +72,14 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
             }
 
+            Tokens tokens =await CreateTokenAsync(user);
+            _logger.LogInformation($"用户{user.Username},JwtRefreshToken 刷新-登录成功");
+
+            return tokens;
+        }
+
+        private async Task<Tokens> CreateTokenAsync(LinUser user)
+        {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -112,16 +87,29 @@ namespace LinCms.Cms.Users
                 new Claim (ClaimTypes.GivenName, user.Nickname?? ""),
                 new Claim (ClaimTypes.Name, user.Username?? ""),
             };
-
-            _logger.LogInformation($"用户{user.Username},JwtRefreshToken 刷新-登录成功，{JsonConvert.SerializeObject(claims)}");
+            user.LinGroups?.ForEach(r =>
+            {
+                claims.Add(new Claim(ClaimTypes.Role, r.Name));
+                claims.Add(new Claim(LinCmsClaimTypes.Groups, r.Id.ToString()));
+            });
 
             string token = _jsonWebTokenService.Encode(claims);
 
-            refreshToken = GenerateToken();
+            string refreshToken = GenerateToken();
             user.AddRefreshToken(refreshToken);
             await _userRepository.UpdateAsync(user);
 
             return new Tokens(token, refreshToken);
+        }
+
+        private string GenerateToken(int size = 32)
+        {
+            var randomNumber = new byte[size];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
         }
     }
 }
