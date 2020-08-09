@@ -25,7 +25,7 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="DotNetCore.Security" Version="12.11.0" />
+		<PackageReference Include="DotNetCore.Security" Version="12.12.0" />
 		<PackageReference Include="FreeSql" Version="1.8.0-preview0806" />
 		<PackageReference Include="FreeSql.DbContext" Version="1.8.0-preview0806" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.6" />
