@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.Gitee;
 using Autofac;
 using AutoMapper;
 using DotNetCore.Security;
+using IGeekFan.AspNetCore.Knife4jUI;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Common;
@@ -40,6 +42,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Serilog.Events;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace LinCms.Startup
 {
@@ -305,6 +309,16 @@ namespace LinCms.Startup
                 {
                     Log.Logger.Warning(ex.Message);
                 }
+
+                options.AddServer(new OpenApiServer()
+                {
+                    Url = "",
+                    Description = "v1"
+                });
+                options.CustomOperationIds(apiDesc =>
+                {
+                    return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+                });
             });
 
             #endregion
@@ -376,12 +390,26 @@ namespace LinCms.Startup
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
-                //c.RoutePrefix = string.Empty;
+                c.RoutePrefix = string.Empty;
                 //c.OAuthClientId(Configuration["Service:ClientId"]);//客服端名称
                 //c.OAuthAppName(Configuration["Service:Name"]); // 描述
+                c.ConfigObject.DisplayOperationId = true;
+                //= new ConfigObject()
+                //{
+                //    DeepLinking = true,
+                //    DefaultModelExpandDepth = 1,
+                //    DisplayOperationId = true,
+                //    ShowExtensions = false
+                //};
+            });
+
+            app.UseKnife4UI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
             });
 
             app.UseCors(builder =>
