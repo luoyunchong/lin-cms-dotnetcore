@@ -49,7 +49,7 @@
 		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.0-preview-112969177" />
 		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.0-preview-112969177" />
 		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.0-preview-112969177" />
-		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.1" />
+		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.4" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.2.0-eap" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-preview.3.20215.2" />

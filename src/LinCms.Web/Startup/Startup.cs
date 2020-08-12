@@ -395,8 +395,8 @@ namespace LinCms.Startup
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
                 c.RoutePrefix = string.Empty;
-                //c.OAuthClientId(Configuration["Service:ClientId"]);//客服端名称
-                //c.OAuthAppName(Configuration["Service:Name"]); // 描述
+                c.OAuthClientId(Configuration["Service:ClientId"]);//客服端名称
+                c.OAuthAppName(Configuration["Service:Name"]); // 描述
                 c.ConfigObject.DisplayOperationId = true;
                 //= new ConfigObject()
                 //{
@@ -409,7 +409,12 @@ namespace LinCms.Startup
 
             app.UseKnife4UI(c =>
             {
+                c.DocumentTitle = "LinCms博客模块";
+                //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
+
+                //c.OAuthClientId(Configuration["Service:ClientId"]);//客服端名称
+                //c.OAuthAppName(Configuration["Service:Name"]); // 描
             });
 
             app.UseCors(builder =>
