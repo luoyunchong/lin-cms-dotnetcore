@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using AutoMapper;
 using IdentityServer4.Configuration;
+using IGeekFan.AspNetCore.Knife4jUI;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -16,6 +17,7 @@ using LinCms.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -109,7 +111,16 @@ namespace LinCms.IdentityServer4
                 {
                     Log.Logger.Warning(ex.Message);
                 }
-
+                options.AddServer(new OpenApiServer()
+                {
+                    Url = "",
+                    Description = "vvv"
+                });
+                options.CustomOperationIds(apiDesc =>
+                {
+                    var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
+                    return controllerAction.ControllerName + "-" + controllerAction.ActionName;
+                });
             });
             #endregion
 
@@ -183,11 +194,12 @@ namespace LinCms.IdentityServer4
             app.UseIdentityServer();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
+
+            app.UseKnife4UI(c =>
             {
+                c.DocumentTitle = "LinCms.IdentityServer4";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms.IdentityServer4");
             });
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
