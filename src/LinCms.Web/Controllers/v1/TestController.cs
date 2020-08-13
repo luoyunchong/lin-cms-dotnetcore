@@ -150,5 +150,20 @@ namespace LinCms.Controllers.v1
         {
             Console.WriteLine($"time:{time}");
         }
+
+        [HttpGet("~/send")]
+        public IActionResult SendMessage([FromServices] ICapPublisher capBus)
+        {
+            capBus.Publish("test.show.time", DateTime.Now);
+
+            return Ok();
+        }
+
+        [NonAction]
+        [CapSubscribe("test.show.time")]
+        public void ReceiveMessage(DateTime time)
+        {
+            Console.WriteLine("message time is:" + time);
+        }
     }
 }
