@@ -45,6 +45,8 @@ namespace LinCms.IdentityServer4
             InMemoryConfiguration.Configuration = this.Configuration;
 
             services.AddContext();
+            
+            services.AddCors();
 
             services.AddIdentityServer(options => new IdentityServerOptions
             {
@@ -187,7 +189,15 @@ namespace LinCms.IdentityServer4
             //app.UseHttpsRedirection();
 
             //app.UseSerilogRequestLogging();
+
+            app.UseCors(builder =>
+            {
+                string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
+                builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
+            });
+
             app.UseRouting();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

@@ -40,6 +40,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using reCAPTCHA.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -122,7 +123,7 @@ namespace LinCms.Startup
 
                             return Task.CompletedTask;
                         },
-                        OnChallenge = context =>
+                        OnChallenge = async context =>
                         {
                             //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
                             context.HandleResponse();
@@ -145,15 +146,14 @@ namespace LinCms.Startup
                             }
                             else
                             {
-                                message = "请先登录" + context.ErrorDescription; //""认证失败，请检查请求头或者重新登录";
+                                message = "请先登录 " + context.ErrorDescription; //""认证失败，请检查请求头或者重新登录";
                                 errorCode = ErrorCode.AuthenticationFailed;
                             }
 
                             context.Response.ContentType = "application/json";
                             context.Response.StatusCode = statusCode;
-                            context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext).ToString());
+                            await context.Response.WriteAsync(new UnifyResponseDto(errorCode, message, context.HttpContext).ToString());
 
-                            return Task.FromResult(0);
                         }
                     };
                 })
@@ -294,6 +294,36 @@ namespace LinCms.Startup
                     In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
                 });
+
+                // Define the OAuth2.0 scheme that's in use (i.e. Implicit Flow)
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "LinCms.Web", "Access read/write LinCms.Web" }
+                            }
+                        },
+                        Password = new OpenApiOAuthFlow()
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "openid", "Access read openid" },
+                                { "offline_access", "Access read offline_access" },
+                                { "LinCms.Web", "Access read/write LinCms.Web" }
+                            }
+                        }
+                    }
+                });
+
                 try
                 {
                     string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
@@ -323,6 +353,9 @@ namespace LinCms.Startup
 
             #endregion
 
+
+            services.Configure<RecaptchaSettings>(Configuration.GetSection("RecaptchaSettings"));
+            services.AddTransient<IRecaptchaService, RecaptchaService>();
 
             //应用程序级别设置
 
@@ -395,16 +428,13 @@ namespace LinCms.Startup
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
                 c.RoutePrefix = string.Empty;
-                c.OAuthClientId(Configuration["Service:ClientId"]);//客服端名称
-                c.OAuthAppName(Configuration["Service:Name"]); // 描述
+
+                c.OAuthClientId(Configuration["Service:ClientId"]);
+                c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
+                c.OAuthAppName(Configuration["Service:Name"]);
+
                 c.ConfigObject.DisplayOperationId = true;
-                //= new ConfigObject()
-                //{
-                //    DeepLinking = true,
-                //    DefaultModelExpandDepth = 1,
-                //    DisplayOperationId = true,
-                //    ShowExtensions = false
-                //};
+
             });
 
             app.UseKnife4UI(c =>
