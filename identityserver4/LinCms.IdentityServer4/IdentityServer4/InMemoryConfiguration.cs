@@ -42,7 +42,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 new Client
                 {
                     ClientId = Configuration["Service:ClientId"],
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     AllowOfflineAccess = true,
                     //UpdateAccessTokenClaimsOnRefresh = true,
                     AccessTokenLifetime = 3600 * 24 * 15, //15天      //5  设置 5s，验证过期策略。

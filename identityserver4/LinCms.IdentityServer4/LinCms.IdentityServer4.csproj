@@ -54,6 +54,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties appsettings_1production_1json__JsonSchema="http://json.schemastore.org/appsettings" properties_4launchsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" />

@@ -27,6 +27,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using reCAPTCHA.AspNetCore;
 using Serilog;
 
 namespace LinCms.Controllers.Cms
@@ -37,10 +38,14 @@ namespace LinCms.Controllers.Cms
     public class AccountController : ApiControllerBase
     {
         private readonly ITokenService _tokenService;
-        public AccountController(IComponentContext componentContext, IConfiguration configuration)
+        private readonly IRecaptchaService _recaptcha;
+        private readonly double _minimumScore;
+        public AccountController(IComponentContext componentContext, IConfiguration configuration, IRecaptchaService recaptcha)
         {
             bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
             _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? typeof(IdentityServer4Service).Name : typeof(JwtTokenService).Name);
+            _recaptcha = recaptcha;
+            _minimumScore = 0.5;
         }
         /// <summary>
         /// 登录接口
@@ -50,6 +55,11 @@ namespace LinCms.Controllers.Cms
         [HttpPost("login")]
         public async Task<Tokens> Login(LoginInputDto loginInputDto)
         {
+            //var recaptcha = await _recaptcha.Validate(Request);
+            //if (!recaptcha.success || recaptcha.score != 0 && recaptcha.score < _minimumScore)
+            //{
+            //    throw new LinCmsException("验证码不正确！");
+            //}
             return await _tokenService.LoginAsync(loginInputDto);
         }
 
