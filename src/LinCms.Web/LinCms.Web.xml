@@ -515,7 +515,7 @@
             下划线写法（SnakeCase）
             </summary>
         </member>
-        <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddFreeSql(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             FreeSql
             </summary>
@@ -571,7 +571,7 @@
         </member>
         <member name="M:LinCms.Utils.ReflexHelper.GetTypesByTableAttribute">
             <summary>
-            扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttributer 的所有类
+            扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttribute 的所有类
             </summary>
             <returns></returns>
         </member>

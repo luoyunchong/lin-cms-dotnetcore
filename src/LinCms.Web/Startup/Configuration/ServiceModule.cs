@@ -44,6 +44,7 @@ namespace LinCms.Startup.Configuration
                 .EnableInterfaceInterceptors();
 
 
+            //一个接口多个实现，使用Named，区分
             builder.RegisterType<LocalFileService>().Named<IFileService>(LinFile.LocalFileService).InstancePerLifetimeScope();
             builder.RegisterType<QiniuService>().Named<IFileService>(LinFile.QiniuService).InstancePerLifetimeScope();
 
