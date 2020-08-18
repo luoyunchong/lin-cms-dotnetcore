@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Cms.Account
 {
-    public class LoginInputDto: GoogleRecaptcha
+    public class LoginInputDto
     {
         /// <summary>
         /// 登录名:admin

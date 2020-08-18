@@ -622,10 +622,5 @@
             用户所属的权限组id
             </summary>
         </member>
-        <member name="P:LinCms.Common.GoogleRecaptcha.GRecaptchaToken">
-            <summary>
-            Google 验证码Token值
-            </summary>
-        </member>
     </members>
 </doc>
