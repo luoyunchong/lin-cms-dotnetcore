@@ -39,7 +39,7 @@ namespace LinCms.Startup
         /// FreeSql
         /// </summary>
         /// <param name="services"></param>
-        public static void AddContext(this IServiceCollection services, IConfiguration configuration)
+        public static void AddFreeSql(this IServiceCollection services, IConfiguration configuration)
         {
             IFreeSql fsql = new FreeSqlBuilder()
                    .UseConnectionString(configuration)
@@ -112,15 +112,6 @@ namespace LinCms.Startup
                 Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
             }
         }
-        public static IServiceCollection AddFreeRepository(this IServiceCollection services)
-        {
-            services.TryAddScoped(typeof(IBaseRepository<>), typeof(GuidRepository<>));
-            services.TryAddScoped(typeof(BaseRepository<>), typeof(GuidRepository<>));
-            services.TryAddScoped(typeof(IBaseRepository<,>), typeof(DefaultRepository<,>));
-            services.TryAddScoped(typeof(BaseRepository<,>), typeof(DefaultRepository<,>));
-            return services;
-        }
-
         #endregion
 
         #region 初始化 Redis配置
@@ -136,25 +127,12 @@ namespace LinCms.Startup
         }
         #endregion
 
-        public static JsonWebTokenSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
-        {
-            JsonWebTokenSettings jsonWebTokenSettings = new JsonWebTokenSettings(
-                           configuration["Authentication:JwtBearer:SecurityKey"],
-                           new TimeSpan(1, 0, 0, 0),
-                           configuration["Authentication:JwtBearer:Audience"],
-                           configuration["Authentication:JwtBearer:Issuer"]
-                       );
-            services.AddHash(10000, 128);
-            services.AddCryptography("lin-cms-dotnetcore-cryptography");
-            services.AddJsonWebToken(jsonWebTokenSettings);
-            return jsonWebTokenSettings;
-        }
 
         public static void AddDIServices(this IServiceCollection services, IConfiguration configuration)
         {
             //services.AddTransient<CustomExceptionMiddleWare>();
 
-            services.AddHttpClient();
+            services.AddHttpClient("IdentityServer4");
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
         }
 
@@ -179,6 +157,7 @@ namespace LinCms.Startup
 
             return services;
         }
+
 
         #region 分布式事务一致性CAP
 

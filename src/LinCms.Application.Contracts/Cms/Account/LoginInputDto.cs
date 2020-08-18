@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LinCms.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Cms.Account
 {
-    public class LoginInputDto
+    public class LoginInputDto: GoogleRecaptcha
     {
         /// <summary>
         /// 登录名:admin
