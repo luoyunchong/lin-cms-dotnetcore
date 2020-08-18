@@ -37,7 +37,7 @@ namespace LinCms.Cms.Users
         {
             _logger.LogInformation("JwtLogin");
 
-            LinUser user = await _userRepository.GetUserAsync(r => r.Username == loginInputDto.Username);
+            LinUser user = await _userRepository.GetUserAsync(r => r.Username == loginInputDto.Username || r.Email == loginInputDto.Username);
 
             if (user == null)
             {

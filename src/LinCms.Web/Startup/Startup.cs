@@ -121,11 +121,12 @@ namespace LinCms.Startup
             services.AddSwaggerGen();
 
             //配置Google验证码
+            services.AddScoped<RecaptchaVerifyActionFilter>();
             services.Configure<GooglereCAPTCHAOptions>(Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
             GooglereCAPTCHAOptions googlereCAPTCHAOptions = services.BuildServiceProvider().GetService<IOptionsSnapshot<GooglereCAPTCHAOptions>>().Value;
+
             if (googlereCAPTCHAOptions.Enabled)
             {
-                services.AddScoped<RecaptchaVerifyActionFilter>();
                 services.AddreCAPTCHAV3(x =>
                 {
                     x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
