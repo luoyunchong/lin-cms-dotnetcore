@@ -56,10 +56,20 @@ namespace LinCms.Middleware
             if (TryBegin(invocation))
             {
                 int? hashCode = _unitOfWork?.GetHashCode();
-                invocation.Proceed();
-                _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交前----- ");
-                _unitOfWork?.Commit();
-                _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交成功----- ");
+                try
+                {
+                    invocation.Proceed();
+                    _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交前----- ");
+                    _unitOfWork?.Commit();
+                    _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交成功----- ");
+                }
+                catch 
+                {
+                    _logger.LogError($"----- 拦截同步执行的方法-事务 {hashCode} 提交失败----- ");
+                    _unitOfWork.Rollback();
+                    throw;
+                }
+      
             }
             else
             {
@@ -96,8 +106,7 @@ namespace LinCms.Middleware
                         else
                         {
                             _unitOfWork?.Rollback();
-                            _logger.LogInformation($"----- async Task 事务 { hashCode} Rollback----- ");
-                            _logger.LogInformation($"----- async Task 事务 { hashCode} Rollback----- ");
+                            _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
                         }
                     });
                 }
@@ -136,7 +145,7 @@ namespace LinCms.Middleware
                            else
                            {
                                _unitOfWork?.Rollback();
-                               _logger.LogInformation($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
+                               _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
                            }
                        });
             }

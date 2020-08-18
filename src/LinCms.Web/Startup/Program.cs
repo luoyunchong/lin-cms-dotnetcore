@@ -21,13 +21,16 @@ namespace LinCms.Startup
             .AddEnvironmentVariables()
             .Build();
 
-        public static async Task<int> Main(string[] args)
+        public static async Task Main(string[] args)
         {
+#if DEBUG
             Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+#endif
+
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
                 .Enrich.FromLogContext()
                 .CreateLogger();
-            // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
+
             try
             {
                 Log.Information("init main");
@@ -45,12 +48,10 @@ namespace LinCms.Startup
                     Log.Fatal(ex, "IIpPolicyStore RUN Error");
                 }
                 await webHost.RunAsync();
-                return 0;
             }
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
-                return 1;
             }
             finally
             {

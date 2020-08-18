@@ -19,6 +19,7 @@ using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
+using LinCms.Middleware;
 using LinCms.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using reCAPTCHA.AspNetCore;
+using Owl.reCAPTCHA;
+using Owl.reCAPTCHA.v3;
 using Serilog;
 
 namespace LinCms.Controllers.Cms
@@ -38,28 +40,20 @@ namespace LinCms.Controllers.Cms
     public class AccountController : ApiControllerBase
     {
         private readonly ITokenService _tokenService;
-        private readonly IRecaptchaService _recaptcha;
-        private readonly double _minimumScore;
-        public AccountController(IComponentContext componentContext, IConfiguration configuration, IRecaptchaService recaptcha)
+        public AccountController(IComponentContext componentContext, IConfiguration configuration)
         {
             bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
             _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? typeof(IdentityServer4Service).Name : typeof(JwtTokenService).Name);
-            _recaptcha = recaptcha;
-            _minimumScore = 0.5;
         }
         /// <summary>
         /// 登录接口
         /// </summary>
         /// <param name="loginInputDto">用户名/密码：admin/123qwe</param>
         [DisableAuditing]
+        [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
         [HttpPost("login")]
         public async Task<Tokens> Login(LoginInputDto loginInputDto)
         {
-            //var recaptcha = await _recaptcha.Validate(Request);
-            //if (!recaptcha.success || recaptcha.score != 0 && recaptcha.score < _minimumScore)
-            //{
-            //    throw new LinCmsException("验证码不正确！");
-            //}
             return await _tokenService.LoginAsync(loginInputDto);
         }
 
@@ -100,6 +94,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <param name="registerDto"></param>
         [Logger("用户注册")]
+        [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
         [HttpPost("account/register")]
         public async Task<UnifyResponseDto> Register([FromBody] RegisterDto registerDto, [FromServices] IMapper _mapper, [FromServices] IUserService _userSevice)
         {

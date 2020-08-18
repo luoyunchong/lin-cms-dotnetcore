@@ -205,7 +205,7 @@ namespace LinCms.Utils
         }
 
         /// <summary>
-        /// 扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttributer 的所有类
+        /// 扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttribute 的所有类
         /// </summary>
         /// <returns></returns>
         public static Type[] GetTypesByTableAttribute()

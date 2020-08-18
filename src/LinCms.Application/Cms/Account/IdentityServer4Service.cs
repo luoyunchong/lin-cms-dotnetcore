@@ -35,7 +35,7 @@ namespace LinCms.Cms.Account
         {
             _logger.LogInformation("IdentityServer4Login");
 
-            HttpClient client = _httpClientFactory.CreateClient();
+            HttpClient client = _httpClientFactory.CreateClient("IdentityServer4");
 
             DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
