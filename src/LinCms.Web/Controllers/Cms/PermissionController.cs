@@ -13,17 +13,17 @@ namespace LinCms.Controllers.Cms
     public class PermissionController : ControllerBase
     {
         private readonly IPermissionService _permissionService;
-        public PermissionController( IPermissionService permissionService)
+        public PermissionController(IPermissionService permissionService)
         {
             _permissionService = permissionService;
         }
-        
+
         /// <summary>
         /// 查询所有可分配的权限
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [LinCmsAuthorize("查询所有可分配的权限","管理员")]
+        [LinCmsAuthorize("查询所有可分配的权限", "管理员")]
         public IDictionary<string, List<PermissionDto>> GetAllPermissions()
         {
             return _permissionService.GetAllStructualPermissions();
@@ -35,7 +35,7 @@ namespace LinCms.Controllers.Cms
         /// <param name="permissionDto"></param>
         /// <returns></returns>
         [HttpPost("remove")]
-        [LinCmsAuthorize("删除多个权限","管理员")]
+        [LinCmsAuthorize("删除多个权限", "管理员")]
         public async Task<UnifyResponseDto> RemovePermissions(RemovePermissionDto permissionDto)
         {
             await _permissionService.DeletePermissionsAsync(permissionDto);
@@ -48,12 +48,18 @@ namespace LinCms.Controllers.Cms
         /// <param name="permissionDto"></param>
         /// <returns></returns>
         [HttpPost("dispatch/batch")]
-        [LinCmsAuthorize("分配多个权限","管理员")]
+        [LinCmsAuthorize("分配多个权限", "管理员")]
         public async Task<UnifyResponseDto> DispatchPermissions(DispatchPermissionsDto permissionDto)
         {
             List<PermissionDefinition> permissionDefinitions = ReflexHelper.GetAssemblyLinCmsAttributes();
             await _permissionService.DispatchPermissions(permissionDto, permissionDefinitions);
             return UnifyResponseDto.Success("添加权限成功");
+        }
+
+        [HttpGet("tree-list")]
+        public async Task<List<TreePermissionDto>> GetTreePermissionListAsync()
+        {
+            return await _permissionService.GetTreePermissionListAsync();
         }
     }
 }
