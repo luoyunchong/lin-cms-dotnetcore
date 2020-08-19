@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Permissions
 {
-    public class PermissionService :ApplicationService, IPermissionService
+    public class PermissionService : ApplicationService, IPermissionService
     {
-        private readonly IAuditBaseRepository<LinPermission,long> _permissionRepository;
+        private readonly IAuditBaseRepository<LinPermission, long> _permissionRepository;
         private readonly IAuditBaseRepository<LinGroupPermission, long> _groupPermissionRepository;
-        public PermissionService(IAuditBaseRepository<LinPermission,long> permissionRepository,  IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
+        public PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository, IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
         {
             _permissionRepository = permissionRepository;
             _groupPermissionRepository = groupPermissionRepository;
@@ -47,7 +48,7 @@ namespace LinCms.Cms.Permissions
             return existPermission;
         }
 
-        
+
         public async Task DeletePermissionsAsync(RemovePermissionDto permissionDto)
         {
             await _groupPermissionRepository.DeleteAsync(r =>
@@ -109,7 +110,39 @@ namespace LinCms.Cms.Permissions
 
         public async Task<LinPermission> GetAsync(string permissionName)
         {
-          return await _permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
+            return await _permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
+        }
+
+        public async Task<List<TreePermissionDto>> GetTreePermissionListAsync()
+        {
+            var permissions = await _permissionRepository.Select.ToListAsync();
+
+            List<TreePermissionDto> treePermissionDtos = permissions.GroupBy(r => r.Module).Select(r =>
+                      new TreePermissionDto
+                      {
+                          Rowkey = Guid.NewGuid().ToString(),
+                          Children = new List<TreePermissionDto>(),
+                          Name = r.Key
+                      }).ToList();
+
+
+            foreach (var permission in treePermissionDtos)
+            {
+                var childrens = permissions.Where(u => u.Module == permission.Name)
+                    .Select(r => new TreePermissionDto
+                    {
+                        Rowkey = r.Id.ToString(),
+                        Name = r.Name,
+                        Router = r.Router
+                    })
+                    .ToList();
+                permission.Children = childrens;
+            }
+
+
+            return treePermissionDtos;
+
+
         }
     }
 }
