@@ -101,7 +101,7 @@ namespace LinCms.Controllers.Blog
         [AllowAnonymous]
         public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
         {
-            //return await _articleService.GetArticleAsync (searchDto);
+            //return await _articleService.GetArticleAsync(searchDto);
             string redisKey = "article:query:" + JsonConvert.SerializeObject(searchDto, Formatting.Indented, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Ignore
