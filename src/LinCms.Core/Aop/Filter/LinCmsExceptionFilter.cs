@@ -30,14 +30,9 @@ namespace LinCms.Aop.Filter
         {
             if (context.Exception is LinCmsException cmsException)
             {
-                HandlerException(context,
-                    new UnifyResponseDto()
-                    {
-                        Message = cmsException.Message,
-                        Code = cmsException.GetErrorCode()
-                    },
-                    cmsException.GetCode()
-                    );
+                UnifyResponseDto warnResponse = new UnifyResponseDto(cmsException.GetErrorCode(), cmsException.Message, context.HttpContext);
+                _logger.LogWarning(JsonConvert.SerializeObject(warnResponse));
+                HandlerException(context, warnResponse, cmsException.GetCode());
                 return;
             }
 
@@ -51,25 +46,16 @@ namespace LinCms.Aop.Filter
                     ReadException(ex.InnerException);
                 }
             }
+
             ReadException(context.Exception);
 
-            //_logger.LogError(error);
-
-            UnifyResponseDto apiResponse = new UnifyResponseDto()
-            {
-                Code = ErrorCode.UnknownError,
-                Message = _environment.IsDevelopment() ? error : "服务器正忙，请稍后再试."
-            };
-
+            UnifyResponseDto apiResponse = new UnifyResponseDto(ErrorCode.UnknownError, _environment.IsDevelopment() ? error : "服务器正忙，请稍后再试.", context.HttpContext);
+            _logger.LogError(JsonConvert.SerializeObject(apiResponse));
             HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);
         }
 
         private void HandlerException(ExceptionContext context, UnifyResponseDto apiResponse, int statusCode)
         {
-            apiResponse.Request = LinCmsUtils.GetRequest(context.HttpContext);
-
-            _logger.LogError(JsonConvert.SerializeObject(apiResponse));
-
             context.Result = new JsonResult(apiResponse)
             {
                 StatusCode = statusCode,

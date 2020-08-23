@@ -25,9 +25,9 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="DotNetCore.Security" Version="12.12.0" />
-		<PackageReference Include="FreeSql" Version="1.8.0-preview0806" />
-		<PackageReference Include="FreeSql.DbContext" Version="1.8.0-preview0806" />
+		<PackageReference Include="DotNetCore.Security" Version="12.16.0" />
+		<PackageReference Include="FreeSql" Version="1.8.0-preview0821" />
+		<PackageReference Include="FreeSql.DbContext" Version="1.8.0-preview0821" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.6" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />

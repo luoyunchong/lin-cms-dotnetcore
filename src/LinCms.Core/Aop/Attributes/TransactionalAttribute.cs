@@ -13,7 +13,7 @@ namespace LinCms.Aop.Attributes
         /// <summary>
         /// 事务传播方式
         /// </summary>
-        public Propagation Propagation { get; set; } = Propagation.Requierd;
+        public Propagation Propagation { get; set; } = Propagation.Required;
 
         /// <summary>
         /// 事务隔离级别
