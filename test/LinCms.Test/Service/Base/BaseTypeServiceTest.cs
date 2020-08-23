@@ -3,6 +3,7 @@ using LinCms.Entities.Base;
 using LinCms.IRepositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -21,15 +22,36 @@ namespace LinCms.Test.Service.Base
             freeSql = GetService<IFreeSql>();
         }
 
-
+        /*
+        SELECT
+            a.*
+        FROM
+            `base_type` a
+            LEFT JOIN `base_item` b ON b.`id` = (
+        SELECT
+            b2.`id` 
+        FROM
+            `base_item` b2
+        WHERE
+             a.`id` = b2.`base_type_id`  
+            LIMIT 1 
+        )*/
         [Fact]
-        public void Test()
+        public void LeftJoinOne()
         {
-            var d = freeSql.Select<BaseType, BaseItem>()
-                .LeftJoin((a, b) => a.Id == (freeSql.Select<BaseItem>().As("b2").Where(b2 => b2.BaseTypeId == b.BaseTypeId).First(b2 => b2.Id)))
-                 .ToList((a, b) => new { a });
-
+            var d = freeSql.Select<BaseType, BaseItem>()    
+                .LeftJoin((a, b) => b.Id == (freeSql.Select<BaseItem>().As("b2").Where(b2 => b2.BaseTypeId == a.Id).First(b2 => b2.Id)))
+                .ToSql((a, b) => new { a, b });
         }
 
+
+
+        [Fact]
+        public void TestInclude()
+        {
+            var result = freeSql.Select<BaseType>()
+                 .IncludeMany(r => r.BaseItems.Take(1)).ToList();
+
+        }
     }
 }
