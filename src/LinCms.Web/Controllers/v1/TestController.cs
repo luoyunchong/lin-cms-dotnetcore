@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.v1
 {
-    [Route("cms/test")]
+    [Route("v1/test")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [ApiController]
     public class TestController : ControllerBase
     {

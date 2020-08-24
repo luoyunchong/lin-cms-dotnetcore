@@ -46,6 +46,8 @@ namespace LinCms.Startup
                     }
                 });
 
+                options.SwaggerDoc("cms", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "cms" });
+
                 //添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
@@ -68,7 +70,6 @@ namespace LinCms.Startup
                     In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
                 });
-
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
@@ -131,13 +132,19 @@ namespace LinCms.Startup
 
                 options.AddServer(new OpenApiServer()
                 {
-                    Url = "",
-                    Description = "v1"
+                    Url = "http://localhost:5000",
+                    Description = "本地"
+                }); ;
+                options.AddServer(new OpenApiServer()
+                {
+                    Url = "https://api.igeekfan.cn",
+                    Description = "服务端"
                 });
+
                 options.CustomOperationIds(apiDesc =>
                 {
                     var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-                    return $"{controllerAction.ControllerName} - {controllerAction.ActionName}-{ controllerAction.GetHashCode()}";
+                    return $"{controllerAction.ControllerName}-{controllerAction.ActionName}-{ controllerAction.GetHashCode()}";
                 });
             });
             return services;

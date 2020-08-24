@@ -71,8 +71,6 @@ namespace LinCms.Startup
 
             services.AddCors();
 
-
-
             #region Mvc
 
             services.AddControllers(options =>
@@ -115,7 +113,6 @@ namespace LinCms.Startup
                 });
             services.AddSwaggerGenNewtonsoftSupport();
             #endregion
-
 
             //Swagger 扩展方法配置Swagger
             services.AddSwaggerGen();
@@ -206,7 +203,8 @@ namespace LinCms.Startup
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
                 c.RoutePrefix = string.Empty;
 
                 c.OAuthClientId(Configuration["Service:ClientId"]);
@@ -221,7 +219,8 @@ namespace LinCms.Startup
             {
                 c.DocumentTitle = "LinCms博客模块";
                 //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
                 c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
                 c.OAuthClientId(Configuration["Service:ClientId"]);
                 c.OAuthAppName(Configuration["Service:Name"]);

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+    [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/log")]
     [ApiController]
     [DisableAuditing]
