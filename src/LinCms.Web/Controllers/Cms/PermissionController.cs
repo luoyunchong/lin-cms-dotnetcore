@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+    [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/admin/permission")]
     [ApiController]
     public class PermissionController : ControllerBase

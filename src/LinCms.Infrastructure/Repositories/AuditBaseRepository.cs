@@ -204,6 +204,10 @@ namespace LinCms.Repositories
             if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(TEntity)))
             {
                 List<TEntity> items = Orm.Select<TEntity>().Where(predicate).ToList();
+                if (items.Count == 0)
+                {
+                    return 0;
+                }
                 return Orm.Update<TEntity>(items)
                     .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
                     .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)
@@ -219,6 +223,10 @@ namespace LinCms.Repositories
             if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(TEntity)))
             {
                 List<TEntity> items = Orm.Select<TEntity>().Where(predicate).ToList();
+                if (items.Count == 0)
+                {
+                    return 0;
+                }
                 return await Orm.Update<TEntity>(items)
                      .Set(a => (a as IDeleteAduitEntity).IsDeleted, true)
                      .Set(a => (a as IDeleteAduitEntity).DeleteUserId, CurrentUser.Id)

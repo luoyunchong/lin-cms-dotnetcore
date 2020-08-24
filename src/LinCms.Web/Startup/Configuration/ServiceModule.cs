@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace LinCms.Startup.Configuration
 {
+    /// <summary>
+    /// 注入Application层中的Service
+    /// </summary>
     public class ServiceModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)

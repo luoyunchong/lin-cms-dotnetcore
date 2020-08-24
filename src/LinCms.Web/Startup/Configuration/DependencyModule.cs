@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace LinCms.Startup.Configuration
 {
+    /// <summary>
+    /// 接口注入
+    /// </summary>
     public class DependencyModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)

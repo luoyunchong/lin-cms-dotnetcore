@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.v1
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     [Route("v1/book")]
     [ApiController]
     // [Authorize]

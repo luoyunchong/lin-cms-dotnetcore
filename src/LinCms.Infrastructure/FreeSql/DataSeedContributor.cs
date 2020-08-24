@@ -72,7 +72,6 @@ namespace LinCms.FreeSql
             effectRows += await _groupPermissionRepository.DeleteAsync(expression);
             _logger.LogInformation($"删除了{effectRows}条数据");
 
-
             linCmsAttributes.ForEach(r =>
             {
                 LinPermission permissionEntity = allPermissions.FirstOrDefault(u => u.Module == r.Module && u.Name == r.Permission);
@@ -90,6 +89,7 @@ namespace LinCms.FreeSql
                     }
                 }
             });
+
             await _permissionRepository.InsertAsync(insertPermissions);
             _logger.LogInformation($"新增了{insertPermissions.Count}条数据");
 
