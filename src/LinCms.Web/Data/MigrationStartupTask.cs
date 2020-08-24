@@ -31,7 +31,7 @@ namespace LinCms.Data
             }
             catch (Exception ex)
             {
-                _logger.LogError("初始化数据失败！！！",ex);
+                _logger.LogError($"初始化数据失败！！！{ex.Message}{ex.StackTrace}{ex.InnerException}");
             };
         }
 

@@ -24,6 +24,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Controllers.Cms
 {
+    [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/oauth2")]
     [ApiController]
     public class Oauth2Controller : ControllerBase

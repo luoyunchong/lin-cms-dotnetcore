@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Plugins.Poem.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     [Route("v1/poem")]
     [ApiController]
     [Authorize]

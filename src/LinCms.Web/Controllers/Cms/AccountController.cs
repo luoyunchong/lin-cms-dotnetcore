@@ -34,6 +34,7 @@ using Serilog;
 
 namespace LinCms.Controllers.Cms
 {
+    [ApiExplorerSettings(GroupName = "cms")]
     [AllowAnonymous]
     [ApiController]
     [Route("cms/user")]

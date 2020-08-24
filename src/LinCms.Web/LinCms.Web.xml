@@ -465,11 +465,6 @@
             启动时间
             </summary>
         </member>
-        <member name="T:LinCms.Controllers.v1.QiniuController">
-            <summary>
-            七牛云上传服务
-            </summary>
-        </member>
         <member name="M:LinCms.Controllers.v1.QiniuController.UploadTagByJson">
             <summary>
             将掘金中的取所有标签存到七牛云上，基本信息存入数据库
@@ -513,6 +508,21 @@
         <member name="T:LinCms.SnakeCaseQuery.SnakeCaseQueryValueProvider">
             <summary>
             下划线写法（SnakeCase）
+            </summary>
+        </member>
+        <member name="T:LinCms.Startup.Configuration.DependencyModule">
+            <summary>
+            接口注入
+            </summary>
+        </member>
+        <member name="T:LinCms.Startup.Configuration.RepositoryModule">
+            <summary>
+            注入仓储接口
+            </summary>
+        </member>
+        <member name="T:LinCms.Startup.Configuration.ServiceModule">
+            <summary>
+            注入Application层中的Service
             </summary>
         </member>
         <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddFreeSql(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
