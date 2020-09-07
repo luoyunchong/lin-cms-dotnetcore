@@ -6,7 +6,7 @@
     <members>
         <member name="T:LinCms.Aop.Attributes.TransactionalAttribute">
             <summary>
-            启用事物
+            事务
             </summary>
         </member>
         <member name="P:LinCms.Aop.Attributes.TransactionalAttribute.Propagation">
