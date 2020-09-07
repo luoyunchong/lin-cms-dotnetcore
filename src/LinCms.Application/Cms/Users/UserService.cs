@@ -16,7 +16,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
-    public class UserService :ApplicationService, IUserService
+    public class UserService : ApplicationService, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserIdentityService _userIdentityService;
@@ -81,7 +81,7 @@ namespace LinCms.Cms.Users
         {
             List<UserDto> linUsers = _userRepository.Select
                 .IncludeMany(r => r.LinGroups)
-                .WhereIf(searchDto.GroupId != null,r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
+                .WhereIf(searchDto.GroupId != null, r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
                 .OrderByDescending(r => r.Id)
                 .ToPagerList(searchDto, out long totalCount)
                 .Select(r =>
@@ -116,7 +116,6 @@ namespace LinCms.Cms.Users
                 }
             }
 
-            user.Active = UserActive.Active;
             user.LinUserGroups = new List<LinUserGroup>();
             groupIds?.ForEach(groupId =>
             {
@@ -145,6 +144,25 @@ namespace LinCms.Cms.Users
             if (linUser == null)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+            }
+
+            if (!string.IsNullOrEmpty(updateUserDto.Username))
+            {
+                bool isRepeatName = await _userRepository.Select.AnyAsync(r => r.Username == updateUserDto.Username && r.Id != id);
+
+                if (isRepeatName)
+                {
+                    throw new LinCmsException("用户名重复，请重新输入", ErrorCode.RepeatField);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(updateUserDto.Email.Trim()))
+            {
+                var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == updateUserDto.Email.Trim() && r.Id != id);
+                if (isRepeatEmail)
+                {
+                    throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
+                }
             }
 
             List<long> existGroupIds = await _groupService.GetGroupIdsByUserIdAsync(id);

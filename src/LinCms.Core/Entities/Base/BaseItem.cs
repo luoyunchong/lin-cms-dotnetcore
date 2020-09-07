@@ -10,14 +10,15 @@ namespace LinCms.Entities.Base
         {
         }
 
-        public BaseItem(string itemCode, string itemName, int? sortCode)
+        public BaseItem(string itemCode, string itemName, int? sortCode, bool status)
         {
             ItemCode = itemCode ?? throw new ArgumentNullException(nameof(itemCode));
             ItemName = itemName ?? throw new ArgumentNullException(nameof(itemName));
             SortCode = sortCode;
+            Status = status;
         }
 
-        public BaseItem(string itemCode, string itemName, int? sortCode, int baseTypeId) : this(itemCode, itemName, sortCode)
+        public BaseItem(string itemCode, string itemName, int? sortCode, int baseTypeId, bool status) : this(itemCode, itemName, sortCode, status)
         {
             BaseTypeId = baseTypeId;
         }
@@ -31,6 +32,8 @@ namespace LinCms.Entities.Base
         public string ItemName { get; set; }
 
         public int? SortCode { get; set; }
+
+        public bool Status { get; set; }
 
         public virtual BaseType BaseType { get; set; }
 

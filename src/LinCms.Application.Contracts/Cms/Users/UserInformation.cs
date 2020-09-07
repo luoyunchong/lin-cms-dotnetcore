@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LinCms.Cms.Groups;
+using LinCms.Data.Enums;
 using LinCms.Entities;
 
 namespace LinCms.Cms.Users
@@ -26,7 +27,7 @@ namespace LinCms.Cms.Users
         /// <summary>
         /// 当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
         /// </summary>
-        public int Active { get; set; }
+        public UserActive Active { get; set; }
         /// <summary>
         /// 用户所属的权限组id
         /// </summary>

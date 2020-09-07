@@ -39,8 +39,7 @@ namespace LinCms.Blog.Comments
                     .Select
                     .Include(r => r.UserInfo)
                     .Include(r => r.RespUserInfo)
-                    .IncludeMany(r => r.Childs, //.Take(2)
-                        t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
+                    .IncludeMany(r => r.Childs,t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
                     .IncludeMany(r => r.UserLikes)
                     .WhereCascade(x => x.IsDeleted == false)
                     .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
