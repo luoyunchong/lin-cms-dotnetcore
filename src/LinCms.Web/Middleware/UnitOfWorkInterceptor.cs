@@ -20,6 +20,7 @@ namespace LinCms.Middleware
             asyncInterceptor.ToInterceptor().Intercept(invocation);
         }
     }
+
     public class UnitOfWorkAsyncInterceptor : IAsyncInterceptor
     {
         private readonly UnitOfWorkManager _unitOfWorkManager;
@@ -63,13 +64,13 @@ namespace LinCms.Middleware
                     _unitOfWork?.Commit();
                     _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交成功----- ");
                 }
-                catch 
+                catch
                 {
                     _logger.LogError($"----- 拦截同步执行的方法-事务 {hashCode} 提交失败----- ");
                     _unitOfWork.Rollback();
                     throw;
                 }
-      
+
             }
             else
             {
@@ -81,9 +82,9 @@ namespace LinCms.Middleware
         /// 拦截返回结果为Task的方法
         /// </summary>
         /// <param name="invocation"></param>
-        public void InterceptAsynchronous(IInvocation invocation)
+        public async void InterceptAsynchronous(IInvocation invocation)
         {
-          
+
             if (TryBegin(invocation))
             {
                 var methodName = $"{invocation.MethodInvocationTarget.DeclaringType.FullName}.{invocation.Method.Name}()";
@@ -92,23 +93,36 @@ namespace LinCms.Middleware
                 using (_logger.BeginScope("_unitOfWork:{hashCode}", hashCode))
                 {
                     _logger.LogInformation($"----- async Task 开始事务{ hashCode} {methodName}----- ");
-                 
+
                     invocation.Proceed();
-                   
-                    _ = ((Task)invocation.ReturnValue).ContinueWith(
-                    antecedent =>
+
+                    var antecedent = (Task)invocation.ReturnValue;
+                    await antecedent;
+                    if (antecedent.Exception == null)
                     {
-                        if (antecedent.Exception == null)
-                        {
-                            _unitOfWork?.Commit();
-                            _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
-                        }
-                        else
-                        {
-                            _unitOfWork?.Rollback();
-                            _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
-                        }
-                    });
+                        _unitOfWork?.Commit();
+                        _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
+                    }
+                    else
+                    {
+                        _unitOfWork?.Rollback();
+                        _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
+                    }
+
+                    //_ = ((Task)invocation.ReturnValue).ContinueWith(
+                    //antecedent =>
+                    //{
+                    //    if (antecedent.Exception == null)
+                    //    {
+                    //        _unitOfWork?.Commit();
+                    //        _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
+                    //    }
+                    //    else
+                    //    {
+                    //        _unitOfWork?.Rollback();
+                    //        _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
+                    //    }
+                    //});
                 }
             }
             else
@@ -122,7 +136,7 @@ namespace LinCms.Middleware
         /// </summary>
         /// <param name="invocation"></param>
         /// <typeparam name="TResult"></typeparam>
-        public void InterceptAsynchronous<TResult>(IInvocation invocation)
+        public async void InterceptAsynchronous<TResult>(IInvocation invocation)
         {
             if (TryBegin(invocation))
             {
@@ -132,22 +146,34 @@ namespace LinCms.Middleware
                 _logger.LogInformation($"----- async Task<TResult> 开始事务{ hashCode} {methodName}----- ");
 
                 invocation.Proceed();
-             
-                var task = (Task<TResult>)invocation.ReturnValue;
-                _ = ((Task<TResult>)invocation.ReturnValue).ContinueWith(
-                       antecedent =>
-                       {
-                           if (antecedent.Exception == null)
-                           {
-                               _unitOfWork?.Commit();
-                               _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
-                           }
-                           else
-                           {
-                               _unitOfWork?.Rollback();
-                               _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
-                           }
-                       });
+
+                var antecedent = (Task<TResult>)invocation.ReturnValue;
+                TResult result = await antecedent;
+                if (antecedent.Exception == null)
+                {
+                    _unitOfWork?.Commit();
+                    _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
+                }
+                else
+                {
+                    _unitOfWork?.Rollback();
+                    _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
+                }
+
+                //_ = ((Task<TResult>)invocation.ReturnValue).ContinueWith(
+                //       antecedent =>
+                //       {
+                //           if (antecedent.Exception == null)
+                //           {
+                //               _unitOfWork?.Commit();
+                //               _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
+                //           }
+                //           else
+                //           {
+                //               _unitOfWork?.Rollback();
+                //               _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
+                //           }
+                //       });
             }
             else
             {

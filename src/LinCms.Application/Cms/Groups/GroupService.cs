@@ -90,26 +90,6 @@ namespace LinCms.Cms.Groups
                 await transaction.RollbackAsync();
                 throw;
             }
-
-            //_freeSql.Transaction(() =>
-            //{
-            //    long groupId = _freeSql.Insert(linGroup).ExecuteIdentity();
-
-            //    List<LinPermission> allPermissions = _freeSql.Select<LinPermission>().ToList();
-
-            //    List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
-            //    inputDto.PermissionIds.ForEach(r =>
-            //    {
-            //        LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
-            //        if (pdDto == null)
-            //        {
-            //            throw new LinCmsException($"不存在此权限:{r}", ErrorCode.NotFound);
-            //        }
-            //        linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
-            //    });
-
-            //    _freeSql.Insert<LinGroupPermission>().AppendData(linPermissions).ExecuteAffrows();
-            //});
         }
 
         public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)
@@ -203,7 +183,6 @@ namespace LinCms.Cms.Groups
                     return false;
                 }
             }
-
             return true;
         }
     }
