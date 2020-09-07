@@ -122,7 +122,7 @@ namespace LinCms.Cms.Permissions
                       {
                           Rowkey = Guid.NewGuid().ToString(),
                           Children = new List<TreePermissionDto>(),
-                          Name = r.Key
+                          Name = r.Key,
                       }).ToList();
 
 
@@ -133,16 +133,14 @@ namespace LinCms.Cms.Permissions
                     {
                         Rowkey = r.Id.ToString(),
                         Name = r.Name,
-                        Router = r.Router
+                        Router = r.Router,
+                        CreateTime = r.CreateTime
                     })
                     .ToList();
                 permission.Children = childrens;
             }
 
-
             return treePermissionDtos;
-
-
         }
     }
 }

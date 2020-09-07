@@ -8,6 +8,7 @@ namespace LinCms.Base.BaseItems
         public int BaseTypeId { get; set; }
         public string ItemCode { get; set; }
         public string ItemName { get; set; }
+        public bool Status { get; set; }
         public int? SortCode { get; set; }
         public DateTime CreateTime { get; set; }
     }

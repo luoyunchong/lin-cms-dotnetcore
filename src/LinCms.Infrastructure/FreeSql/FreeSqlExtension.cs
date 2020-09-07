@@ -85,13 +85,13 @@ namespace LinCms.FreeSql
                     e.HasData(new List<BaseType>()
                     {
                         new BaseType("Article.Type","文章类型",1)
-                        {   
+                        {
                             CreateTime=DateTime.Now,IsDeleted=false,CreateUserId = 1,
                             BaseItems=new List<BaseItem>()
                             {
-                                new BaseItem("0","原创",1,1){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false},
-                                new BaseItem("1","转载",2,1){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false},
-                                new BaseItem("2","翻译",3,1){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false}
+                                new BaseItem("0","原创",1,1,true){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false},
+                                new BaseItem("1","转载",2,1,true){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false},
+                                new BaseItem("2","翻译",3,1,true){CreateUserId = 1,CreateTime=DateTime.Now,IsDeleted=false}
                             }
                         },
                          new BaseType("Sex","性别",2)
@@ -99,13 +99,13 @@ namespace LinCms.FreeSql
                              CreateTime=DateTime.Now,IsDeleted=false,CreateUserId = 1,
                              BaseItems=new List<BaseItem>()
                              {
-                                 new BaseItem("0","男",1,2){CreateTime=DateTime.Now,IsDeleted=false},
-                                 new BaseItem("1","女",2,2){CreateTime=DateTime.Now,IsDeleted=false},
-                                 new BaseItem("2","保密",3,2){CreateTime=DateTime.Now,IsDeleted=false}
+                                 new BaseItem("0","男",1,2,true){CreateTime=DateTime.Now,IsDeleted=false},
+                                 new BaseItem("1","女",2,2,true){CreateTime=DateTime.Now,IsDeleted=false},
+                                 new BaseItem("2","保密",3,2,true){CreateTime=DateTime.Now,IsDeleted=false}
                              }
                          },
                     });
-                 })
+                })
                 ;
             return @this;
         }

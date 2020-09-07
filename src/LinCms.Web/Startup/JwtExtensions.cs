@@ -27,7 +27,7 @@ namespace LinCms.Startup
                            configuration["Authentication:JwtBearer:Audience"],
                            configuration["Authentication:JwtBearer:Issuer"]
                        );
-            services.AddHash(10000, 128);
+            services.AddHash();
             services.AddCryptography("lin-cms-dotnetcore-cryptography");
             services.AddJsonWebToken(jsonWebTokenSettings);
             return jsonWebTokenSettings;

@@ -96,33 +96,32 @@ namespace LinCms.Middleware
 
                     invocation.Proceed();
 
-                    var antecedent = (Task)invocation.ReturnValue;
-                    await antecedent;
-                    if (antecedent.Exception == null)
-                    {
-                        _unitOfWork?.Commit();
-                        _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
-                    }
-                    else
-                    {
-                        _unitOfWork?.Rollback();
-                        _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
-                    }
-
-                    //_ = ((Task)invocation.ReturnValue).ContinueWith(
-                    //antecedent =>
+                    //try
                     //{
-                    //    if (antecedent.Exception == null)
-                    //    {
-                    //        _unitOfWork?.Commit();
-                    //        _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
-                    //    }
-                    //    else
-                    //    {
-                    //        _unitOfWork?.Rollback();
-                    //        _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
-                    //    }
-                    //});
+                    //    await (Task)invocation.ReturnValue;
+                    //    _unitOfWork?.Commit();
+                    //    _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
+                    //}
+                    //catch (System.Exception)
+                    //{
+                    //    _unitOfWork?.Rollback();
+                    //    _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
+                    //}
+
+                    await ((Task)invocation.ReturnValue).ContinueWith(
+                     antecedent =>
+                     {
+                         if (antecedent.Exception == null)
+                         {
+                             _unitOfWork?.Commit();
+                             _logger.LogInformation($"----- async Task 事务 { hashCode} Commit----- ");
+                         }
+                         else
+                         {
+                             _unitOfWork?.Rollback();
+                             _logger.LogError($"----- async Task 事务 { hashCode} Rollback----- ");
+                         }
+                     });
                 }
             }
             else
@@ -147,33 +146,32 @@ namespace LinCms.Middleware
 
                 invocation.Proceed();
 
-                var antecedent = (Task<TResult>)invocation.ReturnValue;
-                TResult result = await antecedent;
-                if (antecedent.Exception == null)
-                {
-                    _unitOfWork?.Commit();
-                    _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
-                }
-                else
-                {
-                    _unitOfWork?.Rollback();
-                    _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
-                }
+                //try
+                //{
+                //    TResult result = await (Task<TResult>)invocation.ReturnValue;
+                //    _unitOfWork?.Commit();
+                //    _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
+                //}
+                //catch (System.Exception)
+                //{
+                //    _unitOfWork?.Rollback();
+                //    _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
+                //}
 
-                //_ = ((Task<TResult>)invocation.ReturnValue).ContinueWith(
-                //       antecedent =>
-                //       {
-                //           if (antecedent.Exception == null)
-                //           {
-                //               _unitOfWork?.Commit();
-                //               _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
-                //           }
-                //           else
-                //           {
-                //               _unitOfWork?.Rollback();
-                //               _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
-                //           }
-                //       });
+                await ((Task<TResult>)invocation.ReturnValue).ContinueWith(
+                       antecedent =>
+                       {
+                           if (antecedent.Exception == null)
+                           {
+                               _unitOfWork?.Commit();
+                               _logger.LogInformation($"----- async Task<TResult> Commit事务{ hashCode}----- ");
+                           }
+                           else
+                           {
+                               _unitOfWork?.Rollback();
+                               _logger.LogError($"----- async Task<TResult> Rollback事务{ hashCode}----- ");
+                           }
+                       });
             }
             else
             {

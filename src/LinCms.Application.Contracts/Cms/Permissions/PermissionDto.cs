@@ -1,4 +1,5 @@
 ﻿using LinCms.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace LinCms.Cms.Permissions
@@ -23,6 +24,7 @@ namespace LinCms.Cms.Permissions
         public string Rowkey { get; set; }
         public string Name { get; set; }
         public string Router { get; set; }
+        public DateTime? CreateTime { get; set; }
         public List<TreePermissionDto> Children { get; set; }
 
     }

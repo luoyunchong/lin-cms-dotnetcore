@@ -344,3 +344,17 @@ src/LinCms.Web/Logs/
 /src/LinCms.Web/appsettings.Staging.json
 /identityserver4/LinCms.IdentityServer4/appsettings.Staging.json
 /code-scaffolding/*
+###############
+#    folder   #
+###############
+/**/DROP/
+/**/TEMP/
+/**/packages/
+/**/bin/
+/**/obj/
+_site
+###############
+#  temp file  #
+###############
+docs/api/*.yml
+docs/api/.manifest

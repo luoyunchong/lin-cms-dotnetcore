@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Cms.Groups
 {
-    public class GroupService :ApplicationService, IGroupService
+    public class GroupService : ApplicationService, IGroupService
     {
         private readonly IFreeSql _freeSql;
         private readonly IPermissionService _permissionService;
@@ -151,6 +151,8 @@ namespace LinCms.Cms.Groups
 
         public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
         {
+            if (deleteGroupIds == null || deleteGroupIds.IsEmpty())
+                return;
             await _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
         }
 
@@ -168,22 +170,15 @@ namespace LinCms.Cms.Groups
             await _userGroupRepository.InsertAsync(userGroups);
         }
 
-        private async Task<bool> CheckGroupExistById(long id)
+    
+        /// <summary>
+        /// 检测新增的分组Id都存在系统中
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        private async Task<bool> CheckGroupExistByIds(List<long> addGroupIds)
         {
-            return await _groupRepository.Where(r => r.Id == id).AnyAsync();
-        }
-
-        private async Task<bool> CheckGroupExistByIds(List<long> ids)
-        {
-            foreach (var id in ids)
-            {
-                bool valid = await CheckGroupExistById(id);
-                if (!valid)
-                {
-                    return false;
-                }
-            }
-            return true;
+            return (await _groupRepository.Where(r => addGroupIds.Contains(r.Id)).CountAsync()) == addGroupIds.Count;
         }
     }
 }

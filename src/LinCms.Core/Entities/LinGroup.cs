@@ -23,6 +23,7 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 60)]
         public string Name { get; set; }
+
         /// <summary>
         /// 权限组描述
         /// </summary>
