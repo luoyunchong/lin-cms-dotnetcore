@@ -1,6 +1,8 @@
 ﻿using DotNetCore.Security;
 using FreeSql;
+using LinCms.Entities.Base;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -94,6 +96,19 @@ namespace LinCms.Test
                              where p.GetValue(obj, null) != null
                              select p.Name + "=" + p.GetValue(obj, null).ToString();
             return string.Join("&", properties.ToArray());
+        }
+
+        [Fact]
+        public void string1()
+        {
+
+            var date = DateTime.Now;
+            var s = $"{date:yyyyMMdd}";
+
+            var sql = freeSql.Insert(new BaseItem()).AsTable(old => $"{old}_{date:yyyyMMdd}").ToSql();
+
+            testOutputHelper.WriteLine(sql);
+
         }
     }
 }

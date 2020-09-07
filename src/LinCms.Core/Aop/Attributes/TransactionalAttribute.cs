@@ -5,7 +5,7 @@ using FreeSql;
 namespace LinCms.Aop.Attributes
 {
     /// <summary>
-    /// 启用事物
+    /// 事务
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public class TransactionalAttribute : Attribute
