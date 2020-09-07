@@ -132,7 +132,7 @@ namespace LinCms.Startup
 
                 options.AddServer(new OpenApiServer()
                 {
-                    Url = "http://localhost:5000",
+                    Url = "https://localhost:5001",
                     Description = "本地"
                 }); ;
                 options.AddServer(new OpenApiServer()

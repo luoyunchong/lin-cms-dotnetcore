@@ -8,8 +8,9 @@ namespace LinCms.Base.BaseItems
         public int BaseTypeId { get; set; }
         [Required(ErrorMessage = "编码为必填项")]
         public string ItemCode { get; set; }
-        [Required(ErrorMessage = "资料类别为必填项")]
+        [Required(ErrorMessage = "字典类别为必填项")]
         public string ItemName { get; set; }
+        public bool Status { get; set; }
         public int? SortCode { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
