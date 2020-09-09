@@ -49,8 +49,10 @@ namespace LinCms.Aop.Filter
 
             ReadException(context.Exception);
 
+            _logger.LogError(error);
+
             UnifyResponseDto apiResponse = new UnifyResponseDto(ErrorCode.UnknownError, _environment.IsDevelopment() ? error : "服务器正忙，请稍后再试.", context.HttpContext);
-            _logger.LogError(JsonConvert.SerializeObject(apiResponse));
+
             HandlerException(context, apiResponse, StatusCodes.Status500InternalServerError);
         }
 

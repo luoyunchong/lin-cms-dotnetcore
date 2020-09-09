@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities;
@@ -50,6 +51,7 @@ namespace LinCms.Cms.Users
             }
         }
 
+        [Transactional]
         public async Task DeleteAsync(long userId)
         {
             await _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();

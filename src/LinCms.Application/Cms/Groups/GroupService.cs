@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Cms.Permissions;
 using LinCms.Common;
 using LinCms.Data.Enums;
@@ -134,6 +135,7 @@ namespace LinCms.Cms.Groups
 
         }
 
+        [Transactional]
         public async Task DeleteUserGroupAsync(long userId)
         {
             await _userGroupRepository.DeleteAsync(r => r.UserId == userId);
@@ -149,6 +151,7 @@ namespace LinCms.Cms.Groups
             return await _userGroupRepository.Where(r => r.UserId == userId).ToListAsync(r => r.GroupId);
         }
 
+        [Transactional]
         public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
         {
             if (deleteGroupIds == null || deleteGroupIds.IsEmpty())
@@ -156,6 +159,7 @@ namespace LinCms.Cms.Groups
             await _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
         }
 
+        [Transactional]
         public async Task AddUserGroupAsync(long userId, List<long> addGroupIds)
         {
             if (addGroupIds == null || addGroupIds.IsEmpty())

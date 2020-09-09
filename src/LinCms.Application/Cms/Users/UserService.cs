@@ -156,7 +156,7 @@ namespace LinCms.Cms.Users
                 }
             }
 
-            if (!string.IsNullOrEmpty(updateUserDto.Email.Trim()))
+            if (!string.IsNullOrEmpty(updateUserDto.Email?.Trim()))
             {
                 var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == updateUserDto.Email.Trim() && r.Id != id);
                 if (isRepeatEmail)
