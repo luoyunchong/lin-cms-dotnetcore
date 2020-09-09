@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
 using FreeSql;
+using LinCms.Aop.Attributes;
 using LinCms.Blog.Notifications;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -90,7 +91,7 @@ namespace LinCms.Blog.UserSubscribes
             return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
         }
 
-
+        [Transactional]
         public async Task CreateAsync(long subscribeUserId)
         {
             if (subscribeUserId == CurrentUser.Id)
@@ -135,7 +136,7 @@ namespace LinCms.Blog.UserSubscribes
             }
         }
 
-
+        [Transactional]
         public async Task DeleteAsync(long subscribeUserId)
         {
             bool any = await _userSubscribeRepository.Select.AnyAsync(r =>

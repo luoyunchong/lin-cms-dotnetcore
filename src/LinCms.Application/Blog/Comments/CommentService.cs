@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
 using FreeSql;
+using LinCms.Aop.Attributes;
 using LinCms.Blog.Notifications;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -39,7 +40,7 @@ namespace LinCms.Blog.Comments
                     .Select
                     .Include(r => r.UserInfo)
                     .Include(r => r.RespUserInfo)
-                    .IncludeMany(r => r.Childs,t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
+                    .IncludeMany(r => r.Childs, t => t.Include(u => u.UserInfo).Include(u => u.RespUserInfo).IncludeMany(u => u.UserLikes))
                     .IncludeMany(r => r.UserLikes)
                     .WhereCascade(x => x.IsDeleted == false)
                     .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
@@ -127,6 +128,7 @@ namespace LinCms.Blog.Comments
             return new PagedResultDto<CommentDto>(comments, totalCount);
         }
 
+        [Transactional]
         public async Task CreateAsync(CreateCommentDto createCommentDto)
         {
             using IUnitOfWork uow = UnitOfWorkManager.Begin();
@@ -167,6 +169,8 @@ namespace LinCms.Blog.Comments
             }
 
             await trans.CommitAsync();
+
+
         }
 
         public async Task DeleteAsync(Guid id)
@@ -179,6 +183,7 @@ namespace LinCms.Blog.Comments
         /// 删除评论并同步随笔数量
         /// </summary>
         /// <param name="comment"></param>
+        [Transactional]
         public async Task DeleteAsync(Comment comment)
         {
             int affrows = 0;
@@ -204,6 +209,7 @@ namespace LinCms.Blog.Comments
             }
         }
 
+        [Transactional]
         public async Task DeleteMyComment(Guid id)
         {
             Comment comment = await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
