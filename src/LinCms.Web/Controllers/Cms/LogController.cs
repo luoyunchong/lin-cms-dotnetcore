@@ -30,7 +30,7 @@ namespace LinCms.Controllers.Cms
         /// <returns></returns>
         [HttpGet("users")]
         [LinCmsAuthorize("查询日志记录的用户", "日志")]
-        public List<string> GetUsers([FromQuery]PageDto pageDto)
+        public List<string> GetUsers([FromQuery] PageDto pageDto)
         {
             return _logService.GetLoggedUsers(pageDto);
         }
@@ -41,7 +41,7 @@ namespace LinCms.Controllers.Cms
         /// <returns></returns>
         [HttpGet]
         [LinCmsAuthorize("查询所有日志", "日志")]
-        public PagedResultDto<LinLog> GetLogs([FromQuery]LogSearchDto searchDto)
+        public PagedResultDto<LinLog> GetLogs([FromQuery] LogSearchDto searchDto)
         {
             return _logService.GetUserLogs(searchDto);
         }
@@ -53,7 +53,7 @@ namespace LinCms.Controllers.Cms
         /// <returns></returns>
         [HttpGet("search")]
         [LinCmsAuthorize("搜索日志", "日志")]
-        public PagedResultDto<LinLog> GetUserLogs([FromQuery]LogSearchDto searchDto)
+        public PagedResultDto<LinLog> GetUserLogs([FromQuery] LogSearchDto searchDto)
         {
             return _logService.GetUserLogs(searchDto);
         }
@@ -74,6 +74,12 @@ namespace LinCms.Controllers.Cms
         public VisitLogUserDto GetUserAndVisits()
         {
             return _logService.GetUserAndVisits();
+        }
+
+        [HttpGet("dashboard")]
+        public async Task<LogDashboard> GetLogDashboard()
+        {
+            return await _serilogService.GetLogDashboard();
         }
     }
 }

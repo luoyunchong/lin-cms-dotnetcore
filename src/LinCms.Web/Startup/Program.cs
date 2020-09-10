@@ -24,7 +24,9 @@ namespace LinCms.Startup
         public static async Task Main(string[] args)
         {
 #if DEBUG
-            Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+            Serilog.Debugging.SelfLog.Enable(msg =>
+            Debug.WriteLine(msg)
+            );
 #endif
 
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)

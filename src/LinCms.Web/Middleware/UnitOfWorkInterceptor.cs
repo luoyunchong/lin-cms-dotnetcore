@@ -88,13 +88,18 @@ namespace LinCms.Middleware
         /// <param name="invocation"></param>
         public void InterceptAsynchronous(IInvocation invocation)
         {
-            invocation.ReturnValue = InternalInterceptAsynchronous(invocation);
+            if (TryBegin(invocation))
+            {
+                invocation.ReturnValue = InternalInterceptAsynchronous(invocation);
+            }
+            else
+            {
+                invocation.Proceed();
+            }
         }
 
         private async Task InternalInterceptAsynchronous(IInvocation invocation)
         {
-            if (TryBegin(invocation))
-            {
                 string methodName =
                     $"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
                 int? hashCode = _unitOfWork.GetHashCode();
@@ -122,11 +127,7 @@ namespace LinCms.Middleware
                         _unitOfWork.Dispose();
                     }
                 }
-            }
-            else
-            {
-                invocation.Proceed();
-            }
+          
         }
 
 
@@ -139,21 +140,22 @@ namespace LinCms.Middleware
         {
             invocation.ReturnValue = InternalInterceptAsynchronous<TResult>(invocation);
         }
+
         private async Task<TResult> InternalInterceptAsynchronous<TResult>(IInvocation invocation)
         {
+            TResult result;
             if (TryBegin(invocation))
             {
-                string methodName =$"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
+                string methodName = $"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
                 int hashCode = _unitOfWork.GetHashCode();
                 _logger.LogInformation($"----- async Task<TResult> 开始事务{hashCode} {methodName}----- ");
 
                 try
                 {
                     invocation.Proceed();
-                    TResult result = await (Task<TResult>)invocation.ReturnValue;
+                    result = await (Task<TResult>)invocation.ReturnValue;
                     _unitOfWork.Commit();
                     _logger.LogInformation($"----- async Task<TResult> Commit事务{hashCode}----- ");
-                    return result;
                 }
                 catch (System.Exception)
                 {
@@ -169,10 +171,9 @@ namespace LinCms.Middleware
             else
             {
                 invocation.Proceed();
-                TResult result = await (Task<TResult>)invocation.ReturnValue;
-                return result;
+                result = await (Task<TResult>)invocation.ReturnValue;
             }
-
+            return result;
         }
     }
 }
