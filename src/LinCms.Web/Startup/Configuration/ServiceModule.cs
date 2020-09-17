@@ -23,8 +23,10 @@ namespace LinCms.Startup.Configuration
             builder.RegisterType<UnitOfWorkInterceptor>();
             builder.RegisterType<UnitOfWorkAsyncInterceptor>();
 
-            List<Type> interceptorServiceTypes = new List<Type>();
-            interceptorServiceTypes.Add(typeof(UnitOfWorkInterceptor));
+            List<Type> interceptorServiceTypes = new List<Type>()
+            {
+                typeof(UnitOfWorkInterceptor)
+            };
 
             string[] notIncludes = new string[]
             {

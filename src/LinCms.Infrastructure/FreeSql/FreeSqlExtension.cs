@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FreeSql;
 using LinCms.Common;
 using LinCms.Data.Enums;
@@ -12,6 +13,30 @@ namespace LinCms.FreeSql
 {
     public static class FreeSqlExtension
     {
+
+        public static ISelect<T> AsTable<T>(this ISelect<T> @this, string tableName, int count) where T : class
+        {
+            string[] tableNames = new string[] { };
+            for (int i = 0; i < count; i++)
+            {
+                tableNames.AddIfNotContains($"{tableName}_{i}");
+            }
+            @this.AsTable(tableNames);
+            return @this;
+        }
+
+        public static ISelect<T> AsTable<T>(this ISelect<T> @this, params string[] tableNames) where T : class
+        {
+            tableNames?.ToList().ForEach(tableName =>
+            {
+                @this.AsTable((type, oldname) =>
+                {
+                    if (type == typeof(T)) return tableName;
+                    return null;
+                });
+            });
+            return @this;
+        }
         public static FreeSqlBuilder UseConnectionString(this FreeSqlBuilder @this, IConfiguration configuration)
         {
             IConfigurationSection dbTypeCode = configuration.GetSection("ConnectionStrings:DefaultDB");

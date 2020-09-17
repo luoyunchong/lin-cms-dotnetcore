@@ -5,7 +5,7 @@
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 		<UserSecretsId>66adcf16-3db7-442d-b40c-4fef570b8e19</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-		<TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 		<DockerfileContext>..\..</DockerfileContext>
 		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
 		<RootNamespace>LinCms</RootNamespace>
