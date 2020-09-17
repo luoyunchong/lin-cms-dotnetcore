@@ -31,9 +31,14 @@ namespace LinCms.Entities
         public string Info { get; set; }
 
         /// <summary>
-        /// 是否是静态分组
+        /// 是否是静态分组,是静态时无法删除此分组
         /// </summary>
         public bool IsStatic { get; set; } = false;
+
+        /// <summary>
+        /// 排序码
+        /// </summary>
+        public int SortCode { get; set; }
 
         [Navigate(ManyToMany = typeof(LinUserGroup))]
         public virtual ICollection<LinUser> LinUsers { get; set; }
