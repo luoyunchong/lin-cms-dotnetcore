@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.8.0-preview0806" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="1.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
   </ItemGroup>
 

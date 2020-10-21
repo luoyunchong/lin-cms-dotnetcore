@@ -6,7 +6,7 @@ using LinCms.Data.Enums;
 namespace LinCms.Entities
 {
     /// <summary>
-    /// 用户信息
+    /// 用户
     /// </summary>
     [Table(Name = "lin_user")]
     public class LinUser : FullAduitEntity

@@ -1,7 +1,4 @@
 ﻿using Humanizer;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LinCms.Scaffolding.Entities
 {
@@ -16,7 +13,6 @@ namespace LinCms.Scaffolding.Entities
         public string OutputDirectory { get; set; }
         //区域小写
         public string AreasCamelize => Areas.Camelize();
-
 
     }
 }
