@@ -46,9 +46,9 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Caching.CSRedis" Version="3.6.5" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.0" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.0" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.0" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.1" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.1" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.1" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.7" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.2.0-eap" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />
@@ -59,8 +59,8 @@
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
 		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0-dev-00375" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
 		<PackageReference Include="ToolGood.Words" Version="3.0.2.3" />
 		<PackageReference Include="IGeekFan.Sinks.MariaDB" Version="0.0.1" />
 	</ItemGroup>

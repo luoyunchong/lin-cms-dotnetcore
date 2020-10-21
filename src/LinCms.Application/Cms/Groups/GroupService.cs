@@ -2,6 +2,7 @@
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using FreeSql.Internal.ObjectPool;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Permissions;
 using LinCms.Common;
@@ -65,8 +66,8 @@ namespace LinCms.Cms.Groups
 
             LinGroup linGroup = Mapper.Map<LinGroup>(inputDto);
 
-            using var conn = _freeSql.Ado.MasterPool.Get();
-            await using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
+            using Object<DbConnection> conn = _freeSql.Ado.MasterPool.Get();
+            using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
             try
             {
                 long groupId = await _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
