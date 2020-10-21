@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="1.9.0-preview0906" />
-    <PackageReference Include="FreeSql.DbContext" Version="1.9.0-preview0906" />
+    <PackageReference Include="FreeSql" Version="1.10.0-preview1020" />
+    <PackageReference Include="FreeSql.DbContext" Version="1.10.0-preview1020" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.6" />
   </ItemGroup>
 

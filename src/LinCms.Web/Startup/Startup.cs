@@ -19,6 +19,7 @@ using LinCms.Extensions;
 using LinCms.Middleware;
 using LinCms.Models.Options;
 using LinCms.Plugins.Poem.Services;
+using LinCms.Security;
 using LinCms.SnakeCaseQuery;
 using LinCms.Startup.Configuration;
 using LinCms.Utils;
@@ -61,8 +62,7 @@ namespace LinCms.Startup
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFreeSql(Configuration);
-
+            //services.AddFreeSql(Configuration);
             services.AddCsRedisCore(Configuration);
 
             services.AddJwtBearer(Configuration);
@@ -161,6 +161,7 @@ namespace LinCms.Startup
             builder.RegisterModule(new ServiceModule());
             builder.RegisterModule(new AutofacModule(Configuration));
             builder.RegisterModule(new DependencyModule());
+            builder.RegisterModule(new FreeSqlModule(Configuration));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)

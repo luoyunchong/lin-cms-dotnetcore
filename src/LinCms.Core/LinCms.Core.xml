@@ -779,6 +779,11 @@
             1 local，2 代表七牛云 3 其他表示其他地方
             </summary>
         </member>
+        <member name="T:LinCms.Entities.LinGroup">
+            <summary>
+            用户组
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinGroup.Name">
             <summary>
             权限组名称
@@ -906,7 +911,7 @@
         </member>
         <member name="T:LinCms.Entities.LinUser">
             <summary>
-            用户信息
+            用户
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinUser.Username">
