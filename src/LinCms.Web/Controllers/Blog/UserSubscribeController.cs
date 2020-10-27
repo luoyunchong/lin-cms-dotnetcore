@@ -99,6 +99,7 @@ namespace LinCms.Controllers.Blog
         /// 得到某个用户的关注了、关注者、标签总数
         /// </summary>
         /// <param name="userId"></param>
+        /// <param name="_userTagRepository"></param>
         [HttpGet("user/{userId}")]
         [AllowAnonymous]
         public SubscribeCountDto GetUserSubscribeInfo(long userId, [FromServices] IAuditBaseRepository<UserTag> _userTagRepository)

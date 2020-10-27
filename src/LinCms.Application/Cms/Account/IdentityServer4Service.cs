@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
@@ -69,10 +70,10 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException(response.ErrorDescription);
             }
 
-            JObject jObject = response.Json;
+            JsonElement jsonElement = response.Json;
 
-            _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(jObject)}");
-            return new Tokens(jObject["access_token"].ToString(), jObject["refresh_token"].ToString());
+            _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(jsonElement)}");
+            return new Tokens(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString());
         }
 
         public async Task<Tokens> GetRefreshTokenAsync(string refreshToken)
@@ -112,9 +113,9 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
             }
 
-            JObject jObject = response.Json;
+            JsonElement jsonElement = response.Json;
 
-            return new Tokens(jObject["access_token"].ToString(), jObject["refresh_token"].ToString());
+            return new Tokens(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString());
         }
     }
 }
