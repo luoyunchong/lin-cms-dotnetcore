@@ -60,7 +60,6 @@ namespace LinCms.Controllers.Blog
 
             await PublishUserLikeNotification(createUpdateUserLike, isCancel);
 
-
             capTransaction.Commit(unitOfWork);
 
             return UnifyResponseDto.Success(isCancel == false ? "点赞成功" : "已取消点赞");
