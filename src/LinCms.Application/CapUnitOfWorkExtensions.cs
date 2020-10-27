@@ -1,11 +1,6 @@
 ﻿using DotNetCore.CAP;
 using FreeSql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinCms
 {
@@ -21,6 +16,12 @@ namespace LinCms
         {
             capTransaction?.GetType().GetMethod("Flush", BindingFlags.Instance | BindingFlags.NonPublic)
                 ?.Invoke(capTransaction, null);
+        }
+
+        public static void Commit(this ICapTransaction capTransaction, IUnitOfWork unitOfWork)
+        {
+            unitOfWork.Commit();
+            capTransaction.Flush();
         }
 
         public static void Commit(this IUnitOfWork unitOfWork, ICapTransaction capTransaction)
