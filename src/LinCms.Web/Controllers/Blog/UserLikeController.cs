@@ -53,7 +53,7 @@ namespace LinCms.Controllers.Blog
         [HttpPost]
         public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
-            using IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
+            IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
             using ICapTransaction trans = unitOfWork.BeginTransaction(_capBus, false);
 
             bool isCancel = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);

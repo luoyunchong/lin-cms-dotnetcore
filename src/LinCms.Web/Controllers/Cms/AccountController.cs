@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Cryptography;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
-using DotNetCore.Security;
-using IdentityModel;
-using IdentityModel.Client;
-using IdentityServer4.Models;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Account;
 using LinCms.Cms.Users;
@@ -18,19 +9,12 @@ using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
-using LinCms.IRepositories;
 using LinCms.Middleware;
 using LinCms.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Owl.reCAPTCHA;
-using Owl.reCAPTCHA.v3;
-using Serilog;
 
 namespace LinCms.Controllers.Cms
 {
@@ -94,6 +78,8 @@ namespace LinCms.Controllers.Cms
         /// 注册
         /// </summary>
         /// <param name="registerDto"></param>
+        /// <param name="_mapper"></param>
+        /// <param name="_userSevice"></param>
         [Logger("用户注册")]
         [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
         [HttpPost("account/register")]

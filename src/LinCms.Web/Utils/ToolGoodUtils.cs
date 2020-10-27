@@ -20,12 +20,14 @@ namespace LinCms.Utils
 
         private const string InfoPath = "wwwroot/_Illegal/IllegalInfo.txt";
         private const string BitPath = "wwwroot/_Illegal/IllegalBit.iws";
-
+        [System.Obsolete]
         private static IllegalWordsSearch _search;
+
         /// <summary>
         /// 本地敏感库,文件修改后，重新创建缓存Bit
         /// </summary>
         /// <returns></returns>
+        [System.Obsolete]
         public static IllegalWordsSearch GetIllegalWordsSearch()
         {
             if (!File.Exists(UrlsPath)||!File.Exists(KeywordsPath))
@@ -62,6 +64,7 @@ namespace LinCms.Utils
             return _search;
         }
 
+        [System.Obsolete]
         private static IllegalWordsSearch CreateIllegalWordsSearch()
         {
             string[] words1 = File.ReadAllLines(Path.GetFullPath(KeywordsPath), Encoding.UTF8);
