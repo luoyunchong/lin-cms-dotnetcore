@@ -131,7 +131,6 @@ namespace LinCms.Blog.Comments
         [Transactional]
         public async Task CreateAsync(CreateCommentDto createCommentDto)
         {
-            using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
 
             Comment comment = Mapper.Map<Comment>(createCommentDto);
             await _commentRepository.InsertAsync(comment);
@@ -156,6 +155,7 @@ namespace LinCms.Blog.Comments
 
             if (CurrentUser.Id != createCommentDto.RespUserId)
             {
+                using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
                 await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
                 {
                     NotificationType = NotificationType.UserCommentOnArticle,
