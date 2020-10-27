@@ -54,13 +54,14 @@ namespace LinCms.Controllers.Blog
         public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
         {
             IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
-            using ICapTransaction trans = unitOfWork.BeginTransaction(_capBus, false);
+            using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
 
             bool isCancel = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
 
             await PublishUserLikeNotification(createUpdateUserLike, isCancel);
 
-            trans.Commit();
+
+            capTransaction.Commit(unitOfWork);
 
             return UnifyResponseDto.Success(isCancel == false ? "点赞成功" : "已取消点赞");
         }
