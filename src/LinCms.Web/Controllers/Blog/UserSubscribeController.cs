@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using DotNetCore.CAP;
-using FreeSql;
-using LinCms.Blog.Notifications;
+﻿using System.Threading.Tasks;
 using LinCms.Blog.UserSubscribes;
-using LinCms.Cms.Users;
 using LinCms.Data;
-using LinCms.Entities;
 using LinCms.Entities.Blog;
-using LinCms.Exceptions;
-using LinCms.Extensions;
 using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
@@ -99,6 +90,7 @@ namespace LinCms.Controllers.Blog
         /// 得到某个用户的关注了、关注者、标签总数
         /// </summary>
         /// <param name="userId"></param>
+        /// <param name="_userTagRepository"></param>
         [HttpGet("user/{userId}")]
         [AllowAnonymous]
         public SubscribeCountDto GetUserSubscribeInfo(long userId, [FromServices] IAuditBaseRepository<UserTag> _userTagRepository)

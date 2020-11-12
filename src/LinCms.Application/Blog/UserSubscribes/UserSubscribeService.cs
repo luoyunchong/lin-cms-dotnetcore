@@ -63,7 +63,7 @@ namespace LinCms.Blog.UserSubscribes
             return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
         }
 
-        public PagedResultDto<UserSubscribeDto> GetUserFansList( UserSubscribeSearchDto searchDto)
+        public PagedResultDto<UserSubscribeDto> GetUserFansList(UserSubscribeSearchDto searchDto)
         {
             List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.LinUser)
                 .Where(r => r.SubscribeUserId == searchDto.UserId)
@@ -117,23 +117,20 @@ namespace LinCms.Blog.UserSubscribes
                 throw new LinCmsException("您已关注该用户");
             }
 
-            using (IUnitOfWork unitOfWork = UnitOfWorkManager.Begin())
+            using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
+
+            UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
+            await _userSubscribeRepository.InsertAsync(userSubscribe);
+
+            await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
             {
-                using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
+                NotificationType = NotificationType.UserLikeUser,
+                NotificationRespUserId = subscribeUserId,
+                UserInfoId = CurrentUser.Id ?? 0,
+                CreateTime = DateTime.Now,
+            });
 
-                UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
-                await _userSubscribeRepository.InsertAsync(userSubscribe);
-
-                await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
-                {
-                    NotificationType = NotificationType.UserLikeUser,
-                    NotificationRespUserId = subscribeUserId,
-                    UserInfoId = CurrentUser.Id ?? 0,
-                    CreateTime = DateTime.Now,
-                });
-
-                await capTransaction.CommitAsync();
-            }
+            capTransaction.Commit(UnitOfWorkManager.Current);
         }
 
         [Transactional]
@@ -146,24 +143,22 @@ namespace LinCms.Blog.UserSubscribes
                 throw new LinCmsException("已取消关注");
             }
 
-            using (IUnitOfWork unitOfWork = UnitOfWorkManager.Begin())
+
+            using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
+
+            await _userSubscribeRepository.DeleteAsync(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == CurrentUser.Id);
+
+            await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
             {
-                using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
+                NotificationType = NotificationType.UserLikeUser,
+                NotificationRespUserId = subscribeUserId,
+                UserInfoId = CurrentUser.Id ?? 0,
+                CreateTime = DateTime.Now,
+                IsCancel = true
+            });
 
-                await _userSubscribeRepository.DeleteAsync(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == CurrentUser.Id);
+            capTransaction.Commit(UnitOfWorkManager.Current);
 
-                await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
-                {
-                    NotificationType = NotificationType.UserLikeUser,
-                    NotificationRespUserId = subscribeUserId,
-                    UserInfoId = CurrentUser.Id ?? 0,
-                    CreateTime = DateTime.Now,
-                    IsCancel = true
-                });
-
-                await capTransaction.CommitAsync();
-            }
-         
         }
 
     }
