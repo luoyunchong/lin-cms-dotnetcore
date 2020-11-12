@@ -6,6 +6,7 @@ namespace LinCms.Test.Utils
     public class ToolWordTest
     {
         [Fact]
+        [System.Obsolete]
         public void IssuesTest_17()
         {
             var illegalWordsSearch = new IllegalWordsSearch();

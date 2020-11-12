@@ -1,29 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Autofac;
-using Autofac.Extras.DynamicProxy;
-using LinCms;
-using LinCms.Cms.Account;
-using LinCms.Cms.Files;
-using LinCms.Cms.Users;
+﻿using Autofac;
 using LinCms.Data;
 using LinCms.Data.Authorization;
-using LinCms.Dependency;
-using LinCms.Entities;
-using LinCms.IRepositories;
-using LinCms.Middleware;
-using LinCms.Repositories;
-using LinCms.Startup;
-using LinCms.Startup.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Startup.Configuration
 {
-    public class AutofacModule : Autofac.Module
+    public class AutofacModule : Module
     {
         private readonly IConfiguration _configuration;
         public AutofacModule(IConfiguration configuration)

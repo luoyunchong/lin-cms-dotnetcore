@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Application.Contract
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Localization.FreeSql", "framework\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj", "{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.CAP.MySql", "framework\src\IGeekFan.CAP.MySql\IGeekFan.CAP.MySql.csproj", "{ACE310B0-E86E-4A8F-AD12-028F1077197C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,10 +85,6 @@ Global
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACE310B0-E86E-4A8F-AD12-028F1077197C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACE310B0-E86E-4A8F-AD12-028F1077197C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACE310B0-E86E-4A8F-AD12-028F1077197C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACE310B0-E86E-4A8F-AD12-028F1077197C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,7 +99,6 @@ Global
 		{37084D54-1A11-4C04-A091-EB502BB49B19} = {3EF28FC9-9518-401A-9DCC-FCCB4C72511F}
 		{70E47B1C-17F2-4F9A-9EF6-4F94548E506D} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D} = {CBEF94DE-6781-4649-9768-C8DFC0C66A53}
-		{ACE310B0-E86E-4A8F-AD12-028F1077197C} = {CBEF94DE-6781-4649-9768-C8DFC0C66A53}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3AFAB7C5-4289-48FF-89A0-FB63A94D0AF4}

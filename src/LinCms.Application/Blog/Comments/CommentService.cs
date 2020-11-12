@@ -131,8 +131,6 @@ namespace LinCms.Blog.Comments
         [Transactional]
         public async Task CreateAsync(CreateCommentDto createCommentDto)
         {
-            using IUnitOfWork uow = UnitOfWorkManager.Begin();
-            using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
 
             Comment comment = Mapper.Map<Comment>(createCommentDto);
             await _commentRepository.InsertAsync(comment);
@@ -157,6 +155,7 @@ namespace LinCms.Blog.Comments
 
             if (CurrentUser.Id != createCommentDto.RespUserId)
             {
+                using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
                 await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
                 {
                     NotificationType = NotificationType.UserCommentOnArticle,
@@ -166,11 +165,8 @@ namespace LinCms.Blog.Comments
                     CreateTime = comment.CreateTime,
                     CommentId = comment.Id
                 });
+                capTransaction.Commit(UnitOfWorkManager.Current);
             }
-
-            await trans.CommitAsync();
-
-
         }
 
         public async Task DeleteAsync(Guid id)
@@ -223,23 +219,19 @@ namespace LinCms.Blog.Comments
                 throw new LinCmsException("无权限删除他人的评论");
             }
 
-            using (IUnitOfWork uow = UnitOfWorkManager.Begin())
+            using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
+
+            await this.DeleteAsync(comment);
+
+            await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
             {
-                using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
-
-                await this.DeleteAsync(comment);
-
-                await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
-                {
-                    NotificationType = NotificationType.UserCommentOnArticle,
-                    ArticleId = comment.SubjectId,
-                    UserInfoId = (long)CurrentUser.Id,
-                    CommentId = comment.Id,
-                    IsCancel = true
-                });
-
-                await trans.CommitAsync();
-            }
+                NotificationType = NotificationType.UserCommentOnArticle,
+                ArticleId = comment.SubjectId,
+                UserInfoId = (long)CurrentUser.Id,
+                CommentId = comment.Id,
+                IsCancel = true
+            });
+            capTransaction.Commit(UnitOfWorkManager.Current);
         }
 
         public async Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity)

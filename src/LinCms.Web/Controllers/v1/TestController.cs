@@ -139,7 +139,7 @@ namespace LinCms.Controllers.v1
                 });
 
                 _capBus.Publish("freesql.time", now);
-                trans.Commit();
+                trans.Commit(uow);
             }
 
             return now;

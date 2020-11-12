@@ -7,14 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace LinCms.Startup
 {
@@ -93,8 +89,8 @@ namespace LinCms.Startup
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
-                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
+                            AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
+                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "LinCms.Web", "Access read/write LinCms.Web" }
@@ -102,8 +98,8 @@ namespace LinCms.Startup
                         },
                         Password = new OpenApiOAuthFlow()
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
-                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
+                            AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
+                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "openid", "Access read openid" },
