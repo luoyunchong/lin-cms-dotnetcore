@@ -3,21 +3,17 @@ using FreeSql;
 using FreeSql.Internal;
 using LinCms.Entities;
 using LinCms.FreeSql;
-using LinCms.Security;
 using LinCms.Utils;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using ToolGood.Words;
 
 namespace LinCms.Startup.Configuration
 {
-    public class FreeSqlModule : Autofac.Module
+    public class FreeSqlModule : Module
     {
         private readonly IConfiguration _configuration;
 
@@ -41,10 +37,10 @@ namespace LinCms.Startup.Configuration
                     }
                 )
                 .Build()
-                .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true);//联级保存功能开启（默认为关闭）
+                .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true)//联级保存功能开启（默认为关闭）
+                //.CreateDatabaseIfNotExists()
+                ;
 
-
-            builder.RegisterInstance(fsql).SingleInstance();
 
 
             fsql.Aop.CurdAfter += (s, e) =>
@@ -81,6 +77,7 @@ namespace LinCms.Startup.Configuration
                 };
             }
 
+            builder.RegisterInstance(fsql).SingleInstance();
             //services.AddFreeRepository();
 
 

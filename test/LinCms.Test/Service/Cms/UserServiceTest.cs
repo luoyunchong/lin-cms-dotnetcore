@@ -84,5 +84,19 @@ namespace LinCms.Test.Service.Cms
                 });
         }
 
+        [Fact]
+        public async Task GetSelectDtoToList()
+        {
+            var linUsers = await userRepository.Select
+                .IncludeMany(r => r.LinGroups.Select(u => new LinGroup { Id = u.Id, Name = u.Name }))
+                .OrderByDescending(r => r.Id)
+                .ToListAsync(r => new UserDto
+                {
+                    Username = r.Username,
+                    Email = r.Email,
+                    //Groups = r.LinGroups
+                });
+        }
+
     }
 }
