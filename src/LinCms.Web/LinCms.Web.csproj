@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp5.0</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 		<UserSecretsId>66adcf16-3db7-442d-b40c-4fef570b8e19</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -40,26 +40,26 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.0.2" />
+		<PackageReference Include="AspNetCoreRateLimit" Version="3.2.2" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-		<PackageReference Include="Caching.CSRedis" Version="3.6.5" />
+		<PackageReference Include="Caching.CSRedis" Version="3.6.50" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
 		<PackageReference Include="CSRedisCore" Version="3.6.5" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.1" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.1" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.1" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.2-preview-121943182" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.2-preview-121943182" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.2-preview-121943182" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.8" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.2.0-eap" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.2.20475.17" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-rc.2.20475.5" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0-rc.2.20475.5" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-rc.2.20516.1" />	
-		<PackageReference Include="Owl.reCAPTCHA" Version="0.3.1" />
-		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />	
+		<PackageReference Include="Owl.reCAPTCHA" Version="0.4.0" />
+		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.1.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.1-dev-00188" />
-		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0-dev-00381" />
+		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
