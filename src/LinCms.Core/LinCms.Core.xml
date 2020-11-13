@@ -75,6 +75,21 @@
             <param name="mobile"></param>
             <returns></returns>
         </member>
+        <member name="F:LinCms.Data.Enums.CapStorageType.InMemoryStorage">
+            <summary>
+            引用包 DotNetCore.CAP.InMemoryStorage
+            </summary>
+        </member>
+        <member name="F:LinCms.Data.Enums.CapStorageType.Mysql">
+            <summary>
+            引用包  DotNetCore.CAP.MySql
+            </summary>
+        </member>
+        <member name="F:LinCms.Data.Enums.CapStorageType.SqlServer">
+            <summary>
+            引用包  DotNetCore.CAP.SqlServer
+            </summary>
+        </member>
         <member name="F:LinCms.Data.Enums.ErrorCode.Success">
             <summary>
             操作成功

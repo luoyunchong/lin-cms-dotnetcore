@@ -69,6 +69,7 @@ namespace LinCms.Controllers.Blog
         /// 根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
         /// </summary>
         /// <param name="createUpdateUserLike"></param>
+        /// <param name="isCancel"></param>
         /// <returns></returns>
         private async Task PublishUserLikeNotification(CreateUpdateUserLikeDto createUpdateUserLike, bool isCancel)
         {
