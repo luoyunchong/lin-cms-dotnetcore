@@ -7,7 +7,8 @@
   Lin CMS By .NET 
   </h1>
 </h1>
-😃 A simple and practical CMS implememted by ASP.NET Core 5
+
+😃 A simple and practical CMS implemented by [ASP.NET Core 5](https://docs.microsoft.com/zh-cn/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-5.0)
 
 ## 项目简介
 ![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
