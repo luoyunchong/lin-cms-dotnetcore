@@ -4,23 +4,23 @@
     <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
   </a>
   <h1>
-  Lin CMS .NET Core
+  Lin CMS By .NET 
   </h1>
 </h1>
-😃 A simple and practical CMS implememted by .NET Core 3.1.6
+😃 A simple and practical CMS implememted by ASP.NET Core 5
 
 ## 项目简介
 ![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
 <!--![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 -->
-![](https://img.shields.io/badge/.NETCore-3.1.6-3963bc.svg)
+![](https://img.shields.io/badge/.NET5.0.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
-本项目是 Lin CMS 后端的 [.NET Core 3.1](https://docs.microsoft.com/zh-cn/dotnet/core/)的 实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
+本项目是 Lin CMS 后端的 [.NET5](https://docs.microsoft.com/zh-cn/dotnet/core/introduction)的 实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
 
 ## 什么是 Lin CMS？
 
