@@ -166,6 +166,7 @@
             根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
             </summary>
             <param name="createUpdateUserLike"></param>
+            <param name="isCancel"></param>
             <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Blog.UserSubscribeController">
@@ -533,6 +534,7 @@
             FreeSql
             </summary>
             <param name="services"></param>
+            <param name="configuration"></param>
         </member>
         <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>

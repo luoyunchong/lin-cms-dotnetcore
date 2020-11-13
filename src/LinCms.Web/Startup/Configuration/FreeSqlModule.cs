@@ -22,7 +22,6 @@ namespace LinCms.Startup.Configuration
             this._configuration = configuration;
         }
 
-        [Obsolete]
         protected override void Load(ContainerBuilder builder)
         {
 

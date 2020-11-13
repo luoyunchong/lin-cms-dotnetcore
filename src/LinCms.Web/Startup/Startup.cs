@@ -43,6 +43,7 @@ namespace LinCms.Startup
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddFreeSql(Configuration);
+
             services.AddCsRedisCore(Configuration);
 
             services.AddJwtBearer(Configuration);

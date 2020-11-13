@@ -30,6 +30,7 @@ namespace LinCms.Startup
         /// FreeSql
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void AddFreeSql(this IServiceCollection services, IConfiguration configuration)
         {
             IFreeSql fsql = new FreeSqlBuilder()
@@ -172,6 +173,10 @@ namespace LinCms.Startup
                         IConfigurationSection mySql = Configuration.GetSection($"ConnectionStrings:MySql");
                         @this.UseMySql(mySql.Value);
                         break;
+                    //case CapStorageType.SqlServer:
+                    //    IConfigurationSection sqlServer = Configuration.GetSection($"ConnectionStrings:SqlServer");
+                    //    @this.UseSqlServer(sqlServer.Value);
+                    //    break;
                     default:
                         break;
                 }
@@ -179,7 +184,7 @@ namespace LinCms.Startup
             }
             else
             {
-                Log.Error($"CAP配置CAP:DefaultStorage:{defaultStorage.Value}无效");
+                Log.Error($"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，Mysql，SqlServer！更多请增加引用，修改配置项代码");
             }
 
             if (Enum.TryParse(defaultMessageQueue.Value, out CapMessageQueueType capMessageQueueType))
