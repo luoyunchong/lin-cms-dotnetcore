@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DotNetCore.CAP;
+using FreeSql;
 using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Data;
@@ -19,10 +20,12 @@ namespace LinCms.Controllers.v1
     {
         private readonly IFreeSql _freeSql;
         private readonly ICapPublisher _capBus;
-        public TestController(IFreeSql freeSql, ICapPublisher capBus)
+        private readonly UnitOfWorkManager _unitOfWorkManager;
+        public TestController(IFreeSql freeSql, ICapPublisher capBus, UnitOfWorkManager unitOfWorkManager)
         {
             _freeSql = freeSql;
             _capBus = capBus;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         [HttpGet("info")]
@@ -103,8 +106,79 @@ namespace LinCms.Controllers.v1
             DateTime now = DateTime.Now;
             using (var uow = _freeSql.CreateUnitOfWork())
             {
-                using ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+                ICapTransaction trans = uow.BeginTransaction(_capBus, false);
                 var repo = uow.GetRepository<Book>();
+
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong" + (id == 1 ? "luoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchongluoyunchong" : ""),
+                    Summary = "1",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 1
+                });
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong",
+                    Summary = "2",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 2
+                });
+                if (id == 0)
+                {
+                    throw new Exception("异常，事务不正常!!");
+                }
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong",
+                    Summary = "summary",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 3
+                });
+
+                _capBus.Publish("freesql.time", now);
+                trans.Commit(uow);
+            }
+
+            return now;
+        }
+
+
+        [HttpGet("~/freesql/unitofwork/{id}")]
+        public DateTime UnitOfWorkManagerTransaction(int id, [FromServices] IBaseRepository<Book> repo)
+        {
+            DateTime now = DateTime.Now;
+            using (IUnitOfWork uow = _unitOfWorkManager.Begin())
+            {
+                ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
+                repo.Insert(new Book()
+                {
+                    Author = "luoyunchong",
+                    Summary = "2",
+                    Title = "122",
+                    IsDeleted = false,
+                    CreateTime = DateTime.Now,
+                    CreateUserId = 2
+                });
+
+                _capBus.Publish("freesql.time", now);
+                trans.Commit(uow);
+            }
+            return now;
+        }
+
+        [HttpGet("~/freesql/unitofwork/exception/{id}")]
+        public DateTime FreeSqlUnitOfWorkManagerTransaction(int id, [FromServices] IBaseRepository<Book> repo)
+        {
+            DateTime now = DateTime.Now;
+            using (IUnitOfWork uow = _unitOfWorkManager.Begin())
+            {
+                ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
 
                 repo.Insert(new Book()
                 {
