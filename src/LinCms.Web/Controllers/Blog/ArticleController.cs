@@ -6,6 +6,7 @@ using AutoMapper;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Classifys;
+using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -99,15 +100,16 @@ namespace LinCms.Controllers.Blog
         /// <returns></returns>
         [HttpGet("query")]
         [AllowAnonymous]
-        public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
+        public Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
         {
-            //return await _articleService.GetArticleAsync(searchDto);
-            string redisKey = "article:query:" + JsonConvert.SerializeObject(searchDto, Formatting.Indented, new JsonSerializerSettings
+            //return  _articleService.GetArticleAsync(searchDto);
+            string redisKey = "article:query:" + EncryptUtil.Encrypt(JsonConvert.SerializeObject(searchDto, Formatting.Indented, new JsonSerializerSettings
             {
                 DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-            return await RedisHelper.CacheShellAsync(
-                redisKey, 60, async () => await _articleService.GetArticleAsync(searchDto)
+            }));
+
+            return RedisHelper.CacheShellAsync(
+                redisKey, 60, () => _articleService.GetArticleAsync(searchDto)
              );
         }
 
