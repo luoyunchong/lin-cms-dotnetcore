@@ -66,7 +66,7 @@ namespace LinCms.Entities.Blog
         [Navigate("RootCommentId")]
         public virtual ICollection<Comment> Childs { get; set; }
 
-        [Navigate("SubjectId")]
+        [Navigate(nameof(UserLike.SubjectId))]
         public virtual ICollection<UserLike> UserLikes { get; set; }
 
 

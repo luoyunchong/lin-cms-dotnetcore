@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using FreeSql;
 using LinCms.Entities;
@@ -54,7 +55,7 @@ namespace LinCms.Repositories
             return base.Insert(entity);
         }
 
-        public override Task<TEntity> InsertAsync(TEntity entity)
+        public override Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
         {
             this.BeforeInsert(entity);
             return base.InsertAsync(entity);
@@ -70,7 +71,7 @@ namespace LinCms.Repositories
             return base.Insert(entitys);
         }
 
-        public override Task<List<TEntity>> InsertAsync(IEnumerable<TEntity> entitys)
+        public override Task<List<TEntity>> InsertAsync(IEnumerable<TEntity> entitys, CancellationToken cancellationToken = default(CancellationToken))
         {
             foreach (TEntity entity in entitys)
             {
@@ -92,7 +93,7 @@ namespace LinCms.Repositories
             return base.Update(entity);
         }
 
-        public new Task<int> UpdateAsync(TEntity entity)
+        public new Task<int> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
         {
             BeforeUpdate(entity);
             return base.UpdateAsync(entity);
@@ -107,7 +108,7 @@ namespace LinCms.Repositories
             return base.Update(entitys);
         }
 
-        public override Task<int> UpdateAsync(IEnumerable<TEntity> entitys)
+        public override Task<int> UpdateAsync(IEnumerable<TEntity> entitys, CancellationToken cancellationToken = default(CancellationToken))
         {
             foreach (var entity in entitys)
             {
@@ -151,7 +152,7 @@ namespace LinCms.Repositories
             return base.Delete(entitys);
         }
 
-        public override async Task<int> DeleteAsync(TKey id)
+        public override async Task<int> DeleteAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken))
         {
             TEntity entity = await base.GetAsync(id);
             if (entity is IDeleteAduitEntity)
@@ -167,7 +168,7 @@ namespace LinCms.Repositories
         }
 
 
-        public override Task<int> DeleteAsync(IEnumerable<TEntity> entitys)
+        public override Task<int> DeleteAsync(IEnumerable<TEntity> entitys, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (entitys.Any())
             {
@@ -186,7 +187,7 @@ namespace LinCms.Repositories
             return base.DeleteAsync(entitys);
         }
 
-        public override async Task<int> DeleteAsync(TEntity entity)
+        public override async Task<int> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (entity is IDeleteAduitEntity)
             {
@@ -218,7 +219,7 @@ namespace LinCms.Repositories
             return base.Delete(predicate);
         }
 
-        public override async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+        public override async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (typeof(IDeleteAduitEntity).IsAssignableFrom(typeof(TEntity)))
             {
@@ -236,7 +237,7 @@ namespace LinCms.Repositories
 
             return await base.DeleteAsync(predicate);
         }
-        public override async Task<TEntity> InsertOrUpdateAsync(TEntity entity)
+        public override async Task<TEntity> InsertOrUpdateAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken))
         {
             BeforeInsert(entity);
             BeforeUpdate(entity);

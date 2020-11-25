@@ -175,7 +175,11 @@ namespace LinCms.Startup
                         break;
                     //case CapStorageType.SqlServer:
                     //    IConfigurationSection sqlServer = Configuration.GetSection($"ConnectionStrings:SqlServer");
-                    //    @this.UseSqlServer(sqlServer.Value);
+                    //    @this.UseSqlServer(opt =>
+                    //    {
+                    //        opt.ConnectionString = sqlServer.Value;
+                    //        opt.UseSqlServer2008();
+                    //    });
                     //    break;
                     default:
                         break;
