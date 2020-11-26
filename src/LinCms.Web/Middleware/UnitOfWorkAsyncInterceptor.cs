@@ -44,16 +44,11 @@ namespace LinCms.Middleware
             if (TryBegin(invocation))
             {
                 int? hashCode = _unitOfWork.GetHashCode();
-                DbTransaction dbTransaction = null;
                 try
                 {
                     invocation.Proceed();
                     _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交前----- ");
-                     dbTransaction = _unitOfWork.GetOrBeginTransaction();
-                    if (dbTransaction != null && dbTransaction.Connection != null)
-                    {
-                        _unitOfWork.Commit();
-                    }
+                    _unitOfWork.Commit();
                     _logger.LogInformation($"----- 拦截同步执行的方法-事务 {hashCode} 提交成功----- ");
                 }
                 catch
@@ -64,10 +59,7 @@ namespace LinCms.Middleware
                 }
                 finally
                 {
-                    if (dbTransaction != null && dbTransaction.Connection != null)
-                    {
-                        _unitOfWork.Dispose();
-                    }
+                    _unitOfWork.Dispose();
                 }
             }
             else
@@ -94,8 +86,7 @@ namespace LinCms.Middleware
 
         private async Task InternalInterceptAsynchronous(IInvocation invocation)
         {
-            string methodName =
-                $"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
+            string methodName =$"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
             int? hashCode = _unitOfWork.GetHashCode();
 
             using (_logger.BeginScope("_unitOfWork:{hashCode}", hashCode))
@@ -103,16 +94,10 @@ namespace LinCms.Middleware
                 _logger.LogInformation($"----- async Task 开始事务{hashCode} {methodName}----- ");
 
                 invocation.Proceed();
-                DbTransaction dbTransaction = null;
-
                 try
                 {
                     await (Task)invocation.ReturnValue;
-                    dbTransaction= _unitOfWork.GetOrBeginTransaction(); 
-                    if (dbTransaction != null&&dbTransaction.Connection!=null)
-                    {
-                        _unitOfWork.Commit();
-                    }
+                    _unitOfWork.Commit();
                     _logger.LogInformation($"----- async Task 事务 {hashCode} Commit----- ");
                 }
                 catch (System.Exception)
@@ -123,10 +108,7 @@ namespace LinCms.Middleware
                 }
                 finally
                 {
-                    if (dbTransaction != null && dbTransaction.Connection != null)
-                    {
-                        _unitOfWork.Dispose();
-                    }
+                    _unitOfWork.Dispose();
                 }
             }
 
@@ -152,16 +134,11 @@ namespace LinCms.Middleware
                 int hashCode = _unitOfWork.GetHashCode();
                 _logger.LogInformation($"----- async Task<TResult> 开始事务{hashCode} {methodName}----- ");
 
-                DbTransaction dbTransaction = null;
                 try
                 {
                     invocation.Proceed();
                     result = await (Task<TResult>)invocation.ReturnValue;
-                    dbTransaction = _unitOfWork.GetOrBeginTransaction();
-                    if (dbTransaction != null && dbTransaction.Connection != null)
-                    {
-                        _unitOfWork.Commit();
-                    }
+                    _unitOfWork.Commit();
                     _logger.LogInformation($"----- async Task<TResult> Commit事务{hashCode}----- ");
                 }
                 catch (System.Exception)
@@ -172,10 +149,7 @@ namespace LinCms.Middleware
                 }
                 finally
                 {
-                    if (dbTransaction != null && dbTransaction.Connection != null)
-                    {
-                        _unitOfWork.Dispose();
-                    }
+                    _unitOfWork.Dispose();
                 }
             }
             else
