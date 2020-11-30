@@ -76,7 +76,7 @@ namespace LinCms.Middleware
                         response = invocation.ReturnValue;
 
                     if (response == null) response = string.Empty;
-                    RedisHelper.SetAsync(cacheKey, response, exists: cacheAttr.AbsoluteExpires);
+                    RedisHelper.SetAsync(cacheKey, response);
                 }
             }
             else

@@ -16,10 +16,10 @@ using Newtonsoft.Json.Linq;
 
 namespace LinCms.Controllers.v1
 {
-    [ApiExplorerSettings(GroupName = "v1")]
     /// <summary>
     /// 七牛云上传服务
     /// </summary>
+    [ApiExplorerSettings(GroupName = "v1")]
     [Route("v1/qiniu")]
     [ApiController]
     public class QiniuController : ControllerBase

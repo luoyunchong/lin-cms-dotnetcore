@@ -35,11 +35,10 @@ namespace LinCms.Startup.Configuration
                         Trace.WriteLine(cmd.CommandText + ";");
                     }
                 )
+                .CreateDatabaseIfNotExists()
                 .Build()
                 .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true)//联级保存功能开启（默认为关闭）
-                //.CreateDatabaseIfNotExists()
                 ;
-
 
 
             fsql.Aop.CurdAfter += (s, e) =>

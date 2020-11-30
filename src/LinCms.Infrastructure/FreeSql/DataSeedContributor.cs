@@ -62,7 +62,7 @@ namespace LinCms.FreeSql
 
             allPermissions.ForEach(permissioin =>
             {
-                if (!linCmsAttributes.Any(r => r.Permission == permissioin.Name))
+                if (linCmsAttributes.All(r => r.Permission != permissioin.Name))
                 {
                     expression = expression.Or(r => r.PermissionId == permissioin.Id);
                     permissionExpression = permissionExpression.Or(r => r.Id == permissioin.Id);

@@ -469,6 +469,11 @@
             启动时间
             </summary>
         </member>
+        <member name="T:LinCms.Controllers.v1.QiniuController">
+            <summary>
+            七牛云上传服务
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.v1.QiniuController.UploadTagByJson">
             <summary>
             将掘金中的取所有标签存到七牛云上，基本信息存入数据库
@@ -495,6 +500,11 @@
             这种方式不会变小写，怀疑人生，是不是他的key不是键？ https://github.com/JamesNK/Newtonsoft.Json/issues/2088
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Middleware.AopCacheIntercept">
+            <summary>
+            Aop
+            </summary>
         </member>
         <member name="M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
             <summary>
