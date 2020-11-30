@@ -25,7 +25,6 @@ namespace LinCms.Middleware
 
         public string CacheKey { get; set; }
 
-        public RedisExistence AbsoluteExpires { get; set; }
 
     }
 }

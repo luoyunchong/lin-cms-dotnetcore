@@ -73,11 +73,12 @@ namespace LinCms.Repositories
 
         public override Task<List<TEntity>> InsertAsync(IEnumerable<TEntity> entitys, CancellationToken cancellationToken = default(CancellationToken))
         {
-            foreach (TEntity entity in entitys)
+            var enumerable = entitys as TEntity[] ?? entitys.ToArray();
+            foreach (TEntity entity in enumerable)
             {
                 BeforeInsert(entity);
             }
-            return base.InsertAsync(entitys);
+            return base.InsertAsync(enumerable);
         }
 
         private void BeforeUpdate(TEntity entity)

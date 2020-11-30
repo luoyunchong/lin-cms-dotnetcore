@@ -53,5 +53,15 @@ namespace LinCms.Test.Service.Base
                  .IncludeMany(r => r.BaseItems.Take(1)).ToList();
 
         }
+
+        [Fact]
+        public void LeftJoin()
+        {
+            var result = freeSql.Select<BaseType>()
+                 .IncludeMany(r => r.BaseItems.Take(1)).ToList();
+
+        }
+
+
     }
 }

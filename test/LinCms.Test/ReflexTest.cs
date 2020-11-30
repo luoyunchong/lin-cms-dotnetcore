@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Controllers.Cms;
 using LinCms.Data;
+using LinCms.FreeSql;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -179,6 +182,67 @@ namespace LinCms.Test
         {
             var entityTypes = ReflexHelper.GetTypesByNameSpace();
             Assert.True(entityTypes.Length > 0);
+        }
+
+        [Fact]
+        public void FreeSqlBuilderTest()
+        {
+            FreeSqlBuilder fsql = new FreeSqlBuilder()
+                .UseConnectionString(DataType.MySql,"Data Source=localhost;Port=3306;User ID=root;Password=root;Initial Catalog=lincms2;Charset=utf8mb4;SslMode=none;Max pool size=1;Connection LifeTime=20")
+                .UseAutoSyncStructure(true)
+                .UseNoneCommandParameter(true);
+            
+            
+            Type type = fsql.GetType();
+            FieldInfo fieldInfo = type.GetField("_masterConnectionString", BindingFlags.NonPublic | BindingFlags.Instance);
+            string value = (string)fieldInfo.GetValue(fsql);
+            
+            FieldInfo _dataTypeFieldInfo = type.GetField("_dataType", BindingFlags.NonPublic | BindingFlags.Instance);
+            DataType dataType = (DataType)_dataTypeFieldInfo.GetValue(fsql);
+
+
+        }
+
+
+        [Fact]
+        public void OdbcFreeSqlBuilderTest()
+        {
+
+            //using OdbcConnection cnn = new OdbcConnection("Driver={SQL Server};Server=.;Initial Catalog=master;Uid=sa;Pwd=123456");
+            //cnn.Open();
+
+            FreeSqlBuilder fsqlBuilder = new FreeSqlBuilder()
+                .UseConnectionString(DataType.OdbcSqlServer, "Driver={SQL Server};AttachDBFilename=d:\\db\\File\\AdventureWorks.mdf;Server=.;Initial Catalog=AdventureWorks;Uid=sa;Pwd=123456")
+                .UseAutoSyncStructure(true)
+                .UseNoneCommandParameter(true);
+
+
+            fsqlBuilder.CreateDatabaseIfNotExists_ODBCSqlServer();
+
+        }
+
+        [Fact]
+        public void OdbcFreeSqlBuilderTest2()
+        {
+
+            FreeSqlBuilder fsqlBuilder2 = new FreeSqlBuilder()
+               .UseConnectionString(DataType.OdbcSqlServer, "Driver={SQL Server};AttachDBFilename=|DataDirectory|\\AdventureWorks2.mdf;Server=.;Initial Catalog=AdventureWorks2;Uid=sa;Pwd=123456");
+
+            fsqlBuilder2.CreateDatabaseIfNotExists_ODBCSqlServer();
+        }
+
+
+        /// <summary>
+        ///  Message:  System.Data.Odbc.OdbcException : ERROR[IM002][Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified
+        /// </summary>
+        [Fact]
+        public void CreateDatabaseIfNotExists_ODBCMySql_Test()
+        {
+            FreeSqlBuilder fsqlBuilder2 = new FreeSqlBuilder()
+               .UseConnectionString(DataType.OdbcMySql, "Driver={MySQL ODBC 8.0 Unicode Driver}; Server=127.0.0.1;Port=3308;Persist Security Info=False; Trusted_Connection=Yes;UID=root;PWD=123456; DATABASE=cccddd_odbc;Charset=utf8; SslMode=none;Min Pool Size=1");
+
+            fsqlBuilder2.CreateDatabaseIfNotExists_ODBCMySql();
+            
         }
     }
 }
