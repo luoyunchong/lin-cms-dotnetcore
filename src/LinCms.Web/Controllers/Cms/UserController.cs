@@ -146,8 +146,9 @@ namespace LinCms.Controllers.Cms
         }
 
         [AllowAnonymous]
+        [Cacheable]
         [HttpGet("novices")]
-        public async Task<List<UserNoviceDto>> GetNovicesAsync()
+        public virtual async Task<List<UserNoviceDto>> GetNovicesAsync()
         {
             List<UserNoviceDto> userNoviceDtos =(await _userRepository.Select
                 .OrderByDescending(r => r.CreateTime)

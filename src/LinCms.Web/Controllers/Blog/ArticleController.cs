@@ -102,15 +102,16 @@ namespace LinCms.Controllers.Blog
         [AllowAnonymous]
         public Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
         {
-            //return  _articleService.GetArticleAsync(searchDto);
-            string redisKey = "article:query:" + EncryptUtil.Encrypt(JsonConvert.SerializeObject(searchDto, Formatting.Indented, new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            }));
+            return _articleService.GetArticleAsync(searchDto);
 
-            return RedisHelper.CacheShellAsync(
-                redisKey, 60, () => _articleService.GetArticleAsync(searchDto)
-             );
+            //string redisKey = "article:query:" + EncryptUtil.Encrypt(JsonConvert.SerializeObject(searchDto, Formatting.Indented, new JsonSerializerSettings
+            //{
+            //    DefaultValueHandling = DefaultValueHandling.Ignore
+            //}));
+
+            //return RedisHelper.CacheShellAsync(
+            //    redisKey, 60, () => _articleService.GetArticleAsync(searchDto)
+            // );
         }
 
         /// <summary>

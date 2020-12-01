@@ -3,13 +3,13 @@ using Autofac.Extras.DynamicProxy;
 using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
+using LinCms.Controllers.Blog;
 using LinCms.Entities;
 using LinCms.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace LinCms.Startup.Configuration
 {
@@ -23,9 +23,12 @@ namespace LinCms.Startup.Configuration
             builder.RegisterType<UnitOfWorkInterceptor>();
             builder.RegisterType<UnitOfWorkAsyncInterceptor>();
 
+            builder.RegisterType<AopCacheIntercept>();
+
             List<Type> interceptorServiceTypes = new List<Type>()
             {
-                typeof(UnitOfWorkInterceptor)
+                typeof(UnitOfWorkInterceptor),
+                typeof(AopCacheIntercept),
             };
 
             string[] notIncludes = new string[]
@@ -41,12 +44,23 @@ namespace LinCms.Startup.Configuration
 
             Assembly servicesDllFile = Assembly.Load("LinCms.Application");
             builder.RegisterAssemblyTypes(servicesDllFile)
-                .Where(a => a.Name.EndsWith("Service") && !notIncludes.Where(r => r == a.Name).Any())
+                .Where(a => a.Name.EndsWith("Service") && !notIncludes.Where(r => r == a.Name).Any() && !a.IsAbstract && !a.IsInterface && a.IsPublic)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired()// 属性注入
                 .InterceptedBy(interceptorServiceTypes.ToArray())
                 .EnableInterfaceInterceptors();
+
+
+            Assembly webDllFile = Assembly.Load("LinCms.Web");
+            builder.RegisterAssemblyTypes(webDllFile)
+                .Where(a => a.Name.EndsWith("Controller")&&!a.IsAbstract && !a.IsInterface && a.IsPublic)
+                .InstancePerLifetimeScope()
+                .AsSelf()
+                .PropertiesAutowired()// 属性注入
+                .InterceptedBy(interceptorServiceTypes.ToArray())
+                .EnableClassInterceptors();
+
 
 
             //一个接口多个实现，使用Named，区分

@@ -49,6 +49,7 @@ namespace LinCms.Blog.Channels
             return new PagedResultDto<ChannelDto>(channel, totalCount);
         }
 
+        [Cacheable]
         public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
         {
             List<NavChannelListDto> channel = (await _channelRepository.Select

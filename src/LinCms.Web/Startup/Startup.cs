@@ -53,13 +53,14 @@ namespace LinCms.Startup
             services.AddCors();
 
             #region Mvc
-
-            services.AddControllers(options =>
+            
+            services.AddMvc(options =>
                 {
                     options.ValueProviderFactories.Add(new ValueProviderFactory()); //设置SnakeCase形式的QueryString参数
                     //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
                     options.Filters.Add<LinCmsExceptionFilter>(); // 
                 })
+                .AddControllersAsServices()
                 .AddNewtonsoftJson(opt =>
                 {
                     opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
