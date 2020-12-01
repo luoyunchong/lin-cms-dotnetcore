@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using LinCms.Aop.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +25,9 @@ namespace LinCms.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpGet("server-info")]
+        [Cacheable]
         //[LinCmsAuthorize("服务器配置信息", "监控管理")]
-        public ServerViewModel GetServerInfo()
+        public virtual ServerViewModel GetServerInfo()
         {
             return new ServerViewModel()
             {

@@ -5,7 +5,6 @@ namespace LinCms.v1.Books
 {
     public interface IBookService
     {
-
         Task<PagedResultDto<BookDto>> GetListAsync(PageDto pageDto);
 
         Task<BookDto> GetAsync(long id);

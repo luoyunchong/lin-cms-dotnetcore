@@ -3,7 +3,7 @@ using LinCms.Entities;
 
 namespace LinCms.v1.Books
 {
-    public class BookDto:EntityDto
+    public class BookDto : EntityDto
     {
         public string Author { get; set; }
         public string Image { get; set; }

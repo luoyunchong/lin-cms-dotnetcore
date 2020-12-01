@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LinCms.Aop.Attributes;
 using LinCms.Blog.Classifys;
 using LinCms.Blog.Tags;
 using LinCms.Blog.UserSubscribes;
@@ -13,7 +14,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Blog.Articles
 {
-    public class ArticleService :ApplicationService, IArticleService
+    public class ArticleService : ApplicationService, IArticleService
     {
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
@@ -32,7 +33,7 @@ namespace LinCms.Blog.Articles
             IClassifyService classifyService,
             ITagService tagService,
             IUserSubscribeService userSubscribeService,
-            IAuditBaseRepository<ArticleDraft> articleDraftRepository, 
+            IAuditBaseRepository<ArticleDraft> articleDraftRepository,
             IFileRepository fileRepository
             )
         {
@@ -48,6 +49,7 @@ namespace LinCms.Blog.Articles
             _fileRepository = fileRepository;
         }
 
+        [Cacheable]
         public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)
         {
             DateTime monthDays = DateTime.Now.AddDays(-30);

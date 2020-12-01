@@ -8,7 +8,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>LinCms.Application.Contracts.xml</DocumentationFile>
-    <OutputPath>bind\Debug</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
