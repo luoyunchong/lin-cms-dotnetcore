@@ -9,7 +9,7 @@ namespace IGeekFan.Test
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void AssertGenerice()
         {
             bool isGenerice=typeof(ICollection<LocalResource>).IsGenericType;
             Assert.True(isGenerice);

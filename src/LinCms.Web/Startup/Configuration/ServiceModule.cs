@@ -51,15 +51,15 @@ namespace LinCms.Startup.Configuration
                 .InterceptedBy(interceptorServiceTypes.ToArray())
                 .EnableInterfaceInterceptors();
 
-
-            Assembly webDllFile = Assembly.Load("LinCms.Web");
-            builder.RegisterAssemblyTypes(webDllFile)
-                .Where(a => a.Name.EndsWith("Controller")&&!a.IsAbstract && !a.IsInterface && a.IsPublic)
-                .InstancePerLifetimeScope()
-                .AsSelf()
-                .PropertiesAutowired()// 属性注入
-                .InterceptedBy(interceptorServiceTypes.ToArray())
-                .EnableClassInterceptors();
+            //太慢了。
+            //Assembly webDllFile = Assembly.Load("LinCms.Web");
+            //builder.RegisterAssemblyTypes(webDllFile)
+            //    .Where(a => a.Name.EndsWith("Controller") && !a.IsAbstract && !a.IsInterface && a.IsPublic)
+            //    .InstancePerLifetimeScope()
+            //    .AsSelf()
+            //    .PropertiesAutowired()// 属性注入
+            //    .InterceptedBy(interceptorServiceTypes.ToArray())
+            //    .EnableClassInterceptors();
 
 
 

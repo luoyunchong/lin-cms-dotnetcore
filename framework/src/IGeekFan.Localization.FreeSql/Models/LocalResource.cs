@@ -1,5 +1,4 @@
-﻿
-using FreeSql.DataAnnotations;
+﻿using FreeSql.DataAnnotations;
 
 namespace IGeekFan.Localization.FreeSql.Models
 {

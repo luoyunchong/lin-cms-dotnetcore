@@ -3,18 +3,21 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 权限表
+    /// </summary>
     [Table(Name = "lin_permission")]
     public class LinPermission : FullAduitEntity<long>
     {
+        public LinPermission()
+        {
+        }
+
         public LinPermission(string name, string module, string router)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Module = module ?? throw new ArgumentNullException(nameof(module));
             Router = router ?? throw new ArgumentNullException(nameof(router));
-        }
-
-        public LinPermission()
-        {
         }
 
         /// <summary>

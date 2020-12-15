@@ -28,7 +28,28 @@ namespace LinCms.Extensions
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return ConvertIntDateTime(double.Parse(reader.Value.ToString()));
+            if (reader.Value.ToString() == "")
+            {
+                return null;
+            }
+
+            if (reader.TokenType == JsonToken.Integer)
+            {
+                return ConvertIntDateTime(double.Parse(reader.Value.ToString()));
+            }
+
+            if (objectType == typeof(DateTime) || objectType == typeof(DateTime?))
+            {
+                DateTime.TryParse(reader.Value.ToString(), out var readerTime);
+                return readerTime;
+            }
+            if (objectType == typeof(DateTimeOffset) || objectType == typeof(DateTimeOffset?))
+            {
+                DateTimeOffset.TryParse(reader.Value.ToString(), out var readerTime);
+                return readerTime;
+            }
+
+            return null;
         }
 
         public static DateTime ConvertIntDateTime(double milliseconds)
