@@ -48,15 +48,15 @@
 		<PackageReference Include="Caching.CSRedis" Version="3.6.50" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
 		<PackageReference Include="CSRedisCore" Version="3.6.5" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.2-preview-121943182" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.2-preview-121943182" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.2-preview-121943182" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.2" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.2" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.2" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.8" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />	
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />	
 		<PackageReference Include="Owl.reCAPTCHA" Version="0.4.0" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="3.1.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="3.4.1-dev-00188" />

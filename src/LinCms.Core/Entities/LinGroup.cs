@@ -39,7 +39,7 @@ namespace LinCms.Entities
         public bool IsStatic { get; set; } = false;
 
         /// <summary>
-        /// 排序码
+        /// 排序码，升序
         /// </summary>
         public int SortCode { get; set; }
 

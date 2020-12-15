@@ -276,7 +276,7 @@
         </member>
         <member name="T:LinCms.Entities.Base.Doc">
             <summary>
-            文档
+            文档---示例代码生成。
             </summary>
         </member>
         <member name="P:LinCms.Entities.Base.Doc.Name">
@@ -679,6 +679,11 @@
             关注的用户Id
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Book">
+            <summary>
+            也是demo。
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.EntityDto`1.Id">
             <summary>
             主键Id
@@ -816,7 +821,7 @@
         </member>
         <member name="P:LinCms.Entities.LinGroup.SortCode">
             <summary>
-            排序码
+            排序码，升序
             </summary>
         </member>
         <member name="F:LinCms.Entities.LinGroup.Admin">
@@ -832,6 +837,11 @@
         <member name="F:LinCms.Entities.LinGroup.User">
             <summary>
             普通用户
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.LinGroupPermission">
+            <summary>
+            分组权限中间表
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinGroupPermission.GroupId">
@@ -882,6 +892,11 @@
         <member name="P:LinCms.Entities.LinLog.Username">
             <summary>
             用户当时的昵称
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.LinPermission">
+            <summary>
+            权限表
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinPermission.Name">

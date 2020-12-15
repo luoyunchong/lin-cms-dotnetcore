@@ -2,6 +2,9 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 分组权限中间表
+    /// </summary>
     [Table(Name = "lin_group_permission")]
     public class LinGroupPermission : Entity<long>
     {

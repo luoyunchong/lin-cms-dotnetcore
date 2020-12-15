@@ -60,7 +60,6 @@ namespace LinCms.Startup
                     //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
                     //options.Filters.Add<LinCmsExceptionFilter>(); // 
                 })
-                .AddControllersAsServices()
                 .AddNewtonsoftJson(opt =>
                 {
                     opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";

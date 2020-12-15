@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="2.0.102" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.0" />
+    <PackageReference Include="FreeSql" Version="2.0.105" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.1" />
   </ItemGroup>
 
 </Project>

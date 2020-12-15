@@ -27,7 +27,7 @@ namespace Sample.Localization
                 .UseConnectionString(DataType.MySql, Mysql.Value)
                 .UseAutoSyncStructure(true)
                 .UseMonitorCommand(cmd => Trace.WriteLine(cmd.CommandText))
-                .Build().SetDbContextOptions(options => { options.EnableAddOrUpdateNavigateList = true; });
+                .Build();
         }
         public IFreeSql Fsql { get; }
         public IConfiguration Configuration { get; }

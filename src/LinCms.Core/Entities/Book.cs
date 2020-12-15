@@ -2,6 +2,9 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 也是demo。
+    /// </summary>
     [Table(Name = "book")]
     public class Book : FullAduitEntity
     {
