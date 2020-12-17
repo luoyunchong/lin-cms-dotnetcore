@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="IS4.pfx" />
     <None Remove="LinCms.IdentityServer4.xml" />
     <None Remove="tempkey.rsa" />
   </ItemGroup>
@@ -49,9 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="IS4.pfx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="LinCms.IdentityServer4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

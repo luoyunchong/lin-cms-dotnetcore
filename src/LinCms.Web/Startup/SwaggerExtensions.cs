@@ -126,16 +126,16 @@ namespace LinCms.Startup
                     Log.Logger.Warning(ex.Message);
                 }
 
-                options.AddServer(new OpenApiServer()
-                {
-                    Url = "https://localhost:5001",
-                    Description = "本地"
-                }); ;
-                options.AddServer(new OpenApiServer()
-                {
-                    Url = "https://api.igeekfan.cn",
-                    Description = "服务端"
-                });
+                //options.AddServer(new OpenApiServer()
+                //{
+                //    Url = "https://localhost:5001",
+                //    Description = "本地"
+                //}); ;
+                //options.AddServer(new OpenApiServer()
+                //{
+                //    Url = "https://api.igeekfan.cn",
+                //    Description = "服务端"
+                //});
 
                 options.CustomOperationIds(apiDesc =>
                 {
