@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ITokenService
     {
         /// <summary>

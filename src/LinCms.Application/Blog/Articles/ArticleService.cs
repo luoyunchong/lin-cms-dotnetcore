@@ -20,7 +20,7 @@ namespace LinCms.Blog.Articles
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
-        private readonly IAuditBaseRepository<Comment> _commentBaseRepository;
+        private readonly IAuditBaseRepository<Comment> _commentRepository;
         private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
         private readonly IClassifyService _classifyService;
         private readonly ITagService _tagService;
@@ -30,7 +30,7 @@ namespace LinCms.Blog.Articles
             IAuditBaseRepository<Article> articleRepository,
             IAuditBaseRepository<TagArticle> tagArticleRepository,
             IAuditBaseRepository<UserLike> userLikeRepository,
-            IAuditBaseRepository<Comment> commentBaseRepository,
+            IAuditBaseRepository<Comment> commentRepository,
             IClassifyService classifyService,
             ITagService tagService,
             IUserSubscribeService userSubscribeService,
@@ -41,7 +41,7 @@ namespace LinCms.Blog.Articles
             _articleRepository = articleRepository;
             _tagArticleRepository = tagArticleRepository;
             _userLikeRepository = userLikeRepository;
-            _commentBaseRepository = commentBaseRepository;
+            _commentRepository = commentRepository;
 
             _classifyService = classifyService;
             _tagService = tagService;
@@ -107,7 +107,7 @@ namespace LinCms.Blog.Articles
 
             await _articleRepository.DeleteAsync(new Article { Id = id });
             await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
-            await _commentBaseRepository.DeleteAsync(r => r.SubjectId == id);
+            await _commentRepository.DeleteAsync(r => r.SubjectId == id);
             await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
         }
 
@@ -136,7 +136,7 @@ namespace LinCms.Blog.Articles
             articleDto.IsLiked =
                 await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == CurrentUser.Id);
             articleDto.IsComment =
-                await _commentBaseRepository.Select.AnyAsync(
+                await _commentRepository.Select.AnyAsync(
                     r => r.SubjectId == id && r.CreateUserId == CurrentUser.Id);
             articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(article.Thumbnail);
 

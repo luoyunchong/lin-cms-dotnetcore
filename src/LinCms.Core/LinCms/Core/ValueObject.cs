@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using LinCms.Aop.Attributes;
 
-namespace LinCms.Entities
+namespace LinCms.Core
 {
     // source: https://github.com/jhewlett/ValueObject
     public abstract class ValueObject : IEquatable<ValueObject>

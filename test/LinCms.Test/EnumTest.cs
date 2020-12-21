@@ -26,5 +26,6 @@ namespace LinCms.Test
 
             Assert.Equal("bac28828a49181c34110.png", name);
         }
+
     }
 }

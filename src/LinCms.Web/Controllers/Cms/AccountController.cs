@@ -25,10 +25,12 @@ namespace LinCms.Controllers.Cms
     public class AccountController : ApiControllerBase
     {
         private readonly ITokenService _tokenService;
-        public AccountController(IComponentContext componentContext, IConfiguration configuration)
+        private readonly IAccountService _accountService;
+        public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService)
         {
             bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
             _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? typeof(IdentityServer4Service).Name : typeof(JwtTokenService).Name);
+            _accountService = accountService;
         }
         /// <summary>
         /// 登录接口
@@ -88,6 +90,29 @@ namespace LinCms.Controllers.Cms
             LinUser user = _mapper.Map<LinUser>(registerDto);
             await _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
             return UnifyResponseDto.Success("注册成功");
+        }
+
+        /// <summary>
+        /// 发送邮件验证码
+        /// </summary>
+        /// <param name="sendEmailCode"></param>
+        /// <returns></returns>
+        [HttpPost("account/send_password_reset_code")]
+        public async Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
+        {
+            string resetCode = await _accountService.SendPasswordResetCode(sendEmailCode);
+            return resetCode;
+        }
+        
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="resetPassword"></param>
+        /// <returns></returns>
+        [HttpPost("account/reset_password")]
+        public async Task ResetPassword(ResetEmailPasswordDto resetPassword)
+        {
+          await _accountService.ResetPassword(resetPassword);
         }
     }
 }

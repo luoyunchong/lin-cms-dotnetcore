@@ -280,6 +280,11 @@
             关注者
             </summary>
         </member>
+        <member name="T:LinCms.Cms.Account.ITokenService">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:LinCms.Cms.Account.ITokenService.LoginAsync(LinCms.Cms.Account.LoginInputDto)">
             <summary>
             登录
