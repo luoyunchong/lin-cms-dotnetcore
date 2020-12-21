@@ -7,6 +7,7 @@ using LinCms.Blog.Classifys;
 using LinCms.Blog.Tags;
 using LinCms.Blog.UserSubscribes;
 using LinCms.Data;
+using LinCms.Data.Enums;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Extensions;
@@ -271,11 +272,11 @@ namespace LinCms.Blog.Articles
             Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
             if (article == null)
             {
-                throw new LinCmsException("没有找到相关随笔");
+                throw new LinCmsException("没有找到相关随笔",ErrorCode.NotFound);
             }
             if (article.CreateUserId != CurrentUser.Id)
             {
-                throw new LinCmsException("不是自己的随笔");
+                throw new LinCmsException("不是自己的随笔", ErrorCode.NoPermission);
             }
             article.Commentable = commetable;
             await _articleRepository.UpdateAsync(article);

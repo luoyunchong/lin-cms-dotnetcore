@@ -22,7 +22,7 @@ namespace LinCms.Entities
         }
 
         /// <summary>
-        /// 权限组名称
+        /// 权限组唯一标识字符
         /// </summary>
         [Column(StringLength = 60)]
         public string Name { get; set; }

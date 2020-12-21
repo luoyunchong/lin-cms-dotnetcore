@@ -806,7 +806,7 @@
         </member>
         <member name="P:LinCms.Entities.LinGroup.Name">
             <summary>
-            权限组名称
+            权限组唯一标识字符
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinGroup.Info">
@@ -1222,6 +1222,41 @@
         <member name="P:LinCms.LinCms.Core.NameValue`1.Value">
             <summary>
             Value.
+            </summary>
+        </member>
+        <member name="M:LinCms.Email.IEmailSender.SendAsync(MimeKit.MimeMessage,System.Threading.CancellationToken)">
+            <summary>
+            Sends an email.
+            </summary>
+            <param name="mail">Mail to be sent</param>
+            <param name="normalize">
+            Should normalize email?
+            If true, it sets sender address/name if it's not set before and makes mail encoding UTF-8.
+            </param>
+        </member>
+        <member name="P:LinCms.Email.MailKitOptions.Host">
+            <summary>
+            SMTP Host Server address
+            </summary>
+        </member>
+        <member name="P:LinCms.Email.MailKitOptions.Port">
+            <summary>
+            SMTP Host Server Port ,default is 25
+            </summary>
+        </member>
+        <member name="P:LinCms.Email.MailKitOptions.UserName">
+            <summary>
+            send user name
+            </summary>
+        </member>
+        <member name="P:LinCms.Email.MailKitOptions.Password">
+            <summary>
+            send user password
+            </summary>
+        </member>
+        <member name="P:LinCms.Email.MailKitOptions.Domain">
+            <summary>
+            Domain name to login to SMTP server.
             </summary>
         </member>
     </members>

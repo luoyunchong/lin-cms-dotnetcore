@@ -11,8 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LinCms.Startup
@@ -43,7 +41,12 @@ namespace LinCms.Startup
                 opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-               .AddCookie()
+               .AddCookie(options =>
+               {
+                   options.Cookie.SameSite = SameSiteMode.None;
+                   options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                   options.Cookie.IsEssential = true;
+               })
                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                {
                    bool isIds4 = Configuration["Service:IdentityServer4"].ToBoolean();
