@@ -11,6 +11,7 @@ using LinCms.Data.Enums;
 using LinCms.Data.Options;
 using LinCms.Entities;
 using LinCms.FreeSql;
+using LinCms.Email;
 using LinCms.Utils;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
@@ -123,8 +124,10 @@ namespace LinCms.Startup
         public static void AddDIServices(this IServiceCollection services, IConfiguration configuration)
         {
             //services.AddTransient<CustomExceptionMiddleWare>();
+
             services.AddFreeRepository();
             services.AddHttpClient("IdentityServer4");
+            services.Configure<MailKitOptions>(configuration.GetSection("MailKitOptions"));
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
         }
 

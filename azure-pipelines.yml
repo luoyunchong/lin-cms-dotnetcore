@@ -39,6 +39,10 @@ steps:
       sed -i 's/{CAP.RabbitMQ.VirtualHost}/$(CAP.RabbitMQ.VirtualHost)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{FileStorage.Qiniu.AK}/$(FileStorage.Qiniu.AK)/g' src/LinCms.Web/appsettings.Production.json
       sed -i 's/{FileStorage.Qiniu.SK}/$(FileStorage.Qiniu.SK)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{MailKitOptions.Host}/$(MailKitOptions.Host)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{MailKitOptions.Port}/$(MailKitOptions.Port)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{MailKitOptions.UserName}/$(MailKitOptions.UserName)/g' src/LinCms.Web/appsettings.Production.json
+      sed -i 's/{MailKitOptions.Password}/$(MailKitOptions.Password)/g' src/LinCms.Web/appsettings.Production.json
       echo command executed
 
 - script: |

@@ -9,7 +9,7 @@ namespace LinCms.Utils
         public static void EnrichFromRequest(IDiagnosticContext diagnosticContext, HttpContext httpContext)
         {
             var request = httpContext.Request;
-            ICurrentUser currentUser = (ICurrentUser)httpContext.RequestServices.GetService(typeof(ICurrentUser));
+            ICurrentUser? currentUser = httpContext.RequestServices.GetService(typeof(ICurrentUser)) as ICurrentUser;
             if (currentUser != null)
             {
                 diagnosticContext.Set("UserName", currentUser.UserName);

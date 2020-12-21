@@ -61,7 +61,7 @@ namespace LinCms.Middleware
                         else if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
                         {
                             dynamic d = JsonConvert.DeserializeObject(cacheValue, resultTypes.FirstOrDefault());
-                            invocation.ReturnValue = Task.FromResult(d); ;
+                            invocation.ReturnValue = Task.FromResult(d);
                         }
                         else
                         {

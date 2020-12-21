@@ -12,7 +12,7 @@
 		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="5.0.0" />
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="DotNetCore.CAP.MySql" Version="3.1.2" />
-		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="3.1.2-preview-121943182" />-->
+		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="3.1.2" />-->
 		<PackageReference Include="IdentityServer4" Version="4.1.1" />
 		<PackageReference Include="DotNetCore.CAP" Version="3.1.2" />
 		<PackageReference Include="IdentityModel" Version="5.0.0-preview.0" />

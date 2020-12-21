@@ -61,7 +61,7 @@ namespace LinCms.Cms.Groups
             bool exist = await _groupRepository.Select.AnyAsync(r => r.Name == inputDto.Name);
             if (exist)
             {
-                throw new LinCmsException("分组已存在，不可创建同名分组", ErrorCode.RepeatField);
+                throw new LinCmsException($"权限组标识符{inputDto.Name}已存在，不可创建同名权限组", ErrorCode.RepeatField);
             }
 
             LinGroup linGroup = Mapper.Map<LinGroup>(inputDto);
@@ -99,6 +99,21 @@ namespace LinCms.Cms.Groups
         public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)
         {
             LinGroup group = await _groupRepository.Where(r => r.Id == id).FirstAsync();
+
+            if (group.IsStatic)
+            {
+                if (group.Name != updateGroupDto.Name)
+                {
+                    throw new LinCmsException("静态权限组标识符不修改!");
+                }
+            }
+
+            bool anyName = await _groupRepository.Where(r => r.Name == updateGroupDto.Name && r.Id != id).AnyAsync();
+            if (anyName)
+            {
+                throw new LinCmsException($"权限组标识符:{updateGroupDto.Name}已存在!", ErrorCode.RepeatField);
+            }
+
             Mapper.Map(updateGroupDto, group);
             await _groupRepository.UpdateAsync(group);
         }
