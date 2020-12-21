@@ -74,7 +74,8 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 200)]
         public string RefreshToken { get; set; }
-
+        public bool IsEmailConfirmed { get; set; } = false;
+        public string PasswordResetCode { get; set; }
 
         [Navigate(ManyToMany = typeof(LinUserGroup))]
         public virtual ICollection<LinGroup> LinGroups { get; set; }
@@ -84,6 +85,12 @@ namespace LinCms.Entities
 
         [Navigate("CreateUserId")]
         public virtual ICollection<LinUserIdentity> LinUserIdentitys { get; set; }
+
+
+        public void SetNewPasswordResetCode()
+        {
+            this.PasswordResetCode = Guid.NewGuid().ToString("N").Truncate(328);
+        }
 
         public bool IsActive()
         {

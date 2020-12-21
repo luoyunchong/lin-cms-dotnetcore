@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace LinCms.Middleware
 {
+    /// <summary>
+    /// 验证码过滤器，可配置某个方法是否需要Google人机验证
+    /// </summary>
     public class RecaptchaVerifyActionFilter : ActionFilterAttribute
     {
         private readonly GooglereCAPTCHAOptions _options;

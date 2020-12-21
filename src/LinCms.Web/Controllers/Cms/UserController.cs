@@ -145,6 +145,10 @@ namespace LinCms.Controllers.Cms
             return openUser;
         }
 
+        /// <summary>
+        /// 获取最新的12条新手用户数据
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [Cacheable]
         [HttpGet("novices")]

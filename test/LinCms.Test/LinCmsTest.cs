@@ -110,5 +110,14 @@ namespace LinCms.Test
             testOutputHelper.WriteLine(sql);
 
         }
+
+        [Fact]
+        public void f()
+        {
+            int _min = 100000;
+            int _max = 999999;
+            Random _rdm = new Random();
+            int f= _rdm.Next(_min, _max);
+        }
     }
 }

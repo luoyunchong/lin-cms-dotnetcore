@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using LinCms.Aop.Attributes;
 using LinCms.Common;
-using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -31,7 +29,10 @@ namespace LinCms.Cms.Users
 
         public async Task ChangePasswordAsync(long userId, string newpassword)
         {
-            var linUserIdentity = await _userIdentityRepository.Where(a => a.CreateUserId == userId && a.IdentityType == LinUserIdentity.Password).FirstAsync();
+            var linUserIdentity = await _userIdentityRepository
+                .Where(a => a.CreateUserId == userId && a.IdentityType == LinUserIdentity.Password)
+                .FirstAsync();
+
             await this.ChangePasswordAsync(linUserIdentity, newpassword);
         }
 

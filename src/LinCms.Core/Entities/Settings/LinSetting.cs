@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities.Settings
 {
+    /// <summary>
+    /// all settings config
+    /// </summary>
     [Table(Name = "lin_settings")]
     public class LinSetting : FullAduitEntity<Guid>
     {

@@ -256,6 +256,20 @@
             <param name="_mapper"></param>
             <param name="_userSevice"></param>
         </member>
+        <member name="M:LinCms.Controllers.Cms.AccountController.SendPasswordResetCode(LinCms.Cms.Account.SendEmailCodeInput)">
+            <summary>
+            发送邮件验证码
+            </summary>
+            <param name="sendEmailCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.AccountController.ResetPassword(LinCms.Cms.Account.ResetEmailPasswordDto)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="resetPassword"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Controllers.Cms.AdminController.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">
             <summary>
             用户信息分页列表项
@@ -423,6 +437,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.GetNovicesAsync">
+            <summary>
+            获取最新的12条新手用户数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Controllers.v1.MonitorController.GetServerInfo">
             <summary>
             服务器配置信息
@@ -504,6 +524,11 @@
         <member name="T:LinCms.Middleware.AopCacheIntercept">
             <summary>
             Aop
+            </summary>
+        </member>
+        <member name="T:LinCms.Middleware.RecaptchaVerifyActionFilter">
+            <summary>
+            验证码过滤器，可配置某个方法是否需要Google人机验证
             </summary>
         </member>
         <member name="M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">

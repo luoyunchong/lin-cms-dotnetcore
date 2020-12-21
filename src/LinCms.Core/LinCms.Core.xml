@@ -1020,6 +1020,11 @@
              凭证，例如 密码,存OpenId、Id，同一IdentityType的OpenId的值是唯一的
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Settings.LinSetting">
+            <summary>
+            all settings config
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Settings.LinSetting.Name">
             <summary>
             键
