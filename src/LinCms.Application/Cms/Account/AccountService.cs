@@ -32,9 +32,9 @@ namespace LinCms.Cms.Account
         {
             var user = await GetUserByChecking(sendEmailCode.Email);
 
-            if (user.IsEmailConfirmed == true)
+            if (user.IsEmailConfirmed == false)
             {
-                throw new LinCmsException("邮件未激活!");
+                throw new LinCmsException("邮件未激活,无法通过此邮件找回密码!");
             }
 
             user.SetNewPasswordResetCode();
@@ -46,7 +46,7 @@ namespace LinCms.Cms.Account
             message.To.Add(new MailboxAddress(user.Username, user.Email));
             message.Subject = $"你此次重置密码的验证码是:{rand6Value}";
 
-            message.Body = new TextPart("plain")
+            message.Body = new TextPart("html")
             {
                 Text = $@"{user.Nickname},您好!</br>你此次重置密码的验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{rand6Value}"
             };
@@ -73,20 +73,25 @@ namespace LinCms.Cms.Account
 
         public async Task ResetPassword(ResetEmailPasswordDto resetPassword)
         {
-            var user = await _userRepository.Select.Where(r => r.Email == resetPassword.Email).FirstAsync();
-
-            string resetCode = await RedisHelper.GetAsync(user.Email);
-
-            if (user == null || resetPassword.ResetCode != resetCode)
+            string resetCode = await RedisHelper.GetAsync(resetPassword.Email);
+            if (resetCode.IsNullOrEmpty())
             {
-                throw new LinCmsException("InvalidEmailConfirmationCode");
+                throw new LinCmsException("验证码已过期");
+            }
+            if (resetPassword.ResetCode != resetCode)
+            {
+                throw new LinCmsException("验证码不正确");//InvalidEmailConfirmationCode
+            }
+
+            var user = await _userRepository.Select.Where(r => r.Email == resetPassword.Email).FirstAsync();
+            if (user == null || resetPassword.PasswordResetCode != user.PasswordResetCode)
+            {
+                throw new LinCmsException("该请求无效，请重新获取验证码");
             }
 
             user.PasswordResetCode = null;
             await _userRepository.UpdateAsync(user);
-
             await _userIdentityService.ChangePasswordAsync(user.Id, resetPassword.Password);
-
         }
     }
 }

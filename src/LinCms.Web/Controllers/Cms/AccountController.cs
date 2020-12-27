@@ -110,7 +110,7 @@ namespace LinCms.Controllers.Cms
         /// <param name="resetPassword"></param>
         /// <returns></returns>
         [HttpPost("account/reset_password")]
-        public async Task ResetPassword(ResetEmailPasswordDto resetPassword)
+        public async Task ResetPassword([FromBody] ResetEmailPasswordDto resetPassword)
         {
           await _accountService.ResetPassword(resetPassword);
         }
