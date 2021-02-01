@@ -105,7 +105,8 @@ namespace LinCms.Cms.Files
             }
             else
             {
-                await _fileRepository.UpdateDiy.Set(a => a.Path, path).ExecuteAffrowsAsync();
+                linFile.Path = path;
+                await _fileRepository.UpdateAsync(linFile);
                 id = linFile.Id;
             }
 
@@ -116,7 +117,6 @@ namespace LinCms.Cms.Files
                 Path = path,
                 Url = _fileStorageOption.LocalFile.Host + path
             };
-
         }
     }
 }
