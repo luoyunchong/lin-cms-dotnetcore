@@ -96,25 +96,24 @@ namespace LinCms.Utils
 
         private static HttpMethodAttribute GetMethodAttribute(MethodInfo methodInfo)
         {
-            HttpMethodAttribute methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpGetAttribute>().FirstOrDefault();
+            HttpMethodAttribute methodAttribute = methodInfo.GetCustomAttribute<HttpGetAttribute>();
             if (methodAttribute != null)
             {
                 return methodAttribute;
             }
-            methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpDeleteAttribute>().FirstOrDefault();
+            methodAttribute = methodInfo.GetCustomAttribute<HttpDeleteAttribute>();
             if (methodAttribute != null)
             {
                 return methodAttribute;
             }
-            methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpPutAttribute>().FirstOrDefault();
+            methodAttribute = methodInfo.GetCustomAttribute<HttpPutAttribute>();
             if (methodAttribute != null)
             {
                 return methodAttribute;
             }
-            methodAttribute = methodInfo.GetCustomAttributes().OfType<HttpPostAttribute>().FirstOrDefault();
+            methodAttribute = methodInfo.GetCustomAttribute<HttpPostAttribute>();
 
             return methodAttribute;
-
         }
 
         /**
@@ -159,10 +158,10 @@ namespace LinCms.Utils
                 }).ToList()
             }).ToList();
 
-            IDictionary<string, object> expandoObject = new ExpandoObject();
+            IDictionary<string, object> expandoObject = new Dictionary<string, object>();
             foreach (var permission in permissionTree)
             {
-                IDictionary<string, object> perExpandObject = new ExpandoObject();
+                IDictionary<string, object> perExpandObject = new Dictionary<string, object>();
 
                 foreach (var children in permission.Children)
                 {
@@ -187,11 +186,11 @@ namespace LinCms.Utils
 
             foreach (var groupAuth in groupAuths)
             {
-                IDictionary<string, object> moduleExpandoObject = new ExpandoObject();
+                IDictionary<string, object> moduleExpandoObject = new Dictionary<string, object>();
                 List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
                 groupAuth.Children.ForEach(permission =>
                 {
-                    IDictionary<string, object> perExpandObject = new ExpandoObject();
+                    IDictionary<string, object> perExpandObject = new Dictionary<string, object>();
                     perExpandObject["module"] = groupAuth.Key;
                     perExpandObject["permission"] = permission;
                     perExpandList.Add(perExpandObject);

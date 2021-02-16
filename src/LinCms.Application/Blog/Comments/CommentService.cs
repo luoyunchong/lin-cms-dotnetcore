@@ -48,7 +48,7 @@ namespace LinCms.Blog.Comments
                     .OrderByDescending(!commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                     .OrderBy(commentSearchDto.RootCommentId.HasValue, r => r.CreateTime)
                     .Page(commentSearchDto.Page + 1, commentSearchDto.Count).ToListAsync())
-                //.ToPagerList(commentSearchDto, out long totalCount)
+                //.ToPagerList(commentSearchDto, out long totalCount    
                 .Select(r =>
                 {
                     CommentDto commentDto = Mapper.Map<CommentDto>(r);

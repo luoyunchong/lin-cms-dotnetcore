@@ -19,13 +19,42 @@ namespace LinCms.Cms.Account
         private readonly IEmailSender _emailSender;
         private readonly MailKitOptions _mailKitOptions;
         private readonly IUserIdentityService _userIdentityService;
-        public AccountService(IAuditBaseRepository<LinUser, long> userRepository, IEmailSender emailSender,
-            IOptions<MailKitOptions> options, IUserIdentityService userIdentityService)
+        public AccountService(
+            IAuditBaseRepository<LinUser, long> userRepository, 
+            IEmailSender emailSender,
+            IOptions<MailKitOptions> options,
+            IUserIdentityService userIdentityService
+            )
         {
             _userRepository = userRepository;
             _emailSender = emailSender;
             _mailKitOptions = options.Value;
             _userIdentityService = userIdentityService;
+        }
+
+        public async Task<string> SendComfirmEmail(RegisterDto registerDto)
+        {
+
+            int rand6Value = new Random().Next(100000, 999999);
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(_mailKitOptions.UserName, _mailKitOptions.UserName));
+            message.To.Add(new MailboxAddress(registerDto.Nickname, registerDto.Email));
+            message.Subject = $"你此次重置密码的验证码是:{rand6Value}";
+
+            message.Body = new TextPart("html")
+            {
+                Text = $@"{registerDto.Nickname},您好!</br>
+感谢您在 vvlog  的注册，请点击这里激活您的账号：</br>
+https://api.igeekfan.cn/accounts/confirm-email/NzIzNzE1:1kPI39:KSI-GZqKumzAFKNDtf02dFHyaaalOoEPwwq8reagU9A/
+祝您使用愉快，使用过程中您有任何问题请及时联系我们。</br>{rand6Value}"
+            };
+
+
+            await _emailSender.SendAsync(message);
+
+
+            return "";
         }
 
         public async Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
@@ -53,7 +82,7 @@ namespace LinCms.Cms.Account
 
             await _userRepository.UpdateAsync(user);
 
-            await _emailSender.SendAsync(message);
+            //await _emailSender.SendAsync(message);
 
             await RedisHelper.SetAsync(user.Email, rand6Value, 30 * 60);
 
