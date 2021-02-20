@@ -1,13 +1,18 @@
 ﻿using IdentityModel;
 using IdentityModel.Client;
+
 using IdentityServer4.Models;
+
 using LinCms.Data.Enums;
 using LinCms.Exceptions;
 using LinCms.Security;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -101,11 +106,14 @@ namespace LinCms.Cms.Account
                 ClientId = _configuration["Service:ClientId"],
                 ClientSecret = _configuration["Service:ClientSecret"],
 
-                Parameters = new Dictionary<string, string>
-                {
-                    { OidcConstants.TokenRequest.RefreshToken, refreshToken }
-                }
+                Parameters = new Parameters(
+                    new Dictionary<string, string>
+                    {
+                        { OidcConstants.TokenRequest.RefreshToken, refreshToken }
+                    }
+                )
             });
+
 
             if (response.IsError)
             {
