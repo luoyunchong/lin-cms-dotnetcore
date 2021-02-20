@@ -98,6 +98,9 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException(disco.Error);
             }
 
+            Parameters parameters = new Parameters();
+            parameters.Add(new KeyValuePair<string, string>(OidcConstants.TokenRequest.RefreshToken, refreshToken));
+
             TokenResponse response = await client.RequestTokenAsync(new TokenRequest
             {
                 Address = disco.TokenEndpoint,
@@ -112,8 +115,8 @@ namespace LinCms.Cms.Account
                         { OidcConstants.TokenRequest.RefreshToken, refreshToken }
                     }
                 )
+                Parameters = parameters
             });
-
 
             if (response.IsError)
             {
