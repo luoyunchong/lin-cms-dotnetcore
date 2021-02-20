@@ -1,18 +1,12 @@
 ﻿using IdentityModel;
 using IdentityModel.Client;
-
 using IdentityServer4.Models;
-
 using LinCms.Data.Enums;
 using LinCms.Exceptions;
 using LinCms.Security;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -98,8 +92,10 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException(disco.Error);
             }
 
-            Parameters parameters = new Parameters();
-            parameters.Add(new KeyValuePair<string, string>(OidcConstants.TokenRequest.RefreshToken, refreshToken));
+            Parameters parameters = new Parameters
+            {
+                new KeyValuePair<string, string>(OidcConstants.TokenRequest.RefreshToken, refreshToken)
+            };
 
             TokenResponse response = await client.RequestTokenAsync(new TokenRequest
             {
@@ -108,13 +104,6 @@ namespace LinCms.Cms.Account
 
                 ClientId = _configuration["Service:ClientId"],
                 ClientSecret = _configuration["Service:ClientSecret"],
-
-                Parameters = new Parameters(
-                    new Dictionary<string, string>
-                    {
-                        { OidcConstants.TokenRequest.RefreshToken, refreshToken }
-                    }
-                )
                 Parameters = parameters
             });
 
