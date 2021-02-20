@@ -29,7 +29,7 @@
 		<PackageReference Include="MailKit" Version="2.10.1" />
 		<PackageReference Include="FreeSql" Version="2.3.100" />
 		<PackageReference Include="FreeSql.DbContext" Version="2.3.100" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.0.0" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
