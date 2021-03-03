@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Groups;
@@ -52,9 +53,9 @@ namespace LinCms.Cms.Users
             await _userIdentityService.ChangePasswordAsync(userIdentity, passwordDto.NewPassword);
         }
 
-        public async Task<LinUser> GetUserAsync(string username)
+        public Task<LinUser> GetUserAsync(string username)
         {
-            return await _userRepository.Where(r => r.Username == username).FirstAsync();
+            return _userRepository.Where(r => r.Username == username).FirstAsync();
         }
 
         [Transactional]
@@ -203,12 +204,12 @@ namespace LinCms.Cms.Users
                                            .ExecuteUpdatedAsync();
         }
 
-        public async Task<LinUser> GetCurrentUserAsync()
+        public Task<LinUser> GetCurrentUserAsync()
         {
             if (CurrentUser.Id != null)
             {
                 long userId = (long)CurrentUser.Id;
-                return await _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
+                return _userRepository.Select.Where(r => r.Id == userId).ToOneAsync();
             }
 
             return null;

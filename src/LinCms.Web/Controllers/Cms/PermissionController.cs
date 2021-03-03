@@ -58,9 +58,9 @@ namespace LinCms.Controllers.Cms
         }
 
         [HttpGet("tree-list")]
-        public async Task<List<TreePermissionDto>> GetTreePermissionListAsync()
+        public Task<List<TreePermissionDto>> GetTreePermissionListAsync()
         {
-            return await _permissionService.GetTreePermissionListAsync();
+            return _permissionService.GetTreePermissionListAsync();
         }
     }
 }

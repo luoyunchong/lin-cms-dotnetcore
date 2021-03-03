@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Groups;
 using LinCms.Cms.Users;
@@ -9,6 +11,7 @@ using LinCms.Data;
 using LinCms.Entities;
 using LinCms.IRepositories;
 using LinCms.Security;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,7 +58,7 @@ namespace LinCms.Controllers.Cms
         [Authorize(Roles = LinGroup.Admin)]
         public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUserDto userInput)
         {
-            await  _userSevice.CreateAsync(_mapper.Map<LinUser>(userInput), userInput.GroupIds, userInput.Password);
+            await _userSevice.CreateAsync(_mapper.Map<LinUser>(userInput), userInput.GroupIds, userInput.Password);
             return UnifyResponseDto.Success("用户创建成功");
         }
 
@@ -63,10 +66,9 @@ namespace LinCms.Controllers.Cms
         /// 得到当前登录人信息
         /// </summary>
         [HttpGet("information")]
-        public async Task<UserInformation> GetInformationAsync()
+        public Task<UserInformation> GetInformationAsync()
         {
-            UserInformation userInformation = await _userSevice.GetInformationAsync(_currentUser.Id ?? 0);
-            return userInformation;
+            return _userSevice.GetInformationAsync(_currentUser.Id ?? 0);
         }
 
         /// <summary>
@@ -88,7 +90,6 @@ namespace LinCms.Controllers.Cms
         public async Task<UnifyResponseDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
         {
             await _userSevice.ChangePasswordAsync(passwordDto);
-
             return UnifyResponseDto.Success("密码修改成功");
         }
 
@@ -129,7 +130,7 @@ namespace LinCms.Controllers.Cms
         [HttpGet("avatar/{userId}")]
         public async Task<string> GetAvatarAsync(long userId)
         {
-            string avatar = await _userRepository.Where(r => r.Id == userId).FirstAsync(r=>r.Avatar);
+            string avatar = await _userRepository.Where(r => r.Id == userId).FirstAsync(r => r.Avatar);
             return _fileRepository.GetFileUrl(avatar);
 
         }
@@ -138,7 +139,7 @@ namespace LinCms.Controllers.Cms
         [HttpGet("{userId}")]
         public async Task<OpenUserDto> GetUserByUserId(long userId)
         {
-            LinUser linUser =await _userRepository.Where(r => r.Id == userId).FirstAsync();
+            LinUser linUser = await _userRepository.Where(r => r.Id == userId).FirstAsync();
             OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
             if (openUser == null) return null;
             openUser.Avatar = _fileRepository.GetFileUrl(openUser.Avatar);
@@ -154,7 +155,7 @@ namespace LinCms.Controllers.Cms
         [HttpGet("novices")]
         public virtual async Task<List<UserNoviceDto>> GetNovicesAsync()
         {
-            List<UserNoviceDto> userNoviceDtos =(await _userRepository.Select
+            List<UserNoviceDto> userNoviceDtos = (await _userRepository.Select
                 .OrderByDescending(r => r.CreateTime)
                 .Take(12)
                 .ToListAsync(r => new UserNoviceDto()

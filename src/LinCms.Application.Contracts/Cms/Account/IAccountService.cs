@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
 {
     public interface IAccountService
     {
         Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode);
+
+        Task SendEmailCode(RegisterDto registerDto);
 
         Task ResetPassword(ResetEmailPasswordDto resetPassword);
     }

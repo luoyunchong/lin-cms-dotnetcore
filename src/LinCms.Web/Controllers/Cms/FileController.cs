@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Autofac;
+
 using LinCms.Cms.Files;
 using LinCms.Data.Options;
 using LinCms.Exceptions;
 using LinCms.Utils;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -69,7 +72,7 @@ namespace LinCms.Controllers.Cms
         /// <param name="key"></param>
         /// <returns></returns>
         [HttpPost("upload")]
-        public async Task<FileDto> UploadAsync(IFormFile file, int key = 0)
+        public Task<FileDto> UploadAsync(IFormFile file, int key = 0)
         {
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {
@@ -77,12 +80,12 @@ namespace LinCms.Controllers.Cms
             }
 
             this.ValidFile(file);
-            return await _fileService.UploadAsync(file, key);
+            return _fileService.UploadAsync(file, key);
         }
 
         private void ValidFile(IFormFile file)
         {
-            string ext = Path.GetExtension(file.FileName)?.ToLowerInvariant();
+            string? ext = Path.GetExtension(file.FileName)?.ToLowerInvariant();
             if (string.IsNullOrEmpty(ext))
             {
                 throw new LinCmsException($"不支持的文件类型");

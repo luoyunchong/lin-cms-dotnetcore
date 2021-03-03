@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using LinCms.Blog.ArticleDrafts;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,9 +24,9 @@ namespace LinCms.Controllers.Blog
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateAsync(Guid id, [FromBody] UpdateArticleDraftDto updateArticleDto)
+        public Task UpdateAsync(Guid id, [FromBody] UpdateArticleDraftDto updateArticleDto)
         {
-            await _articleDraftService.UpdateAsync(id, updateArticleDto);
+            return _articleDraftService.UpdateAsync(id, updateArticleDto);
         }
 
         /// <summary>

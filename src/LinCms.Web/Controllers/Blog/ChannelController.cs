@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using LinCms.Aop.Filter;
 using LinCms.Blog.Channels;
 using LinCms.Data;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog
@@ -50,9 +52,9 @@ namespace LinCms.Controllers.Blog
 
         [LinCmsAuthorize("新增技术频道", "技术频道")]
         [HttpPost]
-        public UnifyResponseDto CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
+        public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
         {
-            _channelService.CreateAsync(createChannel);
+            await _channelService.CreateAsync(createChannel);
             return UnifyResponseDto.Success("新建技术频道成功");
         }
 

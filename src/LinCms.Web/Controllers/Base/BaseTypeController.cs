@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using LinCms.Aop.Filter;
 using LinCms.Base.BaseTypes;
 using LinCms.Data;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Base
@@ -27,15 +29,15 @@ namespace LinCms.Controllers.Base
         }
 
         [HttpGet]
-        public async Task<List<BaseTypeDto>> GetListAsync()
+        public Task<List<BaseTypeDto>> GetListAsync()
         {
-            return await _baseTypeService.GetListAsync();
+            return _baseTypeService.GetListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<BaseTypeDto> GetAsync(int id)
+        public Task<BaseTypeDto> GetAsync(int id)
         {
-            return await _baseTypeService.GetAsync(id);
+            return _baseTypeService.GetAsync(id);
         }
 
         [HttpPost]

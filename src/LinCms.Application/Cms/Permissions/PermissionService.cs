@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.IRepositories;
@@ -49,20 +50,20 @@ namespace LinCms.Cms.Permissions
         }
 
 
-        public async Task DeletePermissionsAsync(RemovePermissionDto permissionDto)
+        public Task DeletePermissionsAsync(RemovePermissionDto permissionDto)
         {
-            await _groupPermissionRepository.DeleteAsync(r =>
+            return _groupPermissionRepository.DeleteAsync(r =>
                     permissionDto.PermissionIds.Contains(r.PermissionId) && r.GroupId == permissionDto.GroupId);
         }
 
-        public async Task DispatchPermissions(DispatchPermissionsDto permissionDto, List<PermissionDefinition> permissionDefinitions)
+        public Task DispatchPermissions(DispatchPermissionsDto permissionDto, List<PermissionDefinition> permissionDefinitions)
         {
             List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
             permissionDto.PermissionIds.ForEach(permissionId =>
             {
                 linPermissions.Add(new LinGroupPermission(permissionDto.GroupId, permissionId));
             });
-            await _groupPermissionRepository.InsertAsync(linPermissions);
+            return _groupPermissionRepository.InsertAsync(linPermissions);
         }
 
         public async Task<List<LinPermission>> GetPermissionByGroupIds(List<long> groupIds)
@@ -108,9 +109,9 @@ namespace LinCms.Cms.Permissions
             return list;
         }
 
-        public async Task<LinPermission> GetAsync(string permissionName)
+        public Task<LinPermission> GetAsync(string permissionName)
         {
-            return await _permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
+            return _permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
         }
 
         public async Task<List<TreePermissionDto>> GetTreePermissionListAsync()

@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+
 using LinCms.Blog.UserSubscribes;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.IRepositories;
 using LinCms.Security;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,9 +51,9 @@ namespace LinCms.Controllers.Blog
         /// </summary>
         /// <param name="subscribeUserId"></param>
         [HttpDelete("{subscribeUserId}")]
-        public async Task DeleteAsync(long subscribeUserId)
+        public Task DeleteAsync(long subscribeUserId)
         {
-            await userSubscribeService.DeleteAsync(subscribeUserId);
+            return userSubscribeService.DeleteAsync(subscribeUserId);
         }
 
         /// <summary>
@@ -59,9 +61,9 @@ namespace LinCms.Controllers.Blog
         /// </summary>
         /// <param name="subscribeUserId"></param>
         [HttpPost("{subscribeUserId}")]
-        public async Task CreateAsync(long subscribeUserId)
+        public Task CreateAsync(long subscribeUserId)
         {
-            await userSubscribeService.CreateAsync(subscribeUserId);
+            return userSubscribeService.CreateAsync(subscribeUserId);
         }
 
         /// <summary>

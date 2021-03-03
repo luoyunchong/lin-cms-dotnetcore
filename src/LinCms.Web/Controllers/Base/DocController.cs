@@ -27,15 +27,15 @@ namespace LinCms.Controllers.Base
 
         [LinCmsAuthorize("所有文档", "文档管理")]
         [HttpGet]
-        public async Task<PagedResultDto<DocDto>> GetListAsync([FromQuery] PageDto pageDto)
+        public Task<PagedResultDto<DocDto>> GetListAsync([FromQuery] PageDto pageDto)
         {
-            return await _docService.GetListAsync(pageDto);
+            return _docService.GetListAsync(pageDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<DocDto> GetAsync(long id)
+        public Task<DocDto> GetAsync(long id)
         {
-            return await _docService.GetAsync(id);
+            return _docService.GetAsync(id);
         }
 
         [LinCmsAuthorize("新增文档", "文档管理")]

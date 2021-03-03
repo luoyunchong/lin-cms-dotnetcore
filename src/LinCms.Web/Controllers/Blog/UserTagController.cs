@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using LinCms.Blog.Tags;
 using LinCms.Blog.UserSubscribes;
 using LinCms.Data;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +30,9 @@ namespace LinCms.Controllers.Blog
         /// </summary>
         /// <param name="tagId"></param>
         [HttpPost("{tagId}")]
-        public async Task CreateUserTagAsync(Guid tagId)
+        public Task CreateUserTagAsync(Guid tagId)
         {
-            await _userTagService.CreateUserTagAsync(tagId);
+            return _userTagService.CreateUserTagAsync(tagId);
         }
 
         /// <summary>
@@ -38,9 +40,9 @@ namespace LinCms.Controllers.Blog
         /// </summary>
         /// <param name="tagId"></param>
         [HttpDelete("{tagId}")]
-        public async Task DeleteUserTagAsync(Guid tagId)
+        public Task DeleteUserTagAsync(Guid tagId)
         {
-            await _userTagService.DeleteUserTagAsync(tagId);
+            return _userTagService.DeleteUserTagAsync(tagId);
         }
 
         /// <summary>
