@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using LinCms.Aop.Filter;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Classifys;
@@ -13,8 +15,10 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using LinCms.Security;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Newtonsoft.Json;
 
 namespace LinCms.Controllers.Blog
@@ -190,9 +194,9 @@ namespace LinCms.Controllers.Blog
         /// <param name="pageDto"></param>
         /// <returns></returns>
         [HttpGet("subscribe")]
-        public async Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync([FromQuery] PageDto pageDto)
+        public Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync([FromQuery] PageDto pageDto)
         {
-            return await _articleService.GetSubscribeArticleAsync(pageDto);
+            return _articleService.GetSubscribeArticleAsync(pageDto);
         }
 
         /// <summary>

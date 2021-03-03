@@ -129,6 +129,7 @@ namespace LinCms.Startup
             services.AddHttpClient("IdentityServer4");
             services.Configure<MailKitOptions>(configuration.GetSection("MailKitOptions"));
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
+            services.Configure<SiteOption>(configuration.GetSection("Site"));
         }
 
         /// <summary>
@@ -181,6 +182,7 @@ namespace LinCms.Startup
                     //    @this.UseSqlServer(opt =>
                     //    {
                     //        opt.ConnectionString = sqlServer.Value;
+                    // //使用SQL SERVER2008才需要打开他
                     //        opt.UseSqlServer2008();
                     //    });
                     //    break;

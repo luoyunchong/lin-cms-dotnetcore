@@ -2,7 +2,9 @@
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+
 using FreeSql.Internal.ObjectPool;
+
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Permissions;
 using LinCms.Common;
@@ -10,6 +12,7 @@ using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
+
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Cms.Groups
@@ -166,17 +169,17 @@ namespace LinCms.Cms.Groups
             return CurrentUser.IsInGroup(LinConsts.Group.Admin);
         }
 
-        public async Task<List<long>> GetGroupIdsByUserIdAsync(long userId)
+        public Task<List<long>> GetGroupIdsByUserIdAsync(long userId)
         {
-            return await _userGroupRepository.Where(r => r.UserId == userId).ToListAsync(r => r.GroupId);
+            return _userGroupRepository.Where(r => r.UserId == userId).ToListAsync(r => r.GroupId);
         }
 
         [Transactional]
-        public async Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
+        public Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
         {
             if (deleteGroupIds == null || deleteGroupIds.IsEmpty())
-                return;
-            await _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
+                return null;
+            return _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
         }
 
         [Transactional]

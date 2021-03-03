@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Exceptions;
@@ -29,9 +30,9 @@ namespace LinCms.v1.Books
             await _bookRepository.InsertAsync(book);
         }
 
-        public async Task DeleteAsync(long id)
+        public Task DeleteAsync(long id)
         {
-            await _bookRepository.DeleteAsync(new Book { Id = id });
+            return _bookRepository.DeleteAsync(new Book { Id = id });
         }
 
         public async Task<BookDto> GetAsync(long id)
@@ -50,13 +51,13 @@ namespace LinCms.v1.Books
 
         public async Task UpdateAsync(long id, CreateUpdateBookDto updateBook)
         {
-            Book book = _bookRepository.Select.Where(r => r.Id == id).ToOne();
+            Book book = await _bookRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (book == null)
             {
                 throw new LinCmsException("没有找到相关书籍");
             }
 
-            bool exist = _bookRepository.Select.Any(r => r.Title == updateBook.Title && r.Id != id);
+            bool exist = await _bookRepository.Select.AnyAsync(r => r.Title == updateBook.Title && r.Id != id);
             if (exist)
             {
                 throw new LinCmsException("图书已存在");

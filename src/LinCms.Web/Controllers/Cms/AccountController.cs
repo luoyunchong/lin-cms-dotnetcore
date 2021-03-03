@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Autofac;
+
 using AutoMapper;
+
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Account;
 using LinCms.Cms.Users;
@@ -11,10 +14,12 @@ using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.Middleware;
 using LinCms.Security;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+
 using MimeKit;
 
 namespace LinCms.Controllers.Cms
@@ -50,7 +55,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <returns></returns>
         [HttpGet("refresh")]
-        public async Task<Tokens> GetRefreshToken()
+        public Task<Tokens> GetRefreshToken()
         {
             string refreshToken;
             string authorization = Request.Headers["Authorization"];
@@ -63,7 +68,7 @@ namespace LinCms.Controllers.Cms
             {
                 throw new LinCmsException(" 请先登录.", ErrorCode.RefreshTokenError);
             }
-            return await _tokenService.GetRefreshTokenAsync(refreshToken);
+            return _tokenService.GetRefreshTokenAsync(refreshToken);
         }
 
         /// <summary>
@@ -94,26 +99,25 @@ namespace LinCms.Controllers.Cms
         }
 
         /// <summary>
-        /// 发送邮件验证码
+        /// 发送邮件：重置密码的验证码
         /// </summary>
         /// <param name="sendEmailCode"></param>
         /// <returns></returns>
         [HttpPost("account/send_password_reset_code")]
-        public async Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
+        public Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
         {
-            string resetCode = await _accountService.SendPasswordResetCode(sendEmailCode);
-            return resetCode;
+            return _accountService.SendPasswordResetCode(sendEmailCode);
         }
-        
+
         /// <summary>
         /// 修改密码
         /// </summary>
         /// <param name="resetPassword"></param>
         /// <returns></returns>
         [HttpPost("account/reset_password")]
-        public async Task ResetPassword([FromBody] ResetEmailPasswordDto resetPassword)
+        public Task ResetPassword([FromBody] ResetEmailPasswordDto resetPassword)
         {
-          await _accountService.ResetPassword(resetPassword);
+            return _accountService.ResetPassword(resetPassword);
         }
     }
 }

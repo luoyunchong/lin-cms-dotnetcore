@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using LinCms.Aop.Filter;
 using LinCms.Blog.Classifys;
 using LinCms.Data;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog
@@ -43,15 +45,15 @@ namespace LinCms.Controllers.Blog
 
         [LinCmsAuthorize("分类专栏列表", "分类专栏")]
         [HttpGet("cms")]
-        public async Task<PagedResultDto<ClassifyDto>> GetListAsync([FromQuery] ClassifySearchDto pageDto)
+        public Task<PagedResultDto<ClassifyDto>> GetListAsync([FromQuery] ClassifySearchDto pageDto)
         {
-            return await _classifyService.GetListAsync(pageDto);
+            return _classifyService.GetListAsync(pageDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<ClassifyDto> GetAsync(Guid id)
+        public Task<ClassifyDto> GetAsync(Guid id)
         {
-            return await _classifyService.GetAsync(id);
+            return _classifyService.GetAsync(id);
         }
 
         [HttpPost]

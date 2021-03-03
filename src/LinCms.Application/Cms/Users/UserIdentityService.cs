@@ -37,30 +37,30 @@ namespace LinCms.Cms.Users
         }
 
 
-        public async Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword)
+        public Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword)
         {
             string encryptPassword = EncryptUtil.Encrypt(newpassword);
             if (linUserIdentity == null)
             {
                 linUserIdentity = new LinUserIdentity(LinUserIdentity.Password, "", encryptPassword, DateTime.Now);
-                await _userIdentityRepository.InsertAsync(linUserIdentity);
+                return _userIdentityRepository.InsertAsync(linUserIdentity);
             }
             else
             {
                 linUserIdentity.Credential = encryptPassword;
-                await _userIdentityRepository.UpdateAsync(linUserIdentity);
+                return _userIdentityRepository.UpdateAsync(linUserIdentity);
             }
         }
 
         [Transactional]
-        public async Task DeleteAsync(long userId)
+        public Task DeleteAsync(long userId)
         {
-            await _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
+            return _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
         }
 
-        public async Task<LinUserIdentity> GetFirstByUserIdAsync(long userId)
+        public Task<LinUserIdentity> GetFirstByUserIdAsync(long userId)
         {
-            return await _userIdentityRepository
+            return _userIdentityRepository
                 .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
                 .ToOneAsync();
         }

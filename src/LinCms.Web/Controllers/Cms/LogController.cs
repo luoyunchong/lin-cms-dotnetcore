@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Logs;
 using LinCms.Data;
 using LinCms.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
@@ -65,9 +67,9 @@ namespace LinCms.Controllers.Cms
         /// <returns></returns>
         [HttpGet("serilog")]
         [LinCmsAuthorize("Serilog日志", "日志")]
-        public async Task<PagedResultDto<SerilogDO>> GetSerilogListAsync([FromQuery] SerilogSearchDto searchDto)
+        public Task<PagedResultDto<SerilogDO>> GetSerilogListAsync([FromQuery] SerilogSearchDto searchDto)
         {
-            return await _serilogService.GetListAsync(searchDto);
+            return _serilogService.GetListAsync(searchDto);
         }
 
         [HttpGet("visitis")]
@@ -77,9 +79,9 @@ namespace LinCms.Controllers.Cms
         }
 
         [HttpGet("dashboard")]
-        public async Task<LogDashboard> GetLogDashboard()
+        public Task<LogDashboard> GetLogDashboard()
         {
-            return await _serilogService.GetLogDashboard();
+            return _serilogService.GetLogDashboard();
         }
     }
 }

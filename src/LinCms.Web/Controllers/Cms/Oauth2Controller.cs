@@ -5,8 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+
 using Autofac;
+
 using DotNetCore.Security;
+
 using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Data.Enums;
@@ -15,6 +18,7 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using LinCms.Security;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -71,7 +75,7 @@ namespace LinCms.Controllers.Cms
             if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
                 return Redirect(redirectUrl);
 
-            List<string> supportProviders = new List<string>{LinUserIdentity.Gitee,LinUserIdentity.GitHub,LinUserIdentity.QQ,};
+            List<string> supportProviders = new List<string> { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ, };
 
             if (!supportProviders.Contains(provider))
             {
@@ -303,9 +307,9 @@ namespace LinCms.Controllers.Cms
         /// <returns></returns>
         [Authorize]
         [HttpDelete("unbind/{id}")]
-        public async Task UnBind(Guid id)
+        public Task UnBind(Guid id)
         {
-            await _userCommunityService.UnBind(id);
+            return _userCommunityService.UnBind(id);
         }
     }
 

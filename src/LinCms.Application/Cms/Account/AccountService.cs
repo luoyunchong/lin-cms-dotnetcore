@@ -1,4 +1,5 @@
 ﻿using LinCms.Cms.Users;
+using LinCms.Data.Options;
 using LinCms.Email;
 using LinCms.Entities;
 using LinCms.Exceptions;
@@ -6,9 +7,6 @@ using LinCms.IRepositories;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
@@ -19,42 +17,63 @@ namespace LinCms.Cms.Account
         private readonly IEmailSender _emailSender;
         private readonly MailKitOptions _mailKitOptions;
         private readonly IUserIdentityService _userIdentityService;
+        private readonly SiteOption _siteOption;
+
         public AccountService(
-            IAuditBaseRepository<LinUser, long> userRepository, 
+            IAuditBaseRepository<LinUser, long> userRepository,
             IEmailSender emailSender,
             IOptions<MailKitOptions> options,
-            IUserIdentityService userIdentityService
-            )
+            IUserIdentityService userIdentityService,
+            IOptions<SiteOption> siteOption)
         {
             _userRepository = userRepository;
             _emailSender = emailSender;
             _mailKitOptions = options.Value;
             _userIdentityService = userIdentityService;
+            _siteOption = siteOption.Value;
         }
 
         public async Task<string> SendComfirmEmail(RegisterDto registerDto)
         {
-
-            int rand6Value = new Random().Next(100000, 999999);
-
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_mailKitOptions.UserName, _mailKitOptions.UserName));
             message.To.Add(new MailboxAddress(registerDto.Nickname, registerDto.Email));
-            message.Subject = $"你此次重置密码的验证码是:{rand6Value}";
+            message.Subject = $"VVLOG-请点击这里激活您的账号";
+
+            string uuid = Guid.NewGuid().ToString();
+            await RedisHelper.SetAsync("SendComfirmEmail-" + registerDto.Email, uuid, 30 * 60);
 
             message.Body = new TextPart("html")
             {
                 Text = $@"{registerDto.Nickname},您好!</br>
 感谢您在 vvlog  的注册，请点击这里激活您的账号：</br>
-https://api.igeekfan.cn/accounts/confirm-email/NzIzNzE1:1kPI39:KSI-GZqKumzAFKNDtf02dFHyaaalOoEPwwq8reagU9A/
-祝您使用愉快，使用过程中您有任何问题请及时联系我们。</br>{rand6Value}"
+{_siteOption.VVLogDomain}/accounts/confirm-email/{uuid}/
+祝您使用愉快，使用过程中您有任何问题请及时联系我们。</br>"
+            };
+
+            await _emailSender.SendAsync(message);
+            return "";
+        }
+
+        public async Task SendEmailCode(RegisterDto registerDto)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(_mailKitOptions.UserName, _mailKitOptions.UserName));
+            message.To.Add(new MailboxAddress(registerDto.Nickname, registerDto.Email));
+            message.Subject = $"VVLOG-你的验证码是";
+
+            string uuid = Guid.NewGuid().ToString();
+            await RedisHelper.SetAsync("SendEmailCode-" + registerDto.Email, uuid, 30 * 60);
+
+            int rand6Value = new Random().Next(100000, 999999);
+
+            message.Body = new TextPart("html")
+            {
+                Text = $@"{registerDto.Nickname},您好!</br>你此次验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{rand6Value}"
             };
 
 
             await _emailSender.SendAsync(message);
-
-
-            return "";
         }
 
         public async Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
@@ -73,7 +92,7 @@ https://api.igeekfan.cn/accounts/confirm-email/NzIzNzE1:1kPI39:KSI-GZqKumzAFKNDt
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_mailKitOptions.UserName, _mailKitOptions.UserName));
             message.To.Add(new MailboxAddress(user.Username, user.Email));
-            message.Subject = $"你此次重置密码的验证码是:{rand6Value}";
+            message.Subject = $"VVLOG-你此次重置密码的验证码是:{rand6Value}";
 
             message.Body = new TextPart("html")
             {
