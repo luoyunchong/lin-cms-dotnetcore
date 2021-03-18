@@ -9,6 +9,7 @@ using System.Reflection;
 using FreeSql;
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
+using Npgsql;
 using Serilog;
 
 namespace LinCms.FreeSql
@@ -85,7 +86,7 @@ namespace LinCms.FreeSql
                 case DataType.SqlServer:
                     return @this.CreateDatabaseIfNotExistsSqlServer(connectionString);
                 case DataType.PostgreSQL:
-                    break;
+                    return @this.CreateDatabaseIfNotExistsPgSql(connectionString);
                 case DataType.Oracle:
                     break;
                 case DataType.Sqlite:
@@ -229,8 +230,35 @@ namespace LinCms.FreeSql
             return fieldInfo.GetValue(@this).ToString();
         }
 
+
+        public static FreeSqlBuilder CreateDatabaseIfNotExistsPgSql(this FreeSqlBuilder @this,
+      string connectionString = "")
+        {
+            if (connectionString == "")
+            {
+                connectionString = GetConnectionString(@this);
+            }
+
+            NpgsqlConnectionStringBuilder builder = new NpgsqlConnectionStringBuilder(connectionString);
+
+            string createDatabaseSql =
+                $"DROP DATABASE IF EXISTS \"{builder.Database}\"; CREATE DATABASE \"{builder.Database}\" WITH OWNER = \"{builder.Username}\"";
+
+            using NpgsqlConnection cnn = new NpgsqlConnection(
+                $"Host={builder.Host};Port={builder.Port};Username={builder.Username};Password={builder.Password};Pooling=true");
+            cnn.Open();
+            using (NpgsqlCommand cmd = cnn.CreateCommand())
+            {
+                cmd.CommandText = createDatabaseSql;
+                cmd.ExecuteNonQuery();
+            }
+
+            return @this;
+        }
+
+        #region ODBC
         public static FreeSqlBuilder CreateDatabaseIfNotExists_ODBCMySql(this FreeSqlBuilder @this,
-           string connectionString = "")
+          string connectionString = "")
         {
             if (connectionString == "")
             {
@@ -308,6 +336,7 @@ namespace LinCms.FreeSql
             }
 
             return @this;
-        }
+        } 
+        #endregion
     }
 }
