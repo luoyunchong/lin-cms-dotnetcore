@@ -258,7 +258,7 @@
         </member>
         <member name="M:LinCms.Controllers.Cms.AccountController.SendPasswordResetCode(LinCms.Cms.Account.SendEmailCodeInput)">
             <summary>
-            发送邮件验证码
+            发送邮件：重置密码的验证码
             </summary>
             <param name="sendEmailCode"></param>
             <returns></returns>
