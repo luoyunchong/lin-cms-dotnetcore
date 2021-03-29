@@ -2,6 +2,7 @@
 using Autofac;
 using AutoMapper;
 using IGeekFan.AspNetCore.Knife4jUI;
+//using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -185,9 +186,9 @@ namespace LinCms.Startup
 
             app.UseSwaggerUI(c =>
             {
+                //http://localhost:5000/swagger/index.html
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-                c.RoutePrefix = string.Empty;
 
                 c.OAuthClientId(Configuration["Service:ClientId"]);
                 c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
@@ -199,7 +200,8 @@ namespace LinCms.Startup
 
             app.UseKnife4UI(c =>
             {
-                c.DocumentTitle = "LinCms博客模块";
+                c.DocumentTitle = "LinCms博客模块"; 
+                c.RoutePrefix = "";//http://localhost:5000/k4/index.html
                 //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
@@ -207,6 +209,13 @@ namespace LinCms.Startup
                 c.OAuthClientId(Configuration["Service:ClientId"]);
                 c.OAuthAppName(Configuration["Service:Name"]);
             });
+
+            //app.UseRapiDocUI(c =>
+            //{
+            //    c.RoutePrefix = ""; //http://localhost:5000/index.html
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            //    c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+            //});
 
             app.UseCors(builder =>
             {
