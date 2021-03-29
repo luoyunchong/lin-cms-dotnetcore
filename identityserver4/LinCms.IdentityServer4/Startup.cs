@@ -14,8 +14,10 @@ using LinCms.IdentityServer4.IdentityServer4;
 using LinCms.IRepositories;
 using LinCms.Repositories;
 using LinCms.Security;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +36,8 @@ namespace LinCms.IdentityServer4
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public object JwtBearerDefaults { get; private set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,12 +52,21 @@ namespace LinCms.IdentityServer4
             
             services.AddCors();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/account/login";
+            });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(120);
+            });
+
             services.AddIdentityServer(options => new IdentityServerOptions
             {
                 UserInteraction = new UserInteractionOptions
                 {
                     LoginUrl = "/account/login",
-                    LogoutUrl = "/account/xxxx",
+                    LogoutUrl = "/account/logout",
                 }
             })
 #if DEBUG
@@ -135,12 +148,14 @@ namespace LinCms.IdentityServer4
 
             services.AddAutoMapper(typeof(UserProfile).Assembly);
 
-            services.AddControllers(options =>
+            services.AddControllersWithViews(options =>
                 {
                     options.Filters.Add<LinCmsExceptionFilter>();
                 })
                 .AddNewtonsoftJson(opt =>
                 {
+                    //忽略循环引用
+                    opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     //opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
                     //设置自定义时间戳格式
                     opt.SerializerSettings.Converters = new List<JsonConverter>()
@@ -179,7 +194,7 @@ namespace LinCms.IdentityServer4
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -195,6 +210,9 @@ namespace LinCms.IdentityServer4
                 string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
                 builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
             });
+
+            app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseRouting();
             app.UseStaticFiles();

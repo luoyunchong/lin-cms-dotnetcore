@@ -34,6 +34,13 @@ namespace LinCms.IdentityServer4.IdentityServer4
              };
         }
 
+        public static ICollection<string> NewGrantTypes => new string[3]
+        { 
+                "authorization_code",
+                "password",
+                "client_credentials"
+        };
+
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
@@ -42,7 +49,8 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 new Client
                 {
                     ClientId = Configuration["Service:ClientId"],
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    //AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+                    AllowedGrantTypes =NewGrantTypes,
                     AllowOfflineAccess = true,
                     //UpdateAccessTokenClaimsOnRefresh = true,
                     AccessTokenLifetime = 3600 * 24 * 15, //15天      //5  设置 5s，验证过期策略。
@@ -56,7 +64,14 @@ namespace LinCms.IdentityServer4.IdentityServer4
                         Configuration["Service:Name"],
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         IdentityServerConstants.StandardScopes.OpenId,
-                    }
+                    },
+                    RedirectUris = new[] {
+                        "http://localhost:5000/oauth-receiver.html",    //rapidoc
+                        "https://localhost:5001/oauth-receiver.html",    //rapidoc
+                        "http://localhost:5000/swagger/oauth2-redirect.html", // swagger
+                        "https://localhost:5001/swagger/oauth2-redirect.html", // swagger
+                    },
+                    RequirePkce=false
                 }
             };
         }

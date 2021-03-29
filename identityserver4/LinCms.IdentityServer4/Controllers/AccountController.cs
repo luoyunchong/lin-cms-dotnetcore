@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using IdentityServer4;
 using LinCms.Cms.Users;
 using LinCms.IRepositories;
 using LinCms.Entities;
+using System;
+using Microsoft.AspNetCore.Http;
+using IdentityServer4.Services;
 
 namespace LinCms.IdentityServer4.Controllers
 {
@@ -15,11 +17,13 @@ namespace LinCms.IdentityServer4.Controllers
     {
         private readonly IUserRepository userRepository;
         private readonly IUserIdentityService userIdentityService;
+        private readonly IIdentityServerInteractionService _interaction;
 
-        public AccountController(IUserRepository userRepository, IUserIdentityService userIdentityService)
+        public AccountController(IUserRepository userRepository, IUserIdentityService userIdentityService, IIdentityServerInteractionService interaction)
         {
             this.userRepository = userRepository;
             this.userIdentityService = userIdentityService;
+            _interaction = interaction;
         }
 
 
@@ -28,7 +32,7 @@ namespace LinCms.IdentityServer4.Controllers
         {
             var viewModel = new LoginViewModel { Username = "admin", Password = "123qwe", ReturnUrl = returnUrl };
 
-            return View("/Views/Login.cshtml", viewModel);
+            return View(viewModel);
         }
 
         [HttpPost("login")]
@@ -39,7 +43,7 @@ namespace LinCms.IdentityServer4.Controllers
             {
                 ModelState.AddModelError("", "用户不存在");
                 viewModel.Password = string.Empty;
-                return View("/Views/Login.cshtml", viewModel);
+                return View(viewModel);
             }
 
             bool valid = await userIdentityService.VerifyUserPasswordAsync(user.Id, viewModel.Password);
@@ -48,16 +52,31 @@ namespace LinCms.IdentityServer4.Controllers
             {
                 ModelState.AddModelError("", "Invalid username or password");
                 viewModel.Password = string.Empty;
-                return View("/Views/Login.cshtml", viewModel);
+                return View(viewModel);
             }
 
             // Use an IdentityServer-compatible ClaimsPrincipal
-            var identityServerUser = new IdentityServerUser(viewModel.Username);
+            var identityServerUser = new IdentityServerUser(user.Id.ToString());
             identityServerUser.DisplayName = viewModel.Username;
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identityServerUser.CreatePrincipal());
+
+            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identityServerUser.CreatePrincipal());
+            var props = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(1))
+            };
+            await HttpContext.SignInAsync(identityServerUser, props);
 
             return Redirect(viewModel.ReturnUrl);
         }
+
+        [HttpGet("account/logout")]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            var context = await _interaction.GetLogoutContextAsync(logoutId);
+            return RedirectToAction("Login");
+        }
+       
     }
 
     public class LoginViewModel

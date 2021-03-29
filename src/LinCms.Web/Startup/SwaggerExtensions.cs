@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
@@ -89,8 +91,8 @@ namespace LinCms.Startup
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
-                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
+                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "LinCms.Web", "Access read/write LinCms.Web" }
@@ -98,8 +100,8 @@ namespace LinCms.Startup
                         },
                         Password = new OpenApiOAuthFlow()
                         {
-                            AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
-                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
+                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "openid", "Access read openid" },
@@ -107,6 +109,11 @@ namespace LinCms.Startup
                                 { "LinCms.Web", "Access read/write LinCms.Web" }
                             }
                         }
+                    },
+                    Extensions = new Dictionary<string, IOpenApiExtension>()
+                    {
+                       {"x-client-id", new OpenApiString("lin-cms-dotnetcore-client-id")},
+                       {"x-client-secret", new OpenApiString("lin-cms-dotnetcore-client-secrets")},
                     }
                 });
 

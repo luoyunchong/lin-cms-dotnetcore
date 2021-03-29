@@ -46,10 +46,11 @@
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="3.1.2" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="3.1.2" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="3.1.2" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="5.0.0" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="5.0.0" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="5.0.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.8" />
+		<!--<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.1" />-->
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
@@ -68,6 +69,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<!--<ProjectReference Include="..\..\..\IGeekFan.AspNetCore.Knife4jUI\src\IGeekFan.AspNetCore.Knife4jUI\IGeekFan.AspNetCore.Knife4jUI.csproj" />
+		<ProjectReference Include="..\..\..\IGeekFan.AspNetCore.RapiDoc\src\IGeekFan.AspNetCore.RapiDoc\IGeekFan.AspNetCore.RapiDoc.csproj" />-->
 		<ProjectReference Include="..\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj" />
 		<ProjectReference Include="..\LinCms.Application\LinCms.Application.csproj" />
 		<ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
