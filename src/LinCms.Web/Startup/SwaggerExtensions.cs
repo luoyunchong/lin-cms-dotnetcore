@@ -1,10 +1,13 @@
-﻿using LinCms.Entities;
+﻿using LinCms.Data.Options;
+using LinCms.Entities;
+using LinCms.Exceptions;
 using LinCms.SnakeCaseQuery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -20,6 +23,12 @@ namespace LinCms.Startup
     {
         public static IServiceCollection AddSwaggerGen(this IServiceCollection services)
         {
+            SiteOption? siteOption = services.BuildServiceProvider().GetService<IOptionsSnapshot<SiteOption>>()?.Value;
+            if (siteOption == null)
+            {
+                throw new LinCmsException("you should add  `services.Configure<SiteOption>(configuration.GetSection(\"Site\"));` before get this options value ");
+            }
+
             //Swagger重写PascalCase，改成SnakeCase模式
             services.TryAddEnumerable(ServiceDescriptor.Transient<IApiDescriptionProvider, ApiDescriptionProvider>());
 
@@ -34,13 +43,13 @@ namespace LinCms.Startup
                     Contact = new OpenApiContact
                     {
                         Name = ApiName,
-                        Email = "luoyunchong@foxmail.com",
-                        Url = new Uri("https://www.cnblogs.com/igeekfan/")
+                        Email = siteOption.Email,
+                        Url = new Uri(siteOption.BlogUrl)
                     },
                     License = new OpenApiLicense
                     {
                         Name = ApiName + " 官方文档",
-                        Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html")
+                        Url = new Uri(siteOption.DocUrl)
                     }
                 });
 
@@ -91,8 +100,8 @@ namespace LinCms.Startup
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
-                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
+                            AuthorizationUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/token", UriKind.Absolute),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "LinCms.Web", "Access read/write LinCms.Web" }
@@ -100,8 +109,8 @@ namespace LinCms.Startup
                         },
                         Password = new OpenApiOAuthFlow()
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5003/connect/authorize", UriKind.Absolute),
-                            TokenUrl = new Uri("https://localhost:5003/connect/token", UriKind.Absolute),
+                            AuthorizationUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/token", UriKind.Absolute),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "openid", "Access read openid" },

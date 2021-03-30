@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using AutoMapper;
 using IdentityServer4.Configuration;
-using IGeekFan.AspNetCore.Knife4jUI;
+using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -222,8 +222,8 @@ namespace LinCms.IdentityServer4
             app.UseIdentityServer();
 
             app.UseSwagger();
-
-            app.UseKnife4UI(c =>
+      
+            app.UseRapiDocUI(c =>
             {
                 c.DocumentTitle = "LinCms.IdentityServer4";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms.IdentityServer4");
