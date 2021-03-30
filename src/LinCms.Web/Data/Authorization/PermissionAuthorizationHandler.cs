@@ -17,7 +17,7 @@ namespace LinCms.Data.Authorization
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
-            Claim userIdClaim = context.User?.FindFirst(_ => _.Type == ClaimTypes.NameIdentifier);
+            Claim? userIdClaim = context.User?.FindFirst(_ => _.Type == ClaimTypes.NameIdentifier);
             if (userIdClaim != null)
             {
                 if (await _permissionService.CheckPermissionAsync(requirement.Name))

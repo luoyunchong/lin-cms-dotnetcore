@@ -1,16 +1,8 @@
 ﻿using Autofac;
-using Autofac.Extras.DynamicProxy;
-using LinCms.Cms.Account;
-using LinCms.Cms.Files;
-using LinCms.Cms.Users;
 using LinCms.IRepositories;
-using LinCms.Middleware;
 using LinCms.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace LinCms.Startup.Configuration
 {

@@ -66,10 +66,12 @@ namespace LinCms.IdentityServer4.IdentityServer4
                         IdentityServerConstants.StandardScopes.OpenId,
                     },
                     RedirectUris = new[] {
-                        "http://localhost:5000/oauth-receiver.html",    //rapidoc
-                        "https://localhost:5001/oauth-receiver.html",    //rapidoc
-                        "http://localhost:5000/swagger/oauth2-redirect.html", // swagger
-                        "https://localhost:5001/swagger/oauth2-redirect.html", // swagger
+                        "http://localhost:5000/oauth-receiver.html",  
+                        "https://localhost:5001/oauth-receiver.html",    
+                        "https://api.igeekfan.cn/oauth-receiver.html",
+                        "http://localhost:5000/swagger/oauth2-redirect.html",
+                        "https://localhost:5001/swagger/oauth2-redirect.html",
+                        "https://api.igeekfan.cn/swagger/oauth2-redirect.html",
                     },
                     RequirePkce=false
                 }

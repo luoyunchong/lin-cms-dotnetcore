@@ -2,7 +2,7 @@
 using Autofac;
 using AutoMapper;
 using IGeekFan.AspNetCore.Knife4jUI;
-//using IGeekFan.AspNetCore.RapiDoc;
+using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -54,7 +54,6 @@ namespace LinCms.Startup
             services.AddCors();
 
             #region Mvc
-            
             services.AddMvc(options =>
                 {
                     options.ValueProviderFactories.Add(new ValueProviderFactory()); //设置SnakeCase形式的QueryString参数
@@ -93,11 +92,10 @@ namespace LinCms.Startup
                         };
                     };
                 });
-            services.AddSwaggerGenNewtonsoftSupport();
             #endregion
 
-            //Swagger 扩展方法配置Swagger
-            services.AddSwaggerGen();
+
+     
 
             //配置Google验证码
             services.AddScoped<RecaptchaVerifyActionFilter>();
@@ -115,6 +113,10 @@ namespace LinCms.Startup
             }
 
             services.AddDIServices(Configuration);
+
+            services.AddSwaggerGenNewtonsoftSupport();
+            //Swagger 扩展方法配置Swagger
+            services.AddSwaggerGen();
 
             //应用程序级别设置
             services.Configure<FormOptions>(options =>
@@ -201,7 +203,7 @@ namespace LinCms.Startup
             app.UseKnife4UI(c =>
             {
                 c.DocumentTitle = "LinCms博客模块"; 
-                c.RoutePrefix = "";//http://localhost:5000/k4/index.html
+                c.RoutePrefix = "k4";//http://localhost:5000/k4/index.html
                 //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
@@ -210,12 +212,12 @@ namespace LinCms.Startup
                 c.OAuthAppName(Configuration["Service:Name"]);
             });
 
-            //app.UseRapiDocUI(c =>
-            //{
-            //    c.RoutePrefix = ""; //http://localhost:5000/index.html
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            //    c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-            //});
+            app.UseRapiDocUI(c =>
+            {
+                c.RoutePrefix = ""; //http://localhost:5000/index.html
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+            });
 
             app.UseCors(builder =>
             {

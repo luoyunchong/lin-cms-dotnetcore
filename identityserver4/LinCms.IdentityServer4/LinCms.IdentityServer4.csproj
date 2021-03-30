@@ -35,11 +35,10 @@
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
 		<PackageReference Include="FreeSql" Version="2.3.200" />
 		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="2.3.200" />
-		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.8" />
 		<PackageReference Include="Serilog.AspNetCore" Version="4.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.1" />
+		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
