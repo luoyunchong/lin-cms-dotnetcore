@@ -68,6 +68,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                     RedirectUris = new[] {
                         "http://localhost:5000/oauth-receiver.html",  
                         "https://localhost:5001/oauth-receiver.html",    
+                        "http://api.igeekfan.cn/oauth-receiver.html",
                         "https://api.igeekfan.cn/oauth-receiver.html",
                         "http://localhost:5000/swagger/oauth2-redirect.html",
                         "https://localhost:5001/swagger/oauth2-redirect.html",
