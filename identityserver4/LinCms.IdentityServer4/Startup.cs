@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
@@ -200,6 +201,15 @@ namespace LinCms.IdentityServer4
             {
                 app.UseHsts();
             }
+
+            var options = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+            app.UseForwardedHeaders(options);
+
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
             //app.UseHttpsRedirection();
 
