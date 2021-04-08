@@ -19,6 +19,7 @@ namespace LinCms.Startup.Configuration
         {
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
             builder.RegisterType<PermissionAuthorizationHandler>().As<IAuthorizationHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<ValidJtiHandler>().As<IAuthorizationHandler>().InstancePerLifetimeScope();
 
             builder.RegisterType<MigrationStartupTask>().SingleInstance();
             builder.RegisterBuildCallback(async (c) => await c.Resolve<MigrationStartupTask>().StartAsync());

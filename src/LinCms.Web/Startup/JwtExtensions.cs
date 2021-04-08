@@ -2,10 +2,12 @@
 using DotNetCore.Security;
 using LinCms.Common;
 using LinCms.Data;
+using LinCms.Data.Authorization;
 using LinCms.Data.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace LinCms.Startup
 {
-    public static  class JwtExtensions
+    public static class JwtExtensions
     {
         public static JsonWebTokenSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
         {
@@ -31,68 +33,77 @@ namespace LinCms.Startup
             return jsonWebTokenSettings;
         }
 
-        public static void AddJwtBearer(this IServiceCollection services,IConfiguration Configuration)
+        public static void AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
         {
             JsonWebTokenSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
 
-            services.AddAuthentication(opts =>
+            //基于策略 处理 退出登录 黑名单策略 授权
+            services.AddAuthorization(options =>
             {
-                opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+                var defaultPolicy = new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .AddRequirements(new ValidJtiRequirement())
+                    .Build();
+                options.AddPolicy("Bearer", defaultPolicy);
+                // If no policy specified, use this
+                options.DefaultPolicy = defaultPolicy;
+            });
+
+            //认证
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddCookie(options =>
                {
                    options.Cookie.SameSite = SameSiteMode.None;
                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                    options.Cookie.IsEssential = true;
-               })
-               .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+               })//使用指定的方案启用 JWT 持有者身份验证。
+               .AddJwtBearer(options =>
                {
                    bool isIds4 = Configuration["Service:IdentityServer4"].ToBoolean();
 
                    if (isIds4)
                    {
-                        //identityserver4 地址 也就是本项目地址
-                        options.Authority = Configuration["Service:Authority"];
+                       //identityserver4 地址 也就是本项目地址
+                       options.Authority = Configuration["Service:Authority"];
                    }
                    options.RequireHttpsMetadata = Configuration["Service:UseHttps"].ToBoolean();
                    options.Audience = Configuration["Service:Name"];
 
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
-                        // The signing key must match!
-                        ValidateIssuerSigningKey = true,
+                       // The signing key must match!
+                       ValidateIssuerSigningKey = true,
                        IssuerSigningKey = jsonWebTokenSettings.SecurityKey,
 
-                        // Validate the JWT Issuer (iss) claim
-                        ValidateIssuer = true,
+                       // Validate the JWT Issuer (iss) claim
+                       ValidateIssuer = true,
                        ValidIssuer = jsonWebTokenSettings.Issuer,
 
-                        // Validate the JWT Audience (aud) claim
-                        ValidateAudience = true,
+                       // Validate the JWT Audience (aud) claim
+                       ValidateAudience = true,
                        ValidAudience = jsonWebTokenSettings.Audience,
 
-                        // Validate the token expiry
-                        ValidateLifetime = true,
+                       // Validate the token expiry
+                       ValidateLifetime = true,
 
-                        // If you want to allow a certain amount of clock drift, set thatValidIssuer  here
-                        //ClockSkew = TimeSpan.Zero
-                    };
+                       // If you want to allow a certain amount of clock drift, set thatValidIssuer  here
+                       //ClockSkew = TimeSpan.Zero
+                   };
 
-                    //options.TokenValidationParameters = new TokenValidationParameters()
-                    //{
-                    //    ClockSkew = TimeSpan.Zero   //偏移设置为了0s,用于测试过期策略,完全按照access_token的过期时间策略，默认原本为5分钟
-                    //};
+                   //options.TokenValidationParameters = new TokenValidationParameters()
+                   //{
+                   //    ClockSkew = TimeSpan.Zero   //偏移设置为了0s,用于测试过期策略,完全按照access_token的过期时间策略，默认原本为5分钟
+                   //};
 
 
-                    //使用Authorize设置为需要登录时，返回json格式数据。
-                    options.Events = new JwtBearerEvents()
+                   //使用Authorize设置为需要登录时，返回json格式数据。
+                   options.Events = new JwtBearerEvents()
                    {
                        OnAuthenticationFailed = context =>
                        {
-                            //Token expired
-                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                           //Token expired
+                           if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                            {
                                context.Response.Headers.Add("Token-Expired", "true");
                            }
@@ -101,8 +112,8 @@ namespace LinCms.Startup
                        },
                        OnChallenge = async context =>
                        {
-                            //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
-                            context.HandleResponse();
+                           //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦
+                           context.HandleResponse();
 
                            string message;
                            ErrorCode errorCode;
@@ -123,7 +134,7 @@ namespace LinCms.Startup
                            else
                            {
                                message = "请先登录 " + context.ErrorDescription; //""认证失败，请检查请求头或者重新登录";
-                                errorCode = ErrorCode.AuthenticationFailed;
+                               errorCode = ErrorCode.AuthenticationFailed;
                            }
 
                            context.Response.ContentType = "application/json";
@@ -140,8 +151,8 @@ namespace LinCms.Startup
                    options.Scope.Add("user:email");
                    options.ClaimActions.MapJsonKey(LinConsts.Claims.AvatarUrl, "avatar_url");
                    options.ClaimActions.MapJsonKey(LinConsts.Claims.HtmlUrl, "html_url");
-                    //登录成功后可通过  authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
-                    options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
+                   //登录成功后可通过  authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
+                   options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
                    options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
                })
                .AddQQ(options =>
@@ -158,17 +169,17 @@ namespace LinCms.Startup
                    options.ClaimActions.MapJsonKey("urn:gitee:blog", "blog");
                    options.ClaimActions.MapJsonKey("urn:gitee:bio", "bio");
                    options.ClaimActions.MapJsonKey("urn:gitee:html_url", "html_url");
-                    //options.Scope.Add("projects");
-                    //options.Scope.Add("pull_requests");
-                    //options.Scope.Add("issues");
-                    //options.Scope.Add("notes");
-                    //options.Scope.Add("keys");
-                    //options.Scope.Add("hook");
-                    //options.Scope.Add("groups");
-                    //options.Scope.Add("gists");
-                    //options.Scope.Add("enterprises");
+                   //options.Scope.Add("projects");
+                   //options.Scope.Add("pull_requests");
+                   //options.Scope.Add("issues");
+                   //options.Scope.Add("notes");
+                   //options.Scope.Add("keys");
+                   //options.Scope.Add("hook");
+                   //options.Scope.Add("groups");
+                   //options.Scope.Add("gists");
+                   //options.Scope.Add("enterprises");
 
-                    options.SaveTokens = true;
+                   options.SaveTokens = true;
                });
 
         }

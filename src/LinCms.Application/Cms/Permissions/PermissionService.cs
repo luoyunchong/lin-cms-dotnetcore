@@ -37,11 +37,11 @@ namespace LinCms.Cms.Permissions
         /// </summary>
         /// <param name="permission"></param>
         /// <returns></returns>
-        public async Task<bool> CheckPermissionAsync(string permission)
+        public async Task<bool> CheckPermissionAsync(string module, string permission)
         {
             long[] groups = CurrentUser.Groups;
 
-            LinPermission linPermission = await _permissionRepository.Where(r => r.Name == permission).FirstAsync();
+            LinPermission linPermission = await _permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();
 
             bool existPermission = await _groupPermissionRepository.Select
                 .AnyAsync(r => groups.Contains(r.GroupId) && r.PermissionId == linPermission.Id);

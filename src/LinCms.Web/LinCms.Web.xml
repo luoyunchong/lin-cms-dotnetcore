@@ -236,13 +236,13 @@
             </summary>
             <param name="loginInputDto">用户名/密码：admin/123qwe</param>
         </member>
-        <member name="M:LinCms.Controllers.Cms.AccountController.GetRefreshToken">
+        <member name="M:LinCms.Controllers.Cms.AccountController.GetRefreshTokenAsync">
             <summary>
             刷新用户的token
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Cms.AccountController.Logout">
+        <member name="M:LinCms.Controllers.Cms.AccountController.LogoutAsync">
             <summary>
             TODO
             </summary>
