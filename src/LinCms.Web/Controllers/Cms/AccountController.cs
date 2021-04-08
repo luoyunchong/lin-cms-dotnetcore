@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Autofac;
@@ -12,9 +14,10 @@ using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
+using LinCms.IRepositories;
 using LinCms.Middleware;
 using LinCms.Security;
-
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,11 +35,13 @@ namespace LinCms.Controllers.Cms
     {
         private readonly ITokenService _tokenService;
         private readonly IAccountService _accountService;
-        public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService)
+        private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;
+        public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository)
         {
             bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
             _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? typeof(IdentityServer4Service).Name : typeof(JwtTokenService).Name);
             _accountService = accountService;
+            _blackRecordRepository = blackRecordRepository;
         }
         /// <summary>
         /// 登录接口
@@ -45,9 +50,9 @@ namespace LinCms.Controllers.Cms
         [DisableAuditing]
         [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
         [HttpPost("login")]
-        public async Task<Tokens> Login(LoginInputDto loginInputDto)
+        public Task<Tokens> Login(LoginInputDto loginInputDto)
         {
-            return await _tokenService.LoginAsync(loginInputDto);
+            return _tokenService.LoginAsync(loginInputDto);
         }
 
         /// <summary>
@@ -55,20 +60,15 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <returns></returns>
         [HttpGet("refresh")]
-        public Task<Tokens> GetRefreshToken()
+        public async Task<Tokens> GetRefreshTokenAsync()
         {
-            string refreshToken;
-            string authorization = Request.Headers["Authorization"];
+            string? refreshToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
+            if (refreshToken == null)
+            {
+                throw new LinCmsException("请先登录.", ErrorCode.RefreshTokenError);
+            }
 
-            if (authorization != null && authorization.StartsWith(JwtBearerDefaults.AuthenticationScheme))
-            {
-                refreshToken = authorization.Substring(JwtBearerDefaults.AuthenticationScheme.Length + 1).Trim();
-            }
-            else
-            {
-                throw new LinCmsException(" 请先登录.", ErrorCode.RefreshTokenError);
-            }
-            return _tokenService.GetRefreshTokenAsync(refreshToken);
+            return await _tokenService.GetRefreshTokenAsync(refreshToken);
         }
 
         /// <summary>
@@ -76,8 +76,13 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <returns></returns>
         [HttpGet("logout")]
-        public UnifyResponseDto Logout()
+        [Authorize]
+        public async Task<UnifyResponseDto> LogoutAsync()
         {
+            var username = User.FindUserName();
+            string? Jti = await HttpContext.GetTokenAsync("Bearer", "access_token");
+            //string Jti = Request.Headers["Authorization"].ToString().Substring(JwtBearerDefaults.AuthenticationScheme.Length + 1).Trim();
+            _blackRecordRepository.Insert(new BlackRecord { Jti = Jti, UserName = username });
             return UnifyResponseDto.Success("退出登录");
         }
 
