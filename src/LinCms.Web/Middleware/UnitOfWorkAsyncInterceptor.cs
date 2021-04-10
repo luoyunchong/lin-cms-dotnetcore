@@ -1,10 +1,9 @@
-﻿using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using FreeSql;
 using LinCms.Aop.Attributes;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinCms.Middleware
 {
@@ -86,7 +85,7 @@ namespace LinCms.Middleware
 
         private async Task InternalInterceptAsynchronous(IInvocation invocation)
         {
-            string methodName =$"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
+            string methodName = $"{invocation.MethodInvocationTarget.DeclaringType?.FullName}.{invocation.Method.Name}()";
             int? hashCode = _unitOfWork.GetHashCode();
 
             using (_logger.BeginScope("_unitOfWork:{hashCode}", hashCode))
@@ -96,7 +95,11 @@ namespace LinCms.Middleware
                 invocation.Proceed();
                 try
                 {
-                    await (Task)invocation.ReturnValue;
+                    //处理Task返回一个null值的情况会导致空指针
+                    if (invocation.ReturnValue != null)
+                    {
+                        await (Task)invocation.ReturnValue;
+                    }
                     _unitOfWork.Commit();
                     _logger.LogInformation($"----- async Task 事务 {hashCode} Commit----- ");
                 }

@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Castle.DynamicProxy;
-using FreeSql;
-using LinCms.Aop.Attributes;
-using Microsoft.Extensions.Logging;
+﻿using Castle.DynamicProxy;
 
 namespace LinCms.Middleware
 {

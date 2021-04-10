@@ -11,13 +11,6 @@ namespace LinCms.Entities
     [Table(Name = "lin_user")]
     public class LinUser : FullAduitEntity
     {
-        public LinUser() { }
-
-        public LinUser(string username)
-        {
-            this.Username = username;
-        }
-
         /// <summary>
         /// 用户名
         /// </summary>

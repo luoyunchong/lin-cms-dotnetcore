@@ -39,8 +39,4 @@
 	  <ProjectReference Include="..\..\framework\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Middleware\" />
-	</ItemGroup>
-
 </Project>
