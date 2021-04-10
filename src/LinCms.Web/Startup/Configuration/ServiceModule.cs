@@ -3,7 +3,6 @@ using Autofac.Extras.DynamicProxy;
 using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
-using LinCms.Controllers.Blog;
 using LinCms.Entities;
 using LinCms.Middleware;
 using System;

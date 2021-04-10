@@ -95,9 +95,7 @@ namespace LinCms.Startup
             #endregion
 
 
-     
-
-            //配置Google验证码
+            #region 配置Google验证码
             services.AddScoped<RecaptchaVerifyActionFilter>();
             services.Configure<GooglereCAPTCHAOptions>(Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
             GooglereCAPTCHAOptions googlereCAPTCHAOptions = services.BuildServiceProvider().GetService<IOptionsSnapshot<GooglereCAPTCHAOptions>>().Value;
@@ -110,11 +108,11 @@ namespace LinCms.Startup
                     x.SiteKey = googlereCAPTCHAOptions.SiteKey;
                     x.SiteSecret = googlereCAPTCHAOptions.SiteSecret;
                 });
-            }
+            } 
+            #endregion
 
             services.AddDIServices(Configuration);
 
-            services.AddSwaggerGenNewtonsoftSupport();
             //Swagger 扩展方法配置Swagger
             services.AddSwaggerGen();
 
@@ -184,6 +182,7 @@ namespace LinCms.Startup
             //异常中间件应放在MVC执行事务的中件间的前面，否则异常时UnitOfWorkMiddleware无法catch异常
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
 
+            #region 三种Swagger
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -202,7 +201,7 @@ namespace LinCms.Startup
 
             app.UseKnife4UI(c =>
             {
-                c.DocumentTitle = "LinCms博客模块"; 
+                c.DocumentTitle = "LinCms博客模块";
                 c.RoutePrefix = "k4";//http://localhost:5000/k4/index.html
                 //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
@@ -219,6 +218,8 @@ namespace LinCms.Startup
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
             });
 
+            #endregion
+
             app.UseCors(builder =>
             {
                 string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
@@ -228,6 +229,7 @@ namespace LinCms.Startup
             //认证中间件
             app.UseAuthentication();
 
+            //IP 限流 RateLimitConfig.json
             app.UseMiddleware<IpLimitMiddleware>();
 
             app.UseRouting()

@@ -23,6 +23,9 @@ namespace LinCms.Startup
     {
         public static IServiceCollection AddSwaggerGen(this IServiceCollection services)
         {
+            //解决  https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1349#issuecomment-572537295
+            services.AddSwaggerGenNewtonsoftSupport();
+
             SiteOption? siteOption = services.BuildServiceProvider().GetService<IOptionsSnapshot<SiteOption>>()?.Value;
             if (siteOption == null)
             {

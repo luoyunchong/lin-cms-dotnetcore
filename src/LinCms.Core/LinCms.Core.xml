@@ -34,17 +34,6 @@
             全局日志记录
             </summary>
         </member>
-        <member name="T:LinCms.Aop.Middleware.CustomExceptionMiddleWare">
-            <summary>
-            如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
-            </summary>
-        </member>
-        <member name="M:LinCms.Aop.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Data.Enums.ErrorCode,System.Int32)">
-            <summary>
-            处理方式：返回Json格式
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:LinCms.Common.EncryptUtil.Encrypt(System.String)">
             <summary>
             通过创建哈希字符串适用于任何 MD5 哈希函数 （在任何平台） 上创建 32 个字符的十六进制格式哈希字符串
@@ -914,31 +903,6 @@
             后台路由
             </summary>
         </member>
-        <member name="P:LinCms.Entities.LinPoem.Author">
-            <summary>
-            作者
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.LinPoem.Content">
-            <summary>
-            内容，以/来分割每一句，以|来分割宋词的上下片
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.LinPoem.Dynasty">
-            <summary>
-            朝代
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.LinPoem.Image">
-            <summary>
-            配图
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.LinPoem.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
         <member name="T:LinCms.Entities.LinUser">
             <summary>
             用户
@@ -1263,6 +1227,17 @@
             <summary>
             Domain name to login to SMTP server.
             </summary>
+        </member>
+        <member name="T:LinCms.Middleware.CustomExceptionMiddleWare">
+            <summary>
+            如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
+            </summary>
+        </member>
+        <member name="M:LinCms.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Data.Enums.ErrorCode,System.Int32)">
+            <summary>
+            处理方式：返回Json格式
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>
