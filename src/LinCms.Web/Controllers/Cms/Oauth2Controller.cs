@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-
-using Autofac;
-
+﻿using Autofac;
 using DotNetCore.Security;
-
 using LinCms.Cms.Users;
 using LinCms.Data;
 using LinCms.Data.Enums;
@@ -18,13 +8,19 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using LinCms.Security;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace LinCms.Controllers.Cms
 {
@@ -34,15 +30,13 @@ namespace LinCms.Controllers.Cms
     public class Oauth2Controller : ControllerBase
     {
         private const string LoginProviderKey = "LoginProvider";
-        private readonly IHttpContextAccessor _contextAccessor;
         private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
         private readonly IUserRepository _userRepository;
         private readonly IJsonWebTokenService _jsonWebTokenService;
         private readonly IComponentContext _componentContext;
-        public Oauth2Controller(IHttpContextAccessor contextAccessor, IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService, IComponentContext componentContext)
+        public Oauth2Controller(IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService, IComponentContext componentContext)
         {
-            _contextAccessor = contextAccessor;
             _userCommunityService = userCommunityService;
             _logger = logger;
             _userRepository = userRepository;
@@ -69,9 +63,9 @@ namespace LinCms.Controllers.Cms
                 return BadRequest();
             }
 
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            AuthenticateResult authenticateResult = await HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return Redirect(redirectUrl);
-            var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            var openIdClaim = authenticateResult.Principal?.FindFirst(ClaimTypes.NameIdentifier);
             if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
                 return Redirect(redirectUrl);
 
@@ -112,9 +106,9 @@ namespace LinCms.Controllers.Cms
             //claims.AddRange(authClaims);
             string token = _jsonWebTokenService.Encode(claims);
 
-            //TODO 生成刷新token
-            //user.AddRefreshToken(token);
-            //await _userRepository.UpdateAsync(user);
+            // 生成刷新token
+            user.AddRefreshToken();
+            await _userRepository.UpdateAsync(user);
 
             return Redirect($"{redirectUrl}#login-result?token={token}");
         }
@@ -140,8 +134,7 @@ namespace LinCms.Controllers.Cms
                 return BadRequest();
             }
 
-            HttpRequest request = _contextAccessor.HttpContext.Request;
-            string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}" + $"&redirectUrl={redirectUrl}";
+            string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}{Request.Path}-callback?provider={provider}" + $"&redirectUrl={redirectUrl}";
 
             _logger.LogInformation($"SignIn-url:{url}");
             var properties = new AuthenticationProperties { RedirectUri = url };
@@ -179,14 +172,14 @@ namespace LinCms.Controllers.Cms
                 token = token.Remove(0, 7);
             }
 
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
-            if (!authenticateResult.Succeeded) return Redirect($"{redirectUrl}#bind-result?code=fail&message={authenticateResult.Failure.Message}");
-            var openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            AuthenticateResult authenticateResult = await HttpContext.AuthenticateAsync(provider);
+            if (!authenticateResult.Succeeded) return Redirect($"{redirectUrl}#bind-result?code=fail&message={authenticateResult.Failure?.Message}");
+            var openIdClaim = authenticateResult.Principal?.FindFirst(ClaimTypes.NameIdentifier);
             if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
                 return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("未能获取openId")}");
 
             JwtPayload jwtPayload = (JwtPayload)_jsonWebTokenService.Decode(token);
-            string nameIdentifier = jwtPayload.Claims.FirstOrDefault(r => r.Type == ClaimTypes.NameIdentifier)?.Value;
+            string? nameIdentifier = jwtPayload.Claims.FirstOrDefault(r => r.Type == ClaimTypes.NameIdentifier)?.Value;
             if (nameIdentifier.IsNullOrWhiteSpace())
             {
                 return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("请先登录")}");
@@ -233,8 +226,7 @@ namespace LinCms.Controllers.Cms
                 return BadRequest();
             }
 
-            HttpRequest request = _contextAccessor.HttpContext.Request;
-            string url = $"{request.Scheme}://{request.Host}{request.PathBase}{request.Path}-callback?provider={provider}"
+            string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}{Request.Path}-callback?provider={provider}"
                 + $"&redirectUrl={redirectUrl}&token={token}";
 
             _logger.LogInformation($"SignIn-url:{url}");
@@ -254,7 +246,7 @@ namespace LinCms.Controllers.Cms
             return await HttpContext.GetExternalProvidersAsync();
         }
 
-        [HttpGet("signout"), HttpPost("signout")]
+        [HttpGet("signout")]
         public IActionResult SignOut()
         {
             // Instruct the cookies middleware to delete the local cookie created
@@ -269,9 +261,9 @@ namespace LinCms.Controllers.Cms
         /// <param name="provider"></param>
         /// <returns></returns>
         [HttpGet("OpenId")]
-        public async Task<string> OpenId(string provider)
+        public async Task<string?> OpenId(string provider)
         {
-            AuthenticateResult authenticateResult = await _contextAccessor.HttpContext.AuthenticateAsync(provider);
+            AuthenticateResult authenticateResult = await HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return null;
             Claim openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             return openIdClaim?.Value;
@@ -283,7 +275,7 @@ namespace LinCms.Controllers.Cms
         /// </summary>
         /// <returns></returns>
         [HttpGet("GetOpenIdByToken")]
-        public string GetOpenIdByTokenAsync()
+        public string? GetOpenIdByTokenAsync()
         {
             return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }

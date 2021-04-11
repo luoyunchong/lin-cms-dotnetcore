@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
@@ -72,7 +71,7 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
             }
 
-            Tokens tokens =await CreateTokenAsync(user);
+            Tokens tokens = await CreateTokenAsync(user);
             _logger.LogInformation($"用户{user.Username},JwtRefreshToken 刷新-登录成功");
 
             return tokens;
@@ -95,21 +94,10 @@ namespace LinCms.Cms.Users
 
             string token = _jsonWebTokenService.Encode(claims);
 
-            string refreshToken = GenerateToken();
-            user.AddRefreshToken(refreshToken);
+            user.AddRefreshToken();
             await _userRepository.UpdateAsync(user);
 
-            return new Tokens(token, refreshToken);
-        }
-
-        private string GenerateToken(int size = 32)
-        {
-            var randomNumber = new byte[size];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            return new Tokens(token, user.RefreshToken);
         }
     }
 }

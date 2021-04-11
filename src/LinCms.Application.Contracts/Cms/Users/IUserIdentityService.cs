@@ -1,13 +1,11 @@
-﻿using System;
+﻿using LinCms.Entities;
+using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using LinCms.Data;
-using LinCms.Entities;
 
 namespace LinCms.Cms.Users
 {
- 
+
     public interface IUserIdentityService
     {
         /// <summary>
@@ -17,7 +15,7 @@ namespace LinCms.Cms.Users
         /// <param name="password"></param>
         /// <returns></returns>
         Task<bool> VerifyUserPasswordAsync(long userId, string password);
-        
+
         /// <summary>
         /// 根据linUserIdentity生成密码
         /// </summary>
@@ -25,7 +23,7 @@ namespace LinCms.Cms.Users
         /// <param name="newpassword"></param>
         /// <returns></returns>
         Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword);
-        
+
         /// <summary>
         /// 根据用户ID，修改用户的密码
         /// </summary>

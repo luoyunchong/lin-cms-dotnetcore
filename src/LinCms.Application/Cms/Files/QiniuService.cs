@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using LinCms.Common;
+﻿using LinCms.Common;
 using LinCms.Data.Options;
 using LinCms.Entities;
 using LinCms.Exceptions;
@@ -12,6 +8,10 @@ using Microsoft.Extensions.Options;
 using Qiniu.Http;
 using Qiniu.Storage;
 using Qiniu.Util;
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace LinCms.Cms.Files
 {
@@ -34,7 +34,7 @@ namespace LinCms.Cms.Files
         }
 
         /// <summary>
-        /// 七牛云上传 {PrefixPath}/{yyyyMMddHHmmssffffff}.文件后缀
+        /// 七牛云上传 {PrefixPath}/{yyyyMM}/{guid}.文件后缀
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace LinCms.Cms.Files
                 UseHttps = _fileStorageOption.Qiniu.UseHttps
             });
 
-            string path = _fileStorageOption.Qiniu.PrefixPath + "/" + DateTime.Now.ToString("yyyyMMddHHmmssffffff") + Path.GetExtension(file.FileName);
+            string path = _fileStorageOption.Qiniu.PrefixPath + "/" + DateTime.Now.ToString("yyyyMM") + "/" + Guid.NewGuid() + Path.GetExtension(file.FileName);
             using Stream stream = file.OpenReadStream();
             HttpResult result = upload.UploadStream(stream, path, GetAccessToken(), null);
             if (result.Code != (int)HttpCode.OK) throw new LinCmsException("上传失败");
