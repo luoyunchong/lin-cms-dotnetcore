@@ -1,9 +1,9 @@
-﻿using System;
-using LinCms.Entities;
+﻿using LinCms.Entities;
+using System;
 
 namespace LinCms.Cms.Users
 {
-    public class UserNoviceDto:EntityDto
+    public class UserNoviceDto : EntityDto
     {
         public string Introduction { get; set; }
         public string Username { get; set; }

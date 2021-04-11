@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using FreeSql.DataAnnotations;
+﻿using FreeSql.DataAnnotations;
 using LinCms.Data.Enums;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace LinCms.Entities
 {
@@ -93,12 +94,21 @@ namespace LinCms.Entities
         /// <summary>
         /// 登录后用户状态变化
         /// </summary>
-        /// <param name="refreshToken"></param>
-        public void AddRefreshToken(string refreshToken)
+        public void AddRefreshToken()
         {
+            string refreshToken = GenerateToken();
             LastLoginTime = DateTime.Now;
             RefreshToken = refreshToken;
         }
 
+        private string GenerateToken(int size = 32)
+        {
+            var randomNumber = new byte[size];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
     }
 }

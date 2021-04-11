@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using LinCms.Aop.Filter;
+﻿using LinCms.Aop.Filter;
 using LinCms.Cms.Settings;
 using LinCms.Data;
 using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms
 {
@@ -82,7 +82,7 @@ namespace LinCms.Controllers.Cms
         public async Task<string> GetSettingByKey(string key)
         {
             string providerName = "U";
-            string providerKey = _currentUser.Id.ToString();
+            string? providerKey = _currentUser.Id.ToString();
             return await _settingService.GetOrNullAsync(key, providerName, providerKey);
         }
 
@@ -90,7 +90,7 @@ namespace LinCms.Controllers.Cms
         public async Task<IDictionary<string, string>> GetSettingKeys([FromQuery(Name = "keys[]")] List<string> keys)
         {
             string providerName = "U";
-            string providerKey = _currentUser.Id.ToString();
+            string? providerKey = _currentUser.Id.ToString();
             IDictionary<string, string> values = new Dictionary<string, string>();
 
             foreach (var key in keys)

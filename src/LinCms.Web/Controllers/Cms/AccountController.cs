@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-using Autofac;
-
+﻿using Autofac;
 using AutoMapper;
-
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Account;
 using LinCms.Cms.Users;
@@ -18,12 +11,11 @@ using LinCms.IRepositories;
 using LinCms.Middleware;
 using LinCms.Security;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-
-using MimeKit;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms
 {
