@@ -18,9 +18,9 @@ jobs:
       with:
         dotnet-version: 5.0.202
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore lin-cms-dotnetcore.sln
     - name: Build solution
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build lin-cms-dotnetcore.sln --configuration Release --no-restore
     
   generate-docs:
     runs-on: windows-latest
@@ -34,7 +34,7 @@ jobs:
         with:
           dotnet-version: 5.0.202
       - name: Install dependencies
-        run:  dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org --configfile $env:APPDATA\NuGet\NuGet.Config && dotnet restore
+        run:  dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org --configfile $env:APPDATA\NuGet\NuGet.Config && dotnet restore lin-cms-dotnetcore.sln
       - name: Setup DocFX
         uses: crazy-max/ghaction-chocolatey@v1
         with:
