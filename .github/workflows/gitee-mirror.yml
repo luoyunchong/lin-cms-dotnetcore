@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - master
+            - gh-pages
 
 jobs:
     build:
