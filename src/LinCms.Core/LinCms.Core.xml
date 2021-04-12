@@ -958,11 +958,10 @@
             JWT 登录，保存生成的随机token值。
             </summary>
         </member>
-        <member name="M:LinCms.Entities.LinUser.AddRefreshToken(System.String)">
+        <member name="M:LinCms.Entities.LinUser.AddRefreshToken">
             <summary>
             登录后用户状态变化
             </summary>
-            <param name="refreshToken"></param>
         </member>
         <member name="T:LinCms.Entities.LinUserIdentity">
             <summary>
