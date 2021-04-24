@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
-using IdentityServer4;
-using LinCms.Cms.Users;
-using LinCms.IRepositories;
-using LinCms.Entities;
-using System;
-using Microsoft.AspNetCore.Http;
+﻿using IdentityServer4;
 using IdentityServer4.Services;
+using LinCms.Cms.Users;
+using LinCms.Entities;
+using LinCms.IRepositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace LinCms.IdentityServer4.Controllers
 {
@@ -46,7 +46,7 @@ namespace LinCms.IdentityServer4.Controllers
                 return View(viewModel);
             }
 
-            bool valid = await userIdentityService.VerifyUserPasswordAsync(user.Id, viewModel.Password);
+            bool valid = await userIdentityService.VerifyUserPasswordAsync(user.Id, viewModel.Password, user.Salt);
 
             if (!valid)
             {
@@ -76,7 +76,7 @@ namespace LinCms.IdentityServer4.Controllers
             var context = await _interaction.GetLogoutContextAsync(logoutId);
             return RedirectToAction("Login");
         }
-       
+
     }
 
     public class LoginViewModel

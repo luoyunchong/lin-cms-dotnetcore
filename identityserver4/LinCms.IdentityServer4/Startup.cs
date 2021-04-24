@@ -188,6 +188,11 @@ namespace LinCms.IdentityServer4
                         };
                     };
                 });
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+                options.HttpsPort = 443;
+            });
             services.AddHealthChecks();
         }
 
@@ -211,7 +216,7 @@ namespace LinCms.IdentityServer4
             app.UseForwardedHeaders(options);
 
             //app.UseMiddleware(typeof(CustomExceptionMiddleWare));
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             //app.UseSerilogRequestLogging();
 
