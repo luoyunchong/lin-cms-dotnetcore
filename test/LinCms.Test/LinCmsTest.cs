@@ -14,21 +14,35 @@ namespace LinCms.Test
 {
     public class LinCmsTest : BaseLinCmsTest
     {
-        private readonly ITestOutputHelper testOutputHelper;
+        private readonly ITestOutputHelper _testOutputHelper;
         private readonly IFreeSql freeSql;
         private readonly IJsonWebTokenService jsonWebTokenService;
+        private readonly ICryptographyService _cryptographyService;
         public LinCmsTest(ITestOutputHelper testOut)
         {
-            testOutputHelper = testOut;
+            _testOutputHelper = testOut;
             freeSql = GetService<IFreeSql>();
             jsonWebTokenService = GetService<IJsonWebTokenService>();
+            _cryptographyService = GetService<ICryptographyService>();
         }
 
         [Fact]
         public void OutputTest()
         {
-            testOutputHelper.WriteLine("BaseLinCmsTest ConfigureServices");
+            _testOutputHelper.WriteLine("BaseLinCmsTest ConfigureServices");
         }
+
+
+        //guid:9fd248c8-e9da-412f-bad9-aa5f7f1d7b80,passowrd:IWxIlqMAE3SU3JTogdDAJw==
+        [Fact]
+        public void CryptographyServiceEncrypt()
+        {
+            string guid = Guid.NewGuid().ToString();
+            string encrptypassword = _cryptographyService.Encrypt("123qwe", guid);
+
+            _testOutputHelper.WriteLine($"guid:{guid},passowrd:{encrptypassword}");
+        }
+
 
         /// <summary>
         /// 主要负责工作单元的创建
@@ -107,7 +121,7 @@ namespace LinCms.Test
 
             var sql = freeSql.Insert(new BaseItem()).AsTable(old => $"{old}_{date:yyyyMMdd}").ToSql();
 
-            testOutputHelper.WriteLine(sql);
+            _testOutputHelper.WriteLine(sql);
 
         }
 
@@ -117,7 +131,7 @@ namespace LinCms.Test
             int _min = 100000;
             int _max = 999999;
             Random _rdm = new Random();
-            int f= _rdm.Next(_min, _max);
+            int f = _rdm.Next(_min, _max);
         }
     }
 }

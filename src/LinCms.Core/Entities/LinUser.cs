@@ -71,6 +71,12 @@ namespace LinCms.Entities
         public bool IsEmailConfirmed { get; set; } = false;
         public string PasswordResetCode { get; set; }
 
+        /// <summary>
+        /// 盐值
+        /// </summary>
+        [Column(StringLength = 100)]
+        public string Salt { get; set; }
+
         [Navigate(ManyToMany = typeof(LinUserGroup))]
         public virtual ICollection<LinGroup> LinGroups { get; set; }
 

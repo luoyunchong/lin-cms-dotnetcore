@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using FreeSql;
+﻿using FreeSql;
 using LinCms.Aop.Filter;
 using LinCms.Controllers.Cms;
 using LinCms.Data;
@@ -12,6 +6,11 @@ using LinCms.FreeSql;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -45,8 +44,6 @@ namespace LinCms.Test
         {
             _testOutputHelper.WriteLine("console test output helper");
         }
-
-
         //"LinCms.Zero.Authorization.LinCmsAuthorizeAttribute","查询日志记录的用户","日志"
         //"LinCms.Zero.Authorization.LinCmsAuthorizeAttribute","查询所有日志","日志"
         //"LinCms.Zero.Authorization.LinCmsAuthorizeAttribute","搜索日志","日志"
@@ -188,15 +185,15 @@ namespace LinCms.Test
         public void FreeSqlBuilderTest()
         {
             FreeSqlBuilder fsql = new FreeSqlBuilder()
-                .UseConnectionString(DataType.MySql,"Data Source=localhost;Port=3306;User ID=root;Password=root;Initial Catalog=lincms2;Charset=utf8mb4;SslMode=none;Max pool size=1;Connection LifeTime=20")
+                .UseConnectionString(DataType.MySql, "Data Source=localhost;Port=3306;User ID=root;Password=root;Initial Catalog=lincms2;Charset=utf8mb4;SslMode=none;Max pool size=1;Connection LifeTime=20")
                 .UseAutoSyncStructure(true)
                 .UseNoneCommandParameter(true);
-            
-            
+
+
             Type type = fsql.GetType();
             FieldInfo fieldInfo = type.GetField("_masterConnectionString", BindingFlags.NonPublic | BindingFlags.Instance);
             string value = (string)fieldInfo.GetValue(fsql);
-            
+
             FieldInfo _dataTypeFieldInfo = type.GetField("_dataType", BindingFlags.NonPublic | BindingFlags.Instance);
             DataType dataType = (DataType)_dataTypeFieldInfo.GetValue(fsql);
 
@@ -242,7 +239,7 @@ namespace LinCms.Test
                .UseConnectionString(DataType.OdbcMySql, "Driver={MySQL ODBC 8.0 Unicode Driver}; Server=127.0.0.1;Port=3308;Persist Security Info=False; Trusted_Connection=Yes;UID=root;PWD=123456; DATABASE=cccddd_odbc;Charset=utf8; SslMode=none;Min Pool Size=1");
 
             fsqlBuilder2.CreateDatabaseIfNotExists_ODBCMySql();
-            
+
         }
     }
 }

@@ -1,45 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DotNetCore.Security;
 using LinCms.Aop.Attributes;
-using LinCms.Common;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
     public class UserIdentityService : ApplicationService, IUserIdentityService
     {
         private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-
-        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly ICryptographyService _cryptographyService;
+        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, ICryptographyService cryptographyService, IUserRepository userRepository)
         {
             _userIdentityRepository = userIdentityRepository;
+            _cryptographyService = cryptographyService;
+            _userRepository = userRepository;
         }
 
-        public async Task<bool> VerifyUserPasswordAsync(long userId, string password)
+        public async Task<bool> VerifyUserPasswordAsync(long userId, string password, string salt)
         {
             LinUserIdentity userIdentity = await this.GetFirstByUserIdAsync(userId);
-
-            return userIdentity != null && EncryptUtil.Verify(userIdentity.Credential, password);
+            string encryptPassword = _cryptographyService.Encrypt(password, salt);
+            return userIdentity != null && userIdentity.Credential == encryptPassword;
         }
 
 
-        public async Task ChangePasswordAsync(long userId, string newpassword)
+        public async Task ChangePasswordAsync(long userId, string newpassword, string salt)
         {
-            var linUserIdentity = await _userIdentityRepository
-                .Where(a => a.CreateUserId == userId && a.IdentityType == LinUserIdentity.Password)
-                .FirstAsync();
+            var linUserIdentity = await  this.GetFirstByUserIdAsync(userId); ;
 
-            await this.ChangePasswordAsync(linUserIdentity, newpassword);
+            await this.ChangePasswordAsync(linUserIdentity, newpassword, salt);
         }
 
 
-        public Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword)
+        public Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword, string salt)
         {
-            string encryptPassword = EncryptUtil.Encrypt(newpassword);
+            string encryptPassword = _cryptographyService.Encrypt(newpassword, salt);
             if (linUserIdentity == null)
             {
                 linUserIdentity = new LinUserIdentity(LinUserIdentity.Password, "", encryptPassword, DateTime.Now);
@@ -62,7 +63,7 @@ namespace LinCms.Cms.Users
         {
             return _userIdentityRepository
                 .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
-                .ToOneAsync();
+                .FirstAsync();
         }
 
         public async Task<List<UserIdentityDto>> GetListAsync(long userId)
