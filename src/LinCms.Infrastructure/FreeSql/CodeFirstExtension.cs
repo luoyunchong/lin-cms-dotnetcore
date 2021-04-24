@@ -5,9 +5,6 @@ using LinCms.Entities;
 using LinCms.Entities.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinCms.FreeSql
 {
@@ -36,9 +33,10 @@ namespace LinCms.FreeSql
                             Active=UserActive.Active,
                             CreateTime=DateTime.Now,
                             IsDeleted=false,
+                            Salt="9fd248c8-e9da-412f-bad9-aa5f7f1d7b80",
                             LinUserIdentitys=new List<LinUserIdentity>()
                             {
-                               new LinUserIdentity(LinUserIdentity.Password,"admin",EncryptUtil.Encrypt("123qwe"),DateTime.Now)
+                               new LinUserIdentity(LinUserIdentity.Password,"admin","IWxIlqMAE3SU3JTogdDAJw==",DateTime.Now) //密码是 123qwe
                             },
                             LinUserGroups=new List<LinUserGroup>()
                             {
@@ -52,9 +50,10 @@ namespace LinCms.FreeSql
                              Active=UserActive.Active,
                              CreateTime=DateTime.Now,
                              IsDeleted=false,
+                             Salt="9fd248c8-e9da-412f-bad9-aa5f7f1d7b80",
                              LinUserIdentitys=new List<LinUserIdentity>()
                              {
-                                 new LinUserIdentity(LinUserIdentity.Password,"CmsAdmin",EncryptUtil.Encrypt("123qwe"),DateTime.Now)
+                                 new LinUserIdentity(LinUserIdentity.Password,"CmsAdmin","IWxIlqMAE3SU3JTogdDAJw==",DateTime.Now)
                              },
                              LinUserGroups=new List<LinUserGroup>()
                              {

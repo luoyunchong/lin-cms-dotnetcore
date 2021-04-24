@@ -532,28 +532,31 @@
             用户所属的权限组id
             </summary>
         </member>
-        <member name="M:LinCms.Cms.Users.IUserIdentityService.VerifyUserPasswordAsync(System.Int64,System.String)">
+        <member name="M:LinCms.Cms.Users.IUserIdentityService.VerifyUserPasswordAsync(System.Int64,System.String,System.String)">
             <summary>
             验证用户密码是否正确
             </summary>
             <param name="userId"></param>
             <param name="password"></param>
+            <param name="salt"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Cms.Users.IUserIdentityService.ChangePasswordAsync(LinCms.Entities.LinUserIdentity,System.String)">
+        <member name="M:LinCms.Cms.Users.IUserIdentityService.ChangePasswordAsync(LinCms.Entities.LinUserIdentity,System.String,System.String)">
             <summary>
             根据linUserIdentity生成密码
             </summary>
             <param name="linUserIdentity"></param>
             <param name="newpassword"></param>
+            <param name="salt"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Cms.Users.IUserIdentityService.ChangePasswordAsync(System.Int64,System.String)">
+        <member name="M:LinCms.Cms.Users.IUserIdentityService.ChangePasswordAsync(System.Int64,System.String,System.String)">
             <summary>
             根据用户ID，修改用户的密码
             </summary>
             <param name="userId"></param>
             <param name="newpassword"></param>
+            <param name="salt"></param>
         </member>
         <member name="M:LinCms.Cms.Users.IUserIdentityService.GetFirstByUserIdAsync(System.Int64)">
             <summary>

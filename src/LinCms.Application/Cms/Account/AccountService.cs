@@ -139,7 +139,7 @@ namespace LinCms.Cms.Account
 
             user.PasswordResetCode = null;
             await _userRepository.UpdateAsync(user);
-            await _userIdentityService.ChangePasswordAsync(user.Id, resetPassword.Password);
+            await _userIdentityService.ChangePasswordAsync(user.Id, resetPassword.Password, user.Salt);
         }
     }
 }

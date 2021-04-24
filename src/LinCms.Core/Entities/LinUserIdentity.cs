@@ -1,5 +1,6 @@
-﻿using System;
-using FreeSql.DataAnnotations;
+﻿using FreeSql.DataAnnotations;
+using System;
+using System.Collections.Generic;
 
 namespace LinCms.Entities
 {
@@ -19,7 +20,7 @@ namespace LinCms.Entities
         {
         }
 
-        public LinUserIdentity(string identityType, string identifier, string credential,DateTime createTime)
+        public LinUserIdentity(string identityType, string identifier, string credential, DateTime createTime)
         {
             IdentityType = identityType ?? throw new ArgumentNullException(nameof(identityType));
             Identifier = identifier;
@@ -47,5 +48,11 @@ namespace LinCms.Entities
 
 
         public string ExtraProperties { get; set; }
+
+    }
+
+    public class ExtraProperties : Dictionary<string, string>
+    {
+
     }
 }

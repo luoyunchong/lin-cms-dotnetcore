@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿using DotNetCore.Security;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Groups;
@@ -14,6 +10,10 @@ using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
@@ -24,33 +24,30 @@ namespace LinCms.Cms.Users
         private readonly IPermissionService _permissionService;
         private readonly IGroupService _groupService;
         private readonly IFileRepository _fileRepository;
-
+        private readonly ICryptographyService _cryptographyService;
         public UserService(IUserRepository userRepository,
             IUserIdentityService userIdentityService,
-            IPermissionService permissionService, IGroupService groupService, IFileRepository fileRepository)
+            IPermissionService permissionService, IGroupService groupService, IFileRepository fileRepository, ICryptographyService cryptographyService)
         {
             _userRepository = userRepository;
             _userIdentityService = userIdentityService;
             _permissionService = permissionService;
             _groupService = groupService;
             _fileRepository = fileRepository;
+            _cryptographyService = cryptographyService;
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)
         {
             long currentUserId = CurrentUser.Id ?? 0;
-
-            LinUserIdentity userIdentity = await _userIdentityService.GetFirstByUserIdAsync(currentUserId);
-            if (userIdentity != null)
+            LinUser user = await _userRepository.Where(r => r.Id == currentUserId).FirstAsync();
+            bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword, user.Salt);
+            if (!valid)
             {
-                bool valid = EncryptUtil.Verify(userIdentity.Credential, passwordDto.OldPassword);
-                if (!valid)
-                {
-                    throw new LinCmsException("旧密码不正确");
-                }
+                throw new LinCmsException("旧密码不正确");
             }
 
-            await _userIdentityService.ChangePasswordAsync(userIdentity, passwordDto.NewPassword);
+            await _userIdentityService.ChangePasswordAsync(user.Id, passwordDto.NewPassword, user.Salt);
         }
 
         public Task<LinUser> GetUserAsync(string username)
@@ -68,14 +65,14 @@ namespace LinCms.Cms.Users
 
         public async Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto)
         {
-            bool userExist = await _userRepository.Where(r => r.Id == id).AnyAsync();
+            LinUser user = await _userRepository.Where(r => r.Id == id).FirstAsync();
 
-            if (userExist == false)
+            if (user == null)
             {
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            await _userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword);
+            await _userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword, user.Salt);
         }
 
         public PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto)
@@ -116,7 +113,8 @@ namespace LinCms.Cms.Users
                     throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
                 }
             }
-
+            user.Salt = Guid.NewGuid().ToString();
+            string encryptPassword = _cryptographyService.Encrypt(password, user.Salt);
             user.LinUserGroups = new List<LinUserGroup>();
             groupIds?.ForEach(groupId =>
             {
@@ -127,7 +125,7 @@ namespace LinCms.Cms.Users
             });
             user.LinUserIdentitys = new List<LinUserIdentity>()
             {
-                new LinUserIdentity(LinUserIdentity.Password,user.Username,EncryptUtil.Encrypt(password),DateTime.Now)
+                new LinUserIdentity(LinUserIdentity.Password,user.Username,encryptPassword,DateTime.Now)
             };
             await _userRepository.InsertAsync(user);
         }

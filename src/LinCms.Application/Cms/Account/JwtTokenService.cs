@@ -43,7 +43,7 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password);
+            bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password, user.Salt);
 
             if (!valid)
             {

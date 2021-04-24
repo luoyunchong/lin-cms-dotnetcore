@@ -278,6 +278,11 @@
             显示名
             </summary>
         </member>
+        <member name="T:LinCms.Entities.BlackRecord">
+            <summary>
+            黑名单，实现登录Token的过期
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Blog.Article.ClassifyId">
             <summary>
             文章所在分类专栏Id
@@ -956,6 +961,11 @@
         <member name="P:LinCms.Entities.LinUser.RefreshToken">
             <summary>
             JWT 登录，保存生成的随机token值。
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.LinUser.Salt">
+            <summary>
+            盐值
             </summary>
         </member>
         <member name="M:LinCms.Entities.LinUser.AddRefreshToken">

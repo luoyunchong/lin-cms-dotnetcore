@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 黑名单，实现登录Token的过期
+    /// </summary>
     public class BlackRecord : Entity<Guid>, ICreateAduitEntity
     {
         [StringLength(-2)]
