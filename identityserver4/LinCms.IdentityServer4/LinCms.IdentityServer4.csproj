@@ -24,7 +24,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="IS4.pfx" />
 		<None Remove="LinCms.IdentityServer4.xml" />
 		<None Remove="tempkey.rsa" />
 	</ItemGroup>
@@ -48,9 +47,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="IS4.pfx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 		<Content Include="LinCms.IdentityServer4.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -60,6 +56,11 @@
 		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Update="IS4.pfx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties appsettings_1production_1json__JsonSchema="http://json.schemastore.org/appsettings" properties_4launchsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" />

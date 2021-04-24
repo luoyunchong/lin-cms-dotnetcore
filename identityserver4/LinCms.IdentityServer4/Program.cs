@@ -44,7 +44,13 @@ namespace LinCms.IdentityServer4
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                   
+                    webBuilder.UseStartup<Startup>()
+                    .UseKestrel((context, options) =>
+                    {
+                        options.Configure(context.Configuration.GetSection("Kestrel"));
+                    });
+                    ;
                 }) .UseSerilog();
     }
 }

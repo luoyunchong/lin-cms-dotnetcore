@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using IdentityModel;
+﻿using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Cms.Users;
 using LinCms.Entities;
 using LinCms.IRepositories;
+using System;
+using System.Threading.Tasks;
 
 namespace LinCms.IdentityServer4.IdentityServer4
 {
@@ -38,7 +38,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 return;
             }
 
-            bool valid =await _userIdentityService.VerifyUserPasswordAsync(user.Id,context.Password);
+            bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, context.Password, user.Salt);
 
             if (!valid)
             {
