@@ -1,6 +1,7 @@
-﻿using DotNetCore.CAP;
+﻿using System.Reflection;
+using DotNetCore.CAP;
 using FreeSql;
-using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms
 {
@@ -12,10 +13,12 @@ namespace LinCms
             capTransaction?.GetType().GetMethod("Flush", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(capTransaction, null);
         }
 
-       
+
         public static ICapTransaction BeginTransaction(this IUnitOfWork unitOfWork, ICapPublisher publisher, bool autoCommit = false)
         {
-            publisher.Transaction.Value = (ICapTransaction)publisher.ServiceProvider.GetService(typeof(ICapTransaction));
+            //看了源码，换了新的写法，换不同的数据库，就需要手动修改这段代码了（MySqlCapTransaction）
+            //publisher.Transaction.Value = (ICapTransaction)publisher.ServiceProvider.GetService(typeof(ICapTransaction));新版本只能得到null
+            publisher.Transaction.Value = ActivatorUtilities.CreateInstance<MySqlCapTransaction>(publisher.ServiceProvider);
             return publisher.Transaction.Value.Begin(unitOfWork.GetOrBeginTransaction(), autoCommit);
         }
 
@@ -28,8 +31,7 @@ namespace LinCms
 
         //public static ICapTransaction BeginTransaction(this UnitOfWorkManager unitOfWorkManager, ICapPublisher publisher, bool autoCommit = false)
         //{
-        //    publisher.Transaction.Value = (ICapTransaction)publisher.ServiceProvider.GetService(typeof(ICapTransaction));
-
+        //    publisher.Transaction.Value = ActivatorUtilities.CreateInstance<MySqlCapTransaction>(publisher.ServiceProvider);
         //    IUnitOfWork unitOfWork = unitOfWorkManager.Begin(Propagation.Required);
 
         //    return publisher.Transaction.Value.Begin(unitOfWork.GetOrBeginTransaction(), autoCommit);
