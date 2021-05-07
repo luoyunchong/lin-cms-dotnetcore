@@ -10,7 +10,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Blog.Notifications
 {
-    public class NotificationService :ApplicationService, INotificationService
+    public class NotificationService : ApplicationService, INotificationService
     {
         private readonly IAuditBaseRepository<Notification> _notificationRepository;
         private readonly IFileRepository _fileRepository;

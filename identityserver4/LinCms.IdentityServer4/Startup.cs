@@ -27,6 +27,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Serilog;
+using DotNetCore.Security;
 
 #if !DEBUG
 using System.Security.Cryptography.X509Certificates;
@@ -50,8 +51,10 @@ namespace LinCms.IdentityServer4
             InMemoryConfiguration.Configuration = this.Configuration;
 
             services.AddContext();
-            
+
             services.AddCors();
+            services.AddHash();
+            services.AddCryptography("lin-cms-dotnetcore-cryptography");
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -237,7 +240,7 @@ namespace LinCms.IdentityServer4
             app.UseIdentityServer();
 
             app.UseSwagger();
-      
+
             app.UseRapiDocUI(c =>
             {
                 c.DocumentTitle = "LinCms.IdentityServer4";

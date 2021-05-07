@@ -21,7 +21,7 @@ namespace LinCms.Common
         {
             StringBuilder sb = new StringBuilder();
 
-            MethodInfo create = typeof(T).GetMethod("Create", new Type[] { });
+            MethodInfo create = typeof(T).GetMethod("Create", Array.Empty<Type>());
             using (T crypt = (T)create.Invoke(null, null))
             {
                 if (crypt != null)

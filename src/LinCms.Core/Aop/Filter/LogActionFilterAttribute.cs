@@ -20,8 +20,7 @@ namespace LinCms.Aop.Filter
         private readonly ICurrentUser _currentUser;
         private readonly IDiagnosticContext _diagnosticContext;
         private readonly IAuditBaseRepository<LinLog> _logRepository;
-
-        Regex regex = new Regex("(?<=\\{)[^}]*(?=\\})");
+        private readonly Regex regex = new Regex("(?<=\\{)[^}]*(?=\\})");
 
         public LogActionFilterAttribute(ICurrentUser currentUser, IDiagnosticContext diagnosticContext, IAuditBaseRepository<LinLog> logRepository)
         {
@@ -63,7 +62,7 @@ namespace LinCms.Aop.Filter
 
             if (loggerAttribute != null)
             {
-                linLog.Message = this.parseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
+                linLog.Message = this.ParseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
             }
             else
             {
@@ -80,17 +79,17 @@ namespace LinCms.Aop.Filter
             base.OnActionExecuted(context);
         }
 
-        private string parseTemplate(string template, ICurrentUser userDo, HttpRequest request, HttpResponse response)
+        private string ParseTemplate(string template, ICurrentUser userDo, HttpRequest request, HttpResponse response)
         {
             foreach (Match item in regex.Matches(template))
             {
-                string propertyValue = extractProperty(item.Value, userDo, request, response);
+                string propertyValue = ExtractProperty(item.Value, userDo, request, response);
                 template = template.Replace("{" + item.Value + "}", propertyValue);
             }
             return template;
         }
 
-        private string extractProperty(string item, ICurrentUser userDo, HttpRequest request, HttpResponse response)
+        private string ExtractProperty(string item, ICurrentUser userDo, HttpRequest request, HttpResponse response)
         {
             int i = item.LastIndexOf('.');
             string obj = item.Substring(0, i);
@@ -98,17 +97,17 @@ namespace LinCms.Aop.Filter
             switch (obj)
             {
                 case "user":
-                    return getValueByPropName(userDo, prop);
+                    return GetValueByPropName(userDo, prop);
                 case "request":
-                    return getValueByPropName(request, prop);
+                    return GetValueByPropName(request, prop);
                 case "response":
-                    return getValueByPropName(response, prop);
+                    return GetValueByPropName(response, prop);
                 default:
                     return "";
             }
         }
 
-        private string getValueByPropName<T>(T t, string prop)
+        private string GetValueByPropName<T>(T t, string prop)
         {
             return t.GetType().GetProperty(prop)?.GetValue(t, null)?.ToString();
         }

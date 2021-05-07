@@ -11,7 +11,7 @@ namespace LinCms.Extensions
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            double javaScriptTicks = 0;
+            double javaScriptTicks;
             if (value is DateTime dateTime)
             {
                 javaScriptTicks = ConvertDateTimeInt(dateTime);
@@ -40,7 +40,7 @@ namespace LinCms.Extensions
 
             if (objectType == typeof(DateTime) || objectType == typeof(DateTime?))
             {
-                DateTime.TryParse(reader.Value.ToString(), out var readerTime);
+                DateTime.TryParse(reader.Value.ToString(), out DateTime readerTime);
                 return readerTime;
             }
             if (objectType == typeof(DateTimeOffset) || objectType == typeof(DateTimeOffset?))

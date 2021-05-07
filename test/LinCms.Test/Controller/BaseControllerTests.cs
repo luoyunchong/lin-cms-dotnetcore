@@ -15,7 +15,7 @@ using Xunit;
 
 namespace LinCms.Test.Controller
 {
-    public abstract class BaseControllerTests:BaseLinCmsTest
+    public abstract class BaseControllerTests : BaseLinCmsTest
     {
         private readonly IConfiguration _configuration;
         protected TestServer IdentityServer { get; }
@@ -23,19 +23,21 @@ namespace LinCms.Test.Controller
         protected BaseControllerTests() : base()
         {
             _configuration = GetService<IConfiguration>();
-           
+
             var builder = this.CreateHostBuilder(); ;
-            IdentityServer = new TestServer(builder);
-            IdentityServer.BaseAddress = new Uri("https://localhost:5003");
+            IdentityServer = new TestServer(builder)
+            {
+                BaseAddress = new Uri("https://localhost:5003")
+            };
             IdentityClient = IdentityServer.CreateClient();
         }
 
         private IWebHostBuilder CreateHostBuilder()
         {
-            return  WebHost.CreateDefaultBuilder()
+            return WebHost.CreateDefaultBuilder()
                             .UseEnvironment("Development")
                             .UseUrls("https://*:5003")
-                            .UseStartup<IdentityServer4.Startup>(); 
+                            .UseStartup<IdentityServer4.Startup>();
         }
 
         public async Task HttpClientResourePassword()
@@ -44,7 +46,7 @@ namespace LinCms.Test.Controller
             if (disco.IsError)
             {
                 Console.WriteLine(disco.Error);
-                throw  new Exception(disco.Error);
+                throw new Exception(disco.Error);
             }
 
             TokenResponse response = await Client.RequestTokenAsync(new PasswordTokenRequest
@@ -69,8 +71,8 @@ namespace LinCms.Test.Controller
             }
             Client.SetBearerToken(response.AccessToken);
         }
-        
-        public  string ToParams( object source)
+
+        public string ToParams(object source)
         {
             var buff = new StringBuilder(string.Empty);
             if (source == null)
@@ -80,7 +82,7 @@ namespace LinCms.Test.Controller
                 object value = property.GetValue(source);
                 if (value != null)
                 {
-                     buff.Append(WebUtility.UrlEncode(property.Name) + "=" + WebUtility.UrlEncode(value + "") + "&");
+                    buff.Append(WebUtility.UrlEncode(property.Name) + "=" + WebUtility.UrlEncode(value + "") + "&");
                 }
             }
             return buff.ToString().Trim('&');

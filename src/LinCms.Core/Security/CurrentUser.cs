@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using LinCms.Dependency;
@@ -8,7 +9,7 @@ namespace LinCms.Security
 {
     public class CurrentUser : ICurrentUser, ITransientDependency
     {
-        private static readonly Claim[] EmptyClaimsArray = new Claim[0];
+        private static readonly Claim[] EmptyClaimsArray = Array.Empty<Claim>();
         private readonly ClaimsPrincipal _claimsPrincipal;
         public CurrentUser(IHttpContextAccessor httpContextAccessor)
         {
