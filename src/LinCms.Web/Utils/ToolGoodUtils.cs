@@ -21,7 +21,7 @@ namespace LinCms.Utils
         private const string InfoPath = "wwwroot/_Illegal/IllegalInfo.txt";
         private const string BitPath = "wwwroot/_Illegal/IllegalBit.iws";
         [System.Obsolete]
-        private static IllegalWordsSearch _search;
+        private static IllegalWordsSearch? _search;
 
         /// <summary>
         /// 本地敏感库,文件修改后，重新创建缓存Bit

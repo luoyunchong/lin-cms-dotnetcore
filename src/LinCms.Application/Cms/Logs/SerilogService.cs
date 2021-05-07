@@ -10,7 +10,7 @@ namespace LinCms.Cms.Logs
 {
     public class SerilogService : ISerilogService
     {
-        private IBaseRepository<SerilogDO> _serilogBaseRepository;
+        private readonly IBaseRepository<SerilogDO> _serilogBaseRepository;
 
         public SerilogService(IBaseRepository<SerilogDO> serilogBaseRepository)
         {

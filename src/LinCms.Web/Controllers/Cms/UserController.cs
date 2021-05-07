@@ -137,7 +137,7 @@ namespace LinCms.Controllers.Cms
 
         [AllowAnonymous]
         [HttpGet("{userId}")]
-        public async Task<OpenUserDto> GetUserByUserId(long userId)
+        public async Task<OpenUserDto?> GetUserByUserId(long userId)
         {
             LinUser linUser = await _userRepository.Where(r => r.Id == userId).FirstAsync();
             OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);

@@ -1206,11 +1206,8 @@
             <summary>
             Sends an email.
             </summary>
-            <param name="mail">Mail to be sent</param>
-            <param name="normalize">
-            Should normalize email?
-            If true, it sets sender address/name if it's not set before and makes mail encoding UTF-8.
-            </param>
+            <param name="message">Mail to be sent</param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="P:LinCms.Email.MailKitOptions.Host">
             <summary>

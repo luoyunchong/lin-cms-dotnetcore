@@ -1,9 +1,9 @@
-﻿using LinCms.Data;
-using LinCms.Entities;
-using LinCms.IRepositories;
-using System;
+﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using LinCms.Data;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
@@ -20,8 +20,10 @@ namespace LinCms.Cms.Users
             LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == identityType && r.Credential == openId).FirstAsync();
             if (linUserIdentity == null)
             {
-                var userIdentity = new LinUserIdentity(identityType, name, openId, DateTime.Now);
-                userIdentity.CreateUserId = userId;
+                var userIdentity = new LinUserIdentity(identityType, name, openId, DateTime.Now)
+                {
+                    CreateUserId = userId
+                };
                 await _userIdentityRepository.InsertAsync(userIdentity);
                 return UnifyResponseDto.Success("绑定成功");
             }

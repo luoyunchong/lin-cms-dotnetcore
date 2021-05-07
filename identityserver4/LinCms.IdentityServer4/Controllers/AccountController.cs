@@ -1,4 +1,6 @@
-﻿using IdentityServer4;
+﻿using System;
+using System.Threading.Tasks;
+using IdentityServer4;
 using IdentityServer4.Services;
 using LinCms.Cms.Users;
 using LinCms.Entities;
@@ -6,8 +8,6 @@ using LinCms.IRepositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace LinCms.IdentityServer4.Controllers
 {
@@ -56,8 +56,10 @@ namespace LinCms.IdentityServer4.Controllers
             }
 
             // Use an IdentityServer-compatible ClaimsPrincipal
-            var identityServerUser = new IdentityServerUser(user.Id.ToString());
-            identityServerUser.DisplayName = viewModel.Username;
+            var identityServerUser = new IdentityServerUser(user.Id.ToString())
+            {
+                DisplayName = viewModel.Username
+            };
 
             //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, identityServerUser.CreatePrincipal());
             var props = new AuthenticationProperties
@@ -73,7 +75,7 @@ namespace LinCms.IdentityServer4.Controllers
         [HttpGet("account/logout")]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            var context = await _interaction.GetLogoutContextAsync(logoutId);
+            await _interaction.GetLogoutContextAsync(logoutId);
             return RedirectToAction("Login");
         }
 

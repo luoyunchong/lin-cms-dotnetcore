@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.Odbc;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -294,7 +293,7 @@ namespace LinCms.FreeSql
             OdbcConnectionStringBuilder builder = new OdbcConnectionStringBuilder(connectionString);
 
 
-            string createDatabaseSql = "";
+            string createDatabaseSql;
             if (builder.ContainsKey("AttachDBFilename") && !string.IsNullOrEmpty(builder["AttachDBFilename"].ToString()))
             {
                 string fileName = ExpandFileName(builder["AttachDBFilename"].ToString());
@@ -318,7 +317,7 @@ namespace LinCms.FreeSql
 
             //一个空格都不能多
             //string MasterConnectionString = "Driver={SQL Server};Server=.;Initial Catalog=master;Uid=sa;Pwd=123456";
-            string MasterConnectionString = $"Driver={{SQL Server}};Server={ builder["Server"].ToString()};Initial Catalog=master;Uid={ builder["Uid"].ToString() };Pwd={ builder["Pwd"].ToString()};";
+            string MasterConnectionString = $"Driver={{SQL Server}};Server={ builder["Server"]};Initial Catalog=master;Uid={ builder["Uid"]};Pwd={ builder["Pwd"]};";
             using OdbcConnection cnn = new OdbcConnection(MasterConnectionString);
 
             cnn.Open();
@@ -336,7 +335,7 @@ namespace LinCms.FreeSql
             }
 
             return @this;
-        } 
+        }
         #endregion
     }
 }

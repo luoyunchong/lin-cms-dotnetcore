@@ -1,8 +1,8 @@
-﻿using FreeSql.DataAnnotations;
-using LinCms.Data.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using FreeSql.DataAnnotations;
+using LinCms.Data.Enums;
 
 namespace LinCms.Entities
 {
@@ -110,11 +110,9 @@ namespace LinCms.Entities
         private string GenerateToken(int size = 32)
         {
             var randomNumber = new byte[size];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
     }
 }

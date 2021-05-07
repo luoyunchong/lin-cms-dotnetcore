@@ -62,7 +62,7 @@ namespace LinCms.Controllers.v1
                     continue;
                 }
 
-                FileDto fileDto =await this.UploadToQiniu(tag["icon"].ToString());
+                FileDto fileDto = await this.UploadToQiniu(tag["icon"].ToString());
 
                 var tagEntity = new CreateUpdateTagDto()
                 {

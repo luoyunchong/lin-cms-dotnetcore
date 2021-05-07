@@ -10,10 +10,8 @@ namespace LinCms.Repositories
     /// </summary>
     public class BookRepository : AuditBaseRepository<Book>, IBookRepository
     {
-        private readonly ICurrentUser _currentUser;
-        public BookRepository(UnitOfWorkManager unitOfWork, ICurrentUser currentUser): base(unitOfWork, currentUser)
+        public BookRepository(UnitOfWorkManager unitOfWork, ICurrentUser currentUser) : base(unitOfWork, currentUser)
         {
-            _currentUser = currentUser;
         }
 
     }

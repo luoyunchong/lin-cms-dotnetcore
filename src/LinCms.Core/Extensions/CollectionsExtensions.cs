@@ -57,8 +57,7 @@ namespace LinCms.Extensions
         /// <returns>Value if found, default if can not found.</returns>
         public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         {
-            TValue obj;
-            return dictionary.TryGetValue(key, out obj) ? obj : default;
+            return dictionary.TryGetValue(key, out TValue obj) ? obj : default;
         }
     }
 }

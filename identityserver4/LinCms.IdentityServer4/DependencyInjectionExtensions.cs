@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using FreeSql;
+﻿using FreeSql;
 using FreeSql.Internal;
 using LinCms.Entities;
 using LinCms.FreeSql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace LinCms.IdentityServer4
 {
@@ -39,5 +39,7 @@ namespace LinCms.IdentityServer4
             });
         }
         #endregion
+
+
     }
 }

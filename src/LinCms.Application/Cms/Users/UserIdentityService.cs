@@ -1,25 +1,23 @@
-﻿using DotNetCore.Security;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DotNetCore.Security;
 using LinCms.Aop.Attributes;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
     public class UserIdentityService : ApplicationService, IUserIdentityService
     {
         private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-        private readonly IUserRepository _userRepository;
         private readonly ICryptographyService _cryptographyService;
-        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, ICryptographyService cryptographyService, IUserRepository userRepository)
+        public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, ICryptographyService cryptographyService)
         {
             _userIdentityRepository = userIdentityRepository;
             _cryptographyService = cryptographyService;
-            _userRepository = userRepository;
         }
 
         public async Task<bool> VerifyUserPasswordAsync(long userId, string password, string salt)
@@ -32,7 +30,7 @@ namespace LinCms.Cms.Users
 
         public async Task ChangePasswordAsync(long userId, string newpassword, string salt)
         {
-            var linUserIdentity = await  this.GetFirstByUserIdAsync(userId); ;
+            var linUserIdentity = await this.GetFirstByUserIdAsync(userId); ;
 
             await this.ChangePasswordAsync(linUserIdentity, newpassword, salt);
         }
