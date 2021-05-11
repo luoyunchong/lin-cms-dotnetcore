@@ -17,25 +17,20 @@ namespace LinCms.Scaffolding
     {
         private readonly ILogger<App> _logger;
         private readonly SettingOptions _settingOptions;
-        public App(ILogger<App> logger,
-            IOptionsMonitor<SettingOptions> settingOptions
-            )
+        public App(ILogger<App> logger,IOptionsMonitor<SettingOptions> settingOptions)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _settingOptions = settingOptions.CurrentValue;
         }
 
-
-        public async Task Run(string[] args)
+        public async Task RunAsync(string[] args)
         {
-
             _logger.LogInformation("Starting...");
 
-
-            ProjectInfo projectInfo = ProjectParser(_settingOptions);
+            ProjectInfo projectInfo = ProjectParser();
 
             string entityPath = Path.Combine(_settingOptions.BaseDirectory, _settingOptions.EntityFilePath);
-            EntityInfo entityInfo = EntityParse(entityPath, projectInfo, _settingOptions);
+            EntityInfo entityInfo = EntityParse(entityPath, projectInfo);
 
             var model = new
             {
@@ -77,38 +72,36 @@ namespace LinCms.Scaffolding
             */
             #endregion
             string templatePath = Path.Combine(Environment.CurrentDirectory, _settingOptions.TemplatePath);
-            CodeScaffolding codeScaffolding = new CodeScaffolding(templatePath, _settingOptions.OutputDirectory);
+            CodeScaffolding codeScaffolding = new CodeScaffolding(templatePath, _settingOptions.OutputDirectory, _logger);
             await codeScaffolding.GenerateAsync(model);
 
             _logger.LogInformation("Finished!");
         }
 
-
-
-        private ProjectInfo ProjectParser(SettingOptions settingOptions)
+        private ProjectInfo ProjectParser()
         {
-            Console.WriteLine($"baseDirectory：{settingOptions.BaseDirectory}"); ;
-            var coreCsprojFile = Directory.EnumerateFiles(settingOptions.BaseDirectory, "*.Core.csproj", SearchOption.AllDirectories).FirstOrDefault();
+            _logger.LogInformation($"baseDirectory：{_settingOptions.BaseDirectory}"); ;
+            string coreCsprojFile = Directory.EnumerateFiles(_settingOptions.BaseDirectory, "*.Core.csproj", SearchOption.AllDirectories).FirstOrDefault();
 
-            var fileName = Path.GetFileName(coreCsprojFile);
-            var fullName = fileName.RemovePostFix(".Core.csproj");
-            var projectInfo = new ProjectInfo(settingOptions.BaseDirectory, fullName);
+            string fileName = Path.GetFileName(coreCsprojFile);
+            string fullName = fileName.RemovePostFix(".Core.csproj");
+            ProjectInfo projectInfo = new ProjectInfo(_settingOptions.BaseDirectory, fullName);
 
             return projectInfo;
         }
 
-        private EntityInfo EntityParse(string entityFilePath, ProjectInfo projectInfo, SettingOptions settingOptions)
+        private EntityInfo EntityParse(string entityFilePath, ProjectInfo projectInfo)
         {
-            var sourceText = File.ReadAllText(entityFilePath);
+            string sourceText = File.ReadAllText(entityFilePath);
 
             SyntaxTree tree = CSharpSyntaxTree.ParseText(sourceText);
 
-            var root = tree.GetCompilationUnitRoot();
-            var @namespace = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().Single().Name.ToString();//不满足项目命名空间
-            var classDeclarationSyntax = root.DescendantNodes().OfType<ClassDeclarationSyntax>().Single();
-            var className = classDeclarationSyntax.Identifier.ToString();
-            var baseList = classDeclarationSyntax.BaseList;
-            var genericNameSyntax = baseList.DescendantNodes().OfType<SimpleBaseTypeSyntax>()
+            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+            string @namespace = root.DescendantNodes().OfType<NamespaceDeclarationSyntax>().Single().Name.ToString();//不满足项目命名空间
+            ClassDeclarationSyntax classDeclarationSyntax = root.DescendantNodes().OfType<ClassDeclarationSyntax>().Single();
+            string className = classDeclarationSyntax.Identifier.ToString();
+            BaseListSyntax baseList = classDeclarationSyntax.BaseList;
+            GenericNameSyntax genericNameSyntax = baseList.DescendantNodes().OfType<SimpleBaseTypeSyntax>()
                 .First(node => !node.ToFullString().StartsWith("I")) // Not interface
                 .DescendantNodes().OfType<GenericNameSyntax>()
                 .FirstOrDefault();
@@ -135,19 +128,19 @@ namespace LinCms.Scaffolding
                   )
                   .ToList();
 
-            string xmlPath = settingOptions.BaseDirectory + projectInfo.FullName + ".Core.xml";
+            string xmlPath = _settingOptions.BaseDirectory + projectInfo.FullName + ".Core.xml";
             string entityRemark = Util.GetEntityRemarkBySummary(xmlPath, properties, @namespace + "." + className);
 
 
-            if (settingOptions.Areas != null)
+            if (_settingOptions.Areas != null)
             {
-                @namespace = projectInfo.FullName + "." + settingOptions.Areas + "." + className.Pluralize();
+                @namespace = projectInfo.FullName + "." + _settingOptions.Areas + "." + className.Pluralize();
             }
             else
             {
                 @namespace = projectInfo.FullName + "." + className.Pluralize();
             }
-            var relativeDirectory = @namespace.RemovePreFix(projectInfo.FullName + ".").Replace('.', '/');
+            string relativeDirectory = @namespace.RemovePreFix(projectInfo.FullName + ".").Replace('.', '/');
 
             EntityInfo entityInfo = new EntityInfo(@namespace, className, baseType, primaryKey, relativeDirectory);
             entityInfo.Properties.AddRange(properties);
