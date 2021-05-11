@@ -5,47 +5,30 @@
 		<TargetFramework>net5.0</TargetFramework>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="appsettings.json" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Content Include="appsettings.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.2" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00862" />
 		<PackageReference Include="Humanizer.Core" Version="2.8.26" />
-		<PackageReference Include="Scriban" Version="3.0.2" />
+		<PackageReference Include="Scriban" Version="3.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="Templates\**\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Templates\lin-cms-vue\view\{{EntityInfo.NameCamelize}}\{{EntityInfo.NameCamelize}}-form.vue.txt">
-			<SubType>Code</SubType>
-		</None>
-		<None Update="Templates\lin-cms-vue\model\{{EntityInfo.NameCamelize}}.js.txt">
-			<SubType>Code</SubType>
-		</None>
-		<None Update="Templates\lin-cms-vue\stage-config.js.txt">
-			<SubType>Code</SubType>
 		</None>
 	</ItemGroup>
 
