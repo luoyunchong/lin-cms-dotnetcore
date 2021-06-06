@@ -53,8 +53,8 @@ namespace LinCms.IdentityServer4
             services.AddContext();
 
             services.AddCors();
-            services.AddHash();
-            services.AddCryptography("lin-cms-dotnetcore-cryptography");
+            services.AddHashService();
+            services.AddICryptographyService("lin-cms-dotnetcore-cryptography");
 
             services.ConfigureApplicationCookie(options =>
             {

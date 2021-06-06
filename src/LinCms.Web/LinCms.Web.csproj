@@ -41,18 +41,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNetCoreRateLimit" Version="3.2.2" />
+		<PackageReference Include="AspNetCoreRateLimit" Version="4.0.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="5.0.2" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="5.0.2" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="5.0.2" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="5.0.3" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="5.0.3" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="5.0.3" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.8" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.3" />
 		<PackageReference Include="JetBrains.Annotations" Version="2021.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
@@ -64,7 +64,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
-		<PackageReference Include="ToolGood.Words" Version="3.0.2.4" />
+		<PackageReference Include="ToolGood.Words" Version="3.0.2.6" />
 		<PackageReference Include="IGeekFan.Sinks.MariaDB" Version="0.0.1" />
 	</ItemGroup>
 

@@ -40,8 +40,15 @@ namespace LinCms.Startup
                 try
                 {
                     using var scope = webHost.Services.CreateScope();
+                    // get the ClientPolicyStore instance
+                    var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
+
+                    // seed Client data from appsettings
+                    await clientPolicyStore.SeedAsync();
+
                     // get the IpPolicyStore instance
                     var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
+
                     // seed IP data from appsettings
                     await ipPolicyStore.SeedAsync();
                 }

@@ -25,8 +25,8 @@ namespace LinCms.Data
                 using var scope = _serviceProvider.CreateScope();
                 IDataSeedContributor dataSeedContributor = scope.ServiceProvider.GetRequiredService<IDataSeedContributor>();
 
-                var permissions=ReflexHelper.GetAssemblyLinCmsAttributes();
-                await dataSeedContributor.SeedPermissionAsync(permissions);
+                var permissions = ReflexHelper.GetAssemblyLinCmsAttributes();
+                await dataSeedContributor.SeedPermissionAsync(permissions, cancellationToken);
                 await dataSeedContributor.InitAdminPermission();
             }
             catch (Exception ex)

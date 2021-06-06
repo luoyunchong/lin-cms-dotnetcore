@@ -34,10 +34,10 @@
 
 ## 线上 Demo
 - 本项目swagger地址 [https://api.igeekfan.cn/swagger/index.html](https://api.igeekfan.cn/swagger/index.html)
-- 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
+- 用户端 lin-cms-vvlog [https://vvlog.baimo.site](https://vvlog.baimo.site) 
   - 普通用户：710277267@qq.com
   - 密码：123qwe
-- 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
+- 管理员 lin-cms-vue [https://cms.baimo.site/](https://cms.baimo.site)
   - 管理员： admin
   - 密码：123qwe
 

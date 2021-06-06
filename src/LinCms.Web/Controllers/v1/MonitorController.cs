@@ -56,31 +56,31 @@ namespace LinCms.Controllers.v1
         /// <summary>
         /// 环境变量
         /// </summary>
-        public string EnvironmentName { get; set; }
+        public string EnvironmentName { get; set; } = null!;
         /// <summary>
         /// 系统架构
         /// </summary>
-        public string OSArchitecture { get; set; }
+        public string OSArchitecture { get; set; } = null!;
         /// <summary>
         /// ContentRootPath
         /// </summary>
-        public string ContentRootPath { get; set; }
+        public string ContentRootPath { get; set; } = null!;
         /// <summary>
         /// WebRootPath
         /// </summary>
-        public string WebRootPath { get; set; }
+        public string WebRootPath { get; set; } = null!;
         /// <summary>
         /// .NET Core版本
         /// </summary>
-        public string FrameworkDescription { get; set; }
+        public string FrameworkDescription { get; set; } = null!;
         /// <summary>
         /// 内存占用
         /// </summary>
-        public string MemoryFootprint { get; set; }
+        public string MemoryFootprint { get; set; } = null!;
         /// <summary>
         /// 启动时间
         /// </summary>
-        public string WorkingTime { get; set; }
+        public string WorkingTime { get; set; } = null!;
 
 
     }

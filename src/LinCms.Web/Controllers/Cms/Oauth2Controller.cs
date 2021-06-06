@@ -207,7 +207,7 @@ namespace LinCms.Controllers.Cms
         /// 第三方账号绑定，需要把token值传过来，用于与当前登录人绑定起来
         /// </summary>
         /// <param name="provider">GitHub/Gitee/QQ</param>
-        /// <param name="redirectUrl">http://localhost:8081/   http://vvlog.baimocore.cn/</param>
+        /// <param name="redirectUrl">http://localhost:8081/   http://vvlog.baimo.site/</param>
         /// <param name="token">Bearer {Token}</param>
         /// <returns></returns>
 
