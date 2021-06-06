@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Autofac;
-using AutoMapper;
 using IGeekFan.AspNetCore.Knife4jUI;
 using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.Aop.Filter;
@@ -98,17 +97,19 @@ namespace LinCms.Startup
             #region 配置Google验证码
             services.AddScoped<RecaptchaVerifyActionFilter>();
             services.Configure<GooglereCAPTCHAOptions>(Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
-            GooglereCAPTCHAOptions googlereCAPTCHAOptions = services.BuildServiceProvider().GetService<IOptionsSnapshot<GooglereCAPTCHAOptions>>().Value;
-
-            if (googlereCAPTCHAOptions.Enabled)
+            using (var scope = services.BuildServiceProvider().CreateScope())
             {
-                services.AddreCAPTCHAV3(x =>
+                GooglereCAPTCHAOptions googlereCAPTCHAOptions = scope.ServiceProvider.GetService<IOptionsSnapshot<GooglereCAPTCHAOptions>>().Value;
+                if (googlereCAPTCHAOptions.Enabled)
                 {
-                    x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
-                    x.SiteKey = googlereCAPTCHAOptions.SiteKey;
-                    x.SiteSecret = googlereCAPTCHAOptions.SiteSecret;
-                });
-            } 
+                    services.AddreCAPTCHAV3(x =>
+                    {
+                        x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
+                        x.SiteKey = googlereCAPTCHAOptions.SiteKey;
+                        x.SiteSecret = googlereCAPTCHAOptions.SiteSecret;
+                    });
+                }
+            }
             #endregion
 
             services.AddDIServices(Configuration);
@@ -202,7 +203,7 @@ namespace LinCms.Startup
             app.UseKnife4UI(c =>
             {
                 c.DocumentTitle = "LinCms博客模块";
-                c.RoutePrefix = "k4";//http://localhost:5000/k4/index.html
+                c.RoutePrefix = "";//http://localhost:5000/index.html
                 //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
@@ -213,7 +214,7 @@ namespace LinCms.Startup
 
             app.UseRapiDocUI(c =>
             {
-                c.RoutePrefix = ""; //http://localhost:5000/index.html
+                c.RoutePrefix = "RapiDoc"; //http://localhost:5000/RapiDoc/index.html
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
             });

@@ -77,7 +77,7 @@ namespace LinCms.Blog.Articles
                     searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" ||
                     searchDto.Sort == "MONTHLY_HOTTEST" ||
                     searchDto.Sort == "HOTTEST",
-                    r => (r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30))
+                    r => r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30)
                 .OrderByDescending(r => r.CreateTime).ToPagerListAsync(searchDto, out long totalCount);
 
             List<ArticleListDto> articleDtos = articles
@@ -272,7 +272,7 @@ namespace LinCms.Blog.Articles
             Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
             if (article == null)
             {
-                throw new LinCmsException("没有找到相关随笔",ErrorCode.NotFound);
+                throw new LinCmsException("没有找到相关随笔", ErrorCode.NotFound);
             }
             if (article.CreateUserId != CurrentUser.Id)
             {

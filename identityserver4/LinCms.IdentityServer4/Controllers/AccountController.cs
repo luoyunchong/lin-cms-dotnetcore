@@ -83,8 +83,8 @@ namespace LinCms.IdentityServer4.Controllers
 
     public class LoginViewModel
     {
-        public string ReturnUrl { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string ReturnUrl { get; set; } = null!;
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
     }
 }

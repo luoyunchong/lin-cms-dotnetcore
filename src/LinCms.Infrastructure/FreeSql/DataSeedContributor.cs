@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using LinCms.Common;
 using LinCms.Data;
@@ -17,7 +18,7 @@ namespace LinCms.FreeSql
 
         Task InitAdminPermission();
 
-        Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes);
+        Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken);
 
     }
     public class DataSeedContributor : IDataSeedContributor, ISingletonDependency
@@ -49,7 +50,7 @@ namespace LinCms.FreeSql
         /// 权限标签上的Permission改变时，删除数据库中存在的无效权限，并生成新的权限。
         /// </summary>
         /// <returns></returns>
-        public async Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes)
+        public async Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken)
         {
 
             List<LinPermission> insertPermissions = new List<LinPermission>();
@@ -68,8 +69,8 @@ namespace LinCms.FreeSql
                     permissionExpression = permissionExpression.Or(r => r.Id == permissioin.Id);
                 }
             });
-            int effectRows = await _permissionRepository.DeleteAsync(permissionExpression);
-            effectRows += await _groupPermissionRepository.DeleteAsync(expression);
+            int effectRows = await _permissionRepository.DeleteAsync(permissionExpression, cancellationToken);
+            effectRows += await _groupPermissionRepository.DeleteAsync(expression, cancellationToken);
             _logger.LogInformation($"删除了{effectRows}条数据");
 
             linCmsAttributes.ForEach(r =>
@@ -90,10 +91,10 @@ namespace LinCms.FreeSql
                 }
             });
 
-            await _permissionRepository.InsertAsync(insertPermissions);
+            await _permissionRepository.InsertAsync(insertPermissions, cancellationToken);
             _logger.LogInformation($"新增了{insertPermissions.Count}条数据");
 
-            await _permissionRepository.UpdateAsync(updatePermissions);
+            await _permissionRepository.UpdateAsync(updatePermissions, cancellationToken);
             _logger.LogInformation($"更新了{updatePermissions.Count}条数据");
         }
     }

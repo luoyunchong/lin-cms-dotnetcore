@@ -1,19 +1,18 @@
-﻿using AspNet.Security.OAuth.Gitee;
+﻿using System;
+using System.Threading.Tasks;
+using AspNet.Security.OAuth.Gitee;
 using DotNetCore.Security;
 using LinCms.Common;
 using LinCms.Data;
 using LinCms.Data.Authorization;
 using LinCms.Data.Enums;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Threading.Tasks;
 
 namespace LinCms.Startup
 {
@@ -27,9 +26,9 @@ namespace LinCms.Startup
                            configuration["Authentication:JwtBearer:Audience"],
                            configuration["Authentication:JwtBearer:Issuer"]
                        );
-            services.AddHash();
-            services.AddCryptography("lin-cms-dotnetcore-cryptography");
-            services.AddJsonWebToken(jsonWebTokenSettings);
+            services.AddHashService();
+            services.AddICryptographyService("lin-cms-dotnetcore-cryptography");
+            services.AddJsonWebTokenService(jsonWebTokenSettings);
             return jsonWebTokenSettings;
         }
 

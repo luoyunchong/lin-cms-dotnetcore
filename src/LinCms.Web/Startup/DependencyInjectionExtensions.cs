@@ -9,9 +9,9 @@ using FreeSql;
 using FreeSql.Internal;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
+using LinCms.Email;
 using LinCms.Entities;
 using LinCms.FreeSql;
-using LinCms.Email;
 using LinCms.Utils;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
@@ -145,9 +145,7 @@ namespace LinCms.Startup
             //从IpRateLimiting.json获取相应配置
             services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
             services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
-            //注入计数器和规则存储
-            services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
-            services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
+            services.AddDistributedRateLimiting();
             //配置（计数器密钥生成器）
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
