@@ -43,7 +43,7 @@ namespace LinCms.FreeSql
                                 new LinUserGroup(1,LinConsts.Group.Admin)
                             },
                         },
-                         new LinUser()
+                        new LinUser()
                          {
                              Nickname="CMS管理员",
                              Username="CmsAdmin",

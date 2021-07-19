@@ -23,10 +23,14 @@ namespace LinCms.Middleware
         private readonly GooglereCAPTCHAOptions _options;
         private readonly IreCAPTCHASiteVerifyV3 _siteVerify;
         private readonly ILogger<RecaptchaVerifyActionFilter> _logger;
-        public RecaptchaVerifyActionFilter(ILogger<RecaptchaVerifyActionFilter> logger, IServiceProvider serviceProvider, IOptionsMonitor<GooglereCAPTCHAOptions> options)
+        public RecaptchaVerifyActionFilter(ILogger<RecaptchaVerifyActionFilter> logger, 
+            IServiceProvider serviceProvider, 
+            IOptionsMonitor<GooglereCAPTCHAOptions> options,
+            IreCAPTCHASiteVerifyV3 siteVerify
+            )
         {
             _options = options.CurrentValue;
-            _siteVerify = _options.Enabled ? serviceProvider.GetRequiredService<IreCAPTCHASiteVerifyV3>() : null;
+            _siteVerify = siteVerify;
             _logger = logger;
         }
 
@@ -52,7 +56,7 @@ namespace LinCms.Middleware
                     reCAPTCHASiteVerifyV3Response response = await _siteVerify.Verify(new reCAPTCHASiteVerifyRequest
                     {
                         Response = googleRecaptchaToken,
-                        RemoteIp = context.HttpContext.Connection.RemoteIpAddress.ToString()
+                        RemoteIp = context.HttpContext.Connection.RemoteIpAddress?.ToString()
                     });
 
                     if (!response.Success || response.Score != 0 && response.Score <_options.MinimumScore)
