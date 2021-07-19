@@ -93,23 +93,17 @@ namespace LinCms.Startup
                 });
             #endregion
 
-
             #region 配置Google验证码
             services.AddScoped<RecaptchaVerifyActionFilter>();
             services.Configure<GooglereCAPTCHAOptions>(Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
-            using (var scope = services.BuildServiceProvider().CreateScope())
+            GooglereCAPTCHAOptions googlereCAPTCHAOptions = new GooglereCAPTCHAOptions();
+            Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings).Bind(googlereCAPTCHAOptions);
+            services.AddreCAPTCHAV3(x =>
             {
-                GooglereCAPTCHAOptions googlereCAPTCHAOptions = scope.ServiceProvider.GetService<IOptionsSnapshot<GooglereCAPTCHAOptions>>().Value;
-                if (googlereCAPTCHAOptions.Enabled)
-                {
-                    services.AddreCAPTCHAV3(x =>
-                    {
-                        x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
-                        x.SiteKey = googlereCAPTCHAOptions.SiteKey;
-                        x.SiteSecret = googlereCAPTCHAOptions.SiteSecret;
-                    });
-                }
-            }
+                x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
+                x.SiteKey = googlereCAPTCHAOptions.SiteKey;
+                x.SiteSecret = googlereCAPTCHAOptions.SiteSecret;
+            });
             #endregion
 
             services.AddDIServices(Configuration);
@@ -204,7 +198,7 @@ namespace LinCms.Startup
             {
                 c.DocumentTitle = "LinCms博客模块";
                 c.RoutePrefix = "";//http://localhost:5000/index.html
-                //c.InjectStylesheet("https://msg.cnblogs.com/dist/css/_layout.min.css?v=ezgneaXFURlAPIyljTcfnt1m6QVAsZbvftva5pFV8cM");
+                                   //c.InjectStylesheet("");
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
                 c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
