@@ -1,6 +1,6 @@
-﻿using System;
+﻿using FreeSql.DataAnnotations;
+using System;
 using System.Collections.Generic;
-using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities
 {
@@ -8,7 +8,7 @@ namespace LinCms.Entities
     /// 用户组
     /// </summary>
     [Table(Name = "lin_group")]
-    public class LinGroup : Entity<long>
+    public class LinGroup : FullAduitEntity<long>
     {
         public LinGroup()
         {

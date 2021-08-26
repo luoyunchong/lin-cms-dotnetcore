@@ -53,7 +53,7 @@ namespace LinCms.Startup
                     {
                         Name = ApiName + " 官方文档",
                         Url = new Uri(siteOption.DocUrl)
-                    }
+                    },
                 });
 
                 options.SwaggerDoc("cms", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "cms" });
@@ -79,6 +79,7 @@ namespace LinCms.Startup
                     Name = "Authorization", //jwt默认的参数名称
                     In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
+                    
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()

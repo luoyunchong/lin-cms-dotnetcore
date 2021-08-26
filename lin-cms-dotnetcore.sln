@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1783DEB0-9AA8-44D0-90A8-19D16FE397E7}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Application.Contracts", "src\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj", "{70E47B1C-17F2-4F9A-9EF6-4F94548E506D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.Localization.FreeSql", "framework\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj", "{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IGeekFan.AspNetCore.Knife4jUI", "..\IGeekFan.AspNetCore.Knife4jUI\src\IGeekFan.AspNetCore.Knife4jUI\IGeekFan.AspNetCore.Knife4jUI.csproj", "{39F4B198-3096-4632-B987-AEA7DB26C803}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F4B198-3096-4632-B987-AEA7DB26C803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F4B198-3096-4632-B987-AEA7DB26C803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F4B198-3096-4632-B987-AEA7DB26C803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F4B198-3096-4632-B987-AEA7DB26C803}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{37084D54-1A11-4C04-A091-EB502BB49B19} = {3EF28FC9-9518-401A-9DCC-FCCB4C72511F}
 		{70E47B1C-17F2-4F9A-9EF6-4F94548E506D} = {1783DEB0-9AA8-44D0-90A8-19D16FE397E7}
 		{88F667F2-1FA6-4A6C-BE19-8D2482D1C70D} = {CBEF94DE-6781-4649-9768-C8DFC0C66A53}
+		{39F4B198-3096-4632-B987-AEA7DB26C803} = {CBEF94DE-6781-4649-9768-C8DFC0C66A53}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3AFAB7C5-4289-48FF-89A0-FB63A94D0AF4}

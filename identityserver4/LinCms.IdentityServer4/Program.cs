@@ -46,10 +46,12 @@ namespace LinCms.IdentityServer4
                 {
                    
                     webBuilder.UseStartup<Startup>()
-                    .UseKestrel((context, options) =>
-                    {
-                        options.Configure(context.Configuration.GetSection("Kestrel"));
-                    });
+#if !DEBUG
+               //.UseKestrel((context, options) =>
+               //     {
+               //         options.Configure(context.Configuration.GetSection("Kestrel"));
+               //     }) 
+#endif
                     ;
                 }) .UseSerilog();
     }

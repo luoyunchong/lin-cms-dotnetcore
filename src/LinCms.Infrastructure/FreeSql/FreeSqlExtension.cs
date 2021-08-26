@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using FreeSql;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using Npgsql;
 using Serilog;
@@ -15,6 +16,7 @@ namespace LinCms.FreeSql
 {
     public static class FreeSqlExtension
     {
+        #region Ext
         public static ISelect<T> AsTable<T>(this ISelect<T> @this, string tableName, int count) where T : class
         {
             string[] tableNames = Array.Empty<string>();
@@ -121,10 +123,10 @@ namespace LinCms.FreeSql
             Log.Error($"不支持创建数据库");
             return @this;
         }
+        #endregion
 
-
-        public static FreeSqlBuilder CreateDatabaseIfNotExistsMySql(this FreeSqlBuilder @this,
-            string connectionString = "")
+        #region MySql
+        public static FreeSqlBuilder CreateDatabaseIfNotExistsMySql(this FreeSqlBuilder @this, string connectionString = "")
         {
             if (connectionString == "")
             {
@@ -133,11 +135,9 @@ namespace LinCms.FreeSql
 
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder(connectionString);
 
-            string createDatabaseSql =
-                $"USE mysql;CREATE DATABASE IF NOT EXISTS `{builder.Database}` CHARACTER SET '{builder.CharacterSet}' COLLATE 'utf8mb4_general_ci'";
+            string createDatabaseSql = $"USE mysql;CREATE DATABASE IF NOT EXISTS `{builder.Database}` CHARACTER SET '{builder.CharacterSet}' COLLATE 'utf8mb4_general_ci'";
 
-            using MySqlConnection cnn = new MySqlConnection(
-                $"Data Source={builder.Server};Port={builder.Port};User ID={builder.UserID};Password={builder.Password};Initial Catalog=mysql;Charset=utf8;SslMode=none;Max pool size=1");
+            using MySqlConnection cnn = new MySqlConnection($"Data Source={builder.Server};Port={builder.Port};User ID={builder.UserID};Password={builder.Password};Initial Catalog=mysql;Charset=utf8;SslMode=none;Max pool size=1");
             cnn.Open();
             using (MySqlCommand cmd = cnn.CreateCommand())
             {
@@ -147,7 +147,9 @@ namespace LinCms.FreeSql
 
             return @this;
         }
+        #endregion
 
+        #region SqlServer
         public static FreeSqlBuilder CreateDatabaseIfNotExistsSqlServer(this FreeSqlBuilder @this, string connectionString = "")
         {
             if (connectionString == "")
@@ -177,9 +179,7 @@ namespace LinCms.FreeSql
                 createDatabaseSql = @$"CREATE DATABASE {builder.InitialCatalog}";
             }
 
-            using SqlConnection cnn =
-                new SqlConnection(
-                    $"Data Source={builder.DataSource};Integrated Security = True;User ID={builder.UserID};Password={builder.Password};Initial Catalog=master;Min pool size=1");
+            using SqlConnection cnn = new SqlConnection($"Data Source={builder.DataSource};Integrated Security = True;User ID={builder.UserID};Password={builder.Password};Initial Catalog=master;Min pool size=1");
             cnn.Open();
             using SqlCommand cmd = cnn.CreateCommand();
             cmd.CommandText = $"select * from sysdatabases where name = '{builder.InitialCatalog}'";
@@ -216,12 +216,12 @@ namespace LinCms.FreeSql
             return Path.GetFullPath(fileName);
         }
 
+        #endregion
 
         private static string GetConnectionString(FreeSqlBuilder @this)
         {
             Type type = @this.GetType();
-            FieldInfo fieldInfo =
-                type.GetField("_masterConnectionString", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo fieldInfo = type.GetField("_masterConnectionString", BindingFlags.NonPublic | BindingFlags.Instance);
             if (fieldInfo is null)
             {
                 throw new ArgumentException("_masterConnectionString is null");
@@ -229,9 +229,8 @@ namespace LinCms.FreeSql
             return fieldInfo.GetValue(@this).ToString();
         }
 
-
-        public static FreeSqlBuilder CreateDatabaseIfNotExistsPgSql(this FreeSqlBuilder @this,
-      string connectionString = "")
+        #region PgSql
+        public static FreeSqlBuilder CreateDatabaseIfNotExistsPgSql(this FreeSqlBuilder @this, string connectionString = "")
         {
             if (connectionString == "")
             {
@@ -240,24 +239,31 @@ namespace LinCms.FreeSql
 
             NpgsqlConnectionStringBuilder builder = new NpgsqlConnectionStringBuilder(connectionString);
 
-            string createDatabaseSql =
-                $"DROP DATABASE IF EXISTS \"{builder.Database}\"; CREATE DATABASE \"{builder.Database}\" WITH OWNER = \"{builder.Username}\"";
+            string databaseExistSql = $"SELECT COUNT(*) FROM pg_database WHERE datname = '{builder.Database}'";
 
-            using NpgsqlConnection cnn = new NpgsqlConnection(
-                $"Host={builder.Host};Port={builder.Port};Username={builder.Username};Password={builder.Password};Pooling=true");
+            string createDatabaseSql = $"CREATE DATABASE \"{builder.Database}\" WITH OWNER = \"{builder.Username}\"";
+
+            using NpgsqlConnection cnn = new NpgsqlConnection($"Host={builder.Host};Port={builder.Port};Username={builder.Username};Password={builder.Password};Pooling=true");
             cnn.Open();
+
             using (NpgsqlCommand cmd = cnn.CreateCommand())
             {
-                cmd.CommandText = createDatabaseSql;
-                cmd.ExecuteNonQuery();
+                cmd.CommandText = databaseExistSql;
+                bool databaseExist = Convert.ToInt32(cmd.ExecuteScalar().ToString()) > 0;
+                if (databaseExist == false)
+                {
+                    cmd.CommandText = createDatabaseSql;
+                    cmd.ExecuteNonQuery();
+                }
             }
+
 
             return @this;
         }
+        #endregion
 
         #region ODBC
-        public static FreeSqlBuilder CreateDatabaseIfNotExists_ODBCMySql(this FreeSqlBuilder @this,
-          string connectionString = "")
+        public static FreeSqlBuilder CreateDatabaseIfNotExists_ODBCMySql(this FreeSqlBuilder @this, string connectionString = "")
         {
             if (connectionString == "")
             {
@@ -282,8 +288,7 @@ namespace LinCms.FreeSql
         }
 
 
-        public static FreeSqlBuilder CreateDatabaseIfNotExists_ODBCSqlServer(this FreeSqlBuilder @this,
-            string connectionString = "")
+        public static FreeSqlBuilder CreateDatabaseIfNotExists_ODBCSqlServer(this FreeSqlBuilder @this, string connectionString = "")
         {
             if (connectionString == "")
             {
@@ -291,7 +296,6 @@ namespace LinCms.FreeSql
             }
 
             OdbcConnectionStringBuilder builder = new OdbcConnectionStringBuilder(connectionString);
-
 
             string createDatabaseSql;
             if (builder.ContainsKey("AttachDBFilename") && !string.IsNullOrEmpty(builder["AttachDBFilename"].ToString()))

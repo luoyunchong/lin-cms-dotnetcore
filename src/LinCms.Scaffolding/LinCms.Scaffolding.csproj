@@ -13,17 +13,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.2" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00862" />
-		<PackageReference Include="Humanizer.Core" Version="2.10.1" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.2.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="Humanizer.Core" Version="2.11.10" />
 		<PackageReference Include="Scriban" Version="4.0.1" />
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
+		<PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21216.1" />
 	</ItemGroup>
 
 	<ItemGroup>

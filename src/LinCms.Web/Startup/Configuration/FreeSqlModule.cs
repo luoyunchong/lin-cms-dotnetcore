@@ -24,6 +24,7 @@ namespace LinCms.Startup.Configuration
 
         protected override void Load(ContainerBuilder builder)
         {
+            ILogger Logger = Log.Logger;
 
             IFreeSql fsql = new FreeSqlBuilder()
                 .UseConnectionString(_configuration)
@@ -43,7 +44,7 @@ namespace LinCms.Startup.Configuration
 
             fsql.Aop.CurdAfter += (s, e) =>
             {
-                Log.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
+                Logger.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
                           $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
 
 
@@ -78,9 +79,7 @@ namespace LinCms.Startup.Configuration
             builder.RegisterInstance(fsql).SingleInstance();
             //services.AddFreeRepository();
 
-
             builder.RegisterType(typeof(UnitOfWorkManager)).InstancePerLifetimeScope();
-
 
             fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
             try
