@@ -34,7 +34,7 @@ jobs:
         with:
           dotnet-version: 6.0.100
       - name: Install dependencies
-        run:  dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org --configfile $env:APPDATA\NuGet\NuGet.Config && dotnet restore lin-cms-dotnetcore.sln
+        run:  dotnet restore lin-cms-dotnetcore.sln
       - name: Setup DocFX
         uses: crazy-max/ghaction-chocolatey@v1
         with:
