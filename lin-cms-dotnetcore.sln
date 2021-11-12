@@ -13,18 +13,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Test", "test\LinCms.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Plugins", "src\LinCms.Plugins\LinCms.Plugins.csproj", "{E22922B4-BE76-4024-8C93-3E3226B98659}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{00EB91C2-D6CD-4A60-9733-32D0790D42A5}"
-	ProjectSection(SolutionItems) = preProject
-		azure-pipelines.yml = azure-pipelines.yml
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E441AC4F-F70F-4CA4-A5E0-9E7BFBE1B1FB}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
+		build-all.ps1 = build-all.ps1
+		Delete BIN OBJ Folders.bat = Delete BIN OBJ Folders.bat
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
 		docs\README.md = docs\README.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Infrastructure", "src\LinCms.Infrastructure\LinCms.Infrastructure.csproj", "{A769DA45-FC9F-452F-A591-635C101569C8}"

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
      <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
      <UserSecretsId>3a7041ee-24e1-4e27-8328-6b7a91bc5b16</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSql" Version="2.5.200" />
-    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="2.5.200" />
+    <PackageReference Include="FreeSql" Version="2.6.100" />
+    <PackageReference Include="FreeSql.Provider.MySqlConnector" Version="2.6.100" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
   </ItemGroup>
 

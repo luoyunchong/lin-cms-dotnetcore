@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>LinCms.Application.Contracts</AssemblyName>
     <RootNamespace>LinCms</RootNamespace>
   </PropertyGroup>
@@ -16,16 +16,6 @@
     <Compile Remove="Constracts\**" />
     <EmbeddedResource Remove="Constracts\**" />
     <None Remove="Constracts\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="LinCms.Application.Contracts.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="LinCms.Application.Contracts.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

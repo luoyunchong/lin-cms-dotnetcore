@@ -15,7 +15,7 @@
 <!--![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 -->
-![](https://img.shields.io/badge/.NET5.0.0-3963bc.svg)
+![](https://img.shields.io/badge/.net6.0.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
@@ -76,7 +76,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 ### 相关技术
 - 数据库相关：ORM:[FreeSql](https://github.com/2881099/FreeSql)+DataBase:MySQL5.6
-- ASP.NET Core3.1+WebAPI+RESTful
+- ASP.NET Core6 +WebAPI+RESTful
 - 简化对象映射：[AutoMapper](https://automapper.org/)
 - 身份认证框架：[IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
 - Json Web令牌:JWT

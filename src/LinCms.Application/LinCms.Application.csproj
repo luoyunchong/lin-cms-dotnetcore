@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<AssemblyName>LinCms.Application</AssemblyName>
 		<RootNamespace>LinCms</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="5.0.11" />
-		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="5.0.11" />
-		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="5.0.11" />
+		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="6.0.0" />
+		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.0" />
+		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="6.0.0" />
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
-		<PackageReference Include="DotNetCore.CAP.MySql" Version="5.1.3" />
+		<PackageReference Include="DotNetCore.CAP.MySql" Version="5.1.4" />
 		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="3.1.2" />-->
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
-		<PackageReference Include="DotNetCore.CAP" Version="5.1.3" />
-		<PackageReference Include="IdentityModel" Version="5.1.0" />
+		<PackageReference Include="DotNetCore.CAP" Version="5.1.4" />
+		<PackageReference Include="IdentityModel" Version="5.2.0" />
 		<PackageReference Include="MQiniu.Core" Version="1.0.1" />
 		<PackageReference Include="Caching.CSRedis" Version="3.6.60" />
 		<PackageReference Include="CSRedisCore" Version="3.6.6" />
