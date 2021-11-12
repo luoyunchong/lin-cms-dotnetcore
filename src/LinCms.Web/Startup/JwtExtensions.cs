@@ -7,6 +7,7 @@ using LinCms.Data;
 using LinCms.Data.Authorization;
 using LinCms.Data.Enums;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,13 +51,8 @@ namespace LinCms.Startup
             });
 
             //认证
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-               .AddCookie(options =>
-               {
-                   options.Cookie.SameSite = SameSiteMode.None;
-                   options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                   options.Cookie.IsEssential = true;
-               })//使用指定的方案启用 JWT 持有者身份验证。
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//使用指定的方案启用 JWT 持有者身份验证。
+               .AddCookie()
                .AddJwtBearer(options =>
                {
                    bool isIds4 = Configuration["Service:IdentityServer4"].ToBoolean();
@@ -145,6 +141,7 @@ namespace LinCms.Startup
                })
                .AddGitHub(options =>
                {
+                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                    options.ClientId = Configuration["Authentication:GitHub:ClientId"];
                    options.ClientSecret = Configuration["Authentication:GitHub:ClientSecret"];
                    options.Scope.Add("user:email");
@@ -156,11 +153,13 @@ namespace LinCms.Startup
                })
                .AddQQ(options =>
                {
+                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                    options.ClientId = Configuration["Authentication:QQ:ClientId"];
                    options.ClientSecret = Configuration["Authentication:QQ:ClientSecret"];
                })
                .AddGitee(GiteeAuthenticationDefaults.AuthenticationScheme, "码云", options =>
                {
+                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                    options.ClientId = Configuration["Authentication:Gitee:ClientId"];
                    options.ClientSecret = Configuration["Authentication:Gitee:ClientSecret"];
 
