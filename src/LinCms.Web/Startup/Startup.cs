@@ -15,6 +15,7 @@ using LinCms.Startup.Configuration;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -226,6 +227,9 @@ namespace LinCms.Startup
 
             //IP 限流 RateLimitConfig.json
             app.UseMiddleware<IpLimitMiddleware>();
+            //Fix login issue Exception: Correlation failed
+            //https://github.com/dotnet-architecture/eShopOnContainers/pull/1516
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 
             app.UseRouting()
                 .UseAuthorization()
