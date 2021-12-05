@@ -43,6 +43,8 @@ namespace LinCms.Cms.Permissions
 
             LinPermission linPermission = await _permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();
 
+            if (linPermission == null || groups == null || groups.Length == 0) return false;
+
             bool existPermission = await _groupPermissionRepository.Select
                 .AnyAsync(r => groups.Contains(r.GroupId) && r.PermissionId == linPermission.Id);
 
