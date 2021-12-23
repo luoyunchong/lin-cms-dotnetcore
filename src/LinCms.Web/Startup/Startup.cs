@@ -63,7 +63,7 @@ namespace LinCms.Startup
                 })
                 .AddNewtonsoftJson(opt =>
                 {
-                    opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:MM:ss";
+                    opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                     // 设置自定义时间戳格式
                     opt.SerializerSettings.Converters = new List<JsonConverter>()
                     {

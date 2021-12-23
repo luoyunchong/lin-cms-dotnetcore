@@ -22,7 +22,7 @@ namespace LinCms.Startup.Configuration
             builder.RegisterType<ValidJtiHandler>().As<IAuthorizationHandler>().InstancePerLifetimeScope();
 
             builder.RegisterType<MigrationStartupTask>().SingleInstance();
-            //builder.RegisterBuildCallback(async (c) => await c.Resolve<MigrationStartupTask>().StartAsync());
+            builder.RegisterBuildCallback(async (c) => await c.Resolve<MigrationStartupTask>().StartAsync());
 
         }
     }
