@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Autofac;
 using IGeekFan.AspNetCore.Knife4jUI;
 using IGeekFan.AspNetCore.RapiDoc;
@@ -23,7 +25,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owl.reCAPTCHA;
@@ -144,6 +145,7 @@ namespace LinCms.Startup
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+
             app.UseForwardedHeaders();
 
             if (env.IsDevelopment())
@@ -155,10 +157,10 @@ namespace LinCms.Startup
                 app.UseHsts();
             }
 
+            app.UseBasicAuthentication();
+
             app.UseHttpsRedirection();
-
             app.UseStaticFiles();
-
             app.UseSerilogRequestLogging(opts =>
             {
                 opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;

@@ -643,5 +643,30 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:BasicAuthenticationOption.Realm">
+            <summary>
+            指明HTTP基本认证的是这个资源集
+            </summary>
+        </member>
+        <member name="M:BasicAuthenticationHandler.HandleAuthenticateAsync">
+            <summary>
+            认证
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BasicAuthenticationHandler.HandleChallengeAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <summary>
+            质询
+            </summary>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicAuthenticationHandler.HandleForbiddenAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <summary>
+            认证失败
+            </summary>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

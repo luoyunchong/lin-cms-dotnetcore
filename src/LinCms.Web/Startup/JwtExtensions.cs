@@ -50,6 +50,10 @@ namespace LinCms.Startup
                 options.DefaultPolicy = defaultPolicy;
             });
 
+            services.Configure<BasicAuthenticationOption>(Configuration.GetSection("Basic"));
+            BasicAuthenticationOption basicOption = new BasicAuthenticationOption();
+            Configuration.Bind("Basic", basicOption);
+
             //认证
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//使用指定的方案启用 JWT 持有者身份验证。
                .AddCookie()
@@ -178,7 +182,13 @@ namespace LinCms.Startup
                    //options.Scope.Add("enterprises");
 
                    options.SaveTokens = true;
-               });
+               })
+               .AddScheme<BasicAuthenticationOption, BasicAuthenticationHandler>(BasicAuthenticationScheme.DefaultScheme, r =>
+                {
+                    r.UserName = basicOption.UserName;
+                    r.UserPassword = basicOption.UserPassword;
+                    r.Realm = basicOption.Realm;
+                });
 
         }
     }

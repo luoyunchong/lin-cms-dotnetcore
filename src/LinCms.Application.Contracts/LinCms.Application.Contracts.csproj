@@ -22,4 +22,10 @@
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LinCms.Application.Contracts.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
