@@ -8,24 +8,32 @@
   </h1>
 </h1>
 
-😃 A simple and practical CMS implemented by [ASP.NET Core 5](https://docs.microsoft.com/zh-cn/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-5.0)
+😃 A simple and practical CMS implemented by [ASP.NET Core 6](https://docs.microsoft.com/zh-cn/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0)
 
 ## 项目简介
+
 ![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
-<!--![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
+![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
 ![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
--->
+
 ![](https://img.shields.io/badge/.net6.0.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
-本项目是 Lin CMS 后端的 [.NET5](https://docs.microsoft.com/zh-cn/dotnet/core/introduction)的 实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
+本项目是 Lin CMS 后端的 [ASP.NET6](https://docs.microsoft.com/zh-cn/dotnet/core/introduction) 的实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
 
 ## 什么是 Lin CMS？
 
  Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率, 需要前端？请访问[**前端仓库**](https://github.com/TaleLin/lin-cms-vue)。官方团队产品了解请访问[**TaleLin**](https://github.com/TaleLin)
+
+##  开源地址
+- 后端接口Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
+- 后端接口GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
+- 适配管理端UI [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
+- 适配用户端UI [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
+
 
 ## 线上文档地址(完善中)
 
@@ -75,12 +83,14 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 该项目的Lin 的服务端框架是基于[.NET Core 3.1](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
 
 ### 相关技术
-- 数据库相关：ORM:[FreeSql](https://github.com/2881099/FreeSql)+DataBase:MySQL5.6
-- ASP.NET Core6 +WebAPI+RESTful
+- 数据库相关：ORM:[FreeSql](https://github.com/2881099/FreeSql)+DataBase:MySQL5.6/MsSqlServer/Oracle/Sqlite/PostgreSQL
+- ASP.NET Core 6 +WebAPI+RESTful
 - 简化对象映射：[AutoMapper](https://automapper.org/)
 - 身份认证框架：[IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
 - Json Web令牌:JWT
 - 文档API：Swagger([Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore))
+  - RapiDoc([RapiDoc](https://github.com/luoyunchong/IGeekFan.AspNetCore.RapiDoc))
+  - Knife4jUI([Knife4jUI](https://github.com/luoyunchong/IGeekFan.AspNetCore.Knife4jUI))
 - 序列化：Newtonsoft.Json
 - 测试框架：Xunit
 - 日志 [Serilog](https://github.com/serilog/serilog-aspnetcore)
@@ -88,8 +98,9 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 通用扩展方法 Z.ExtensionMethods
 - 云存储：七牛云 [MQiniu.Core](https://github.com/Hello-Mango/MQiniu.Core)
 - 分布式事务、EventBus：[DotNeteCore.CAP](https://github.com/dotnetcore/CAP)
-- GitHub第三方授权登录[AspNet.Security.OAuth.GitHub](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
-- QQ第三方授权登录[AspNet.Security.OAuth.QQ](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
+- GitHub第三方授权登录[AspNet.Security.OAuth.GitHub](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers/tree/dev/src/AspNet.Security.OAuth.GitHub)
+- QQ第三方授权登录[AspNet.Security.OAuth.QQ](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers/tree/dev/src/AspNet.Security.OAuth.QQ)
+- Gitee第三方授权登录[AspNet.Security.OAuth.Gitee](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers/tree/dev/src/AspNet.Security.OAuth.Gitee)
 - [Docker](https://docs.docker.com/)
 - [Azure DevOps](https://dev.azure.com/)
 - 健康检查[AspNetCore.HealthChecks.UI.Client](https://github.com/xabaril/AspNetCore.Diagnostics.HealthChecks)
@@ -108,10 +119,6 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - Clean Code（代码整洁之道）
 
 ### 分层结构（Layers）
-- framework
-  - src
-    - IGeekFan.CAP.MySql：为CAP实现了配合FreeSql的事务一致性扩展
-    - IGeekFan.Localization.FreeSql：本地化的FreeSql数据库存储方案
 - identityserver4
    - LinCms.IdentityServer4:使用id4授权登录
 - src
@@ -133,39 +140,15 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 ### QQ 交流群
 
-- 林间有风（lin-cms-vue） QQ 群号：643205479
 - .NET Core搬砖队(lin-cms-dotnetcore) QQ群号：762828442
 
-<img class="QR-img" style="margin-right:10px" width="258" height="300" src="https://ae01.alicdn.com/kf/Hed659970c86c4004b42480fe7d7f97acW.jpg">
-
-<img class="QR-img"  width="258" height="300" src="https://ae01.alicdn.com/kf/H6c1668c7987a436caae6b19ee6b86af5J.jpg">
+<img class="QR-img"  width="258" height="300" src="https://pic.imgdb.cn/item/61c9e0432ab3f51d915bc6c2.jpg">
 
 ### 微信公众号
 
-微信搜索：林间有风
+微信搜索：dotNET搬砖队
 
-<img class="QR-img" src="https://ae01.alicdn.com/kf/H4e69faac4a834b8a82f54ea05d2dd53av.jpg">
-
-
-## 开发计划
-- [功能模块的设计 ](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/3)
-- [0.3.0系统权限模块更新](https://github.com/luoyunchong/lin-cms-dotnetcore/issues/6 )
-
-## 自动化构建CI/CD
-
-### azure devops
-- [.Net Core DevOps -免费用Azure四步实现自动化发布（CI/CD）](https://www.cnblogs.com/zhaozhengyan/p/azure-devops-aliyun.html)
-- [.Net Core DevOps - 替换 ConnectionStrings](https://www.cnblogs.com/zhaozhengyan/p/azure-replace-appsettings.html)
-
-### github action
-- [github gitee自动同步](https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/devops-ci-cd.html)
-
-##  开源地址
-- 后端接口Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
-- 后端接口GitHub 链接 [https://github.com/luoyunchong/lin-cms-dotnetcore](https://github.com/luoyunchong/lin-cms-dotnetcore)
-- 管理端UI [https://github.com/luoyunchong/lin-cms-vue](https://github.com/luoyunchong/lin-cms-vue)
-- 用户端UI [https://github.com/luoyunchong/lin-cms-vvlog](https://github.com/luoyunchong/lin-cms-vvlog)
-
+<img class="QR-img" src="https://pic.imgdb.cn/item/61c9dea72ab3f51d915b1f26.jpg">
 
 ## 更新日志
 https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97
