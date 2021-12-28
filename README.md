@@ -12,10 +12,7 @@
 
 ## 项目简介
 
-![gitee async](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
-![Total visitor](https://visitor-count-badge.herokuapp.com/total.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
-![Visitors in today](https://visitor-count-badge.herokuapp.com/today.svg?repo_id=https://github.com/luoyunchong/lin-cms-dotnetcore)
-
+![Publish](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
 ![](https://img.shields.io/badge/.net6.0.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
@@ -142,13 +139,13 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 - .NET Core搬砖队(lin-cms-dotnetcore) QQ群号：762828442
 
-<img class="QR-img"  width="258" height="300" src="https://pic.imgdb.cn/item/61c9e0432ab3f51d915bc6c2.jpg">
+<img class="QR-img"  width="258" height="300" src="./docs/images/qq.png">
 
 ### 微信公众号
 
 微信搜索：dotNET搬砖队
 
-<img class="QR-img" src="https://pic.imgdb.cn/item/61c9dea72ab3f51d915b1f26.jpg">
+<img class="QR-img" src="./docs/images/wechat.png">
 
 ## 更新日志
 https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97
