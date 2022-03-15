@@ -6,6 +6,6 @@
 
   <ItemGroup>
 	 <PackageReference Include="FreeSql" Version="3.0.100" />
-     <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.1" />
+     <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
   </ItemGroup>
 </Project>

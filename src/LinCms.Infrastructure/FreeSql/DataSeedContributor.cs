@@ -53,8 +53,8 @@ namespace LinCms.FreeSql
         public async Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken)
         {
 
-            List<LinPermission> insertPermissions = new List<LinPermission>();
-            List<LinPermission> updatePermissions = new List<LinPermission>();
+            List<LinPermission> insertPermissions = new();
+            List<LinPermission> updatePermissions = new();
 
             List<LinPermission> allPermissions = await _permissionRepository.Select.ToListAsync();
 

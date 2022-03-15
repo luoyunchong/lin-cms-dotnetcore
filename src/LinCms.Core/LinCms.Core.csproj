@@ -25,14 +25,14 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="DotNetCore.Security" Version="16.11.0" />
-		<PackageReference Include="MailKit" Version="3.0.0" />
+		<PackageReference Include="DotNetCore.Security" Version="16.26.0" />
+		<PackageReference Include="MailKit" Version="3.1.1" />
 		<PackageReference Include="FreeSql" Version="3.0.100" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.0.100" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
 	</ItemGroup>
 
 	<ItemGroup>

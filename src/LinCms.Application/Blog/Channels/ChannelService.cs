@@ -53,7 +53,7 @@ namespace LinCms.Blog.Channels
         public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
         {
             List<NavChannelListDto> channel = (await _channelRepository.Select
-                    .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
+                    .IncludeMany(r => r.Tags.Select(u => new Tag { TagName = u.TagName, Id = u.Id }), r => r.Where(u => u.Status == true))
                     .OrderByDescending(r => r.SortCode)
                     .OrderBy(r => r.CreateTime)
                     .ToPagerListAsync(pageDto, out long totalCount))

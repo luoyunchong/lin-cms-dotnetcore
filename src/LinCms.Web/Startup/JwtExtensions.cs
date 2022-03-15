@@ -19,9 +19,9 @@ namespace LinCms.Startup
 {
     public static class JwtExtensions
     {
-        public static JsonWebTokenSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
+        public static JwtSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
         {
-            JsonWebTokenSettings jsonWebTokenSettings = new JsonWebTokenSettings(
+            JwtSettings jsonWebTokenSettings = new JwtSettings(
                            configuration["Authentication:JwtBearer:SecurityKey"],
                            new TimeSpan(1, 0, 0, 0),
                            configuration["Authentication:JwtBearer:Audience"],
@@ -29,13 +29,13 @@ namespace LinCms.Startup
                        );
             services.AddHashService();
             services.AddICryptographyService("lin-cms-dotnetcore-cryptography");
-            services.AddJsonWebTokenService(jsonWebTokenSettings);
+            services.AddJwtService(jsonWebTokenSettings);
             return jsonWebTokenSettings;
         }
 
         public static void AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
         {
-            JsonWebTokenSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
+            JwtSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
 
             //基于策略 处理 退出登录 黑名单策略 授权
             services.AddAuthorization(options =>

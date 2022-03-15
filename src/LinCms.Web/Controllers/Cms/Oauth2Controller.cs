@@ -33,9 +33,9 @@ namespace LinCms.Controllers.Cms
         private readonly IUserIdentityService _userCommunityService;
         private readonly ILogger<Oauth2Controller> _logger;
         private readonly IUserRepository _userRepository;
-        private readonly IJsonWebTokenService _jsonWebTokenService;
+        private readonly IJwtService _jsonWebTokenService;
         private readonly IComponentContext _componentContext;
-        public Oauth2Controller(IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJsonWebTokenService jsonWebTokenService, IComponentContext componentContext)
+        public Oauth2Controller(IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJwtService jsonWebTokenService, IComponentContext componentContext)
         {
             _userCommunityService = userCommunityService;
             _logger = logger;
@@ -81,10 +81,15 @@ namespace LinCms.Controllers.Cms
 
             long id = await oAuth2Service.SaveUserAsync(authenticateResult.Principal, openIdClaim.Value);
 
+            if (authenticateResult.Principal == null) throw new LinCmsException("无法获取第三方授权信息");
+
             List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-            LinUser user = await _userRepository.Select.IncludeMany(r => r.LinGroups)
-                .WhereCascade(r => r.IsDeleted == false).Where(r => r.Id == id).FirstAsync();
+            LinUser user = await _userRepository.Select
+                .IncludeMany(r => r.LinGroups)
+                .WhereCascade(r => r.IsDeleted == false)
+                .Where(r => r.Id == id)
+                .FirstAsync();
 
             if (user == null)
             {
@@ -184,7 +189,7 @@ namespace LinCms.Controllers.Cms
             {
                 return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("请先登录")}");
             }
-            long userId = long.Parse(nameIdentifier);
+            long userId = long.Parse(nameIdentifier == null ? "0" : nameIdentifier);
             UnifyResponseDto unifyResponseDto;
 
             List<string> supportProviders = new List<string> { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
@@ -265,7 +270,7 @@ namespace LinCms.Controllers.Cms
         {
             AuthenticateResult authenticateResult = await HttpContext.AuthenticateAsync(provider);
             if (!authenticateResult.Succeeded) return null;
-            Claim openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
+            Claim? openIdClaim = authenticateResult.Principal.FindFirst(ClaimTypes.NameIdentifier);
             return openIdClaim?.Value;
 
         }

@@ -39,8 +39,8 @@ namespace LinCms.Entities
         /// </summary>
         public short? Type { get; set; }
 
-        public static string LocalFileService = "LocalFileService";
-        public static string QiniuService = "QiniuService";
+        public const string LocalFileService = "LocalFileService";
+        public const string QiniuService = "QiniuService";
 
     }
 }

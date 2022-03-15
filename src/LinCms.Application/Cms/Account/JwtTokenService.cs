@@ -18,9 +18,9 @@ namespace LinCms.Cms.Users
         private readonly IUserRepository _userRepository;
         private readonly IUserIdentityService _userIdentityService;
         private readonly ILogger<JwtTokenService> _logger;
-        private readonly IJsonWebTokenService _jsonWebTokenService;
+        private readonly IJwtService _jsonWebTokenService;
 
-        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJsonWebTokenService jsonWebTokenService)
+        public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService, IJwtService jsonWebTokenService)
         {
             _userRepository = userRepository;
             _logger = logger;
