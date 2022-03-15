@@ -1,58 +1,82 @@
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
+using System.Diagnostics;
+using IGeekFan.AspNetCore.RapiDoc;
+using LinCms.IdentityServer4;
+using LinCms.IdentityServer4.IdentityServer4;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace LinCms.IdentityServer4
-{
-    public class Program
-    {
-        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
-            .AddEnvironmentVariables()
-            .Build();
+var builder = WebApplication.CreateBuilder(args);
+var Configuration = builder.Configuration;
 
-        public static int Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
-                .Enrich.FromLogContext()
-                .CreateLogger();
-            // Configuration.GetSection("exceptionless").Bind(Exceptionless.ExceptionlessClient.Default.Configuration);
+#region SerilogÅäÖÃ
 
-            try
-            {
-                Log.Information("Starting web host");
-                CreateWebHostBuilder(args).Build().Run();
-                return 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly");
-                return 1;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
-        }
-
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                   
-                    webBuilder.UseStartup<Startup>()
+builder.Host.UseSerilog();
 #if !DEBUG
-               //.UseKestrel((context, options) =>
-               //     {
-               //         options.Configure(context.Configuration.GetSection("Kestrel"));
-               //     }) 
+//.UseKestrel((context, options) =>
+//     {
+//         options.Configure(context.Configuration.GetSection("Kestrel"));
+//     }) 
 #endif
-                    ;
-                }) .UseSerilog();
-    }
-}
+
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+       .Enrich.FromLogContext()
+       .CreateLogger();
+   Log.Information("Starting web host");
+#if DEBUG
+Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+#endif
+
+#endregion
+
+InMemoryConfiguration.Configuration = Configuration;
+
+builder.Services.AddServices(Configuration);
+
+var app = builder.Build();
+
+
+var options = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+};
+options.KnownNetworks.Clear();
+options.KnownProxies.Clear();
+app.UseForwardedHeaders(options);
+
+//app.UseMiddleware(typeof(CustomExceptionMiddleWare));
+app.UseHttpsRedirection();
+
+//app.UseSerilogRequestLogging();
+
+app.UseCors(builder =>
+{
+    string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
+    builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
+});
+
+app.UseCookiePolicy();
+app.UseSession();
+
+app.UseRouting();
+app.UseStaticFiles();
+
+app.UseAuthorization();
+
+app.UseIdentityServer();
+
+app.UseSwagger();
+
+app.UseRapiDocUI(c =>
+{
+    c.DocumentTitle = "LinCms.IdentityServer4";
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms.IdentityServer4");
+});
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHealthChecks("/health");
+});
+
+app.Run();

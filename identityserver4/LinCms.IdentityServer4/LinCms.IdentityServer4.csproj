@@ -32,12 +32,12 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
-		<PackageReference Include="FreeSql" Version="2.6.100" />
-		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="2.6.100" />
+		<PackageReference Include="FreeSql" Version="3.0.100" />
+		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.0.100" />
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
-		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.4" />
+		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -62,9 +62,7 @@
 		</None>
 	</ItemGroup>
 	<ProjectExtensions>
-		<VisualStudio>
-			<UserProperties appsettings_1production_1json__JsonSchema="http://json.schemastore.org/appsettings" properties_4launchsettings_1json__JsonSchema="" appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" />
-		</VisualStudio>
+		<VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio>
 	</ProjectExtensions>
 
 

@@ -47,7 +47,7 @@ namespace LinCms.Test
                   .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                   .ConfigureWebHostDefaults(webBuilder =>
                   {
-                      webBuilder.UseStartup<Startup.Startup>().UseEnvironment("Development");
+                      //webBuilder.UseStartup<Startup.Startup>().UseEnvironment("Development");
                       webBuilder.UseTestServer();
                   })
                   .ConfigureLogging(logging =>

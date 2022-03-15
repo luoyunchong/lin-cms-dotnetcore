@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using AspNetCoreRateLimit;
 using CSRedis;
 using DotNetCore.CAP;
@@ -13,10 +14,12 @@ using LinCms.Email;
 using LinCms.Entities;
 using LinCms.FreeSql;
 using LinCms.Utils;
+using Microsoft.AspNetCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
 using ToolGood.Words;
@@ -255,5 +258,32 @@ namespace LinCms.Startup
 
         #endregion
 
+
+        /// <summary>
+        /// 获取一下Scope Service 以执行 Redis的初始化
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public static async Task RunScopeClientPolicy(this IServiceProvider serviceProvider)
+        {
+            using (var scope = serviceProvider.CreateScope())
+            {
+                try
+                {
+                     var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
+                    await clientPolicyStore.SeedAsync();
+
+                    // get the IpPolicyStore instance
+                    var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
+
+                    // seed IP data from appsettings
+                    await ipPolicyStore.SeedAsync();
+                }
+                catch (Exception ex)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred.");
+                }
+            }
+        }
     }
 }

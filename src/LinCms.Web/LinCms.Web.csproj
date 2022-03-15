@@ -46,16 +46,16 @@
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.0.21-alpha" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="5.1.4" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="5.1.4" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="5.1.4" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="5.2.0" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="5.2.0" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="5.2.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
-		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.4" />
+		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
 		<PackageReference Include="Owl.reCAPTCHA" Version="0.5.0" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="5.1.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />

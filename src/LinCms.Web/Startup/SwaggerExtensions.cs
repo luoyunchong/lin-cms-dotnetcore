@@ -21,6 +21,7 @@ namespace LinCms.Startup
 {
     public static class SwaggerExtensions
     {
+        #region AddSwaggerGen
         public static IServiceCollection AddSwaggerGen(this IServiceCollection services)
         {
             //解决  https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1349#issuecomment-572537295
@@ -79,7 +80,7 @@ namespace LinCms.Startup
                     Name = "Authorization", //jwt默认的参数名称
                     In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                     Type = SecuritySchemeType.ApiKey
-                    
+
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
@@ -132,7 +133,7 @@ namespace LinCms.Startup
 
                 try
                 {
-                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
+                    string xmlPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(Program).Assembly.GetName().Name}.xml");
                     options.IncludeXmlComments(xmlPath, true);
                     //实体层的xml文件名
                     string xmlEntityPath = Path.Combine(AppContext.BaseDirectory, $"{typeof(IEntity).Assembly.GetName().Name}.xml");
@@ -164,6 +165,7 @@ namespace LinCms.Startup
                 });
             });
             return services;
-        }
+        } 
+        #endregion
     }
 }

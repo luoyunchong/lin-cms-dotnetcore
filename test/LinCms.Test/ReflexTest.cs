@@ -92,7 +92,7 @@ namespace LinCms.Test
         [Fact]
         public void GetAssemblyMethodsAttributes()
         {
-            List<Type> assembly = typeof(Startup.Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup.DependencyInjectionExtensions).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(r =>
@@ -118,7 +118,7 @@ namespace LinCms.Test
         [Fact]
         public void GetControllerAttributes()
         {
-            List<Type> assembly = typeof(Startup.Startup).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(Startup.DependencyInjectionExtensions).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>

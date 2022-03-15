@@ -19,6 +19,7 @@ public static class BasicAuthenticationScheme
 }
 public class BasicAuthenticationOption : AuthenticationSchemeOptions
 {
+    public bool Enable { get; set; }
     public List<string> ProtectPaths { get; set; }
     /// <summary>
     /// 指明HTTP基本认证的是这个资源集
@@ -111,7 +112,7 @@ public static class BasicAuthentication
     {
         IOptionsMonitor<BasicAuthenticationOption>? optionsMonitor = app.ApplicationServices.GetService<IOptionsMonitor<BasicAuthenticationOption>>();
 
-        if (optionsMonitor != null && optionsMonitor.CurrentValue.ProtectPaths.Count > 0)
+        if (optionsMonitor != null && optionsMonitor.CurrentValue.ProtectPaths.Count > 0 && optionsMonitor.CurrentValue.Enable)
         {
             Expression<Func<HttpContext, bool>> expression = u => false;
             foreach (var path in optionsMonitor.CurrentValue.ProtectPaths)

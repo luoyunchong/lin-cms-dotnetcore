@@ -37,7 +37,8 @@ namespace LinCms.Test.Controller
             return WebHost.CreateDefaultBuilder()
                             .UseEnvironment("Development")
                             .UseUrls("https://*:5003")
-                            .UseStartup<IdentityServer4.Startup>();
+                            //.UseStartup<IdentityServer4.Startup>()
+                            ;
         }
 
         public async Task HttpClientResourePassword()
