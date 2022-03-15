@@ -7,7 +7,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["framework/src/IGeekFan.Localization.FreeSql/IGeekFan.Localization.FreeSql.csproj", "framework/src/IGeekFan.Localization.FreeSql/"]
 COPY ["src/LinCms.Web/LinCms.Web.csproj", "src/LinCms.Web/"]
 COPY ["src/LinCms.Plugins/LinCms.Plugins.csproj", "src/LinCms.Plugins/"]
 COPY ["src/LinCms.Infrastructure/LinCms.Infrastructure.csproj", "src/LinCms.Infrastructure/"]

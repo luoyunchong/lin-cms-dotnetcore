@@ -35,8 +35,4 @@
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\framework\src\IGeekFan.Localization.FreeSql\IGeekFan.Localization.FreeSql.csproj" />
-	</ItemGroup>
-
 </Project>

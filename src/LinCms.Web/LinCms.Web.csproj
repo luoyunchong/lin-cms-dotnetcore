@@ -59,6 +59,7 @@
 		<PackageReference Include="Owl.reCAPTCHA" Version="0.5.0" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="6.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+		<PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.1" />
 		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.0" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
@@ -66,7 +67,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.3.0" />
 		<PackageReference Include="ToolGood.Words" Version="3.0.3.1" />
-		<PackageReference Include="IGeekFan.Sinks.MariaDB" Version="0.0.1" />
+		<!--<PackageReference Include="IGeekFan.Sinks.MariaDB" Version="0.0.1" />-->
 	</ItemGroup>
 
 	<ItemGroup>

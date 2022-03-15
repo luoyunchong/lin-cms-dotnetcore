@@ -16,6 +16,7 @@
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="DotNetCore.CAP" Version="6.0.1" />
 		<PackageReference Include="IdentityModel" Version="6.0.0" />
+		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.3" />
 		<PackageReference Include="MQiniu.Core" Version="1.0.1" />
 		<PackageReference Include="Caching.CSRedis" Version="3.6.90" />
 		<PackageReference Include="CSRedisCore" Version="3.6.9" />
