@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<LangVersion>8</LangVersion>
 		<RootNamespace>LinCms</RootNamespace>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,16 +13,6 @@
 		<WarningLevel>4</WarningLevel>
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Remove="LinCms.Core.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="LinCms.Core.xml">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

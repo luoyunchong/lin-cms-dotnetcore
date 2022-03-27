@@ -12,6 +12,15 @@
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
+	<ItemGroup>
+		<None Remove="LinCms.Application.Contracts.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="LinCms.Application.Contracts.xml">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
   <ItemGroup>
     <Compile Remove="Constracts\**" />
     <EmbeddedResource Remove="Constracts\**" />
@@ -21,11 +30,4 @@
   <ItemGroup>
     <ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="LinCms.Application.Contracts.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

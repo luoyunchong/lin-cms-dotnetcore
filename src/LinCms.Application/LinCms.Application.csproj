@@ -4,6 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<AssemblyName>LinCms.Application</AssemblyName>
 		<RootNamespace>LinCms</RootNamespace>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 	</PropertyGroup>
 
 	<ItemGroup>

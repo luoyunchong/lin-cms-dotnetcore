@@ -7,9 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["framework/src/IGeekFan.Localization.FreeSql/IGeekFan.Localization.FreeSql.csproj", "framework/src/IGeekFan.Localization.FreeSql/"]
 COPY ["identityserver4/LinCms.IdentityServer4/LinCms.IdentityServer4.csproj", "identityserver4/LinCms.IdentityServer4/"]
-COPY ["src/LinCms.Core/LinCms.Core.csproj", "src/LinCms.Core/"]
 COPY ["src/LinCms.Application/LinCms.Application.csproj", "src/LinCms.Application/"]
 COPY ["src/LinCms.Infrastructure/LinCms.Infrastructure.csproj", "src/LinCms.Infrastructure/"]
 RUN dotnet restore "identityserver4/LinCms.IdentityServer4/LinCms.IdentityServer4.csproj"
