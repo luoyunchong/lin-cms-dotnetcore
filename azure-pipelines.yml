@@ -45,13 +45,12 @@ steps:
       sed -i 's/{MailKitOptions.Password}/$(MailKitOptions.Password)/g' src/LinCms.Web/appsettings.Production.json
       echo command executed
 
-#- script: |
-#    docker build -f $(identityserver4dockerfilepath) -t $(identityserver4imageName) .
-#    docker login -u $(dockerId) -p $(pwd) $(registry)
-#    docker tag $(identityserver4imageName) $(registry)/$(namespace)/$(identityserver4imageName)
-#    docker push $(registry)/$(namespace)/$(identityserver4imageName)
-
-#  displayName: push to lincms-identityserver4
+- script: |
+    docker build -f $(identityserver4dockerfilepath) -t $(identityserver4imageName) .
+    echo $(pwd) | docker login --username $(dockerId) $(registry) --password-stdin
+    docker tag $(identityserver4imageName) $(registry)/$(namespace)/$(identityserver4imageName)
+    docker push $(registry)/$(namespace)/$(identityserver4imageName)
+  displayName: push to lincms-identityserver4
 
 - script: |
     docker build -f $(linCmsWebdockerfilepath) -t $(webimageName) .
