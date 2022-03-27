@@ -56,7 +56,7 @@ steps:
 - script: |
     docker build -f $(linCmsWebdockerfilepath) -t $(webimageName) .
     echo $(pwd) | docker login --username $(dockerId) $(registry) --password-stdin
-    docker tag $(webimageName) $(registry)/$(namespace)/$(webimageName)
-    docker push $(registry)/$(namespace)/$(webimageName)
+    docker tag $(webimageName) $(registry)/$(namespace)/$(webimageName):latest
+    docker push $(registry)/$(namespace)/$(webimageName):latest
 
   displayName: push to lincms-web
