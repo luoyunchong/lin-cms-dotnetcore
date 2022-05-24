@@ -63,7 +63,7 @@ namespace LinCms.Blog.Articles
                 .Include(r => r.UserInfo)
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .IncludeMany(r => r.UserLikes, r => r.Where(u => u.CreateUserId == userId))
-                .Where(r => r.IsAudit == true)
+                .Where(r => r.IsAudit)
                 .WhereCascade(r => r.IsDeleted == false)
                 .WhereIf(searchDto.UserId != null, r => r.CreateUserId == searchDto.UserId)
                 .WhereIf(searchDto.TagId.HasValue, r => r.Tags.AsSelect().Any(u => u.Id == searchDto.TagId))
@@ -77,7 +77,7 @@ namespace LinCms.Blog.Articles
                     searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" ||
                     searchDto.Sort == "MONTHLY_HOTTEST" ||
                     searchDto.Sort == "HOTTEST",
-                    r => r.ViewHits + r.LikesQuantity * 20 + r.CommentQuantity * 30)
+                    r => r.ViewHits + (r.LikesQuantity * 20) + (r.CommentQuantity * 30))
                 .OrderByDescending(r => r.CreateTime).ToPagerListAsync(searchDto, out long totalCount);
 
             List<ArticleListDto> articleDtos = articles
@@ -216,7 +216,7 @@ namespace LinCms.Blog.Articles
 
             _tagArticleRepository.Delete(r => r.ArticleId == id);
 
-            List<TagArticle> tagArticles = new List<TagArticle>();
+            List<TagArticle> tagArticles = new();
 
             updateArticleDto.TagIds.ForEach(async (tagId) =>
             {

@@ -1,11 +1,11 @@
-﻿using IdentityModel;
+﻿using System;
+using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using LinCms.Cms.Users;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using System;
-using System.Threading.Tasks;
 
 namespace LinCms.IdentityServer4.IdentityServer4
 {

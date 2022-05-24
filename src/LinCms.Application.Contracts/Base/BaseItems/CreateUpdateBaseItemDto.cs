@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Base.BaseItems
 {
-    public class CreateUpdateBaseItemDto:IValidatableObject
+    public class CreateUpdateBaseItemDto : IValidatableObject
     {
         public int BaseTypeId { get; set; }
         [Required(ErrorMessage = "编码为必填项")]
@@ -16,7 +16,7 @@ namespace LinCms.Base.BaseItems
         {
             if (BaseTypeId == 0)
             {
-                yield return new ValidationResult("请选择类别",new List<string>(){ "BaseTypeId" });
+                yield return new ValidationResult("请选择类别", new List<string>() { "BaseTypeId" });
             }
         }
     }

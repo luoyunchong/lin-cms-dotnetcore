@@ -13,7 +13,7 @@ namespace LinCms.Entities.Blog
         {
         }
 
-        public ArticleDraft(Guid id,string content, string title, int editor)
+        public ArticleDraft(Guid id, string content, string title, int editor)
         {
             Id = id;
             Content = content ?? throw new ArgumentNullException(nameof(content));

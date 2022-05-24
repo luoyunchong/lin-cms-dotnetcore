@@ -13,7 +13,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 封面图
         /// </summary>
-         [Column(StringLength =100)]
+        [Column(StringLength = 100)]
         public string Thumbnail { get; set; }
 
         /// <summary>
@@ -31,13 +31,13 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 编码
         /// </summary>
-         [Column(StringLength = 50)]
+        [Column(StringLength = 50)]
         public string ChannelCode { get; set; }
 
         /// <summary>
         /// 备注描述
         /// </summary>
-         [Column(StringLength =500)]
+        [Column(StringLength = 500)]
         public string Remark { get; set; }
         /// <summary>
         /// 是否有效

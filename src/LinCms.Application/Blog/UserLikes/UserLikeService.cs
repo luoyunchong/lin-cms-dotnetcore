@@ -8,7 +8,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Blog.UserLikes
 {
-    public class UserLikeService :ApplicationService, IUserLikeService
+    public class UserLikeService : ApplicationService, IUserLikeService
     {
         private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
         private readonly IArticleService _articleService;
@@ -45,6 +45,8 @@ namespace LinCms.Blog.UserLikes
                     break;
                 case UserLikeSubjectType.UserLikeComment:
                     await _commentService.UpdateLikeQuantityAysnc(createUpdateUserLike.SubjectId, increaseLikeQuantity);
+                    break;
+                default:
                     break;
             }
 

@@ -10,14 +10,14 @@ namespace LinCms
 {
     public abstract class CrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput,
             TUpdateInput>
-        : ApplicationService,ICrudAppService<TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput>
+        : ApplicationService, ICrudAppService<TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput>
         where TEntity : class, IEntity<TKey>
         where TGetOutputDto : IEntityDto<TKey>
         where TGetListOutputDto : IEntityDto<TKey>
     {
-        protected  IAuditBaseRepository<TEntity, TKey> Repository { get; }
+        protected IAuditBaseRepository<TEntity, TKey> Repository { get; }
 
-        protected CrudAppService(IAuditBaseRepository<TEntity, TKey>repository)
+        protected CrudAppService(IAuditBaseRepository<TEntity, TKey> repository)
         {
             Repository = repository;
         }

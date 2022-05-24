@@ -18,7 +18,7 @@
         /// 禁止某些类型文件上传，文件格式以,隔开
         /// </summary>
         public string Exclude { get; set; }
-        
+
         public string ServiceName { get; set; }
         public LocalFileOption LocalFile { get; set; }
         public QiniuOptions Qiniu { get; set; }

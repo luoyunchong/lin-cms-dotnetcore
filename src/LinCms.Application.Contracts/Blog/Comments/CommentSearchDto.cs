@@ -3,7 +3,7 @@ using LinCms.Data;
 
 namespace LinCms.Blog.Comments
 {
-    public class CommentSearchDto:PageDto
+    public class CommentSearchDto : PageDto
     {
         public Guid? RootCommentId { get; set; }
         public Guid? SubjectId { get; set; }

@@ -1,7 +1,7 @@
-﻿using IdentityServer4.Models;
+﻿using System.Threading.Tasks;
+using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace LinCms.IdentityServer4.Controllers
 {

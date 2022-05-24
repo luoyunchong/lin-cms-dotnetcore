@@ -22,7 +22,7 @@ namespace LinCms.Cms.Groups
         Task DeleteAsync(long id);
 
         Task DeleteUserGroupAsync(long userId);
-        
+
         /// <summary>
         /// 检查该用户是否在root分组中
         /// </summary>
@@ -35,7 +35,7 @@ namespace LinCms.Cms.Groups
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<List<long>>  GetGroupIdsByUserIdAsync(long userId);
+        Task<List<long>> GetGroupIdsByUserIdAsync(long userId);
 
         /// <summary>
         /// 删除用户与分组直接的关联

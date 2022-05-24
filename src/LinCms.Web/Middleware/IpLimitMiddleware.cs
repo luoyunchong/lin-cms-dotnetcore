@@ -8,7 +8,7 @@ namespace LinCms.Middleware
 {
     public class IpLimitMiddleware : IpRateLimitMiddleware
     {
-        public IpLimitMiddleware(RequestDelegate next, IProcessingStrategy processingStrategy, IOptions<IpRateLimitOptions> options, IIpPolicyStore policyStore , IRateLimitConfiguration config, ILogger<IpRateLimitMiddleware> logger)
+        public IpLimitMiddleware(RequestDelegate next, IProcessingStrategy processingStrategy, IOptions<IpRateLimitOptions> options, IIpPolicyStore policyStore, IRateLimitConfiguration config, ILogger<IpRateLimitMiddleware> logger)
             : base(next, processingStrategy, options, policyStore, config, logger)
         {
         }

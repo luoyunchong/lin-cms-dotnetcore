@@ -21,7 +21,7 @@ namespace LinCms.Blog.Comments
         /// <param name="commentSearchDto"></param>
         /// <returns></returns>
         Task<PagedResultDto<CommentDto>> GetListAsync([FromQuery] CommentSearchDto commentSearchDto);
-        Task CreateAsync( CreateCommentDto createCommentDto);
+        Task CreateAsync(CreateCommentDto createCommentDto);
         Task DeleteAsync(Comment comment);
         Task DeleteAsync(Guid id);
         Task DeleteMyComment(Guid id);

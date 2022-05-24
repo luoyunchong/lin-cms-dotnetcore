@@ -7,14 +7,14 @@ using Xunit;
 
 namespace LinCms.Test.Controller.Cms
 {
-    public class GroupControllerTests 
+    public class GroupControllerTests
     {
         private readonly IMapper _mapper;
 
-        public GroupControllerTests() 
+        public GroupControllerTests()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddAutoMapper((typeof(ApplicationService).Assembly));
+            services.AddAutoMapper(typeof(ApplicationService).Assembly);
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 

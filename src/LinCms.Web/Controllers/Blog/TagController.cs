@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac.Extras.DynamicProxy;
 using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Tags;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.IRepositories;
-using LinCms.Middleware;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog

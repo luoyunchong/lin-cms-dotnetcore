@@ -1,20 +1,20 @@
-﻿using Xunit;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using AutoMapper;
 using LinCms.Blog.Comments;
 using LinCms.Entities.Blog;
 using LinCms.Extensions;
 using LinCms.IRepositories;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace LinCms.Test.Repositories.Blog
 {
     public class CommentRepositoryTest : BaseLinCmsTest
     {
         private readonly IAuditBaseRepository<Comment> _baseRepository;
-        
+
         private readonly IMapper Mapper;
         private readonly IFreeSql FreeSql;
 

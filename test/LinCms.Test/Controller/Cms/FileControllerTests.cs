@@ -40,9 +40,9 @@ namespace LinCms.Test.Controller.Cms
         [Fact]
         public void DateMonthTest()
         {
-            DateTime now =new DateTime(2019,2,3);
+            DateTime now = new DateTime(2019, 2, 3);
 
-            string d= now.ToString("yyy/MM/dd");
+            string d = now.ToString("yyy/MM/dd");
 
             Assert.Equal("2019/02/03", d);
         }

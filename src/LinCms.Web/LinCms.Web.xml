@@ -506,7 +506,7 @@
             <summary>
             获取远程服务器内容，并转换成流
             </summary>
-            <param name="path">https://lc-gold-cdn.xitu.io/bac28828a49181c34110.png</param>
+            <param name="path">https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/leancloud-assets/bac28828a49181c34110.png</param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Controllers.v1.TestController.Get">

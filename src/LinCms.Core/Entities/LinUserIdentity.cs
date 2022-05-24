@@ -1,6 +1,6 @@
-﻿using FreeSql.DataAnnotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities
 {

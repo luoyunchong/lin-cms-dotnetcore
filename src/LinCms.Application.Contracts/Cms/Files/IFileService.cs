@@ -12,6 +12,6 @@ namespace LinCms.Cms.Files
         /// <param name="key"></param>
         /// <returns></returns>
         Task<FileDto> UploadAsync(IFormFile file, int key = 0);
-        
+
     }
 }

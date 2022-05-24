@@ -11,7 +11,7 @@ namespace LinCms.Cms.Permissions
         {
             if (GroupId <= 0)
             {
-                yield return new ValidationResult("分组id必须大于0", new List<string>(){ "GroupId" });
+                yield return new ValidationResult("分组id必须大于0", new List<string>() { "GroupId" });
             }
             if (PermissionIds.Count == 0)
             {

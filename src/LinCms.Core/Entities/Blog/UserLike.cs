@@ -16,9 +16,9 @@ namespace LinCms.Entities.Blog
         /// </summary>
         [Column(MapType = typeof(int))]
         public UserLikeSubjectType SubjectType { get; set; }
-      
+
         public long CreateUserId { get; set; }
-     
+
         public DateTime CreateTime { get; set; }
 
 

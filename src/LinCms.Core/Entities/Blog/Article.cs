@@ -45,7 +45,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 正文
         /// </summary>
-        [Column(StringLength =-2)]
+        [Column(StringLength = -2)]
         public string Content { get; set; }
 
         public int ViewHits { get; set; }
@@ -117,7 +117,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 随笔是否开启评论
         /// </summary>
-        public bool Commentable { get; set; } = true;                                                                   
+        public bool Commentable { get; set; } = true;
 
         public virtual Classify Classify { get; set; }
 
@@ -135,7 +135,7 @@ namespace LinCms.Entities.Blog
 
         public void IncreaseViewHits()
         {
-            this.ViewHits += 1;
+            ViewHits += 1;
         }
 
         public void UpdateLikeQuantity(int likesQuantity)
@@ -154,7 +154,7 @@ namespace LinCms.Entities.Blog
                 }
             }
 
-            this.LikesQuantity += likesQuantity;
+            LikesQuantity += likesQuantity;
         }
     }
 

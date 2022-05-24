@@ -12,7 +12,7 @@ namespace LinCms.Test.Controller.v1
     {
         public BookControllerTest() : base()
         {
-        
+
         }
         [Fact]
 
@@ -20,7 +20,7 @@ namespace LinCms.Test.Controller.v1
         {
             await HttpClientResourePassword();
         }
-        
+
         [Fact]
         public async Task CreateAsync()
         {
@@ -28,15 +28,15 @@ namespace LinCms.Test.Controller.v1
             // Act
             CreateUpdateBookDto createUpdateBookDto = new CreateUpdateBookDto()
             {
-                Author="luo",
+                Author = "luo",
                 Summary = "lin-cms-dotnetcore从零到1是一本介绍一个SB开发的一个小系统",
-                Title="lin-cms-dotnetcore从零到1",
+                Title = "lin-cms-dotnetcore从零到1",
                 Image = "123"
-            }; 
-            
+            };
+
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(createUpdateBookDto));
-            
-            var response = await Client.PostAsync($"/v1/book",httpContent);
+
+            var response = await Client.PostAsync($"/v1/book", httpContent);
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -48,21 +48,21 @@ namespace LinCms.Test.Controller.v1
             // Act
             CreateUpdateBookDto createUpdateBookDto = new CreateUpdateBookDto()
             {
-                Author="luo",
+                Author = "luo",
                 Summary = "lin-cms-dotnetcore从零到1是一本介绍一个SB开发的一个小系统",
-                Title="lin-cms-dotnetcore从零到1"
-            }; 
-            
-            HttpContent httpContent = new StringContent( JsonConvert.SerializeObject(createUpdateBookDto));
-            
-            var response = await Client.PostAsync($"/v1/book",httpContent);
+                Title = "lin-cms-dotnetcore从零到1"
+            };
+
+            HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(createUpdateBookDto));
+
+            var response = await Client.PostAsync($"/v1/book", httpContent);
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
-        public async Task GetListAsync( )
+        public async Task GetListAsync()
         {
             // 1、Arrange
             PageDto pageDto = new PageDto();
@@ -74,7 +74,7 @@ namespace LinCms.Test.Controller.v1
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-   
+
 
     }
 }

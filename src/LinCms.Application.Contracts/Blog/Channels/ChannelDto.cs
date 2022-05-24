@@ -5,7 +5,7 @@ using LinCms.Entities;
 
 namespace LinCms.Blog.Channels
 {
-    public class ChannelDto:Entity<Guid>
+    public class ChannelDto : Entity<Guid>
     {
         /// <summary>
         /// 封面图

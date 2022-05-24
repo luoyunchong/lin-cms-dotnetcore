@@ -5,15 +5,14 @@ using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Cms.Logs
 {
-    public class LogService :ApplicationService, ILogService
+    public class LogService : ApplicationService, ILogService
     {
         private readonly IAuditBaseRepository<LinLog> _linLogRepository;
         private readonly IUserRepository _linUserAuditBaseRepository;
-        public LogService(IAuditBaseRepository<LinLog> linLogRepository,IUserRepository linUserAuditBaseRepository)
+        public LogService(IAuditBaseRepository<LinLog> linLogRepository, IUserRepository linUserAuditBaseRepository)
         {
             _linLogRepository = linLogRepository;
             _linUserAuditBaseRepository = linUserAuditBaseRepository;

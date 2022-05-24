@@ -1,14 +1,14 @@
-﻿using Xunit;
-using Microsoft.Extensions.DependencyInjection;
-using Xunit.Abstractions;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using LinCms.Blog.Articles;
 using LinCms.Entities.Blog;
 using LinCms.IRepositories;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace LinCms.Test.Repositories.Blog
 {

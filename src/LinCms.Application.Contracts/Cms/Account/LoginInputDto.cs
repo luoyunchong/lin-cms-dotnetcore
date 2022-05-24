@@ -1,5 +1,4 @@
-﻿using LinCms.Common;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Cms.Account
 {

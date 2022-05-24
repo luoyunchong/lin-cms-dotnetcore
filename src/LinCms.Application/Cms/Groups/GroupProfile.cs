@@ -3,7 +3,7 @@ using LinCms.Entities;
 
 namespace LinCms.Cms.Groups
 {
-    public class GroupProfile:Profile
+    public class GroupProfile : Profile
     {
         public GroupProfile()
         {

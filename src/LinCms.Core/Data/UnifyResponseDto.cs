@@ -9,7 +9,7 @@ namespace LinCms.Data
 {
     public class UnifyResponseDto
     {
-    
+
         /// <summary>
         ///错误码
         /// </summary>
@@ -47,14 +47,14 @@ namespace LinCms.Data
         {
         }
 
-        public static UnifyResponseDto Success(string message="操作成功")
+        public static UnifyResponseDto Success(string message = "操作成功")
         {
-            return  new UnifyResponseDto(ErrorCode.Success,message);
+            return new UnifyResponseDto(ErrorCode.Success, message);
         }
 
-        public static UnifyResponseDto Error(string message="操作失败")
+        public static UnifyResponseDto Error(string message = "操作失败")
         {
-            return new UnifyResponseDto(ErrorCode.Fail,message);
+            return new UnifyResponseDto(ErrorCode.Fail, message);
         }
 
         public override string ToString()

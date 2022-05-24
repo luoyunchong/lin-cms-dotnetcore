@@ -4,9 +4,9 @@
     {
         public static class Group
         {
-            public static int Admin = 1;
-            public static int CmsAdmin = 2;
-            public static int User = 3;
+            public const int Admin = 1;
+            public const int CmsAdmin = 2;
+            public const int User = 3;
         }
 
         public static class Claims

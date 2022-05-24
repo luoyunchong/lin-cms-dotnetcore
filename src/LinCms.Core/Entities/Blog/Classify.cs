@@ -9,12 +9,12 @@ namespace LinCms.Entities.Blog
     /// 文章专栏，由普通用户创建
     /// </summary>
     [Table(Name = "blog_classify")]
-   public class Classify:FullAduitEntity<Guid>
+    public class Classify : FullAduitEntity<Guid>
     {
         /// <summary>
         /// 封面图
         /// </summary>
-         [Column(StringLength =100)]
+        [Column(StringLength = 100)]
         public string Thumbnail { get; set; }
         /// <summary>
         /// 排序
@@ -23,24 +23,24 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 分类专栏名称
         /// </summary>
-         [Column(StringLength = 50)]
+        [Column(StringLength = 50)]
         public string ClassifyName { get; set; }
 
         /// <summary>
         /// 随笔数量
         /// </summary>
-        public int ArticleCount { get; set; } = 0;
+        public int ArticleCount { get; set; }
 
         public virtual List<Article> Articles { get; set; }
 
         public void ReduceArticleCount()
         {
-            this.ArticleCount -= 1;
+            ArticleCount -= 1;
         }
 
         public void IncreaseArticleCount()
         {
-            this.ArticleCount += 1;
+            ArticleCount += 1;
         }
 
         public void UpdateArticleCount(int inCreaseCount)
@@ -53,7 +53,7 @@ namespace LinCms.Entities.Blog
                     return;
                 }
             }
-            this.ArticleCount += inCreaseCount;
+            ArticleCount += inCreaseCount;
         }
 
 

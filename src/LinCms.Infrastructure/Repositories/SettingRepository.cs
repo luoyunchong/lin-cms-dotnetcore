@@ -9,7 +9,7 @@ namespace LinCms.Repositories
 {
     public class SettingRepository : AuditBaseRepository<LinSetting>, ISettingRepository
     {
-        public SettingRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser): base(unitOfWorkManager, currentUser)
+        public SettingRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager, currentUser)
         {
         }
 

@@ -30,7 +30,7 @@ namespace LinCms.Utils
         [System.Obsolete]
         public static IllegalWordsSearch GetIllegalWordsSearch()
         {
-            if (!File.Exists(UrlsPath)||!File.Exists(KeywordsPath))
+            if (!File.Exists(UrlsPath) || !File.Exists(KeywordsPath))
             {
                 return new IllegalWordsSearch();
             }

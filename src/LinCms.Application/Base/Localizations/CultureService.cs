@@ -6,7 +6,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Base.Localizations
 {
-    public class CultureService :ApplicationService, ICultureService
+    public class CultureService : ApplicationService, ICultureService
     {
         private readonly IAuditBaseRepository<LocalCulture, long> _cultureRepository;
         public CultureService(IAuditBaseRepository<LocalCulture, long> cultureRepository)

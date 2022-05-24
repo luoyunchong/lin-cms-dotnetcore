@@ -189,10 +189,10 @@ namespace LinCms.Controllers.Cms
             {
                 return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("请先登录")}");
             }
-            long userId = long.Parse(nameIdentifier == null ? "0" : nameIdentifier);
+            long userId = long.Parse(nameIdentifier ?? "0");
             UnifyResponseDto unifyResponseDto;
 
-            List<string> supportProviders = new List<string> { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
+            List<string> supportProviders = new() { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
 
             if (!supportProviders.Contains(provider))
             {

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Blog.Classifys;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using LinCms.Security;
 
 namespace LinCms.Blog.Classifies
 {
@@ -19,22 +17,21 @@ namespace LinCms.Blog.Classifies
 
         public ClassifyService(IAuditBaseRepository<Classify, Guid> repository, IFileRepository fileRepository) : base(repository)
         {
-            _fileRepository = fileRepository;
+            _fileRepository = fileRepository ?? throw new ArgumentNullException(nameof(fileRepository));
         }
 
-        public override async Task<PagedResultDto<ClassifyDto>> GetListAsync(ClassifySearchDto searchDto)
+        public override async Task<PagedResultDto<ClassifyDto>> GetListAsync(ClassifySearchDto input)
         {
             List<ClassifyDto> classify = (await Repository.Select
-                    .WhereIf(searchDto.ClassifyName.IsNotNullOrEmpty(),
-                        r => r.ClassifyName.Contains(searchDto.ClassifyName))
+                    .WhereIf(input.ClassifyName.IsNotNullOrEmpty(), r => r.ClassifyName.Contains(input.ClassifyName))
                     .OrderByDescending(r => r.CreateTime)
-                    .ToPagerListAsync(searchDto, out long totalCount))
-                .Select(r =>
-                {
-                    ClassifyDto classifyDto = Mapper.Map<ClassifyDto>(r);
-                    classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
-                    return classifyDto;
-                }).ToList();
+                    .ToPagerListAsync(input, out long totalCount))
+                    .Select(r =>
+                    {
+                        ClassifyDto classifyDto = Mapper.Map<ClassifyDto>(r);
+                        classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
+                        return classifyDto;
+                    }).ToList();
 
             return new PagedResultDto<ClassifyDto>(classify, totalCount);
         }
@@ -82,7 +79,7 @@ namespace LinCms.Blog.Classifies
             return Mapper.Map<ClassifyDto>(classify);
         }
 
-        public override async Task<ClassifyDto> UpdateAsync(Guid id, CreateUpdateClassifyDto updateClassify)
+        public override async Task<ClassifyDto> UpdateAsync(Guid id, CreateUpdateClassifyDto updateInput)
         {
             Classify classify = await Repository.Select.Where(r => r.Id == id).ToOneAsync();
             if (classify == null)
@@ -95,14 +92,13 @@ namespace LinCms.Blog.Classifies
                 throw new LinCmsException("您无权编辑他人的分类专栏");
             }
 
-            bool exist = await Repository.Select.AnyAsync(r =>
-                r.ClassifyName == updateClassify.ClassifyName && r.Id != id && r.CreateUserId == CurrentUser.Id);
+            bool exist = await Repository.Select.AnyAsync(r => r.ClassifyName == updateInput.ClassifyName && r.Id != id && r.CreateUserId == CurrentUser.Id);
             if (exist)
             {
-                throw new LinCmsException($"分类专栏[{updateClassify.ClassifyName}]已存在");
+                throw new LinCmsException($"分类专栏[{updateInput.ClassifyName}]已存在");
             }
 
-            Mapper.Map(updateClassify, classify);
+            Mapper.Map(updateInput, classify);
 
             await Repository.UpdateAsync(classify);
             return Mapper.Map<ClassifyDto>(classify);

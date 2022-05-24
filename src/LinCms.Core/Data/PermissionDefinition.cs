@@ -12,11 +12,11 @@ namespace LinCms.Data
         }
 
         public string Permission { get; }
-        public string Module { get;  }
+        public string Module { get; }
         public string Router { get; }
         public override string ToString()
         {
-            return base.ToString() +$" Permission:{Permission}、Module:{Module}、Router:{Router}";
+            return base.ToString() + $" Permission:{Permission}、Module:{Module}、Router:{Router}";
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Autofac;
 using Autofac.Extras.DynamicProxy;
 using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
 using LinCms.Entities;
 using LinCms.Middleware;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace LinCms.Startup.Configuration
 {

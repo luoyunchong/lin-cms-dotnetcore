@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Autofac;
 using AutoMapper;
 using LinCms.Aop.Attributes;
 using LinCms.Cms.Account;
@@ -14,8 +16,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms
 {

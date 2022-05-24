@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
+using Autofac;
 using FreeSql;
 using FreeSql.Internal;
 using LinCms.Entities;
@@ -6,9 +9,6 @@ using LinCms.FreeSql;
 using LinCms.Utils;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using System;
-using System.Diagnostics;
-using System.Threading;
 using ToolGood.Words;
 
 namespace LinCms.Startup.Configuration
@@ -19,7 +19,7 @@ namespace LinCms.Startup.Configuration
 
         public FreeSqlModule(IConfiguration configuration)
         {
-            this._configuration = configuration;
+            _configuration = configuration;
         }
 
         protected override void Load(ContainerBuilder builder)

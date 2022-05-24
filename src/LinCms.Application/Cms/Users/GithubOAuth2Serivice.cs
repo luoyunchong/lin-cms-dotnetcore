@@ -1,12 +1,12 @@
-﻿using AspNet.Security.OAuth.GitHub;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AspNet.Security.OAuth.GitHub;
 using LinCms.Common;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
@@ -44,7 +44,7 @@ namespace LinCms.Cms.Users
                 string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
                 string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
 
-                LinUser user = new LinUser
+                LinUser user = new()
                 {
                     Active = UserActive.Active,
                     Avatar = avatarUrl,

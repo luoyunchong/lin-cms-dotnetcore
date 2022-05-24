@@ -1,6 +1,6 @@
-﻿using LinCms.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using LinCms.Data;
 
 namespace LinCms.Blog.UserSubscribes
 {
@@ -18,10 +18,9 @@ namespace LinCms.Blog.UserSubscribes
         /// </summary>
         /// <param name="searchDto"></param>
         /// <returns></returns>
-        PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList(UserSubscribeSearchDto searchDto); 
+        PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList(UserSubscribeSearchDto searchDto);
         PagedResultDto<UserSubscribeDto> GetUserFansList(UserSubscribeSearchDto searchDto);
         Task CreateAsync(long subscribeUserId);
-        
         Task DeleteAsync(long subscribeUserId);
     }
 }

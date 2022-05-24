@@ -1,10 +1,7 @@
-﻿using FreeSql;
+﻿using System.Linq;
+using FreeSql;
 using LinCms.Entities.Base;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace LinCms.Test.Service.Base
@@ -39,7 +36,7 @@ namespace LinCms.Test.Service.Base
         [Fact]
         public void LeftJoinOne()
         {
-            var d = freeSql.Select<BaseType, BaseItem>()    
+            var d = freeSql.Select<BaseType, BaseItem>()
                 .LeftJoin((a, b) => b.Id == (freeSql.Select<BaseItem>().As("b2").Where(b2 => b2.BaseTypeId == a.Id).First(b2 => b2.Id)))
                 .ToSql((a, b) => new { a, b });
         }

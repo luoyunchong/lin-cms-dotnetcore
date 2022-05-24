@@ -6,7 +6,7 @@ namespace LinCms.Extensions
     /// <summary>
     /// 系统扩展 - 日期
     /// </summary>
-    public static  class DateTimeExtensions
+    public static class DateTimeExtensions
     {
         /// <summary>
         /// 获取格式化字符串，带时分秒，格式："yyyy-MM-dd HH:mm:ss"
@@ -109,7 +109,7 @@ namespace LinCms.Extensions
         {
             if (dateTime == null)
                 return string.Empty;
-            return ToChineseDateString((DateTime) dateTime);
+            return ToChineseDateString((DateTime)dateTime);
         }
 
         /// <summary>

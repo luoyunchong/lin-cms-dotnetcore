@@ -1,6 +1,5 @@
-﻿using LinCms.Data.Enums;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using LinCms.Data.Enums;
 
 namespace LinCms.Cms.Admins
 {

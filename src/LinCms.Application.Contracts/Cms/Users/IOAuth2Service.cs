@@ -1,6 +1,6 @@
-﻿using LinCms.Data;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using LinCms.Data;
 
 namespace LinCms.Cms.Users
 {

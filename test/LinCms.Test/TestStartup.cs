@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Test
 {
-    public class TestStartup 
+    public class TestStartup
     {
         public IConfiguration Configuration { get; }
 

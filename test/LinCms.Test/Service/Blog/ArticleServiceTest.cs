@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Xunit;
 using FreeSql;
 using LinCms.Blog.Articles;
 using LinCms.Data;
+using Xunit;
 
 namespace LinCms.Test.Service.Blog
 {
@@ -16,7 +16,7 @@ namespace LinCms.Test.Service.Blog
         {
             _articleService = GetService<IArticleService>();
             _unitOfWorkManager = GetService<UnitOfWorkManager>();
-         }
+        }
 
         [Fact]
         public async Task DeleteAsync()

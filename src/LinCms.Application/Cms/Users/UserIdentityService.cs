@@ -22,7 +22,7 @@ namespace LinCms.Cms.Users
 
         public async Task<bool> VerifyUserPasswordAsync(long userId, string password, string salt)
         {
-            LinUserIdentity userIdentity = await this.GetFirstByUserIdAsync(userId);
+            LinUserIdentity userIdentity = await GetFirstByUserIdAsync(userId);
             string encryptPassword = _cryptographyService.Encrypt(password, salt);
             return userIdentity != null && userIdentity.Credential == encryptPassword;
         }
@@ -30,9 +30,9 @@ namespace LinCms.Cms.Users
 
         public async Task ChangePasswordAsync(long userId, string newpassword, string salt)
         {
-            var linUserIdentity = await this.GetFirstByUserIdAsync(userId); ;
+            var linUserIdentity = await GetFirstByUserIdAsync(userId); ;
 
-            await this.ChangePasswordAsync(linUserIdentity, newpassword, salt);
+            await ChangePasswordAsync(linUserIdentity, newpassword, salt);
         }
 
 
@@ -83,7 +83,7 @@ namespace LinCms.Cms.Users
 
             List<LinUserIdentity> userIdentities = await _userIdentityRepository.Select.Where(r => r.CreateUserId == CurrentUser.Id).ToListAsync();
 
-            bool hasPwd = userIdentities.Where(r => r.IdentityType == LinUserIdentity.Password).Any();
+            bool hasPwd = userIdentities.Any(r => r.IdentityType == LinUserIdentity.Password);
 
             if (!hasPwd && userIdentities.Count == 1)
             {

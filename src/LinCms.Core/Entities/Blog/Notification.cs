@@ -54,7 +54,7 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 用户点赞随笔上的评论
         /// </summary>
-        UserLikeArticleComment=1,
+        UserLikeArticleComment = 1,
         /// <summary>
         /// 用户评论随笔
         /// </summary>

@@ -11,7 +11,7 @@ namespace LinCms.Base.BaseTypes
     {
         private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
 
-        public BaseTypeService( IAuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseTypeService(IAuditBaseRepository<BaseType> baseTypeRepository)
         {
             _baseTypeRepository = baseTypeRepository;
         }
@@ -58,8 +58,7 @@ namespace LinCms.Base.BaseTypes
                 throw new LinCmsException("该数据不存在");
             }
 
-            bool exist =
-                await _baseTypeRepository.Select.AnyAsync(r => r.TypeCode == updateBaseType.TypeCode && r.Id != id);
+            bool exist = await _baseTypeRepository.Select.AnyAsync(r => r.TypeCode == updateBaseType.TypeCode && r.Id != id);
             if (exist)
             {
                 throw new LinCmsException($"基础类别-编码[{updateBaseType.TypeCode}]已存在");

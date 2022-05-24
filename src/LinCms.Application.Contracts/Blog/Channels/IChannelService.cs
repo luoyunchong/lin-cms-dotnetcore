@@ -7,7 +7,7 @@ namespace LinCms.Blog.Channels
     public interface IChannelService
     {
         Task DeleteAsync(Guid id);
-      
+
         Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto);
 
         /// <summary>

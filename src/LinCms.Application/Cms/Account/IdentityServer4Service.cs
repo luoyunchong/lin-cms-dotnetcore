@@ -1,4 +1,8 @@
-﻿using IdentityModel;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Data.Enums;
@@ -7,10 +11,6 @@ using LinCms.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
 {
@@ -92,7 +92,7 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException(disco.Error);
             }
 
-            Parameters parameters = new Parameters
+            Parameters parameters = new()
             {
                 new KeyValuePair<string, string>(OidcConstants.TokenRequest.RefreshToken, refreshToken)
             };

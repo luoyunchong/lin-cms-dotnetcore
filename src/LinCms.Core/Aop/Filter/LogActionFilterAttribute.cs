@@ -26,7 +26,7 @@ namespace LinCms.Aop.Filter
         {
             _currentUser = currentUser;
             _diagnosticContext = diagnosticContext;
-            this._logRepository = logRepository;
+            _logRepository = logRepository;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -62,7 +62,7 @@ namespace LinCms.Aop.Filter
 
             if (loggerAttribute != null)
             {
-                linLog.Message = this.ParseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
+                linLog.Message = ParseTemplate(loggerAttribute.Template, _currentUser, context.HttpContext.Request, context.HttpContext.Response);
             }
             else
             {

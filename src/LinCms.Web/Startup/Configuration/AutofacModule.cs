@@ -12,7 +12,7 @@ namespace LinCms.Startup.Configuration
         private readonly IConfiguration _configuration;
         public AutofacModule(IConfiguration configuration)
         {
-            this._configuration = configuration;
+            _configuration = configuration;
         }
 
         protected override void Load(ContainerBuilder builder)

@@ -4,7 +4,7 @@ using LinCms.Entities;
 
 namespace LinCms
 {
-    public interface ICrudAppService<TGetOutputDto, TGetListOutputDto,in TKey,in TGetListInput,in TCreateInput,in TUpdateInput>
+    public interface ICrudAppService<TGetOutputDto, TGetListOutputDto, in TKey, in TGetListInput, in TCreateInput, in TUpdateInput>
         where TGetOutputDto : IEntityDto<TKey>
         where TGetListOutputDto : IEntityDto<TKey>
     {
@@ -18,6 +18,6 @@ namespace LinCms
 
         Task DeleteAsync(TKey id);
     }
-    
-    
+
+
 }

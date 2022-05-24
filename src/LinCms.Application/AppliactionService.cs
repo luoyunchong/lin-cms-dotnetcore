@@ -13,10 +13,12 @@ namespace LinCms
     {
         public IServiceProvider ServiceProvider { get; set; }
 
-        protected readonly object ServiceProviderLock = new object();
+        protected readonly object ServiceProviderLock = new();
 
         protected TService LazyGetRequiredService<TService>(ref TService reference)
-            => LazyGetRequiredService(typeof(TService), ref reference);
+        {
+            return LazyGetRequiredService(typeof(TService), ref reference);
+        }
 
         protected TRef LazyGetRequiredService<TRef>(Type serviceType, ref TRef reference)
         {
@@ -48,7 +50,7 @@ namespace LinCms
         private ILoggerFactory _loggerFactory;
 
         protected ILogger Logger => LazyLogger.Value;
-        private Lazy<ILogger> LazyLogger => new Lazy<ILogger>(() => LoggerFactory?.CreateLogger(GetType().FullName) ?? NullLogger.Instance, true);
+        private Lazy<ILogger> LazyLogger => new(() => LoggerFactory?.CreateLogger(GetType().FullName) ?? NullLogger.Instance, true);
 
         public IAuthorizationService AuthorizationService => LazyGetRequiredService(ref _authorizationService);
         private IAuthorizationService _authorizationService;

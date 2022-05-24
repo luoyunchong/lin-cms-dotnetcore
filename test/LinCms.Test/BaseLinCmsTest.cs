@@ -65,12 +65,12 @@ namespace LinCms.Test
 
         public T GetService<T>()
         {
-            return this.ServiceProvider.GetService<T>();
+            return ServiceProvider.GetService<T>();
         }
 
-        public  T GetRequiredService<T>()
+        public T GetRequiredService<T>()
         {
-            return this.ServiceProvider.GetRequiredService<T>();
+            return ServiceProvider.GetRequiredService<T>();
         }
 
     }

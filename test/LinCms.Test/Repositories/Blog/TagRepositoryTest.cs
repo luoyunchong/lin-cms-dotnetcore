@@ -35,10 +35,10 @@ namespace LinCms.Test.Repositories.Blog
             //其他字段不取
             var d4 = _tagRepository.Select.ToList(r => new TagListDto() { TagName = r.TagName });
 
-  
+
             var d3 = _tagRepository.Select.ToList(r => new
             {
-                OpenUserDto = new 
+                OpenUserDto = new
                 {
                     r.LinUser.Id,
                     r.LinUser.Username,

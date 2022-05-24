@@ -1,12 +1,12 @@
-﻿using AspNet.Security.OAuth.Gitee;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AspNet.Security.OAuth.Gitee;
 using LinCms.Common;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Users
 {
@@ -40,7 +40,7 @@ namespace LinCms.Cms.Users
                 string bio = principal.FindFirst("urn:gitee:bio")?.Value;
                 string htmlUrl = principal.FindFirst("urn:gitee:html_url")?.Value;
 
-                LinUser user = new LinUser
+                LinUser user = new()
                 {
                     Active = UserActive.Active,
                     Avatar = avatarUrl,

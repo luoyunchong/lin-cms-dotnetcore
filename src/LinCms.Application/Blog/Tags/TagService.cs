@@ -64,7 +64,7 @@ namespace LinCms.Blog.Tags
                 throw new LinCmsException("不存在此标签");
             }
             TagListDto tagDto = Mapper.Map<TagListDto>(tag);
-            tagDto.IsSubscribe = await this.IsSubscribeAsync(id);
+            tagDto.IsSubscribe = await IsSubscribeAsync(id);
             tagDto.ThumbnailDisplay = _fileRepository.GetFileUrl(tagDto.Thumbnail);
             return tagDto;
         }

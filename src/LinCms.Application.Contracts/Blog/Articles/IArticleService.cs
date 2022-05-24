@@ -19,6 +19,6 @@ namespace LinCms.Blog.Articles
         Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto);
 
         Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity);
-        Task UpdateCommentable(Guid id,bool commetable);
+        Task UpdateCommentable(Guid id, bool commetable);
     }
 }

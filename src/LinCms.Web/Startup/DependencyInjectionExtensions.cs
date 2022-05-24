@@ -14,7 +14,6 @@ using LinCms.Email;
 using LinCms.Entities;
 using LinCms.FreeSql;
 using LinCms.Utils;
-using Microsoft.AspNetCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
@@ -269,7 +268,7 @@ namespace LinCms.Startup
             {
                 try
                 {
-                     var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
+                    var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
                     await clientPolicyStore.SeedAsync();
 
                     // get the IpPolicyStore instance

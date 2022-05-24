@@ -1,11 +1,6 @@
-﻿using DotNetCore.Security;
+﻿using System.Threading.Tasks;
 using LinCms.Email;
 using MimeKit;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 

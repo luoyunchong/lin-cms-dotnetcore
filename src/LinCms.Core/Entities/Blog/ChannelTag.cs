@@ -4,7 +4,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Blog
 {
     [Table(Name = "blog_channel_tag")]
-    public class ChannelTag:Entity<Guid>
+    public class ChannelTag : Entity<Guid>
     {
 
         public ChannelTag()

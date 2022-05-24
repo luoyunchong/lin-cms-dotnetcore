@@ -11,11 +11,11 @@ namespace LinCms.Blog.Articles
             CreateMap<CreateUpdateArticleDto, Article>();
             CreateMap<Article, ArticleDto>();
             CreateMap<Article, ArticleListDto>();
-            
-            CreateMap<UpdateArticleDraftDto,ArticleDraft>();
-            
-            CreateMap<ArticleDraft,ArticleDraftDto>();
-            CreateMap<Article,ArticleDraft>();
+
+            CreateMap<UpdateArticleDraftDto, ArticleDraft>();
+            CreateMap<ArticleDraft, ArticleDraftDto>();
+
+            CreateMap<Article, ArticleDraft>();
         }
     }
 }

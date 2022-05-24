@@ -5,7 +5,7 @@ using LinCms.Entities;
 
 namespace LinCms.Blog.Comments
 {
-    public class CommentDto:EntityDto<Guid>,ICreateAduitEntity
+    public class CommentDto : EntityDto<Guid>, ICreateAduitEntity
     {
         /// <summary>
         /// 回复评论Id
@@ -44,7 +44,7 @@ namespace LinCms.Blog.Comments
         /// <summary>
         /// 最新的二条回复
         /// </summary>
-        public  List<CommentDto> TopComment { get; set; }
+        public List<CommentDto> TopComment { get; set; }
 
 
     }

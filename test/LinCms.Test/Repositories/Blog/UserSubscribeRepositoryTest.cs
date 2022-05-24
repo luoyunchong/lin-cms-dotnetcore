@@ -1,9 +1,9 @@
-﻿using Xunit;
-using Microsoft.Extensions.DependencyInjection;
-using LinCms.Blog.UserSubscribes;
+﻿using LinCms.Blog.UserSubscribes;
 using LinCms.Cms.Users;
 using LinCms.Entities.Blog;
 using LinCms.IRepositories;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace LinCms.Test.Repositories.Blog
 {
@@ -30,7 +30,7 @@ namespace LinCms.Test.Repositories.Blog
                     CreateUserId = r.CreateUserId,
                     BeSubscribeUserId = r.SubscribeUserId,
                     Subscribeer = r.SubscribeUser,
-                    IsSubscribeed = _userSubscribeRepository.Select.Any(u =>u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
+                    IsSubscribeed = _userSubscribeRepository.Select.Any(u => u.CreateUserId == 7 && u.SubscribeUserId == r.SubscribeUserId)
                 });
 
             var userSubscribe2 = _userSubscribeRepository.Select

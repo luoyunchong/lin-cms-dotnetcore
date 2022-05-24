@@ -36,7 +36,7 @@ namespace LinCms.Aop.Filter
                 return;
             }
 
-            await authorizationService.AuthorizeAsync(context.HttpContext.User, context,new ModuleAuthorizationRequirement(Module,Permission));
+            await authorizationService.AuthorizeAsync(context.HttpContext.User, context, new ModuleAuthorizationRequirement(Module, Permission));
         }
 
         public override string ToString()

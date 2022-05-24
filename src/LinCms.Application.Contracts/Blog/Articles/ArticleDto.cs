@@ -27,10 +27,10 @@ namespace LinCms.Blog.Articles
         /// <summary>
         /// 几小时/秒前
         /// </summary>
-        public string TimeSpan => LinCmsUtils.GetTimeDifferNow(this.CreateTime.ToDateTime());
+        public string TimeSpan => LinCmsUtils.GetTimeDifferNow(CreateTime.ToDateTime());
 
         private readonly DateTime _now = DateTime.Now;
-        public bool IsNew => DateTime.Compare(_now.AddDays(-2), this.CreateTime.ToDateTime()) <= 0;
+        public bool IsNew => DateTime.Compare(_now.AddDays(-2), CreateTime.ToDateTime()) <= 0;
 
         public string Content { get; set; }
         public string Title { get; set; }
@@ -64,7 +64,7 @@ namespace LinCms.Blog.Articles
         public bool Commentable { get; set; }
         public List<Guid> TagIds
         {
-            get { return this.Tags.Select(r => r.Id).ToList(); }
+            get { return Tags.Select(r => r.Id).ToList(); }
         }
 
         public List<TagListDto> Tags { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LinCms.Test.Controller.v1
 {
-    public class BaseTypeControllerTest:BaseControllerTests
+    public class BaseTypeControllerTest : BaseControllerTests
     {
         private readonly IWebHostEnvironment _hostingEnv;
 

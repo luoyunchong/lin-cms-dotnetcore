@@ -68,11 +68,11 @@ namespace LinCms.Entities.Blog
         public Tag UpdateSubscribersCount(int inCreaseCount)
         {
             //防止数量一直减，减到小于0
-            if (inCreaseCount < 0 && this.SubscribersCount < -inCreaseCount)
+            if (inCreaseCount < 0 && SubscribersCount < -inCreaseCount)
             {
                 return this;
             }
-            this.SubscribersCount += inCreaseCount;
+            SubscribersCount += inCreaseCount;
             return this;
         }
 

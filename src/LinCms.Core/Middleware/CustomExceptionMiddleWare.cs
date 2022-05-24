@@ -44,7 +44,7 @@ namespace LinCms.Middleware
             }
         }
 
-        async Task HandlerExceptionAsync(HttpContext context, Exception ex)
+        private async Task HandlerExceptionAsync(HttpContext context, Exception ex)
         {
             if (ex is LinCmsException cmsException) //自定义业务异常
             {

@@ -1,4 +1,8 @@
-﻿using LinCms.Data.Options;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
+using LinCms.Data.Options;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.SnakeCaseQuery;
@@ -12,10 +16,6 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace LinCms.Startup
 {
@@ -161,11 +161,11 @@ namespace LinCms.Startup
                 options.CustomOperationIds(apiDesc =>
                 {
                     var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-                    return $"{controllerAction.ControllerName}-{controllerAction.ActionName}-{ controllerAction.GetHashCode()}";
+                    return $"{controllerAction.ControllerName}-{controllerAction.ActionName}-{controllerAction.GetHashCode()}";
                 });
             });
             return services;
-        } 
+        }
         #endregion
     }
 }

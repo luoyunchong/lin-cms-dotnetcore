@@ -1,8 +1,8 @@
-﻿using Autofac;
+﻿using System.Linq;
+using System.Reflection;
+using Autofac;
 using LinCms.IRepositories;
 using LinCms.Repositories;
-using System.Linq;
-using System.Reflection;
 
 namespace LinCms.Startup.Configuration
 {

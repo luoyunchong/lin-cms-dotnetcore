@@ -1,13 +1,12 @@
-﻿using AspNet.Security.OAuth.QQ;
-using LinCms.Common;
-using LinCms.Data;
-using LinCms.Data.Enums;
-using LinCms.Entities;
-using LinCms.IRepositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.QQ;
+using LinCms.Common;
+using LinCms.Data.Enums;
+using LinCms.Entities;
+using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
@@ -45,7 +44,7 @@ namespace LinCms.Cms.Users
                 string avatarUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarUrl)?.Value;
                 string avatarFullUrl = principal.FindFirst(QQAuthenticationConstants.Claims.AvatarFullUrl)?.Value;
 
-                LinUser user = new LinUser
+                LinUser user = new()
                 {
                     Active = UserActive.Active,
                     Avatar = avatarFullUrl,

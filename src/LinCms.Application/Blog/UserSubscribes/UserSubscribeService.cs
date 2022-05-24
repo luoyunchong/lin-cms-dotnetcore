@@ -119,7 +119,7 @@ namespace LinCms.Blog.UserSubscribes
 
             using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
 
-            UserSubscribe userSubscribe = new UserSubscribe() { SubscribeUserId = subscribeUserId };
+            UserSubscribe userSubscribe = new() { SubscribeUserId = subscribeUserId };
             await _userSubscribeRepository.InsertAsync(userSubscribe);
 
             await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()

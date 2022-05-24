@@ -60,7 +60,7 @@ namespace LinCms.Cms.Permissions
 
         public Task DispatchPermissions(DispatchPermissionsDto permissionDto, List<PermissionDefinition> permissionDefinitions)
         {
-            List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+            List<LinGroupPermission> linPermissions = new();
             permissionDto.PermissionIds.ForEach(permissionId =>
             {
                 linPermissions.Add(new LinGroupPermission(permissionDto.GroupId, permissionId));
@@ -90,12 +90,12 @@ namespace LinCms.Cms.Permissions
                 Children = r.Select(u => u.Name).ToList()
             }).ToList();
 
-            List<IDictionary<string, object>> list = new List<IDictionary<string, object>>();
+            List<IDictionary<string, object>> list = new();
 
             foreach (var groupPermission in groupPermissions)
             {
                 IDictionary<string, object> moduleExpandoObject = new ExpandoObject();
-                List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
+                List<IDictionary<string, object>> perExpandList = new();
                 groupPermission.Children.ForEach(permission =>
                 {
                     IDictionary<string, object> perExpandObject = new ExpandoObject();

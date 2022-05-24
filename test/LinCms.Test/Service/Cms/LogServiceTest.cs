@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using LinCms.Cms.Logs;
-using Xunit;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 namespace LinCms.Test.Service.Cms
 {
 

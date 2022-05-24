@@ -30,7 +30,7 @@ namespace LinCms.Security
         public static string FindUserName(this ClaimsPrincipal principal)
         {
             Claim userNameOrNull = principal.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-            
+
             return userNameOrNull?.Value;
         }
 

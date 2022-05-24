@@ -1,7 +1,7 @@
-﻿using LinCms.Data.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
+using LinCms.Data.Enums;
 
 namespace LinCms.Cms.Users
 {

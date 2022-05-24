@@ -1,4 +1,6 @@
-﻿using LinCms.Cms.Users;
+﻿using System;
+using System.Threading.Tasks;
+using LinCms.Cms.Users;
 using LinCms.Data.Options;
 using LinCms.Email;
 using LinCms.Entities;
@@ -6,8 +8,6 @@ using LinCms.Exceptions;
 using LinCms.IRepositories;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Account
 {
@@ -101,7 +101,7 @@ namespace LinCms.Cms.Account
 
             await _userRepository.UpdateAsync(user);
 
-            //await _emailSender.SendAsync(message);
+            await _emailSender.SendAsync(message);
 
             await RedisHelper.SetAsync(user.Email, rand6Value, 30 * 60);
 

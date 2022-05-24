@@ -8,7 +8,7 @@ namespace LinCms.Blog.Comments
         public CommentProfile()
         {
             CreateMap<CreateCommentDto, Comment>();
-            CreateMap<Comment, CommentDto>().ForMember(d=>d.TopComment,opts=>opts.Ignore());
+            CreateMap<Comment, CommentDto>().ForMember(d => d.TopComment, opts => opts.Ignore());
         }
     }
 }

@@ -38,16 +38,16 @@ namespace LinCms.Blog.Notifications
                     .Where(r => r.NotificationRespUserId == CurrentUser.Id)
                     .OrderByDescending(r => r.CreateTime)
                     .ToPagerListAsync(pageDto, out long totalCount))
-                .Select(r =>
-                {
-                    NotificationDto notificationDto = Mapper.Map<NotificationDto>(r);
-                    if (notificationDto.UserInfo != null)
+                    .Select(r =>
                     {
-                        notificationDto.UserInfo.Avatar = _fileRepository.GetFileUrl(notificationDto.UserInfo.Avatar);
-                    }
+                        NotificationDto notificationDto = Mapper.Map<NotificationDto>(r);
+                        if (notificationDto.UserInfo != null)
+                        {
+                            notificationDto.UserInfo.Avatar = _fileRepository.GetFileUrl(notificationDto.UserInfo.Avatar);
+                        }
 
-                    return notificationDto;
-                }).ToList();
+                        return notificationDto;
+                    }).ToList();
 
             return new PagedResultDto<NotificationDto>(notification, totalCount);
         }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using LinCms.Cms.Admins;
 using LinCms.Cms.Permissions;
 using LinCms.Entities;
@@ -8,7 +7,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Admin
 {
-    public class AdminService :ApplicationService, IAdminService
+    public class AdminService : ApplicationService, IAdminService
     {
         private readonly IAuditBaseRepository<LinPermission> _permissionRepository;
         public AdminService(IAuditBaseRepository<LinPermission> permissionRepository)

@@ -1,17 +1,17 @@
-﻿using DotNetCore.Security;
-using LinCms.Cms.Account;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using DotNetCore.Security;
+using LinCms.Cms.Users;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace LinCms.Cms.Users
+namespace LinCms.Cms.Account
 {
     public class JwtTokenService : ITokenService
     {
@@ -79,7 +79,7 @@ namespace LinCms.Cms.Users
 
         private async Task<Tokens> CreateTokenAsync(LinUser user)
         {
-            List<Claim> claims = new List<Claim>()
+            List<Claim> claims = new()
             {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim (ClaimTypes.Email, user.Email?? ""),

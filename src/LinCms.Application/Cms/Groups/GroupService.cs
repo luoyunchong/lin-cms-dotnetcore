@@ -24,6 +24,7 @@ namespace LinCms.Cms.Groups
         private readonly IAuditBaseRepository<LinGroup, long> _groupRepository;
         private readonly IAuditBaseRepository<LinUserGroup, long> _userGroupRepository;
         private readonly IAuditBaseRepository<LinGroupPermission, long> _groupPermissionRepository;
+
         public GroupService(IFreeSql freeSql,
             IPermissionService permissionService,
             IAuditBaseRepository<LinGroup, long> groupRepository,
@@ -75,7 +76,7 @@ namespace LinCms.Cms.Groups
             {
                 long groupId = await _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
                 List<LinPermission> allPermissions = await _freeSql.Select<LinPermission>().WithTransaction(transaction).ToListAsync();
-                List<LinGroupPermission> linPermissions = new List<LinGroupPermission>();
+                List<LinGroupPermission> linPermissions = new();
                 inputDto.PermissionIds.ForEach(r =>
                 {
                     LinPermission pdDto = allPermissions.FirstOrDefault(u => u.Id == r);
@@ -187,12 +188,12 @@ namespace LinCms.Cms.Groups
         {
             if (addGroupIds == null || addGroupIds.IsEmpty())
                 return;
-            bool valid = await this.CheckGroupExistByIds(addGroupIds);
+            bool valid = await CheckGroupExistByIds(addGroupIds);
             if (!valid)
             {
                 throw new LinCmsException("cant't add user to non-existent group");
             }
-            List<LinUserGroup> userGroups = new List<LinUserGroup>();
+            List<LinUserGroup> userGroups = new();
             addGroupIds.ForEach(groupId => { userGroups.Add(new LinUserGroup(userId, groupId)); });
             await _userGroupRepository.InsertAsync(userGroups);
         }

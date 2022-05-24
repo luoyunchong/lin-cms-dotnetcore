@@ -1,17 +1,13 @@
-﻿using LinCms.Exceptions;
+﻿using System;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
+using LinCms.Exceptions;
 using LinCms.Models.Options;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Owl.reCAPTCHA;
 using Owl.reCAPTCHA.v3;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 
 namespace LinCms.Middleware
 {
@@ -23,8 +19,8 @@ namespace LinCms.Middleware
         private readonly GooglereCAPTCHAOptions _options;
         private readonly IreCAPTCHASiteVerifyV3 _siteVerify;
         private readonly ILogger<RecaptchaVerifyActionFilter> _logger;
-        public RecaptchaVerifyActionFilter(ILogger<RecaptchaVerifyActionFilter> logger, 
-            IServiceProvider serviceProvider, 
+        public RecaptchaVerifyActionFilter(ILogger<RecaptchaVerifyActionFilter> logger,
+            IServiceProvider serviceProvider,
             IOptionsMonitor<GooglereCAPTCHAOptions> options,
             IreCAPTCHASiteVerifyV3 siteVerify
             )
@@ -59,7 +55,7 @@ namespace LinCms.Middleware
                         RemoteIp = context.HttpContext.Connection.RemoteIpAddress?.ToString()
                     });
 
-                    if (!response.Success || response.Score != 0 && response.Score <_options.MinimumScore)
+                    if (!response.Success || response.Score != 0 && response.Score < _options.MinimumScore)
                     {
                         throw new LinCmsException("人机验证失败！");
                     }

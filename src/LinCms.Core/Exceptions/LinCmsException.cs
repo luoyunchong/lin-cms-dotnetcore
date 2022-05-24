@@ -26,7 +26,7 @@ namespace LinCms.Exceptions
 
         public LinCmsException(string message = "服务器繁忙，请稍后再试!", ErrorCode errorCode = ErrorCode.Fail, int code = 400) : base(message)
         {
-            this._errorCode = errorCode;
+            _errorCode = errorCode;
             _code = code;
 
         }

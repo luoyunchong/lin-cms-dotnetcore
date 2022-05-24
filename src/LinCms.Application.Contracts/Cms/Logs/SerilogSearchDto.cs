@@ -3,7 +3,7 @@ using LinCms.Data;
 
 namespace LinCms.Cms.Logs
 {
-    public class SerilogSearchDto:PageDto
+    public class SerilogSearchDto : PageDto
     {
         public string Keyword { get; set; }
         public int? LogLevel { get; set; }

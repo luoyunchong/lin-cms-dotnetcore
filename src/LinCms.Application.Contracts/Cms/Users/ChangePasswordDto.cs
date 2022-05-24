@@ -2,7 +2,7 @@
 
 namespace LinCms.Cms.Users
 {
-    public class ChangePasswordDto: ResetPasswordDto
+    public class ChangePasswordDto : ResetPasswordDto
     {
 
         // [Required(ErrorMessage = "原密码不可为空")]

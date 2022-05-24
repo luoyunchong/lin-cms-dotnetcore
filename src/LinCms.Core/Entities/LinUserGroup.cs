@@ -19,9 +19,9 @@ namespace LinCms.Entities
         public long GroupId { get; set; }
 
         [Navigate("UserId")]
-        public  LinUser LinUser { get; set; }
+        public LinUser LinUser { get; set; }
 
         [Navigate("GroupId")]
-        public  LinGroup LinGroup { get; set; }
+        public LinGroup LinGroup { get; set; }
     }
 }

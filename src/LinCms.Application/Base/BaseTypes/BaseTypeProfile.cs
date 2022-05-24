@@ -3,7 +3,7 @@ using LinCms.Entities.Base;
 
 namespace LinCms.Base.BaseTypes
 {
-    public class BaseTypeProfile:Profile
+    public class BaseTypeProfile : Profile
     {
         public BaseTypeProfile()
         {

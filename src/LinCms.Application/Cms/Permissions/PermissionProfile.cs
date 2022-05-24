@@ -7,7 +7,7 @@ namespace LinCms.Cms.Permissions
     {
         public PermissionProfile()
         {
-            CreateMap<LinPermission,PermissionDto>();
+            CreateMap<LinPermission, PermissionDto>();
         }
     }
 }

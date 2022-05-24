@@ -9,7 +9,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Base.Localizations
 {
-    public class ResourceService :ApplicationService, IResourceService
+    public class ResourceService : ApplicationService, IResourceService
     {
         private readonly IAuditBaseRepository<LocalResource, long> _resourceRepository;
 

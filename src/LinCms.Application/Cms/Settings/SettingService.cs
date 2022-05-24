@@ -1,12 +1,12 @@
-﻿using LinCms.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using LinCms.Data;
 using LinCms.Entities.Settings;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Settings
 {

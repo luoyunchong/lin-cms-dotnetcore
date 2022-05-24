@@ -24,7 +24,7 @@ namespace LinCms.Test.Controller
         {
             _configuration = GetService<IConfiguration>();
 
-            var builder = this.CreateHostBuilder(); ;
+            var builder = CreateHostBuilder(); ;
             IdentityServer = new TestServer(builder)
             {
                 BaseAddress = new Uri("https://localhost:5003")

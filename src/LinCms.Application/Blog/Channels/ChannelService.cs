@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using LinCms.Aop.Attributes;
 using LinCms.Data;
 using LinCms.Entities.Blog;

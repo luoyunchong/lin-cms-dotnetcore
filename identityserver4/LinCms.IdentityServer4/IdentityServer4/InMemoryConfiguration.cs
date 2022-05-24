@@ -16,7 +16,9 @@ namespace LinCms.IdentityServer4.IdentityServer4
             };
         }
 
-        public static IEnumerable<ApiResource> GetApis() => new List<ApiResource>
+        public static IEnumerable<ApiResource> GetApis()
+        {
+            return new List<ApiResource>
             {
                 //Configuration["Service:Scope"]在AddJwtBearerAudience
                 new ApiResource(Configuration["Service:Name"], Configuration["Service:DocName"])
@@ -24,7 +26,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                     Scopes= { Configuration["Service:Name"] }
                 }
             };
-
+        }
 
         public static IEnumerable<ApiScope> GetApiScopes()
         {
@@ -35,7 +37,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
         }
 
         public static ICollection<string> NewGrantTypes => new string[3]
-        { 
+        {
                 "authorization_code",
                 "password",
                 "client_credentials"
@@ -66,8 +68,8 @@ namespace LinCms.IdentityServer4.IdentityServer4
                         IdentityServerConstants.StandardScopes.OpenId,
                     },
                     RedirectUris = new[] {
-                        "http://localhost:5000/oauth-receiver.html",  
-                        "https://localhost:5001/oauth-receiver.html",    
+                        "http://localhost:5000/oauth-receiver.html",
+                        "https://localhost:5001/oauth-receiver.html",
                         "http://api.igeekfan.cn/oauth-receiver.html",
                         "https://api.igeekfan.cn/oauth-receiver.html",
                         "http://localhost:5000/swagger/oauth2-redirect.html",

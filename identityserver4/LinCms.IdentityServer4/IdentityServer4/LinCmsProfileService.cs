@@ -52,7 +52,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
             }
             else
             {
-                List<Claim> claims = new List<Claim>()
+                List<Claim> claims = new()
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email ?? ""),

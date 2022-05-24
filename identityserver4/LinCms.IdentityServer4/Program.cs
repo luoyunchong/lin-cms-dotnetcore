@@ -23,7 +23,7 @@ builder.Host.UseSerilog();
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
        .Enrich.FromLogContext()
        .CreateLogger();
-   Log.Information("Starting web host");
+Log.Information("Starting web host");
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 #endif

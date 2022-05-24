@@ -1,4 +1,8 @@
-﻿using LinCms.Common;
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using LinCms.Common;
 using LinCms.Data.Options;
 using LinCms.Entities;
 using LinCms.Exceptions;
@@ -7,10 +11,6 @@ using LinCms.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 
 namespace LinCms.Cms.Files
 {
@@ -90,11 +90,11 @@ namespace LinCms.Cms.Files
 
             long id;
 
-            var (path, len) = await this.LocalUploadAsync(file);
+            var (path, len) = await LocalUploadAsync(file);
 
             if (linFile == null)
             {
-                LinFile saveLinFile = new LinFile()
+                LinFile saveLinFile = new()
                 {
                     Extension = Path.GetExtension(file.FileName),
                     Md5 = md5,

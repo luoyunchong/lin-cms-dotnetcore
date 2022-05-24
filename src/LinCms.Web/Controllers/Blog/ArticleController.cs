@@ -8,7 +8,6 @@ using AutoMapper;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Classifys;
-using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -18,8 +17,6 @@ using LinCms.Security;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-using Newtonsoft.Json;
 
 namespace LinCms.Controllers.Blog
 {

@@ -12,7 +12,7 @@ namespace LinCms.Base.BaseItems
         private readonly IAuditBaseRepository<BaseItem> _baseItemRepository;
         private readonly IAuditBaseRepository<BaseType> _baseTypeRepository;
 
-        public BaseItemService(IAuditBaseRepository<BaseItem> baseItemRepository,IAuditBaseRepository<BaseType> baseTypeRepository)
+        public BaseItemService(IAuditBaseRepository<BaseItem> baseItemRepository, IAuditBaseRepository<BaseType> baseTypeRepository)
         {
             _baseItemRepository = baseItemRepository;
             _baseTypeRepository = baseTypeRepository;
@@ -78,7 +78,7 @@ namespace LinCms.Base.BaseItems
                 throw new LinCmsException($"编码[{updateBaseItem.ItemCode}]已存在");
             }
 
-            Mapper.Map(updateBaseItem, baseItem);
+            Mapper.Map(updateBaseItem, destination: baseItem);
             await _baseItemRepository.UpdateAsync(baseItem);
         }
     }

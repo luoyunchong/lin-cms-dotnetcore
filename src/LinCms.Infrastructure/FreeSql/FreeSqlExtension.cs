@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using FreeSql;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using Npgsql;
 using Serilog;
@@ -115,6 +114,12 @@ namespace LinCms.FreeSql
                 case DataType.KingbaseES:
                     break;
                 case DataType.Firebird:
+                    break;
+                case DataType.Custom:
+                    break;
+                case DataType.ClickHouse:
+                    break;
+                case DataType.GBase:
                     break;
                 default:
                     break;
@@ -321,7 +326,7 @@ namespace LinCms.FreeSql
 
             //一个空格都不能多
             //string MasterConnectionString = "Driver={SQL Server};Server=.;Initial Catalog=master;Uid=sa;Pwd=123456";
-            string MasterConnectionString = $"Driver={{SQL Server}};Server={ builder["Server"]};Initial Catalog=master;Uid={ builder["Uid"]};Pwd={ builder["Pwd"]};";
+            string MasterConnectionString = $"Driver={{SQL Server}};Server={builder["Server"]};Initial Catalog=master;Uid={builder["Uid"]};Pwd={builder["Pwd"]};";
             using OdbcConnection cnn = new OdbcConnection(MasterConnectionString);
 
             cnn.Open();

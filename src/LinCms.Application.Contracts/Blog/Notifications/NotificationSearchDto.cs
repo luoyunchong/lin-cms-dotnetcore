@@ -12,7 +12,7 @@ namespace LinCms.Blog.Notifications
         /// <summary>
         /// 用户点赞随笔、点赞评论
         /// </summary>
-        UserLike= 0,
+        UserLike = 0,
         /// <summary>
         /// 用户评论随笔、回复别人的评论
         /// </summary>

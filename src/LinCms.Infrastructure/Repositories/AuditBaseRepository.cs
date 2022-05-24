@@ -60,7 +60,7 @@ namespace LinCms.Repositories
 
         public override Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            this.BeforeInsert(entity);
+            BeforeInsert(entity);
             return base.InsertAsync(entity, cancellationToken);
         }
 
@@ -107,7 +107,7 @@ namespace LinCms.Repositories
         {
             foreach (var entity in entities)
             {
-                this.BeforeUpdate(entity);
+                BeforeUpdate(entity);
             }
             return base.Update(entities);
         }
@@ -174,7 +174,7 @@ namespace LinCms.Repositories
 
         public override Task<int> DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            if (entities.IsEmpty() || entities.First() is not IDeleteAduitEntity) return base.DeleteAsync(entities);
+            if (entities.IsEmpty() || entities.First() is not IDeleteAduitEntity) return base.DeleteAsync(entities, cancellationToken);
 
             Attach(entities);
             foreach (TEntity x1 in entities)
@@ -186,7 +186,7 @@ namespace LinCms.Repositories
                     softDelete.IsDeleted = true;
                 }
             }
-            return UpdateAsync(entities);
+            return UpdateAsync(entities, cancellationToken);
         }
 
         public override async Task<int> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)

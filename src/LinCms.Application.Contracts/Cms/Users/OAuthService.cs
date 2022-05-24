@@ -38,7 +38,7 @@ namespace LinCms.Cms.Users
         public virtual async Task<UnifyResponseDto> BindAsync(ClaimsPrincipal principal, string identityType, string openId, long userId)
         {
             string nickname = principal.FindFirst(ClaimTypes.Name)?.Value;
-            return await this.BindAsync(identityType, nickname, openId, userId);
+            return await BindAsync(identityType, nickname, openId, userId);
         }
 
     }

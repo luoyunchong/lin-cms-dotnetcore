@@ -1,10 +1,10 @@
-﻿using FreeSql;
+﻿using System;
+using System.Collections.Generic;
+using FreeSql;
 using LinCms.Common;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Entities.Base;
-using System;
-using System.Collections.Generic;
 
 namespace LinCms.FreeSql
 {

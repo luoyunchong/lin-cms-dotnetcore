@@ -6,7 +6,6 @@ using FreeSql.DataAnnotations;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Entities;
-using LinCms.Startup;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
