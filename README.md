@@ -34,8 +34,8 @@
 
 ## 线上文档地址(完善中)
 
-- [https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/)
-- [https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/)
+- [https://luoyunchong.github.io/igeekfan-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/igeekfan-docs/dotnetcore/lin-cms/)
+- [https://igeekfan.gitee.io/igeekfan-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/igeekfan-docs/dotnetcore/lin-cms/)
 
 ## 线上 Demo
 - 本项目swagger地址 [https://api.igeekfan.cn/swagger/index.html](https://api.igeekfan.cn/swagger/index.html)
@@ -125,7 +125,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
   - LinCms.Infrastructure:基础设施，数据库持久性的操作
   - LinCms.Core:该应用的核心，实体类，通用操作类，AOP扩展，分页对象，基础依赖对象接口，时间扩展方法，当前用户信息，异常类，值对象
   - LinCms.Plugins 使用单项目实现某个业务的扩展，不是该项目的主要结构，可暂时忽略。
-  - LinCms.Scaffolding [代码生成器](https://igeekfan.gitee.io/vovo-docs/dotnetcore/lin-cms/lincms-scaffolding.html)
+  - LinCms.Scaffolding [代码生成器](https://igeekfan.gitee.io/igeekfan-docs/dotnetcore/lin-cms/lincms-scaffolding.html)
 - test
   - LinCms.Test:对仓储，应用服务或工具类进行测试
 

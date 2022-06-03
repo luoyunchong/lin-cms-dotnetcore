@@ -118,7 +118,7 @@ namespace LinCms.IdentityServer4
                     Title = ApiName + RuntimeInformation.FrameworkDescription,
                     Version = "v1",
                     Contact = new OpenApiContact { Name = ApiName, Email = "luoyunchong@foxmail.com", Url = new Uri("https://www.cnblogs.com/igeekfan/") },
-                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/vovo-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
+                    License = new OpenApiLicense { Name = ApiName + " 官方文档", Url = new Uri("https://luoyunchong.github.io/igeekfan-docs/dotnetcore/lin-cms/dotnetcore-start.html") }
                 });
                 var security = new OpenApiSecurityRequirement()
                 {
