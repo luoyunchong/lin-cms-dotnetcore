@@ -43,6 +43,7 @@ namespace LinCms.Cms.Users
         Task<LinUserIdentity> GetFirstByUserIdAsync(long userId);
 
         Task<List<UserIdentityDto>> GetListAsync(long userId);
+        
         Task UnBind(Guid id);
     }
 }

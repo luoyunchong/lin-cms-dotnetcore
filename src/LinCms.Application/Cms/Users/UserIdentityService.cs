@@ -23,6 +23,11 @@ namespace LinCms.Cms.Users
         public async Task<bool> VerifyUserPasswordAsync(long userId, string password, string salt)
         {
             LinUserIdentity userIdentity = await GetFirstByUserIdAsync(userId);
+            //快速登录时，用户实际未设置密码
+            if (userIdentity == null)
+            {
+                return true;
+            }
             string encryptPassword = _cryptographyService.Encrypt(password, salt);
             return userIdentity != null && userIdentity.Credential == encryptPassword;
         }

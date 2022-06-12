@@ -41,6 +41,7 @@ namespace LinCms.Cms.Users
         {
             long currentUserId = CurrentUser.Id ?? 0;
             LinUser user = await _userRepository.Where(r => r.Id == currentUserId).FirstAsync();
+           
             bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword, user.Salt);
             if (!valid)
             {
