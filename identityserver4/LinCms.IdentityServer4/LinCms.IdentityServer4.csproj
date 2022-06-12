@@ -37,6 +37,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.1" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -56,6 +57,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="ids4.igeekfan.cn.pfx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="IS4.pfx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
