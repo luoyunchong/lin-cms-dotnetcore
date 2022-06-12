@@ -46,9 +46,9 @@
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="6.0.1" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.0.1" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.0.1" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="6.1.0" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.1.0" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.1.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
 		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
