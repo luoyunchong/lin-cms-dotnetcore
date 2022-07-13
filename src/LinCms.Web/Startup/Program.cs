@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using HealthChecks.UI.Client;
 using IGeekFan.AspNetCore.Knife4jUI;
 using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.Aop.Filter;
@@ -17,6 +18,7 @@ using LinCms.Startup;
 using LinCms.Startup.Configuration;
 using LinCms.Utils;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -237,7 +239,12 @@ app.UseRouting()
     .UseEndpoints(endpoints =>
     {
         endpoints.MapControllers();
-        endpoints.MapHealthChecks("/health");
+
+        endpoints.MapHealthChecks("/health", new HealthCheckOptions
+        {
+            Predicate = s => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
     });
 
 app.Run();

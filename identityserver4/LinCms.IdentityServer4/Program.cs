@@ -1,8 +1,10 @@
 using System.Diagnostics;
+using HealthChecks.UI.Client;
 using IGeekFan.AspNetCore.RapiDoc;
 using LinCms.IdentityServer4;
 using LinCms.IdentityServer4.IdentityServer4;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Serilog;
@@ -76,7 +78,11 @@ app.UseRapiDocUI(c =>
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHealthChecks("/health");
+    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+    {
+        Predicate = s => true,
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 });
 
 app.Run();

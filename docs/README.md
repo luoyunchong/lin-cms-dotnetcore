@@ -32,12 +32,12 @@ token_endpoint:
 - [http://111.231.197.142:5005/healthchecks-ui#/healthchecks](http:/111.231.197.142:5005/healthchecks-ui#/healthchecks)
 
 ### 第三方账号登录
-- https://localhost:5001/cms/oauth2/signin?provider=Gitee&redirectUrl=https://vvlog.baimocore.cn/
-- https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=https://vvlog.baimocore.cn/
-- https://localhost:5001/cms/oauth2/signin?provider=QQ&redirectUrl=https://vvlog.baimocore.cn/
+- https://localhost:5001/cms/oauth2/signin?provider=Gitee&redirectUrl=https://vvlog.igeekfan.cn/
+- https://localhost:5001/cms/oauth2/signin?provider=GitHub&redirectUrl=https://vvlog.igeekfan.cn/
+- https://localhost:5001/cms/oauth2/signin?provider=QQ&redirectUrl=https://vvlog.igeekfan.cn/
 
 ### 第三方账号绑定
-- https://localhost:5001/cms/oauth2/signin-bind?provider=GitHub&redirectUrl=https://vvlog.baimocore.cn&token=
+- https://localhost:5001/cms/oauth2/signin-bind?provider=GitHub&redirectUrl=https://vvlog.igeekfan.cn&token=
 - https://localhost:5001/cms/oauth2/signin-bind?provider=QQ&redirectUrl=http://localhost:8081&token=
 github快速登录，使用的myget的源。
 

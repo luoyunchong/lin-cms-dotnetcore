@@ -19,7 +19,7 @@
 
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
-本项目是 Lin CMS 后端的 [ASP.NET6](https://docs.microsoft.com/zh-cn/dotnet/core/introduction) 的实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
+本项目是 Lin CMS 后端的 [ASP.NET Core 6](https://docs.microsoft.com/zh-cn/dotnet/core/introduction) 的实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
 
 ## 什么是 Lin CMS？
 
@@ -39,10 +39,10 @@
 
 ## 线上 Demo
 - 本项目swagger地址 [https://api.igeekfan.cn/swagger/index.html](https://api.igeekfan.cn/swagger/index.html)
-- 用户端 lin-cms-vvlog [https://vvlog.baimocore.cn](https://vvlog.baimocore.cn) 
+- 用户端 lin-cms-vvlog [https://vvlog.igeekfan.cn](https://vvlog.igeekfan.cn) 
   - 普通用户：710277267@qq.com
   - 密码：123qwe
-- 管理员 lin-cms-vue [https://cms.baimocore.cn/](https://cms.baimocore.cn)
+- 管理员 lin-cms-vue [https://cms.igeekfan.cn/](https://cms.igeekfan.cn)
   - 管理员： admin
   - 密码：123qwe
 
@@ -100,7 +100,6 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - Gitee第三方授权登录[AspNet.Security.OAuth.Gitee](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers/tree/dev/src/AspNet.Security.OAuth.Gitee)
 - [Docker](https://docs.docker.com/)
 - [Azure DevOps](https://dev.azure.com/)
-- 健康检查[AspNetCore.HealthChecks.UI.Client](https://github.com/xabaril/AspNetCore.Diagnostics.HealthChecks)
 - [GitHub Action](https://help.github.com/en/actions)
 
 ### 实践
