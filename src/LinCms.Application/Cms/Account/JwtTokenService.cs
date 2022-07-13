@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Cms.Account
 {
+    [DisableConventionalRegistrationAttribute]
     public class JwtTokenService : ITokenService
     {
         private readonly IUserRepository _userRepository;

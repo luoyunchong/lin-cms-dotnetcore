@@ -30,21 +30,11 @@ using Owl.reCAPTCHA;
 using Serilog;
 using Serilog.Events;
 
-var builder = WebApplication.CreateBuilder(args);
-var Configuration = builder.Configuration;
-var services = builder.Services;
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+ConfigurationManager c = builder.Configuration;
+IServiceCollection services = builder.Services;
 
-#region Serilog配置
-
-builder.Host.UseSerilog();
-#if !DEBUG
-//.UseKestrel((context, options) =>
-//     {
-//         options.Configure(context.Configuration.GetSection("Kestrel"));
-//     }) 
-#endif
-
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c)
        .Enrich.FromLogContext()
        .CreateLogger();
 Log.Information("Starting web host");
@@ -52,7 +42,6 @@ Log.Information("Starting web host");
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 #endif
 
-#endregion
 builder.Host
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureAppConfiguration((context, builder) =>
@@ -64,9 +53,9 @@ builder.Host
     {
         containerBuilder.RegisterModule(new RepositoryModule());
         containerBuilder.RegisterModule(new ServiceModule());
-        containerBuilder.RegisterModule(new AutofacModule(Configuration));
+        containerBuilder.RegisterModule(new AutofacModule(c));
         containerBuilder.RegisterModule(new DependencyModule());
-        containerBuilder.RegisterModule(new FreeSqlModule(Configuration));
+        containerBuilder.RegisterModule(new FreeSqlModule(c));
     });
 
 builder.WebHost.ConfigureKestrel((context, options) =>
@@ -74,9 +63,9 @@ builder.WebHost.ConfigureKestrel((context, options) =>
     //设置应用服务器Kestrel请求体最大为50MB，默认为28.6MB
     options.Limits.MaxRequestBodySize = 1024 * 1024 * 50;
 });
-services.AddCsRedisCore(Configuration);
+services.AddCsRedisCore(c);
 
-services.AddJwtBearer(Configuration);
+services.AddJwtBearer(c);
 
 services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
 
@@ -125,9 +114,9 @@ services.AddMvc(options =>
 
 #region 配置Google验证码
 services.AddScoped<RecaptchaVerifyActionFilter>();
-services.Configure<GooglereCAPTCHAOptions>(Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
+services.Configure<GooglereCAPTCHAOptions>(c.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
 GooglereCAPTCHAOptions googlereCAPTCHAOptions = new GooglereCAPTCHAOptions();
-Configuration.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings).Bind(googlereCAPTCHAOptions);
+c.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings).Bind(googlereCAPTCHAOptions);
 services.AddreCAPTCHAV3(x =>
 {
     x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
@@ -136,7 +125,7 @@ services.AddreCAPTCHAV3(x =>
 });
 #endregion
 
-services.AddDIServices(Configuration);
+services.AddDIServices(c);
 
 //Swagger 扩展方法配置Swagger
 services.AddSwaggerGen();
@@ -149,7 +138,7 @@ services.Configure<FormOptions>(options =>
 });
 
 // 分布式事务一致性CAP
-services.AddCap(Configuration);
+services.AddCap(c);
 
 services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -157,7 +146,7 @@ services.Configure<ForwardedHeadersOptions>(options =>
 });
 
 //之前请注入AddCsRedisCore，内部实现IDistributedCache接口
-services.AddIpRateLimiting(Configuration);
+services.AddIpRateLimiting(c);
 
 services.AddHealthChecks();
 
@@ -199,9 +188,9 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
 
-    c.OAuthClientId(Configuration["Service:ClientId"]);
-    c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
-    c.OAuthAppName(Configuration["Service:Name"]);
+    c.OAuthClientId(c["Service:ClientId"]);
+    c.OAuthClientSecret(c["Service:ClientSecret"]);
+    c.OAuthAppName(c["Service:Name"]);
 
     c.ConfigObject.DisplayOperationId = true;
 
@@ -214,9 +203,9 @@ app.UseKnife4UI(c =>
                        //c.InjectStylesheet("");
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    c.OAuthClientSecret(Configuration["Service:ClientSecret"]);
-    c.OAuthClientId(Configuration["Service:ClientId"]);
-    c.OAuthAppName(Configuration["Service:Name"]);
+    c.OAuthClientSecret(c["Service:ClientSecret"]);
+    c.OAuthClientId(c["Service:ClientId"]);
+    c.OAuthAppName(c["Service:Name"]);
 });
 
 app.UseRapiDocUI(c =>
@@ -230,7 +219,7 @@ app.UseRapiDocUI(c =>
 
 app.UseCors(builder =>
 {
-    string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
+    string[] withOrigins = c.GetSection("WithOrigins").Get<string[]>();
     builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
 });
 

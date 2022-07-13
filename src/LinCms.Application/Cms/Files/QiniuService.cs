@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using LinCms.Common;
 using LinCms.Data.Options;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -15,6 +16,7 @@ using Qiniu.Util;
 
 namespace LinCms.Cms.Files
 {
+    [DisableConventionalRegistration]
     public class QiniuService : IFileService
     {
         private readonly IAuditBaseRepository<LinFile> _fileRepository;

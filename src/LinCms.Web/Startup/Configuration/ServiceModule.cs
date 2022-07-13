@@ -7,6 +7,7 @@ using Autofac.Extras.DynamicProxy;
 using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Middleware;
 
@@ -30,20 +31,12 @@ namespace LinCms.Startup.Configuration
                 typeof(AopCacheIntercept),
             };
 
-            string[] notIncludes = new string[]
-            {
-                typeof(QiniuService).Name,
-                typeof(LocalFileService).Name,
-                typeof(IdentityServer4Service).Name,
-                typeof(JwtTokenService).Name,
-                typeof(GithubOAuth2Serivice).Name,
-                typeof(GiteeOAuth2Service).Name,
-                typeof(QQOAuth2Service).Name
-            };
-
             Assembly servicesDllFile = Assembly.Load("LinCms.Application");
+
+            bool Predicate(Type a) => !a.IsDefined(typeof(DisableConventionalRegistrationAttribute), true) && a.Name.EndsWith("Service") && !a.IsAbstract && !a.IsInterface && a.IsPublic;
+
             builder.RegisterAssemblyTypes(servicesDllFile)
-                .Where(a => a.Name.EndsWith("Service") && !notIncludes.Where(r => r == a.Name).Any() && !a.IsAbstract && !a.IsInterface && a.IsPublic)
+                .Where(Predicate)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired()// 属性注入
@@ -59,7 +52,6 @@ namespace LinCms.Startup.Configuration
             //    .PropertiesAutowired()// 属性注入
             //    .InterceptedBy(interceptorServiceTypes.ToArray())
             //    .EnableClassInterceptors();
-
 
 
             //一个接口多个实现，使用Named，区分

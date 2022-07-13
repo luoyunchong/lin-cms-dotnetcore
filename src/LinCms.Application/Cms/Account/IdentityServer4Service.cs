@@ -6,6 +6,7 @@ using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Exceptions;
 using LinCms.Security;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace LinCms.Cms.Account
 {
+    [DisableConventionalRegistrationAttribute]
     public class IdentityServer4Service : ITokenService
     {
         private readonly IConfiguration _configuration;

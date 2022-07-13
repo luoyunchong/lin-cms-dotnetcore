@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using LinCms.Common;
 using LinCms.Data.Options;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Options;
 
 namespace LinCms.Cms.Files
 {
+    [DisableConventionalRegistration]
     public class LocalFileService : IFileService
     {
         private readonly IWebHostEnvironment _hostingEnv;

@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
 using LinCms.Common;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
+    [DisableConventionalRegistrationAttribute]
     public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;

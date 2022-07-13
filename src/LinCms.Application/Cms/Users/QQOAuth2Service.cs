@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AspNet.Security.OAuth.QQ;
 using LinCms.Common;
 using LinCms.Data.Enums;
+using LinCms.Dependency;
 using LinCms.Entities;
 using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
+    [DisableConventionalRegistrationAttribute]
     public class QQOAuth2Service : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;
