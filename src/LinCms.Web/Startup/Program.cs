@@ -184,37 +184,36 @@ app.UseSerilogRequestLogging(opts =>
 #region 三种Swagger
 app.UseSwagger();
 
-app.UseSwaggerUI(c =>
+app.UseSwaggerUI(r =>
 {
     //http://localhost:5000/swagger/index.html
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-
-    c.OAuthClientId(c["Service:ClientId"]);
-    c.OAuthClientSecret(c["Service:ClientSecret"]);
-    c.OAuthAppName(c["Service:Name"]);
-
-    c.ConfigObject.DisplayOperationId = true;
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+    
+    r.OAuthClientId(c["Service:ClientId"]);
+    r.OAuthClientSecret(c["Service:ClientSecret"]);
+    r.OAuthAppName(c["Service:Name"]);
+    r.ConfigObject.DisplayOperationId = true;
 
 });
 
-app.UseKnife4UI(c =>
+app.UseKnife4UI(r =>
 {
-    c.DocumentTitle = "LinCms博客模块";
-    c.RoutePrefix = "";//http://localhost:5000/index.html
-                       //c.InjectStylesheet("");
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    c.OAuthClientSecret(c["Service:ClientSecret"]);
-    c.OAuthClientId(c["Service:ClientId"]);
-    c.OAuthAppName(c["Service:Name"]);
+    r.DocumentTitle = "LinCms博客模块";
+    r.RoutePrefix = "k4";//http://localhost:5000/k4/index.html
+                         //r.InjectStylesheet("");
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+    r.OAuthClientSecret(c["Service:ClientSecret"]);
+    r.OAuthClientId(c["Service:ClientId"]);
+    r.OAuthAppName(c["Service:Name"]);
 });
 
-app.UseRapiDocUI(c =>
+app.UseRapiDocUI(r =>
 {
-    c.RoutePrefix = "RapiDoc"; //http://localhost:5000/RapiDoc/index.html
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    c.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+    r.RoutePrefix = ""; //RapiDoc http://localhost:5000/index.html
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
 });
 
 #endregion
