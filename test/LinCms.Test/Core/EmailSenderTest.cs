@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using LinCms.Email;
+using IGeekFan.FreeKit.Email;
 using MimeKit;
 using Xunit;
 using Xunit.Abstractions;

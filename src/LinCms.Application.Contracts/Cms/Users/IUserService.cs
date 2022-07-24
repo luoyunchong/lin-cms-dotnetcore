@@ -54,7 +54,7 @@ namespace LinCms.Cms.Users
 
         Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId);
 
-        Task<List<LinPermission>> GetUserPermissions(long userId);
+        Task<List<LinPermission>> GetUserPermissionsAsync(long userId);
 
     }
 }

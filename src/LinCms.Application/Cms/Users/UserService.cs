@@ -229,7 +229,7 @@ namespace LinCms.Cms.Users
 
         public async Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId)
         {
-            List<LinPermission> permissions = await GetUserPermissions(userId);
+            List<LinPermission> permissions = await GetUserPermissionsAsync(userId);
             return _permissionService.StructuringPermissions(permissions);
         }
 
@@ -238,7 +238,7 @@ namespace LinCms.Cms.Users
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<LinPermission>> GetUserPermissions(long userId)
+        public async Task<List<LinPermission>> GetUserPermissionsAsync(long userId)
         {
             LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
             List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();

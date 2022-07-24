@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using LinCms.Entities;
+using LinCms.Plugins.Poem.Domain;
 using LinCms.Plugins.Poem.Models;
 
 namespace LinCms.Plugins.Poem.Services

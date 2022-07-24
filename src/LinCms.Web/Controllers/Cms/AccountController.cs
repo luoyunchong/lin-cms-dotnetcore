@@ -64,7 +64,7 @@ namespace LinCms.Controllers.Cms
         }
 
         /// <summary>
-        /// TODO
+        /// 退出登录时，将AccessToken插入到BlackRecord表
         /// </summary>
         /// <returns></returns>
         [HttpGet("logout")]
@@ -74,7 +74,7 @@ namespace LinCms.Controllers.Cms
             var username = User.FindUserName();
             string? Jti = await HttpContext.GetTokenAsync("Bearer", "access_token");
             //string Jti = Request.Headers["Authorization"].ToString().Substring(JwtBearerDefaults.AuthenticationScheme.Length + 1).Trim();
-            _blackRecordRepository.Insert(new BlackRecord { Jti = Jti, UserName = username });
+            await _blackRecordRepository.InsertAsync(new BlackRecord { Jti = Jti, UserName = username });
             return UnifyResponseDto.Success("退出登录");
         }
 
@@ -101,9 +101,9 @@ namespace LinCms.Controllers.Cms
         /// <param name="sendEmailCode"></param>
         /// <returns></returns>
         [HttpPost("account/send_password_reset_code")]
-        public Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
+        public async Task<string> SendPasswordResetCodeAsync([FromBody] SendEmailCodeInput sendEmailCode)
         {
-            return _accountService.SendPasswordResetCode(sendEmailCode);
+            return await _accountService.SendPasswordResetCodeAsync(sendEmailCode);
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace LinCms.Controllers.Cms
         /// <param name="resetPassword"></param>
         /// <returns></returns>
         [HttpPost("account/reset_password")]
-        public Task ResetPassword([FromBody] ResetEmailPasswordDto resetPassword)
+        public Task ResetPasswordAsync([FromBody] ResetEmailPasswordDto resetPassword)
         {
-            return _accountService.ResetPassword(resetPassword);
+            return _accountService.ResetPasswordAsync(resetPassword);
         }
     }
 }

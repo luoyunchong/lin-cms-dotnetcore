@@ -28,7 +28,7 @@ namespace LinCms.Extensions
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            if (reader.Value.ToString() == "")
+            if (reader.Value == null || reader.Value.ToString() == "")
             {
                 return null;
             }
@@ -68,7 +68,6 @@ namespace LinCms.Extensions
                 return 0;
             }
             return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
-            //return (dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
     }
 }

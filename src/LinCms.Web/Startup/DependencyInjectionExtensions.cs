@@ -8,9 +8,9 @@ using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
 using FreeSql;
 using FreeSql.Internal;
+using IGeekFan.FreeKit.Email;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
-using LinCms.Email;
 using LinCms.Entities;
 using LinCms.FreeSql;
 using LinCms.Utils;
@@ -27,7 +27,6 @@ namespace LinCms.Startup
 {
     public static class DependencyInjectionExtensions
     {
-
         #region FreeSql 已换成AutoFac注入方式 Configuration/FreeSqlModule
         /// <summary>
         /// FreeSql
@@ -129,7 +128,7 @@ namespace LinCms.Startup
 
             services.AddFreeRepository();
             services.AddHttpClient("IdentityServer4");
-            services.Configure<MailKitOptions>(configuration.GetSection("MailKitOptions"));
+            services.AddEmailSender(configuration);
             services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
             services.Configure<SiteOption>(configuration.GetSection("Site"));
         }
@@ -264,24 +263,22 @@ namespace LinCms.Startup
         /// <param name="serviceProvider"></param>
         public static async Task RunScopeClientPolicy(this IServiceProvider serviceProvider)
         {
-            using (var scope = serviceProvider.CreateScope())
+            using var scope = serviceProvider.CreateScope();
+            try
             {
-                try
-                {
-                    var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
-                    await clientPolicyStore.SeedAsync();
+                var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
+                await clientPolicyStore.SeedAsync();
 
-                    // get the IpPolicyStore instance
-                    var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
+                // get the IpPolicyStore instance
+                var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
 
-                    // seed IP data from appsettings
-                    await ipPolicyStore.SeedAsync();
-                }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred.");
-                }
+                // seed IP data from appsettings
+                await ipPolicyStore.SeedAsync();
+            }
+            catch (Exception ex)
+            {
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred.");
             }
         }
     }

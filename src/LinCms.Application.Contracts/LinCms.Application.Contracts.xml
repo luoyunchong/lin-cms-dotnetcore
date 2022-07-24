@@ -280,6 +280,13 @@
             关注者
             </summary>
         </member>
+        <member name="M:LinCms.Cms.Account.IAccountService.SendPasswordResetCodeAsync(LinCms.Cms.Account.SendEmailCodeInput)">
+            <summary>
+            发送邮件：重置密码的验证码
+            </summary>
+            <param name="sendEmailCode"></param>
+            <returns></returns>
+        </member>
         <member name="T:LinCms.Cms.Account.ITokenService">
             <summary>
             

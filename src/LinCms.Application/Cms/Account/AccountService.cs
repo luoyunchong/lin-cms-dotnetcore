@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Email;
 using LinCms.Cms.Users;
 using LinCms.Data.Options;
-using LinCms.Email;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using LinCms.IRepositories;
@@ -55,7 +55,7 @@ namespace LinCms.Cms.Account
             return "";
         }
 
-        public async Task SendEmailCode(RegisterDto registerDto)
+        public async Task SendEmailCodeAsync(RegisterDto registerDto)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_mailKitOptions.UserName, _mailKitOptions.UserName));
@@ -76,7 +76,7 @@ namespace LinCms.Cms.Account
             await _emailSender.SendAsync(message);
         }
 
-        public async Task<string> SendPasswordResetCode(SendEmailCodeInput sendEmailCode)
+        public async Task<string> SendPasswordResetCodeAsync(SendEmailCodeInput sendEmailCode)
         {
             var user = await GetUserByChecking(sendEmailCode.Email);
 
@@ -119,7 +119,7 @@ namespace LinCms.Cms.Account
             return user;
         }
 
-        public async Task ResetPassword(ResetEmailPasswordDto resetPassword)
+        public async Task ResetPasswordAsync(ResetEmailPasswordDto resetPassword)
         {
             string resetCode = await RedisHelper.GetAsync(resetPassword.Email);
             if (resetCode.IsNullOrEmpty())
