@@ -45,6 +45,11 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
+            if (user.Active == UserActive.NotActive)
+            {
+                throw new LinCmsException("用户未激活", ErrorCode.NoPermission);
+            }
+
             bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password, user.Salt);
 
             if (!valid)

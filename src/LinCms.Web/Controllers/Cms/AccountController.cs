@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
@@ -31,10 +32,11 @@ namespace LinCms.Controllers.Cms
         public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository)
         {
             bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
-            _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? typeof(IdentityServer4Service).Name : typeof(JwtTokenService).Name);
+            _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? nameof(IdentityServer4Service) : nameof(JwtTokenService));
             _accountService = accountService;
             _blackRecordRepository = blackRecordRepository;
         }
+
         /// <summary>
         /// 登录接口
         /// </summary>
@@ -79,19 +81,44 @@ namespace LinCms.Controllers.Cms
         }
 
 
+
+        /// <summary>
+        /// 注册前先发送邮件才能正常注册
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns></returns>
+        [HttpPost("account/send_email_code")]
+        public async Task<string> SendEmailCodeAsync([FromBody] RegisterEmailCodeInput registerDto)
+        {
+            return await _accountService.SendEmailCodeAsync(registerDto);
+        }
+
         /// <summary>
         /// 注册
         /// </summary>
         /// <param name="registerDto"></param>
-        /// <param name="_mapper"></param>
-        /// <param name="_userSevice"></param>
+        /// <param name="mapper"></param>
+        /// <param name="userSevice"></param>
         [Logger("用户注册")]
         [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
         [HttpPost("account/register")]
-        public async Task<UnifyResponseDto> Register([FromBody] RegisterDto registerDto, [FromServices] IMapper _mapper, [FromServices] IUserService _userSevice)
+        public async Task<UnifyResponseDto> Register([FromBody] RegisterDto registerDto, [FromServices] IMapper mapper, [FromServices] IUserService userSevice)
         {
-            LinUser user = _mapper.Map<LinUser>(registerDto);
-            await _userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
+            string uuid = await RedisHelper.GetAsync("SendEmailCode." + registerDto.Email);
+
+            if (uuid != registerDto.EmailCode)
+            {
+                return UnifyResponseDto.Error("非法请求");
+            }
+
+            string verificationCode = await RedisHelper.GetAsync("SendEmailCode.VerificationCode" + registerDto.Email);
+            if (verificationCode != registerDto.VerificationCode)
+            {
+                return UnifyResponseDto.Error("验证码不正确");
+            }
+
+            LinUser user = mapper.Map<LinUser>(registerDto);
+            await userSevice.CreateAsync(user, new List<long>(), registerDto.Password);
             return UnifyResponseDto.Success("注册成功");
         }
 
@@ -117,4 +144,6 @@ namespace LinCms.Controllers.Cms
             return _accountService.ResetPasswordAsync(resetPassword);
         }
     }
+
+
 }

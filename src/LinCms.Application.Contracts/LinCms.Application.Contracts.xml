@@ -280,11 +280,25 @@
             关注者
             </summary>
         </member>
+        <member name="M:LinCms.Cms.Account.IAccountService.SendEmailCodeAsync(LinCms.Cms.Account.RegisterEmailCodeInput)">
+            <summary>
+            注册前先发送邮件才能正常注册
+            </summary>
+            <param name="registerDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Cms.Account.IAccountService.SendPasswordResetCodeAsync(LinCms.Cms.Account.SendEmailCodeInput)">
             <summary>
             发送邮件：重置密码的验证码
             </summary>
             <param name="sendEmailCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Account.IAccountService.ResetPasswordAsync(LinCms.Cms.Account.ResetEmailPasswordDto)">
+            <summary>
+            重置密码：根据邮件验证码
+            </summary>
+            <param name="resetPassword"></param>
             <returns></returns>
         </member>
         <member name="T:LinCms.Cms.Account.ITokenService">
@@ -316,9 +330,14 @@
             密码：123qwe
             </summary>
         </member>
-        <member name="P:LinCms.Cms.Account.RegisterDto.Nickname">
+        <member name="P:LinCms.Cms.Account.RegisterEmailCodeInput.Nickname">
             <summary>
             昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Account.RegisterEmailCodeInput.Email">
+            <summary>
+            邮件
             </summary>
         </member>
         <member name="P:LinCms.Cms.Account.RegisterDto.Password">
@@ -326,9 +345,14 @@
             密码
             </summary>
         </member>
-        <member name="P:LinCms.Cms.Account.RegisterDto.Email">
+        <member name="P:LinCms.Cms.Account.RegisterDto.EmailCode">
             <summary>
-            邮件
+             发送邮件时返回的唯一码，以保证用户请求与验证码是一个请求
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Account.RegisterDto.VerificationCode">
+            <summary>
+            邮件发送的验证码
             </summary>
         </member>
         <member name="M:LinCms.Cms.Files.IFileService.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">

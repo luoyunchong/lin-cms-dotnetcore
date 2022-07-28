@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
+		<PackageReference Include="Caching.CSRedis" Version="3.8.3" />
 		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.666-preview20220717" />
 		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.2.666-preview20220717" />
 		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.666-preview20220717" />

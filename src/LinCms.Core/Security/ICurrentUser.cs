@@ -7,6 +7,8 @@ namespace LinCms.Security
         long? Id { get; }
 
         string UserName { get; }
+        string Nickname { get; }
+        string Email { get; }
 
         long[] Groups { get; }
 

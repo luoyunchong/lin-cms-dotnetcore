@@ -29,7 +29,7 @@ namespace LinCms.Cms.Users
                 return true;
             }
             string encryptPassword = _cryptographyService.Encrypt(password, salt);
-            return userIdentity != null && userIdentity.Credential == encryptPassword;
+            return userIdentity.Credential == encryptPassword;
         }
 
 

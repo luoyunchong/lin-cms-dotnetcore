@@ -22,15 +22,22 @@ namespace LinCms.Repositories
             {
                 return path;
             }
+            string redisKey = "filerepository:getfileurl:" +path;
 
-            LinFile linFile = Where(r => r.Path == path).First();
-            if (linFile == null) return path;
-            return linFile.Type switch
-            {
-                1 => _fileStorageOption.LocalFile.Host + path,
-                2 => _fileStorageOption.Qiniu.Host + path,
-                _ => path,
-            };
+            return  RedisHelper.CacheShell(
+                redisKey, 5*60, () =>
+                {
+                    LinFile linFile = Where(r => r.Path == path).First();
+                    if (linFile == null) return path;
+                    return linFile.Type switch
+                    {
+                        1 => _fileStorageOption.LocalFile.Host + path,
+                        2 => _fileStorageOption.Qiniu.Host + path,
+                        _ => path,
+                    };
+                }
+             );
+          
         }
     }
 }

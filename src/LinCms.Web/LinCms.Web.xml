@@ -248,13 +248,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Controllers.Cms.AccountController.SendEmailCodeAsync(LinCms.Cms.Account.RegisterEmailCodeInput)">
+            <summary>
+            注册前先发送邮件才能正常注册
+            </summary>
+            <param name="registerDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Controllers.Cms.AccountController.Register(LinCms.Cms.Account.RegisterDto,AutoMapper.IMapper,LinCms.Cms.Users.IUserService)">
             <summary>
             注册
             </summary>
             <param name="registerDto"></param>
-            <param name="_mapper"></param>
-            <param name="_userSevice"></param>
+            <param name="mapper"></param>
+            <param name="userSevice"></param>
         </member>
         <member name="M:LinCms.Controllers.Cms.AccountController.SendPasswordResetCodeAsync(LinCms.Cms.Account.SendEmailCodeInput)">
             <summary>
