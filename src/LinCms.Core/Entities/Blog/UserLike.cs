@@ -4,7 +4,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Blog
 {
     [Table(Name = "blog_user_like")]
-    public class UserLike : Entity<Guid>, ICreateAduitEntity
+    public class UserLike : Entity<Guid>, ICreateAuditEntity
     {
         /// <summary>
         /// 点赞对象

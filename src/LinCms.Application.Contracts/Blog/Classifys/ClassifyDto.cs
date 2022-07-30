@@ -3,7 +3,7 @@ using LinCms.Entities;
 
 namespace LinCms.Blog.Classifys
 {
-    public class ClassifyDto : EntityDto<Guid>, ICreateAduitEntity
+    public class ClassifyDto : EntityDto<Guid>, ICreateAuditEntity
     {
         public string Thumbnail { get; set; }
         public string ThumbnailDisplay { get; set; }

@@ -5,7 +5,7 @@ using LinCms.Entities;
 
 namespace LinCms.Blog.Comments
 {
-    public class CommentDto : EntityDto<Guid>, ICreateAduitEntity
+    public class CommentDto : EntityDto<Guid>, ICreateAuditEntity
     {
         /// <summary>
         /// 回复评论Id

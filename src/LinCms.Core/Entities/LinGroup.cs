@@ -8,7 +8,7 @@ namespace LinCms.Entities
     /// 用户组
     /// </summary>
     [Table(Name = "lin_group")]
-    public class LinGroup : FullAduitEntity<long>
+    public class LinGroup : FullAuditEntity<long>
     {
         public LinGroup()
         {

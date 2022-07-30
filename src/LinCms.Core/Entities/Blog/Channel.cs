@@ -8,7 +8,7 @@ namespace LinCms.Entities.Blog
     /// 技术频道，官方分类。标签的分类。
     /// </summary>
     [Table(Name = "blog_channel")]
-    public class Channel : FullAduitEntity<Guid>
+    public class Channel : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 封面图

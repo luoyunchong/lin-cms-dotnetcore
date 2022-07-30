@@ -4,7 +4,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Base
 {
     [Table(Name = "base_item")]
-    public class BaseItem : FullAduitEntity
+    public class BaseItem : FullAuditEntity
     {
         public BaseItem()
         {

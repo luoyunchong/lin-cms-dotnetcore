@@ -8,7 +8,7 @@ namespace LinCms.Entities
     /// 用户身份认证登录表
     /// </summary>
     [Table(Name = "lin_user_identity")]
-    public class LinUserIdentity : FullAduitEntity<Guid>
+    public class LinUserIdentity : FullAuditEntity<Guid>
     {
         public const string GitHub = "GitHub";
         public const string Password = "Password";

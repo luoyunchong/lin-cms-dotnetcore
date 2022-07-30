@@ -59,7 +59,7 @@ namespace LinCms.IdentityServer4
             services.AddScoped<UnitOfWorkManager>();
             services.AddFreeRepository(filter =>
             {
-                filter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
+                filter.Apply<IDeleteAuditEntity>("IsDeleted", a => a.IsDeleted == false);
             });
         }
         #endregion

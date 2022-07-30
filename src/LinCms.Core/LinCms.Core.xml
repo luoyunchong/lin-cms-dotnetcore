@@ -683,47 +683,47 @@
             主键Id
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.CreateUserId">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.CreateUserId">
             <summary>
             创建者ID
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.CreateTime">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.CreateTime">
             <summary>
             创建时间
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.IsDeleted">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.IsDeleted">
             <summary>
             是否删除
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.DeleteUserId">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.DeleteUserId">
             <summary>
             删除人id
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.DeleteTime">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.DeleteTime">
             <summary>
             删除时间
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.UpdateUserId">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.UpdateUserId">
             <summary>
             最后修改人Id
             </summary>
         </member>
-        <member name="P:LinCms.Entities.FullAduitEntity`1.UpdateTime">
+        <member name="P:LinCms.Entities.FullAuditEntity`1.UpdateTime">
             <summary>
             修改时间
             </summary>
         </member>
-        <member name="P:LinCms.Entities.ICreateAduitEntity.CreateUserId">
+        <member name="P:LinCms.Entities.ICreateAuditEntity.CreateUserId">
             <summary>
             创建者ID
             </summary>
         </member>
-        <member name="P:LinCms.Entities.ICreateAduitEntity.CreateTime">
+        <member name="P:LinCms.Entities.ICreateAuditEntity.CreateTime">
             <summary>
             创建时间
             </summary>
@@ -738,17 +738,17 @@
             修改时间
             </summary>
         </member>
-        <member name="P:LinCms.Entities.IDeleteAduitEntity.IsDeleted">
+        <member name="P:LinCms.Entities.IDeleteAuditEntity.IsDeleted">
             <summary>
             是否删除
             </summary>
         </member>
-        <member name="P:LinCms.Entities.IDeleteAduitEntity.DeleteUserId">
+        <member name="P:LinCms.Entities.IDeleteAuditEntity.DeleteUserId">
             <summary>
             删除人id
             </summary>
         </member>
-        <member name="P:LinCms.Entities.IDeleteAduitEntity.DeleteTime">
+        <member name="P:LinCms.Entities.IDeleteAuditEntity.DeleteTime">
             <summary>
             删除时间
             </summary>

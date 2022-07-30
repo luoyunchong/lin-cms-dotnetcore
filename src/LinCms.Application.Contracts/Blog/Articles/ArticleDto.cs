@@ -10,7 +10,7 @@ using LinCms.Entities.Blog;
 
 namespace LinCms.Blog.Articles
 {
-    public class ArticleDto : Entity<Guid>, ICreateAduitEntity
+    public class ArticleDto : Entity<Guid>, ICreateAuditEntity
     {
         /// <summary>
         /// 分类专栏Id

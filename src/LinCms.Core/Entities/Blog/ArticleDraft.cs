@@ -7,7 +7,7 @@ namespace LinCms.Entities.Blog
     /// 文章草稿箱
     /// </summary>
     [Table(Name = "blog_article_draft")]
-    public class ArticleDraft : FullAduitEntity<Guid>
+    public class ArticleDraft : FullAuditEntity<Guid>
     {
         public ArticleDraft()
         {

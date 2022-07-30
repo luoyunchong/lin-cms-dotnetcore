@@ -6,7 +6,7 @@ namespace LinCms.Entities
     /// 也是demo。
     /// </summary>
     [Table(Name = "book")]
-    public class Book : FullAduitEntity
+    public class Book : FullAuditEntity
     {
         [Column(StringLength = 30)]
         public string Author { get; set; } = string.Empty;

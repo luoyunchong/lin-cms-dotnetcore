@@ -10,7 +10,7 @@ namespace LinCms.Entities
     /// 用户
     /// </summary>
     [Table(Name = "lin_user")]
-    public class LinUser : FullAduitEntity
+    public class LinUser : FullAuditEntity
     {
         /// <summary>
         /// 用户名

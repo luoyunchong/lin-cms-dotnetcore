@@ -81,7 +81,7 @@ namespace LinCms.Startup.Configuration
 
             builder.RegisterType(typeof(UnitOfWorkManager)).InstancePerLifetimeScope();
 
-            fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
+            fsql.GlobalFilter.Apply<IDeleteAuditEntity>("IsDeleted", a => a.IsDeleted == false);
             try
             {
                 using var objPool = fsql.Ado.MasterPool.Get();

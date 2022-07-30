@@ -6,7 +6,7 @@ namespace LinCms.Entities
     /// 日志表
     /// </summary>
     [Table(Name = "lin_log")]
-    public class LinLog : FullAduitEntity
+    public class LinLog : FullAuditEntity
     {
         /// <summary>
         /// 访问哪个权限

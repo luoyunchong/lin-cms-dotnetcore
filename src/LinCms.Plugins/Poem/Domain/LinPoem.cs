@@ -5,7 +5,7 @@ using LinCms.Entities;
 namespace LinCms.Plugins.Poem.Domain
 {
     [Table(Name = "lin_poem")]
-    public class LinPoem : FullAduitEntity
+    public class LinPoem : FullAuditEntity
     {
 
         /// <summary>

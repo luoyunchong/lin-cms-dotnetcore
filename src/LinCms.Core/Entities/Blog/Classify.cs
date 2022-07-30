@@ -9,7 +9,7 @@ namespace LinCms.Entities.Blog
     /// 文章专栏，由普通用户创建
     /// </summary>
     [Table(Name = "blog_classify")]
-    public class Classify : FullAduitEntity<Guid>
+    public class Classify : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 封面图

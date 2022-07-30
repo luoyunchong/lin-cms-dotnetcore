@@ -7,7 +7,7 @@ namespace LinCms.Entities.Settings
     /// all settings config
     /// </summary>
     [Table(Name = "lin_settings")]
-    public class LinSetting : FullAduitEntity<Guid>
+    public class LinSetting : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 键

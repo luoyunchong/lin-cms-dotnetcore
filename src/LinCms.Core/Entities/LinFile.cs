@@ -3,7 +3,7 @@
 namespace LinCms.Entities
 {
     [Table(Name = "lin_file")]
-    public class LinFile : FullAduitEntity
+    public class LinFile : FullAuditEntity
     {
         /// <summary>
         /// 后缀

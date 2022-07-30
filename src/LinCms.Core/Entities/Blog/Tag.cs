@@ -8,7 +8,7 @@ namespace LinCms.Entities.Blog
     /// 标签
     /// </summary>
     [Table(Name = "blog_tag")]
-    public class Tag : FullAduitEntity<Guid>
+    public class Tag : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 别名

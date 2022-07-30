@@ -25,11 +25,11 @@ namespace LinCms.Entities
     }
 
     [Serializable]
-    public class FullAduitEntity : FullAduitEntity<long>
+    public class FullAuditEntity : FullAuditEntity<long>
     {
     }
 
-    public class FullAduitEntity<T> : Entity<T>, IUpdateAuditEntity, IDeleteAduitEntity, ICreateAduitEntity
+    public class FullAuditEntity<T> : Entity<T>, IUpdateAuditEntity, IDeleteAuditEntity, ICreateAuditEntity
     {
         /// <summary>
         /// 创建者ID
@@ -76,7 +76,7 @@ namespace LinCms.Entities
     }
 
 
-    public interface ICreateAduitEntity
+    public interface ICreateAuditEntity
     {
         /// <summary>
         /// 创建者ID
@@ -101,7 +101,7 @@ namespace LinCms.Entities
         DateTime? UpdateTime { get; set; }
     }
 
-    public interface IDeleteAduitEntity
+    public interface IDeleteAuditEntity
     {
         /// <summary>
         /// 是否删除

@@ -7,7 +7,7 @@ namespace LinCms.Entities
     /// 权限表
     /// </summary>
     [Table(Name = "lin_permission")]
-    public class LinPermission : FullAduitEntity<long>
+    public class LinPermission : FullAuditEntity<long>
     {
         public LinPermission()
         {

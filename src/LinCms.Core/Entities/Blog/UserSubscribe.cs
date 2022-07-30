@@ -7,7 +7,7 @@ namespace LinCms.Entities.Blog
     /// 用户关注用户
     /// </summary>
     [Table(Name = "blog_user_subscribe")]
-    public class UserSubscribe : Entity<Guid>, ICreateAduitEntity
+    public class UserSubscribe : Entity<Guid>, ICreateAuditEntity
     {
         /// <summary>
         /// 被关注的用户Id

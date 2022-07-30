@@ -9,7 +9,7 @@ namespace LinCms.Entities.Blog
     /// 用户评论信息
     /// </summary>
     [Table(Name = "blog_comment")]
-    public class Comment : FullAduitEntity<Guid>
+    public class Comment : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 回复评论Id

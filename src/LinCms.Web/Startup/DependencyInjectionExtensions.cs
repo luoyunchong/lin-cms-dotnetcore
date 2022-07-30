@@ -84,7 +84,7 @@ namespace LinCms.Startup
             services.AddSingleton(fsql);
             services.AddFreeRepository();
             services.AddScoped<UnitOfWorkManager>();
-            fsql.GlobalFilter.Apply<IDeleteAduitEntity>("IsDeleted", a => a.IsDeleted == false);
+            fsql.GlobalFilter.Apply<IDeleteAuditEntity>("IsDeleted", a => a.IsDeleted == false);
             try
             {
                 using var objPool = fsql.Ado.MasterPool.Get();

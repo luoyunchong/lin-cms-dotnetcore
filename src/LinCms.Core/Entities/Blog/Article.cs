@@ -6,7 +6,7 @@ using LinCms.Exceptions;
 namespace LinCms.Entities.Blog
 {
     [Table(Name = "blog_article")]
-    public class Article : FullAduitEntity<Guid>
+    public class Article : FullAuditEntity<Guid>
     {
         /// <summary>
         /// 文章所在分类专栏Id
