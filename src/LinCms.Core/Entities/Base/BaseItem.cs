@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities.Base
 {
+    /// <summary>
+    /// 数据字典-详情项
+    /// </summary>
     [Table(Name = "base_item")]
     public class BaseItem : FullAuditEntity
     {
@@ -23,16 +26,34 @@ namespace LinCms.Entities.Base
             BaseTypeId = baseTypeId;
         }
 
+        /// <summary>
+        /// 数据字典-分类Id
+        /// </summary>
         public long BaseTypeId { get; set; }
+
+        /// <summary>
+        /// 数据字典-编码
+        /// </summary>
 
         [Column(StringLength = 50)]
         public string ItemCode { get; set; }
 
+        /// <summary>
+        /// 数据字典-名称
+        /// </summary>
+
         [Column(StringLength = 50)]
         public string ItemName { get; set; }
 
+        /// <summary>
+        /// 排序码
+        /// </summary>
+
         public int? SortCode { get; set; }
 
+        /// <summary>
+        /// 状态
+        /// </summary>
         public bool Status { get; set; }
 
         public virtual BaseType BaseType { get; set; }

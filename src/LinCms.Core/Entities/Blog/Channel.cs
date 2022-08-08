@@ -39,6 +39,7 @@ namespace LinCms.Entities.Blog
         /// </summary>
         [Column(StringLength = 500)]
         public string Remark { get; set; }
+
         /// <summary>
         /// 是否有效
         /// </summary>

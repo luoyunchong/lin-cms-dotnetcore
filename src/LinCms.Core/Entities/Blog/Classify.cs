@@ -55,7 +55,5 @@ namespace LinCms.Entities.Blog
             }
             ArticleCount += inCreaseCount;
         }
-
-
     }
 }

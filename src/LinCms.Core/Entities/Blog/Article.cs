@@ -5,11 +5,14 @@ using LinCms.Exceptions;
 
 namespace LinCms.Entities.Blog
 {
+    /// <summary>
+    /// 随笔
+    /// </summary>
     [Table(Name = "blog_article")]
     public class Article : FullAuditEntity<Guid>
     {
         /// <summary>
-        /// 文章所在分类专栏Id
+        /// 随笔所在分类专栏Id
         /// </summary>
         public Guid? ClassifyId { get; set; }
 
@@ -48,6 +51,9 @@ namespace LinCms.Entities.Blog
         [Column(StringLength = -2)]
         public string Content { get; set; }
 
+        /// <summary>
+        /// 浏览量
+        /// </summary>
         public int ViewHits { get; set; }
 
         /// <summary>

@@ -18,7 +18,6 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="DotNetCore.Security" Version="16.65.0" />
 		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.508" />
-		<PackageReference Include="MailKit" Version="3.3.0" />
 		<PackageReference Include="FreeSql" Version="3.2.666-preview20220717" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.2.666-preview20220717" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />

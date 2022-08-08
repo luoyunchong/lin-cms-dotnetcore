@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities.Blog
 {
+    /// <summary>
+    /// 用户点赞
+    /// </summary>
     [Table(Name = "blog_user_like")]
     public class UserLike : Entity<Guid>, ICreateAuditEntity
     {

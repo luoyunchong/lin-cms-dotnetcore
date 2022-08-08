@@ -68,7 +68,15 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 200)]
         public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// 邮件是否激活
+        /// </summary>
         public bool IsEmailConfirmed { get; set; } = false;
+
+        /// <summary>
+        /// 密码重置码（非验证码，用于验证是否是同一个浏览器请求）
+        /// </summary>
         public string PasswordResetCode { get; set; }
 
         /// <summary>

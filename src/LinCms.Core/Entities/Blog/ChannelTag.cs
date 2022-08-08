@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities.Blog
 {
+    /// <summary>
+    ///  频道标签
+    /// </summary>
     [Table(Name = "blog_channel_tag")]
     public class ChannelTag : Entity<Guid>
     {
@@ -22,7 +25,14 @@ namespace LinCms.Entities.Blog
             TagId = tagId;
         }
 
+        /// <summary>
+        /// 频道Id
+        /// </summary>
         public Guid ChannelId { get; set; }
+
+        /// <summary>
+        /// 标签Id
+        /// </summary>
         public Guid TagId { get; set; }
 
         [Navigate("ChannelId")]

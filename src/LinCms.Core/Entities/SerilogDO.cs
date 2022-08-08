@@ -3,6 +3,9 @@ using FreeSql.DataAnnotations;
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// Serilog数据库存储
+    /// </summary>
     [Table(DisableSyncStructure = true, Name = "app_serilog")]
     public class SerilogDO
     {

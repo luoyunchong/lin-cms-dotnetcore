@@ -6,7 +6,7 @@ namespace LinCms.Entities
     public class LinFile : FullAuditEntity
     {
         /// <summary>
-        /// 后缀
+        /// 文件后缀
         /// </summary>
         [Column(StringLength = 50)]
         public string Extension { get; set; } = string.Empty;

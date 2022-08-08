@@ -7,9 +7,10 @@ namespace LinCms.Entities.Blog
     public class Notification : FullAuditEntity<Guid>
     {
         /// <summary>
-        /// 消息类型
+        /// 消息通知
         /// </summary>
         public NotificationType NotificationType { get; set; }
+
         /// <summary>
         /// 默认消息未读
         /// </summary>
@@ -38,6 +39,7 @@ namespace LinCms.Entities.Blog
         /// </summary>
         [Navigate("CommentId")]
         public Comment CommentEntry { get; set; }
+
         /// <summary>
         /// 文章内容
         /// </summary>
