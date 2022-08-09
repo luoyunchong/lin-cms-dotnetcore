@@ -89,7 +89,7 @@ namespace LinCms.Blog.Comments
 
                     }).ToList();
 
-            //计算一个文章多少个评论
+            //计算一个随笔多少个评论
             long totalCount = GetCommentCount(commentSearchDto);
 
             return new PagedResultDto<CommentDto>(comments, totalCount);

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 日志
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/log")]
     [ApiController]

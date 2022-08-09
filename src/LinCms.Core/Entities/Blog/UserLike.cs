@@ -4,7 +4,7 @@ using FreeSql.DataAnnotations;
 namespace LinCms.Entities.Blog
 {
     /// <summary>
-    /// 用户点赞
+    /// 用户点赞:点赞随笔、评论内容
     /// </summary>
     [Table(Name = "blog_user_like")]
     public class UserLike : Entity<Guid>, ICreateAuditEntity
@@ -15,7 +15,7 @@ namespace LinCms.Entities.Blog
         public Guid SubjectId { get; set; }
 
         /// <summary>
-        /// 点赞类型 1 是文章，2 是评论
+        /// 点赞类型 1 是随笔，2 是评论
         /// </summary>
         [Column(MapType = typeof(int))]
         public UserLikeSubjectType SubjectType { get; set; }

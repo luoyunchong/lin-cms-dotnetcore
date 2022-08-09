@@ -71,7 +71,7 @@
         </member>
         <member name="T:LinCms.Controllers.Blog.ArticleDraftController">
             <summary>
-            文章草稿箱，自动保存文章
+            随笔草稿箱，自动保存随笔
             </summary>
         </member>
         <member name="M:LinCms.Controllers.Blog.ArticleDraftController.GetAsync(System.Guid)">
@@ -136,7 +136,7 @@
         </member>
         <member name="M:LinCms.Controllers.Blog.CommentController.CorrectedComment(System.Guid,System.Int32)">
             <summary>
-            评论-校正评论量,subjectType(1：文章)
+            评论-校正评论量,subjectType(1：随笔)
             </summary>
             <param name="subjectId"></param>
             <param name="subjectType"></param>
@@ -144,7 +144,7 @@
         </member>
         <member name="M:LinCms.Controllers.Blog.TagController.CorrectedTagCountAsync(System.Guid)">
             <summary>
-            标签-校正标签对应文章数量
+            标签-校正标签对应随笔数量
             </summary>
             <param name="tagId"></param>
             <returns></returns>
@@ -156,14 +156,14 @@
         </member>
         <member name="M:LinCms.Controllers.Blog.UserLikeController.CreateOrCancelAsync(LinCms.Blog.UserLikes.CreateUpdateUserLikeDto)">
             <summary>
-            用户点赞/取消点赞文章、评论 
+            用户点赞/取消点赞随笔、评论 
             </summary>
             <param name="createUpdateUserLike"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Controllers.Blog.UserLikeController.PublishUserLikeNotification(LinCms.Blog.UserLikes.CreateUpdateUserLikeDto,System.Boolean)">
             <summary>
-            根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
+            根据用户点赞类型：随笔、评论，得到消息的NotificationRespUserId的值
             </summary>
             <param name="createUpdateUserLike"></param>
             <param name="isCancel"></param>

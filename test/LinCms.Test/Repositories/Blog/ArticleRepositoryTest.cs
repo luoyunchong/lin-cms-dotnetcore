@@ -30,7 +30,7 @@ namespace LinCms.Test.Repositories.Blog
         [Fact]
         public void Gets()
         {
-            //不使用关联属性获取文章专栏
+            //不使用关联属性获取随笔专栏
             List<ArticleDto> articleDtos = _articleRepository
                 .Select
                 .From<Classify>((a, b) =>

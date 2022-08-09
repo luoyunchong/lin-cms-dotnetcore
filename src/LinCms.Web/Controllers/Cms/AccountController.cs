@@ -20,6 +20,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    ///  账号
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [AllowAnonymous]
     [ApiController]

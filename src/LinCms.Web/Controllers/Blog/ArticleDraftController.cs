@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace LinCms.Controllers.Blog
 {
     /// <summary>
-    /// 文章草稿箱，自动保存文章
+    /// 随笔草稿箱，自动保存随笔
     /// </summary>
     [Area("blog")]
     [Route("api/blog/articles/draft")]

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 分组
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/admin/group")]
     [ApiController]

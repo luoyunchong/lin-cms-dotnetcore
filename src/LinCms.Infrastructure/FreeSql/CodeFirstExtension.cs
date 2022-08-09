@@ -66,7 +66,7 @@ namespace LinCms.FreeSql
                 {
                     e.HasData(new List<BaseType>()
                     {
-                        new("Article.Type","文章类型",1)
+                        new("Article.Type","随笔类型",1)
                         {
                             CreateTime=DateTime.Now,IsDeleted=false,CreateUserId = 1,
                             BaseItems=new List<BaseItem>()

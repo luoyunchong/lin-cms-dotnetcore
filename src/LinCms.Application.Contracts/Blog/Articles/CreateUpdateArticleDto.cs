@@ -17,7 +17,7 @@ namespace LinCms.Blog.Articles
         public string Source { get; set; }
         [MaxLength(400)]
         public string Excerpt { get; set; }
-        [Required(ErrorMessage = "文章内容不能为空")]
+        [Required(ErrorMessage = "随笔内容不能为空")]
         public string Content { get; set; }
         [MaxLength(400)]
         public string Thumbnail { get; set; }

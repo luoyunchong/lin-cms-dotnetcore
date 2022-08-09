@@ -7,7 +7,7 @@ namespace LinCms.Blog.UserLikes
     {
         public Guid SubjectId { get; set; }
         /// <summary>
-        /// 1.文章 2 评论
+        /// 1.随笔 2 评论
         /// </summary>
         public UserLikeSubjectType SubjectType { get; set; }
     }

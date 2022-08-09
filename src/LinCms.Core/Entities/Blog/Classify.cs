@@ -6,7 +6,7 @@ namespace LinCms.Entities.Blog
 {
 
     /// <summary>
-    /// 文章专栏，由普通用户创建
+    /// 随笔专栏，由普通用户创建
     /// </summary>
     [Table(Name = "blog_classify")]
     public class Classify : FullAuditEntity<Guid>

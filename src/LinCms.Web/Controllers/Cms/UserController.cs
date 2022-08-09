@@ -17,6 +17,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 用户
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [ApiController]
     [Route("cms/user")]

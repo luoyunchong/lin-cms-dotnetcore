@@ -24,6 +24,9 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 第三方登录
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/oauth2")]
     [ApiController]
@@ -298,7 +301,7 @@ namespace LinCms.Controllers.Cms
         }
 
         /// <summary>
-        /// 解绑用户的第三方账号。当用户没有密码时，无法解绑最后一个账号。只可以解绑自己的账号
+        /// 解绑用户的第三方账号：当用户没有密码时，无法解绑最后一个账号,只可以解绑自己的账号
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

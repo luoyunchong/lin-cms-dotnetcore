@@ -13,6 +13,9 @@ using Microsoft.Extensions.Options;
 
 namespace LinCms.Controllers.Cms
 {
+    /// <summary>
+    /// 文件
+    /// </summary>
     [ApiExplorerSettings(GroupName = "cms")]
     [Route("cms/file")]
     [ApiController]

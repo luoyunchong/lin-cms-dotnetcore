@@ -148,7 +148,7 @@ namespace LinCms.Entities.Blog
         {
             if (IsAudit == false)
             {
-                throw new LinCmsException("该文章因违规被拉黑");
+                throw new LinCmsException("该随笔因违规被拉黑");
             }
 
             if (likesQuantity < 0)

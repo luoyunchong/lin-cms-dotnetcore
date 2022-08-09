@@ -163,7 +163,7 @@
         </member>
         <member name="M:LinCms.Blog.Comments.ICommentService.GetListByArticleAsync(LinCms.Blog.Comments.CommentSearchDto)">
             <summary>
-            文章下的评论列表
+            随笔下的评论列表
             </summary>
             <param name="commentSearchDto"></param>
             <returns></returns>
@@ -248,7 +248,7 @@
         </member>
         <member name="P:LinCms.Blog.UserLikes.CreateUpdateUserLikeDto.SubjectType">
             <summary>
-            1.文章 2 评论
+            1.随笔 2 评论
             </summary>
         </member>
         <member name="M:LinCms.Blog.UserSubscribes.IUserSubscribeService.GetSubscribeUserIdAsync(System.Int64)">

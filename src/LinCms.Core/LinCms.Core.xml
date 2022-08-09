@@ -285,7 +285,7 @@
         </member>
         <member name="P:LinCms.Entities.Blog.Article.ClassifyId">
             <summary>
-            文章所在分类专栏Id
+            随笔所在分类专栏Id
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.Article.ChannelId">
@@ -405,7 +405,7 @@
         </member>
         <member name="T:LinCms.Entities.Blog.ArticleDraft">
             <summary>
-            文章草稿箱
+            随笔草稿箱
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.ArticleDraft.Content">
@@ -455,7 +455,7 @@
         </member>
         <member name="T:LinCms.Entities.Blog.Classify">
             <summary>
-            文章专栏，由普通用户创建
+            随笔专栏，由普通用户创建
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.Classify.Thumbnail">
@@ -565,7 +565,7 @@
         </member>
         <member name="P:LinCms.Entities.Blog.Notification.ArticleEntry">
             <summary>
-            文章内容
+            随笔内容
             </summary>
         </member>
         <member name="F:LinCms.Entities.Blog.NotificationType.UserLikeArticle">
@@ -645,7 +645,7 @@
         </member>
         <member name="P:LinCms.Entities.Blog.UserLike.SubjectType">
             <summary>
-            点赞类型 1 是文章，2 是评论
+            点赞类型 1 是随笔，2 是评论
             </summary>
         </member>
         <member name="F:LinCms.Entities.Blog.UserLikeSubjectType.UserLikeArticle">

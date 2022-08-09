@@ -25,10 +25,6 @@ namespace LinCms.Blog.Channels
             _fileRepository = fileRepository;
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            await _channelRepository.DeleteAsync(new Channel { Id = id });
-        }
 
         public async Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto)
         {
@@ -116,7 +112,11 @@ namespace LinCms.Blog.Channels
             var channelTagLists = new List<ChannelTag>();
             updateChannel.TagIds?.ForEach(r => { channelTagLists.Add(new ChannelTag(id, r)); });
             await _channelTagRepository.InsertAsync(channelTagLists);
+        }
 
+        public Task DeleteAsync(Guid id)
+        {
+            return _channelRepository.DeleteAsync(new Channel { Id = id });
         }
     }
 }

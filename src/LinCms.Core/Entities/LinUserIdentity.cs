@@ -46,11 +46,17 @@ namespace LinCms.Entities
         [Column(StringLength = 50)]
         public string Credential { get; set; }
 
-
-        public string ExtraProperties { get; set; }
+        /// <summary>
+        /// 扩展属性
+        /// </summary>
+        [JsonMap]
+        public ExtraProperties ExtraProperties { get; set; }
 
     }
 
+    /// <summary>
+    /// 扩展属性
+    /// </summary>
     public class ExtraProperties : Dictionary<string, string>
     {
 

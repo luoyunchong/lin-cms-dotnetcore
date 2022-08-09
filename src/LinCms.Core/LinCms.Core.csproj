@@ -20,6 +20,7 @@
 		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.508" />
 		<PackageReference Include="FreeSql" Version="3.2.666-preview20220717" />
 		<PackageReference Include="FreeSql.DbContext" Version="3.2.666-preview20220717" />
+		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.666-preview20220717" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />

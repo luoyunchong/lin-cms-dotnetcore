@@ -41,7 +41,7 @@ namespace LinCms.Entities.Blog
         public Comment CommentEntry { get; set; }
 
         /// <summary>
-        /// 文章内容
+        /// 随笔内容
         /// </summary>
         [Navigate("ArticleId")]
         public Article ArticleEntry { get; set; }

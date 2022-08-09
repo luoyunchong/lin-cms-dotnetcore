@@ -6,9 +6,16 @@ namespace LinCms.Blog.Channels
 {
     public interface IChannelService
     {
-        Task DeleteAsync(Guid id);
-
+        #region CRUD
         Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto);
+
+        Task<ChannelDto> GetAsync(Guid id);
+
+        Task CreateAsync(CreateUpdateChannelDto createChannel);
+
+        Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel);
+        Task DeleteAsync(Guid id);
+        #endregion
 
         /// <summary>
         /// 首页减少不必要的字段后，流量字节更少
@@ -16,11 +23,5 @@ namespace LinCms.Blog.Channels
         /// <param name="pageDto"></param>
         /// <returns></returns>
         Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto);
-
-        Task<ChannelDto> GetAsync(Guid id);
-
-        Task CreateAsync(CreateUpdateChannelDto createChannel);
-
-        Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel);
     }
 }

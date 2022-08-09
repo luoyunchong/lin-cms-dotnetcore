@@ -46,7 +46,7 @@ namespace LinCms.Controllers.Blog
         }
 
         /// <summary>
-        /// 用户点赞/取消点赞文章、评论 
+        /// 用户点赞/取消点赞随笔、评论 
         /// </summary>
         /// <param name="createUpdateUserLike"></param>
         /// <returns></returns>
@@ -66,7 +66,7 @@ namespace LinCms.Controllers.Blog
         }
 
         /// <summary>
-        /// 根据用户点赞类型：文章、评论，得到消息的NotificationRespUserId的值
+        /// 根据用户点赞类型：随笔、评论，得到消息的NotificationRespUserId的值
         /// </summary>
         /// <param name="createUpdateUserLike"></param>
         /// <param name="isCancel"></param>
