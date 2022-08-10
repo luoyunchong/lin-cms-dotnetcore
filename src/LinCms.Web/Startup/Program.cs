@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+
 using HealthChecks.UI.Client;
+
 using IGeekFan.AspNetCore.Knife4jUI;
 using IGeekFan.AspNetCore.RapiDoc;
+
 using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
 using LinCms.Data;
@@ -17,6 +21,7 @@ using LinCms.SnakeCaseQuery;
 using LinCms.Startup;
 using LinCms.Startup.Configuration;
 using LinCms.Utils;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -26,9 +31,12 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+
 using Owl.reCAPTCHA;
+
 using Serilog;
 using Serilog.Events;
 
@@ -65,104 +73,31 @@ builder.WebHost.ConfigureKestrel((context, options) =>
     //设置应用服务器Kestrel请求体最大为50MB，默认为28.6MB
     options.Limits.MaxRequestBodySize = 1024 * 1024 * 50;
 });
-services.AddCsRedisCore(c);
 
-services.AddJwtBearer(c);
+services
+    .AddLinServices(c)
+    .AddCustomMvc(c)
+    .AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly)
+    .AddCsRedisCore(c)
+    .AddJwtBearer(c)
+    .AddSwaggerGen()//Swagger 扩展方法配置
+    .AddCap(c)// 分布式事务一致性CAP
+    .AddIpRateLimiting(c)//之前请注入AddCsRedisCore，内部实现IDistributedCache接口
+    .AddGooglereCaptchav3(c)//配置Google验证码
+    ;
 
-services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly);
-
-services.AddCors();
-
-#region Mvc
-services.AddMvc(options =>
-{
-    options.ValueProviderFactories.Add(new ValueProviderFactory()); //设置SnakeCase形式的QueryString参数
-                                                                    //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
-    options.Filters.Add<LinCmsExceptionFilter>(); // 
-})
-    .AddNewtonsoftJson(opt =>
-    {
-        opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-        // 设置自定义时间戳格式
-        opt.SerializerSettings.Converters = new List<JsonConverter>()
-        {
-            new LinCmsTimeConverter()
-        };
-        // 设置下划线方式，首字母是小写
-        opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
-        {
-            NamingStrategy = new SnakeCaseNamingStrategy()
-            {
-                //ProcessDictionaryKeys = true
-            },
-        };
-    })
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        //options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
-        //自定义 BadRequest 响应
-        options.InvalidModelStateResponseFactory = context =>
-        {
-            var problemDetails = new ValidationProblemDetails(context.ModelState);
-            var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
-
-            return new BadRequestObjectResult(resultDto)
-            {
-                ContentTypes = { "application/json" }
-            };
-        };
-    });
-#endregion
-
-#region 配置Google验证码
-services.AddScoped<RecaptchaVerifyActionFilter>();
-services.Configure<GooglereCAPTCHAOptions>(c.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
-GooglereCAPTCHAOptions googlereCAPTCHAOptions = new GooglereCAPTCHAOptions();
-c.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings).Bind(googlereCAPTCHAOptions);
-services.AddreCAPTCHAV3(x =>
-{
-    x.VerifyBaseUrl = googlereCAPTCHAOptions.VerifyBaseUrl;
-    x.SiteKey = googlereCAPTCHAOptions.SiteKey;
-    x.SiteSecret = googlereCAPTCHAOptions.SiteSecret;
-});
-#endregion
-
-services.AddDIServices(c);
-
-//Swagger 扩展方法配置Swagger
-services.AddSwaggerGen();
-
-//应用程序级别设置
-services.Configure<FormOptions>(options =>
-{
-    //单个文件上传的大小限制为8 MB      默认134217728 应该是128MB
-    options.MultipartBodyLengthLimit = 1024 * 1024 * 8; //8MB
-});
-
-// 分布式事务一致性CAP
-services.AddCap(c);
-
-services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-});
-
-//之前请注入AddCsRedisCore，内部实现IDistributedCache接口
-services.AddIpRateLimiting(c);
-
-services.AddHealthChecks();
+services.AddHealthChecks();//健康检查
 
 var app = builder.Build();
 
 await app.Services.RunScopeClientPolicy();
 
-app.UseForwardedHeaders();
-
-app.UseBasicAuthentication();
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseSerilogRequestLogging(opts =>
+app
+.UseForwardedHeaders()
+.UseBasicAuthentication()
+.UseHttpsRedirection()
+.UseStaticFiles()
+.UseSerilogRequestLogging(opts =>
 {
     opts.EnrichDiagnosticContext = LogHelper.EnrichFromRequest;
     opts.GetLevel = (ctx, _, ex) =>
@@ -187,9 +122,11 @@ app.UseSwagger();
 app.UseSwaggerUI(r =>
 {
     //http://localhost:5000/swagger/index.html
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthAppName(c["Service:Name"]);
@@ -202,8 +139,10 @@ app.UseKnife4UI(r =>
     r.DocumentTitle = "LinCms博客模块";
     r.RoutePrefix = "k4";//http://localhost:5000/k4/index.html
                          //r.InjectStylesheet("");
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthAppName(c["Service:Name"]);
@@ -212,8 +151,17 @@ app.UseKnife4UI(r =>
 app.UseRapiDocUI(r =>
 {
     r.RoutePrefix = ""; //RapiDoc http://localhost:5000/index.html
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.GenericRapiConfig = new GenericRapiConfig()
+    {
+        RenderStyle = "focused",//read | view | focused
+        Theme = "light",//light,dark,focused
+        SchemaStyle= "table"//tree | table
+    };
+
 });
 
 #endregion
@@ -229,6 +177,7 @@ app.UseAuthentication();
 
 //IP 限流 RateLimitConfig.json
 app.UseMiddleware<IpLimitMiddleware>();
+
 //Fix login issue Exception: Correlation failed
 //https://github.com/dotnet-architecture/eShopOnContainers/pull/1516
 app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });

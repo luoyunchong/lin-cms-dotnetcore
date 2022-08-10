@@ -33,7 +33,7 @@ namespace LinCms.Startup
             return jsonWebTokenSettings;
         }
 
-        public static void AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
+        public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
         {
             JwtSettings jsonWebTokenSettings = services.AddSecurity(Configuration);
 
@@ -190,6 +190,7 @@ namespace LinCms.Startup
                     r.Realm = basicOption.Realm;
                 });
 
+            return services;
         }
     }
 }

@@ -4,6 +4,31 @@
         <name>LinCms.Web</name>
     </assembly>
     <members>
+        <member name="T:LinCms.Controllers.Base.BaseItemController">
+            <summary>
+            数据字典-详情项
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Base.BaseTypeController">
+            <summary>
+            数据字典-分类
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Base.CultureController">
+            <summary>
+            多语言
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Base.DocController">
+            <summary>
+            简单文档示例，仅仅是一个demo
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Base.ResourceController">
+            <summary>
+            语言下的本地化资源
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
             <summary>
             删除自己的随笔
@@ -63,7 +88,7 @@
         </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.UpdateCommentable(System.Guid,System.Boolean)">
             <summary>
-            修改随笔是否验证评论
+            修改随笔是否允许其他人评论
             </summary>
             <param name="id">随笔主键</param>
             <param name="commetable">true:允许评论;false:不允许评论</param>
@@ -212,6 +237,11 @@
             <param name="userId"></param>
             <param name="_userTagRepository"></param>
         </member>
+        <member name="T:LinCms.Controllers.Blog.UserTagController">
+            <summary>
+            用户关注标签
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.Blog.UserTagController.CreateUserTagAsync(System.Guid)">
             <summary>
             用户关注标签
@@ -229,6 +259,11 @@
             得到某个用户关注的标签
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.AccountController">
+            <summary>
+             账号
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.Cms.AccountController.Login(LinCms.Cms.Account.LoginInputDto)">
             <summary>
@@ -307,6 +342,11 @@
             <param name="resetPasswordDto"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Controllers.Cms.FileController">
+            <summary>
+            文件
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.Cms.FileController.UploadFiles">
             <summary>
             多文件上传
@@ -320,6 +360,16 @@
             <param name="file"></param>
             <param name="key"></param>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.GroupController">
+            <summary>
+            分组
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.LogController">
+            <summary>
+            日志
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.Cms.LogController.GetUsers(LinCms.Data.PageDto)">
             <summary>
@@ -346,6 +396,11 @@
             </summary>
             <param name="searchDto"></param>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.Oauth2Controller">
+            <summary>
+            第三方登录
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.Cms.Oauth2Controller.Home(System.String,System.String)">
             <summary>
@@ -402,10 +457,15 @@
         </member>
         <member name="M:LinCms.Controllers.Cms.Oauth2Controller.UnBind(System.Guid)">
             <summary>
-            解绑用户的第三方账号。当用户没有密码时，无法解绑最后一个账号。只可以解绑自己的账号
+            解绑用户的第三方账号：当用户没有密码时，无法解绑最后一个账号,只可以解绑自己的账号
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.PermissionController">
+            <summary>
+            权限
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.Cms.PermissionController.GetAllPermissions">
             <summary>
@@ -426,6 +486,16 @@
             </summary>
             <param name="permissionDto"></param>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.SettingController">
+            <summary>
+            设置
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Cms.UserController">
+            <summary>
+            用户
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.Cms.UserController.CreateAsync(LinCms.Cms.Users.CreateUserDto)">
             <summary>
@@ -449,6 +519,11 @@
             获取最新的12条新手用户数据
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.v1.MonitorController">
+            <summary>
+            监控
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.v1.MonitorController.GetServerInfo">
             <summary>
@@ -551,6 +626,21 @@
             <param name="invocation"></param>
         </member>
         <!-- Badly formed XML comment ignored for member "M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
+        <member name="T:LinCms.Middleware.UnitOfWorkDefualtOptions">
+            <summary>
+            默认事务配置
+            </summary>
+        </member>
+        <member name="P:LinCms.Middleware.UnitOfWorkDefualtOptions.Propagation">
+            <summary>
+            事务传播方式
+            </summary>
+        </member>
+        <member name="P:LinCms.Middleware.UnitOfWorkDefualtOptions.IsolationLevel">
+            <summary>
+            事务隔离级别
+            </summary>
+        </member>
         <member name="T:LinCms.SnakeCaseQuery.SnakeCaseQueryValueProvider">
             <summary>
             下划线写法（SnakeCase）
@@ -571,14 +661,22 @@
             注入Application层中的Service
             </summary>
         </member>
-        <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddFreeSql(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:LinCms.Startup.ServiceCollectionExtensions.AddLinServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            一些需要的服务，配置信息
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Startup.ServiceCollectionExtensions.AddFreeSql(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             FreeSql
             </summary>
             <param name="services"></param>
-            <param name="configuration"></param>
+            <param name="c"></param>
         </member>
-        <member name="M:LinCms.Startup.DependencyInjectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:LinCms.Startup.ServiceCollectionExtensions.AddIpRateLimiting(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             配置限流依赖的服务
             </summary>
@@ -586,11 +684,13 @@
             <param name="configuration"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Startup.DependencyInjectionExtensions.RunScopeClientPolicy(System.IServiceProvider)">
+        <member name="M:LinCms.Startup.SwaggerExtensions.AddSwaggerGen(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            获取一下Scope Service 以执行 Redis的初始化
+            Swagger 扩展方法配置
             </summary>
-            <param name="serviceProvider"></param>
+            <param name="services"></param>
+            <returns></returns>
+            <exception cref="T:LinCms.Exceptions.LinCmsException"></exception>
         </member>
         <member name="T:LinCms.Utils.ReflexHelper">
             <summary>

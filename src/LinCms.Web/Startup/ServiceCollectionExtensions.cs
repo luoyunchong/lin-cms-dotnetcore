@@ -1,42 +1,153 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AspNetCoreRateLimit;
+
 using CSRedis;
+
 using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
+
 using FreeSql;
 using FreeSql.Internal;
+
 using IGeekFan.FreeKit.Email;
+
+using LinCms.Aop.Filter;
+using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
 using LinCms.Entities;
+using LinCms.Extensions;
 using LinCms.FreeSql;
+using LinCms.Middleware;
+using LinCms.Models.Options;
+using LinCms.SnakeCaseQuery;
 using LinCms.Utils;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
+using Owl.reCAPTCHA;
+
 using Savorboard.CAP.InMemoryMessageQueue;
+
 using Serilog;
+
 using ToolGood.Words;
 
 namespace LinCms.Startup
 {
-    public static class DependencyInjectionExtensions
+    public static class ServiceCollectionExtensions
     {
+        #region Add 一些服务
+        /// <summary>
+        /// 一些需要的服务，配置信息
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddLinServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            //services.AddTransient<CustomExceptionMiddleWare>();
+            services.Configure<UnitOfWorkDefualtOptions>(c =>
+            {
+                c.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
+                c.Propagation = Propagation.Required;
+            });
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+
+            //应用程序级别设置
+            services.Configure<FormOptions>(options =>
+            {
+                //单个文件上传的大小限制为8 MB      默认134217728 应该是128MB
+                options.MultipartBodyLengthLimit = 1024 * 1024 * 8; //8MB
+            });
+
+            services.AddHttpClient("IdentityServer4");
+            services.AddEmailSender(configuration);
+            services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
+            services.Configure<SiteOption>(configuration.GetSection("Site"));
+            return services;
+        }
+        #endregion
+
+        #region AddCustomMvc
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration c)
+        {
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            services.AddEndpointsApiExplorer();
+            services.AddCors();
+            services.AddMvc(options =>
+                {
+                    options.ValueProviderFactories.Add(new ValueProviderFactory()); //设置SnakeCase形式的QueryString参数
+                    //options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
+                    options.Filters.Add<LinCmsExceptionFilter>(); // 
+                })
+                .AddNewtonsoftJson(opt =>
+                {
+                    opt.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                    // 设置自定义时间戳格式
+                    opt.SerializerSettings.Converters = new List<JsonConverter>()
+                    {
+                        new LinCmsTimeConverter()
+                    };
+                    // 设置下划线方式，首字母是小写
+                    opt.SerializerSettings.ContractResolver = new DefaultContractResolver()
+                    {
+                        NamingStrategy = new SnakeCaseNamingStrategy()
+                        {
+                            //ProcessDictionaryKeys = true
+                        },
+                    };
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    //options.SuppressConsumesConstraintForFormFileParameters = true; //SuppressUseValidationProblemDetailsForInvalidModelStateResponses;
+                    //自定义 BadRequest 响应
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetails = new ValidationProblemDetails(context.ModelState);
+                        var resultDto = new UnifyResponseDto(ErrorCode.ParameterError, problemDetails.Errors, context.HttpContext);
+
+                        return new BadRequestObjectResult(resultDto)
+                        {
+                            ContentTypes = { "application/json" }
+                        };
+                    };
+                });
+            return services;
+        }
+        #endregion
+
         #region FreeSql 已换成AutoFac注入方式 Configuration/FreeSqlModule
         /// <summary>
         /// FreeSql
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void AddFreeSql(this IServiceCollection services, IConfiguration configuration)
+        /// <param name="c"></param>
+        public static void AddFreeSql(this IServiceCollection services, IConfiguration c)
         {
             IFreeSql fsql = new FreeSqlBuilder()
-                   .UseConnectionString(configuration)
+                   .UseConnectionString(c)
                    .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                    .UseAutoSyncStructure(true)
                    .UseNoneCommandParameter(true)
@@ -46,7 +157,7 @@ namespace LinCms.Startup
                    }
                    )
                    .Build()
-                   .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true);//联级保存功能开启（默认为关闭）
+                   .SetDbContextOptions(opt => opt.EnableCascadeSave = true);//联级保存功能开启（默认为关闭）
 
             fsql.Aop.CurdAfter += (s, e) =>
             {
@@ -61,7 +172,7 @@ namespace LinCms.Startup
             };
 
             //敏感词处理
-            if (configuration["AuditValue:Enable"].ToBoolean())
+            if (c["AuditValue:Enable"].ToBoolean())
             {
                 IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
 
@@ -109,7 +220,7 @@ namespace LinCms.Startup
         #endregion
 
         #region 初始化 Redis配置
-        public static void AddCsRedisCore(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCsRedisCore(this IServiceCollection services, IConfiguration configuration)
         {
 
             IConfigurationSection csRediSection = configuration.GetSection("ConnectionStrings:CsRedis");
@@ -118,21 +229,11 @@ namespace LinCms.Startup
             RedisHelper.Initialization(csRedisClient);
             //注册mvc分布式缓存
             services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
+            return services;
         }
         #endregion
 
-
-        public static void AddDIServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            //services.AddTransient<CustomExceptionMiddleWare>();
-
-            services.AddFreeRepository();
-            services.AddHttpClient("IdentityServer4");
-            services.AddEmailSender(configuration);
-            services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
-            services.Configure<SiteOption>(configuration.GetSection("Site"));
-        }
-
+        #region 配置限流依赖的服务
         /// <summary>
         /// 配置限流依赖的服务
         /// </summary>
@@ -152,7 +253,7 @@ namespace LinCms.Startup
 
             return services;
         }
-
+        #endregion
 
         #region 分布式事务一致性CAP
 
@@ -256,11 +357,7 @@ namespace LinCms.Startup
 
         #endregion
 
-
-        /// <summary>
-        /// 获取一下Scope Service 以执行 Redis的初始化
-        /// </summary>
-        /// <param name="serviceProvider"></param>
+        #region 获取一下Scope Service 以执行 IP Limit的 Redis初始化
         public static async Task RunScopeClientPolicy(this IServiceProvider serviceProvider)
         {
             using var scope = serviceProvider.CreateScope();
@@ -281,5 +378,23 @@ namespace LinCms.Startup
                 logger.LogError(ex, "An error occurred.");
             }
         }
+        #endregion
+
+        #region 配置Google验证码
+        public static IServiceCollection AddGooglereCaptchav3(this IServiceCollection services, IConfiguration c)
+        {
+            services.AddScoped<RecaptchaVerifyActionFilter>();
+            services.Configure<GooglereCAPTCHAOptions>(c.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings));
+            GooglereCAPTCHAOptions googlereCaptchaOptions = new GooglereCAPTCHAOptions();
+            c.GetSection(GooglereCAPTCHAOptions.RecaptchaSettings).Bind(googlereCaptchaOptions);
+            services.AddreCAPTCHAV3(x =>
+            {
+                x.VerifyBaseUrl = googlereCaptchaOptions.VerifyBaseUrl;
+                x.SiteKey = googlereCaptchaOptions.SiteKey;
+                x.SiteSecret = googlereCaptchaOptions.SiteSecret;
+            });
+            return services;
+        } 
+        #endregion
     }
 }

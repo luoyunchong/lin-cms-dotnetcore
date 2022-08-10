@@ -108,7 +108,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
 // HTTP基本认证Middleware
 public static class BasicAuthentication
 {
-    public static void UseBasicAuthentication(this IApplicationBuilder app)
+    public static IApplicationBuilder UseBasicAuthentication(this IApplicationBuilder app)
     {
         IOptionsMonitor<BasicAuthenticationOption>? optionsMonitor = app.ApplicationServices.GetService<IOptionsMonitor<BasicAuthenticationOption>>();
 
@@ -121,6 +121,8 @@ public static class BasicAuthentication
             }
             app.UseWhen(expression.Compile(), configuration: x => { x.UseMiddleware<BasicAuthenticationMiddleware>(); });
         }
+
+        return app;
     }
 }
 

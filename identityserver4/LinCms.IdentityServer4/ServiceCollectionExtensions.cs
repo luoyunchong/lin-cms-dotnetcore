@@ -32,7 +32,7 @@ using System.Security.Cryptography.X509Certificates;
 #endif
 namespace LinCms.IdentityServer4
 {
-    public static class DependencyInjectionExtensions
+    public static class ServiceCollectionExtensions
     {
         #region FreeSql
         /// <summary>

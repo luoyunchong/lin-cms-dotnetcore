@@ -4,16 +4,16 @@ namespace LinCms.Middleware
 {
     public class UnitOfWorkInterceptor : IInterceptor
     {
-        private readonly UnitOfWorkAsyncInterceptor asyncInterceptor;
+        private readonly UnitOfWorkAsyncInterceptor _asyncInterceptor;
 
         public UnitOfWorkInterceptor(UnitOfWorkAsyncInterceptor interceptor)
         {
-            asyncInterceptor = interceptor;
+            _asyncInterceptor = interceptor;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            asyncInterceptor.ToInterceptor().Intercept(invocation);
+            _asyncInterceptor.ToInterceptor().Intercept(invocation);
         }
     }
 }

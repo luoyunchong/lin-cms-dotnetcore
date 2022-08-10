@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+
 using LinCms.Aop.Attributes;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.v1
 {
+    /// <summary>
+    /// 监控
+    /// </summary>
     [ApiExplorerSettings(GroupName = "v1")]
     [Route("v1/monitor")]
     [ApiController]

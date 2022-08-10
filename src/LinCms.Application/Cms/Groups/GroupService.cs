@@ -71,7 +71,7 @@ namespace LinCms.Cms.Groups
             LinGroup linGroup = Mapper.Map<LinGroup>(inputDto);
 
             using Object<DbConnection> conn = _freeSql.Ado.MasterPool.Get();
-            using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
+            await using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
             try
             {
                 long groupId = await _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
@@ -202,7 +202,7 @@ namespace LinCms.Cms.Groups
         /// <summary>
         /// 检测新增的分组Id都存在系统中
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="addGroupIds">新增的分组Id</param>
         /// <returns></returns>
         private async Task<bool> CheckGroupExistByIds(List<long> addGroupIds)
         {

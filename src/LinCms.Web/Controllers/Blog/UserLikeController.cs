@@ -16,6 +16,7 @@ namespace LinCms.Controllers.Blog
     /// <summary>
     ///  用户点赞随笔
     /// </summary>
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/user-like")]
     [ApiController]

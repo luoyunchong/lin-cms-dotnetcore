@@ -12,6 +12,7 @@ namespace LinCms.Controllers.Blog
     /// 随笔草稿箱，自动保存随笔
     /// </summary>
     [Area("blog")]
+    [ApiExplorerSettings(GroupName = "blog")]
     [Route("api/blog/articles/draft")]
     [ApiController]
     [Authorize]

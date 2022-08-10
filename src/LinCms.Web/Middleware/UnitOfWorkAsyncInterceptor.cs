@@ -4,6 +4,7 @@ using Castle.DynamicProxy;
 using FreeSql;
 using LinCms.Aop.Attributes;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace LinCms.Middleware
 {
@@ -12,11 +13,13 @@ namespace LinCms.Middleware
         private readonly UnitOfWorkManager _unitOfWorkManager;
         private readonly ILogger<UnitOfWorkAsyncInterceptor> _logger;
         IUnitOfWork _unitOfWork;
+        private readonly UnitOfWorkDefualtOptions _unitOfWorkDefualtOptions;
 
-        public UnitOfWorkAsyncInterceptor(UnitOfWorkManager unitOfWorkManager, ILogger<UnitOfWorkAsyncInterceptor> logger)
+        public UnitOfWorkAsyncInterceptor(UnitOfWorkManager unitOfWorkManager, ILogger<UnitOfWorkAsyncInterceptor> logger, IOptions<UnitOfWorkDefualtOptions> unitOfWorkDefualtOptions)
         {
             _unitOfWorkManager = unitOfWorkManager;
             _logger = logger;
+            _unitOfWorkDefualtOptions = unitOfWorkDefualtOptions.Value;
         }
 
         private bool TryBegin(IInvocation invocation)
@@ -27,7 +30,15 @@ namespace LinCms.Middleware
             var attribute = method.GetCustomAttributes(typeof(TransactionalAttribute), false).FirstOrDefault();
             if (attribute is TransactionalAttribute transaction)
             {
-                _unitOfWork = _unitOfWorkManager.Begin(transaction.Propagation, transaction.IsolationLevel);
+                if (transaction.IsolationLevel == null)
+                {
+                    transaction.IsolationLevel = _unitOfWorkDefualtOptions.IsolationLevel;
+                }
+                if (transaction.Propagation == null)
+                {
+                    transaction.Propagation = _unitOfWorkDefualtOptions.Propagation;
+                }
+                _unitOfWork = _unitOfWorkManager.Begin(transaction.Propagation ?? Propagation.Required, transaction.IsolationLevel);
                 return true;
             }
 

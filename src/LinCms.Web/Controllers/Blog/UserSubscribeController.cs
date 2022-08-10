@@ -14,6 +14,7 @@ namespace LinCms.Controllers.Blog
     /// <summary>
     /// 用户订阅
     /// </summary>
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/subscribe")]
     [ApiController]

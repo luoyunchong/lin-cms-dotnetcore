@@ -38,7 +38,7 @@ namespace LinCms.Startup.Configuration
                 )
                 .CreateDatabaseIfNotExists()
                 .Build()
-                .SetDbContextOptions(opt => opt.EnableAddOrUpdateNavigateList = true)//联级保存功能开启（默认为关闭）
+                .SetDbContextOptions(opt => opt.EnableCascadeSave = true)//联级保存功能开启（默认为关闭）
                 ;
 
 

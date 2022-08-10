@@ -4,12 +4,6 @@
         <name>LinCms.IdentityServer4</name>
     </assembly>
     <members>
-        <member name="M:LinCms.IdentityServer4.DependencyInjectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            FreeSql
-            </summary>
-            <param name="services"></param>
-        </member>
         <member name="F:LinCms.IdentityServer4.IdentityServer4.LinCmsProfileService._logger">
             <summary>
             The logger
@@ -50,6 +44,12 @@
             </summary>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="M:LinCms.IdentityServer4.ServiceCollectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            FreeSql
+            </summary>
+            <param name="services"></param>
         </member>
     </members>
 </doc>

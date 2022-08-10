@@ -12,6 +12,7 @@ namespace LinCms.Controllers.Blog
     /// <summary>
     /// 技术频道
     /// </summary>
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/channels")]
     [ApiController]

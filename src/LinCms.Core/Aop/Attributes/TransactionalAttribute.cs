@@ -7,13 +7,13 @@ namespace LinCms.Aop.Attributes
     /// <summary>
     /// 事务
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class TransactionalAttribute : Attribute
     {
         /// <summary>
         /// 事务传播方式
         /// </summary>
-        public Propagation Propagation { get; set; } = Propagation.Required;
+        public Propagation? Propagation { get; set; }
 
         /// <summary>
         /// 事务隔离级别

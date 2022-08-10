@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Base
 {
+    /// <summary>
+    /// 语言下的本地化资源
+    /// </summary>
+    [ApiExplorerSettings(GroupName = "base")]
     [Area("base")]
     [Route("api/base/resource")]
     [ApiController]

@@ -22,6 +22,12 @@ namespace LinCms.Startup
     public static class SwaggerExtensions
     {
         #region AddSwaggerGen
+        /// <summary>
+        /// Swagger 扩展方法配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        /// <exception cref="LinCmsException"></exception>
         public static IServiceCollection AddSwaggerGen(this IServiceCollection services)
         {
             //解决  https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1349#issuecomment-572537295
@@ -58,6 +64,8 @@ namespace LinCms.Startup
                 });
 
                 options.SwaggerDoc("cms", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "cms" });
+                options.SwaggerDoc("base", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "base" });
+                options.SwaggerDoc("blog", new OpenApiInfo() { Title = ApiName + RuntimeInformation.FrameworkDescription, Version = "blog" });
 
                 //添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()

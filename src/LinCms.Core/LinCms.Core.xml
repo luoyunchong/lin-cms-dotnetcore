@@ -258,9 +258,64 @@
             请求地址
              </summary>
         </member>
+        <member name="T:LinCms.Dependency.DisableConventionalRegistrationAttribute">
+            <summary>
+            禁用默认Service后缀的服务，禁用默认的接口就注入服务
+            </summary>
+        </member>
         <member name="T:LinCms.Dependency.IScopedDependency">
             <summary>
             实现该接口将自动注册到Ioc容器，生命周期为每次请求创建一个实例
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Base.BaseItem">
+            <summary>
+            数据字典-详情项
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseItem.BaseTypeId">
+            <summary>
+            数据字典-分类Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseItem.ItemCode">
+            <summary>
+            数据字典-编码
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseItem.ItemName">
+            <summary>
+            数据字典-名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseItem.SortCode">
+            <summary>
+            排序码
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseItem.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Base.BaseType">
+            <summary>
+            数据字典-分类
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseType.TypeCode">
+            <summary>
+            分类编码
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseType.FullName">
+            <summary>
+            分类名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Base.BaseType.SortCode">
+            <summary>
+            排序码
             </summary>
         </member>
         <member name="T:LinCms.Entities.Base.Doc">
@@ -281,6 +336,21 @@
         <member name="T:LinCms.Entities.BlackRecord">
             <summary>
             黑名单，实现登录Token的过期
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.BlackRecord.Jti">
+            <summary>
+            用户Token
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.BlackRecord.UserName">
+            <summary>
+            登录名
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Blog.Article">
+            <summary>
+            随笔
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.Article.ClassifyId">
@@ -316,6 +386,11 @@
         <member name="P:LinCms.Entities.Blog.Article.Content">
             <summary>
             正文
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.Article.ViewHits">
+            <summary>
+            浏览量
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.Article.CommentQuantity">
@@ -453,6 +528,21 @@
             是否有效
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Blog.ChannelTag">
+            <summary>
+             频道标签
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.ChannelTag.ChannelId">
+            <summary>
+            频道Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.ChannelTag.TagId">
+            <summary>
+            标签Id
+            </summary>
+        </member>
         <member name="T:LinCms.Entities.Blog.Classify">
             <summary>
             随笔专栏，由普通用户创建
@@ -535,7 +625,7 @@
         </member>
         <member name="P:LinCms.Entities.Blog.Notification.NotificationType">
             <summary>
-            消息类型
+            消息通知
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.Notification.IsRead">
@@ -638,6 +728,16 @@
             关注数量
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Blog.TagArticle">
+            <summary>
+            随笔标签
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Blog.UserLike">
+            <summary>
+            用户点赞:点赞随笔、评论内容
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Blog.UserLike.SubjectId">
             <summary>
             点赞对象
@@ -671,6 +771,11 @@
         <member name="P:LinCms.Entities.Blog.UserSubscribe.CreateUserId">
             <summary>
             关注的用户Id
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Blog.UserTag">
+            <summary>
+            用户关注的标签
             </summary>
         </member>
         <member name="T:LinCms.Entities.Book">
@@ -765,7 +870,7 @@
         </member>
         <member name="P:LinCms.Entities.LinFile.Extension">
             <summary>
-            后缀
+            文件后缀
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinFile.Md5">
@@ -963,6 +1068,16 @@
             JWT 登录，保存生成的随机token值。
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinUser.IsEmailConfirmed">
+            <summary>
+            邮件是否激活
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.LinUser.PasswordResetCode">
+            <summary>
+            密码重置码（非验证码，用于验证是否是同一个浏览器请求）
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinUser.Salt">
             <summary>
             盐值
@@ -993,9 +1108,24 @@
              凭证，例如 密码,存OpenId、Id，同一IdentityType的OpenId的值是唯一的
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinUserIdentity.ExtraProperties">
+            <summary>
+            扩展属性
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.ExtraProperties">
+            <summary>
+            扩展属性
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.SerilogDO">
+            <summary>
+            Serilog数据库存储
+            </summary>
+        </member>
         <member name="T:LinCms.Entities.Settings.LinSetting">
             <summary>
-            all settings config
+            配置项
             </summary>
         </member>
         <member name="P:LinCms.Entities.Settings.LinSetting.Name">

@@ -29,7 +29,6 @@ Log.Information("Starting web host");
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 #endif
-
 #endregion
 
 InMemoryConfiguration.Configuration = Configuration;
@@ -37,7 +36,6 @@ InMemoryConfiguration.Configuration = Configuration;
 builder.Services.AddServices(Configuration);
 
 var app = builder.Build();
-
 
 var options = new ForwardedHeadersOptions
 {

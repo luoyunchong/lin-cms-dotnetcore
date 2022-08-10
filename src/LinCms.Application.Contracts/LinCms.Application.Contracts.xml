@@ -34,6 +34,37 @@
             几小时/秒前
             </summary>
         </member>
+        <member name="M:LinCms.Blog.Articles.IArticleService.UpdateTagAsync(System.Guid,LinCms.Blog.Articles.CreateUpdateArticleDto)">
+            <summary>
+             随笔选择多个标签
+            </summary>
+            <param name="id"></param>
+            <param name="updateArticleDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Articles.IArticleService.GetSubscribeArticleAsync(LinCms.Data.PageDto)">
+            <summary>
+            得到我关注的人发布的随笔
+            </summary>
+            <param name="pageDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Articles.IArticleService.UpdateLikeQuantityAysnc(System.Guid,System.Int32)">
+            <summary>
+            更新随笔点赞量
+            </summary>
+            <param name="subjectId"></param>
+            <param name="likesQuantity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Articles.IArticleService.UpdateCommentable(System.Guid,System.Boolean)">
+            <summary>
+            修改随笔是否允许其他人评论
+            </summary>
+            <param name="id"></param>
+            <param name="commetable"></param>
+            <returns></returns>
+        </member>
         <member name="P:LinCms.Blog.Channels.ChannelDto.Thumbnail">
             <summary>
             封面图
@@ -175,6 +206,40 @@
             <param name="commentSearchDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Blog.Comments.ICommentService.CreateAsync(LinCms.Blog.Comments.CreateCommentDto)">
+            <summary>
+            发表评论
+            </summary>
+            <param name="createCommentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Comments.ICommentService.DeleteAsync(LinCms.Entities.Blog.Comment)">
+            <summary>
+            删除评论并同步随笔数量
+            </summary>
+            <param name="comment"></param>
+        </member>
+        <member name="M:LinCms.Blog.Comments.ICommentService.DeleteAsync(System.Guid)">
+            <summary>
+            删除评论,先查一次
+            </summary>
+            <param name="comment"></param>
+        </member>
+        <member name="M:LinCms.Blog.Comments.ICommentService.DeleteMyComment(System.Guid)">
+            <summary>
+            只删除自己的评论
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Comments.ICommentService.UpdateLikeQuantityAysnc(System.Guid,System.Int32)">
+            <summary>
+            修改评论的点赞的数量
+            </summary>
+            <param name="subjectId"></param>
+            <param name="likesQuantity"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Blog.Notifications.INotificationService.CreateOrCancelAsync(LinCms.Blog.Notifications.CreateNotificationDto)">
             <summary>
             新增一个消息通知,或取消消息通知
@@ -250,6 +315,13 @@
             <summary>
             1.随笔 2 评论
             </summary>
+        </member>
+        <member name="M:LinCms.Blog.UserLikes.IUserLikeService.CreateOrCancelAsync(LinCms.Blog.UserLikes.CreateUpdateUserLikeDto)">
+            <summary>
+            点赞/取消点赞随笔、评论 
+            </summary>
+            <param name="createUpdateUserLike"></param>
+            <returns></returns>
         </member>
         <member name="M:LinCms.Blog.UserSubscribes.IUserSubscribeService.GetSubscribeUserIdAsync(System.Int64)">
             <summary>
@@ -563,6 +635,11 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="T:LinCms.Cms.Users.IUserIdentityService">
+            <summary>
+            用户对应多个身份体系
+            </summary>
+        </member>
         <member name="M:LinCms.Cms.Users.IUserIdentityService.VerifyUserPasswordAsync(System.Int64,System.String,System.String)">
             <summary>
             验证用户密码是否正确
@@ -594,6 +671,13 @@
             根据用户id得到密码模式的用户授权信息
             </summary>
             <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserIdentityService.UnBind(System.Guid)">
+            <summary>
+            解绑用户的第三方账号：当用户没有密码时，无法解绑最后一个账号,只可以解绑自己的账号
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Cms.Users.IUserService.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">

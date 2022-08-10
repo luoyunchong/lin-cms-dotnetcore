@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog
 {
+    /// <summary>
+    /// 用户关注标签
+    /// </summary>
+    [ApiExplorerSettings(GroupName = "blog")]
     [Area("blog")]
     [Route("api/blog/user-tag")]
     [ApiController]
