@@ -2,6 +2,9 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 文件
+    /// </summary>
     [Table(Name = "lin_file")]
     public class LinFile : FullAuditEntity
     {

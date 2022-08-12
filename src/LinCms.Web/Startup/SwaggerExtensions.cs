@@ -169,6 +169,7 @@ namespace LinCms.Startup
                 options.CustomOperationIds(apiDesc =>
                 {
                     var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
+                    if (controllerAction == null) return Guid.NewGuid().ToString();
                     return $"{controllerAction.ControllerName}-{controllerAction.ActionName}-{controllerAction.GetHashCode()}";
                 });
             });

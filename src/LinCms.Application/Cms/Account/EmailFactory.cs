@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Email;
-using LinCms.Data.Options;
 using Microsoft.Extensions.Options;
 using MimeKit;
 

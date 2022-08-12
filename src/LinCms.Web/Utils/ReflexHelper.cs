@@ -207,7 +207,9 @@ namespace LinCms.Utils
         public static Type[] GetTypesByTableAttribute()
         {
             List<Type> tableAssembies = new List<Type>();
-            foreach (Type type in Assembly.GetAssembly(typeof(IEntity)).GetExportedTypes())
+            var assembly = Assembly.GetAssembly(typeof(IEntity));
+            if (assembly == null) return new Type[0];
+            foreach (Type type in assembly.GetExportedTypes())
             {
                 foreach (Attribute attribute in type.GetCustomAttributes())
                 {

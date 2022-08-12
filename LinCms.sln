@@ -38,8 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identityserver4", "identity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.IdentityServer4", "identityserver4\LinCms.IdentityServer4\LinCms.IdentityServer4.csproj", "{37084D54-1A11-4C04-A091-EB502BB49B19}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{CBEF94DE-6781-4649-9768-C8DFC0C66A53}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinCms.Application.Contracts", "src\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj", "{70E47B1C-17F2-4F9A-9EF6-4F94548E506D}"
 EndProject
 Global

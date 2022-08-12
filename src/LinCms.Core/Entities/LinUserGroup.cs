@@ -2,6 +2,9 @@
 
 namespace LinCms.Entities
 {
+    /// <summary>
+    /// 用户分组中间表
+    /// </summary>
     [Table(Name = "lin_user_group")]
     public class LinUserGroup : Entity<long>
     {
