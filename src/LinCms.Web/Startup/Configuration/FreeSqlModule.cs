@@ -9,7 +9,6 @@ using LinCms.FreeSql;
 using LinCms.Utils;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using ToolGood.Words;
 
 namespace LinCms.Startup.Configuration
 {
@@ -58,26 +57,10 @@ namespace LinCms.Startup.Configuration
             //敏感词处理
             if (_configuration["AuditValue:Enable"].ToBoolean())
             {
-                IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
-
-                fsql.Aop.AuditValue += (s, e) =>
-                {
-                    if (e.Column.CsType == typeof(string) && e.Value != null)
-                    {
-                        string oldVal = (string)e.Value;
-                        string newVal = illegalWords.Replace(oldVal);
-                        //第二种处理敏感词的方式
-                        //string newVal = oldVal.ReplaceStopWords();
-                        if (newVal != oldVal)
-                        {
-                            e.Value = newVal;
-                        }
-                    }
-                };
+             
             }
 
             builder.RegisterInstance(fsql).SingleInstance();
-            //services.AddFreeRepository();
 
             builder.RegisterType(typeof(UnitOfWorkManager)).InstancePerLifetimeScope();
 

@@ -169,17 +169,17 @@
             refresh token
             </summary>
         </member>
-        <member name="T:LinCms.Data.Enums.UserActive">
+        <member name="T:LinCms.Data.Enums.UserStatus">
             当前用户是否为激活状态的枚举
             ACTIVE 代表 激活状态
             NOT_ACTIVE 代表 非激活状态
         </member>
-        <member name="F:LinCms.Data.Enums.UserActive.Active">
+        <member name="F:LinCms.Data.Enums.UserStatus.Active">
             <summary>
             激活状态
             </summary>
         </member>
-        <member name="F:LinCms.Data.Enums.UserActive.NotActive">
+        <member name="F:LinCms.Data.Enums.UserStatus.NotActive">
             <summary>
             非激活状态
             </summary>
@@ -868,6 +868,11 @@
             主键Id
             </summary>
         </member>
+        <member name="T:LinCms.Entities.LinFile">
+            <summary>
+            文件
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinFile.Extension">
             <summary>
             文件后缀
@@ -900,7 +905,7 @@
         </member>
         <member name="T:LinCms.Entities.LinGroup">
             <summary>
-            用户组
+             分组
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinGroup.Name">
@@ -1086,6 +1091,11 @@
         <member name="M:LinCms.Entities.LinUser.AddRefreshToken">
             <summary>
             登录后用户状态变化
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.LinUserGroup">
+            <summary>
+            用户分组中间表
             </summary>
         </member>
         <member name="T:LinCms.Entities.LinUserIdentity">

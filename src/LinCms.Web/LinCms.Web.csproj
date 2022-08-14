@@ -47,24 +47,15 @@
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="6.1.0" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.1.0" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.1.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
-		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
 		<PackageReference Include="Owl.reCAPTCHA" Version="0.5.0" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="6.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
 		<PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.1" />
-		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
+		<PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.8.0-dev-00020" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />

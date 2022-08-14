@@ -635,6 +635,24 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="M:LinCms.Cms.Users.IOAuth2Service.SaveUserAsync(System.Security.Claims.ClaimsPrincipal,System.String)">
+            <summary>
+            第三方登录后，自动注册用户信息
+            </summary>
+            <param name="principal"></param>
+            <param name="openId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IOAuth2Service.BindAsync(System.Security.Claims.ClaimsPrincipal,System.String,System.String,System.Int64)">
+            <summary>
+             用户账号绑定第三方账号
+            </summary>
+            <param name="principal"></param>
+            <param name="identityType"></param>
+            <param name="openId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:LinCms.Cms.Users.IUserIdentityService">
             <summary>
             用户对应多个身份体系
@@ -666,9 +684,23 @@
             <param name="newpassword"></param>
             <param name="salt"></param>
         </member>
+        <member name="M:LinCms.Cms.Users.IUserIdentityService.DeleteAsync(System.Int64)">
+            <summary>
+            根据用户Id删除绑定信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Cms.Users.IUserIdentityService.GetFirstByUserIdAsync(System.Int64)">
             <summary>
             根据用户id得到密码模式的用户授权信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserIdentityService.GetListAsync(System.Int64)">
+            <summary>
+            根据用户Id获取第三方绑定信息
             </summary>
             <param name="userId"></param>
             <returns></returns>
@@ -680,6 +712,18 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Cms.Users.IUserService">
+            <summary>
+            用户服务 
+            </summary>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserService.ChangePasswordAsync(LinCms.Cms.Users.ChangePasswordDto)">
+            <summary>
+            用户修改了自己的密码
+            </summary>
+            <param name="passwordDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Cms.Users.IUserService.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">
             <summary>
             根据分组条件查询用户信息
@@ -687,12 +731,12 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Cms.Users.IUserService.ChangeStatusAsync(System.Int64,LinCms.Data.Enums.UserActive)">
+        <member name="M:LinCms.Cms.Users.IUserService.ChangeStatusAsync(System.Int64,LinCms.Data.Enums.UserStatus)">
             <summary>
             修改用户状态
             </summary>
             <param name="id"></param>
-            <param name="userActive"></param>
+            <param name="userStatus"></param>
         </member>
         <member name="M:LinCms.Cms.Users.IUserService.CreateAsync(LinCms.Entities.LinUser,System.Collections.Generic.List{System.Int64},System.String)">
             <summary>
@@ -713,6 +757,27 @@
             <summary>
             得到当前用户上下文
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserService.GetInformationAsync(System.Int64)">
+            <summary>
+            根据用户Id获取用户信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserService.GetStructualUserPermissions(System.Int64)">
+            <summary>
+            查询用户拥有的权限
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserService.GetUserPermissionsAsync(System.Int64)">
+            <summary>
+            查找用户搜索分组，查找分组下的所有权限
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="P:LinCms.Cms.Users.UserInformation.Nickname">

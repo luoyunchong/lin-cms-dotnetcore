@@ -11,7 +11,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
-    [DisableConventionalRegistrationAttribute]
+    [DisableConventionalRegistration]
     public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;
@@ -48,7 +48,7 @@ namespace LinCms.Cms.Users
 
                 LinUser user = new()
                 {
-                    Active = UserActive.Active,
+                    Active = UserStatus.Active,
                     Avatar = avatarUrl,
                     CreateTime = DateTime.Now,
                     LastLoginTime = DateTime.Now,

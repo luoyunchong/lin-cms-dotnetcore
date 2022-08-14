@@ -255,12 +255,12 @@ namespace LinCms.Controllers.Cms
         }
 
         [HttpGet("signout")]
-        public IActionResult SignOut()
+        public new IActionResult SignOut()
         {
             // Instruct the cookies middleware to delete the local cookie created
             // when the user agent is redirected from the external identity provider
             // after a successful authentication flow (e.g Google or Facebook).
-            return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
+            return base.SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         /// <summary>

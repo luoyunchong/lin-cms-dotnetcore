@@ -13,10 +13,12 @@
 		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.6" />
 		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="6.0.6" />
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
-		<PackageReference Include="DotNetCore.CAP.MySql" Version="6.1.0" />
-		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="6.0.1" />-->
+		<PackageReference Include="DotNetCore.CAP.MySql" Version="6.1.1-preview-176300030" />
+		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="6.1.1-preview-176300030" />-->
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="6.1.1-preview-176300030" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.1.1-preview-176300030" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.1.1-preview-176300030" />
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
-		<PackageReference Include="DotNetCore.CAP" Version="6.1.0" />
 		<PackageReference Include="IdentityModel" Version="6.0.0" />
 		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.510" />
 		<PackageReference Include="MQiniu.Core" Version="1.0.1" />

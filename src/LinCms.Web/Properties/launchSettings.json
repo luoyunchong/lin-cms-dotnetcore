@@ -1,14 +1,22 @@
-﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
+{
   "profiles": {
     "LinCms.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger/index.html",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development" //Staging  Development
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000" //
+      "applicationUrl": "https://localhost:5002;http://localhost:5001"
+    },
+    "Nacos": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Nacos"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
     "Docker": {
       "commandName": "Docker",
@@ -22,5 +30,6 @@
       "useSSL": true,
       "sslPort": 44391
     }
-  }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json"
 }

@@ -10,18 +10,18 @@ namespace LinCms.FreeSql
 {
     public static class CodeFirstExtension
     {
-
         public static ICodeFirst SeedData(this ICodeFirst @this)
-        {           
-            @this.Entity<LinGroup>(e =>
-            {
-                e.HasData(new List<LinGroup>()
-                    {
-                        new(LinGroup.Admin,"系统管理员",true),
-                        new(LinGroup.CmsAdmin,"CMS管理员",true),
-                        new(LinGroup.User,"普通用户",true)
-                    });
-            })
+        {
+            @this
+                .Entity<LinGroup>(e =>
+                {
+                    e.HasData(new List<LinGroup>()
+                        {
+                            new(LinGroup.Admin,"系统管理员",true),
+                            new(LinGroup.CmsAdmin,"CMS管理员",true),
+                            new(LinGroup.User,"普通用户",true)
+                        });
+                })
                 .Entity<LinUser>(e =>
                 {
                     e.HasData(new List<LinUser>()
@@ -30,7 +30,7 @@ namespace LinCms.FreeSql
                         {
                             Nickname="系统管理员",
                             Username="admin",
-                            Active=UserActive.Active,
+                            Active=UserStatus.Active,
                             CreateTime=DateTime.Now,
                             IsDeleted=false,
                             Salt="9fd248c8-e9da-412f-bad9-aa5f7f1d7b80",
@@ -47,7 +47,7 @@ namespace LinCms.FreeSql
                          {
                              Nickname="CMS管理员",
                              Username="CmsAdmin",
-                             Active=UserActive.Active,
+                             Active=UserStatus.Active,
                              CreateTime=DateTime.Now,
                              IsDeleted=false,
                              Salt="9fd248c8-e9da-412f-bad9-aa5f7f1d7b80",
@@ -87,8 +87,8 @@ namespace LinCms.FreeSql
                              }
                          },
                     });
-                })
-                ;
+                });
+
             return @this;
         }
     }

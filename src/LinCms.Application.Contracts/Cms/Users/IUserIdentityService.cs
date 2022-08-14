@@ -36,7 +36,13 @@ namespace LinCms.Cms.Users
         /// <param name="salt"></param>
         Task ChangePasswordAsync(long userId, string newpassword, string salt);
 
+        /// <summary>
+        /// 根据用户Id删除绑定信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task DeleteAsync(long userId);
+
         /// <summary>
         /// 根据用户id得到密码模式的用户授权信息
         /// </summary>
@@ -44,6 +50,11 @@ namespace LinCms.Cms.Users
         /// <returns></returns>
         Task<LinUserIdentity> GetFirstByUserIdAsync(long userId);
 
+        /// <summary>
+        /// 根据用户Id获取第三方绑定信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<List<UserIdentityDto>> GetListAsync(long userId);
 
         /// <summary>

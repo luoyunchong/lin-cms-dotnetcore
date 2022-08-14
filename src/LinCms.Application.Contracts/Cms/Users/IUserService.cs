@@ -7,8 +7,16 @@ using LinCms.Entities;
 
 namespace LinCms.Cms.Users
 {
+    /// <summary>
+    /// 用户服务 
+    /// </summary>
     public interface IUserService
     {
+        /// <summary>
+        /// 用户修改了自己的密码
+        /// </summary>
+        /// <param name="passwordDto"></param>
+        /// <returns></returns>
         Task ChangePasswordAsync(ChangePasswordDto passwordDto);
 
         /// <summary>
@@ -22,8 +30,8 @@ namespace LinCms.Cms.Users
         /// 修改用户状态
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="userActive"></param>
-        Task ChangeStatusAsync(long id, UserActive userActive);
+        /// <param name="userStatus"></param>
+        Task ChangeStatusAsync(long id, UserStatus userStatus);
 
         /// <summary>
         /// 注册-新增一个用户
@@ -50,10 +58,25 @@ namespace LinCms.Cms.Users
         /// <returns></returns>
         Task<LinUser> GetCurrentUserAsync();
 
+        /// <summary>
+        /// 根据用户Id获取用户信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<UserInformation> GetInformationAsync(long userId);
 
+        /// <summary>
+        /// 查询用户拥有的权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId);
 
+        /// <summary>
+        /// 查找用户搜索分组，查找分组下的所有权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         Task<List<LinPermission>> GetUserPermissionsAsync(long userId);
 
     }

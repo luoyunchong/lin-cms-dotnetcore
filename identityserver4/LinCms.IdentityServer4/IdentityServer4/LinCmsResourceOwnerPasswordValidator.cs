@@ -39,7 +39,7 @@ namespace LinCms.IdentityServer4.IdentityServer4
                 return;
             }
 
-            if (user.Active == UserActive.NotActive)
+            if (user.Active == UserStatus.NotActive)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "用户未激活");
                 return;

@@ -39,7 +39,7 @@ namespace LinCms.IdentityServer4
         /// FreeSql
         /// </summary>
         /// <param name="services"></param>
-        public static void AddContext(this IServiceCollection services)
+        public static void AddFreeSql(this IServiceCollection services)
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
 
@@ -68,7 +68,7 @@ namespace LinCms.IdentityServer4
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration Configuration)
         {
 
-            services.AddContext();
+            services.AddFreeSql();
 
             services.AddCors();
             services.AddHashService();

@@ -45,7 +45,7 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.IdentityServer4.ServiceCollectionExtensions.AddContext(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:LinCms.IdentityServer4.ServiceCollectionExtensions.AddFreeSql(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             FreeSql
             </summary>

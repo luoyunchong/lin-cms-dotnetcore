@@ -38,7 +38,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -> 激活 | 2 -> 非激活
         /// </summary>
-        public UserActive Active { get; set; } = UserActive.Active;
+        public UserStatus Active { get; set; } = UserStatus.Active;
 
         /// <summary>
         /// 手机号
@@ -102,7 +102,7 @@ namespace LinCms.Entities
 
         public bool IsActive()
         {
-            return Active == UserActive.Active;
+            return Active == UserStatus.Active;
         }
 
         /// <summary>

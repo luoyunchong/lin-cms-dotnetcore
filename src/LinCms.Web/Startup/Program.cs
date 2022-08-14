@@ -1,42 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
+﻿using System.Diagnostics;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-
 using HealthChecks.UI.Client;
-
 using IGeekFan.AspNetCore.Knife4jUI;
 using IGeekFan.AspNetCore.RapiDoc;
-
-using LinCms.Aop.Filter;
 using LinCms.Cms.Users;
-using LinCms.Data;
-using LinCms.Data.Enums;
-using LinCms.Extensions;
 using LinCms.Middleware;
-using LinCms.Models.Options;
 using LinCms.Plugins.Poem.Services;
-using LinCms.SnakeCaseQuery;
 using LinCms.Startup;
 using LinCms.Startup.Configuration;
 using LinCms.Utils;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-using Owl.reCAPTCHA;
-
 using Serilog;
 using Serilog.Events;
 
@@ -91,6 +70,7 @@ services.AddHealthChecks();//健康检查
 var app = builder.Build();
 
 await app.Services.RunScopeClientPolicy();
+app.Services.RunFreeSqlSyncStructure();
 
 app
 .UseForwardedHeaders()
@@ -159,7 +139,7 @@ app.UseRapiDocUI(r =>
     {
         RenderStyle = "focused",//read | view | focused
         Theme = "light",//light,dark,focused
-        SchemaStyle= "table"//tree | table
+        SchemaStyle = "table"//tree | table
     };
 
 });

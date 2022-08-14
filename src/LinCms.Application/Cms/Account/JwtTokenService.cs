@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Cms.Account
 {
-    [DisableConventionalRegistrationAttribute]
+    [DisableConventionalRegistration]
     public class JwtTokenService : ITokenService
     {
         private readonly IUserRepository _userRepository;
@@ -45,7 +45,7 @@ namespace LinCms.Cms.Account
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            if (user.Active == UserActive.NotActive)
+            if (user.Active == UserStatus.NotActive)
             {
                 throw new LinCmsException("用户未激活", ErrorCode.NoPermission);
             }

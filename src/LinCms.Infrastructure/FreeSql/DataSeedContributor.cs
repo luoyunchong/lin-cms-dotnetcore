@@ -13,14 +13,6 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.FreeSql
 {
-    public interface IDataSeedContributor
-    {
-
-        Task InitAdminPermission();
-
-        Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken);
-
-    }
     public class DataSeedContributor : IDataSeedContributor, ISingletonDependency
     {
         private readonly IAuditBaseRepository<LinPermission> _permissionRepository;

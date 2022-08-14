@@ -5,7 +5,7 @@
     * ACTIVE 代表 激活状态
     * NOT_ACTIVE 代表 非激活状态
     */
-    public enum UserActive
+    public enum UserStatus
     {
         /// <summary>
         /// 激活状态

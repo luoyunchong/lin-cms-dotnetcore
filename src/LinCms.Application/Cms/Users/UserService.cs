@@ -179,7 +179,7 @@ namespace LinCms.Cms.Users
             await _groupService.AddUserGroupAsync(id, addIds);
         }
 
-        public async Task ChangeStatusAsync(long id, UserActive userActive)
+        public async Task ChangeStatusAsync(long id, UserStatus userStatus)
         {
             LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
 
@@ -188,18 +188,18 @@ namespace LinCms.Cms.Users
                 throw new LinCmsException("用户不存在", ErrorCode.NotFound);
             }
 
-            if (user.IsActive() && userActive == UserActive.Active)
+            if (user.IsActive() && userStatus == UserStatus.Active)
             {
                 throw new LinCmsException("当前用户已处于禁止状态");
             }
 
-            if (!user.IsActive() && userActive == UserActive.NotActive)
+            if (!user.IsActive() && userStatus == UserStatus.NotActive)
             {
                 throw new LinCmsException("当前用户已处于激活状态");
             }
 
             await _userRepository.UpdateDiy.Where(r => r.Id == id)
-                                           .Set(r => new { Active = userActive.GetHashCode() })
+                                           .Set(r => new { Active = userStatus.GetHashCode() })
                                            .ExecuteUpdatedAsync();
         }
 

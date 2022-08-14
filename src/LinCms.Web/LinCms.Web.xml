@@ -319,6 +319,14 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Controllers.Cms.AdminController.ChangeStatusAsync(System.Int64,LinCms.Data.Enums.UserStatus)">
+            <summary>
+            修改用户状态
+            </summary>
+            <param name="id"></param>
+            <param name="userStatus"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Controllers.Cms.AdminController.UpdateAsync(System.Int64,LinCms.Cms.Admins.UpdateUserDto)">
             <summary>
             修改用户信息

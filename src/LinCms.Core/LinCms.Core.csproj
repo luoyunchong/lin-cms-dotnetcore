@@ -16,11 +16,12 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="DotNetCore.Security" Version="16.67.0" />
+		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+		<PackageReference Include="DotNetCore.Security" Version="16.68.0" />
 		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.510" />
-		<PackageReference Include="FreeSql" Version="3.2.666-preview20220816" />
-		<PackageReference Include="FreeSql.DbContext" Version="3.2.666-preview20220816" />
-		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.666-preview20220816" />
+		<PackageReference Include="FreeSql" Version="3.2.666-preview20220819" />
+		<PackageReference Include="FreeSql.DbContext" Version="3.2.666-preview20220819" />
+		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.666-preview20220819" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />

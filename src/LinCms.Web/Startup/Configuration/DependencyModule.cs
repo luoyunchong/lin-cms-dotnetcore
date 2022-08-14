@@ -13,7 +13,7 @@ namespace LinCms.Startup.Configuration
     {
         protected override void Load(ContainerBuilder builder)
         {
-            Assembly[] _currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName.Contains("LinCms.")).ToArray();
+            Assembly[] _currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName != null && r.FullName.Contains("LinCms.")).ToArray();
 
             //每次调用，都会重新实例化对象；每次请求都创建一个新的对象；
             bool TransientPredicate(Type t) => !t.IsDefined(typeof(DisableConventionalRegistrationAttribute), true) && typeof(ITransientDependency).GetTypeInfo().IsAssignableFrom(t) && t.IsClass && !t.IsAbstract && !t.IsGenericType;

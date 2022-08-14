@@ -146,76 +146,65 @@ namespace LinCms.Startup
         /// <param name="c"></param>
         public static void AddFreeSql(this IServiceCollection services, IConfiguration c)
         {
-            IFreeSql fsql = new FreeSqlBuilder()
-                   .UseConnectionString(c)
-                   .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
-                   .UseAutoSyncStructure(true)
-                   .UseNoneCommandParameter(true)
-                   .UseMonitorCommand(cmd =>
-                   {
-                       Trace.WriteLine(cmd.CommandText + ";");
-                   }
-                   )
-                   .Build()
-                   .SetDbContextOptions(opt => opt.EnableCascadeSave = true);//联级保存功能开启（默认为关闭）
-
-            fsql.Aop.CurdAfter += (s, e) =>
+            Func<IServiceProvider, IFreeSql> fsql = r =>
             {
-                Log.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
-                          $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
-
-                if (e.ElapsedMilliseconds > 200)
-                {
-                    //记录日志
-                    //发送短信给负责人
-                }
-            };
-
-            //敏感词处理
-            if (c["AuditValue:Enable"].ToBoolean())
-            {
-                IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
-
-                fsql.Aop.AuditValue += (s, e) =>
-                {
-                    if (e.Column.CsType == typeof(string) && e.Value != null)
-                    {
-                        string oldVal = (string)e.Value;
-                        string newVal = illegalWords.Replace(oldVal);
-                        //第二种处理敏感词的方式
-                        //string newVal = oldVal.ReplaceStopWords();
-                        if (newVal != oldVal)
+                IFreeSql fsql = new FreeSqlBuilder()
+                    .UseConnectionString(c)
+                    .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
+                    .UseAutoSyncStructure(true)
+                    .UseNoneCommandParameter(true)
+                    .UseMonitorCommand(cmd =>
                         {
-                            e.Value = newVal;
+                            Trace.WriteLine(cmd.CommandText + ";");
                         }
+                    )
+                    .Build()
+                    .SetDbContextOptions(opt => opt.EnableCascadeSave = true);//联级保存功能开启（默认为关闭）
+                fsql.Aop.CurdAfter += (s, e) =>
+                {
+                    Log.Debug($"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
+                              $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
+
+                    if (e.ElapsedMilliseconds > 200)
+                    {
+                        //记录日志
+                        //发送短信给负责人
                     }
                 };
-            }
+
+
+                fsql.GlobalFilter.Apply<IDeleteAuditEntity>("IsDeleted", a => a.IsDeleted == false);
+
+                //敏感词处理
+                if (c["AuditValue:Enable"].ToBoolean())
+                {
+                    //已过期，开发者不维护
+                    //IllegalWordsSearch illegalWords = ToolGoodUtils.GetIllegalWordsSearch();
+
+                    //fsql.Aop.AuditValue += (s, e) =>
+                    //{
+                    //    if (e.Column.CsType == typeof(string) && e.Value != null)
+                    //    {
+                    //        string oldVal = (string)e.Value;
+                    //        string newVal = illegalWords.Replace(oldVal);
+                    //        //第二种处理敏感词的方式
+                    //        //string newVal = oldVal.ReplaceStopWords();
+                    //        if (newVal != oldVal)
+                    //        {
+                    //            e.Value = newVal;
+                    //        }
+                    //    }
+                    //};
+                }
+
+                fsql.UseJsonMap();
+                return fsql;
+            };
 
             services.AddSingleton(fsql);
             services.AddFreeRepository();
             services.AddScoped<UnitOfWorkManager>();
-            fsql.GlobalFilter.Apply<IDeleteAuditEntity>("IsDeleted", a => a.IsDeleted == false);
-            try
-            {
-                using var objPool = fsql.Ado.MasterPool.Get();
-            }
-            catch (Exception e)
-            {
-                Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
-                return;
-            }
-            //在运行时直接生成表结构
-            try
-            {
-                fsql.CodeFirst
-                    .SeedData()
-                    .SyncStructure(ReflexHelper.GetTypesByTableAttribute());
-            }
-            catch (Exception e)
-            {
-                Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
-            }
+
         }
         #endregion
 
@@ -380,6 +369,37 @@ namespace LinCms.Startup
         }
         #endregion
 
+        #region FreeSql执行同步结构SyncStructure
+        public static IServiceProvider RunFreeSqlSyncStructure(this IServiceProvider serviceProvider)
+        {
+            try
+            {
+                using IServiceScope serviceScope = serviceProvider.CreateScope();
+                var fsql = serviceScope.ServiceProvider.GetRequiredService<IFreeSql>();
+
+                try
+                {
+                    using var objPool = fsql.Ado.MasterPool.Get();
+                }
+                catch (Exception e)
+                {
+                    Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
+                }
+                //在运行时直接生成表结构
+             
+                fsql.CodeFirst
+                    .SeedData()
+                    .SyncStructure(ReflexHelper.GetTypesByTableAttribute());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.StackTrace + e.Message + e.InnerException);
+            }
+
+            return serviceProvider;
+        }
+        #endregion
+
         #region 配置Google验证码
         public static IServiceCollection AddGooglereCaptchav3(this IServiceCollection services, IConfiguration c)
         {
@@ -394,7 +414,7 @@ namespace LinCms.Startup
                 x.SiteSecret = googlereCaptchaOptions.SiteSecret;
             });
             return services;
-        } 
+        }
         #endregion
     }
 }

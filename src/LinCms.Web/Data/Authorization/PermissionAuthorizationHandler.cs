@@ -19,9 +19,9 @@ namespace LinCms.Data.Authorization
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ModuleAuthorizationRequirement requirement)
         {
-            AuthorizationFilterContext? filterContext = context.Resource as AuthorizationFilterContext;
+            AuthorizationFilterContext filterContext = context.Resource as AuthorizationFilterContext;
 
-            if (!context.User.Identity.IsAuthenticated)
+            if (context.User.Identity == null || !context.User.Identity.IsAuthenticated)
             {
                 HandlerAuthenticationFailed(filterContext, "认证失败，请检查请求头或者重新登陆", ErrorCode.AuthenticationFailed);
                 context.Fail();

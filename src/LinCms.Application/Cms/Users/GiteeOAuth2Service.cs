@@ -11,7 +11,7 @@ using LinCms.IRepositories;
 
 namespace LinCms.Cms.Users
 {
-    [DisableConventionalRegistrationAttribute]
+    [DisableConventionalRegistration]
     public class GiteeOAuth2Service : OAuthService, IOAuth2Service
     {
         private readonly IUserRepository _userRepository;
@@ -44,7 +44,7 @@ namespace LinCms.Cms.Users
 
                 LinUser user = new()
                 {
-                    Active = UserActive.Active,
+                    Active = UserStatus.Active,
                     Avatar = avatarUrl,
                     LastLoginTime = DateTime.Now,
                     Email = email,

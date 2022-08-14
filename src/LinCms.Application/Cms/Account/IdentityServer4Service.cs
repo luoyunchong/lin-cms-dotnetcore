@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace LinCms.Cms.Account
 {
-    [DisableConventionalRegistrationAttribute]
+    [DisableConventionalRegistration]
     public class IdentityServer4Service : ITokenService
     {
         private readonly IConfiguration _configuration;

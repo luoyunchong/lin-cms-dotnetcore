@@ -52,12 +52,14 @@ namespace LinCms.Controllers.v1
             string tagPath = Path.Combine(_hostingEnv.WebRootPath, "json-tag.json");
             string text = System.IO.File.ReadAllText(tagPath);
 
-            JObject json = JsonConvert.DeserializeObject<JObject>(text);
-
-            foreach (var tag in json["data"])
+            JObject? json = JsonConvert.DeserializeObject<JObject>(text);
+            if (json == null) return UnifyResponseDto.Success();
+            var jsonData = json["data"];
+            if (jsonData == null) return UnifyResponseDto.Success();
+            foreach (var tag in jsonData)
             {
 
-                string tagName = tag["tag"]["tag_name"].ToString();
+                string? tagName = tag["tag"]["tag_name"]?.ToString();
                 bool valid = await _tagAuditBaseRepository.Where(r => r.TagName == tagName).AnyAsync();
 
                 if (valid)

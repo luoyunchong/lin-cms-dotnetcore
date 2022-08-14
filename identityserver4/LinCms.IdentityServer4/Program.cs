@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-var Configuration = builder.Configuration;
+var c = builder.Configuration;
 
 #region SerilogÅäÖÃ
 
@@ -22,7 +22,7 @@ builder.Host.UseSerilog();
 //     }) 
 #endif
 
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c)
        .Enrich.FromLogContext()
        .CreateLogger();
 Log.Information("Starting web host");
@@ -31,9 +31,9 @@ Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
 #endif
 #endregion
 
-InMemoryConfiguration.Configuration = Configuration;
+InMemoryConfiguration.Configuration = c;
 
-builder.Services.AddServices(Configuration);
+builder.Services.AddServices(c);
 
 var app = builder.Build();
 
@@ -52,7 +52,7 @@ app.UseHttpsRedirection();
 
 app.UseCors(builder =>
 {
-    string[] withOrigins = Configuration.GetSection("WithOrigins").Get<string[]>();
+    string[] withOrigins = c.GetSection("WithOrigins").Get<string[]>();
     builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
 });
 
