@@ -44,7 +44,6 @@ builder.Host
         containerBuilder.RegisterModule(new ServiceModule());
         containerBuilder.RegisterModule(new AutofacModule(c));
         containerBuilder.RegisterModule(new DependencyModule());
-        containerBuilder.RegisterModule(new FreeSqlModule(c));
     });
 
 builder.WebHost.ConfigureKestrel((context, options) =>
@@ -54,6 +53,7 @@ builder.WebHost.ConfigureKestrel((context, options) =>
 });
 
 services
+    .AddFreeSql(c)
     .AddLinServices(c)
     .AddCustomMvc(c)
     .AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly)

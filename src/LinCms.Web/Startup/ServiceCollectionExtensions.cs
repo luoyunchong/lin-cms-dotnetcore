@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
-
 using AspNetCoreRateLimit;
-
 using CSRedis;
-
 using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
-
 using FreeSql;
 using FreeSql.Internal;
-
 using IGeekFan.FreeKit.Email;
-
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Data.Enums;
@@ -26,8 +19,6 @@ using LinCms.FreeSql;
 using LinCms.Middleware;
 using LinCms.Models.Options;
 using LinCms.SnakeCaseQuery;
-using LinCms.Utils;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -36,18 +27,11 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
 using Owl.reCAPTCHA;
-
 using Savorboard.CAP.InMemoryMessageQueue;
-
 using Serilog;
-
-using ToolGood.Words;
 
 namespace LinCms.Startup
 {
@@ -63,11 +47,6 @@ namespace LinCms.Startup
         public static IServiceCollection AddLinServices(this IServiceCollection services, IConfiguration configuration)
         {
             //services.AddTransient<CustomExceptionMiddleWare>();
-            services.Configure<UnitOfWorkDefualtOptions>(c =>
-            {
-                c.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
-                c.Propagation = Propagation.Required;
-            });
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
@@ -138,13 +117,13 @@ namespace LinCms.Startup
         }
         #endregion
 
-        #region FreeSql 已换成AutoFac注入方式 Configuration/FreeSqlModule
+        #region FreeSql
         /// <summary>
         /// FreeSql
         /// </summary>
         /// <param name="services"></param>
         /// <param name="c"></param>
-        public static void AddFreeSql(this IServiceCollection services, IConfiguration c)
+        public static IServiceCollection AddFreeSql(this IServiceCollection services, IConfiguration c)
         {
             Func<IServiceProvider, IFreeSql> fsql = r =>
             {
@@ -205,19 +184,22 @@ namespace LinCms.Startup
             services.AddFreeRepository();
             services.AddScoped<UnitOfWorkManager>();
 
+            services.Configure<UnitOfWorkDefualtOptions>(c =>
+            {
+                c.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
+                c.Propagation = Propagation.Required;
+            });
+            return services;
         }
         #endregion
 
         #region 初始化 Redis配置
-        public static IServiceCollection AddCsRedisCore(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCsRedisCore(this IServiceCollection services, IConfiguration c)
         {
-
-            IConfigurationSection csRediSection = configuration.GetSection("ConnectionStrings:CsRedis");
-            CSRedisClient csRedisClient = new CSRedisClient(csRediSection.Value);
             //初始化 RedisHelper
-            RedisHelper.Initialization(csRedisClient);
+            RedisHelper.Initialization(new CSRedisClient(c.GetConnectionString("CsRedis")));
             //注册mvc分布式缓存
-            services.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
+            services.AddSingleton<IDistributedCache>(r => new CSRedisCache(RedisHelper.Instance));
             return services;
         }
         #endregion
@@ -246,10 +228,10 @@ namespace LinCms.Startup
 
         #region 分布式事务一致性CAP
 
-        public static CapOptions UseCapOptions(this CapOptions @this, IConfiguration Configuration)
+        public static CapOptions UseCapOptions(this CapOptions @this, IConfiguration c)
         {
-            IConfigurationSection defaultStorage = Configuration.GetSection("CAP:DefaultStorage");
-            IConfigurationSection defaultMessageQueue = Configuration.GetSection("CAP:DefaultMessageQueue");
+            IConfigurationSection defaultStorage = c.GetSection("CAP:DefaultStorage");
+            IConfigurationSection defaultMessageQueue = c.GetSection("CAP:DefaultMessageQueue");
             if (Enum.TryParse(defaultStorage.Value, out CapStorageType capStorageType))
             {
                 if (!Enum.IsDefined(typeof(CapStorageType), capStorageType))
@@ -263,11 +245,11 @@ namespace LinCms.Startup
                         @this.UseInMemoryStorage();
                         break;
                     case CapStorageType.Mysql:
-                        IConfigurationSection mySql = Configuration.GetSection($"ConnectionStrings:MySql");
+                        IConfigurationSection mySql = c.GetSection($"ConnectionStrings:MySql");
                         @this.UseMySql(mySql.Value);
                         break;
                     //case CapStorageType.SqlServer:
-                    //    IConfigurationSection sqlServer = Configuration.GetSection($"ConnectionStrings:SqlServer");
+                    //    IConfigurationSection sqlServer = c.GetSection($"ConnectionStrings:SqlServer");
                     //    @this.UseSqlServer(opt =>
                     //    {
                     //        opt.ConnectionString = sqlServer.Value;
@@ -291,7 +273,7 @@ namespace LinCms.Startup
                 {
                     Log.Error($"CAP配置CAP:DefaultMessageQueue:{defaultMessageQueue.Value}无效");
                 }
-                IConfigurationSection configurationSection = Configuration.GetSection($"ConnectionStrings:{capMessageQueueType}");
+                IConfigurationSection configurationSection = c.GetSection($"ConnectionStrings:{capMessageQueueType}");
 
                 switch (capMessageQueueType)
                 {
@@ -301,10 +283,10 @@ namespace LinCms.Startup
                     case CapMessageQueueType.RabbitMQ:
                         @this.UseRabbitMQ(options =>
                         {
-                            options.HostName = Configuration["CAP:RabbitMQ:HostName"];
-                            options.UserName = Configuration["CAP:RabbitMQ:UserName"];
-                            options.Password = Configuration["CAP:RabbitMQ:Password"];
-                            options.VirtualHost = Configuration["CAP:RabbitMQ:VirtualHost"];
+                            options.HostName = c["CAP:RabbitMQ:HostName"];
+                            options.UserName = c["CAP:RabbitMQ:UserName"];
+                            options.Password = c["CAP:RabbitMQ:Password"];
+                            options.VirtualHost = c["CAP:RabbitMQ:VirtualHost"];
                         });
                         break;
                     default:
@@ -319,14 +301,14 @@ namespace LinCms.Startup
             return @this;
         }
 
-        public static IServiceCollection AddCap(this IServiceCollection services, IConfiguration Configuration)
+        public static IServiceCollection AddCap(this IServiceCollection services, IConfiguration c)
         {
 
             services.AddCap(x =>
             {
                 try
                 {
-                    x.UseCapOptions(Configuration);
+                    x.UseCapOptions(c);
                 }
                 catch (Exception ex)
                 {
@@ -345,61 +327,7 @@ namespace LinCms.Startup
         }
 
         #endregion
-
-        #region 获取一下Scope Service 以执行 IP Limit的 Redis初始化
-        public static async Task RunScopeClientPolicy(this IServiceProvider serviceProvider)
-        {
-            using var scope = serviceProvider.CreateScope();
-            try
-            {
-                var clientPolicyStore = scope.ServiceProvider.GetRequiredService<IClientPolicyStore>();
-                await clientPolicyStore.SeedAsync();
-
-                // get the IpPolicyStore instance
-                var ipPolicyStore = scope.ServiceProvider.GetRequiredService<IIpPolicyStore>();
-
-                // seed IP data from appsettings
-                await ipPolicyStore.SeedAsync();
-            }
-            catch (Exception ex)
-            {
-                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred.");
-            }
-        }
-        #endregion
-
-        #region FreeSql执行同步结构SyncStructure
-        public static IServiceProvider RunFreeSqlSyncStructure(this IServiceProvider serviceProvider)
-        {
-            try
-            {
-                using IServiceScope serviceScope = serviceProvider.CreateScope();
-                var fsql = serviceScope.ServiceProvider.GetRequiredService<IFreeSql>();
-
-                try
-                {
-                    using var objPool = fsql.Ado.MasterPool.Get();
-                }
-                catch (Exception e)
-                {
-                    Log.Logger.Error(e + e.StackTrace + e.Message + e.InnerException);
-                }
-                //在运行时直接生成表结构
-             
-                fsql.CodeFirst
-                    .SeedData()
-                    .SyncStructure(ReflexHelper.GetTypesByTableAttribute());
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.StackTrace + e.Message + e.InnerException);
-            }
-
-            return serviceProvider;
-        }
-        #endregion
-
+        
         #region 配置Google验证码
         public static IServiceCollection AddGooglereCaptchav3(this IServiceCollection services, IConfiguration c)
         {
