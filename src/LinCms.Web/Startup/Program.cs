@@ -106,7 +106,7 @@ app.UseSwaggerUI(r =>
     r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
     r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-
+    r.RoutePrefix = "s";//http://localhost:5000/s/index.html
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthAppName(c["Service:Name"]);
@@ -117,12 +117,12 @@ app.UseSwaggerUI(r =>
 app.UseKnife4UI(r =>
 {
     r.DocumentTitle = "LinCms博客模块";
-    r.RoutePrefix = "k4";//http://localhost:5000/k4/index.html
-                         //r.InjectStylesheet("");
-    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
-    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
-    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.RoutePrefix = "swagger";//http://localhost:5000/swagger/index.html
+                              //r.InjectStylesheet("");
+    r.SwaggerEndpoint("/base/swagger.json", "base");
+    r.SwaggerEndpoint("/blog/swagger.json", "blog");
+    r.SwaggerEndpoint("/cms/swagger.json", "cms");
+    r.SwaggerEndpoint("/v1/swagger.json", "v1");
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthAppName(c["Service:Name"]);
