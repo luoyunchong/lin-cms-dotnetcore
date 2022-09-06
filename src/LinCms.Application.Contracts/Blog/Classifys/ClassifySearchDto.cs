@@ -1,9 +1,8 @@
 ﻿using LinCms.Data;
 
-namespace LinCms.Blog.Classifys
+namespace LinCms.Blog.Classifys;
+
+public class ClassifySearchDto : PageDto
 {
-    public class ClassifySearchDto : PageDto
-    {
-        public string ClassifyName { get; set; }
-    }
+    public string ClassifyName { get; set; }
 }

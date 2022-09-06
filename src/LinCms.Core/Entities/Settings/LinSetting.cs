@@ -1,5 +1,5 @@
-﻿using System;
-using FreeSql.DataAnnotations;
+﻿using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Settings
 {
@@ -7,7 +7,7 @@ namespace LinCms.Entities.Settings
     /// 配置项
     /// </summary>
     [Table(Name = "lin_settings")]
-    public class LinSetting : FullAuditEntity<Guid>
+    public class LinSetting : FullAuditEntity
     {
         /// <summary>
         /// 键

@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LinCms.Base.BaseTypes
+namespace LinCms.Base.BaseTypes;
+
+public class CreateUpdateBaseTypeDto
 {
-    public class CreateUpdateBaseTypeDto
-    {
-        [Required(ErrorMessage = "类别编码为必填项")]
-        public string TypeCode { get; set; }
-        [Required(ErrorMessage = "类别名称为必填项")]
-        public string FullName { get; set; }
-        public int? SortCode { get; set; }
-    }
+    [Required(ErrorMessage = "类别编码为必填项")]
+    public string TypeCode { get; set; }
+    [Required(ErrorMessage = "类别名称为必填项")]
+    public string FullName { get; set; }
+    public int? SortCode { get; set; }
 }

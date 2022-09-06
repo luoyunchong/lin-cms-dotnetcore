@@ -1,5 +1,6 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {

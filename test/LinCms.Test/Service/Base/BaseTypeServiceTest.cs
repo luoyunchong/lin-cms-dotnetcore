@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using FreeSql;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities.Base;
-using LinCms.IRepositories;
 using Xunit;
 
 namespace LinCms.Test.Service.Base

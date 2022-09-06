@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 using LinCms.Data.Enums;
 
 namespace LinCms.Entities
@@ -10,7 +11,7 @@ namespace LinCms.Entities
     /// 用户
     /// </summary>
     [Table(Name = "lin_user")]
-    public class LinUser : FullAuditEntity
+    public class LinUser : FullAuditEntity<long, long>
     {
         /// <summary>
         /// 用户名

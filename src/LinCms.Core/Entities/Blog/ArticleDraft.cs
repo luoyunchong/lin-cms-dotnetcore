@@ -1,5 +1,6 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {
@@ -7,7 +8,7 @@ namespace LinCms.Entities.Blog
     /// 随笔草稿箱
     /// </summary>
     [Table(Name = "blog_article_draft")]
-    public class ArticleDraft : FullAuditEntity<Guid>
+    public class ArticleDraft : FullAuditEntity<Guid, long>
     {
         public ArticleDraft()
         {

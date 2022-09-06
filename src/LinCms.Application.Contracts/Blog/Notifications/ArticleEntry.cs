@@ -1,11 +1,10 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
-namespace LinCms.Blog.Notifications
+namespace LinCms.Blog.Notifications;
+
+public class ArticleEntry : EntityDto<Guid>
 {
-    public class ArticleEntry : EntityDto<Guid>
-    {
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-    }
 }

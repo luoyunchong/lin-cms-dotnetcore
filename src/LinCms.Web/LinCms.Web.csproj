@@ -81,7 +81,11 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
-		<Folder Include="wwwroot\assets\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\assets\202208\1e36e045-1814-4aaf-8437-70a0715e1a5a.svg" />
+	  <None Include="wwwroot\assets\202208\653e04c0-31b7-4aa1-9277-590b5583a180.webp" />
 	</ItemGroup>
 
 	<ProjectExtensions>

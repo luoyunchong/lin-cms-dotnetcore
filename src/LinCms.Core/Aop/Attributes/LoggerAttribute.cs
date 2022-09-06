@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Aop.Attributes
+namespace IGeekFan.FreeKit.Extras.FreeSql
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class LoggerAttribute : Attribute

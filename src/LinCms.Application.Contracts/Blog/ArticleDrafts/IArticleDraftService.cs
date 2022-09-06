@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LinCms.Blog.ArticleDrafts
-{
-    public interface IArticleDraftService
-    {
-        Task UpdateAsync(Guid id, UpdateArticleDraftDto updateArticleDto);
+namespace LinCms.Blog.ArticleDrafts;
 
-        Task<ArticleDraftDto> GetAsync(Guid id);
-    }
+public interface IArticleDraftService
+{
+    Task UpdateAsync(Guid id, UpdateArticleDraftDto updateArticleDto);
+
+    Task<ArticleDraftDto> GetAsync(Guid id);
 }

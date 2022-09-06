@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities;
 
 namespace LinCms.IRepositories
 {
-    public interface IUserRepository : IAuditBaseRepository<LinUser>
+    public interface IUserRepository : IAuditBaseRepository<LinUser,long>
     {
         /// <summary>
         /// 根据条件得到用户信息

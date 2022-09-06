@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using LinCms.Cms.Permissions;
 
-namespace LinCms.Cms.Admins
+namespace LinCms.Cms.Admins;
+
+public interface IAdminService
 {
-    public interface IAdminService
-    {
-        IDictionary<string, List<PermissionDto>> GetAllStructualPermissions();
-    }
+    IDictionary<string, List<PermissionDto>> GetAllStructualPermissions();
 }

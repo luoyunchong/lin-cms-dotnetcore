@@ -1,9 +1,8 @@
-﻿namespace LinCms.Blog.ArticleDrafts
+﻿namespace LinCms.Blog.ArticleDrafts;
+
+public class ArticleDraftDto
 {
-    public class ArticleDraftDto
-    {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public int Editor { get; set; }
-    }
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public int Editor { get; set; }
 }

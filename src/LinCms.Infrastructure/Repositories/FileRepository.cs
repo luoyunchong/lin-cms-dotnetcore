@@ -1,44 +1,44 @@
 ﻿using FreeSql;
+using IGeekFan.FreeKit.Extras.FreeSql;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Data.Options;
 using LinCms.Entities;
 using LinCms.IRepositories;
-using LinCms.Security;
 using Microsoft.Extensions.Options;
 
-namespace LinCms.Repositories
+namespace LinCms.Repositories;
+
+public class FileRepository : AuditDefaultRepository<LinFile, long, long>, IFileRepository
 {
-    public class FileRepository : AuditBaseRepository<LinFile>, IFileRepository
+    private readonly FileStorageOption _fileStorageOption;
+    public FileRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser, IOptionsMonitor<FileStorageOption> fileStorageOption) : base(unitOfWorkManager, currentUser)
     {
-        private readonly FileStorageOption _fileStorageOption;
-        public FileRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser, IOptionsMonitor<FileStorageOption> fileStorageOption) : base(unitOfWorkManager, currentUser)
+        _fileStorageOption = fileStorageOption.CurrentValue;
+    }
+
+    public string GetFileUrl(string path)
+    {
+        if (string.IsNullOrEmpty(path)) return "";
+        if (path.StartsWith("http") || path.StartsWith("https"))
         {
-            _fileStorageOption = fileStorageOption.CurrentValue;
+            return path;
         }
+        return _fileStorageOption.LocalFile.Host + path;
 
-        public string GetFileUrl(string path)
-        {
-            if (string.IsNullOrEmpty(path)) return "";
-            if (path.StartsWith("http") || path.StartsWith("https"))
-            {
-                return path;
-            }
-            return _fileStorageOption.LocalFile.Host + path;
+        //string redisKey = "filerepository:getfileurl:" +path;
 
-            //string redisKey = "filerepository:getfileurl:" +path;
-
-            //return  RedisHelper.CacheShell(
-            //    redisKey, 5*60, () =>
-            //    {
-            //        LinFile linFile = Where(r => r.Path == path).First();
-            //        if (linFile == null) return path;
-            //        return linFile.Type switch
-            //        {
-            //            1 => _fileStorageOption.LocalFile.Host + path,
-            //            2 => _fileStorageOption.Qiniu.Host + path,
-            //            _ => path,
-            //        };
-            //    }
-            // );
-        }
+        //return  RedisHelper.CacheShell(
+        //    redisKey, 5*60, () =>
+        //    {
+        //        LinFile linFile = Where(r => r.Path == path).First();
+        //        if (linFile == null) return path;
+        //        return linFile.Type switch
+        //        {
+        //            1 => _fileStorageOption.LocalFile.Host + path,
+        //            2 => _fileStorageOption.Qiniu.Host + path,
+        //            _ => path,
+        //        };
+        //    }
+        // );
     }
 }

@@ -1,7 +1,6 @@
 ﻿
-namespace LinCms.Base.Localizations
+namespace LinCms.Base.Localizations;
+
+class CreateUpdateResource
 {
-    class CreateUpdateResource
-    {
-    }
 }

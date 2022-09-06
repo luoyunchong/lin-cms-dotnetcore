@@ -2,11 +2,10 @@
 using LinCms.Data;
 using LinCms.Entities;
 
-namespace LinCms.Cms.Logs
+namespace LinCms.Cms.Logs;
+
+public interface ISerilogService
 {
-    public interface ISerilogService
-    {
-        Task<LogDashboard> GetLogDashboard();
-        Task<PagedResultDto<SerilogDO>> GetListAsync(SerilogSearchDto searchDto);
-    }
+    Task<LogDashboard> GetLogDashboard();
+    Task<PagedResultDto<SerilogDO>> GetListAsync(SerilogSearchDto searchDto);
 }

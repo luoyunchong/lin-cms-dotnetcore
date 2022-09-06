@@ -1,9 +1,13 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HealthChecks.UI.Client;
 using IGeekFan.AspNetCore.Knife4jUI;
 using IGeekFan.AspNetCore.RapiDoc;
+using IGeekFan.FreeKit.Extras.Dependency;
 using LinCms.Cms.Users;
 using LinCms.Middleware;
 using LinCms.Plugins.Poem.Services;
@@ -42,8 +46,10 @@ builder.Host
     {
         containerBuilder.RegisterModule(new RepositoryModule());
         containerBuilder.RegisterModule(new ServiceModule());
+        Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName != null && r.FullName.Contains("LinCms.")).ToArray();
+        containerBuilder.RegisterModule(new FreeKitModule(currentAssemblies));
+        containerBuilder.RegisterModule(new UnitOfWorkModule(currentAssemblies));
         containerBuilder.RegisterModule(new AutofacModule(c));
-        containerBuilder.RegisterModule(new DependencyModule());
     });
 
 builder.WebHost.ConfigureKestrel((context, options) =>

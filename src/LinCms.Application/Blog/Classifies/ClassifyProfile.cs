@@ -2,14 +2,13 @@
 using LinCms.Blog.Classifys;
 using LinCms.Entities.Blog;
 
-namespace LinCms.Blog.Classifies
+namespace LinCms.Blog.Classifies;
+
+public class ClassifyProfile : Profile
 {
-    public class ClassifyProfile : Profile
+    public ClassifyProfile()
     {
-        public ClassifyProfile()
-        {
-            CreateMap<CreateUpdateClassifyDto, Classify>();
-            CreateMap<Classify, ClassifyDto>();
-        }
+        CreateMap<CreateUpdateClassifyDto, Classify>();
+        CreateMap<Classify, ClassifyDto>();
     }
 }

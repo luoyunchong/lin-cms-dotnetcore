@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinCms.Blog.Classifys
+namespace LinCms.Blog.Classifys;
+
+public interface IClassifyService : ICrudAppService<ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto, CreateUpdateClassifyDto>
 {
-    public interface IClassifyService : ICrudAppService<ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto, CreateUpdateClassifyDto>
-    {
-        List<ClassifyDto> GetListByUserId(long? userId);
-        Task UpdateArticleCountAsync(Guid? id, int inCreaseCount);
-    }
+    List<ClassifyDto> GetListByUserId(long? userId);
+    Task UpdateArticleCountAsync(Guid? id, int inCreaseCount);
 }

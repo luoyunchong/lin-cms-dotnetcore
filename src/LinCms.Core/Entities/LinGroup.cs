@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities
 {
@@ -8,7 +9,7 @@ namespace LinCms.Entities
     ///  分组
     /// </summary>
     [Table(Name = "lin_group")]
-    public class LinGroup : FullAuditEntity<long>
+    public class LinGroup : FullAuditEntity<long, long>
     {
         public LinGroup()
         {

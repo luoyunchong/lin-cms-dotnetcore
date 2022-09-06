@@ -1,5 +1,6 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Base
 {
@@ -7,7 +8,7 @@ namespace LinCms.Entities.Base
     /// 数据字典-详情项
     /// </summary>
     [Table(Name = "base_item")]
-    public class BaseItem : FullAuditEntity
+    public class BaseItem : FullAuditEntity<long, long>
     {
         public BaseItem()
         {

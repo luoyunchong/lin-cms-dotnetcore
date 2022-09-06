@@ -1,10 +1,11 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {
     [Table(Name = "blog_notification")]
-    public class Notification : FullAuditEntity<Guid>
+    public class Notification : FullAuditEntity<Guid, long>
     {
         /// <summary>
         /// 消息通知

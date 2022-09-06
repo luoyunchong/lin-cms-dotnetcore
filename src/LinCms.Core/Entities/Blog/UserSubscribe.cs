@@ -1,5 +1,6 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {
@@ -7,7 +8,7 @@ namespace LinCms.Entities.Blog
     /// 用户关注用户
     /// </summary>
     [Table(Name = "blog_user_subscribe")]
-    public class UserSubscribe : Entity<Guid>, ICreateAuditEntity
+    public class UserSubscribe : Entity<Guid>, ICreateAuditEntity<long>
     {
         /// <summary>
         /// 被关注的用户Id
@@ -17,7 +18,8 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 关注的用户Id
         /// </summary>
-        public long CreateUserId { get; set; }
+        public long? CreateUserId { get; set; }
+        public string CreateUserName { get; set; }
 
         public DateTime CreateTime { get; set; }
 

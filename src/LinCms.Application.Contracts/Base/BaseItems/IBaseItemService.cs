@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinCms.Base.BaseItems
+namespace LinCms.Base.BaseItems;
+
+public interface IBaseItemService
 {
-    public interface IBaseItemService
-    {
-        Task DeleteAsync(int id);
+    Task DeleteAsync(int id);
 
-        Task<List<BaseItemDto>> GetListAsync(string typeCode);
+    Task<List<BaseItemDto>> GetListAsync(string typeCode);
 
-        Task<BaseItemDto> GetAsync(int id);
+    Task<BaseItemDto> GetAsync(int id);
 
-        Task CreateAsync(CreateUpdateBaseItemDto createBaseItem);
+    Task CreateAsync(CreateUpdateBaseItemDto createBaseItem);
 
-        Task UpdateAsync(int id, CreateUpdateBaseItemDto updateBaseItem);
-    }
+    Task UpdateAsync(int id, CreateUpdateBaseItemDto updateBaseItem);
 }

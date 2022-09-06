@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using LinCms.Entities.Base;
 
-namespace LinCms.Base.BaseItems
+namespace LinCms.Base.BaseItems;
+
+public class BaseItemProfile : Profile
 {
-    public class BaseItemProfile : Profile
+    public BaseItemProfile()
     {
-        public BaseItemProfile()
-        {
-            CreateMap<BaseItem, BaseItemDto>();
-            CreateMap<CreateUpdateBaseItemDto, BaseItem>();
-        }
+        CreateMap<BaseItem, BaseItemDto>();
+        CreateMap<CreateUpdateBaseItemDto, BaseItem>();
     }
 }

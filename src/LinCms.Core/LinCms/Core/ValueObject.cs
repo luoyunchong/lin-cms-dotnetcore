@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.FreeSql;
 
 namespace LinCms.Core
 {

@@ -1,10 +1,9 @@
-﻿namespace LinCms.Blog.UserSubscribes
-{
-    public class SubscribeCountDto
-    {
-        public long SubscribeCount { get; set; }
-        public long FansCount { get; set; }
+﻿namespace LinCms.Blog.UserSubscribes;
 
-        public long TagCount { get; set; }
-    }
+public class SubscribeCountDto
+{
+    public long SubscribeCount { get; set; }
+    public long FansCount { get; set; }
+
+    public long TagCount { get; set; }
 }

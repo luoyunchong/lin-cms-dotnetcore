@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using LinCms.Entities;
 
-namespace LinCms.Cms.Permissions
+namespace LinCms.Cms.Permissions;
+
+public class PermissionProfile : Profile
 {
-    public class PermissionProfile : Profile
+    public PermissionProfile()
     {
-        public PermissionProfile()
-        {
-            CreateMap<LinPermission, PermissionDto>();
-        }
+        CreateMap<LinPermission, PermissionDto>();
     }
 }

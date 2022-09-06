@@ -1,9 +1,8 @@
 ﻿using LinCms.Data;
 
-namespace LinCms.Blog.Channels
+namespace LinCms.Blog.Channels;
+
+public class ChannelSearchDto : PageDto
 {
-    public class ChannelSearchDto : PageDto
-    {
-        public string ChannelName { get; set; }
-    }
+    public string ChannelName { get; set; }
 }

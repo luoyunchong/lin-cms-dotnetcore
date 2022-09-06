@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Comments;
 using LinCms.Entities.Blog;
 using LinCms.Extensions;
-using LinCms.IRepositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -52,7 +52,7 @@ namespace LinCms.Test.Repositories.Blog
         {
             dynamic comments = FreeSql.Select<Comment>().Include(r => r.UserInfo).From<UserLike>(
                          (z, zzc) =>
-                             z.LeftJoin(u => u.Id == zzc.SubjectId)//&& zzc.CreateUserId == _currentUser.Id
+                             z.LeftJoin(u => u.Id == zzc.SubjectId)//&& zzc.CreateUserId == _currentUser.FindUserId()
                      )
                      .ToList((s, za) => new
                      {

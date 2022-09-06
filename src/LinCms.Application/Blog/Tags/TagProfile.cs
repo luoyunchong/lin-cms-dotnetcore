@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using LinCms.Entities.Blog;
 
-namespace LinCms.Blog.Tags
+namespace LinCms.Blog.Tags;
+
+public class TagProfile : Profile
 {
-    public class TagProfile : Profile
+    public TagProfile()
     {
-        public TagProfile()
-        {
-            CreateMap<Tag, TagListDto>();
-            CreateMap<Tag, TagDto>();
-            CreateMap<CreateUpdateTagDto, Tag>();
-        }
+        CreateMap<Tag, TagListDto>();
+        CreateMap<Tag, TagDto>();
+        CreateMap<CreateUpdateTagDto, Tag>();
     }
 }
