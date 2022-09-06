@@ -245,7 +245,7 @@
         </member>
         <member name="T:LinCms.Domain.ITokenManager">
             <summary>
-            
+            Token 处理类
             </summary>
         </member>
         <member name="T:LinCms.Entities.Base.BaseItem">
