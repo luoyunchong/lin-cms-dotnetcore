@@ -770,6 +770,16 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="P:LinCms.Cms.Users.UpdateProfileDto.JobTitle">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Users.UpdateProfileDto.Company">
+            <summary>
+            公司
+            </summary>
+        </member>
         <member name="P:LinCms.Cms.Users.UserInformation.Nickname">
             <summary>
             昵称

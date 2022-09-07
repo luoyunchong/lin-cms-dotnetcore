@@ -119,14 +119,16 @@ public class UserController : ControllerBase
     }
 
     [HttpPut]
-    public UnifyResponseDto SetProfileInfo(UpdateProfileDto profileDto)
+    public async Task<UnifyResponseDto> SetProfileInfo(UpdateProfileDto profileDto)
     {
-        _freeSql.Update<LinUser>(_currentUser.FindUserId()).Set(a => new LinUser()
+        await _freeSql.Update<LinUser>(_currentUser.FindUserId()).Set(a => new LinUser()
         {
             Nickname = profileDto.Nickname,
             BlogAddress = profileDto.BlogAddress,
-            Introduction = profileDto.Introduction
-        }).ExecuteAffrows();
+            Introduction = profileDto.Introduction,
+            JobTitle = profileDto.JobTitle,
+            Company = profileDto.Company
+        }).ExecuteAffrowsAsync();
         return UnifyResponseDto.Success("更新基本信息成功");
     }
 
@@ -172,10 +174,10 @@ public class UserController : ControllerBase
                 LastLoginTime = r.LastLoginTime,
                 CreateTime = r.CreateTime,
             })).Select(r =>
-        {
-            r.Avatar = _fileRepository.GetFileUrl(r.Avatar);
-            return r;
-        }).ToList();
+            {
+                r.Avatar = _fileRepository.GetFileUrl(r.Avatar);
+                return r;
+            }).ToList();
 
         return userNoviceDtos;
     }

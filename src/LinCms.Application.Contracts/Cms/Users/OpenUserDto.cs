@@ -17,5 +17,8 @@ public class OpenUserDto : EntityDto<long>
     public string Username { get; set; }
     public string Nickname { get; set; }
     public string Avatar { get; set; }
+    public string BlogAddress { get; set; }
+    public string JobTitle { get; set; }
+    public string Company { get; set; }
 
 }

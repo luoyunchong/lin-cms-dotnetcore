@@ -958,6 +958,16 @@
              个人主页
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinUser.JobTitle">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.LinUser.Company">
+            <summary>
+            公司
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinUser.LastLoginTime">
             <summary>
             最后一次登录的时间
@@ -980,7 +990,7 @@
         </member>
         <member name="P:LinCms.Entities.LinUser.Salt">
             <summary>
-            盐值
+            密码盐值
             </summary>
         </member>
         <member name="M:LinCms.Entities.LinUser.AddRefreshToken">
