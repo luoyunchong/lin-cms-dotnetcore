@@ -1151,5 +1151,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.FindUserId(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
+            <summary>
+             扩展获取UserId转long
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.FindGroupIds(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
+            <summary>
+            获取分组（角色）id 数组
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.IsInGroup(IGeekFan.FreeKit.Extras.Security.ICurrentUser,System.Int64)">
+            <summary>
+            判断用户是否在此分组（角色）中
+            </summary>
+            <param name="currentUser"></param>
+            <param name="groupId">分组Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.FindIsActive(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
+            <summary>
+            获取用户是否激活
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

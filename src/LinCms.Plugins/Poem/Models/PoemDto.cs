@@ -4,7 +4,7 @@ using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Plugins.Poem.Models;
 
-public class PoemDto : EntityDto
+public class PoemDto : EntityDto<long>
 {
     public string Author { get; set; }
     public List<List<string>> Content { get; set; }

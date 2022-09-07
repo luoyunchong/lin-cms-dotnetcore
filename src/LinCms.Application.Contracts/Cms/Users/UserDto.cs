@@ -5,7 +5,7 @@ using LinCms.Cms.Groups;
 
 namespace LinCms.Cms.Users;
 
-public class UserDto : EntityDto
+public class UserDto : EntityDto<long>
 {
     public string Username { get; set; }
     public string Nickname { get; set; }

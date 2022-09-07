@@ -3,7 +3,7 @@ using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.v1.Books;
 
-public class BookDto : EntityDto
+public class BookDto : EntityDto<long>
 {
     public string Author { get; init; }
     public string Image { get; init; }
