@@ -23,7 +23,7 @@
 
 ## 什么是 Lin CMS？
 
- Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率, 需要前端？请访问[**前端仓库**](https://github.com/TaleLin/lin-cms-vue)。官方团队产品了解请访问[**TaleLin**](https://github.com/TaleLin)
+ Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率, 需要前端？请访问[**前端仓库**](https://github.com/luoyunchong/lin-cms-vue)。
 
 ##  开源地址
 - 后端接口Gitee 链接 [https://gitee.com/igeekfan/lin-cms-dotnetcore](https://gitee.com/igeekfan/lin-cms-dotnetcore)
@@ -34,8 +34,7 @@
 
 ## 线上文档地址(完善中)
 
-- [https://luoyunchong.github.io/igeekfan-docs/dotnetcore/lin-cms/](https://luoyunchong.github.io/igeekfan-docs/dotnetcore/lin-cms/)
-- [https://igeekfan.gitee.io/igeekfan-docs/dotnetcore/lin-cms/](https://igeekfan.gitee.io/igeekfan-docs/dotnetcore/lin-cms/)
+- [https://igeekfan.cn/dotnetcore/lin-cms/](https://igeekfan.cn/dotnetcore/lin-cms/)
 
 ## 线上 Demo
 - 本项目swagger地址 [https://api.igeekfan.cn/swagger/index.html](https://api.igeekfan.cn/swagger/index.html)
@@ -77,10 +76,10 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 由于 Lin 采用的是前后端分离的架构，所以你至少需要熟悉 C# 和 Vue。
 
 ### 后端 C#
-该项目的Lin 的服务端框架是基于[.NET Core 3.1](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
+该项目的Lin 的服务端框架是基于[.NET6](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
 
 ### 相关技术
-- 数据库相关：ORM:[FreeSql](https://github.com/2881099/FreeSql)+DataBase:MySQL5.6/MsSqlServer/Oracle/Sqlite/PostgreSQL
+- 数据库相关：ORM:[FreeSql](https://github.com/dotnetcore/FreeSql)+DataBase:MySQL5.6/MsSqlServer/Oracle/Sqlite/PostgreSQL
 - ASP.NET Core 6 +WebAPI+RESTful
 - 简化对象映射：[AutoMapper](https://automapper.org/)
 - 身份认证框架：[IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
@@ -124,7 +123,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
   - LinCms.Infrastructure:基础设施，数据库持久性的操作
   - LinCms.Core:该应用的核心，实体类，通用操作类，AOP扩展，分页对象，基础依赖对象接口，时间扩展方法，当前用户信息，异常类，值对象
   - LinCms.Plugins 使用单项目实现某个业务的扩展，不是该项目的主要结构，可暂时忽略。
-  - LinCms.Scaffolding [代码生成器](https://igeekfan.gitee.io/igeekfan-docs/dotnetcore/lin-cms/lincms-scaffolding.html)
+  - LinCms.Scaffolding [代码生成器](https://igeekfan.cn/dotnetcore/lin-cms/lincms-scaffolding.html)
 - test
   - LinCms.Test:对仓储，应用服务或工具类进行测试
 
