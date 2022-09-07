@@ -225,7 +225,7 @@ public class UserService : ApplicationService, IUserService
 
         UserInformation userInformation = Mapper.Map<UserInformation>(linUser);
         userInformation.Groups = linUser.LinGroups.Select(r => Mapper.Map<GroupDto>(r)).ToList();
-        userInformation.Admin = CurrentUser.IsInRole(LinConsts.Group.Admin.ToString());
+        userInformation.Admin = CurrentUser.IsInGroup(LinConsts.Group.Admin);
 
         return userInformation;
     }

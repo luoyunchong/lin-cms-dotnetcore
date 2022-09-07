@@ -1,5 +1,4 @@
-﻿#nullable enable
-namespace LinCms.Security
+﻿namespace LinCms.Security
 {
     public class LinCmsClaimTypes
     {

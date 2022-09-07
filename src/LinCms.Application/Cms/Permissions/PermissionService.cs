@@ -39,7 +39,7 @@ public class PermissionService : ApplicationService, IPermissionService
     /// <returns></returns>
     public async Task<bool> CheckPermissionAsync(string module, string permission)
     {
-        long[] groups = CurrentUser.GetGroupIds().Select(long.Parse).ToArray();
+        long[] groups = CurrentUser.FindGroupIds().Select(long.Parse).ToArray();
 
         LinPermission linPermission = await _permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();
 

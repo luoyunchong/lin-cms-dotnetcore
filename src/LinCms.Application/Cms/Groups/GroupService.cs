@@ -11,6 +11,7 @@ using LinCms.Common;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
+using LinCms.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Cms.Groups;
@@ -165,7 +166,7 @@ public class GroupService : ApplicationService, IGroupService
 
     public bool CheckIsRootByUserId(long userId)
     {
-        return CurrentUser.IsInRole(LinConsts.Group.Admin.ToString());
+        return CurrentUser.IsInGroup(LinConsts.Group.Admin);
     }
 
     public Task<List<long>> GetGroupIdsByUserIdAsync(long userId)
