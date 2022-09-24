@@ -1,10 +1,9 @@
 
-namespace LinCms.Base.Docs
-{
-    public class CreateUpdateDocDto
-    {
-        public string Name { get; set; }
+namespace LinCms.Base.Docs;
 
-        public string DisplayName { get; set; }
-    }
+public class CreateUpdateDocDto
+{
+    public string Name { get; set; }
+
+    public string DisplayName { get; set; }
 }

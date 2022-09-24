@@ -1,18 +1,17 @@
 using System.Threading.Tasks;
 using LinCms.Data;
 
-namespace LinCms.v1.Books
+namespace LinCms.v1.Books;
+
+public interface IBookService
 {
-    public interface IBookService
-    {
-        Task<PagedResultDto<BookDto>> GetListAsync(PageDto pageDto);
+    Task<PagedResultDto<BookDto>> GetListAsync(PageDto pageDto);
 
-        Task<BookDto> GetAsync(long id);
+    Task<BookDto> GetAsync(long id);
 
-        Task CreateAsync(CreateUpdateBookDto inputDto);
+    Task CreateAsync(CreateUpdateBookDto inputDto);
 
-        Task UpdateAsync(long id, CreateUpdateBookDto inputDto);
+    Task UpdateAsync(long id, CreateUpdateBookDto inputDto);
 
-        Task DeleteAsync(long id);
-    }
+    Task DeleteAsync(long id);
 }

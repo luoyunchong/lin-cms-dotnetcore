@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 using LinCms.Exceptions;
 
 namespace LinCms.Entities.Blog
@@ -9,7 +10,7 @@ namespace LinCms.Entities.Blog
     /// 用户评论信息
     /// </summary>
     [Table(Name = "blog_comment")]
-    public class Comment : FullAuditEntity<Guid>
+    public class Comment : FullAuditEntity<Guid, long>
     {
         /// <summary>
         /// 回复评论Id

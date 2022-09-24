@@ -1,6 +1,5 @@
-﻿namespace LinCms.Blog.Notifications
+﻿namespace LinCms.Blog.Notifications;
+
+public class EventService
 {
-    public class EventService
-    {
-    }
 }

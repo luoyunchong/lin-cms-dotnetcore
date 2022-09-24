@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 using LinCms.Data.Enums;
 
 namespace LinCms.Entities
@@ -10,7 +12,7 @@ namespace LinCms.Entities
     /// 用户
     /// </summary>
     [Table(Name = "lin_user")]
-    public class LinUser : FullAuditEntity
+    public class LinUser : FullAuditEntity<long, long>
     {
         /// <summary>
         /// 用户名
@@ -46,6 +48,7 @@ namespace LinCms.Entities
         [Column(StringLength = 100)]
         public string PhoneNumber { get; set; }
 
+        #region 博客介绍
         /// <summary>
         /// 个人介绍
         /// </summary>
@@ -57,6 +60,19 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 100)]
         public string BlogAddress { get; set; }
+
+        /// <summary>
+        /// 职位
+        /// </summary>
+        [StringLength(50)]
+        public string JobTitle { get; set; }
+
+        /// <summary>
+        /// 公司
+        /// </summary>
+        [StringLength(50)]
+        public string Company { get; set; } 
+        #endregion
 
         /// <summary>
         /// 最后一次登录的时间
@@ -80,7 +96,7 @@ namespace LinCms.Entities
         public string PasswordResetCode { get; set; }
 
         /// <summary>
-        /// 盐值
+        /// 密码盐值
         /// </summary>
         [Column(StringLength = 100)]
         public string Salt { get; set; }

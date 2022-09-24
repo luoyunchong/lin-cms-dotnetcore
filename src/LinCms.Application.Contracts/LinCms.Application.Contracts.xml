@@ -223,7 +223,7 @@
             <summary>
             删除评论,先查一次
             </summary>
-            <param name="comment"></param>
+            <param name="id">评论表Id</param>
         </member>
         <member name="M:LinCms.Blog.Comments.ICommentService.DeleteMyComment(System.Guid)">
             <summary>
@@ -415,16 +415,6 @@
         <member name="P:LinCms.Cms.Account.RegisterDto.Password">
             <summary>
             密码
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Account.RegisterDto.EmailCode">
-            <summary>
-             发送邮件时返回的唯一码，以保证用户请求与验证码是一个请求
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Account.RegisterDto.VerificationCode">
-            <summary>
-            邮件发送的验证码
             </summary>
         </member>
         <member name="M:LinCms.Cms.Files.IFileService.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
@@ -779,6 +769,16 @@
             </summary>
             <param name="userId"></param>
             <returns></returns>
+        </member>
+        <member name="P:LinCms.Cms.Users.UpdateProfileDto.JobTitle">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Users.UpdateProfileDto.Company">
+            <summary>
+            公司
+            </summary>
         </member>
         <member name="P:LinCms.Cms.Users.UserInformation.Nickname">
             <summary>

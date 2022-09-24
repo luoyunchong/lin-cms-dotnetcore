@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using LinCms.Entities.Base;
 
-namespace LinCms.Base.BaseTypes
+namespace LinCms.Base.BaseTypes;
+
+public class BaseTypeProfile : Profile
 {
-    public class BaseTypeProfile : Profile
+    public BaseTypeProfile()
     {
-        public BaseTypeProfile()
-        {
-            CreateMap<BaseType, BaseTypeDto>();
-            CreateMap<CreateUpdateBaseTypeDto, BaseType>();
-        }
+        CreateMap<BaseType, BaseTypeDto>();
+        CreateMap<CreateUpdateBaseTypeDto, BaseType>();
     }
 }

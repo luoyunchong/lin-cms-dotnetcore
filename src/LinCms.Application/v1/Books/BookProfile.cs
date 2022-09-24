@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using LinCms.Entities;
 
-namespace LinCms.v1.Books
+namespace LinCms.v1.Books;
+
+public class BookProfile : Profile
 {
-    public class BookProfile : Profile
+    public BookProfile()
     {
-        public BookProfile()
-        {
-            CreateMap<CreateUpdateBookDto, Book>();
-            CreateMap<Book, BookDto>();
-        }
+        CreateMap<CreateUpdateBookDto, Book>();
+        CreateMap<Book, BookDto>();
     }
 }

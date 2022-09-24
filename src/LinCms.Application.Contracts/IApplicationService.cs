@@ -1,7 +1,6 @@
-﻿namespace LinCms
-{
-    public interface IApplicationService
-    {
+﻿namespace LinCms;
 
-    }
+public interface IApplicationService
+{
+
 }

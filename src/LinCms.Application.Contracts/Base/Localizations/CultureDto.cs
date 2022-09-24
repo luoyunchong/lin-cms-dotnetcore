@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
-namespace LinCms.Base.Localizations
+namespace LinCms.Base.Localizations;
+
+public class CultureDto : EntityDto<long>
 {
-    public class CultureDto : EntityDto<long>
-    {
-        [Required]
-        [StringLength(10)]
-        public string Name { get; set; }
+    [Required]
+    [StringLength(10)]
+    public string Name { get; set; }
 
-        [Required]
-        [StringLength(10)]
-        public string DisplayName { get; set; }
-    }
+    [Required]
+    [StringLength(10)]
+    public string DisplayName { get; set; }
 }

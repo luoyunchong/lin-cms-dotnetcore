@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
-using LinCms.Aop.Attributes;
+using IGeekFan.FreeKit.Extras.FreeSql;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Entities;
-using LinCms.IRepositories;
 using LinCms.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -56,7 +56,7 @@ namespace LinCms.Aop.Filter
                 Path = context.HttpContext.Request.Path,
                 Method = context.HttpContext.Request.Method,
                 StatusCode = context.HttpContext.Response.StatusCode,
-                UserId = _currentUser.Id ?? 0,
+                UserId = _currentUser.FindUserId(),
                 Username = _currentUser.UserName
             };
 

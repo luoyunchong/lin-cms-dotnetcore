@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dependency;
 using LinCms.Data;
 
-namespace LinCms.FreeSql
+namespace LinCms.FreeSql;
+
+public interface IDataSeedContributor: ISingletonDependency
 {
-    public interface IDataSeedContributor
-    {
 
-        Task InitAdminPermission();
+    Task InitAdminPermission();
 
-        Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken);
+    Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken);
 
-    }
 }

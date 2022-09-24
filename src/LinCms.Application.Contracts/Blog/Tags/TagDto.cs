@@ -1,16 +1,15 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
-namespace LinCms.Blog.Tags
+namespace LinCms.Blog.Tags;
+
+public class TagDto : EntityDto<Guid>
 {
-    public class TagDto : EntityDto<Guid>
+    public TagDto(Guid id, string tagName)
     {
-        public TagDto(Guid id, string tagName)
-        {
-            Id = id;
-            TagName = tagName;
-        }
-
-        public string TagName { get; set; }
+        Id = id;
+        TagName = tagName;
     }
+
+    public string TagName { get; set; }
 }

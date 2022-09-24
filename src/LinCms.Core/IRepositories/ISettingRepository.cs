@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities.Settings;
 
 namespace LinCms.IRepositories

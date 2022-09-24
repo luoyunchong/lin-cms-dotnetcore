@@ -1,4 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities
 {
@@ -6,7 +7,7 @@ namespace LinCms.Entities
     /// 文件
     /// </summary>
     [Table(Name = "lin_file")]
-    public class LinFile : FullAuditEntity
+    public class LinFile : FullAuditEntity<long, long>
     {
         /// <summary>
         /// 文件后缀

@@ -1,13 +1,12 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
-namespace LinCms.Base.BaseTypes
+namespace LinCms.Base.BaseTypes;
+
+public class BaseTypeDto : EntityDto<long>
 {
-    public class BaseTypeDto : EntityDto
-    {
-        public string TypeCode { get; set; }
-        public string FullName { get; set; }
-        public int? SortCode { get; set; }
-        public DateTime CreateTime { get; set; }
-    }
+    public string TypeCode { get; set; }
+    public string FullName { get; set; }
+    public int? SortCode { get; set; }
+    public DateTime CreateTime { get; set; }
 }

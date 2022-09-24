@@ -1,6 +1,6 @@
-﻿using LinCms.Blog.Tags;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Blog.Tags;
 using LinCms.Entities.Blog;
-using LinCms.IRepositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

@@ -63,11 +63,7 @@ namespace LinCms.Extensions
         /// <returns></returns>
         public static double ConvertDateTimeInt(DateTime dateTime)
         {
-            if (dateTime.Year == 1)
-            {
-                return 0;
-            }
-            return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
+            return dateTime.Year == 1 ? 0 : new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
         }
     }
 }

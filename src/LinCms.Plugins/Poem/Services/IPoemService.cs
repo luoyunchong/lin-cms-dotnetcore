@@ -1,7 +1,6 @@
-﻿namespace LinCms.Plugins.Poem.Services
-{
-    public interface IPoemService
-    {
+﻿namespace LinCms.Plugins.Poem.Services;
 
-    }
+public interface IPoemService
+{
+
 }

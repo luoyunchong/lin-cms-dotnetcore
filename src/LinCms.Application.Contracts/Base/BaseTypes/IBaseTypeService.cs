@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinCms.Base.BaseTypes
+namespace LinCms.Base.BaseTypes;
+
+public interface IBaseTypeService
 {
-    public interface IBaseTypeService
-    {
-        Task DeleteAsync(int id);
+    Task DeleteAsync(long id);
 
-        Task<List<BaseTypeDto>> GetListAsync();
+    Task<List<BaseTypeDto>> GetListAsync();
 
-        Task<BaseTypeDto> GetAsync(int id);
+    Task<BaseTypeDto> GetAsync(int id);
 
-        Task CreateAsync(CreateUpdateBaseTypeDto createBaseType);
+    Task CreateAsync(CreateUpdateBaseTypeDto createBaseType);
 
-        Task UpdateAsync(int id, CreateUpdateBaseTypeDto updateBaseType);
-    }
+    Task UpdateAsync(int id, CreateUpdateBaseTypeDto updateBaseType);
 }

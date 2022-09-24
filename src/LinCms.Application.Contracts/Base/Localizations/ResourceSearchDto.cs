@@ -1,11 +1,10 @@
 ﻿using LinCms.Data;
 
-namespace LinCms.Base.Localizations
-{
-    public class ResourceSearchDto : PageDto
-    {
-        public long CultureId { get; set; }
+namespace LinCms.Base.Localizations;
 
-        public string Key { get; set; }
-    }
+public class ResourceSearchDto : PageDto
+{
+    public long CultureId { get; set; }
+
+    public string Key { get; set; }
 }

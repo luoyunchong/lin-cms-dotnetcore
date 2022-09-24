@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using LinCms.Extensions;
+using IGeekFan.FreeKit.Extras.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Common

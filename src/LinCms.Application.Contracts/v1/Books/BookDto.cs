@@ -1,15 +1,14 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
-namespace LinCms.v1.Books
+namespace LinCms.v1.Books;
+
+public class BookDto : EntityDto<long>
 {
-    public class BookDto : EntityDto
-    {
-        public string Author { get; init; }
-        public string Image { get; init; }
-        public string Summary { get; init; }
-        public string Title { get; init; }
-        public DateTime CreateTime { get; init; }
-        public DateTime UpdateTime { get; init; }
-    }
+    public string Author { get; init; }
+    public string Image { get; init; }
+    public string Summary { get; init; }
+    public string Title { get; init; }
+    public DateTime CreateTime { get; init; }
+    public DateTime UpdateTime { get; init; }
 }

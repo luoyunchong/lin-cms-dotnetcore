@@ -1,18 +1,17 @@
 using System.Threading.Tasks;
 using LinCms.Data;
 
-namespace LinCms.Base.Docs
+namespace LinCms.Base.Docs;
+
+public interface IDocService
 {
-    public interface IDocService
-    {
-        Task DeleteAsync(long id);
+    Task DeleteAsync(long id);
 
-        Task<PagedResultDto<DocDto>> GetListAsync(PageDto pageDto);
+    Task<PagedResultDto<DocDto>> GetListAsync(PageDto pageDto);
 
-        Task<DocDto> GetAsync(long id);
+    Task<DocDto> GetAsync(long id);
 
-        Task CreateAsync(CreateUpdateDocDto createDoc);
+    Task CreateAsync(CreateUpdateDocDto createDoc);
 
-        Task UpdateAsync(long id, CreateUpdateDocDto updateDoc);
-    }
+    Task UpdateAsync(long id, CreateUpdateDocDto updateDoc);
 }

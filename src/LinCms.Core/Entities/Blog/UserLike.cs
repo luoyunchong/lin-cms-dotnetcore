@@ -1,5 +1,6 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {
@@ -7,7 +8,7 @@ namespace LinCms.Entities.Blog
     /// 用户点赞:点赞随笔、评论内容
     /// </summary>
     [Table(Name = "blog_user_like")]
-    public class UserLike : Entity<Guid>, ICreateAuditEntity
+    public class UserLike : Entity<Guid>, ICreateAuditEntity<long>
     {
         /// <summary>
         /// 点赞对象
@@ -20,10 +21,9 @@ namespace LinCms.Entities.Blog
         [Column(MapType = typeof(int))]
         public UserLikeSubjectType SubjectType { get; set; }
 
-        public long CreateUserId { get; set; }
+        public long? CreateUserId { get; set; }
 
         public DateTime CreateTime { get; set; }
-
 
         [Navigate("CreateUserId")]
         public virtual LinUser LinUser { get; set; }
@@ -33,6 +33,7 @@ namespace LinCms.Entities.Blog
 
         [Navigate("SubjectId")]
         public virtual Article Article { get; set; }
+        public string CreateUserName { get; set; }
     }
 
     public enum UserLikeSubjectType

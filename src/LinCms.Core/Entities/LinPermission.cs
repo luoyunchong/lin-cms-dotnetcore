@@ -1,5 +1,6 @@
 ﻿using System;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities
 {
@@ -7,7 +8,7 @@ namespace LinCms.Entities
     /// 权限表
     /// </summary>
     [Table(Name = "lin_permission")]
-    public class LinPermission : FullAuditEntity<long>
+    public class LinPermission : FullAuditEntity<long, long>
     {
         public LinPermission()
         {

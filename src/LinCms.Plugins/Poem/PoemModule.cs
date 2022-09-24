@@ -1,6 +1,5 @@
-﻿namespace LinCms.Plugins.Poem
+﻿namespace LinCms.Plugins.Poem;
+
+class PoemModule
 {
-    class PoemModule
-    {
-    }
 }

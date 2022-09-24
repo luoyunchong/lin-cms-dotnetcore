@@ -10,6 +10,7 @@
 		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
 		<RootNamespace>LinCms</RootNamespace>
 		<Nullable>enable</Nullable>
+		<AssemblyName>LinCms.Web</AssemblyName>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,6 +19,8 @@
 		<NoWarn>1701;1702;1705;1591</NoWarn>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<WarningLevel>3</WarningLevel>
+		<Optimize>False</Optimize>
+		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -49,8 +52,8 @@
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.12" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
-		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.9" />
 		<PackageReference Include="Owl.reCAPTCHA" Version="0.5.0" />
 		<PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="6.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
@@ -61,7 +64,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
 		<PackageReference Include="ToolGood.Words" Version="3.0.3.1" />
-		<!--<PackageReference Include="IGeekFan.Sinks.MariaDB" Version="0.0.1" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -81,11 +83,13 @@
 
 	<ItemGroup>
 		<Folder Include="Properties\PublishProfiles\" />
-		<Folder Include="wwwroot\assets\" />
+	</ItemGroup>
+
+	<ItemGroup>
 	</ItemGroup>
 
 	<ProjectExtensions>
-		<VisualStudio><UserProperties appsettings_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio>
+		<VisualStudio><UserProperties /></VisualStudio>
 	</ProjectExtensions>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -102,6 +106,11 @@
 		<TypeScriptSourceMap>True</TypeScriptSourceMap>
 		<TypeScriptMapRoot />
 		<TypeScriptSourceRoot />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <Optimize>False</Optimize>
+	  <DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 </Project>

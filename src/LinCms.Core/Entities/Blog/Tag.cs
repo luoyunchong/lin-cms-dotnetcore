@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {
@@ -8,7 +9,7 @@ namespace LinCms.Entities.Blog
     /// 标签
     /// </summary>
     [Table(Name = "blog_tag")]
-    public class Tag : FullAuditEntity<Guid>
+    public class Tag : FullAuditEntity<Guid, long>
     {
         /// <summary>
         /// 别名

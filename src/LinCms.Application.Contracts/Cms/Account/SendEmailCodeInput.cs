@@ -2,35 +2,34 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 
-namespace LinCms.Cms.Account
+namespace LinCms.Cms.Account;
+
+public class SendEmailCodeInput : IValidatableObject
 {
-    public class SendEmailCodeInput : IValidatableObject
+    [Required(ErrorMessage = "请输入邮件")]
+    public string Email { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        [Required(ErrorMessage = "请输入邮件")]
-        public string Email { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        if (!Email.IsNullOrEmpty())
         {
-            if (!Email.IsNullOrEmpty())
+
+            string address = null;
+            try
             {
+                address = new MailAddress(Email).Address;
+            }
+            catch
+            {
+                // ignored
+            }
 
-                string address = null;
-                try
-                {
-                    address = new MailAddress(Email).Address;
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                if (address.IsNullOrEmpty())
-                {
-                    yield return new ValidationResult("电子邮箱不符合规范，请输入正确的邮箱", new[] { "Email" });
-                }
-
+            if (address.IsNullOrEmpty())
+            {
+                yield return new ValidationResult("电子邮箱不符合规范，请输入正确的邮箱", new[] { "Email" });
             }
 
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 using LinCms.Entities;
 using LinCms.IRepositories;
 using LinCms.v1.Books;

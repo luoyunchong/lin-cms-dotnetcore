@@ -1,11 +1,10 @@
 ﻿using System;
-using LinCms.Entities;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
-namespace LinCms.Blog.Notifications
+namespace LinCms.Blog.Notifications;
+
+public class CommentEntry : EntityDto<Guid>
 {
-    public class CommentEntry : EntityDto<Guid>
-    {
-        public Guid? RespId { get; set; }
-        public string Text { get; set; }
-    }
+    public Guid? RespId { get; set; }
+    public string Text { get; set; }
 }

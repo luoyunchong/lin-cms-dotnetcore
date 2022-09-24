@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities.Blog
 {
@@ -9,7 +10,7 @@ namespace LinCms.Entities.Blog
     /// 随笔专栏，由普通用户创建
     /// </summary>
     [Table(Name = "blog_classify")]
-    public class Classify : FullAuditEntity<Guid>
+    public class Classify : FullAuditEntity<Guid, long>
     {
         /// <summary>
         /// 封面图

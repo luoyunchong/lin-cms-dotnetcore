@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using LinCms.Entities.Blog;
 
-namespace LinCms.Blog.Comments
+namespace LinCms.Blog.Comments;
+
+public class CommentProfile : Profile
 {
-    public class CommentProfile : Profile
+    public CommentProfile()
     {
-        public CommentProfile()
-        {
-            CreateMap<CreateCommentDto, Comment>();
-            CreateMap<Comment, CommentDto>().ForMember(d => d.TopComment, opts => opts.Ignore());
-        }
+        CreateMap<CreateCommentDto, Comment>();
+        CreateMap<Comment, CommentDto>().ForMember(d => d.TopComment, opts => opts.Ignore());
     }
 }

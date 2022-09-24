@@ -6,64 +6,44 @@ using Autofac.Extras.DynamicProxy;
 using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
-using LinCms.Dependency;
+using IGeekFan.FreeKit.Extras.Dependency;
 using LinCms.Entities;
 using LinCms.Middleware;
 
-namespace LinCms.Startup.Configuration
+namespace LinCms.Startup.Configuration;
+
+/// <summary>
+/// 注入Application层中的Service
+/// </summary>
+public class ServiceModule : Autofac.Module
 {
-    /// <summary>
-    /// 注入Application层中的Service
-    /// </summary>
-    public class ServiceModule : Autofac.Module
+    protected override void Load(ContainerBuilder builder)
     {
-        protected override void Load(ContainerBuilder builder)
+        builder.RegisterType<AopCacheIntercept>();
+
+        List<Type> interceptorServiceTypes = new List<Type>()
         {
-            builder.RegisterType<UnitOfWorkInterceptor>();
-            builder.RegisterType<UnitOfWorkAsyncInterceptor>();
+            typeof(AopCacheIntercept),
+        };
 
-            builder.RegisterType<AopCacheIntercept>();
+        Assembly servicesDllFile = Assembly.Load("LinCms.Application");
 
-            List<Type> interceptorServiceTypes = new List<Type>()
-            {
-                typeof(UnitOfWorkInterceptor),
-                typeof(AopCacheIntercept),
-            };
+        bool Predicate(Type a) => !a.IsDefined(typeof(DisableConventionalRegistrationAttribute), true) && a.Name.EndsWith("Service") && !a.IsAbstract && !a.IsInterface && a.IsPublic;
 
-            Assembly servicesDllFile = Assembly.Load("LinCms.Application");
+        builder.RegisterAssemblyTypes(servicesDllFile)
+            .Where(Predicate)
+            .InterceptedBy(interceptorServiceTypes.ToArray());
 
-            bool Predicate(Type a) => !a.IsDefined(typeof(DisableConventionalRegistrationAttribute), true) && a.Name.EndsWith("Service") && !a.IsAbstract && !a.IsInterface && a.IsPublic;
+        //一个接口多个实现，使用Named，区分
+        builder.RegisterType<LocalFileService>().Named<IFileService>(LinFile.LocalFileService).InstancePerLifetimeScope();
+        builder.RegisterType<QiniuService>().Named<IFileService>(LinFile.QiniuService).InstancePerLifetimeScope();
 
-            builder.RegisterAssemblyTypes(servicesDllFile)
-                .Where(Predicate)
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope()
-                .PropertiesAutowired()// 属性注入
-                .InterceptedBy(interceptorServiceTypes.ToArray())
-                .EnableInterfaceInterceptors();
+        builder.RegisterType<IdentityServer4Service>().Named<ITokenService>(nameof(IdentityServer4Service)).InstancePerLifetimeScope();
+        builder.RegisterType<JwtTokenService>().Named<ITokenService>(nameof(JwtTokenService)).InstancePerLifetimeScope();
 
-            //太慢了。
-            //Assembly webDllFile = Assembly.Load("LinCms.Web");
-            //builder.RegisterAssemblyTypes(webDllFile)
-            //    .Where(a => a.Name.EndsWith("Controller") && !a.IsAbstract && !a.IsInterface && a.IsPublic)
-            //    .InstancePerLifetimeScope()
-            //    .AsSelf()
-            //    .PropertiesAutowired()// 属性注入
-            //    .InterceptedBy(interceptorServiceTypes.ToArray())
-            //    .EnableClassInterceptors();
+        builder.RegisterType<GithubOAuth2Serivice>().Named<IOAuth2Service>(LinUserIdentity.GitHub).InstancePerLifetimeScope();
+        builder.RegisterType<GiteeOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Gitee).InstancePerLifetimeScope();
+        builder.RegisterType<QQOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.QQ).InstancePerLifetimeScope();
 
-
-            //一个接口多个实现，使用Named，区分
-            builder.RegisterType<LocalFileService>().Named<IFileService>(LinFile.LocalFileService).InstancePerLifetimeScope();
-            builder.RegisterType<QiniuService>().Named<IFileService>(LinFile.QiniuService).InstancePerLifetimeScope();
-
-            builder.RegisterType<IdentityServer4Service>().Named<ITokenService>(nameof(IdentityServer4Service)).InstancePerLifetimeScope();
-            builder.RegisterType<JwtTokenService>().Named<ITokenService>(nameof(JwtTokenService)).InstancePerLifetimeScope();
-
-            builder.RegisterType<GithubOAuth2Serivice>().Named<IOAuth2Service>(LinUserIdentity.GitHub).InstancePerLifetimeScope();
-            builder.RegisterType<GiteeOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Gitee).InstancePerLifetimeScope();
-            builder.RegisterType<QQOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.QQ).InstancePerLifetimeScope();
-
-        }
     }
 }

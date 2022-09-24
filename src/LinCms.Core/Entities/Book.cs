@@ -1,4 +1,5 @@
 ﻿using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities
 {
@@ -6,7 +7,7 @@ namespace LinCms.Entities
     /// 也是demo。
     /// </summary>
     [Table(Name = "book")]
-    public class Book : FullAuditEntity
+    public class Book : FullAuditEntity<long, long>
     {
         [Column(StringLength = 30)]
         public string Author { get; set; } = string.Empty;

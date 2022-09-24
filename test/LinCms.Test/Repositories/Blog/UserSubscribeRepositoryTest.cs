@@ -1,7 +1,7 @@
-﻿using LinCms.Blog.UserSubscribes;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Blog.UserSubscribes;
 using LinCms.Cms.Users;
 using LinCms.Entities.Blog;
-using LinCms.IRepositories;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -37,7 +37,7 @@ namespace LinCms.Test.Repositories.Blog
                 .Where(r => r.CreateUserId == searchDto.UserId)
                 .ToList(r => new UserSubscribeDto()
                 {
-                    CreateUserId = r.CreateUserId,
+                    CreateUserId = r.CreateUserId.Value,
                     SubscribeUserId = r.SubscribeUserId,
                     Subscribeer = new OpenUserDto()
                     {

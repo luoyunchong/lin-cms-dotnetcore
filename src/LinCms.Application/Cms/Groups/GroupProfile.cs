@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using LinCms.Entities;
 
-namespace LinCms.Cms.Groups
+namespace LinCms.Cms.Groups;
+
+public class GroupProfile : Profile
 {
-    public class GroupProfile : Profile
+    public GroupProfile()
     {
-        public GroupProfile()
-        {
-            CreateMap<CreateGroupDto, LinGroup>();
-            CreateMap<UpdateGroupDto, LinGroup>();
-            CreateMap<LinGroup, GroupDto>();
-        }
+        CreateMap<CreateGroupDto, LinGroup>();
+        CreateMap<UpdateGroupDto, LinGroup>();
+        CreateMap<LinGroup, GroupDto>();
     }
 }

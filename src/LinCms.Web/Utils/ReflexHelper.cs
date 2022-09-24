@@ -2,119 +2,117 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FreeSql.DataAnnotations;
-using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
-namespace LinCms.Utils
+namespace LinCms.Utils;
+
+/// <summary>
+/// 反射帮助类
+/// </summary>
+public class ReflexHelper
 {
-    /// <summary>
-    /// 反射帮助类
-    /// </summary>
-    public class ReflexHelper
+    public static List<T> GetAssemblies<T>() where T : Attribute
     {
-        public static List<T> GetAssemblies<T>() where T : Attribute
+        List<T> listT = new List<T>();
+        List<Type> assembly = typeof(Program).Assembly.GetTypes().AsEnumerable()
+            .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
+
+        assembly.ForEach(d =>
         {
-            List<T> listT = new List<T>();
-            List<Type> assembly = typeof(Program).Assembly.GetTypes().AsEnumerable()
-                .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
-
-            assembly.ForEach(d =>
-            {
-                T linCmsAuthorize = d.GetCustomAttribute<T>();
-                listT.Add(linCmsAuthorize);
-            });
-            return listT;
-        }
+            T linCmsAuthorize = d.GetCustomAttribute<T>();
+            listT.Add(linCmsAuthorize);
+        });
+        return listT;
+    }
 
 
-        //得到这样的结果
-        //LinCms.Zero.Data.PermissionDto Permission:查询日志记录的用户、Module:日志、Router:cms.log.get_users
-        //LinCms.Zero.Data.PermissionDto Permission:查询所有日志、Module:日志、Router:cms.log.get_logs
-        //LinCms.Zero.Data.PermissionDto Permission:搜索日志、Module:日志、Router:cms.log.get_user_logs
-        //LinCms.Zero.Data.PermissionDto Permission:查看lin的信息、Module:信息、Router:cms.test.info
-        //LinCms.Zero.Data.PermissionDto Permission:删除图书、Module:图书、Router:v1.book.delete_book
-        /// <summary>
-        /// 通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
-        /// </summary>
-        /// <returns></returns>
-        public static List<PermissionDefinition> GetAssemblyLinCmsAttributes()
+    //得到这样的结果
+    //LinCms.Zero.Data.PermissionDto Permission:查询日志记录的用户、Module:日志、Router:cms.log.get_users
+    //LinCms.Zero.Data.PermissionDto Permission:查询所有日志、Module:日志、Router:cms.log.get_logs
+    //LinCms.Zero.Data.PermissionDto Permission:搜索日志、Module:日志、Router:cms.log.get_user_logs
+    //LinCms.Zero.Data.PermissionDto Permission:查看lin的信息、Module:信息、Router:cms.test.info
+    //LinCms.Zero.Data.PermissionDto Permission:删除图书、Module:图书、Router:v1.book.delete_book
+    /// <summary>
+    /// 通过反射得到LinCmsAttrbutes所有权限结构，为树型权限生成做准备
+    /// </summary>
+    /// <returns></returns>
+    public static List<PermissionDefinition> GetAssemblyLinCmsAttributes()
+    {
+        List<PermissionDefinition> linAuths = new List<PermissionDefinition>();
+
+        List<Type> assembly = typeof(Program).Assembly.GetTypes().AsEnumerable()
+            .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
+        //通过反射得到控制器上的权限特性标签
+        assembly.ForEach(d =>
         {
-            List<PermissionDefinition> linAuths = new List<PermissionDefinition>();
-
-            List<Type> assembly = typeof(Program).Assembly.GetTypes().AsEnumerable()
-                .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
-            //通过反射得到控制器上的权限特性标签
-            assembly.ForEach(d =>
+            LinCmsAuthorizeAttribute linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
+            RouteAttribute routerAttribute = d.GetCustomAttribute<RouteAttribute>();
+            if (linCmsAuthorize?.Permission != null && routerAttribute?.Template != null)
             {
-                LinCmsAuthorizeAttribute linCmsAuthorize = d.GetCustomAttribute<LinCmsAuthorizeAttribute>();
-                RouteAttribute routerAttribute = d.GetCustomAttribute<RouteAttribute>();
-                if (linCmsAuthorize?.Permission != null && routerAttribute?.Template != null)
-                {
-                    linAuths.Add(new PermissionDefinition(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template));
-                }
-            });
+                linAuths.Add(new PermissionDefinition(linCmsAuthorize.Permission, linCmsAuthorize.Module, routerAttribute.Template));
+            }
+        });
 
-            //得到方法上的权限特性标签，并排除无权限及模块的非固定权限
-            assembly.ForEach(r =>
+        //得到方法上的权限特性标签，并排除无权限及模块的非固定权限
+        assembly.ForEach(r =>
+        {
+            RouteAttribute routerAttribute = r.GetCustomAttribute<RouteAttribute>();
+            if (routerAttribute?.Template != null)
             {
-                RouteAttribute routerAttribute = r.GetCustomAttribute<RouteAttribute>();
-                if (routerAttribute?.Template != null)
+                foreach (MethodInfo methodInfo in r.GetMethods())
                 {
-                    foreach (MethodInfo methodInfo in r.GetMethods())
+                    HttpMethodAttribute methodAttribute = GetMethodAttribute(methodInfo);
+
+                    foreach (Attribute attribute in methodInfo.GetCustomAttributes())
                     {
-                        HttpMethodAttribute methodAttribute = GetMethodAttribute(methodInfo);
-
-                        foreach (Attribute attribute in methodInfo.GetCustomAttributes())
+                        if (attribute is LinCmsAuthorizeAttribute linAttribute && linAttribute.Permission.IsNotNullOrEmpty() && linAttribute.Module.IsNotNullOrEmpty())
                         {
-                            if (attribute is LinCmsAuthorizeAttribute linAttribute && linAttribute.Permission.IsNotNullOrEmpty() && linAttribute.Module.IsNotNullOrEmpty())
-                            {
-                                string actionTemplate = methodAttribute.Template != null ? "/" + methodAttribute.Template + " " : " ";
-                                string router = $"{routerAttribute.Template}{actionTemplate}{methodAttribute.HttpMethods.FirstOrDefault()}";
-                                linAuths.Add(
-                                        new PermissionDefinition(
-                                                linAttribute.Permission,
-                                                linAttribute.Module,
-                                                router
-                                            )
-                                    );
-                                //methodInfo.Name.ToSnakeCase()
-                            }
+                            string actionTemplate = methodAttribute.Template != null ? "/" + methodAttribute.Template + " " : " ";
+                            string router = $"{routerAttribute.Template}{actionTemplate}{methodAttribute.HttpMethods.FirstOrDefault()}";
+                            linAuths.Add(
+                                new PermissionDefinition(
+                                    linAttribute.Permission,
+                                    linAttribute.Module,
+                                    router
+                                )
+                            );
+                            //methodInfo.Name.ToSnakeCase()
                         }
                     }
                 }
-            });
+            }
+        });
 
-            return linAuths.Distinct().ToList();
-        }
+        return linAuths.Distinct().ToList();
+    }
 
-        private static HttpMethodAttribute GetMethodAttribute(MethodInfo methodInfo)
+    private static HttpMethodAttribute GetMethodAttribute(MethodInfo methodInfo)
+    {
+        HttpMethodAttribute methodAttribute = methodInfo.GetCustomAttribute<HttpGetAttribute>();
+        if (methodAttribute != null)
         {
-            HttpMethodAttribute methodAttribute = methodInfo.GetCustomAttribute<HttpGetAttribute>();
-            if (methodAttribute != null)
-            {
-                return methodAttribute;
-            }
-            methodAttribute = methodInfo.GetCustomAttribute<HttpDeleteAttribute>();
-            if (methodAttribute != null)
-            {
-                return methodAttribute;
-            }
-            methodAttribute = methodInfo.GetCustomAttribute<HttpPutAttribute>();
-            if (methodAttribute != null)
-            {
-                return methodAttribute;
-            }
-            methodAttribute = methodInfo.GetCustomAttribute<HttpPostAttribute>();
-
             return methodAttribute;
         }
+        methodAttribute = methodInfo.GetCustomAttribute<HttpDeleteAttribute>();
+        if (methodAttribute != null)
+        {
+            return methodAttribute;
+        }
+        methodAttribute = methodInfo.GetCustomAttribute<HttpPutAttribute>();
+        if (methodAttribute != null)
+        {
+            return methodAttribute;
+        }
+        methodAttribute = methodInfo.GetCustomAttribute<HttpPostAttribute>();
 
-        /**
+        return methodAttribute;
+    }
+
+    /**
              {
                     "信息":{
                         "查看lin的信息":[
@@ -140,104 +138,64 @@ namespace LinCms.Utils
             }
              */
 
-        /// <summary>
-        /// 使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
-        /// </summary>
-        /// <returns></returns>
-        public static dynamic AuthorizationConvertToTree(List<PermissionDefinition> listPermission)
+    /// <summary>
+    /// 使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
+    /// </summary>
+    /// <returns></returns>
+    public static dynamic AuthorizationConvertToTree(List<PermissionDefinition> listPermission)
+    {
+        var permissionTree = listPermission.GroupBy(r => r.Module).Select(r => new
         {
-            var permissionTree = listPermission.GroupBy(r => r.Module).Select(r => new
+            r.Key,
+            Children = r.Select(u => new
             {
-                r.Key,
-                Children = r.Select(u => new
-                {
-                    u.Router,
-                    u.Permission
-                }).ToList()
-            }).ToList();
+                u.Router,
+                u.Permission
+            }).ToList()
+        }).ToList();
 
-            IDictionary<string, object> expandoObject = new Dictionary<string, object>();
-            foreach (var permission in permissionTree)
+        IDictionary<string, object> expandoObject = new Dictionary<string, object>();
+        foreach (var permission in permissionTree)
+        {
+            IDictionary<string, object> perExpandObject = new Dictionary<string, object>();
+
+            foreach (var children in permission.Children)
+            {
+                perExpandObject[children.Permission] = new List<string> { children.Router };
+            }
+
+            expandoObject[permission.Key] = perExpandObject;
+        }
+
+        return expandoObject;
+    }
+
+    public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinPermission> listAuths)
+    {
+        var groupAuths = listAuths.GroupBy(r => r.Module).Select(r => new
+        {
+            r.Key,
+            Children = r.Select(u => u.Name).ToList()
+        }).ToList();
+
+        List<IDictionary<string, object>> list = new List<IDictionary<string, object>>();
+
+        foreach (var groupAuth in groupAuths)
+        {
+            IDictionary<string, object> moduleExpandoObject = new Dictionary<string, object>();
+            List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
+            groupAuth.Children.ForEach(permission =>
             {
                 IDictionary<string, object> perExpandObject = new Dictionary<string, object>();
+                perExpandObject["module"] = groupAuth.Key;
+                perExpandObject["permission"] = permission;
+                perExpandList.Add(perExpandObject);
+            });
 
-                foreach (var children in permission.Children)
-                {
-                    perExpandObject[children.Permission] = new List<string> { children.Router };
-                }
-
-                expandoObject[permission.Key] = perExpandObject;
-            }
-
-            return expandoObject;
+            moduleExpandoObject[groupAuth.Key] = perExpandList;
+            list.Add(moduleExpandoObject);
         }
 
-        public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinPermission> listAuths)
-        {
-            var groupAuths = listAuths.GroupBy(r => r.Module).Select(r => new
-            {
-                r.Key,
-                Children = r.Select(u => u.Name).ToList()
-            }).ToList();
-
-            List<IDictionary<string, object>> list = new List<IDictionary<string, object>>();
-
-            foreach (var groupAuth in groupAuths)
-            {
-                IDictionary<string, object> moduleExpandoObject = new Dictionary<string, object>();
-                List<IDictionary<string, object>> perExpandList = new List<IDictionary<string, object>>();
-                groupAuth.Children.ForEach(permission =>
-                {
-                    IDictionary<string, object> perExpandObject = new Dictionary<string, object>();
-                    perExpandObject["module"] = groupAuth.Key;
-                    perExpandObject["permission"] = permission;
-                    perExpandList.Add(perExpandObject);
-                });
-
-                moduleExpandoObject[groupAuth.Key] = perExpandList;
-                list.Add(moduleExpandoObject);
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// 扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttribute 的所有类
-        /// </summary>
-        /// <returns></returns>
-        public static Type[] GetTypesByTableAttribute()
-        {
-            List<Type> tableAssembies = new List<Type>();
-            var assembly = Assembly.GetAssembly(typeof(IEntity));
-            if (assembly == null) return new Type[0];
-
-            tableAssembies = assembly.GetExportedTypes()
-                .Where(t => t.GetCustomAttributes<TableAttribute>(false).FirstOrDefault()?.DisableSyncStructure == false)
-                .ToList();
-
-            return tableAssembies.ToArray();
-        }
-
-        public static Type[] GetTypesByNameSpace()
-        {
-            List<string> entitiesFullName = new List<string>()
-            {
-                "LinCms.Entities.Settings",
-                "LinCms.Entities.Blog",
-                "LinCms.Entities.Base",
-                "LinCms.Entities.Lin",
-                "LinCms.Entities.Book",
-            };
-            Assembly? assembly = Assembly.GetAssembly(typeof(IEntity));
-            if (assembly == null) return new Type[0];
-            List<Type> tableAssembies = assembly
-                .GetExportedTypes()
-                .Where(t =>
-                    entitiesFullName.Any(u => t.FullName != null && t.FullName.StartsWith(u) && t.IsClass)
-                )
-                .ToList();
-
-            return tableAssembies.ToArray();
-        }
+        return list;
     }
 }

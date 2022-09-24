@@ -1,11 +1,11 @@
-using LinCms.Entities;
-namespace LinCms.Base.Docs
+using IGeekFan.FreeKit.Extras.AuditEntity;
+
+namespace LinCms.Base.Docs;
+
+public class DocDto : EntityDto<long>
 {
-    public class DocDto : EntityDto<long>
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string DisplayName { get; set; }
+    public string DisplayName { get; set; }
 
-    }
 }

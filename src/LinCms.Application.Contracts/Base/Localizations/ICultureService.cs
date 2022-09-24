@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LinCms.Base.Localizations
+namespace LinCms.Base.Localizations;
+
+public interface ICultureService
 {
-    public interface ICultureService
-    {
-        Task<List<CultureDto>> GetListAsync();
+    Task<List<CultureDto>> GetListAsync();
 
-        Task DeleteAsync(long id);
+    Task DeleteAsync(long id);
 
-        Task<CultureDto> GetAsync(long id);
+    Task<CultureDto> GetAsync(long id);
 
-        Task<CultureDto> CreateAsync(CultureDto createChannel);
+    Task<CultureDto> CreateAsync(CultureDto createChannel);
 
-        Task<CultureDto> UpdateAsync(CultureDto updateChannel);
-    }
+    Task<CultureDto> UpdateAsync(CultureDto updateChannel);
 }

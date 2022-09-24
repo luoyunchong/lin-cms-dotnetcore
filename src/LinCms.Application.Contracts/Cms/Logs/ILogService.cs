@@ -3,19 +3,18 @@ using System.Threading.Tasks;
 using LinCms.Data;
 using LinCms.Entities;
 
-namespace LinCms.Cms.Logs
+namespace LinCms.Cms.Logs;
+
+public interface ILogService
 {
-    public interface ILogService
-    {
-        Task CreateAsync(LinLog linlog);
-        PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto);
+    Task CreateAsync(LinLog linlog);
+    PagedResultDto<LinLog> GetUserLogs(LogSearchDto searchDto);
 
-        List<string> GetLoggedUsers(PageDto searchDto);
+    List<string> GetLoggedUsers(PageDto searchDto);
 
-        /// <summary>
-        /// 管理端访问与用户统计
-        /// </summary>
-        /// <returns></returns>
-        VisitLogUserDto GetUserAndVisits();
-    }
+    /// <summary>
+    /// 管理端访问与用户统计
+    /// </summary>
+    /// <returns></returns>
+    VisitLogUserDto GetUserAndVisits();
 }

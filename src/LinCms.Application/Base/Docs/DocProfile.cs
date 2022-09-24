@@ -1,14 +1,13 @@
 using AutoMapper;
 using LinCms.Entities.Base;
 
-namespace LinCms.Base.Docs
+namespace LinCms.Base.Docs;
+
+public class DocProfile : Profile
 {
-    public class DocProfile : Profile
+    public DocProfile()
     {
-        public DocProfile()
-        {
-            CreateMap<Doc, DocDto>();
-            CreateMap<CreateUpdateDocDto, Doc>();
-        }
+        CreateMap<Doc, DocDto>();
+        CreateMap<CreateUpdateDocDto, Doc>();
     }
 }

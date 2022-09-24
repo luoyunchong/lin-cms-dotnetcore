@@ -230,7 +230,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64,LinCms.IRepositories.IAuditBaseRepository{LinCms.Entities.Blog.UserTag})">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64,IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.UserTag})">
             <summary>
             得到某个用户的关注了、关注者、标签总数
             </summary>
@@ -277,7 +277,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Cms.AccountController.LogoutAsync">
+        <member name="M:LinCms.Controllers.Cms.AccountController.LogoutAsync(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
             <summary>
             退出登录时，将AccessToken插入到BlackRecord表
             </summary>
@@ -456,7 +456,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.GetListAsync(LinCms.Security.ICurrentUser)">
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.GetListAsync(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
             <summary>
             得到当前用户绑定的第三方账号，除密码外
             </summary>
@@ -613,50 +613,12 @@
         </member>
         <member name="T:LinCms.Middleware.AopCacheIntercept">
             <summary>
-            Aop
+            Aop Cache
             </summary>
         </member>
         <member name="T:LinCms.Middleware.RecaptchaVerifyActionFilter">
             <summary>
             验证码过滤器，可配置某个方法是否需要Google人机验证
-            </summary>
-        </member>
-        <member name="M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
-            <summary>
-            拦截同步执行的方法
-            </summary>
-            <param name="invocation"></param>
-        </member>
-        <member name="M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
-            <summary>
-            拦截返回结果为Task的方法
-            </summary>
-            <param name="invocation"></param>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:LinCms.Middleware.UnitOfWorkAsyncInterceptor.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
-        <member name="T:LinCms.Middleware.UnitOfWorkDefualtOptions">
-            <summary>
-            默认事务配置
-            </summary>
-        </member>
-        <member name="P:LinCms.Middleware.UnitOfWorkDefualtOptions.Propagation">
-            <summary>
-            事务传播方式
-            </summary>
-        </member>
-        <member name="P:LinCms.Middleware.UnitOfWorkDefualtOptions.IsolationLevel">
-            <summary>
-            事务隔离级别
-            </summary>
-        </member>
-        <member name="T:LinCms.SnakeCaseQuery.SnakeCaseQueryValueProvider">
-            <summary>
-            下划线写法（SnakeCase）
-            </summary>
-        </member>
-        <member name="T:LinCms.Startup.Configuration.DependencyModule">
-            <summary>
-            接口注入
             </summary>
         </member>
         <member name="T:LinCms.Startup.Configuration.RepositoryModule">
@@ -737,12 +699,6 @@
                         }
             <summary>
             使用动态 ExpandoObject结构实现前台需要的奇怪的JSON格式
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Utils.ReflexHelper.GetTypesByTableAttribute">
-            <summary>
-            扫描 IEntity类所在程序集，反射得到类上有特性标签为TableAttribute 的所有类
             </summary>
             <returns></returns>
         </member>

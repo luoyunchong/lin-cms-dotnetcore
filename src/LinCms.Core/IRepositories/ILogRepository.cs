@@ -1,4 +1,5 @@
-﻿using LinCms.Entities;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Entities;
 
 namespace LinCms.IRepositories
 {

@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using IGeekFan.Localization.FreeSql.Models;
 
-namespace LinCms.Base.Localizations
+namespace LinCms.Base.Localizations;
+
+public class CultureProfile : Profile
 {
-    public class CultureProfile : Profile
+    public CultureProfile()
     {
-        public CultureProfile()
-        {
-            CreateMap<LocalCulture, CultureDto>();
-            CreateMap<CultureDto, LocalCulture>();
-        }
+        CreateMap<LocalCulture, CultureDto>();
+        CreateMap<CultureDto, LocalCulture>();
     }
 }

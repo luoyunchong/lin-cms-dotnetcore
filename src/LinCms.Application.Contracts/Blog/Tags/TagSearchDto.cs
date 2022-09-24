@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using LinCms.Data;
 
-namespace LinCms.Blog.Tags
-{
-    public class TagSearchDto : PageDto
-    {
-        public List<Guid> TagIds { get; set; }
-        public string TagName { get; set; }
+namespace LinCms.Blog.Tags;
 
-        public bool? Status { get; set; }
-    }
+public class TagSearchDto : PageDto
+{
+    public List<Guid> TagIds { get; set; }
+    public string TagName { get; set; }
+
+    public bool? Status { get; set; }
 }

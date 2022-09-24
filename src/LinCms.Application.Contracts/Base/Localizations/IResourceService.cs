@@ -1,18 +1,17 @@
 ﻿using System.Threading.Tasks;
 using LinCms.Data;
 
-namespace LinCms.Base.Localizations
+namespace LinCms.Base.Localizations;
+
+public interface IResourceService
 {
-    public interface IResourceService
-    {
-        Task<PagedResultDto<ResourceDto>> GetListAsync(ResourceSearchDto searchDto);
+    Task<PagedResultDto<ResourceDto>> GetListAsync(ResourceSearchDto searchDto);
 
-        Task DeleteAsync(long id);
+    Task DeleteAsync(long id);
 
-        Task<ResourceDto> GetAsync(long id);
+    Task<ResourceDto> GetAsync(long id);
 
-        Task CreateAsync(ResourceDto createChannel);
+    Task CreateAsync(ResourceDto createChannel);
 
-        Task UpdateAsync(ResourceDto updateChannel);
-    }
+    Task UpdateAsync(ResourceDto updateChannel);
 }

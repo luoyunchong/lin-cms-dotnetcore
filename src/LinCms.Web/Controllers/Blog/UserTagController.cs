@@ -8,56 +8,55 @@ using LinCms.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LinCms.Controllers.Blog
+namespace LinCms.Controllers.Blog;
+
+/// <summary>
+/// 用户关注标签
+/// </summary>
+[ApiExplorerSettings(GroupName = "blog")]
+[Area("blog")]
+[Route("api/blog/user-tag")]
+[ApiController]
+[Authorize]
+public class UserTagController : ControllerBase
 {
+    private readonly ITagService _tagService;
+    private readonly IUserTagService _userTagService;
+
+    public UserTagController(ITagService tagService, IUserTagService userTagService)
+    {
+        _userTagService = userTagService;
+        _tagService = tagService;
+    }
+
     /// <summary>
     /// 用户关注标签
     /// </summary>
-    [ApiExplorerSettings(GroupName = "blog")]
-    [Area("blog")]
-    [Route("api/blog/user-tag")]
-    [ApiController]
-    [Authorize]
-    public class UserTagController : ControllerBase
+    /// <param name="tagId"></param>
+    [HttpPost("{tagId}")]
+    public Task CreateUserTagAsync(Guid tagId)
     {
-        private readonly ITagService _tagService;
-        private readonly IUserTagService _userTagService;
+        return _userTagService.CreateUserTagAsync(tagId);
+    }
 
-        public UserTagController(ITagService tagService, IUserTagService userTagService)
-        {
-            _userTagService = userTagService;
-            _tagService = tagService;
-        }
+    /// <summary>
+    /// 取消关注标签
+    /// </summary>
+    /// <param name="tagId"></param>
+    [HttpDelete("{tagId}")]
+    public Task DeleteUserTagAsync(Guid tagId)
+    {
+        return _userTagService.DeleteUserTagAsync(tagId);
+    }
 
-        /// <summary>
-        /// 用户关注标签
-        /// </summary>
-        /// <param name="tagId"></param>
-        [HttpPost("{tagId}")]
-        public Task CreateUserTagAsync(Guid tagId)
-        {
-            return _userTagService.CreateUserTagAsync(tagId);
-        }
-
-        /// <summary>
-        /// 取消关注标签
-        /// </summary>
-        /// <param name="tagId"></param>
-        [HttpDelete("{tagId}")]
-        public Task DeleteUserTagAsync(Guid tagId)
-        {
-            return _userTagService.DeleteUserTagAsync(tagId);
-        }
-
-        /// <summary>
-        /// 得到某个用户关注的标签
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [AllowAnonymous]
-        public PagedResultDto<TagListDto> GetUserTagList([FromQuery] UserSubscribeSearchDto userSubscribeDto)
-        {
-            return _tagService.GetSubscribeTags(userSubscribeDto);
-        }
+    /// <summary>
+    /// 得到某个用户关注的标签
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [AllowAnonymous]
+    public PagedResultDto<TagListDto> GetUserTagList([FromQuery] UserSubscribeSearchDto userSubscribeDto)
+    {
+        return _tagService.GetSubscribeTags(userSubscribeDto);
     }
 }

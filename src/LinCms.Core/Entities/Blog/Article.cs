@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 using LinCms.Exceptions;
 
 namespace LinCms.Entities.Blog
@@ -9,7 +10,7 @@ namespace LinCms.Entities.Blog
     /// 随笔
     /// </summary>
     [Table(Name = "blog_article")]
-    public class Article : FullAuditEntity<Guid>
+    public class Article : FullAuditEntity<Guid, long>
     {
         /// <summary>
         /// 随笔所在分类专栏Id

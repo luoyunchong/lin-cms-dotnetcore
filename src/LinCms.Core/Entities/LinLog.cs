@@ -1,4 +1,6 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System;
+using FreeSql.DataAnnotations;
+using IGeekFan.FreeKit.Extras.AuditEntity;
 
 namespace LinCms.Entities
 {
@@ -6,7 +8,7 @@ namespace LinCms.Entities
     /// 日志表
     /// </summary>
     [Table(Name = "lin_log")]
-    public class LinLog : FullAuditEntity
+    public class LinLog : Entity<long>
     {
         /// <summary>
         /// 访问哪个权限
@@ -40,7 +42,7 @@ namespace LinCms.Entities
         /// <summary>
         /// 用户id
         /// </summary>
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
 
         /// <summary>
         /// 用户当时的昵称
@@ -48,5 +50,6 @@ namespace LinCms.Entities
         [Column(StringLength = 24)]
         public string Username { get; set; }
 
+        public DateTime CreateTime { get; set; }
     }
 }

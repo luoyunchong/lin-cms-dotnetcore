@@ -1,13 +1,13 @@
 ﻿using FreeSql;
+using IGeekFan.FreeKit.Extras.FreeSql;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Entities.Base;
 using LinCms.IRepositories;
-using LinCms.Security;
-namespace LinCms.Repositories
+namespace LinCms.Repositories;
+
+public class DocRepository : AuditDefaultRepository<Doc, long, long>, IDocRepository
 {
-    public class DocRepository : AuditBaseRepository<Doc, long>, IDocRepository
+    public DocRepository(UnitOfWorkManager unitOfWork, ICurrentUser currentUser) : base(unitOfWork, currentUser)
     {
-        public DocRepository(UnitOfWorkManager unitOfWork, ICurrentUser currentUser) : base(unitOfWork, currentUser)
-        {
-        }
     }
 }

@@ -4,21 +4,6 @@
         <name>LinCms.Core</name>
     </assembly>
     <members>
-        <member name="T:LinCms.Aop.Attributes.TransactionalAttribute">
-            <summary>
-            事务
-            </summary>
-        </member>
-        <member name="P:LinCms.Aop.Attributes.TransactionalAttribute.Propagation">
-            <summary>
-            事务传播方式
-            </summary>
-        </member>
-        <member name="P:LinCms.Aop.Attributes.TransactionalAttribute.IsolationLevel">
-            <summary>
-            事务隔离级别
-            </summary>
-        </member>
         <member name="T:LinCms.Aop.Filter.LinCmsAuthorizeAttribute">
             <summary>
              自定义固定权限编码给动态角色及用户，支持验证登录，退出登录，权限。
@@ -258,14 +243,9 @@
             请求地址
              </summary>
         </member>
-        <member name="T:LinCms.Dependency.DisableConventionalRegistrationAttribute">
+        <member name="T:LinCms.Domain.ITokenManager">
             <summary>
-            禁用默认Service后缀的服务，禁用默认的接口就注入服务
-            </summary>
-        </member>
-        <member name="T:LinCms.Dependency.IScopedDependency">
-            <summary>
-            实现该接口将自动注册到Ioc容器，生命周期为每次请求创建一个实例
+            Token 处理类
             </summary>
         </member>
         <member name="T:LinCms.Entities.Base.BaseItem">
@@ -783,91 +763,6 @@
             也是demo。
             </summary>
         </member>
-        <member name="P:LinCms.Entities.EntityDto`1.Id">
-            <summary>
-            主键Id
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.CreateUserId">
-            <summary>
-            创建者ID
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.CreateTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.IsDeleted">
-            <summary>
-            是否删除
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.DeleteUserId">
-            <summary>
-            删除人id
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.DeleteTime">
-            <summary>
-            删除时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.UpdateUserId">
-            <summary>
-            最后修改人Id
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.FullAuditEntity`1.UpdateTime">
-            <summary>
-            修改时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.ICreateAuditEntity.CreateUserId">
-            <summary>
-            创建者ID
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.ICreateAuditEntity.CreateTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.IUpdateAuditEntity.UpdateUserId">
-            <summary>
-            最后修改人Id
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.IUpdateAuditEntity.UpdateTime">
-            <summary>
-            修改时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.IDeleteAuditEntity.IsDeleted">
-            <summary>
-            是否删除
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.IDeleteAuditEntity.DeleteUserId">
-            <summary>
-            删除人id
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.IDeleteAuditEntity.DeleteTime">
-            <summary>
-            删除时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.Entity`1.Id">
-            <summary>
-            主键Id
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.IEntity`1.Id">
-            <summary>
-            主键Id
-            </summary>
-        </member>
         <member name="T:LinCms.Entities.LinFile">
             <summary>
             文件
@@ -1063,6 +958,16 @@
              个人主页
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinUser.JobTitle">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.LinUser.Company">
+            <summary>
+            公司
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinUser.LastLoginTime">
             <summary>
             最后一次登录的时间
@@ -1085,7 +990,7 @@
         </member>
         <member name="P:LinCms.Entities.LinUser.Salt">
             <summary>
-            盐值
+            密码盐值
             </summary>
         </member>
         <member name="M:LinCms.Entities.LinUser.AddRefreshToken">
@@ -1200,93 +1105,6 @@
             <typeparam name="TValue">Type of the value</typeparam>
             <returns>Value if found, default if can not found.</returns>
         </member>
-        <member name="T:LinCms.Extensions.DateTimeExtensions">
-            <summary>
-            系统扩展 - 日期
-            </summary>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateTimeString(System.DateTime,System.Boolean)">
-            <summary>
-            获取格式化字符串，带时分秒，格式："yyyy-MM-dd HH:mm:ss"
-            </summary>
-            <param name="dateTime">日期</param>
-            <param name="removeSecond">是否移除秒</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateTimeString(System.Nullable{System.DateTime},System.Boolean)">
-            <summary>
-            获取格式化字符串，带时分秒，格式："yyyy-MM-dd HH:mm:ss"
-            </summary>
-            <param name="dateTime">日期</param>
-            <param name="removeSecond">是否移除秒</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateString(System.DateTime)">
-            <summary>
-            获取格式化字符串，不带时分秒，格式："yyyy-MM-dd"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToDateString(System.Nullable{System.DateTime})">
-            <summary>
-            获取格式化字符串，不带时分秒，格式："yyyy-MM-dd"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToTimeString(System.DateTime)">
-            <summary>
-            获取格式化字符串，不带年月日，格式："HH:mm:ss"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToTimeString(System.Nullable{System.DateTime})">
-            <summary>
-            获取格式化字符串，不带年月日，格式："HH:mm:ss"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToMillisecondString(System.DateTime)">
-            <summary>
-            获取格式化字符串，带毫秒，格式："yyyy-MM-dd HH:mm:ss.fff"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToMillisecondString(System.Nullable{System.DateTime})">
-            <summary>
-            获取格式化字符串，带毫秒，格式："yyyy-MM-dd HH:mm:ss.fff"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateString(System.DateTime)">
-            <summary>
-            获取格式化字符串，不带时分秒，格式："yyyy年MM月dd日"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateString(System.Nullable{System.DateTime})">
-            <summary>
-            获取格式化字符串，不带时分秒，格式："yyyy年MM月dd日"
-            </summary>
-            <param name="dateTime">日期</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateTimeString(System.DateTime,System.Boolean)">
-            <summary>
-            获取格式化字符串，带时分秒，格式："yyyy年MM月dd日 HH时mm分"
-            </summary>
-            <param name="dateTime">日期</param>
-            <param name="removeSecond">是否移除秒</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.ToChineseDateTimeString(System.Nullable{System.DateTime},System.Boolean)">
-            <summary>
-            获取格式化字符串，带时分秒，格式："yyyy年MM月dd日 HH时mm分"
-            </summary>
-            <param name="dateTime">日期</param>
-            <param name="removeSecond">是否移除秒</param>
-        </member>
-        <member name="M:LinCms.Extensions.DateTimeExtensions.Description(System.TimeSpan)">
-            <summary>
-            获取描述
-            </summary>
-            <param name="span">时间间隔</param>
-        </member>
         <member name="T:LinCms.Extensions.LinCmsTimeConverter">
             <summary>
             配合LinCMS中的时间戳 后台只返回 1562904163734
@@ -1297,16 +1115,6 @@
             日期转换为时间戳（时间戳单位毫秒）
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:LinCms.Extensions.StringExtensions.IsNullOrEmpty(System.String)">
-            <summary>
-            Indicates whether this string is null or an System.String.Empty string.
-            </summary>
-        </member>
-        <member name="M:LinCms.Extensions.StringExtensions.IsNullOrWhiteSpace(System.String)">
-            <summary>
-            indicates whether this string is null, empty, or consists only of white-space characters.
-            </summary>
         </member>
         <member name="M:LinCms.IRepositories.IUserRepository.GetUserAsync(System.Linq.Expressions.Expression{System.Func{LinCms.Entities.LinUser,System.Boolean}})">
             <summary>
@@ -1351,6 +1159,35 @@
             <summary>
             处理方式：返回Json格式
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.FindUserId(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
+            <summary>
+             扩展获取UserId转long
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.FindGroupIds(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
+            <summary>
+            获取分组（角色）id 数组
+            </summary>
+            <param name="currentUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.IsInGroup(IGeekFan.FreeKit.Extras.Security.ICurrentUser,System.Int64)">
+            <summary>
+            判断用户是否在此分组（角色）中
+            </summary>
+            <param name="currentUser"></param>
+            <param name="groupId">分组Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Security.CurrentUserExtensions.FindIsActive(IGeekFan.FreeKit.Extras.Security.ICurrentUser)">
+            <summary>
+            获取用户是否激活
+            </summary>
+            <param name="currentUser"></param>
             <returns></returns>
         </member>
     </members>
