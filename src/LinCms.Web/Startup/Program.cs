@@ -27,13 +27,13 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 ConfigurationManager c = builder.Configuration;
 IServiceCollection services = builder.Services;
 
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c)
-       .Enrich.FromLogContext()
-       .CreateLogger();
+#region Serilog日志
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c).Enrich.FromLogContext().CreateLogger();
 Log.Information("Starting web host");
 #if DEBUG
 Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
-#endif
+#endif 
+#endregion
 
 builder.Host
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())

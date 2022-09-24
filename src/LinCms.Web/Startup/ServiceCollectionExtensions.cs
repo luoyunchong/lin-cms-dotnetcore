@@ -114,7 +114,7 @@ public static class ServiceCollectionExtensions
 
                     return new BadRequestObjectResult(resultDto)
                     {
-                        ContentTypes = {"application/json"}
+                        ContentTypes = { "application/json" }
                     };
                 };
             });
@@ -188,11 +188,11 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(fsql);
 
         services.AddFreeKitCore(typeof(long));
-            
-        services.Configure<UnitOfWorkDefualtOptions>(c =>
+
+        services.Configure<UnitOfWorkDefualtOptions>(u =>
         {
-            c.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
-            c.Propagation = Propagation.Required;
+            u.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
+            u.Propagation = Propagation.Required;
         });
         return services;
     }
@@ -264,8 +264,8 @@ public static class ServiceCollectionExtensions
                 //    @this.UseSqlServer(opt =>
                 //    {
                 //        opt.ConnectionString = sqlServer.Value;
-                // //使用SQL SERVER2008才需要打开他
-                //        opt.UseSqlServer2008();
+                //        //使用SQL SERVER2008才需要打开他
+                //        //opt.UseSqlServer2008();
                 //    });
                 //    break;
                 default:
@@ -275,7 +275,7 @@ public static class ServiceCollectionExtensions
         else
         {
             Log.Error(
-                $"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，Mysql，SqlServer！更多请增加引用，修改配置项代码");
+                $"CAP:DefaultStorage:{capStorageType}配置无效，仅支持InMemoryStorage，Mysql！更多请增加引用，修改配置项代码");
         }
 
         if (Enum.TryParse(defaultMessageQueue.Value, out CapMessageQueueType capMessageQueueType))
