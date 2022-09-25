@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog;
 
+/// <summary>
+/// 消息通知
+/// </summary>
 [ApiExplorerSettings(GroupName = "blog")]
 [Area("blog")]
 [Route("api/blog/notifications")]

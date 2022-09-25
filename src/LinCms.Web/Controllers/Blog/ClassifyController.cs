@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog;
 
+/// <summary>
+/// 分类专栏
+/// </summary>
 [ApiExplorerSettings(GroupName = "blog")]
 [Area("blog")]
 [Route("api/blog/classifies")]

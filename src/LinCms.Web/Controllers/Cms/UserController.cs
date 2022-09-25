@@ -54,7 +54,7 @@ public class UserController : ControllerBase
 
 
     /// <summary>
-    /// 新增用户-不是注册，注册不可能让用户选择gourp_id
+    /// 新增用户-不是注册，注册不可能让用户选择group_id
     /// </summary>
     /// <param name="userInput"></param>
     [Logger("管理员新建了一个用户")]
@@ -89,7 +89,12 @@ public class UserController : ControllerBase
         return userInformation;
     }
 
-    [Logger("修改了自己的密码")]
+    /// <summary>
+    /// 修改自己的密码
+    /// </summary>
+    /// <param name="passwordDto"></param>
+    /// <returns></returns>
+    [Logger("修改自己的密码")]
     [HttpPut("change_password")]
     public async Task<UnifyResponseDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
     {
@@ -97,6 +102,11 @@ public class UserController : ControllerBase
         return UnifyResponseDto.Success("密码修改成功");
     }
 
+    /// <summary>
+    /// 设置自己的头像
+    /// </summary>
+    /// <param name="avatarDto"></param>
+    /// <returns></returns>
     [HttpPut("avatar")]
     public async Task<UnifyResponseDto> SetAvatar(UpdateAvatarDto avatarDto)
     {
@@ -108,6 +118,11 @@ public class UserController : ControllerBase
         return UnifyResponseDto.Success("更新头像成功");
     }
 
+    /// <summary>
+    /// 修改自己的昵称
+    /// </summary>
+    /// <param name="updateNicknameDto"></param>
+    /// <returns></returns>
     [HttpPut("nickname")]
     public UnifyResponseDto SetNickname(UpdateNicknameDto updateNicknameDto)
     {
@@ -118,6 +133,11 @@ public class UserController : ControllerBase
         return UnifyResponseDto.Success("更新昵称成功");
     }
 
+    /// <summary>
+    /// 修改个人信息
+    /// </summary>
+    /// <param name="profileDto"></param>
+    /// <returns></returns>
     [HttpPut]
     public async Task<UnifyResponseDto> SetProfileInfo(UpdateProfileDto profileDto)
     {
@@ -132,6 +152,11 @@ public class UserController : ControllerBase
         return UnifyResponseDto.Success("更新基本信息成功");
     }
 
+    /// <summary>
+    /// 获取登录人的头像
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     [AllowAnonymous]
     [HttpGet("avatar/{userId}")]
     public async Task<string> GetAvatarAsync(long userId)
@@ -141,6 +166,11 @@ public class UserController : ControllerBase
 
     }
 
+    /// <summary>
+    /// 根据用户id解析出用户开放的基本信息
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     [AllowAnonymous]
     [HttpGet("{userId}")]
     public async Task<OpenUserDto?> GetUserByUserId(long userId)

@@ -10,8 +10,7 @@ public class LogHelper
     public static void EnrichFromRequest(IDiagnosticContext diagnosticContext, HttpContext httpContext)
     {
         var request = httpContext.Request;
-        ICurrentUser? currentUser = httpContext.RequestServices.GetService(typeof(ICurrentUser)) as ICurrentUser;
-        if (currentUser != null)
+        if (httpContext.RequestServices.GetService(typeof(ICurrentUser)) is ICurrentUser currentUser)
         {
             diagnosticContext.Set("UserName", currentUser.UserName);
             diagnosticContext.Set("UserId", currentUser.FindUserId());

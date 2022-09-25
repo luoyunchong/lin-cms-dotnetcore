@@ -18,11 +18,11 @@ namespace LinCms.Entities
         /// <summary>
         /// 登录名
         /// </summary>
-
         [StringLength(50)]
         public string UserName { get; set; }
 
         public long? CreateUserId { get; set; }
+
         public string CreateUserName { get; set; }
 
         public DateTime CreateTime { get; set; }

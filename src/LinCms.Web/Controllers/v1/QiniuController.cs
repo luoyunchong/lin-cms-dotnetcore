@@ -43,7 +43,7 @@ public class QiniuController : ControllerBase
     /// <summary>
     /// 将掘金中的取所有标签存到七牛云上，基本信息存入数据库
     /// 从百度云下载后，放到wwwwroot中，swagger上执行下此方法，需要等很久，提取其中的tags，将Icon上传到七牛云上，tag信息存到数据库中。
-    /// 链接: https://pan.baidu.com/s/1f7DSCC3uNOyiu3st9F1OAQ 提取码: paqf 
+    /// 链接：https://pan.baidu.com/s/1H3VkNOxybo2Vr-wTCrdIvQ?pwd=qblv 提取码：qblv
     /// </summary>
     /// <returns></returns>
     [HttpPost("tag")]

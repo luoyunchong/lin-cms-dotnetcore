@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LinCms.Data.Authorization;
 
+/// <summary>
+/// 退出登录Token 将过期
+/// </summary>
 public class ValidJtiHandler : AuthorizationHandler<ValidJtiRequirement>
 {
     private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;

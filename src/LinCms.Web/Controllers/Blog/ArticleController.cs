@@ -20,6 +20,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog;
 
+/// <summary>
+/// 随笔
+/// </summary>
 [ApiExplorerSettings(GroupName = "blog")]
 [Area("blog")]
 [Route("api/blog/articles")]

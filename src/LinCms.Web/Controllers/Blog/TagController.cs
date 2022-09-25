@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Blog;
 
+/// <summary>
+/// 标签
+/// </summary>
 [ApiExplorerSettings(GroupName = "blog")]
 [Area("blog")]
 [Route("api/blog/tags")]
