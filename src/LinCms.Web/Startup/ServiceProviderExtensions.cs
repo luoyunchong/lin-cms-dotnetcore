@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AspNetCoreRateLimit;
 using IGeekFan.FreeKit.Extras.AuditEntity;
 using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Entities;
 using LinCms.FreeSql;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -54,7 +55,7 @@ public static class ServiceProviderExtensions
         {
             fsql.CodeFirst
                 .SeedData()
-                .SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(IEntity)));
+                .SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(LinUser)));
         }
         catch (Exception e)
         {
