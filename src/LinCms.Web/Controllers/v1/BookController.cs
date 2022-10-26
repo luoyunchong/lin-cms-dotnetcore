@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.FreeSql;
@@ -27,13 +28,18 @@ public class BookController : ControllerBase
     {
         await _bookService.DeleteAsync(id);
         return UnifyResponseDto.Success();
+    }
 
+    [HttpGet("list")]
+    public async Task<List<BookDto>> GetListAsync()
+    {
+        return await _bookService.GetListAsync();
     }
 
     [HttpGet]
-    public async Task<PagedResultDto<BookDto>> GetListAsync([FromQuery] PageDto pageDto)
+    public async Task<PagedResultDto<BookDto>> GetPageListAsync([FromQuery] PageDto pageDto)
     {
-        return await _bookService.GetListAsync(pageDto);
+        return await _bookService.GetPageListAsync(pageDto);
     }
 
     [HttpGet("{id}")]

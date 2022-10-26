@@ -39,8 +39,14 @@ public class BookService : ApplicationService, IBookService
         Book book = await _bookRepository.Select.Where(a => a.Id == id).ToOneAsync();
         return Mapper.Map<BookDto>(book);
     }
+    public async Task<List<BookDto>> GetListAsync()
+    {
+        List<BookDto> items = (await _bookRepository.Select.OrderByDescending(r => r.Id).ToListAsync()).Select(r => Mapper.Map<BookDto>(r)).ToList();
 
-    public async Task<PagedResultDto<BookDto>> GetListAsync(PageDto pageDto)
+        return items;
+    }
+
+    public async Task<PagedResultDto<BookDto>> GetPageListAsync(PageDto pageDto)
     {
         List<BookDto> items = (await _bookRepository.Select.OrderByDescending(r => r.Id)
             .ToPagerListAsync(pageDto, out long count)).Select(r => Mapper.Map<BookDto>(r)).ToList();
