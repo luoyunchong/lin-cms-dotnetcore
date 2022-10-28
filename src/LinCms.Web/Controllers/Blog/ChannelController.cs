@@ -39,6 +39,11 @@ public class ChannelController : ControllerBase
         return _channelService.GetListAsync(searchDto);
     }
 
+    /// <summary>
+    /// 首页显示频道及对应的标签列
+    /// </summary>
+    /// <param name="pageDto"></param>
+    /// <returns></returns>
     [HttpGet("nav")]
     public Task<PagedResultDto<NavChannelListDto>> GetNavListAsync([FromQuery] PageDto pageDto)
     {

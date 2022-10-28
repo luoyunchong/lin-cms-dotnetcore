@@ -48,6 +48,7 @@ public class ChannelService : ApplicationService, IChannelService
     public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
     {
         List<NavChannelListDto> channel = (await _channelRepository.Select
+                .Where(r => r.Status == true)
                 .IncludeMany(r => r.Tags.Select(u => new Tag { TagName = u.TagName, Id = u.Id }), r => r.Where(u => u.Status == true))
                 .OrderByDescending(r => r.SortCode)
                 .OrderBy(r => r.CreateTime)

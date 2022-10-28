@@ -17,7 +17,8 @@ namespace LinCms.Test.Service.v1
         [Fact]
         public async Task GetListAsyncTest()
         {
-            PagedResultDto<BookDto> books = await _bookService.GetListAsync(new PageDto { });
+            PagedResultDto<BookDto> books = await _bookService.GetPageListAsync(new PageDto { });
+            var bookslist = await _bookService.GetListAsync();
 
             Assert.True(books.Items.Count > 0);
         }

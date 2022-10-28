@@ -29,6 +29,11 @@
             语言下的本地化资源
             </summary>
         </member>
+        <member name="T:LinCms.Controllers.Blog.ArticleController">
+            <summary>
+            随笔
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
             <summary>
             删除自己的随笔
@@ -111,6 +116,11 @@
             技术频道
             </summary>
         </member>
+        <member name="T:LinCms.Controllers.Blog.ClassifyController">
+            <summary>
+            分类专栏
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Blog.CommentController">
             <summary>
             随笔评论
@@ -166,6 +176,16 @@
             <param name="subjectId"></param>
             <param name="subjectType"></param>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.Blog.NotificationController">
+            <summary>
+            消息通知
+            </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Blog.TagController">
+            <summary>
+            标签
+            </summary>
         </member>
         <member name="M:LinCms.Controllers.Blog.TagController.CorrectedTagCountAsync(System.Guid)">
             <summary>
@@ -507,7 +527,7 @@
         </member>
         <member name="M:LinCms.Controllers.Cms.UserController.CreateAsync(LinCms.Cms.Users.CreateUserDto)">
             <summary>
-            新增用户-不是注册，注册不可能让用户选择gourp_id
+            新增用户-不是注册，注册不可能让用户选择group_id
             </summary>
             <param name="userInput"></param>
         </member>
@@ -520,6 +540,48 @@
             <summary>
             查询自己拥有的权限
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.ChangePasswordAsync(LinCms.Cms.Users.ChangePasswordDto)">
+            <summary>
+            修改自己的密码
+            </summary>
+            <param name="passwordDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.SetAvatar(LinCms.Cms.Users.UpdateAvatarDto)">
+            <summary>
+            设置自己的头像
+            </summary>
+            <param name="avatarDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.SetNickname(LinCms.Cms.Users.UpdateNicknameDto)">
+            <summary>
+            修改自己的昵称
+            </summary>
+            <param name="updateNicknameDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.SetProfileInfo(LinCms.Cms.Users.UpdateProfileDto)">
+            <summary>
+            修改个人信息
+            </summary>
+            <param name="profileDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.GetAvatarAsync(System.Int64)">
+            <summary>
+            获取登录人的头像
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.GetUserByUserId(System.Int64)">
+            <summary>
+            根据用户id解析出用户开放的基本信息
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Controllers.Cms.UserController.GetNovicesAsync">
@@ -588,7 +650,7 @@
             <summary>
             将掘金中的取所有标签存到七牛云上，基本信息存入数据库
             从百度云下载后，放到wwwwroot中，swagger上执行下此方法，需要等很久，提取其中的tags，将Icon上传到七牛云上，tag信息存到数据库中。
-            链接: https://pan.baidu.com/s/1f7DSCC3uNOyiu3st9F1OAQ 提取码: paqf 
+            链接：https://pan.baidu.com/s/1H3VkNOxybo2Vr-wTCrdIvQ?pwd=qblv 提取码：qblv
             </summary>
             <returns></returns>
         </member>
@@ -610,6 +672,11 @@
             这种方式不会变小写，怀疑人生，是不是他的key不是键？ https://github.com/JamesNK/Newtonsoft.Json/issues/2088
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Data.Authorization.ValidJtiHandler">
+            <summary>
+            退出登录Token 将过期
+            </summary>
         </member>
         <member name="T:LinCms.Middleware.AopCacheIntercept">
             <summary>
