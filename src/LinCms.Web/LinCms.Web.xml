@@ -116,6 +116,13 @@
             技术频道
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Blog.ChannelController.GetNavListAsync(LinCms.Data.PageDto)">
+            <summary>
+            首页显示频道及对应的标签列
+            </summary>
+            <param name="pageDto"></param>
+            <returns></returns>
+        </member>
         <member name="T:LinCms.Controllers.Blog.ClassifyController">
             <summary>
             分类专栏
@@ -589,6 +596,11 @@
             获取最新的12条新手用户数据
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Controllers.v1.BookController">
+            <summary>
+            图书
+            </summary>
         </member>
         <member name="T:LinCms.Controllers.v1.MonitorController">
             <summary>

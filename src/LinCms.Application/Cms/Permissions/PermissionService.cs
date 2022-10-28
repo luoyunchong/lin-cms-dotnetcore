@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Security;
@@ -35,10 +36,13 @@ public class PermissionService : ApplicationService, IPermissionService
     /// <summary>
     /// 检查当前登录的用户的分组权限
     /// </summary>
-    /// <param name="permission"></param>
+    /// <param name="module">模块</param>
+    /// <param name="permission">权限名</param>
     /// <returns></returns>
     public async Task<bool> CheckPermissionAsync(string module, string permission)
     {
+        //默认Admin角色拥有所有权限
+        if (CurrentUser.IsInGroup(LinConsts.Group.Admin)) return true;
         long[] groups = CurrentUser.FindGroupIds().Select(long.Parse).ToArray();
 
         LinPermission linPermission = await _permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();

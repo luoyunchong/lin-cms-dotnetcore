@@ -123,6 +123,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="updateNicknameDto"></param>
     /// <returns></returns>
+    [Logger("修改自己的昵称")]
     [HttpPut("nickname")]
     public UnifyResponseDto SetNickname(UpdateNicknameDto updateNicknameDto)
     {
@@ -138,6 +139,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="profileDto"></param>
     /// <returns></returns>
+    [Logger("修改个人信息")]
     [HttpPut]
     public async Task<UnifyResponseDto> SetProfileInfo(UpdateProfileDto profileDto)
     {

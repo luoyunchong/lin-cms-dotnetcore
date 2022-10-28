@@ -71,6 +71,7 @@ public class AccountController : ApiControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet("logout")]
+    [Logger(template: "{user.UserName}退出登录")]
     [Authorize]
     public async Task<UnifyResponseDto> LogoutAsync([FromServices]ICurrentUser currentUser)
     {
