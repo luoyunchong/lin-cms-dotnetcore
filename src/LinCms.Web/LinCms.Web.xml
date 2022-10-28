@@ -257,12 +257,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64,IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.UserTag})">
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.GetUserSubscribeInfo(System.Int64)">
             <summary>
             得到某个用户的关注了、关注者、标签总数
             </summary>
             <param name="userId"></param>
-            <param name="_userTagRepository"></param>
         </member>
         <member name="T:LinCms.Controllers.Blog.UserTagController">
             <summary>

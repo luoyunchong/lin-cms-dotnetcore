@@ -23,15 +23,18 @@ public class UserSubscribeController : ControllerBase
 {
     private readonly IAuditBaseRepository<UserSubscribe> _userSubscribeRepository;
     private readonly ICurrentUser _currentUser;
-    private readonly IUserSubscribeService userSubscribeService;
+    private readonly IUserSubscribeService _userSubscribeService;
+    private readonly IAuditBaseRepository<UserTag> _userTagRepository;
 
     public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
         ICurrentUser currentUser,
-        IUserSubscribeService userSubscribeService)
+        IUserSubscribeService userSubscribeService,
+        IAuditBaseRepository<UserTag> userTagRepository)
     {
         _userSubscribeRepository = userSubscribeRepository;
         _currentUser = currentUser;
-        this.userSubscribeService = userSubscribeService;
+        _userSubscribeService = userSubscribeService;
+        _userTagRepository = userTagRepository;
     }
 
     /// <summary>
@@ -54,7 +57,7 @@ public class UserSubscribeController : ControllerBase
     [HttpDelete("{subscribeUserId}")]
     public Task DeleteAsync(long subscribeUserId)
     {
-        return userSubscribeService.DeleteAsync(subscribeUserId);
+        return _userSubscribeService.DeleteAsync(subscribeUserId);
     }
 
     /// <summary>
@@ -64,7 +67,7 @@ public class UserSubscribeController : ControllerBase
     [HttpPost("{subscribeUserId}")]
     public Task CreateAsync(long subscribeUserId)
     {
-        return userSubscribeService.CreateAsync(subscribeUserId);
+        return _userSubscribeService.CreateAsync(subscribeUserId);
     }
 
     /// <summary>
@@ -75,7 +78,7 @@ public class UserSubscribeController : ControllerBase
     [AllowAnonymous]
     public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery] UserSubscribeSearchDto searchDto)
     {
-        return userSubscribeService.GetUserSubscribeeeList(searchDto);
+        return _userSubscribeService.GetUserSubscribeeeList(searchDto);
     }
 
     /// <summary>
@@ -86,17 +89,16 @@ public class UserSubscribeController : ControllerBase
     [AllowAnonymous]
     public PagedResultDto<UserSubscribeDto> GetUserFansList([FromQuery] UserSubscribeSearchDto searchDto)
     {
-        return userSubscribeService.GetUserFansList(searchDto);
+        return _userSubscribeService.GetUserFansList(searchDto);
     }
 
     /// <summary>
     /// 得到某个用户的关注了、关注者、标签总数
     /// </summary>
     /// <param name="userId"></param>
-    /// <param name="_userTagRepository"></param>
     [HttpGet("user/{userId}")]
     [AllowAnonymous]
-    public SubscribeCountDto GetUserSubscribeInfo(long userId, [FromServices] IAuditBaseRepository<UserTag> _userTagRepository)
+    public SubscribeCountDto GetUserSubscribeInfo(long userId)
     {
         long subscribeCount = _userSubscribeRepository.Select
             .Where(r => r.CreateUserId == userId)
