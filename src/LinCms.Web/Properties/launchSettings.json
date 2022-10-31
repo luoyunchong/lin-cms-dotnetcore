@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "LinCms.Host": {
+    "LinCms.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "s/index.html",

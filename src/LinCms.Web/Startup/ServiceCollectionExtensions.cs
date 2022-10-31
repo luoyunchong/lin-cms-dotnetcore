@@ -17,6 +17,7 @@ using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
 using LinCms.Extensions;
+using LinCms.FreeSql;
 using LinCms.Middleware;
 using LinCms.Models.Options;
 using Microsoft.AspNetCore.Builder;
@@ -138,23 +139,28 @@ public static class ServiceCollectionExtensions
                 .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                 .UseAutoSyncStructure(true)
                 .UseNoneCommandParameter(true)
-                .UseMonitorCommand(cmd => { Trace.WriteLine(cmd.CommandText + ";"); }
-                )
+                .CreateDatabaseIfNotExists()
+                //.UseMonitorCommand(cmd => { Trace.WriteLine(cmd.CommandText + ";"); })
                 .Build()
                 .SetDbContextOptions(opt => opt.EnableCascadeSave = true); //联级保存功能开启（默认为关闭）
+
+            string messageTemplate = @"
+--------------------------BEGIN----------------------------------------------
+Sql:{sql}
+CurrentThread ManagedThreadId:{ManagedThreadId}
+EntityType FullName:{FullName}
+ElapsedMilliseconds:{ElapsedMilliseconds}ms
+--------------------------END------------------------------------------------
+";
             fsql.Aop.CurdAfter += (s, e) =>
             {
-                Log.Debug(
-                    $"ManagedThreadId:{Thread.CurrentThread.ManagedThreadId}: FullName:{e.EntityType.FullName}" +
-                    $" ElapsedMilliseconds:{e.ElapsedMilliseconds}ms, {e.Sql}");
-
+                Log.Information(messageTemplate, e.Sql, Thread.CurrentThread.ManagedThreadId, e.EntityType.FullName, e.ElapsedMilliseconds);
                 if (e.ElapsedMilliseconds > 200)
                 {
                     //记录日志
                     //发送短信给负责人
                 }
             };
-
 
             fsql.GlobalFilter.Apply<ISoftDelete>("IsDeleted", a => a.IsDeleted == false);
 
