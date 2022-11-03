@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.GitHub;
-using LinCms.Common;
-using LinCms.Data.Enums;
 using IGeekFan.FreeKit.Extras.Dependency;
 using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Common;
+using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.IRepositories;
 

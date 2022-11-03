@@ -1,9 +1,26 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using LinCms.Cms.Users;
 
 namespace LinCms.Cms.Account;
 
 public interface IAccountService
 {
+
+    /// <summary>
+    /// 生成无状态的登录验证码
+    /// </summary>
+    /// <returns></returns>
+    LoginCaptchaDto GenerateCaptcha();
+
+    /// <summary>
+    /// 校验登录验证码
+    /// </summary>
+    /// <param name="captcha"></param>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    bool VerifyCaptcha(String captcha, String tag);
+
     /// <summary>
     /// 注册前先发送邮件才能正常注册
     /// </summary>

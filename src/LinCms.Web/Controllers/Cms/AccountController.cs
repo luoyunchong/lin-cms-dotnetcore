@@ -1,20 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
+using IGeekFan.FreeKit.Extras.Extensions;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Cms.Account;
 using LinCms.Cms.Users;
+using LinCms.Common;
 using LinCms.Data;
 using LinCms.Data.Enums;
+using LinCms.Data.Options;
+using LinCms.Domain.Captcha;
 using LinCms.Entities;
+using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Middleware;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace LinCms.Controllers.Cms;
 
@@ -30,12 +37,43 @@ public class AccountController : ApiControllerBase
     private readonly ITokenService _tokenService;
     private readonly IAccountService _accountService;
     private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;
-    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository)
+    private readonly IUserService _userService;
+    private readonly LoginCaptchaOption _loginCaptchaOption;
+    private readonly ICaptchaManager _captchaManager;
+    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<LoginCaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager)
     {
         bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
         _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? nameof(IdentityServer4Service) : nameof(JwtTokenService));
         _accountService = accountService;
         _blackRecordRepository = blackRecordRepository;
+        _userService = userService;
+        _loginCaptchaOption = loginCaptchaOption.CurrentValue;
+        _captchaManager = captchaManager;
+    }
+
+
+    /// <summary>
+    /// 生成无状态的登录验证码
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpGet("captcha")]
+    public LoginCaptchaDto Captcha()
+    {
+        return _accountService.GenerateCaptcha();
+    }
+
+    /// <summary>
+    /// 验证码
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpGet("captchaimg")]
+    public IActionResult CaptchaImg()
+    {
+        string captcha = _captchaManager.GetRandomString(CaptchaManager.RandomStrNum);
+        var bytes = ImgHelper.GetVerifyCode(captcha);
+        return File(bytes, "image/png");
     }
 
     /// <summary>
@@ -45,8 +83,19 @@ public class AccountController : ApiControllerBase
     [DisableAuditing]
     [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
     [HttpPost("login")]
-    public Task<Tokens> Login(LoginInputDto loginInputDto)
+    public Task<Tokens> Login([FromBody] LoginInputDto loginInputDto)
     {
+        if (_loginCaptchaOption.Enabled == true)
+        {
+            if (loginInputDto.Captcha.IsNullOrWhiteSpace())
+            {
+                throw new LinCmsException("验证码不可为空");
+            }
+            if (!_accountService.VerifyCaptcha(loginInputDto.Captcha, loginInputDto.Tag))
+            {
+                throw new LinCmsException("验证码不正确");
+            }
+        }
         return _tokenService.LoginAsync(loginInputDto);
     }
 
@@ -73,7 +122,7 @@ public class AccountController : ApiControllerBase
     [HttpGet("logout")]
     [Logger(template: "{user.UserName}退出登录")]
     [Authorize]
-    public async Task<UnifyResponseDto> LogoutAsync([FromServices]ICurrentUser currentUser)
+    public async Task<UnifyResponseDto> LogoutAsync([FromServices] ICurrentUser currentUser)
     {
         var username = currentUser.UserName;
         string? Jti = await HttpContext.GetTokenAsync("Bearer", "access_token");

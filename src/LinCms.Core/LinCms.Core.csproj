@@ -24,6 +24,7 @@
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.24.0" />
+		<PackageReference Include="SkiaSharp" Version="2.88.3" />
 	</ItemGroup>
 
 </Project>

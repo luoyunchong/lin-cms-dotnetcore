@@ -65,6 +65,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient("IdentityServer4");
         services.AddEmailSender(configuration);
+        services.Configure<LoginCaptchaOption>(configuration.GetSection("LoginCaptcha"));
         services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
         services.Configure<SiteOption>(configuration.GetSection("Site"));
         return services;

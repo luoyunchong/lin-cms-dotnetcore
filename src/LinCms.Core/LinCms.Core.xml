@@ -34,6 +34,18 @@
             <param name="source"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Common.ImgHelper">
+            <summary>
+            https://cloud.tencent.com/developer/article/2142750
+            </summary>
+        </member>
+        <member name="M:LinCms.Common.ImgHelper.GetVerifyCode(System.String)">
+            <summary>
+            获取图像数字验证码
+            </summary>
+            <param name="text">验证码内容，如4为数字</param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Common.LinCmsUtils.GetHash``1(System.IO.Stream)">
             <summary>
             继承HashAlgorithm
@@ -189,6 +201,21 @@
             禁止某些类型文件上传，文件格式以,隔开
             </summary>
         </member>
+        <member name="T:LinCms.Data.Options.LoginCaptchaOption">
+            <summary>
+            验证码配置
+            </summary>
+        </member>
+        <member name="P:LinCms.Data.Options.LoginCaptchaOption.Enabled">
+            <summary>
+            是否启用验证码
+            </summary>
+        </member>
+        <member name="P:LinCms.Data.Options.LoginCaptchaOption.Salt">
+            <summary>
+            盐值
+            </summary>
+        </member>
         <member name="T:LinCms.Data.PageDto">
             <summary>
             分页
@@ -242,6 +269,62 @@
              <summary>
             请求地址
              </summary>
+        </member>
+        <member name="F:LinCms.Domain.Captcha.CaptchaManager.RandomStrNum">
+            <summary>
+            验证码字符个数
+            </summary>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.CaptchaManager.GetTimeStamp(System.Int32)">
+            <summary>  
+            获取时间戳  13位
+            </summary>  
+            <returns></returns>  
+        </member>
+        <member name="M:LinCms.Domain.Captcha.CaptchaManager.GetRandomString(System.Int32)">
+            <summary>
+            随机字符的获取
+            </summary>
+            <param name="num"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.ICaptchaManager.GetTag(System.String,System.String,System.Int32)">
+            <summary>
+            获取加密后验证码
+            </summary>
+            <param name="captcha">原验证码</param>
+            <param name="salt">盐值</param>
+            <param name="seconds">过期时间（单位秒）</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.ICaptchaManager.GetTimeStamp(System.Int32)">
+            <summary>
+            获取时间戳（13位)
+            </summary>
+            <param name="seconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.ICaptchaManager.GetRandomString(System.Int32)">
+            <summary>
+            随机字符的获取 
+            </summary>
+            <param name="num"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.ICaptchaManager.GetRandomCaptchaBase64(System.String)">
+            <summary>
+            生成随机图片的base64编码字符串
+            </summary>
+            <param name="captcha"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.ICaptchaManager.DecodeTag(System.String,System.String)">
+            <summary>
+            解密出验证码
+            </summary>
+            <param name="tag"></param>
+            <param name="salt"></param>
+            <returns></returns>
         </member>
         <member name="T:LinCms.Domain.ITokenManager">
             <summary>

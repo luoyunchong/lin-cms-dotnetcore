@@ -9,7 +9,7 @@ public interface ISettingService
 {
     Task<PagedResultDto<SettingDto>> GetPagedListAsync(PageDto pageDto);
 
-    SettingDto Get(Guid id);
+    Task<SettingDto> GetAsync(Guid id);
 
     Task Delete(string name, string providerName, string providerKey);
 

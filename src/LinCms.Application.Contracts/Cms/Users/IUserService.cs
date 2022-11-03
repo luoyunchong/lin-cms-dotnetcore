@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LinCms.Cms.Admins;
 using LinCms.Data;
@@ -78,5 +79,4 @@ public interface IUserService
     /// <param name="userId"></param>
     /// <returns></returns>
     Task<List<LinPermission>> GetUserPermissionsAsync(long userId);
-
 }

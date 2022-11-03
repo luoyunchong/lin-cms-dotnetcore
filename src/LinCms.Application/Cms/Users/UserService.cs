@@ -17,7 +17,6 @@ using LinCms.IRepositories;
 using LinCms.Security;
 
 namespace LinCms.Cms.Users;
-
 public class UserService : ApplicationService, IUserService
 {
     private readonly IUserRepository _userRepository;
@@ -26,13 +25,13 @@ public class UserService : ApplicationService, IUserService
     private readonly IGroupService _groupService;
     private readonly IFileRepository _fileRepository;
     private readonly ICryptographyService _cryptographyService;
+
     public UserService(IUserRepository userRepository,
         IUserIdentityService userIdentityService,
-        IPermissionService permissionService, 
-        IGroupService groupService, 
-        IFileRepository fileRepository, 
-        ICryptographyService cryptographyService
-        )
+        IPermissionService permissionService,
+        IGroupService groupService,
+        IFileRepository fileRepository,
+        ICryptographyService cryptographyService)
     {
         _userRepository = userRepository;
         _userIdentityService = userIdentityService;
@@ -249,8 +248,6 @@ public class UserService : ApplicationService, IUserService
         {
             return new List<LinPermission>();
         }
-
         return await _permissionService.GetPermissionByGroupIds(groupIds);
     }
-
 }

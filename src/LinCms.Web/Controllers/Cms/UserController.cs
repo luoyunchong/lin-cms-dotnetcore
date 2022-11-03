@@ -1,22 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AutoMapper;
-
 using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Cms.Groups;
 using LinCms.Cms.Users;
+using LinCms.Common;
 using LinCms.Data;
+using LinCms.Data.Options;
+using LinCms.Domain.Captcha;
 using LinCms.Entities;
 using LinCms.IRepositories;
 using LinCms.Security;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Controllers.Cms;
+
 
 /// <summary>
 /// 用户
@@ -34,8 +35,8 @@ public class UserController : ControllerBase
     private readonly IUserRepository _userRepository;
     private readonly IGroupService _groupService;
     private readonly IFileRepository _fileRepository;
-
-    public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService, IFileRepository fileRepository)
+    private readonly ICaptchaManager _captchaManager;
+    public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService, IFileRepository fileRepository, ICaptchaManager captchaManager)
     {
         _freeSql = freeSql;
         _mapper = mapper;
@@ -44,14 +45,15 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
         _groupService = groupService;
         _fileRepository = fileRepository;
+        _captchaManager = captchaManager;
     }
+
 
     [HttpGet("get")]
     public JsonResult Get()
     {
         return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
     }
-
 
     /// <summary>
     /// 新增用户-不是注册，注册不可能让用户选择group_id

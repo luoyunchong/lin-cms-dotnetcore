@@ -6,6 +6,7 @@ using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Cms.Users;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
+using LinCms.Domain.Captcha;
 using LinCms.Entities;
 using LinCms.Exceptions;
 using Microsoft.Extensions.Options;
@@ -20,20 +21,53 @@ public class AccountService : ApplicationService, IAccountService
     private readonly MailKitOptions _mailKitOptions;
     private readonly IUserIdentityService _userIdentityService;
     private readonly SiteOption _siteOption;
-
+    private readonly ICaptchaManager _captchaManager;
+    private readonly LoginCaptchaOption _loginCaptchaOption;
     public AccountService(
         IAuditBaseRepository<LinUser, long> userRepository,
         IEmailSender emailSender,
         IOptions<MailKitOptions> options,
         IUserIdentityService userIdentityService,
-        IOptions<SiteOption> siteOption)
+        IOptionsMonitor<SiteOption> siteOption,
+        ICaptchaManager captchaManager,
+        IOptionsMonitor<LoginCaptchaOption> loginCaptchaOption)
     {
         _userRepository = userRepository;
         _emailSender = emailSender;
         _mailKitOptions = options.Value;
         _userIdentityService = userIdentityService;
-        _siteOption = siteOption.Value;
+        _siteOption = siteOption.CurrentValue;
+        _captchaManager = captchaManager;
+        _loginCaptchaOption = loginCaptchaOption.CurrentValue;
     }
+
+    /// <summary>
+    /// 生成无状态的登录验证码
+    /// </summary>
+    /// <returns>验证码</returns>
+    public LoginCaptchaDto GenerateCaptcha()
+    {
+        if (_loginCaptchaOption.Enabled == false) return new LoginCaptchaDto();
+
+        string captcha = _captchaManager.GetRandomString(CaptchaManager.RandomStrNum);
+        string base64String = _captchaManager.GetRandomCaptchaBase64(captcha);
+        string tag = _captchaManager.GetTag(captcha, _loginCaptchaOption.Salt);
+        return new LoginCaptchaDto(tag, "data:image/png;base64," + base64String);
+    }
+
+    /// <summary>
+    /// 校验登录验证码
+    /// </summary>
+    /// <param name="captcha"></param>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    public bool VerifyCaptcha(String captcha, String tag)
+    {
+        var captchaBo = _captchaManager.DecodeTag(tag, _loginCaptchaOption.Salt);
+        long t = _captchaManager.GetTimeStamp();
+        return string.Compare(captchaBo.Captcha, captcha, StringComparison.OrdinalIgnoreCase) == 0 && t > captchaBo.Expired;
+    }
+
 
     #region 以链接的方式激活，暂未使用
     /// <summary>

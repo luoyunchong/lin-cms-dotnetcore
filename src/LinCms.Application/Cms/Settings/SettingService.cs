@@ -44,9 +44,8 @@ public class SettingService : ApplicationService, ISettingService
 
     public async Task SetAsync(CreateUpdateSettingDto createSetting)
     {
-        LinSetting setting = await _settingRepository.FindAsync(createSetting.Name, createSetting.ProviderName,
-            createSetting.ProviderKey);
-        ;
+        LinSetting setting = await _settingRepository.FindAsync(createSetting.Name, createSetting.ProviderName,createSetting.ProviderKey);
+    
         if (setting == null)
         {
             await _settingRepository.InsertAsync(Mapper.Map<LinSetting>(createSetting));
@@ -58,9 +57,9 @@ public class SettingService : ApplicationService, ISettingService
         }
     }
 
-    public SettingDto Get(Guid id)
+    public async Task<SettingDto> GetAsync(Guid id)
     {
-        return Mapper.Map<SettingDto>(_settingRepository.Get(id));
+        return Mapper.Map<SettingDto>(await _settingRepository.GetAsync(id));
     }
 
     public async Task<PagedResultDto<SettingDto>> GetPagedListAsync(PageDto pageDto)
