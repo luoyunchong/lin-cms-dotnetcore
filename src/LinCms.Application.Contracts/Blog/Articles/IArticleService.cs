@@ -45,7 +45,7 @@ public interface IArticleService
     /// 修改随笔是否允许其他人评论
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="commetable"></param>
+    /// <param name="commentable"></param>
     /// <returns></returns>
-    Task UpdateCommentable(Guid id, bool commetable);
+    Task UpdateCommentable(Guid id, bool commentable);
 }

@@ -86,17 +86,17 @@
         </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.GetSubscribeArticleAsync(LinCms.Data.PageDto)">
             <summary>
-            得到我关注的人发布的随笔
+            得到我关注的人 发布的随笔
             </summary>
             <param name="pageDto"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.UpdateCommentable(System.Guid,System.Boolean)">
             <summary>
-            修改随笔是否允许其他人评论
+            修改随笔 是否允许其他人评论
             </summary>
             <param name="id">随笔主键</param>
-            <param name="commetable">true:允许评论;false:不允许评论</param>
+            <param name="commentable">true:允许评论;false:不允许评论</param>
             <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Blog.ArticleDraftController">

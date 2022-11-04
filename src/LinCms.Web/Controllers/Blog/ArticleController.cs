@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AutoMapper;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
@@ -14,7 +13,6 @@ using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.Security;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -190,7 +188,7 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
-    /// 得到我关注的人发布的随笔
+    /// 得到我关注的人 发布的随笔
     /// </summary>
     /// <param name="pageDto"></param>
     /// <returns></returns>
@@ -201,14 +199,14 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
-    /// 修改随笔是否允许其他人评论
+    /// 修改随笔 是否允许其他人评论
     /// </summary>
     /// <param name="id">随笔主键</param>
-    /// <param name="commetable">true:允许评论;false:不允许评论</param>
+    /// <param name="commentable">true:允许评论;false:不允许评论</param>
     /// <returns></returns>
     [HttpPut("{id}/comment-able/{commentable}")]
-    public Task UpdateCommentable(Guid id, bool commetable)
+    public Task UpdateCommentable(Guid id, bool commentable)
     {
-        return _articleService.UpdateCommentable(id, commetable);
+        return _articleService.UpdateCommentable(id, commentable);
     }
 }
