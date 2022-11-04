@@ -9,9 +9,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="6.0.12" />
-		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.12" />
-		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="6.0.12" />
+		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="6.0.14" />
+		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.14" />
+		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="6.0.14" />
 		<PackageReference Include="AutoMapper" Version="12.0.0" />
 		<PackageReference Include="DotNetCore.CAP.MySql" Version="6.2.1" />
 		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="6.1.1-preview-176300030" />-->

@@ -1,5 +1,6 @@
 ﻿using SkiaSharp;
 using System;
+using System.Runtime.InteropServices;
 
 namespace LinCms.Common
 {
@@ -32,25 +33,30 @@ namespace LinCms.Common
             {
                 using SKPaint drawStyle = new();
                 drawStyle.Color = new(Convert.ToUInt32(random.Next(int.MaxValue)));
-
                 canvas.DrawLine(random.Next(0, width), random.Next(0, height), random.Next(0, width), random.Next(0, height), drawStyle);
             }
-
             //将文字写到画布上
+            var fonts = new[] { "Cantarell", "Karla" };
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                fonts = new[] { "宋体" };
+            }
             using (SKPaint drawStyle = new())
             {
+                var font = SKTypeface.FromFamilyName(fonts[random.Next(0, fonts.Length - 1)], SKFontStyleWeight.SemiBold, SKFontStyleWidth.ExtraCondensed, SKFontStyleSlant.Upright);
                 drawStyle.Color = SKColors.Red;
                 drawStyle.TextSize = height;
-                drawStyle.StrokeWidth = 1;
+                drawStyle.StrokeWidth = 2;
+                drawStyle.IsAntialias = true;
+                drawStyle.Typeface = font;
 
                 float emHeight = height - height * (float)0.14;
                 float emWidth = (float)width / text.Length - width * (float)0.13;
-
                 canvas.DrawText(text, emWidth, emHeight, drawStyle);
             }
 
             //画图片的前景噪音点
-            for (int i = 0; i < width * height * 0.6; i++)
+            for (int i = 0; i < width * height * 0.78; i++)
             {
                 image.SetPixel(random.Next(0, width), random.Next(0, height), new SKColor(Convert.ToUInt32(random.Next(int.MaxValue))));
             }

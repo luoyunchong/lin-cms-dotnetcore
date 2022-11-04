@@ -156,7 +156,7 @@ public static class SwaggerExtensions
 
             options.AddServer(new OpenApiServer()
             {
-                Url = "https://localhost:5001",
+                Url = siteOption.ApiDomain,
                 Description = "本地"
             }); ;
             options.AddServer(new OpenApiServer()
