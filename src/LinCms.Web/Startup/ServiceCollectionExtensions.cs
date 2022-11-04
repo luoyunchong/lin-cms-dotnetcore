@@ -141,21 +141,25 @@ public static class ServiceCollectionExtensions
                 .UseAutoSyncStructure(true)
                 .UseNoneCommandParameter(true)
                 .CreateDatabaseIfNotExists()
-                //.UseMonitorCommand(cmd => { Trace.WriteLine(cmd.CommandText + ";"); })
                 .Build()
                 .SetDbContextOptions(opt => opt.EnableCascadeSave = true); //联级保存功能开启（默认为关闭）
 
             string messageTemplate = @"
 --------------------------BEGIN----------------------------------------------
-Sql:{sql}
-CurrentThread ManagedThreadId:{ManagedThreadId}
-EntityType FullName:{FullName}
-ElapsedMilliseconds:{ElapsedMilliseconds}ms
+Sql:{0}
+CurrentThread ManagedThreadId:{1}
+EntityType FullName:{2}
+ElapsedMilliseconds:{3}ms
 --------------------------END------------------------------------------------
 ";
             fsql.Aop.CurdAfter += (s, e) =>
             {
-                Log.Information(messageTemplate, e.Sql, Thread.CurrentThread.ManagedThreadId, e.EntityType.FullName, e.ElapsedMilliseconds);
+                var sqlInfo = string.Format(messageTemplate, e.Sql, Thread.CurrentThread.ManagedThreadId,
+                    e.EntityType.FullName, e.ElapsedMilliseconds);
+
+                Log.Information(sqlInfo);
+                Debug.WriteLine(sqlInfo);
+
                 if (e.ElapsedMilliseconds > 200)
                 {
                     //记录日志
