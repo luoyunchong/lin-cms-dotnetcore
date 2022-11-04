@@ -268,7 +268,7 @@ public class ArticleService : ApplicationService, IArticleService
         await _articleRepository.UpdateAsync(article);
     }
 
-    public async Task UpdateCommentable(Guid id, bool commetable)
+    public async Task UpdateCommentable(Guid id, bool commentable)
     {
         Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
         if (article == null)
@@ -279,7 +279,7 @@ public class ArticleService : ApplicationService, IArticleService
         {
             throw new LinCmsException("不是自己的随笔", ErrorCode.NoPermission);
         }
-        article.Commentable = commetable;
+        article.Commentable = commentable;
         await _articleRepository.UpdateAsync(article);
     }
 }
