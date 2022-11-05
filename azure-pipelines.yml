@@ -8,51 +8,11 @@ pool:
 variables:
   dockerId: luoyunchong@foxmail.com            
   namespace: igeekfan                            
-  identityserver4imageName: lincms-identityserver4      
   webimageName: lincms-web      
   registry: registry.cn-hangzhou.aliyuncs.com
-  identityserver4dockerfilepath:  identityserver4/LinCms.IdentityServer4/Dockerfile 
   linCmsWebdockerfilepath:  src/LinCms.Web/Dockerfile  
 
 steps:
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo read to execute command
-      ls
-      sed -i 's/{ConnectionStrings.DefaultDB}/$(ConnectionStrings.DefaultDB)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{ConnectionStrings.MySql}/$(ConnectionStrings.MySql)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{ConnectionStrings.CsRedis}/$(ConnectionStrings.CsRedis)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{Authentication.GitHub.ClientId}/$(Authentication.GitHub.ClientId)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{Authentication.GitHub.ClientSecret}/$(Authentication.GitHub.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{Authentication.QQ.ClientId}/$(Authentication.QQ.ClientId)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{Authentication.QQ.ClientSecret}/$(Authentication.QQ.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{Authentication.Gitee.ClientId}/$(Authentication.Gitee.ClientId)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{Authentication.Gitee.ClientSecret}/$(Authentication.Gitee.ClientSecret)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{IdentityServer.Authority}/$(IdentityServer.Authority)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{CAP.RabbitMQ.HostName}/$(CAP.RabbitMQ.HostName)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{CAP.RabbitMQ.UserName}/$(CAP.RabbitMQ.UserName)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{CAP.RabbitMQ.Password}/$(CAP.RabbitMQ.Password)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{CAP.RabbitMQ.VirtualHost}/$(CAP.RabbitMQ.VirtualHost)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{FileStorage.Qiniu.AK}/$(FileStorage.Qiniu.AK)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{FileStorage.Qiniu.SK}/$(FileStorage.Qiniu.SK)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{MailKitOptions.Host}/$(MailKitOptions.Host)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{MailKitOptions.Port}/$(MailKitOptions.Port)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{MailKitOptions.UserName}/$(MailKitOptions.UserName)/g' src/LinCms.Web/appsettings.Production.json
-      sed -i 's/{MailKitOptions.Password}/$(MailKitOptions.Password)/g' src/LinCms.Web/appsettings.Production.json
-      echo command executed
-
-#      sed -i 's/{ConnectionStrings.DefaultDB}/$(ConnectionStrings.DefaultDB)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
-#      sed -i 's/{ConnectionStrings.MySql}/$(ConnectionStrings.MySql)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
-#      sed -i 's/{Certificates.Password}/$(Certificates.Password)/g' identityserver4/LinCms.IdentityServer4/appsettings.Production.json
-
-#- script: |
-#    docker build -f $(identityserver4dockerfilepath) -t $(identityserver4imageName) .
-#    echo $(pwd) | docker login --username $(dockerId) $(registry) --password-stdin
-#    docker tag $(identityserver4imageName) $(registry)/$(namespace)/$(identityserver4imageName)
-#    docker push $(registry)/$(namespace)/$(identityserver4imageName)
-#  displayName: push to lincms-identityserver4
-
 - script: |
     docker build -f $(linCmsWebdockerfilepath) -t $(webimageName) .
     echo $(pwd) | docker login --username $(dockerId) $(registry) --password-stdin
