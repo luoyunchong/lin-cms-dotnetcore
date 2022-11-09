@@ -282,7 +282,7 @@
         </member>
         <member name="M:LinCms.Controllers.Blog.UserTagController.GetUserTagList(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)">
             <summary>
-            得到某个用户关注的标签
+            用户关注的标签的分页数据
             </summary>
             <returns></returns>
         </member>

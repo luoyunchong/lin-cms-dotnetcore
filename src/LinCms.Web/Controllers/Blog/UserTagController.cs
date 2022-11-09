@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using LinCms.Blog.Tags;
 using LinCms.Blog.UserSubscribes;
 using LinCms.Data;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,7 +48,7 @@ public class UserTagController : ControllerBase
     }
 
     /// <summary>
-    /// 得到某个用户关注的标签
+    /// 用户关注的标签的分页数据
     /// </summary>
     /// <returns></returns>
     [HttpGet]

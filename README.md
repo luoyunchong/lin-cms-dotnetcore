@@ -13,7 +13,7 @@
 ## 项目简介
 
 ![Publish](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
-![](https://img.shields.io/badge/.net6.0.0-3963bc.svg)
+![](https://img.shields.io/badge/.net7.0.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)
 
