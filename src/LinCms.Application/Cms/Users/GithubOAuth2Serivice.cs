@@ -44,7 +44,7 @@ public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
             string gitHubApiUrl = principal.FindFirst(GitHubAuthenticationConstants.Claims.Url)?.Value;
             string HtmlUrl = principal.FindFirst(LinConsts.Claims.HtmlUrl)?.Value;
             string avatarUrl = principal.FindFirst(LinConsts.Claims.AvatarUrl)?.Value;
-            string bio = principal.FindFirst(LinConsts.Claims.BIO)?.Value;
+            string bio = principal.FindFirst(LinConsts.Claims.Bio)?.Value;
             string blogAddress = principal.FindFirst(LinConsts.Claims.BlogAddress)?.Value;
 
             LinUser user = new()

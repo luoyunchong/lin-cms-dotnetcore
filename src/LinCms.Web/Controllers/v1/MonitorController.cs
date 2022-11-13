@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +31,7 @@ public class MonitorController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet("server-info")]
-    [Cacheable]
+    //[Cacheable]
     //[LinCmsAuthorize("服务器配置信息", "监控管理")]
     public virtual ServerViewModel GetServerInfo()
     {
@@ -40,7 +43,11 @@ public class MonitorController : ControllerBase
             WebRootPath = _env.WebRootPath,
             FrameworkDescription = RuntimeInformation.FrameworkDescription,
             MemoryFootprint = (Process.GetCurrentProcess().WorkingSet64 / 1048576).ToString("N2") + " MB",
-            WorkingTime = TimeSubTract(DateTime.Now, Process.GetCurrentProcess().StartTime)
+            WorkingTime = TimeSubTract(DateTime.Now, Process.GetCurrentProcess().StartTime),
+            VersionString = Environment.OSVersion.VersionString,
+            MachineName = Environment.MachineName,
+            UserName = Environment.UserName,
+            UsedCPUTime = TimeSubTract(Process.GetCurrentProcess().TotalProcessorTime),
         };
     }
 
@@ -48,6 +55,10 @@ public class MonitorController : ControllerBase
     {
         TimeSpan subTract = time1.Subtract(time2);
         return $"{subTract.Days} 天 {subTract.Hours} 时 {subTract.Minutes} 分 ";
+    }
+    private string TimeSubTract(TimeSpan subTract)
+    {
+        return $"{subTract.Days} 天 {subTract.Hours} 时 {subTract.Minutes} 分 {subTract.Seconds} 秒 {subTract.Milliseconds} 毫秒 ";
     }
 }
 
@@ -84,6 +95,20 @@ public class ServerViewModel
     /// 启动时间
     /// </summary>
     public string WorkingTime { get; set; } = null!;
-
-
+    /// <summary>
+    /// 操作系统
+    /// </summary>
+    public string VersionString { get; set; }
+    /// <summary>
+    /// 机器名称
+    /// </summary>
+    public string MachineName { get; set; }
+    /// <summary>
+    /// 进程已占耗CPU时间(ms)
+    /// </summary>
+    public string UsedCPUTime { get;  set; }
+    /// <summary>
+    /// 运行用户
+    /// </summary>
+    public string UserName { get; internal set; }
 }

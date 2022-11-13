@@ -11,7 +11,7 @@
 
         public static class Claims
         {
-            public const string BIO = "urn:github:bio";
+            public const string Bio = "urn:github:bio";
             public const string AvatarUrl = "urn:github:avatar_url";
             public const string HtmlUrl = "urn:github:html_url";
             public const string BlogAddress = "urn:github:blog";

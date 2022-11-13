@@ -7,7 +7,6 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 		<DockerfileContext>..\..</DockerfileContext>
-		<DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
 		<RootNamespace>LinCms</RootNamespace>
 		<Nullable>enable</Nullable>
 		<AssemblyName>LinCms.Web</AssemblyName>
@@ -31,10 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="lincms.db" />
 		<None Remove="LinCms.Web.xml" />
-		<None Remove="tempkey.rsa" />
-		<None Remove="wwwroot\_Illegal\IllegalBit.iws" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,7 +46,7 @@
 		<PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
-		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.12" />
+		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.13" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />

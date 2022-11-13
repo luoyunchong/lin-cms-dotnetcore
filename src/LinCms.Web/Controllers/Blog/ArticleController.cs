@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Articles;
-using LinCms.Blog.Classifys;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -15,6 +10,10 @@ using LinCms.Extensions;
 using LinCms.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Blog;
 
@@ -49,7 +48,7 @@ public class ArticleController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<UnifyResponseDto> DeleteMyArticleAsync(Guid id)
     {
-        bool isCreateArticle = _articleRepository.Select.Any(r => r.Id == id && r.CreateUserId == _currentUser.FindUserId());
+        bool isCreateArticle = await _articleRepository.Select.AnyAsync(r => r.Id == id && r.CreateUserId == _currentUser.FindUserId());
         if (!isCreateArticle)
         {
             throw new LinCmsException("无法删除别人的随笔!");
@@ -158,8 +157,9 @@ public class ArticleController : ControllerBase
         return id;
     }
 
+    [Transactional]
     [HttpPut("{id}")]
-    public async Task<UnifyResponseDto> UpdateAsync([FromServices] IClassifyService _classifyService, Guid id, [FromBody] CreateUpdateArticleDto updateArticleDto)
+    public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticleDto)
     {
         await _articleService.UpdateAsync(id, updateArticleDto);
         await _articleService.UpdateTagAsync(id, updateArticleDto);

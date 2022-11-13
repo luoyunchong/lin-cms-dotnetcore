@@ -664,6 +664,26 @@
             启动时间
             </summary>
         </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.VersionString">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.MachineName">
+            <summary>
+            机器名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.UsedCPUTime">
+            <summary>
+            进程已占耗CPU时间(ms)
+            </summary>
+        </member>
+        <member name="P:LinCms.Controllers.v1.ServerViewModel.UserName">
+            <summary>
+            运行用户
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.v1.QiniuController">
             <summary>
             七牛云上传服务

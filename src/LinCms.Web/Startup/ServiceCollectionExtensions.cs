@@ -79,7 +79,6 @@ public static class ServiceCollectionExtensions
     {
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddCors();
         services.AddMvc(options =>
             {
                 options.ValueProviderFactories.Add(new SnakeCaseValueProviderFactory()); //设置SnakeCase形式的QueryString参数
@@ -119,6 +118,18 @@ public static class ServiceCollectionExtensions
                     };
                 };
             });
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    //.WithOrigins(c.GetSection("WithOrigins").Get<string[]>())
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+        });
+
         return services;
     }
 
@@ -154,11 +165,9 @@ ElapsedMilliseconds:{3}ms
 ";
             fsql.Aop.CurdAfter += (s, e) =>
             {
-                var sqlInfo = string.Format(messageTemplate, e.Sql, Thread.CurrentThread.ManagedThreadId,
-                    e.EntityType.FullName, e.ElapsedMilliseconds);
+                var sqlInfo = string.Format(messageTemplate, e.Sql, Thread.CurrentThread.ManagedThreadId, e.EntityType.FullName, e.ElapsedMilliseconds);
 
                 Log.Information(sqlInfo);
-                Debug.WriteLine(sqlInfo);
 
                 if (e.ElapsedMilliseconds > 200)
                 {

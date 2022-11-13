@@ -152,11 +152,7 @@ app.UseRapiDocUI(r =>
 
 #endregion
 
-app.UseCors(builder =>
-{
-    string[] withOrigins = c.GetSection("WithOrigins").Get<string[]>();
-    builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(withOrigins);
-});
+app.UseCors(policyName: "CorsPolicy");
 
 //认证中间件
 app.UseAuthentication();

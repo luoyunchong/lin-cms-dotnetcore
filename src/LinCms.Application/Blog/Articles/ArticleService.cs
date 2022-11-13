@@ -96,6 +96,7 @@ public class ArticleService : ApplicationService, IArticleService
         return new PagedResultDto<ArticleListDto>(articleDtos, totalCount);
     }
 
+    [Transactional]
     public async Task DeleteAsync(Guid id)
     {
         Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
@@ -144,6 +145,7 @@ public class ArticleService : ApplicationService, IArticleService
         return articleDto;
     }
 
+    [Transactional]
     public async Task<Guid> CreateAsync(CreateUpdateArticleDto createArticle)
     {
         Article article = Mapper.Map<Article>(createArticle);
@@ -171,6 +173,7 @@ public class ArticleService : ApplicationService, IArticleService
         return article.Id;
     }
 
+    [Transactional]
     public async Task UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
     {
         Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
@@ -209,6 +212,7 @@ public class ArticleService : ApplicationService, IArticleService
         }
     }
 
+    [Transactional]
     public async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
     {
         List<Guid> tagIds = await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);

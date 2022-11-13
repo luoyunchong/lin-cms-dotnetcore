@@ -152,7 +152,7 @@ public static class JwtExtensions
                 options.ClaimActions.MapJsonKey(LinConsts.Claims.AvatarUrl, "avatar_url");
                 options.ClaimActions.MapJsonKey(LinConsts.Claims.HtmlUrl, "html_url");
                 //登录成功后可通过  authenticateResult.Principal.FindFirst(ClaimTypes.Uri)?.Value;  得到GitHub头像
-                options.ClaimActions.MapJsonKey(LinConsts.Claims.BIO, "bio");
+                options.ClaimActions.MapJsonKey(LinConsts.Claims.Bio, "bio");
                 options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
             })
             .AddQQ(options =>
