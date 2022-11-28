@@ -13,16 +13,16 @@
 		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="7.0.0" />
 		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="7.0.0" />
 		<PackageReference Include="AutoMapper" Version="12.0.0" />
-		<PackageReference Include="DotNetCore.CAP.MySql" Version="6.2.1" />
+		<PackageReference Include="DotNetCore.CAP.MySql" Version="7.0.0" />
 		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="6.1.1-preview-176300030" />-->
-		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="6.2.1" />
-		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.2.1" />
-		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.2.1" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="7.0.0" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.0.0" />
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="IdentityModel" Version="6.0.0" />
-		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.521" />
+		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.522" />
 		<PackageReference Include="MQiniu.Core" Version="1.0.1" />
-		<PackageReference Include="Caching.CSRedis" Version="3.8.669" />
+		<PackageReference Include="Caching.CSRedis" Version="3.8.670" />
 	</ItemGroup>
 
 	<ItemGroup>
