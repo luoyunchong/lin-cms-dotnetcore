@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using HealthChecks.UI.Client;
 using IGeekFan.AspNetCore.Knife4jUI;
@@ -22,18 +18,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Linq;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 ConfigurationManager c = builder.Configuration;
 IServiceCollection services = builder.Services;
-
-#region Serilog日志
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c).Enrich.FromLogContext().CreateLogger();
-Log.Information("Starting web host");
-#if DEBUG
-Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
-#endif 
-#endregion
 
 builder.Host
     .UseServiceProviderFactory(new AutofacServiceProviderFactory())

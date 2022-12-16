@@ -155,6 +155,15 @@ public static class ServiceCollectionExtensions
                 .Build()
                 .SetDbContextOptions(opt => opt.EnableCascadeSave = true); //联级保存功能开启（默认为关闭）
 
+            //以解决首次运行时，app_serilog未初始化的问题：必须保证数据库创建
+            #region Serilog日志
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c).Enrich.FromLogContext().CreateLogger();
+            Log.Information("Starting web host");
+#if DEBUG
+            Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+#endif
+            #endregion
+
             string messageTemplate = @"
 --------------------------BEGIN----------------------------------------------
 Sql:{0}
