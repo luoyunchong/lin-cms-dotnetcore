@@ -16,7 +16,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100
+        dotnet-version: 7.0.101
     - name: Install dependencies
       run: dotnet restore lin-cms-dotnetcore.sln
     - name: Build solution
@@ -32,7 +32,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.100
+          dotnet-version: 7.0.101
       - name: Install dependencies
         run:  dotnet restore lin-cms-dotnetcore.sln
       - name: Setup DocFX
