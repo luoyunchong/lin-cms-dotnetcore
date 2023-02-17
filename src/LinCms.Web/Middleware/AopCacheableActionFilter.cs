@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using LinCms.Common;
+using Newtonsoft.Json.Serialization;
 
 namespace LinCms.Middleware;
 
@@ -60,16 +61,27 @@ public class AopCacheableActionFilter : IAsyncActionFilter
         string cacheValue = await RedisHelper.GetAsync(cacheKey);
         if (cacheValue != null)
         {
-            context.Result = new JsonResult(cacheValue);
+            context.Result = new JsonResult(JsonConvert.DeserializeObject(cacheValue));
             return;
         }
         ActionExecutedContext result = await next();
 
         if (result.Exception == null || result.ExceptionHandled)
         {
-            await RedisHelper.SetAsync(cacheKey, JsonConvert.SerializeObject(result.Result), _expireSeconds);
-        }
+            if (result.Result is ObjectResult ob)
+            {
+                DefaultContractResolver contractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                };
 
+                await RedisHelper.SetAsync(cacheKey, JsonConvert.SerializeObject(ob.Value, new JsonSerializerSettings()
+                {
+                    ContractResolver = contractResolver
+                }), _expireSeconds);
+            }
+       
+        }
     }
 
     private string GenerateCacheKey(string cacheKey, ActionExecutingContext context)
