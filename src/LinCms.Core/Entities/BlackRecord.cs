@@ -21,10 +21,13 @@ namespace LinCms.Entities
         [StringLength(50)]
         public string UserName { get; set; }
 
+        /// <inheritdoc />
         public long? CreateUserId { get; set; }
 
+        /// <inheritdoc />
         public string CreateUserName { get; set; }
 
+        /// <inheritdoc />
         public DateTime CreateTime { get; set; }
     }
 }

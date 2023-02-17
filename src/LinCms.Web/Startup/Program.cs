@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -39,7 +40,11 @@ builder.Host
         containerBuilder.RegisterModule(new ServiceModule());
         Assembly[] currentAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(r => r.FullName != null && r.FullName.Contains("LinCms.")).ToArray();
         containerBuilder.RegisterModule(new FreeKitModule(currentAssemblies));
-        containerBuilder.RegisterModule(new UnitOfWorkModule(currentAssemblies));
+        List<Type> interceptorServiceTypes = new List<Type>()
+        {
+            typeof(AopCacheIntercept)
+        };
+        containerBuilder.RegisterModule(new UnitOfWorkModule(currentAssemblies, interceptorServiceTypes));
         containerBuilder.RegisterModule(new AutofacModule(c));
     });
 

@@ -82,6 +82,8 @@ public static class ServiceCollectionExtensions
         services.AddMvc(options =>
             {
                 options.ValueProviderFactories.Add(new SnakeCaseValueProviderFactory()); //设置SnakeCase形式的QueryString参数
+                options.Filters.Add<UnitOfWorkActionFilter>(); 
+                options.Filters.Add<AopCacheableActionFilter>();
                 options.Filters.Add<LogActionFilterAttribute>(); // 添加请求方法时的日志记录过滤器
                 options.Filters.Add<LinCmsExceptionFilter>(); // 
             })
@@ -164,6 +166,7 @@ public static class ServiceCollectionExtensions
 #endif
             #endregion
 
+            #region Message Template
             string messageTemplate = @"
 --------------------------BEGIN----------------------------------------------
 Sql:{0}
@@ -183,7 +186,8 @@ ElapsedMilliseconds:{3}ms
                     //记录日志
                     //发送短信给负责人
                 }
-            };
+            }; 
+            #endregion
 
             fsql.GlobalFilter.Apply<ISoftDelete>("IsDeleted", a => a.IsDeleted == false);
 

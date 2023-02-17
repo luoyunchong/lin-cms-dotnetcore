@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras;
 
 namespace LinCms.Controllers.Blog;
 
@@ -102,6 +103,7 @@ public class ArticleController : ControllerBase
     /// <returns></returns>
     [HttpGet("query")]
     [AllowAnonymous]
+    [Cacheable]
     public Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
     {
         return _articleService.GetArticleAsync(searchDto);

@@ -83,7 +83,7 @@ public class TagService : ApplicationService, ITagService
             searchDto.Sort = "create_time desc";
         }
 
-        List<TagListDto> tags = (await _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId ==  CurrentUser.FindUserId()))
+        List<TagListDto> tags = (await _tagRepository.Select.IncludeMany(r => r.UserTags, r => r.Where(u => u.CreateUserId == CurrentUser.FindUserId()))
                 .WhereIf(searchDto.TagIds.IsNotNullOrEmpty(), r => searchDto.TagIds.Contains(r.Id))
                 .WhereIf(searchDto.TagName.IsNotNullOrEmpty(), r => r.TagName.Contains(searchDto.TagName))
                 .WhereIf(searchDto.Status != null, r => r.Status == searchDto.Status)
@@ -102,14 +102,14 @@ public class TagService : ApplicationService, ITagService
 
     public async Task<bool> IsSubscribeAsync(Guid tagId)
     {
-        if ( CurrentUser.FindUserId() == null) return false;
-        return await _userTagRepository.Select.AnyAsync(r => r.TagId == tagId && r.CreateUserId ==  CurrentUser.FindUserId());
+        if (CurrentUser.FindUserId() == null) return false;
+        return await _userTagRepository.Select.AnyAsync(r => r.TagId == tagId && r.CreateUserId == CurrentUser.FindUserId());
     }
 
     public PagedResultDto<TagListDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto)
     {
         List<Guid> userTagIds = _userTagRepository.Select
-            .Where(u => u.CreateUserId ==  CurrentUser.FindUserId())
+            .Where(u => u.CreateUserId == CurrentUser.FindUserId())
             .ToList(r => r.TagId);
 
         List<TagListDto> tagListDtos = _userTagRepository.Select.Include(r => r.Tag)
@@ -145,20 +145,18 @@ public class TagService : ApplicationService, ITagService
         {
             return;
         }
-
+        Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
         //防止数量一直减，减到小于0
         if (inCreaseCount < 0)
         {
-            Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
             if (tag.ArticleCount < -inCreaseCount)
             {
                 return;
             }
         }
+        tag.ArticleCount = tag.ArticleCount + inCreaseCount;
 
-        await _tagRepository.UpdateDiy.Set(r => r.ArticleCount + inCreaseCount)
-            .Where(r => r.Id == id)
-            .ExecuteAffrowsAsync();
+        await _tagRepository.UpdateAsync(tag);
     }
 
 

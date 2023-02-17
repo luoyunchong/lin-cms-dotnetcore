@@ -45,9 +45,9 @@ public class ChannelController : ControllerBase
     /// <param name="pageDto"></param>
     /// <returns></returns>
     [HttpGet("nav")]
-    public Task<PagedResultDto<NavChannelListDto>> GetNavListAsync([FromQuery] PageDto pageDto)
+    public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync([FromQuery] PageDto pageDto)
     {
-        return _channelService.GetNavListAsync(pageDto);
+        return await _channelService.GetNavListAsync(pageDto);
     }
 
     [HttpGet("{id}")]

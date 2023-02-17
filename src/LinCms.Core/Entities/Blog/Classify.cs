@@ -32,18 +32,31 @@ namespace LinCms.Entities.Blog
         /// </summary>
         public int ArticleCount { get; set; }
 
+        /// <summary>
+        /// 关联随笔
+        /// </summary>
         public virtual List<Article> Articles { get; set; }
 
+        /// <summary>
+        /// 专栏下随笔数量减少1
+        /// </summary>
         public void ReduceArticleCount()
         {
             ArticleCount -= 1;
         }
 
+        /// <summary>
+        /// 专栏下随笔数量增加1
+        /// </summary>
         public void IncreaseArticleCount()
         {
             ArticleCount += 1;
         }
 
+        /// <summary>
+        /// 修改随笔数量
+        /// </summary>
+        /// <param name="inCreaseCount"></param>
         public void UpdateArticleCount(int inCreaseCount)
         {
             //防止数量一直减，减到小于0

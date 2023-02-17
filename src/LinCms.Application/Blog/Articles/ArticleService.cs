@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Classifys;
 using LinCms.Blog.Tags;
@@ -51,7 +52,7 @@ public class ArticleService : ApplicationService, IArticleService
         _fileRepository = fileRepository;
     }
 
-    [Cacheable]
+    //[Cacheable]
     public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)
     {
         DateTime monthDays = DateTime.Now.AddDays(-30);
