@@ -20,11 +20,11 @@
 		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.525" />
 		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.525" />
 		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.687" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
 	</ItemGroup>
 
 </Project>
