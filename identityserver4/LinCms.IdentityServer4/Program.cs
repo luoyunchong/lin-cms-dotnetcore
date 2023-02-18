@@ -73,14 +73,10 @@ app.UseRapiDocUI(c =>
     c.DocumentTitle = "LinCms.IdentityServer4";
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinCms.IdentityServer4");
 });
-app.UseEndpoints(endpoints =>
+app.MapControllers();
+app.MapHealthChecks("/health", new HealthCheckOptions
 {
-    endpoints.MapControllers();
-    endpoints.MapHealthChecks("/health", new HealthCheckOptions
-    {
-        Predicate = s => true,
-        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-    });
+    Predicate = s => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-
 app.Run();
