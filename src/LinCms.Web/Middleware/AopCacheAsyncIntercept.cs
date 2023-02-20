@@ -109,6 +109,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
         else
         {
             invocation.Proceed();
+            await (Task)invocation.ReturnValue;
         }
     }
 
@@ -145,6 +146,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
         else
         {
             invocation.Proceed();
+            invocation.ReturnValue = AwaitInterceptAsync((Task<TResult>)invocation.ReturnValue);
         }
     }
     #endregion
@@ -160,6 +162,12 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
     {
         T result = await task.ConfigureAwait(false);
         await RedisHelper.SetAsync(cacheKey, JsonConvert.SerializeObject(result), _expireSeconds);
+        return result;
+    }
+
+    private async Task<T> AwaitInterceptAsync<T>(Task<T> task)
+    {
+        T result = await task.ConfigureAwait(false);
         return result;
     }
 
