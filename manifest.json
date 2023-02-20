@@ -1,0 +1,4882 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/lin-cms-dotnetcore/lin-cms-dotnetcore/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html",
+          "hash": "Kqfcj39bgFqVzJnl/A3YpzITcn5idU5PH8Vi3tQh/UI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/IGeekFan.FreeKit.Extras.CacheableAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/IGeekFan.FreeKit.Extras.CacheableAttribute.html",
+          "hash": "1ZoxXt5el+jATxVQy6FhXruLWuxha6lC3Gbqy6xpg6o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.DisableAuditingAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.DisableAuditingAttribute.html",
+          "hash": "qiNQvWpyf8ywftg5FY0SDTpB4OAbg5IeOpvxTLzJ8AQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.IgnoreMemberAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.IgnoreMemberAttribute.html",
+          "hash": "oDYBWbxw1dtrGdgbeYK+fqj8uYmjO/ype8iEeBC7+kU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.LoggerAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.LoggerAttribute.html",
+          "hash": "syAdyqSZedmeBPz2LoOxpLT4hdlSFL3bzUdEVDzc4qo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/IGeekFan.FreeKit.Extras.FreeSql.html",
+          "hash": "L1lQhANyVCG4UVRJkJxoQKOh17HIZm7tgDWC79PHmQ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/IGeekFan.FreeKit.Extras.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/IGeekFan.FreeKit.Extras.html",
+          "hash": "drGNKTAFrW11W3u5UXMcbzDYqcgBZmDaimLBDpCTaHI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Aop.Filter.LinCmsAuthorizeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Aop.Filter.LinCmsAuthorizeAttribute.html",
+          "hash": "5oGq7D3dShFlkFse1KPLSbDOlqVTq7AU2EYaoC8nr6s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Aop.Filter.LinCmsExceptionFilter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Aop.Filter.LinCmsExceptionFilter.html",
+          "hash": "H0147ZN5Z8a9MiJ85KKzxcoAqC+Vuc39bgHXVJFu2wY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Aop.Filter.LogActionFilterAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Aop.Filter.LogActionFilterAttribute.html",
+          "hash": "KZjvlb+bW23DyNfW3RI5aWfdg9EAHFP8bDbVkDWQbXw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Aop.Filter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Aop.Filter.html",
+          "hash": "vNTuM4rSlnhkLc4t5baNxXLWPRjWdi59hxBTcJqFjgU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.ApplicationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.ApplicationService.html",
+          "hash": "wmb+yX6Fl1D+C4TyZVSM1yEsUtot9Yh+H2XXDZXrsUs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseItems.BaseItemDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseItems.BaseItemDto.html",
+          "hash": "iLSEUubv1eErN9cLHVnx8B4U5/4mzgUrn9VacEWz0Fg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseItems.BaseItemProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseItems.BaseItemProfile.html",
+          "hash": "sh/sapAUzDlpS0RpkV9CbltDo2vV6ex7VLApoMtE28k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseItems.BaseItemService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseItems.BaseItemService.html",
+          "hash": "OdZwXnWfu22evHwosVHjRzhKIBWADOYn9vO+uK1UDbw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseItems.CreateUpdateBaseItemDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseItems.CreateUpdateBaseItemDto.html",
+          "hash": "pkG74ZiiWr/YAabx1jgbj6em4JTTsyRvTFJJjmNMECQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseItems.IBaseItemService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseItems.IBaseItemService.html",
+          "hash": "d8fSxofd1EDkhF4zC5G1D8e8roh19/EowuPMvxssdxE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseItems.html",
+          "hash": "gjdl4QbYByKAQutbTeQnUWJrVct9mF1Onx8NWozKORQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseTypes.BaseTypeDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseTypes.BaseTypeDto.html",
+          "hash": "bQ5QP7RYt14xy11/kMYhkiQsaI/0hU0TeO6KGHVsmiA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseTypes.BaseTypeProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseTypes.BaseTypeProfile.html",
+          "hash": "RXHLL4nqwYcqnv/jZ3XcrRI16NmhqDViv2gEC8bFFT4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseTypes.BaseTypeService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseTypes.BaseTypeService.html",
+          "hash": "JOI0RSwqt853pjxTWiu67JB2RkUrfVnUH5FJqYnoTjA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseTypes.CreateUpdateBaseTypeDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseTypes.CreateUpdateBaseTypeDto.html",
+          "hash": "MtDbSvpWsnbJiVNscweVp+IW4fKyrcKaJdsfbvffC38="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseTypes.IBaseTypeService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseTypes.IBaseTypeService.html",
+          "hash": "kAXkI2VlmsX4KXh7pm3epuLKa1tkmVJB9Q7tWfpBQ94="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.BaseTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.BaseTypes.html",
+          "hash": "tIZ+4+OHGNu5gedUsRU8SNv3kgycyPF0SE7hcYpaRVA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Docs.CreateUpdateDocDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Docs.CreateUpdateDocDto.html",
+          "hash": "F4Ivnum6ClzaCLwWDL/uJgQtzgjWYxW8G1WuyB9Ks/Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Docs.DocDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Docs.DocDto.html",
+          "hash": "+jANBnCDGj3v0nyPhGA6vmh3g8t0wzVEbUxjsYs9C2g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Docs.DocProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Docs.DocProfile.html",
+          "hash": "1M0Vwrzt9t+HsIvl+IlvJlxW6zPKPiaNJgVJrkOxDMw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Docs.DocService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Docs.DocService.html",
+          "hash": "Ep0S0jeLOFKJ/aMAeFXjEUKmyri9wSmR+sCbDBOm/jg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Docs.IDocService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Docs.IDocService.html",
+          "hash": "xkvlKRvqVfd1vu/rPKR4q1bPaXOza6q2TiQcyhc5Evg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Docs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Docs.html",
+          "hash": "JzpYca2cAnBil+KLZ81mdcSuMrqewZLyjANZPVRaUAw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.CultureDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.CultureDto.html",
+          "hash": "V5hZ1zf9KoOIVAkgpzAgF+WPQj4sy44XyfcA5AtG+5I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.CultureProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.CultureProfile.html",
+          "hash": "FwPNV0n5othMiM2jt+PLMIzPf5LZOfWHWqd3MSaWKSU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.CultureService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.CultureService.html",
+          "hash": "/5YYSH+g7u+ndZn+TT6qXSClKXAmDHHv1BSYluIqwtI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.ICultureService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.ICultureService.html",
+          "hash": "5hu8zFnX4Jyln00c7+tayz4sOdtkczcCo+v5KPqz/EQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.IResourceService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.IResourceService.html",
+          "hash": "sL0Pv75g+CC9PVHW3H5rX/sOgLrRkqKjoWFN/HS48VY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.ResourceDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.ResourceDto.html",
+          "hash": "nLfUVnNMQdjtNuASptf+4KT/DcyneuX0aM+1F10oxUw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.ResourceProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.ResourceProfile.html",
+          "hash": "/m401BfH9HDC/tT9xitZsFpZYEsVfHm4nhGwlKdkw1k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.ResourceSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.ResourceSearchDto.html",
+          "hash": "r+H+6KHiyXOZ8ahK1MrEKgFUELI7zXkPSaG8xd6Pcgk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.ResourceService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.ResourceService.html",
+          "hash": "a7tcfYmGoKdQKnX4mWt+yAUeczanscsAgEmN3QfnQ5U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Base.Localizations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Base.Localizations.html",
+          "hash": "AlQ1UzLuBLIN5gZDwLdIRgGGFCCZsEAQyQWOvm6+cYE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.ArticleDrafts.ArticleDraftDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.ArticleDrafts.ArticleDraftDto.html",
+          "hash": "sQG7Zf1rSAgmtYVYnfpIZFzO/BhROvgBDdYdWku/7KU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.ArticleDrafts.IArticleDraftService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.ArticleDrafts.IArticleDraftService.html",
+          "hash": "0iGcBPpoYXDpG0N4diKw+2TlMvuYGXjK7q3bRqDrdLs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.ArticleDrafts.UpdateArticleDraftDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.ArticleDrafts.UpdateArticleDraftDto.html",
+          "hash": "/rLFLXKj1UK2zjYVfeAbvaKpT2z9c9IZf4v+48qam5o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.ArticleDrafts.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.ArticleDrafts.html",
+          "hash": "GJyDCLbPgRaAWOu4d8OpLSrQ7J7ipVUn4cD8HUA2wjs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.ArticleDraftService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.ArticleDraftService.html",
+          "hash": "/CwyWSWnxlsrHlEl3HufZPWRQzEZFulkYaLs97k689M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.ArticleDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.ArticleDto.html",
+          "hash": "jrlGc3C7FQ1ybpc61q1mGNl241LSI1jbY8AOseO17LI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.ArticleListDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.ArticleListDto.html",
+          "hash": "WGDaqZkB/nkq00tpSC55ov08hsw/BSEgj8JIMiMOKMA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.ArticleProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.ArticleProfile.html",
+          "hash": "B+HGSHpvHBd6KUUdI39ycBLgWqSEbaA9VZg0T2bc43I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.ArticleSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.ArticleSearchDto.html",
+          "hash": "U+HcoWawym0C2ZKAmJoJbqLs3mO+pgOIwVjA51B8+k4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.ArticleService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.ArticleService.html",
+          "hash": "GB3O0YJUT5/qh0F/DvutEHLRMst0RV2BOAFjsS0dImY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.CreateUpdateArticleDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.CreateUpdateArticleDto.html",
+          "hash": "Tjs5TNO21hpvusT8zIaTgHCfl9rtiqo3xISooWpElBk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.IArticleService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.IArticleService.html",
+          "hash": "zprT9iUVPiXvM2fcnR8XYRAF7ASCxr0ia1Y2ob0F3D8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Articles.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Articles.html",
+          "hash": "7STYws5z5mxJ+e0DxJYlZaVR4OZLtc4vjfB50H6mTNc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.ChannelDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.ChannelDto.html",
+          "hash": "lut2+KYIUgv76Vd5aN3Xk4Pkd+eYx4PBy2F5AVxfbxg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.ChannelProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.ChannelProfile.html",
+          "hash": "NsBEqYDJswDplxaDwyk5Lj2gJsMdFRxQD//6CE8izbw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.ChannelSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.ChannelSearchDto.html",
+          "hash": "RIZtLqvLxzKNMtvj6BZ0grn5QnAPTY63+8UZfubTbmU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.ChannelService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.ChannelService.html",
+          "hash": "A5BvwtnSs48CqZfKMm9iqQ//8TVFocYctxjuGss3/0g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.CreateUpdateChannelDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.CreateUpdateChannelDto.html",
+          "hash": "KtnaUCCAaPzSGllrZcxZVGNEFid3fKnoIH6JUt4y+Ok="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.IChannelService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.IChannelService.html",
+          "hash": "F74bZnD4RvQVf8qHkPIaHQ2DKAsjfUW+Hom3qyoHaoE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.NavChannelListDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.NavChannelListDto.html",
+          "hash": "eDCKjnXYjv25+A8mdP2kPzHvdEeZmZJHaY9X+DILijc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Channels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Channels.html",
+          "hash": "EP1uEeuqS9zFi1TyVpRtVS61/2DPvsZuCXVilxse8rg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifies.ClassifyProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifies.ClassifyProfile.html",
+          "hash": "IjYdjJzn/VLbWI8nkCAieN0Li/3TXANpYjj+pLGap3Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifies.ClassifyService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifies.ClassifyService.html",
+          "hash": "7NY+lxQJKMifymgu14ZFQWXzcow+7jdA0xFUUWB5v2E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifies.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifies.html",
+          "hash": "/ZFk/FD2piX1EVjDTX6phzQYs6Q8eZGcMIRaQrhMuwg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifys.ClassifyDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifys.ClassifyDto.html",
+          "hash": "iinQp1YtQrJtcCyNEdv3S571aYNWRHSQTYqdsHC7HyA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifys.ClassifySearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifys.ClassifySearchDto.html",
+          "hash": "rB72DAY82zhLJ+eRMrvKAeATM9Hj1IsWfF/rkyPFzow="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifys.CreateUpdateClassifyDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifys.CreateUpdateClassifyDto.html",
+          "hash": "kCUCO97Cg1iJ/S7GUXOhmXvgxDD1OZfye6rxw01ykvc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifys.IClassifyService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifys.IClassifyService.html",
+          "hash": "lA72dW644aTwnPMU6vMi/APkpQYXUkk7SULmd0WvLKo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Classifys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Classifys.html",
+          "hash": "oIRnc1suOwoYn6+Z5jcvAq1hXmzQJ2fTxD3qtBtt4Lw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.CommentDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.CommentDto.html",
+          "hash": "YryA3FIy5AvJBMlJiM7aM5abbQ5TE58rLso9HsNtcAo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.CommentProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.CommentProfile.html",
+          "hash": "UbkjBnLCZ/p7FbKuVCvr+ryh+83q7JkgdaRCD+nt3GM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.CommentSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.CommentSearchDto.html",
+          "hash": "ohL/klDR7dqqGzC14eLaKesqwxuRGUm8T8ypREz0hc4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.CommentService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.CommentService.html",
+          "hash": "JRE8kxH3r5Xm24FTinIXJh/t7TGRBhTzA3kuGj/wuVc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.CreateCommentDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.CreateCommentDto.html",
+          "hash": "/YvvYtJkcbWlZvsFCnmI4qaUoBcly2zqe4HaJRFC5qo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.ICommentService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.ICommentService.html",
+          "hash": "0+/+n3yRzUexgcVe7IqWqPBPk2W6OqFVA2DnwSxLOzU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Comments.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Comments.html",
+          "hash": "p3fffpCN6WJR4+1tLv0tbXIhGmlZAlwQ2Cv1nSl38Yw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.ArticleEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.ArticleEntry.html",
+          "hash": "H+WW1Gt/9CPGDiYWhPF0YB40lVL8vIoRGvfslCEhhQY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.CommentEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.CommentEntry.html",
+          "hash": "WlWDlzn8lWt9YlBW2LlyWk3kzh5IpSOhlvGaYZRFodg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.CreateNotificationDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.CreateNotificationDto.html",
+          "hash": "S6hwRoQaNg4S5G47sAgtqJqzbKD2iNnxB21E5XQnv74="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.EventService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.EventService.html",
+          "hash": "aAAmwnnWWxnxXVSZekjemdhi5JCYpiZX2PJIcrvacWY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.IEventService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.IEventService.html",
+          "hash": "MEo8HoOgsnth9AxLW2qZdz3sNkFW3pJEhGm0exfj1HE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.INotificationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.INotificationService.html",
+          "hash": "/eBYiGBlICwscKdRfd+DpjBUWOPK40PdrpBfF+Olx00="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.NotificationDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.NotificationDto.html",
+          "hash": "EaNTDvfSluXty4Zz7+OG+ee87xbNuY/qDJQZzw7arLE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.NotificationProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.NotificationProfile.html",
+          "hash": "PrgZODonggQzuWzluJDlLCk24gdz5QEsVvpnsyeJ/20="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.NotificationSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.NotificationSearchDto.html",
+          "hash": "Rt2LWub5xVwo3END9bOxnulqPP1ic+1O5WPBuVhMyzw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.NotificationSearchType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.NotificationSearchType.html",
+          "hash": "awZpUEHNuT85krRfqVD18KZRcs5XvBUunsH9Y/d4eKs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.NotificationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.NotificationService.html",
+          "hash": "WBwBZGw7jEZXyQHIO7gFARcuCjO8cFmDV6eJfIHDscQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Notifications.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Notifications.html",
+          "hash": "q80u67eqhckrR0rzLG1dFG1uTLSkIaAwfDr62wsNWi4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.CreateUpdateTagDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.CreateUpdateTagDto.html",
+          "hash": "REjxqmx2eAEvF6RAYLZuoT/ujyCvqMACRLAfI5QnJxI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.ITagService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.ITagService.html",
+          "hash": "ows+gJo5esUpJLTSXj/lL+t50QQXfVfF1zhSyvgVpCU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.IUserTagService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.IUserTagService.html",
+          "hash": "Ujk1uDnvT7EJFODL7kI/LDe3J0cN6fae/EFzdtGYV1Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.TagDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.TagDto.html",
+          "hash": "2Wwz+RIvTtYkzuttGgsW6eDMYe96ppqbIGiwBsFvEYc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.TagListDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.TagListDto.html",
+          "hash": "jUh+6tvhruFco4uatPTfv4aRarjvxsWIJUKK/qFxClk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.TagProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.TagProfile.html",
+          "hash": "i9Xn5K1t5WHO36nFG8e1Xzc2Eo2zmccQlO69ZAyrZoI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.TagSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.TagSearchDto.html",
+          "hash": "H2j5i0PXx14Lqg9AkqwyNnGY9t1s4fINWgAuOKPxNtc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.TagService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.TagService.html",
+          "hash": "2/b8QXjorEHiROP0LXn0Kd9ZTLLw9FjoMmCphv94dCI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.UserTagDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.UserTagDto.html",
+          "hash": "IvXFToUdCRfLZrVQ08H2DGG1fjemrbYgF+VQXFzmEYo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.UserTagService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.UserTagService.html",
+          "hash": "Dk1BGMZIqOTsopi8cemEl+Jd00FdfvVt73hWCASQEwU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.Tags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.Tags.html",
+          "hash": "UbM6kuQBSJqmfhcOa1pgwyq7y4heWIYhU81+Ety1BMA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserLikes.CreateUpdateUserLikeDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserLikes.CreateUpdateUserLikeDto.html",
+          "hash": "qej8f/GFnTCmEOK2kv0RRG3jxX3GYTmq12iF0HgjUPQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserLikes.IUserLikeService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserLikes.IUserLikeService.html",
+          "hash": "im2vkBmULRcHxGMb35V0WKNO0tIQk8V6P0lpm7peRWA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserLikes.UserLikeProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserLikes.UserLikeProfile.html",
+          "hash": "bAIY9viLqHd6U3tr3uO82eQwlb8g83MZssgnUrbOpPE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserLikes.UserLikeService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserLikes.UserLikeService.html",
+          "hash": "9vQByfZCQ3MMfFu8utFieQraD1cshIg4oIS+RVyZmV0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserLikes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserLikes.html",
+          "hash": "nOP54NZN7SiAS5kabxDd8mezIT25uNd6OWBX1UbQTYE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.IUserSubscribeService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.IUserSubscribeService.html",
+          "hash": "+dN2+ycbfShWJErF5n/jwJJyBmw/yT6fcDwkw5guaOo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.SubscribeCountDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.SubscribeCountDto.html",
+          "hash": "WCgRQR3YZVm4+YOM6Et0mjznO639sRGkhTxWfg1fHkc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeDto.html",
+          "hash": "s4gs38472i4KoXK/fUCR1JQosgXtzJZCnEnG0Ud2a1M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeProfile.html",
+          "hash": "qqXedIKXVTB8xjYRd+lZKQSUZOaKfdd8im3KuU7whXs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeSearchDto.html",
+          "hash": "ReSMj+9rK+Wfnhb5elOGhVgbo/Qb17IP4jUxV0DQ6OM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.UserSubscribeService.html",
+          "hash": "DA6nkXtKbX+ZDl/IdcACH+r88CxpuLweEHX/tNx3qYM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Blog.UserSubscribes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Blog.UserSubscribes.html",
+          "hash": "9YZ2eEjbXjojg+dtEWCCBY48XGrf49jXUSqMD9G1Ibs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.CapUnitOfWorkExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.CapUnitOfWorkExtensions.html",
+          "hash": "7WRjoCJiVaaoTCojcCMz+LJKLON9b59KgzxTVkGGg+M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.AccountService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.AccountService.html",
+          "hash": "4E+e/f6RZciKoyk3ga/4rb9cXtOds1eosq12+x3wWfQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.IAccountService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.IAccountService.html",
+          "hash": "6JeiNKX5dsdCxSarBtq4mQOSb9cYMchDNS/49ZDdrsI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.ITokenService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.ITokenService.html",
+          "hash": "A3OeQmkcUA8kDRYAIXloY8KbPHFN/PZB5WJ4FxC5dno="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.IdentityServer4Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.IdentityServer4Service.html",
+          "hash": "YDYmYTO6DITXkE9Dilpdb4S4Y2E13wQrkNc4Y4H1UIY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.JwtTokenService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.JwtTokenService.html",
+          "hash": "pH993LSjJha0XhtiQ43FbOxct1hlbNZdA91hi+w0uOo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.LoginInputDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.LoginInputDto.html",
+          "hash": "QxBT4uDSrsjoVvH8T8BIvFhIkHHPGPdmyZxZHX8qia4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.RegisterDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.RegisterDto.html",
+          "hash": "mD6wGsoxb69TdGrYrhQCR9Ma5QYeiC8BNInOJVyHmQE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.RegisterEmailCodeInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.RegisterEmailCodeInput.html",
+          "hash": "2UVuCFX3wdOmfiHXWVbJ8TR/SGJyWvT5ReXq6XVD+Bg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.ResetEmailPasswordDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.ResetEmailPasswordDto.html",
+          "hash": "2DU1T0P5vqBwO6ALYwpaERHH5p2ppWTXP7S7wWpUvR4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.SendEmailCodeInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.SendEmailCodeInput.html",
+          "hash": "0Jo7ys7PNKrdbNQlFEWBCCnnpuMFu+jbMrIMmZhQaRc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Account.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Account.html",
+          "hash": "0Kk5A/j35FEs5sqrDWacc8dEJBh39ATesRn9zjiBo3k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admin.AdminService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admin.AdminService.html",
+          "hash": "oEOh9K++6KGXJDWSYs3j3Cf6CSYJMVAKrljEvbNeur8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admin.html",
+          "hash": "L9o052ifLTtMJV8M7SDVH2rm/ZidRuEmf4W3PBukhGg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admins.IAdminService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admins.IAdminService.html",
+          "hash": "Y9QPWqP8VDIjGzYUF26Adlz+ZMyt9hW6AtEHNbZ8lOM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admins.ResetPasswordDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admins.ResetPasswordDto.html",
+          "hash": "Q2knt5KgVQNSSHig+PQqJWTBVt3Jwb/UiF8PbzeMsoA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admins.UpdateUserDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admins.UpdateUserDto.html",
+          "hash": "IodYxoJS2QFsH4n45jXHChRtEwAgOwXZ0/O8JkHC4lA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admins.UserSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admins.UserSearchDto.html",
+          "hash": "vawoTyguZuq9JsTGXotPqlGkkkqjSU7u8b7BYRFK7fo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Admins.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Admins.html",
+          "hash": "/MrrkXT1R25817Yig3a/AN3/KXVYg13cEoMT9YJ5Ck0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Files.FileDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Files.FileDto.html",
+          "hash": "TMWKMfMzJo8E8f0IeTzpFLYiWwdIN5WdoN1LQLUg8+s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Files.IFileService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Files.IFileService.html",
+          "hash": "1aHpxOIW1OIRKaGgdXvvouZP18d7Bq8syqC7Ro/UNNU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Files.LocalFileService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Files.LocalFileService.html",
+          "hash": "t14AShIitTIYxQBzdEMTl9YnO/RUWU4TNmI+2P0gjQA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Files.QiniuService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Files.QiniuService.html",
+          "hash": "Z8l1No3rcuQcLf3m6NsuwkH9t8dS1eZZZO/365v1Owo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Files.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Files.html",
+          "hash": "gt5kVkAstJZI0fYlVgJrwxN/DGUd2xIhRo3CqA2+7ME="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.CreateGroupDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.CreateGroupDto.html",
+          "hash": "lVBIg64nc2Nf9dL5bvTfqDmYi4XJ/+kTvZyHCE0LbVU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.GroupDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.GroupDto.html",
+          "hash": "fQbzEiH5Qo9zegb/6KUIsLGYadmDH5nrMYCC/fllUJw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.GroupProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.GroupProfile.html",
+          "hash": "D0Eg9ve4Hc7uJuChbZoSbV/5CAyOEQmNq8qrQF+pVt8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.GroupService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.GroupService.html",
+          "hash": "855ikckxRbafA4UhqLaDp5WpGovfKKVLlArhpr5ajsA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.IGroupService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.IGroupService.html",
+          "hash": "PkguHwW32SFC8Dj4fXtqbTckt4xZRFKL5L30KIp+PCs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.UpdateGroupDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.UpdateGroupDto.html",
+          "hash": "ZOwsC2k88eM/owkRS2Sc9lHLlNqxZGU2KLtbsLUxjxY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Groups.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Groups.html",
+          "hash": "WQTCGZTM9u3IluBVFzXr/oFLRBUb7389TToIUSVWqWo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.ILogService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.ILogService.html",
+          "hash": "uyotsqde4XsByARuH876ztsq/1WXDRx20L1yF1DWljc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.ISerilogService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.ISerilogService.html",
+          "hash": "aGqCUzk4vZgmmM5byn00B60c+s6HG1Ykp3aKLZ0HrRM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.LogDashboard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.LogDashboard.html",
+          "hash": "Rs//XQ23y0IdKNXnOg8S2uNLAyTrG5bbjgQTk3LGlQA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.LogDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.LogDto.html",
+          "hash": "HVOP62gBU/6VAjKfzpMF5kGztLFZ0yhee0DTiUOwZ+4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.LogSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.LogSearchDto.html",
+          "hash": "np1JLvKmQlwaln/W+q+NjvRus4tzIExhFxBRgpeE8Ao="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.LogService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.LogService.html",
+          "hash": "QImn5iY46egz4jDTolar+Wvx6nwYki0zjxsM4CZtUsk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.SerilogSearchDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.SerilogSearchDto.html",
+          "hash": "maxi/k/ODG0sh2ayB+G94PenKMIQ3uHcTSAt4iiFyTQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.SerilogService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.SerilogService.html",
+          "hash": "sljkjy7mCHOlPuKO/EW+Jtz7klU7t3ssh1++OgIWjq4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.VisitLogUserDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.VisitLogUserDto.html",
+          "hash": "4x/rzAdweZ02gGVSDXA23E8pGNgOkMr8s+WueaNBAB0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Logs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Logs.html",
+          "hash": "A96WgYPbyoQLBKmX1WMMNgKmpvBeFJobzc1Jfy5mys4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.DispatchPermissionsDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.DispatchPermissionsDto.html",
+          "hash": "3N1M7LDqTTynBdBpstxPhakCYizE70sAh7bB12dFkOc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.IPermissionService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.IPermissionService.html",
+          "hash": "pz+1X6hhed89bG7Q6coFeXboP1r++hpVuTon7X81FC4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.PermissionDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.PermissionDto.html",
+          "hash": "IuxYocbTQfpDMOyZh6va52kqTw1RIHD+9XHeW6DER1Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.PermissionProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.PermissionProfile.html",
+          "hash": "DzsIiFDLNIIuLupUtUNKMzY6q8st3lrGvhI1tpdaWk4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.PermissionService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.PermissionService.html",
+          "hash": "I1hZ2oiMiU5uKNdowcVpugqARjH8CkNigWpVzJSw3/Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.RemovePermissionDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.RemovePermissionDto.html",
+          "hash": "xq12ak0LBK/EkpDW1iTVzhy8wlv2v7ZAIOVB16wLaVc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.TreePermissionDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.TreePermissionDto.html",
+          "hash": "QG6Doy7gdhKtfUd8sWM4fIiKE5JDB8Cp5i02QyDLRWk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Permissions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Permissions.html",
+          "hash": "+GY2gdSFL3Kx9nSBIUPalk1sI8L8J4yPiWxm122OnH4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Settings.CreateUpdateSettingDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Settings.CreateUpdateSettingDto.html",
+          "hash": "q9MrqQT++ZKmC9buIo+/k8KC3CeBciKUAz1WT21maMw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Settings.ISettingService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Settings.ISettingService.html",
+          "hash": "23u/Ey8EX3p125sA1ds/tGRvFYiAbwVqtbdH5b7ahbo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Settings.SettingDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Settings.SettingDto.html",
+          "hash": "iwzgxu9pI7uOsm53gJRcr2XWFNymIYX9e1vdoPX77ow="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Settings.SettingProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Settings.SettingProfile.html",
+          "hash": "zbGoZA6iQ3vDMY3xk1VS+0cxVd8TF2DRM6Dw9reBzqU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Settings.SettingService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Settings.SettingService.html",
+          "hash": "4dOnWmdSqmc1rIYU1zDph/M+c5qchLmkoBDvyn2rK74="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Settings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Settings.html",
+          "hash": "z7q5dqTXQ0y058g7Qse1GBQeJulGY6CMNg7fpteIqho="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.ChangePasswordDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.ChangePasswordDto.html",
+          "hash": "bT4h+Tw9BDtGyGyyEYeqyPdupU2qm2qwcnbUgJESJos="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.CreateUserDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.CreateUserDto.html",
+          "hash": "mDiOUYoOleFKAFsfUmJQiLp/SD9kuebjCHMdiZjDZB0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.GiteeOAuth2Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.GiteeOAuth2Service.html",
+          "hash": "U8YELUf0Vk0QqI31T/lWCP+VVF3FoTzf1lWaAnmougA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.GithubOAuth2Serivice.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.GithubOAuth2Serivice.html",
+          "hash": "O2yb94sHCamZAAIckKiaX6d13TTN1cqdbgPj7bOpBOI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.IOAuth2Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.IOAuth2Service.html",
+          "hash": "dONpFECjtEtpJHsihgFQXg8llxfVuLpOP8M5maJbu/s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.IUserIdentityService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.IUserIdentityService.html",
+          "hash": "EnlWx5+6gowekw+45ZfDhGQPQ5zBWzQWRNdROVIVjWU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.IUserService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.IUserService.html",
+          "hash": "t1Z0UURCbXrupOHWU5Cq8MiGCw4SEfO95CtyUmfQG0Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.LoginCaptchaDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.LoginCaptchaDto.html",
+          "hash": "YdOHI1NCFxQZ+FCYZPLAh1zJ5gQnzEHWL706b2NuZwU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.OAuthService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.OAuthService.html",
+          "hash": "6De8IiZbWTDmdnVAT8FXopzmkrfBrCQftyHsMaum8ZI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.OpenUserDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.OpenUserDto.html",
+          "hash": "+u4k/7mT0Dsh20rb2fSBbNoiXkFIHo8ZzCm/JVLb/B4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.QQOAuth2Service.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.QQOAuth2Service.html",
+          "hash": "m5hLuiEF0XsvKmpM8/wQU4wld+a6A98UgTeiEfoul3k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UpdateAvatarDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UpdateAvatarDto.html",
+          "hash": "51bhB9EQGRDTVKs/5qze/whfbX19UwiOWZzKZJD4Z6w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UpdateNicknameDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UpdateNicknameDto.html",
+          "hash": "SoZbgE5GqHlJ4vzFxLu41pnYdLQOskAdkY6nIzjCpWE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UpdateProfileDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UpdateProfileDto.html",
+          "hash": "ULl0sy/zsyTyXmd4BvYNlX2/LE+UMl8aUFi+7pDAoS8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserDto.html",
+          "hash": "YSTRe3IdaZcx6xyrXCU7t6MIxARnkePbP8SjVWTOc3o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserIdentityDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserIdentityDto.html",
+          "hash": "D9i+NeMfcA/3EutytOOG+B5dhM6vPx2N2U7mHMEoZ0Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserIdentityProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserIdentityProfile.html",
+          "hash": "2xA/jgWn23d8uG7HHwW0kLqrHevu/AfGV4404sOdo6E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserIdentityService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserIdentityService.html",
+          "hash": "A32NMbOjOCROfEB2zISfajcNPpElSCBjI+nQP8/fdJM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserInformation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserInformation.html",
+          "hash": "1rJiZlxFUQ0sBLfy8hsdwMy7xxlcfpmSpj9AV/Rtn10="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserNoviceDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserNoviceDto.html",
+          "hash": "08VrgQfeJtNl9AYezJ9nu4kKAffbS1DLBehRX1wLgf8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserProfile.html",
+          "hash": "XL+r4Th6XBT8fkJLP5C0ij1T/H8nuxT1nVWT76DWKv4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.UserService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.UserService.html",
+          "hash": "DJqpuer0q8k1Lot1nlTNchw4uEnTZQ/ynCk+et9Okdk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Cms.Users.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Cms.Users.html",
+          "hash": "0fEAlImxjRjoJtAMAmn5rnDk8g3/nM1ssYmpUMcVMjQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.EncryptUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.EncryptUtil.html",
+          "hash": "qibTPXj50L0ZxpD5DjzxOf8d02QBcAAfORxjpdFjDlM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.ImgHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.ImgHelper.html",
+          "hash": "QjM2/tYNG0yCguponDyO3KH/cut6dqF7hQ0bMuFK/4o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.LinCmsUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.LinCmsUtils.html",
+          "hash": "IQragJ8eJ9yj5pfEO3MBdfQ6haV9nnjKOGUlflkfeSc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.LinConsts.Claims.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.LinConsts.Claims.html",
+          "hash": "E1xDw+P6R9tTfi8lJvBS8GXl50gw2/RZGuHXnb6X4O4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.LinConsts.Group.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.LinConsts.Group.html",
+          "hash": "KvLJ9Cfjeywj6UQXFi+EID0dKY37bSgIqLcLQhV/qHQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.LinConsts.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.LinConsts.html",
+          "hash": "SM2RBNFDTwpf+zrFTAXTyvggjwcBF1lECrJoKoN/y7Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Common.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Common.html",
+          "hash": "cev8IdWpnexP2coMWOLZap9IrK+HX1ogVEwXimcxSeI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.ApiControllerBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.ApiControllerBase.html",
+          "hash": "lb+a5WfkWMXIoL+6EUCmeCGza608cM/9gCXoC0HWCic="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Base.BaseItemController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Base.BaseItemController.html",
+          "hash": "RKVHzfWv16TZVYWSsRgTkcq5d6RUARKdDGmbKTv5grs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Base.BaseTypeController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Base.BaseTypeController.html",
+          "hash": "RFsm34BOM4rJjUxAsw5FQAqk2Jdl27BvmltOHUCO88Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Base.CultureController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Base.CultureController.html",
+          "hash": "AdmmNKsVKvz5lfpsWqxKC9z0OiU0nMkfdl95IhPEBqo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Base.DocController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Base.DocController.html",
+          "hash": "Q7RJFEnIxXzXej5LWXjxhq0k3hicU9E+GnR1bdXXxHw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Base.ResourceController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Base.ResourceController.html",
+          "hash": "mJ3W4qBImsPcAmMxnP94kvRJX0Nv09j0ANgBN516Ago="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Base.html",
+          "hash": "mfK3yYyneLzWbm9m0+ha3H2kDLods+iK4qtMv/jO84o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.ArticleController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.ArticleController.html",
+          "hash": "bNBygPO7Om0tWRsglpqaD6SEM0KQ/weQ4rmu4cT99Us="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.ArticleDraftController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.ArticleDraftController.html",
+          "hash": "NNmq9s40pldLJbzpbVlY+2FkjUhuN3VcmqsaizXIa9I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.ChannelController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.ChannelController.html",
+          "hash": "GNFkYR0T8ZvbHccNCzGDh1K2VFyHeWgSZD+iQInpjYs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.ClassifyController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.ClassifyController.html",
+          "hash": "dmJCjxABbaLjFadAzLujU/feQstPJS64n0RbCaBzYeE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.CommentController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.CommentController.html",
+          "hash": "0oR2tUzVEI3DJZPmP1qsmNMmwBla5XOMRAdmIFNtWmg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.NotificationController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.NotificationController.html",
+          "hash": "cBFd9QzrsqUl0tmaXKjxag3vogi4I7eR6h+J/p1TEIk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.TagController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.TagController.html",
+          "hash": "wO5FtE5BrDHzI5hdi5sRdtnJnOL4CFvwW77CcqiBmOo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.UserLikeController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.UserLikeController.html",
+          "hash": "yf2ElQx1JjDc0Kl9FGHm8nuyHrliZ+bP/WRqfY0Rf3k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.UserSubscribeController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.UserSubscribeController.html",
+          "hash": "+z5dSEpILNElCS53umOink+TbjF+4AsXlg9lLRG/55M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.UserTagController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.UserTagController.html",
+          "hash": "6G8AF+KGIP1OvQ5JGKDa/K8nCkNhxvHHOfT1WHYHJ2w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Blog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Blog.html",
+          "hash": "fdNknoos8oYNu2s9TVAQRtRm8wZu5GVCYeczUDUXlV8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.AccountController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.AccountController.html",
+          "hash": "ZkzSGHkz/M9DbgWt2/3GX8hdOQjkXTxk5XmGIuEKkjU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.AdminController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.AdminController.html",
+          "hash": "bDlGxnNnXVbvzxsw8XE/nFdnhLk+Ppp21GAaGrARPoo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.FileController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.FileController.html",
+          "hash": "FJNqI8Bu166uBb5CbKy7uivrCQGJrbQx+0sKuODHG8g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.GroupController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.GroupController.html",
+          "hash": "OdFGjgG4YImmAxxeZt8CGGcgVDIRezB7rA0vIf9eXZg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.LogController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.LogController.html",
+          "hash": "Mme3sEP3ScUa1n0bA/6nr9fhzGlFe2RuxuMhZAV0P44="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.Oauth2Controller.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.Oauth2Controller.html",
+          "hash": "Mg4sST2QtoV+46pH6iJ0j3MJrNqjcD57EOg+AK7D8SY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.PermissionController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.PermissionController.html",
+          "hash": "oJ5s3SYAh5P99ZACmm33iD83a+a6ddBSrsvYFlztbeA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.SettingController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.SettingController.html",
+          "hash": "0RXcUl5w1iIgAZRoxzF5IgFaeNXWB8RQYs3WCjgBFxg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.UserController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.UserController.html",
+          "hash": "hfMqmLK/5uD9Q3BpBBR1MOyDjUo+BwE4COvlcLDtQKA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.Cms.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.Cms.html",
+          "hash": "VNEok2iMTGq2x1dUtXZtQBPuD5WCF8VuluUyeZgOPEs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.v1.BookController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.v1.BookController.html",
+          "hash": "2KlJ07/Ev1JDEO41MsmDY1zJNSSmBXoZQd64noYAoEM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.v1.MonitorController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.v1.MonitorController.html",
+          "hash": "kNAdvPV6qJgh7WlAqfNY/EYoY37ZRixHZYSe4bptsDI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.v1.QiniuController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.v1.QiniuController.html",
+          "hash": "PAxNhClcSWmQHo77ZA/dg2Op1s3CAw6rJThIg+KA+7w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.v1.ServerViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.v1.ServerViewModel.html",
+          "hash": "hlA7zHCTd8kHt7vMfxEOkiFsauArhvg43zKrXNZctyw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.v1.TestController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.v1.TestController.html",
+          "hash": "RUGlUCHjhKGKF8JsHmL0gtq4GfY/HoXK0IGX74lTHE0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.v1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.v1.html",
+          "hash": "fvxr0Wz2jENAw+kW0PhWTv/z0CoTHbBPG0vYRcxB0zo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Controllers.html",
+          "hash": "PhiP3ou6V6TFemRkBlM9o72m4GIH205DaygvJLWsHB0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Core.ValueObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Core.ValueObject.html",
+          "hash": "UOfRz8zftGv63y2oN9xDnC/mVgWxfKejbqOi/bPN+0A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Core.html",
+          "hash": "+KynBos3t9Kbpcz90MrR6Vg+O/sqUvu9AU4nOTyngYk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.CrudAppService-7.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.CrudAppService-7.html",
+          "hash": "t8QBPpqZ6vkLHv2TzM8jeXP0uTccZbSa/wXg8iEwNr4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Authorization.ModuleAuthorizationRequirement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Authorization.ModuleAuthorizationRequirement.html",
+          "hash": "E9sHmQTkNWrMI4fA71M0l6PCp0//R4KAmVnEfWdBhFU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Authorization.PermissionAuthorizationHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Authorization.PermissionAuthorizationHandler.html",
+          "hash": "iJxqdTeYw1w9qJC9E+poKPfH/wiaiIqK4AICzK0WEE4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Authorization.ValidJtiHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Authorization.ValidJtiHandler.html",
+          "hash": "NE+pFZ6/58wi648d8krO0roq+8cvL954a4mJPP8Wapk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Authorization.ValidJtiRequirement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Authorization.ValidJtiRequirement.html",
+          "hash": "zmdBwloagOaEfLY7axW2te9seQXt4yqub/MhoXUw7hs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Authorization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Authorization.html",
+          "hash": "KO/Kjg/7cJFDfHtLPAbb/l3lb6cuYkJI5xl5fzan+5M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.CapMessageQueueType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.CapMessageQueueType.html",
+          "hash": "q0FI40J3vXNv6pPR9B/ud1ez0vVzavRQmxmbX+9MAOs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.CapStorageType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.CapStorageType.html",
+          "hash": "5lj69MIwTnYQQoX3P67fhIdcmPrtx7R9BbSJo3Zd+3U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.ErrorCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.ErrorCode.html",
+          "hash": "6a1hbfqZIqg+BVy3QrUC2o0a/mlXdyAavExBZ9G8sg8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.Status.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.Status.html",
+          "hash": "pG4OLyAq0kieHwkD52wTuhc+CrE5EdNSSCUqNBCCyrU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.TokenType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.TokenType.html",
+          "hash": "VXZ9NUVnEtVarwIUGBwPy2sT0ZKLY3qWWF17RlE8Q/E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.UserStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.UserStatus.html",
+          "hash": "SDqaCSs+x77OYO3IifTQXDn5llSlfttto42FGiZhY+c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Enums.html",
+          "hash": "xtvJ60b9jIdsLadPsfOnmp+Lbz+27onJudE011uj7YE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.ILimitedResultRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.ILimitedResultRequest.html",
+          "hash": "yRpAlgqLM4bphcPBKCAjb6Xyt9jkAL1hE/vSiV2XpsE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.IPageDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.IPageDto.html",
+          "hash": "xETosGm2H9oUlwQfI0as5RBNdZJSO+DUybvZZo8jdQY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.ISortedResultRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.ISortedResultRequest.html",
+          "hash": "PSB5lo/fuTLNyCUXhsq6y1z71fxUKBmuPBgSO9eHvUI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.MigrationStartupTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.MigrationStartupTask.html",
+          "hash": "okLS1MMNhgiWngR4nPb8U9akJS1t06XkhF+hAn1PJb4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Options.FileStorageOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Options.FileStorageOption.html",
+          "hash": "BsB+AIqmdB/hyVZYvrWXwOtC++LIBCEVcYPTGYzMLX0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Options.LocalFileOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Options.LocalFileOption.html",
+          "hash": "555K6N5Vga+1gC1TzAX9UqhlA3q2nbRCzIgzGE7rWUo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Options.LoginCaptchaOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Options.LoginCaptchaOption.html",
+          "hash": "eHTIBX85Xx1Jid0yvjzj+5RBjPrQyLSDdyDl/nJP7LU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Options.QiniuOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Options.QiniuOptions.html",
+          "hash": "zq1rfMUKeHjRA+o85/T7T5aV+vQcIlBoj0yKkxebHD8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Options.SiteOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Options.SiteOption.html",
+          "hash": "2I3om8WxB9ExFgKD7tZ7+TTFCARo0nq+GMaO0l7Eo1I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.Options.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.Options.html",
+          "hash": "bn3vPcb0/Dmo/iV0u/fCY7grQe6D5K8EdBPHydijLl8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.PageDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.PageDto.html",
+          "hash": "KXVW/Wg8mVwLDYmU9SG5xxMeWw1Zuz0MmFPiD2cLnc4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.PagedAndSortedRequestDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.PagedAndSortedRequestDto.html",
+          "hash": "sMkuY8qAfTKnnW3o5/V1BT4Ohof531v18jyjVoX8hDk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.PagedResultDto-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.PagedResultDto-1.html",
+          "hash": "gFhNDkaE6Islkfjpzl4AsN16BFWD34kxtETsA7xzKnE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.PermissionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.PermissionDefinition.html",
+          "hash": "DyKiyHc3L+GKidhygUjt3huf9tbjf3fSfgjhmBK6hmU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.UnifyResponseDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.UnifyResponseDto.html",
+          "hash": "zNAn9wkZCtHq+nfz+8FbsyjNLxc9w/8hbKeFBTQeHEU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Data.html",
+          "hash": "tX9KlR2niSESBzPxloqCuoMUfe+VrxGPI0/8l6lGooE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.Captcha.CaptchaManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.Captcha.CaptchaManager.html",
+          "hash": "HzY5B4rW4pGxP5wnXOthQtmfVH9Wj9ME/zr9MvYD80Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.Captcha.ICaptchaManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.Captcha.ICaptchaManager.html",
+          "hash": "2uhzlzJW3wPY4+3+2PSAQSxVyh/8ieXobFu8Jo1x3n8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.Captcha.LoginCaptchaBO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.Captcha.LoginCaptchaBO.html",
+          "hash": "np3JIU7iqFBGHS8EocDY/oOKJhnBD19HCXMCwbeTREQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.Captcha.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.Captcha.html",
+          "hash": "axTuaZ6QeCTHVn4ugF89Uh4nAyttFxl0Vg0YPywGv1Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.ITokenManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.ITokenManager.html",
+          "hash": "Ob+M2StEc9RGl+RK/WkOlPihqPXL3xm5S+5i73la5hE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.TokenManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.TokenManager.html",
+          "hash": "lKrDfyf8pDpIEVjAhI5VqdRnZg73c+K8uXnpeR+WJ3M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Domain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Domain.html",
+          "hash": "SfsC89WHpqVUEE4McEGy5Q1IntEB+q2AaRa/sl+2gNk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Base.BaseItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Base.BaseItem.html",
+          "hash": "4bkxULPbM/Uw/qpABbZbAJKoleinzoFJGxHTyTO3Ch8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Base.BaseType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Base.BaseType.html",
+          "hash": "9Ml9YEeAC8AUBFdgl8tMO3yDdvAFFTEdCWl8QCMVryw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Base.Doc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Base.Doc.html",
+          "hash": "38V5rOPBVto2WJGoshdNx/xf5Ol3Mwga7KtW9tBhEjc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Base.html",
+          "hash": "SmdSEUojuKUILGe3iXMCQyjuD+9yitgV4tM44QB9cgc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.BlackRecord.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.BlackRecord.html",
+          "hash": "4wNuKEpzVMF2X1MmMIx4qeSxaaVhmh439Iqh+33y1ek="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.Article.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.Article.html",
+          "hash": "86kR81hrMwDVf4LWTocMyHG3Ai4O6oCVTv8fgMOR53w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.ArticleDraft.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.ArticleDraft.html",
+          "hash": "CIW3llmbvVIsaz7UrA9+zQuEqjsMtRthEaJG62kKv/k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.ArticleType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.ArticleType.html",
+          "hash": "3afGBY2nd62U2Fn6UndyG1sDhu4Avh8x6HAlpTYZ9bw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.Channel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.Channel.html",
+          "hash": "heHLqJIduGmVfvhWyJbVDAWKVZymPAAYUaomnXRWQaQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.ChannelTag.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.ChannelTag.html",
+          "hash": "fjbV45IU26iUDA5/QAgc8+IarBj5+YscJAHlQsu5hV4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.Classify.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.Classify.html",
+          "hash": "srlPPI87dIl9NflHjrnbnwsaKNC0Lzba/ib/K0xgNpI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.Comment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.Comment.html",
+          "hash": "gntwY3eN+lQVzqcCEFoi47JYCI61vZ8kEw/PL5cVZAc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.Notification.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.Notification.html",
+          "hash": "1D939mGPYO1HGCVWHGhGShtzs5pXKFuDjZRWA/quq6E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.NotificationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.NotificationType.html",
+          "hash": "EJ09TmTOexLCvQ3rmwK/RptVa/Z4cuxRGvJoXaDoeUw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.Tag.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.Tag.html",
+          "hash": "7d+nTju64nXIMOZxTm7gecsBW1PlN5aHcg7M+X3TY9c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.TagArticle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.TagArticle.html",
+          "hash": "eKgztb2Y15SzeTtmpytm1r3P50BBOC5BkbN5XUEq4rA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.UserLike.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.UserLike.html",
+          "hash": "efiAEs+vp9V27tjEqrAAD5YhatjwDJ13U0Ql25I+PiQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.UserLikeSubjectType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.UserLikeSubjectType.html",
+          "hash": "bgUntEJ9YLc2sLnxnK1XPdrJUmqB5T1NxCoTLNRs360="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.UserSubscribe.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.UserSubscribe.html",
+          "hash": "T1JQvRH/K8/fu8Ova9WHZy+Xw41kW+Nn2o4Yv7zUPoM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.UserTag.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.UserTag.html",
+          "hash": "I1HLnLMSQbl9NlJNgtk+y5+DSORWjb4k2K/Dkq2s+tA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Blog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Blog.html",
+          "hash": "mQ+GGmauyYgfyYpqbWwzdOBBW+WXO4g/6mV0dm02VFc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Book.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Book.html",
+          "hash": "imNj/qbQyyJBIyMdtnRwQIsa5XciaS3M3hNNBfxHJKM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.ExtraProperties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.ExtraProperties.html",
+          "hash": "eA2oGQ3IXFo/ASZ5pIa5KE9Eu2zuWzYl4QN3CSnv1qQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinFile.html",
+          "hash": "6HZE/hZ8S2D5udcWWAvXk7MaMSgeeNYED3xyG8/+PLk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinGroup.html",
+          "hash": "8fgSIgifIqKrcPc1rWCoohLi1+5r/wWfPMn9lc61yU4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinGroupPermission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinGroupPermission.html",
+          "hash": "yECS1a6h8150zHyIfFJPOpMXCL37fvNmXKxzbftplYU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinLog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinLog.html",
+          "hash": "WkGJCV7PINMc4DQB42+umZOnrpolWlN2uyQi0jV8+Og="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinPermission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinPermission.html",
+          "hash": "BIngnEhx5LbwUFJ0lb0/nDrlGZSMBDZbD51YDYmhKjk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinUser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinUser.html",
+          "hash": "NIDI8NpeBJs4/ncMJksjOWhMbI62t40MTHCpIMJTD4o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinUserGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinUserGroup.html",
+          "hash": "JGUjVpPE428VJ56b5Reb35688FE/EAX9sLCr8a8tahY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.LinUserIdentity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.LinUserIdentity.html",
+          "hash": "wzxwta0wUfKj99OvXw5mlhcdXJZwoGWAPfs9x4tvbgk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.SerilogDO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.SerilogDO.html",
+          "hash": "Tt91Izlcc+T1BuUMxb48WfEafRPBVDS5AospYGoaTAw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Settings.LinSetting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Settings.LinSetting.html",
+          "hash": "GIkHqOHeMa47O5N5BlVsRE0elcqHwqY1Z4agR2/h+kY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.Settings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.Settings.html",
+          "hash": "3mj1s1BLG7XKfjeS96PibrhnTdcdZAzfJ+YE9h+IKLY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Entities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Entities.html",
+          "hash": "D85XCzTF8Q2trsV9V+3JQtZgF1jP06Oq3V0zo38IExQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Exceptions.LinCmsException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Exceptions.LinCmsException.html",
+          "hash": "itF4480Z6FWUln/XvaIra6XzpXrthnyLDqNeX0o2cBs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Exceptions.html",
+          "hash": "uNbcsoA0wVhnibp12JjnV4RgRR/ATBlT5KvMJa3Om6c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Extensions.CollectionsExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Extensions.CollectionsExtensions.html",
+          "hash": "6q4TGCfuYVwokWuP/KbScmKD1u/uLGTyWCiIYyJoe4Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Extensions.HttpContextExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Extensions.HttpContextExtensions.html",
+          "hash": "C3kp8q2VhH0r6yyt3TkQNPdQxKPo4OF1sPIJFl1vpkI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Extensions.LinCmsTimeConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Extensions.LinCmsTimeConverter.html",
+          "hash": "N9FGCDnUtz/gwtwGMVMxpA/X8l98+girNKOEpDE4oaw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Extensions.html",
+          "hash": "wShYCdBm3wD3irsADSv6d8UnVoXWttK5lC8pesZcpEA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.FreeSql.CodeFirstExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.FreeSql.CodeFirstExtension.html",
+          "hash": "CMWXlV7GjdXP49Re6eljRz592NUPGfqG1DPb2oWTZkk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.FreeSql.DataSeedContributor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.FreeSql.DataSeedContributor.html",
+          "hash": "xGudIunOf6+5SM4h83/oXy6srvW0lMBcq6aHmlYlW+E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.FreeSql.FreeSqlExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.FreeSql.FreeSqlExtension.html",
+          "hash": "c88UkC6LKLqqb5r1dqAw5NSkT12W90syUv4Pv/C2u00="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.FreeSql.IDataSeedContributor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.FreeSql.IDataSeedContributor.html",
+          "hash": "UD3oV0jGgUYmpi5Yy32a8/2CTt0W9EUnIcAyhnfcOsM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.FreeSql.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.FreeSql.html",
+          "hash": "nhNTOogJyrYKaEU1qL666pNKo8FkvlvvInnRk44jF7s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IApplicationService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IApplicationService.html",
+          "hash": "fGSw9gIEW8HR1J5YFW4iwvp+sWziJ2C63hR3FxRmunQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.ICrudAppService-6.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.ICrudAppService-6.html",
+          "hash": "An5voBSq99XtJjX/PDC7X5p71DP+C9qEHvKa36y5VeE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.IBookRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.IBookRepository.html",
+          "hash": "886WL6s1L2CPhdF2/jH1CF1+k+oAsZ3edTEkWG4Qx7Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.IDocRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.IDocRepository.html",
+          "hash": "tTF3Pegxkk1nFm5JSBtItF1Y6ntNKcNBx79MKZnaDco="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.IFileRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.IFileRepository.html",
+          "hash": "1aUH4osWmss/xZSoZEAn7SJLa3lWVhFeAkli7T+echU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.ILogRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.ILogRepository.html",
+          "hash": "XOyeiedMbZYcuxAz66W6vQtQMcaiVbEZn9csB9Pzo7s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.ISettingRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.ISettingRepository.html",
+          "hash": "y/4+PJtwGYFEmGV3z12GR0vDM6FgqIkzvOyRqdXxE5c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.IUserRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.IUserRepository.html",
+          "hash": "+N81HD0APOaXxvmXoLmZoCtJv22ETSMw4LNUA4oMZ34="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.IRepositories.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.IRepositories.html",
+          "hash": "wt5E8d4cTNeANKnsP9y2eR3NilEuYdDbhfB3NI+RxEU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.LinCms.Core.NameValue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.LinCms.Core.NameValue-1.html",
+          "hash": "/VE4Cn7lo9YquIvGTNChPG6pyIvpccVJTz3Jrj7c5uI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.LinCms.Core.NameValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.LinCms.Core.NameValue.html",
+          "hash": "j1VHtLSdSRM22sSa/+1dwmGmVDabOCcTZNMl2xUUOLk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.LinCms.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.LinCms.Core.html",
+          "hash": "Mus5xtsqrKFHULY59adrLj7fwWN70itfD2qyMVDg2sk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.AopCacheAsyncIntercept.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.AopCacheAsyncIntercept.html",
+          "hash": "Dkc23gafPrXanrR5ntG+lC6GARw5pkhp5tTUU6lXY9g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.AopCacheIntercept.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.AopCacheIntercept.html",
+          "hash": "AK32HQbgk4/vLKUnc1GSMvRRa8bSJiXgIEN7zAeSGnU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.AopCacheableActionFilter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.AopCacheableActionFilter.html",
+          "hash": "FQJlmeT3HmaFyb4pAjBPvFOM3Vq4LJDxU02PhIJaqUE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.CacheableMethodInfoExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.CacheableMethodInfoExtensions.html",
+          "hash": "tmV1GTwxctlGo3LXCXGqIapVRofSxkPNfn+XOQ7Ik5M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.CustomExceptionMiddleWare.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.CustomExceptionMiddleWare.html",
+          "hash": "92QtUxlwB9XZUg900YglUQd3LFBVRP91mEwEShNVV2g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.IpLimitMiddleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.IpLimitMiddleware.html",
+          "hash": "TptNjB1P8Ec2e4w68q7MHRLSv9d7dLSfVfgRAHT597o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.RecaptchaVerifyActionFilter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.RecaptchaVerifyActionFilter.html",
+          "hash": "oThansXqModyHW0zF3DF1ROmkdf5a4m95T7iRr58JYQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Middleware.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Middleware.html",
+          "hash": "Mh2NH8ky9TBqfyitK9i0XdKWj02Ivkaig5UjIRUfCjw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Models.Options.GooglereCAPTCHAOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Models.Options.GooglereCAPTCHAOptions.html",
+          "hash": "w1UTdr8+Y+PeP9UkilUcNbZjCNf6klZar/P87OA1jOk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Models.Options.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Models.Options.html",
+          "hash": "8qh9QPYVj4bEa47xRYE9irE3Qk/sbXCY+UCxtinubm4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Controllers.PoemController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Controllers.PoemController.html",
+          "hash": "9hdi8PXmVjjbRFYorZjoBPwjITDu+yjP2JaWIVdH2vA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Controllers.html",
+          "hash": "s92ECGZ07ZncQ5O48Efeabfg716wWGWop2oZ384rapc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Domain.LinPoem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Domain.LinPoem.html",
+          "hash": "x6b2LugpLBOBr7HkgoXzO/fusBw6kTcQIRBE8Xk9nyE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Domain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Domain.html",
+          "hash": "6Lflavd9tlZUL+v8HYZEth63PeQFHStOLJsi/oUK8oU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Models.CreateUpdatePoemDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Models.CreateUpdatePoemDto.html",
+          "hash": "cZweGoZNwr9WHXC5Dtkw030qkNGScr3LIhNrhq/+UQ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Models.PoemDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Models.PoemDto.html",
+          "hash": "LtReajnag+N106mRAVpLUNO3rrYZcaZnahENTkglnqs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Models.html",
+          "hash": "b8K/op0v4WaYTDpeW79AWm87E4hQiF8cURIuA+Jh7rI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Services.IPoemService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Services.IPoemService.html",
+          "hash": "dM2BCLTwRC2h+0oJyafG5lKZjxt7L0AKA9CwNppg7wc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Services.PoemProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Services.PoemProfile.html",
+          "hash": "MlV7MLIILEHyVtLCG4+X4we6oCrojvOYiYZx68Q3FzQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Services.PoemService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Services.PoemService.html",
+          "hash": "qaOJb/MxlLIT35K+10Q23TlsnqrEtefRbT/Z/QWS9mg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Plugins.Poem.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Plugins.Poem.Services.html",
+          "hash": "nIM7dyUhMbZTMLgILyTO0RHH6bEipSSnd2TXTso3Smk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.BookRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.BookRepository.html",
+          "hash": "w/uHmECY1wObQGddAB5fra5qIFfsPGeo5COTbIYJ0HQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.DocRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.DocRepository.html",
+          "hash": "bSyPREVtJ1QQcDD71owybaMJ9ifqzZhLyPbs/T0K7Hs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.FileRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.FileRepository.html",
+          "hash": "PZ3k5ZupQWx0LN6z0Nuziufy10X1ISlQFxlUvE1fKdQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.LogRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.LogRepository.html",
+          "hash": "2O2gnYpWGzbiIrfoRxj5HzJJUw+/BEZqxNnvvCbUC/Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.SettingRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.SettingRepository.html",
+          "hash": "2Swdiob7awsfwlaLcvz5MQGmFICJXHmjmbG2yBrtFDM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.UserRepository.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.UserRepository.html",
+          "hash": "G7NDrRxG3sI764goepW6n66Dv0zF0KusPET6W7weCqc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Repositories.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Repositories.html",
+          "hash": "JSP0KDptwm5Msvk88lhbo36m+HKhsIcxOyhYSvXE2f8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.App.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.App.html",
+          "hash": "8Ich3Rl7oxOqKMv58H3eL6Y3n7jXhshNUdxEK+zh/Pk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.CodeScaffolding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.CodeScaffolding.html",
+          "hash": "+kPd+Q499BII2hH75EmvqTWuCvvndwt/FeriP1HfkrM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Entities.CommandOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Entities.CommandOption.html",
+          "hash": "cgdCZK3bnZnOOeArKNedoPmGecJ4mH4L2fnQ3qpW+to="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Entities.EntityInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Entities.EntityInfo.html",
+          "hash": "UBpsXspo1UXNMoPPRT1L7VRmgartYh2f0XmVofHt4d8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Entities.ProjectInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Entities.ProjectInfo.html",
+          "hash": "6SG7/l5JIJvYT4dd/6KIlIbUjp7sempUb4qfeFzAmSw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Entities.PropertyInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Entities.PropertyInfo.html",
+          "hash": "id7cTUQT00imNM5aVmCxXECqTiaAaVIhgdicRMS+TBs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Entities.SettingOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Entities.SettingOptions.html",
+          "hash": "1JNl73PTennKFVpuHMerC7VLpVOlIS4JuCwmzSMNOGU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Entities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Entities.html",
+          "hash": "JxL1gKZ7oD/RJhByucIAwcCZk2t4dO2TMAeYE3kmw2I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Extensions.html",
+          "hash": "qZLl8CUn3HRUgVBQGdbSIlW52IhDwy68i+kpKbHwyYU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.Util.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.Util.html",
+          "hash": "FyP51eCmjTYShMbAWJOjdtT7btrVDLxScdZmUADq7VQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Scaffolding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Scaffolding.html",
+          "hash": "xTqylGj0Vau1KrtH9+fAfUjMnmyDcl3+svGM4QBv7QE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Security.CurrentUserExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Security.CurrentUserExtensions.html",
+          "hash": "kcbA2ola6Ljmnz3nfwQcubTgmhy8TCA0LnaZ27yEsCQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Security.LinCmsClaimTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Security.LinCmsClaimTypes.html",
+          "hash": "IICwqoGMCwg4YYZDNaJQfWjepkhkRcA3pjOlOKdD+PI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Security.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Security.html",
+          "hash": "3BPZO83ZbzTq1vPsEBPkOLZHgF9CkgOAb/agy9sX+TU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.Configuration.AutofacModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.Configuration.AutofacModule.html",
+          "hash": "Q0Vtt1UjJVvpf69UKLIPBt1JcXaNn5w32JBJ/jF5jRA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.Configuration.RepositoryModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.Configuration.RepositoryModule.html",
+          "hash": "FPWogXKZyQoWnkQw6BoT/pVuU+dh4V3TCwlNyoRXzDw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.Configuration.ServiceModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.Configuration.ServiceModule.html",
+          "hash": "S6ajOQ2ILoDRgoHwCohq5UdXaGsu4J6Eh3YmqLy/OpM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.Configuration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.Configuration.html",
+          "hash": "beUR8hgsiaGHT5g5fbBZerez5EICPa6h1VP1QPR5aE4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.JwtExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.JwtExtensions.html",
+          "hash": "2t3rVtkKMe/7rAVNANspO6Sp+aLY/bsjvIYM8qd15pk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.ServiceCollectionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.ServiceCollectionExtensions.html",
+          "hash": "Q+h+ackrOUwDyazR+TOnN5H0vhffmoRT6nbcpZ27V5c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.ServiceProviderExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.ServiceProviderExtensions.html",
+          "hash": "MjUwNtd5jeS21J7UKhDlZzMNgMk9jgA73wUyr2rQO1U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.SwaggerExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.SwaggerExtensions.html",
+          "hash": "XH0dh7YOdw9g6c65RHBwAlltity+c5kvcvCvEUpHlfM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Startup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Startup.html",
+          "hash": "aCPoKGvMJWyaLbhGiAgXCWYmIUMb8NnMF0C+D3NgEiE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Utils.LogHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Utils.LogHelper.html",
+          "hash": "B2KA+rc6Y0kSXhYjcYLToEBmZdKHu94NHvZlxW/N+nI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Utils.MultipartRequestHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Utils.MultipartRequestHelper.html",
+          "hash": "dlXVM0lzrn+CA6hVtOpEe7gdesvvNE08oBvr55yIc9o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Utils.ReflexHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Utils.ReflexHelper.html",
+          "hash": "x4EXJnqQ5o6TUvGiUFT5LQ5rq4ZP7RD5Ciaz9QcaXTQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Utils.StopWords.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Utils.StopWords.html",
+          "hash": "37KZr8L8Avr4oVhXO7pt3FprokNZDFjT84OpBHpJFOM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Utils.ToolGoodUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Utils.ToolGoodUtils.html",
+          "hash": "ffrNa7/N0u+byOrD/2KKhH8byYhtD5xwaPVr5baU+z0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.Utils.html",
+          "hash": "Z73ck+mRrdq9tXn1WJEQjyG87f4Wk90eu6332EXga/4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.v1.Books.BookDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.v1.Books.BookDto.html",
+          "hash": "OOO5GmoQ+w/a8nllqP6cOvhcNqZBI+S5N9gOGMQtiKI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.v1.Books.BookProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.v1.Books.BookProfile.html",
+          "hash": "64ILjBjTolFhBymaVsV2dGHh7dnNSOJuJAgv20kb7oc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.v1.Books.BookService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.v1.Books.BookService.html",
+          "hash": "WnQYYyAVC9q3J2LfI+CwVOzdJoZRQd2Q1//75uVVpHE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.v1.Books.CreateUpdateBookDto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.v1.Books.CreateUpdateBookDto.html",
+          "hash": "KGq1CTGgxxNWYqmK2+e0XM8iv8jsLwExscrmliN8Mk4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.v1.Books.IBookService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.v1.Books.IBookService.html",
+          "hash": "dQ2GBi3TuDQnco5KOBhgQ+D0TwpLjblDZcSTmLof8Iw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.v1.Books.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.v1.Books.html",
+          "hash": "LDgjXPEu1lvB0TDgpUEeZZM3oyWhDXeNYVpOYPsIoJ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LinCms.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LinCms.html",
+          "hash": "wvl6dvoH67orEUqQP8ezCeQRh0jUbdwts1eEsrVIlWA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "0VawodF9fmgex1OPJ1ZzOTfOSJnNWWy1abDArJtx1lk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "Se511bR6pT10ryc2yBkFsbRU4N6MN5VZDW+UruoTQtE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "LqecInispxcca0dje7M9sdbmCa5Ieipm5vTzZtrfDg4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "BlPxk5mtl2kgfcZUgkEguqiSAR/EUyUTT4EdebwkQvs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/qq.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/qq.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/wechat.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/wechat.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/使用Bearer.PNG",
+      "output": {
+        "resource": {
+          "relative_path": "images/使用Bearer.PNG"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/登录接口.PNG",
+      "output": {
+        "resource": {
+          "relative_path": "images/登录接口.PNG"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/返回access_token.PNG",
+      "output": {
+        "resource": {
+          "relative_path": "images/返回access_token.PNG"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "Zo7qxrJLIlVQr/zE9vTMNUkS+ao8Evd0lE75dSRXuR8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "WSuRrYiGwKKMbtdG9z8W9fXmLoCyTnGg9AxbPKLXm2Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 4,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 390,
+          "skipped_file_count": 0
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class LinPermission
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class LinPermission
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Entities.LinPermission">
+  
+  
+  <h1 id="LinCms_Entities_LinPermission" data-uid="LinCms.Entities.LinPermission" class="text-break">Class LinPermission
+  </h1>
+  <div class="markdown level0 summary"><p>权限表</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div class="level2"><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity</span>&lt;<span class="xref">System.Int64</span>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level3"><span class="xref">LinPermission</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ICreateAuditEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IUpdateAuditEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IDeleteAuditEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ISoftDelete</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.CreateUserId</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.CreateUserName</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.CreateTime</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.UpdateUserId</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.UpdateUserName</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.UpdateTime</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.DeleteUserId</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.DeleteUserName</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.DeleteTime</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.IsDeleted</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity&lt;System.Int64&gt;.GetKeys()</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity&lt;System.Int64&gt;.Id</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Entities.html">LinCms.Entities</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Core.dll</h6>
+  <h5 id="LinCms_Entities_LinPermission_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Table(Name = &quot;lin_permission&quot;)]
+public class LinPermission : FullAuditEntity&lt;long, long&gt;, IEntity&lt;long&gt;, ICreateAuditEntity&lt;long&gt;, IUpdateAuditEntity&lt;long&gt;, IDeleteAuditEntity&lt;long&gt;, ISoftDelete</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission__ctor.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L13">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinPermission__ctor_" data-uid="LinCms.Entities.LinPermission.#ctor*"></a>
+  <h4 id="LinCms_Entities_LinPermission__ctor" data-uid="LinCms.Entities.LinPermission.#ctor">LinPermission()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LinPermission()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission__ctor_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission.%23ctor(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L17">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinPermission__ctor_" data-uid="LinCms.Entities.LinPermission.#ctor*"></a>
+  <h4 id="LinCms_Entities_LinPermission__ctor_System_String_System_String_System_String_" data-uid="LinCms.Entities.LinPermission.#ctor(System.String,System.String,System.String)">LinPermission(String, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LinPermission(string name, string module, string router)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">module</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">router</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission_Module.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission.Module%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L33">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinPermission_Module_" data-uid="LinCms.Entities.LinPermission.Module*"></a>
+  <h4 id="LinCms_Entities_LinPermission_Module" data-uid="LinCms.Entities.LinPermission.Module">Module</h4>
+  <div class="markdown level1 summary"><p>权限所属模块，例如：人员管理</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 50)]
+public string Module { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission_Name.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L27">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinPermission_Name_" data-uid="LinCms.Entities.LinPermission.Name*"></a>
+  <h4 id="LinCms_Entities_LinPermission_Name" data-uid="LinCms.Entities.LinPermission.Name">Name</h4>
+  <div class="markdown level1 summary"><p>所属权限、权限名称，例如：访问首页</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 60)]
+public string Name { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission_Router.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission.Router%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L39">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinPermission_Router_" data-uid="LinCms.Entities.LinPermission.Router*"></a>
+  <h4 id="LinCms_Entities_LinPermission_Router" data-uid="LinCms.Entities.LinPermission.Router">Router</h4>
+  <div class="markdown level1 summary"><p>后台路由</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 200)]
+public string Router { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission_ToString.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L42">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinPermission_ToString_" data-uid="LinCms.Entities.LinPermission.ToString*"></a>
+  <h4 id="LinCms_Entities_LinPermission_ToString" data-uid="LinCms.Entities.LinPermission.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity&lt;System.Int64&gt;.ToString()</span></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ICreateAuditEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IUpdateAuditEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IDeleteAuditEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ISoftDelete</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinPermission.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinPermission%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinPermission.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

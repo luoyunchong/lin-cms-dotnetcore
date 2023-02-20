@@ -1,0 +1,735 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class TagService
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class TagService
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Blog.Tags.TagService">
+  
+  
+  <h1 id="LinCms_Blog_Tags_TagService" data-uid="LinCms.Blog.Tags.TagService" class="text-break">Class TagService
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="LinCms.ApplicationService.html">ApplicationService</a></div>
+    <div class="level2"><span class="xref">TagService</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="LinCms.IApplicationService.html">IApplicationService</a></div>
+    <div><a class="xref" href="LinCms.Blog.Tags.ITagService.html">ITagService</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_ServiceProvider">ApplicationService.ServiceProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_ServiceProviderLock">ApplicationService.ServiceProviderLock</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LazyGetRequiredService__1___0__">ApplicationService.LazyGetRequiredService&lt;TService&gt;(TService)</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LazyGetRequiredService__1_System_Type___0__">ApplicationService.LazyGetRequiredService&lt;TRef&gt;(Type, TRef)</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_CurrentUser">ApplicationService.CurrentUser</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_Mapper">ApplicationService.Mapper</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_UnitOfWorkManager">ApplicationService.UnitOfWorkManager</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LoggerFactory">ApplicationService.LoggerFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_Logger">ApplicationService.Logger</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_AuthorizationService">ApplicationService.AuthorizationService</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Blog.Tags.html">LinCms.Blog.Tags</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Application.dll</h6>
+  <h5 id="LinCms_Blog_Tags_TagService_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TagService : ApplicationService, IApplicationService, ITagService</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService__ctor_IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository_LinCms_Entities_Blog_Tag__IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository_LinCms_Entities_Blog_UserTag__IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository_LinCms_Entities_Blog_TagArticle__LinCms_IRepositories_IFileRepository_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.%23ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository%7BLinCms.Entities.Blog.Tag%7D%2CIGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository%7BLinCms.Entities.Blog.UserTag%7D%2CIGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository%7BLinCms.Entities.Blog.TagArticle%7D%2CLinCms.IRepositories.IFileRepository)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L23">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService__ctor_" data-uid="LinCms.Blog.Tags.TagService.#ctor*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService__ctor_IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository_LinCms_Entities_Blog_Tag__IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository_LinCms_Entities_Blog_UserTag__IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository_LinCms_Entities_Blog_TagArticle__LinCms_IRepositories_IFileRepository_" data-uid="LinCms.Blog.Tags.TagService.#ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Tag},IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.UserTag},IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.TagArticle},LinCms.IRepositories.IFileRepository)">TagService(IAuditBaseRepository&lt;Tag&gt;, IAuditBaseRepository&lt;UserTag&gt;, IAuditBaseRepository&lt;TagArticle&gt;, IFileRepository)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TagService(IAuditBaseRepository&lt;Tag&gt; tagRepository, IAuditBaseRepository&lt;UserTag&gt; userTagRepository, IAuditBaseRepository&lt;TagArticle&gt; tagArticleRepository, IFileRepository fileRepository)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Blog.Tag.html">Tag</a>&gt;</td>
+        <td><span class="parametername">tagRepository</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Blog.UserTag.html">UserTag</a>&gt;</td>
+        <td><span class="parametername">userTagRepository</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Blog.TagArticle.html">TagArticle</a>&gt;</td>
+        <td><span class="parametername">tagArticleRepository</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.IRepositories.IFileRepository.html">IFileRepository</a></td>
+        <td><span class="parametername">fileRepository</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_CorrectedTagCountAsync_System_Guid_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.CorrectedTagCountAsync(System.Guid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L179">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_CorrectedTagCountAsync_" data-uid="LinCms.Blog.Tags.TagService.CorrectedTagCountAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_CorrectedTagCountAsync_System_Guid_" data-uid="LinCms.Blog.Tags.TagService.CorrectedTagCountAsync(System.Guid)">CorrectedTagCountAsync(Guid)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task CorrectedTagCountAsync(Guid tagId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Guid</span></td>
+        <td><span class="parametername">tagId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_CreateAsync_LinCms_Blog_Tags_CreateUpdateTagDto_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.CreateAsync(LinCms.Blog.Tags.CreateUpdateTagDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L31">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_CreateAsync_" data-uid="LinCms.Blog.Tags.TagService.CreateAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_CreateAsync_LinCms_Blog_Tags_CreateUpdateTagDto_" data-uid="LinCms.Blog.Tags.TagService.CreateAsync(LinCms.Blog.Tags.CreateUpdateTagDto)">CreateAsync(CreateUpdateTagDto)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task CreateAsync(CreateUpdateTagDto createTag)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Blog.Tags.CreateUpdateTagDto.html">CreateUpdateTagDto</a></td>
+        <td><span class="parametername">createTag</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_GetAsync_System_Guid_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.GetAsync(System.Guid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L61">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_GetAsync_" data-uid="LinCms.Blog.Tags.TagService.GetAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_GetAsync_System_Guid_" data-uid="LinCms.Blog.Tags.TagService.GetAsync(System.Guid)">GetAsync(Guid)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task&lt;TagListDto&gt; GetAsync(Guid id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Guid</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="LinCms.Blog.Tags.TagListDto.html">TagListDto</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_GetListAsync_LinCms_Blog_Tags_TagSearchDto_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.GetListAsync(LinCms.Blog.Tags.TagSearchDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L79">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_GetListAsync_" data-uid="LinCms.Blog.Tags.TagService.GetListAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_GetListAsync_LinCms_Blog_Tags_TagSearchDto_" data-uid="LinCms.Blog.Tags.TagService.GetListAsync(LinCms.Blog.Tags.TagSearchDto)">GetListAsync(TagSearchDto)</h4>
+  <div class="markdown level1 summary"><p>根据状态得到标签列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task&lt;PagedResultDto&lt;TagListDto&gt;&gt; GetListAsync(TagSearchDto searchDto)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Blog.Tags.TagSearchDto.html">TagSearchDto</a></td>
+        <td><span class="parametername">searchDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="LinCms.Data.PagedResultDto-1.html">PagedResultDto</a>&lt;<a class="xref" href="LinCms.Blog.Tags.TagListDto.html">TagListDto</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_GetSubscribeTags_LinCms_Blog_UserSubscribes_UserSubscribeSearchDto_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.GetSubscribeTags(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L109">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_GetSubscribeTags_" data-uid="LinCms.Blog.Tags.TagService.GetSubscribeTags*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_GetSubscribeTags_LinCms_Blog_UserSubscribes_UserSubscribeSearchDto_" data-uid="LinCms.Blog.Tags.TagService.GetSubscribeTags(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)">GetSubscribeTags(UserSubscribeSearchDto)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PagedResultDto&lt;TagListDto&gt; GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Blog.UserSubscribes.UserSubscribeSearchDto.html">UserSubscribeSearchDto</a></td>
+        <td><span class="parametername">userSubscribeDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Data.PagedResultDto-1.html">PagedResultDto</a>&lt;<a class="xref" href="LinCms.Blog.Tags.TagListDto.html">TagListDto</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_IncreaseTagViewHits_System_Guid_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.IncreaseTagViewHits(System.Guid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L185">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_IncreaseTagViewHits_" data-uid="LinCms.Blog.Tags.TagService.IncreaseTagViewHits*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_IncreaseTagViewHits_System_Guid_" data-uid="LinCms.Blog.Tags.TagService.IncreaseTagViewHits(System.Guid)">IncreaseTagViewHits(Guid)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task IncreaseTagViewHits(Guid tagId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Guid</span></td>
+        <td><span class="parametername">tagId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_IsSubscribeAsync_System_Guid_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.IsSubscribeAsync(System.Guid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L103">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_IsSubscribeAsync_" data-uid="LinCms.Blog.Tags.TagService.IsSubscribeAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_IsSubscribeAsync_System_Guid_" data-uid="LinCms.Blog.Tags.TagService.IsSubscribeAsync(System.Guid)">IsSubscribeAsync(Guid)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task&lt;bool&gt; IsSubscribeAsync(Guid tagId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Guid</span></td>
+        <td><span class="parametername">tagId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_UpdateArticleCountAsync_System_Nullable_System_Guid__System_Int32_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.UpdateArticleCountAsync(System.Nullable%7BSystem.Guid%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L142">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_UpdateArticleCountAsync_" data-uid="LinCms.Blog.Tags.TagService.UpdateArticleCountAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_UpdateArticleCountAsync_System_Nullable_System_Guid__System_Int32_" data-uid="LinCms.Blog.Tags.TagService.UpdateArticleCountAsync(System.Nullable{System.Guid},System.Int32)">UpdateArticleCountAsync(Nullable&lt;Guid&gt;, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task UpdateArticleCountAsync(Guid? id, int inCreaseCount)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Guid</span>&gt;</td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">inCreaseCount</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_UpdateAsync_System_Guid_LinCms_Blog_Tags_CreateUpdateTagDto_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.UpdateAsync(System.Guid%2CLinCms.Blog.Tags.CreateUpdateTagDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L43">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_UpdateAsync_" data-uid="LinCms.Blog.Tags.TagService.UpdateAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_UpdateAsync_System_Guid_LinCms_Blog_Tags_CreateUpdateTagDto_" data-uid="LinCms.Blog.Tags.TagService.UpdateAsync(System.Guid,LinCms.Blog.Tags.CreateUpdateTagDto)">UpdateAsync(Guid, CreateUpdateTagDto)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task UpdateAsync(Guid id, CreateUpdateTagDto updateTag)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Guid</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Blog.Tags.CreateUpdateTagDto.html">CreateUpdateTagDto</a></td>
+        <td><span class="parametername">updateTag</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService_UpdateSubscribersCountAsync_System_Nullable_System_Guid__System_Int32_.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService.UpdateSubscribersCountAsync(System.Nullable%7BSystem.Guid%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L163">View Source</a>
+  </span>
+  <a id="LinCms_Blog_Tags_TagService_UpdateSubscribersCountAsync_" data-uid="LinCms.Blog.Tags.TagService.UpdateSubscribersCountAsync*"></a>
+  <h4 id="LinCms_Blog_Tags_TagService_UpdateSubscribersCountAsync_System_Nullable_System_Guid__System_Int32_" data-uid="LinCms.Blog.Tags.TagService.UpdateSubscribersCountAsync(System.Nullable{System.Guid},System.Int32)">UpdateSubscribersCountAsync(Nullable&lt;Guid&gt;, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task UpdateSubscribersCountAsync(Guid? id, int inCreaseCount)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Guid</span>&gt;</td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">inCreaseCount</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="LinCms.IApplicationService.html">IApplicationService</a>
+  </div>
+  <div>
+      <a class="xref" href="LinCms.Blog.Tags.ITagService.html">ITagService</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Blog_Tags_TagService.md&amp;value=---%0Auid%3A%20LinCms.Blog.Tags.TagService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Blog/Tags/TagService.cs/#L17" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

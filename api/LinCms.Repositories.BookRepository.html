@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class BookRepository
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class BookRepository
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Repositories.BookRepository">
+  
+  
+  <h1 id="LinCms_Repositories_BookRepository" data-uid="LinCms.Repositories.BookRepository" class="text-break">Class BookRepository
+  </h1>
+  <div class="markdown level0 summary"><p>当需要给仓储增加方法时，在此方法中增加，并在构造函数中注入BookRepository</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">FreeSql.BaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>&gt;</div>
+    <div class="level2"><span class="xref">FreeSql.BaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level3"><span class="xref">FreeSql.DefaultRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level4"><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level5"><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level6"><span class="xref">BookRepository</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>&gt;</div>
+    <div><a class="xref" href="LinCms.IRepositories.IBookRepository.html">IBookRepository</a></div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>, <span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.Book.html">Book</a>&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository&lt;LinCms.Entities.Book, System.Int64, System.Int64&gt;.BeforeInsert(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository&lt;LinCms.Entities.Book, System.Int64, System.Int64&gt;.BeforeUpdate(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository&lt;LinCms.Entities.Book, System.Int64, System.Int64&gt;.BeforeDelete(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.CurrentUser</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.IsDeleteAudit</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.IsUpdateAudit</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.BeforeInsert(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.BeforeUpdate(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.BeforeDelete(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Insert(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.InsertAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Insert(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.InsertAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Update(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.UpdateAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Update(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.UpdateAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Delete(System.Int64)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Delete(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Delete(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.DeleteAsync(System.Int64, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.DeleteAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.DeleteAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Delete(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.DeleteAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.InsertOrUpdate(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.InsertOrUpdateAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Find(System.Int64)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.Get(System.Int64)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.FindAsync(System.Int64, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book, System.Int64&gt;.GetAsync(System.Int64, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.ApplyDataFilter(System.String, System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Dispose()</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.AsType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.AsTable(System.Func&lt;System.String, System.String&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Where(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.WhereIf(System.Boolean, System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Delete(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Delete(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Delete(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DeleteCascadeByDatabase(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Insert(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Insert(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Update(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Update(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Attach(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Attach(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.AttachOnlyPrimary(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.FlushState()</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.CompareState(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.InsertOrUpdate(LinCms.Entities.Book)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.SaveMany(LinCms.Entities.Book, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.BeginEdit(System.Collections.Generic.List&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.EndEdit(System.Collections.Generic.List&lt;LinCms.Entities.Book&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DeleteAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DeleteAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DeleteAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DeleteCascadeByDatabaseAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.Book, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.InsertAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.InsertAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.UpdateAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.UpdateAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.Book&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.InsertOrUpdateAsync(LinCms.Entities.Book, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.SaveManyAsync(LinCms.Entities.Book, System.String, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DataFilter</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.EntityType</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.DbContextOptions</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Orm</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.UnitOfWork</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.UpdateDiy</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.Book&gt;.Select</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Repositories.html">LinCms.Repositories</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Infrastructure.dll</h6>
+  <h5 id="LinCms_Repositories_BookRepository_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class BookRepository : AuditDefaultRepository&lt;Book, long, long&gt;, IAuditBaseRepository&lt;Book, long&gt;, IBookRepository, IAuditBaseRepository&lt;Book, long&gt;, IBaseRepository&lt;Book, long&gt;, IBaseRepository&lt;Book&gt;, IBaseRepository, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_BookRepository__ctor_FreeSql_UnitOfWorkManager_IGeekFan_FreeKit_Extras_Security_ICurrentUser_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.BookRepository.%23ctor(FreeSql.UnitOfWorkManager%2CIGeekFan.FreeKit.Extras.Security.ICurrentUser)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/BookRepository.cs/#L14">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_BookRepository__ctor_" data-uid="LinCms.Repositories.BookRepository.#ctor*"></a>
+  <h4 id="LinCms_Repositories_BookRepository__ctor_FreeSql_UnitOfWorkManager_IGeekFan_FreeKit_Extras_Security_ICurrentUser_" data-uid="LinCms.Repositories.BookRepository.#ctor(FreeSql.UnitOfWorkManager,IGeekFan.FreeKit.Extras.Security.ICurrentUser)">BookRepository(UnitOfWorkManager, ICurrentUser)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BookRepository(UnitOfWorkManager unitOfWork, ICurrentUser currentUser)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.UnitOfWorkManager</span></td>
+        <td><span class="parametername">unitOfWork</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.Security.ICurrentUser</span></td>
+        <td><span class="parametername">currentUser</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository&lt;TEntity, TKey&gt;</span>
+  </div>
+  <div>
+      <a class="xref" href="LinCms.IRepositories.IBookRepository.html">IBookRepository</a>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository&lt;TEntity, TKey&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository&lt;TEntity, TKey&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository&lt;TEntity&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository</span>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_BookRepository.md&amp;value=---%0Auid%3A%20LinCms.Repositories.BookRepository%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/BookRepository.cs/#L12" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

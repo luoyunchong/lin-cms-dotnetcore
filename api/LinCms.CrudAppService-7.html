@@ -1,0 +1,794 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class CrudAppService&lt;TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt;
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class CrudAppService&lt;TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt;
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.CrudAppService`7">
+  
+  
+  <h1 id="LinCms_CrudAppService_7" data-uid="LinCms.CrudAppService`7" class="text-break">Class CrudAppService&lt;TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt;
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="LinCms.ApplicationService.html">ApplicationService</a></div>
+    <div class="level2"><span class="xref">CrudAppService&lt;TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt;</span></div>
+      <div class="level3"><a class="xref" href="LinCms.Blog.Classifies.ClassifyService.html">ClassifyService</a></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="LinCms.IApplicationService.html">IApplicationService</a></div>
+    <div><a class="xref" href="LinCms.ICrudAppService-6.html">ICrudAppService</a>&lt;TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt;</div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_ServiceProvider">ApplicationService.ServiceProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_ServiceProviderLock">ApplicationService.ServiceProviderLock</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LazyGetRequiredService__1___0__">ApplicationService.LazyGetRequiredService&lt;TService&gt;(TService)</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LazyGetRequiredService__1_System_Type___0__">ApplicationService.LazyGetRequiredService&lt;TRef&gt;(Type, TRef)</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_CurrentUser">ApplicationService.CurrentUser</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_Mapper">ApplicationService.Mapper</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_UnitOfWorkManager">ApplicationService.UnitOfWorkManager</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LoggerFactory">ApplicationService.LoggerFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_Logger">ApplicationService.Logger</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_AuthorizationService">ApplicationService.AuthorizationService</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.html">LinCms</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Application.dll</h6>
+  <h5 id="LinCms_CrudAppService_7_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class CrudAppService&lt;TEntity, TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt; : ApplicationService, IApplicationService, ICrudAppService&lt;TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt; where TEntity : class, IEntity&lt;TKey&gt; where TGetOutputDto : IEntityDto&lt;TKey&gt; where TGetListOutputDto : IEntityDto&lt;TKey&gt; where TKey : IEquatable&lt;TKey&gt;</code></pre>
+  </div>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TEntity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TGetOutputDto</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TGetListOutputDto</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TKey</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TGetListInput</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TCreateInput</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">TUpdateInput</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7__ctor_IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository__0__3__.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.%23ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository%7B%600%2C%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L22">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7__ctor_" data-uid="LinCms.CrudAppService`7.#ctor*"></a>
+  <h4 id="LinCms_CrudAppService_7__ctor_IGeekFan_FreeKit_Extras_FreeSql_IAuditBaseRepository__0__3__" data-uid="LinCms.CrudAppService`7.#ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{`0,`3})">CrudAppService(IAuditBaseRepository&lt;TEntity, TKey&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected CrudAppService(IAuditBaseRepository&lt;TEntity, TKey&gt; repository)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;TEntity, TKey&gt;</td>
+        <td><span class="parametername">repository</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_Repository.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.Repository%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L20">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_Repository_" data-uid="LinCms.CrudAppService`7.Repository*"></a>
+  <h4 id="LinCms_CrudAppService_7_Repository" data-uid="LinCms.CrudAppService`7.Repository">Repository</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IAuditBaseRepository&lt;TEntity, TKey&gt; Repository { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;TEntity, TKey&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_ApplyPaging_FreeSql_ISelect__0___4_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.ApplyPaging(FreeSql.ISelect%7B%600%7D%2C%604)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L37">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_ApplyPaging_" data-uid="LinCms.CrudAppService`7.ApplyPaging*"></a>
+  <h4 id="LinCms_CrudAppService_7_ApplyPaging_FreeSql_ISelect__0___4_" data-uid="LinCms.CrudAppService`7.ApplyPaging(FreeSql.ISelect{`0},`4)">ApplyPaging(ISelect&lt;TEntity&gt;, TGetListInput)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ISelect&lt;TEntity&gt; ApplyPaging(ISelect&lt;TEntity&gt; query, TGetListInput input)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.ISelect</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">query</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">TGetListInput</span></td>
+        <td><span class="parametername">input</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.ISelect</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_ApplySorting_FreeSql_ISelect__0___4_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.ApplySorting(FreeSql.ISelect%7B%600%7D%2C%604)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L54">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_ApplySorting_" data-uid="LinCms.CrudAppService`7.ApplySorting*"></a>
+  <h4 id="LinCms_CrudAppService_7_ApplySorting_FreeSql_ISelect__0___4_" data-uid="LinCms.CrudAppService`7.ApplySorting(FreeSql.ISelect{`0},`4)">ApplySorting(ISelect&lt;TEntity&gt;, TGetListInput)</h4>
+  <div class="markdown level1 summary"><p>Should apply sorting if needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ISelect&lt;TEntity&gt; ApplySorting(ISelect&lt;TEntity&gt; query, TGetListInput input)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.ISelect</span>&lt;TEntity&gt;</td>
+        <td><span class="parametername">query</span></td>
+        <td><p>The query.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">TGetListInput</span></td>
+        <td><span class="parametername">input</span></td>
+        <td><p>The input.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.ISelect</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_CreateAsync__5_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.CreateAsync(%605)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L90">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_CreateAsync_" data-uid="LinCms.CrudAppService`7.CreateAsync*"></a>
+  <h4 id="LinCms_CrudAppService_7_CreateAsync__5_" data-uid="LinCms.CrudAppService`7.CreateAsync(`5)">CreateAsync(TCreateInput)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual async Task&lt;TGetOutputDto&gt; CreateAsync(TCreateInput createInput)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TCreateInput</span></td>
+        <td><span class="parametername">createInput</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TGetOutputDto&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_CreateFilteredQuery__4_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.CreateFilteredQuery(%604)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L27">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_CreateFilteredQuery_" data-uid="LinCms.CrudAppService`7.CreateFilteredQuery*"></a>
+  <h4 id="LinCms_CrudAppService_7_CreateFilteredQuery__4_" data-uid="LinCms.CrudAppService`7.CreateFilteredQuery(`4)">CreateFilteredQuery(TGetListInput)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual ISelect&lt;TEntity&gt; CreateFilteredQuery(TGetListInput input)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TGetListInput</span></td>
+        <td><span class="parametername">input</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.ISelect</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_DeleteAsync__3_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.DeleteAsync(%603)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L105">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_DeleteAsync_" data-uid="LinCms.CrudAppService`7.DeleteAsync*"></a>
+  <h4 id="LinCms_CrudAppService_7_DeleteAsync__3_" data-uid="LinCms.CrudAppService`7.DeleteAsync(`3)">DeleteAsync(TKey)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Task DeleteAsync(TKey id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TKey</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_GetAsync__3_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.GetAsync(%603)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L84">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_GetAsync_" data-uid="LinCms.CrudAppService`7.GetAsync*"></a>
+  <h4 id="LinCms_CrudAppService_7_GetAsync__3_" data-uid="LinCms.CrudAppService`7.GetAsync(`3)">GetAsync(TKey)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual async Task&lt;TGetOutputDto&gt; GetAsync(TKey id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TKey</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TGetOutputDto&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_GetEntityByIdAsync__3_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.GetEntityByIdAsync(%603)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L107">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_GetEntityByIdAsync_" data-uid="LinCms.CrudAppService`7.GetEntityByIdAsync*"></a>
+  <h4 id="LinCms_CrudAppService_7_GetEntityByIdAsync__3_" data-uid="LinCms.CrudAppService`7.GetEntityByIdAsync(`3)">GetEntityByIdAsync(TKey)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual Task&lt;TEntity&gt; GetEntityByIdAsync(TKey id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TKey</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TEntity&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_GetListAsync__4_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.GetListAsync(%604)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L75">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_GetListAsync_" data-uid="LinCms.CrudAppService`7.GetListAsync*"></a>
+  <h4 id="LinCms_CrudAppService_7_GetListAsync__4_" data-uid="LinCms.CrudAppService`7.GetListAsync(`4)">GetListAsync(TGetListInput)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual async Task&lt;PagedResultDto&lt;TGetListOutputDto&gt;&gt; GetListAsync(TGetListInput input)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TGetListInput</span></td>
+        <td><span class="parametername">input</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="LinCms.Data.PagedResultDto-1.html">PagedResultDto</a>&lt;TGetListOutputDto&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_MapToGetListOutputDto__0_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.MapToGetListOutputDto(%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L32">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_MapToGetListOutputDto_" data-uid="LinCms.CrudAppService`7.MapToGetListOutputDto*"></a>
+  <h4 id="LinCms_CrudAppService_7_MapToGetListOutputDto__0_" data-uid="LinCms.CrudAppService`7.MapToGetListOutputDto(`0)">MapToGetListOutputDto(TEntity)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual TGetListOutputDto MapToGetListOutputDto(TEntity entity)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TEntity</span></td>
+        <td><span class="parametername">entity</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TGetListOutputDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7_UpdateAsync__3__6_.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607.UpdateAsync(%603%2C%606)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L97">View Source</a>
+  </span>
+  <a id="LinCms_CrudAppService_7_UpdateAsync_" data-uid="LinCms.CrudAppService`7.UpdateAsync*"></a>
+  <h4 id="LinCms_CrudAppService_7_UpdateAsync__3__6_" data-uid="LinCms.CrudAppService`7.UpdateAsync(`3,`6)">UpdateAsync(TKey, TUpdateInput)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual async Task&lt;TGetOutputDto&gt; UpdateAsync(TKey id, TUpdateInput updateInput)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">TKey</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">TUpdateInput</span></td>
+        <td><span class="parametername">updateInput</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;TGetOutputDto&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="LinCms.IApplicationService.html">IApplicationService</a>
+  </div>
+  <div>
+      <a class="xref" href="LinCms.ICrudAppService-6.html">ICrudAppService&lt;TGetOutputDto, TGetListOutputDto, TKey, TGetListInput, TCreateInput, TUpdateInput&gt;</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_CrudAppService_7.md&amp;value=---%0Auid%3A%20LinCms.CrudAppService%607%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/CrudAppService.cs/#L12" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

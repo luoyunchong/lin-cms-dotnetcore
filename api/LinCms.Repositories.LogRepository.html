@@ -1,0 +1,478 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class LogRepository
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class LogRepository
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Repositories.LogRepository">
+  
+  
+  <h1 id="LinCms_Repositories_LogRepository" data-uid="LinCms.Repositories.LogRepository" class="text-break">Class LogRepository
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">FreeSql.BaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>&gt;</div>
+    <div class="level2"><span class="xref">FreeSql.BaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>, <span class="xref">System.Guid</span>&gt;</div>
+    <div class="level3"><span class="xref">FreeSql.DefaultRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>, <span class="xref">System.Guid</span>&gt;</div>
+    <div class="level4"><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>, <span class="xref">System.Guid</span>&gt;</div>
+    <div class="level5"><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>, <span class="xref">System.Guid</span>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level6"><span class="xref">LogRepository</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>, <span class="xref">System.Guid</span>&gt;</div>
+    <div><a class="xref" href="LinCms.IRepositories.ILogRepository.html">ILogRepository</a></div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>, <span class="xref">System.Guid</span>&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span>&lt;<a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a>&gt;</div>
+    <div><span class="xref">FreeSql.IBaseRepository</span></div>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository&lt;LinCms.Entities.LinLog, System.Guid, System.Int64&gt;.BeforeInsert(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository&lt;LinCms.Entities.LinLog, System.Guid, System.Int64&gt;.BeforeUpdate(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditDefaultRepository&lt;LinCms.Entities.LinLog, System.Guid, System.Int64&gt;.BeforeDelete(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.CurrentUser</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.IsDeleteAudit</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.IsUpdateAudit</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.BeforeInsert(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.BeforeUpdate(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.BeforeDelete(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Insert(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.InsertAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Insert(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.InsertAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Update(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.UpdateAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Update(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.UpdateAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Delete(System.Guid)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Delete(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Delete(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.DeleteAsync(System.Guid, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.DeleteAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.DeleteAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Delete(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.DeleteAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.InsertOrUpdate(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.AuditBaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.InsertOrUpdateAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Find(System.Guid)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.Get(System.Guid)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.FindAsync(System.Guid, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog, System.Guid&gt;.GetAsync(System.Guid, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.ApplyDataFilter(System.String, System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Dispose()</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.AsType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.AsTable(System.Func&lt;System.String, System.String&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Where(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.WhereIf(System.Boolean, System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Delete(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Delete(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Delete(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DeleteCascadeByDatabase(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Insert(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Insert(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Update(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Update(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Attach(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Attach(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.AttachOnlyPrimary(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.FlushState()</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.CompareState(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.InsertOrUpdate(LinCms.Entities.LinLog)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.SaveMany(LinCms.Entities.LinLog, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.BeginEdit(System.Collections.Generic.List&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.EndEdit(System.Collections.Generic.List&lt;LinCms.Entities.LinLog&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DeleteAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DeleteAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DeleteAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DeleteCascadeByDatabaseAsync(System.Linq.Expressions.Expression&lt;System.Func&lt;LinCms.Entities.LinLog, System.Boolean&gt;&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.InsertAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.InsertAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.UpdateAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.UpdateAsync(System.Collections.Generic.IEnumerable&lt;LinCms.Entities.LinLog&gt;, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.InsertOrUpdateAsync(LinCms.Entities.LinLog, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.SaveManyAsync(LinCms.Entities.LinLog, System.String, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DataFilter</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.EntityType</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.DbContextOptions</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Orm</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.UnitOfWork</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.UpdateDiy</span>
+    </div>
+    <div>
+      <span class="xref">FreeSql.BaseRepository&lt;LinCms.Entities.LinLog&gt;.Select</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Repositories.html">LinCms.Repositories</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Infrastructure.dll</h6>
+  <h5 id="LinCms_Repositories_LogRepository_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class LogRepository : AuditDefaultRepository&lt;LinLog, Guid, long&gt;, IAuditBaseRepository&lt;LinLog, Guid&gt;, ILogRepository, IAuditBaseRepository&lt;LinLog&gt;, IBaseRepository&lt;LinLog, Guid&gt;, IBaseRepository&lt;LinLog&gt;, IBaseRepository, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_LogRepository__ctor_FreeSql_UnitOfWorkManager_IGeekFan_FreeKit_Extras_Security_ICurrentUser_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.LogRepository.%23ctor(FreeSql.UnitOfWorkManager%2CIGeekFan.FreeKit.Extras.Security.ICurrentUser)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/LogRepository.cs/#L13">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_LogRepository__ctor_" data-uid="LinCms.Repositories.LogRepository.#ctor*"></a>
+  <h4 id="LinCms_Repositories_LogRepository__ctor_FreeSql_UnitOfWorkManager_IGeekFan_FreeKit_Extras_Security_ICurrentUser_" data-uid="LinCms.Repositories.LogRepository.#ctor(FreeSql.UnitOfWorkManager,IGeekFan.FreeKit.Extras.Security.ICurrentUser)">LogRepository(UnitOfWorkManager, ICurrentUser)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LogRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">FreeSql.UnitOfWorkManager</span></td>
+        <td><span class="parametername">unitOfWorkManager</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">IGeekFan.FreeKit.Extras.Security.ICurrentUser</span></td>
+        <td><span class="parametername">currentUser</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_LogRepository_Create_LinCms_Entities_LinLog_.md&amp;value=---%0Auid%3A%20LinCms.Repositories.LogRepository.Create(LinCms.Entities.LinLog)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/LogRepository.cs/#L19">View Source</a>
+  </span>
+  <a id="LinCms_Repositories_LogRepository_Create_" data-uid="LinCms.Repositories.LogRepository.Create*"></a>
+  <h4 id="LinCms_Repositories_LogRepository_Create_LinCms_Entities_LinLog_" data-uid="LinCms.Repositories.LogRepository.Create(LinCms.Entities.LinLog)">Create(LinLog)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Create(LinLog linlog)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Entities.LinLog.html">LinLog</a></td>
+        <td><span class="parametername">linlog</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository&lt;TEntity, TKey&gt;</span>
+  </div>
+  <div>
+      <a class="xref" href="LinCms.IRepositories.ILogRepository.html">ILogRepository</a>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository&lt;TEntity&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository&lt;TEntity, TKey&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository&lt;TEntity&gt;</span>
+  </div>
+  <div>
+      <span class="xref">FreeSql.IBaseRepository</span>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Repositories_LogRepository.md&amp;value=---%0Auid%3A%20LinCms.Repositories.LogRepository%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Infrastructure/Repositories/LogRepository.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

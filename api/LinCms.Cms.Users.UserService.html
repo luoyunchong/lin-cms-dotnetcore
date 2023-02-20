@@ -1,0 +1,836 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UserService
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UserService
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Cms.Users.UserService">
+  
+  
+  <h1 id="LinCms_Cms_Users_UserService" data-uid="LinCms.Cms.Users.UserService" class="text-break">Class UserService
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="LinCms.ApplicationService.html">ApplicationService</a></div>
+    <div class="level2"><span class="xref">UserService</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="LinCms.IApplicationService.html">IApplicationService</a></div>
+    <div><a class="xref" href="LinCms.Cms.Users.IUserService.html">IUserService</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_ServiceProvider">ApplicationService.ServiceProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_ServiceProviderLock">ApplicationService.ServiceProviderLock</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LazyGetRequiredService__1___0__">ApplicationService.LazyGetRequiredService&lt;TService&gt;(TService)</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LazyGetRequiredService__1_System_Type___0__">ApplicationService.LazyGetRequiredService&lt;TRef&gt;(Type, TRef)</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_CurrentUser">ApplicationService.CurrentUser</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_Mapper">ApplicationService.Mapper</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_UnitOfWorkManager">ApplicationService.UnitOfWorkManager</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_LoggerFactory">ApplicationService.LoggerFactory</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_Logger">ApplicationService.Logger</a>
+    </div>
+    <div>
+      <a class="xref" href="LinCms.ApplicationService.html#LinCms_ApplicationService_AuthorizationService">ApplicationService.AuthorizationService</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Cms.Users.html">LinCms.Cms.Users</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Application.dll</h6>
+  <h5 id="LinCms_Cms_Users_UserService_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class UserService : ApplicationService, IApplicationService, IUserService</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService__ctor_LinCms_IRepositories_IUserRepository_LinCms_Cms_Users_IUserIdentityService_LinCms_Cms_Permissions_IPermissionService_LinCms_Cms_Groups_IGroupService_LinCms_IRepositories_IFileRepository_DotNetCore_Security_ICryptographyService_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.%23ctor(LinCms.IRepositories.IUserRepository%2CLinCms.Cms.Users.IUserIdentityService%2CLinCms.Cms.Permissions.IPermissionService%2CLinCms.Cms.Groups.IGroupService%2CLinCms.IRepositories.IFileRepository%2CDotNetCore.Security.ICryptographyService)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L29">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService__ctor_" data-uid="LinCms.Cms.Users.UserService.#ctor*"></a>
+  <h4 id="LinCms_Cms_Users_UserService__ctor_LinCms_IRepositories_IUserRepository_LinCms_Cms_Users_IUserIdentityService_LinCms_Cms_Permissions_IPermissionService_LinCms_Cms_Groups_IGroupService_LinCms_IRepositories_IFileRepository_DotNetCore_Security_ICryptographyService_" data-uid="LinCms.Cms.Users.UserService.#ctor(LinCms.IRepositories.IUserRepository,LinCms.Cms.Users.IUserIdentityService,LinCms.Cms.Permissions.IPermissionService,LinCms.Cms.Groups.IGroupService,LinCms.IRepositories.IFileRepository,DotNetCore.Security.ICryptographyService)">UserService(IUserRepository, IUserIdentityService, IPermissionService, IGroupService, IFileRepository, ICryptographyService)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UserService(IUserRepository userRepository, IUserIdentityService userIdentityService, IPermissionService permissionService, IGroupService groupService, IFileRepository fileRepository, ICryptographyService cryptographyService)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.IRepositories.IUserRepository.html">IUserRepository</a></td>
+        <td><span class="parametername">userRepository</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Users.IUserIdentityService.html">IUserIdentityService</a></td>
+        <td><span class="parametername">userIdentityService</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Permissions.IPermissionService.html">IPermissionService</a></td>
+        <td><span class="parametername">permissionService</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Groups.IGroupService.html">IGroupService</a></td>
+        <td><span class="parametername">groupService</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.IRepositories.IFileRepository.html">IFileRepository</a></td>
+        <td><span class="parametername">fileRepository</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">DotNetCore.Security.ICryptographyService</span></td>
+        <td><span class="parametername">cryptographyService</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_ChangePasswordAsync_LinCms_Cms_Users_ChangePasswordDto_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.ChangePasswordAsync(LinCms.Cms.Users.ChangePasswordDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L44">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_ChangePasswordAsync_" data-uid="LinCms.Cms.Users.UserService.ChangePasswordAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_ChangePasswordAsync_LinCms_Cms_Users_ChangePasswordDto_" data-uid="LinCms.Cms.Users.UserService.ChangePasswordAsync(LinCms.Cms.Users.ChangePasswordDto)">ChangePasswordAsync(ChangePasswordDto)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Users.ChangePasswordDto.html">ChangePasswordDto</a></td>
+        <td><span class="parametername">passwordDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_ChangeStatusAsync_System_Int64_LinCms_Data_Enums_UserStatus_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.ChangeStatusAsync(System.Int64%2CLinCms.Data.Enums.UserStatus)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L186">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_ChangeStatusAsync_" data-uid="LinCms.Cms.Users.UserService.ChangeStatusAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_ChangeStatusAsync_System_Int64_LinCms_Data_Enums_UserStatus_" data-uid="LinCms.Cms.Users.UserService.ChangeStatusAsync(System.Int64,LinCms.Data.Enums.UserStatus)">ChangeStatusAsync(Int64, UserStatus)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task ChangeStatusAsync(long id, UserStatus userStatus)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Data.Enums.UserStatus.html">UserStatus</a></td>
+        <td><span class="parametername">userStatus</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_CreateAsync_LinCms_Entities_LinUser_System_Collections_Generic_List_System_Int64__System_String_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.CreateAsync(LinCms.Entities.LinUser%2CSystem.Collections.Generic.List%7BSystem.Int64%7D%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L100">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_CreateAsync_" data-uid="LinCms.Cms.Users.UserService.CreateAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_CreateAsync_LinCms_Entities_LinUser_System_Collections_Generic_List_System_Int64__System_String_" data-uid="LinCms.Cms.Users.UserService.CreateAsync(LinCms.Entities.LinUser,System.Collections.Generic.List{System.Int64},System.String)">CreateAsync(LinUser, List&lt;Int64&gt;, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Transactional]
+public async Task CreateAsync(LinUser user, List&lt;long&gt; groupIds, string password)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Entities.LinUser.html">LinUser</a></td>
+        <td><span class="parametername">user</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><span class="parametername">groupIds</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">password</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_DeleteAsync_System_Int64_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.DeleteAsync(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L63">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_DeleteAsync_" data-uid="LinCms.Cms.Users.UserService.DeleteAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_DeleteAsync_System_Int64_" data-uid="LinCms.Cms.Users.UserService.DeleteAsync(System.Int64)">DeleteAsync(Int64)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Transactional]
+public async Task DeleteAsync(long userId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">userId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_GetCurrentUserAsync.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.GetCurrentUserAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L210">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_GetCurrentUserAsync_" data-uid="LinCms.Cms.Users.UserService.GetCurrentUserAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_GetCurrentUserAsync" data-uid="LinCms.Cms.Users.UserService.GetCurrentUserAsync">GetCurrentUserAsync()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;LinUser&gt; GetCurrentUserAsync()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="LinCms.Entities.LinUser.html">LinUser</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_GetInformationAsync_System_Int64_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.GetInformationAsync(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L219">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_GetInformationAsync_" data-uid="LinCms.Cms.Users.UserService.GetInformationAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_GetInformationAsync_System_Int64_" data-uid="LinCms.Cms.Users.UserService.GetInformationAsync(System.Int64)">GetInformationAsync(Int64)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task&lt;UserInformation&gt; GetInformationAsync(long userId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">userId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="LinCms.Cms.Users.UserInformation.html">UserInformation</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_GetStructualUserPermissions_System_Int64_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.GetStructualUserPermissions(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L232">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_GetStructualUserPermissions_" data-uid="LinCms.Cms.Users.UserService.GetStructualUserPermissions*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_GetStructualUserPermissions_System_Int64_" data-uid="LinCms.Cms.Users.UserService.GetStructualUserPermissions(System.Int64)">GetStructualUserPermissions(Int64)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task&lt;List&lt;IDictionary&lt;string, object&gt;&gt;&gt; GetStructualUserPermissions(long userId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">userId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Collections.Generic.IDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_GetUserAsync_System_String_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.GetUserAsync(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L58">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_GetUserAsync_" data-uid="LinCms.Cms.Users.UserService.GetUserAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_GetUserAsync_System_String_" data-uid="LinCms.Cms.Users.UserService.GetUserAsync(System.String)">GetUserAsync(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;LinUser&gt; GetUserAsync(string username)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">username</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="LinCms.Entities.LinUser.html">LinUser</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_GetUserListByGroupId_LinCms_Cms_Admins_UserSearchDto_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L83">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_GetUserListByGroupId_" data-uid="LinCms.Cms.Users.UserService.GetUserListByGroupId*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_GetUserListByGroupId_LinCms_Cms_Admins_UserSearchDto_" data-uid="LinCms.Cms.Users.UserService.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">GetUserListByGroupId(UserSearchDto)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PagedResultDto&lt;UserDto&gt; GetUserListByGroupId(UserSearchDto searchDto)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Admins.UserSearchDto.html">UserSearchDto</a></td>
+        <td><span class="parametername">searchDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Data.PagedResultDto-1.html">PagedResultDto</a>&lt;<a class="xref" href="LinCms.Cms.Users.UserDto.html">UserDto</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_GetUserPermissionsAsync_System_Int64_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.GetUserPermissionsAsync(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L243">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_GetUserPermissionsAsync_" data-uid="LinCms.Cms.Users.UserService.GetUserPermissionsAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_GetUserPermissionsAsync_System_Int64_" data-uid="LinCms.Cms.Users.UserService.GetUserPermissionsAsync(System.Int64)">GetUserPermissionsAsync(Int64)</h4>
+  <div class="markdown level1 summary"><p>查找用户搜索分组，查找分组下的所有权限</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task&lt;List&lt;LinPermission&gt;&gt; GetUserPermissionsAsync(long userId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">userId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="LinCms.Entities.LinPermission.html">LinPermission</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_ResetPasswordAsync_System_Int64_LinCms_Cms_Admins_ResetPasswordDto_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.ResetPasswordAsync(System.Int64%2CLinCms.Cms.Admins.ResetPasswordDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L71">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_ResetPasswordAsync_" data-uid="LinCms.Cms.Users.UserService.ResetPasswordAsync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_ResetPasswordAsync_System_Int64_LinCms_Cms_Admins_ResetPasswordDto_" data-uid="LinCms.Cms.Users.UserService.ResetPasswordAsync(System.Int64,LinCms.Cms.Admins.ResetPasswordDto)">ResetPasswordAsync(Int64, ResetPasswordDto)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public async Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Admins.ResetPasswordDto.html">ResetPasswordDto</a></td>
+        <td><span class="parametername">resetPasswordDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService_UpdateAync_System_Int64_LinCms_Cms_Admins_UpdateUserDto_.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService.UpdateAync(System.Int64%2CLinCms.Cms.Admins.UpdateUserDto)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L144">View Source</a>
+  </span>
+  <a id="LinCms_Cms_Users_UserService_UpdateAync_" data-uid="LinCms.Cms.Users.UserService.UpdateAync*"></a>
+  <h4 id="LinCms_Cms_Users_UserService_UpdateAync_System_Int64_LinCms_Cms_Admins_UpdateUserDto_" data-uid="LinCms.Cms.Users.UserService.UpdateAync(System.Int64,LinCms.Cms.Admins.UpdateUserDto)">UpdateAync(Int64, UpdateUserDto)</h4>
+  <div class="markdown level1 summary"><p>修改指定字段，邮件和组别</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Transactional]
+public async Task UpdateAync(long id, UpdateUserDto updateUserDto)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LinCms.Cms.Admins.UpdateUserDto.html">UpdateUserDto</a></td>
+        <td><span class="parametername">updateUserDto</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="LinCms.IApplicationService.html">IApplicationService</a>
+  </div>
+  <div>
+      <a class="xref" href="LinCms.Cms.Users.IUserService.html">IUserService</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Cms_Users_UserService.md&amp;value=---%0Auid%3A%20LinCms.Cms.Users.UserService%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Application/Cms/Users/UserService.cs/#L20" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

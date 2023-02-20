@@ -1,0 +1,852 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class LinUser
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class LinUser
+   ">
+    <meta name="generator" content="docfx 2.59.4.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="LinCms.Entities.LinUser">
+  
+  
+  <h1 id="LinCms_Entities_LinUser" data-uid="LinCms.Entities.LinUser" class="text-break">Class LinUser
+  </h1>
+  <div class="markdown level0 summary"><p>用户</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div class="level2"><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity</span>&lt;<span class="xref">System.Int64</span>, <span class="xref">System.Int64</span>&gt;</div>
+    <div class="level3"><span class="xref">LinUser</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ICreateAuditEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IUpdateAuditEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IDeleteAuditEntity</span>&lt;<span class="xref">System.Int64</span>&gt;</div>
+    <div><span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ISoftDelete</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.CreateUserId</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.CreateUserName</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.CreateTime</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.UpdateUserId</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.UpdateUserName</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.UpdateTime</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.DeleteUserId</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.DeleteUserName</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.DeleteTime</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.FullAuditEntity&lt;System.Int64, System.Int64&gt;.IsDeleted</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity&lt;System.Int64&gt;.GetKeys()</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity&lt;System.Int64&gt;.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.Entity&lt;System.Int64&gt;.Id</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="LinCms.Entities.html">LinCms.Entities</a></h6>
+  <h6><strong>Assembly</strong>: LinCms.Core.dll</h6>
+  <h5 id="LinCms_Entities_LinUser_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Table(Name = &quot;lin_user&quot;)]
+public class LinUser : FullAuditEntity&lt;long, long&gt;, IEntity&lt;long&gt;, ICreateAuditEntity&lt;long&gt;, IUpdateAuditEntity&lt;long&gt;, IDeleteAuditEntity&lt;long&gt;, ISoftDelete</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Active.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Active%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L43">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Active_" data-uid="LinCms.Entities.LinUser.Active*"></a>
+  <h4 id="LinCms_Entities_LinUser_Active" data-uid="LinCms.Entities.LinUser.Active">Active</h4>
+  <div class="markdown level1 summary"><p>当前用户是否为激活状态，非激活状态默认失去用户权限 ; 1 -&gt; 激活 | 2 -&gt; 非激活</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UserStatus Active { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LinCms.Data.Enums.UserStatus.html">UserStatus</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Avatar.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Avatar%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L32">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Avatar_" data-uid="LinCms.Entities.LinUser.Avatar*"></a>
+  <h4 id="LinCms_Entities_LinUser_Avatar" data-uid="LinCms.Entities.LinUser.Avatar">Avatar</h4>
+  <div class="markdown level1 summary"><p>用户默认生成图像，为null、头像url</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Avatar { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_BlogAddress.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.BlogAddress%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L61">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_BlogAddress_" data-uid="LinCms.Entities.LinUser.BlogAddress*"></a>
+  <h4 id="LinCms_Entities_LinUser_BlogAddress" data-uid="LinCms.Entities.LinUser.BlogAddress">BlogAddress</h4>
+  <div class="markdown level1 summary"><p>个人主页</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 100)]
+public string BlogAddress { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Company.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Company%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L73">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Company_" data-uid="LinCms.Entities.LinUser.Company*"></a>
+  <h4 id="LinCms_Entities_LinUser_Company" data-uid="LinCms.Entities.LinUser.Company">Company</h4>
+  <div class="markdown level1 summary"><p>公司</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[StringLength(50)]
+public string Company { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Email.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Email%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L37">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Email_" data-uid="LinCms.Entities.LinUser.Email*"></a>
+  <h4 id="LinCms_Entities_LinUser_Email" data-uid="LinCms.Entities.LinUser.Email">Email</h4>
+  <div class="markdown level1 summary"><p>电子邮箱</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 100)]
+public string Email { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Introduction.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Introduction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L55">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Introduction_" data-uid="LinCms.Entities.LinUser.Introduction*"></a>
+  <h4 id="LinCms_Entities_LinUser_Introduction" data-uid="LinCms.Entities.LinUser.Introduction">Introduction</h4>
+  <div class="markdown level1 summary"><p>个人介绍</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 100)]
+public string Introduction { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_IsEmailConfirmed.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.IsEmailConfirmed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L91">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_IsEmailConfirmed_" data-uid="LinCms.Entities.LinUser.IsEmailConfirmed*"></a>
+  <h4 id="LinCms_Entities_LinUser_IsEmailConfirmed" data-uid="LinCms.Entities.LinUser.IsEmailConfirmed">IsEmailConfirmed</h4>
+  <div class="markdown level1 summary"><p>邮件是否激活</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsEmailConfirmed { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_JobTitle.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.JobTitle%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L67">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_JobTitle_" data-uid="LinCms.Entities.LinUser.JobTitle*"></a>
+  <h4 id="LinCms_Entities_LinUser_JobTitle" data-uid="LinCms.Entities.LinUser.JobTitle">JobTitle</h4>
+  <div class="markdown level1 summary"><p>职位</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[StringLength(50)]
+public string JobTitle { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_LastLoginTime.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.LastLoginTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L80">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_LastLoginTime_" data-uid="LinCms.Entities.LinUser.LastLoginTime*"></a>
+  <h4 id="LinCms_Entities_LinUser_LastLoginTime" data-uid="LinCms.Entities.LinUser.LastLoginTime">LastLoginTime</h4>
+  <div class="markdown level1 summary"><p>最后一次登录的时间</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime LastLoginTime { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_LinGroups.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.LinGroups%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L104">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_LinGroups_" data-uid="LinCms.Entities.LinUser.LinGroups*"></a>
+  <h4 id="LinCms_Entities_LinUser_LinGroups" data-uid="LinCms.Entities.LinUser.LinGroups">LinGroups</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Navigate(ManyToMany = typeof(LinUserGroup))]
+public virtual ICollection&lt;LinGroup&gt; LinGroups { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.ICollection</span>&lt;<a class="xref" href="LinCms.Entities.LinGroup.html">LinGroup</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_LinUserGroups.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.LinUserGroups%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L107">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_LinUserGroups_" data-uid="LinCms.Entities.LinUser.LinUserGroups*"></a>
+  <h4 id="LinCms_Entities_LinUser_LinUserGroups" data-uid="LinCms.Entities.LinUser.LinUserGroups">LinUserGroups</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Navigate(&quot;UserId&quot;)]
+public virtual ICollection&lt;LinUserGroup&gt; LinUserGroups { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.ICollection</span>&lt;<a class="xref" href="LinCms.Entities.LinUserGroup.html">LinUserGroup</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_LinUserIdentitys.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.LinUserIdentitys%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L110">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_LinUserIdentitys_" data-uid="LinCms.Entities.LinUser.LinUserIdentitys*"></a>
+  <h4 id="LinCms_Entities_LinUser_LinUserIdentitys" data-uid="LinCms.Entities.LinUser.LinUserIdentitys">LinUserIdentitys</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Navigate(&quot;CreateUserId&quot;)]
+public virtual ICollection&lt;LinUserIdentity&gt; LinUserIdentitys { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.ICollection</span>&lt;<a class="xref" href="LinCms.Entities.LinUserIdentity.html">LinUserIdentity</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Nickname.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Nickname%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L26">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Nickname_" data-uid="LinCms.Entities.LinUser.Nickname*"></a>
+  <h4 id="LinCms_Entities_LinUser_Nickname" data-uid="LinCms.Entities.LinUser.Nickname">Nickname</h4>
+  <div class="markdown level1 summary"><p>昵称</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 24)]
+public string Nickname { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_PasswordResetCode.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.PasswordResetCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L96">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_PasswordResetCode_" data-uid="LinCms.Entities.LinUser.PasswordResetCode*"></a>
+  <h4 id="LinCms_Entities_LinUser_PasswordResetCode" data-uid="LinCms.Entities.LinUser.PasswordResetCode">PasswordResetCode</h4>
+  <div class="markdown level1 summary"><p>密码重置码（非验证码，用于验证是否是同一个浏览器请求）</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string PasswordResetCode { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_PhoneNumber.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.PhoneNumber%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L48">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_PhoneNumber_" data-uid="LinCms.Entities.LinUser.PhoneNumber*"></a>
+  <h4 id="LinCms_Entities_LinUser_PhoneNumber" data-uid="LinCms.Entities.LinUser.PhoneNumber">PhoneNumber</h4>
+  <div class="markdown level1 summary"><p>手机号</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 100)]
+public string PhoneNumber { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_RefreshToken.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.RefreshToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L85">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_RefreshToken_" data-uid="LinCms.Entities.LinUser.RefreshToken*"></a>
+  <h4 id="LinCms_Entities_LinUser_RefreshToken" data-uid="LinCms.Entities.LinUser.RefreshToken">RefreshToken</h4>
+  <div class="markdown level1 summary"><p>JWT 登录，保存生成的随机token值。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 200)]
+public string RefreshToken { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Salt.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Salt%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L101">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Salt_" data-uid="LinCms.Entities.LinUser.Salt*"></a>
+  <h4 id="LinCms_Entities_LinUser_Salt" data-uid="LinCms.Entities.LinUser.Salt">Salt</h4>
+  <div class="markdown level1 summary"><p>密码盐值</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 100)]
+public string Salt { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_Username.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.Username%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L20">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_Username_" data-uid="LinCms.Entities.LinUser.Username*"></a>
+  <h4 id="LinCms_Entities_LinUser_Username" data-uid="LinCms.Entities.LinUser.Username">Username</h4>
+  <div class="markdown level1 summary"><p>用户名</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Column(StringLength = 24)]
+public string Username { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_AddRefreshToken.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.AddRefreshToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L127">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_AddRefreshToken_" data-uid="LinCms.Entities.LinUser.AddRefreshToken*"></a>
+  <h4 id="LinCms_Entities_LinUser_AddRefreshToken" data-uid="LinCms.Entities.LinUser.AddRefreshToken">AddRefreshToken()</h4>
+  <div class="markdown level1 summary"><p>登录后用户状态变化</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddRefreshToken()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_IsActive.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.IsActive%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L119">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_IsActive_" data-uid="LinCms.Entities.LinUser.IsActive*"></a>
+  <h4 id="LinCms_Entities_LinUser_IsActive" data-uid="LinCms.Entities.LinUser.IsActive">IsActive()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsActive()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser_SetNewPasswordResetCode.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser.SetNewPasswordResetCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L114">View Source</a>
+  </span>
+  <a id="LinCms_Entities_LinUser_SetNewPasswordResetCode_" data-uid="LinCms.Entities.LinUser.SetNewPasswordResetCode*"></a>
+  <h4 id="LinCms_Entities_LinUser_SetNewPasswordResetCode" data-uid="LinCms.Entities.LinUser.SetNewPasswordResetCode">SetNewPasswordResetCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetNewPasswordResetCode()</code></pre>
+  </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ICreateAuditEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IUpdateAuditEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.IDeleteAuditEntity&lt;T&gt;</span>
+  </div>
+  <div>
+      <span class="xref">IGeekFan.FreeKit.Extras.AuditEntity.ISoftDelete</span>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/new/master/apiSpec/new?filename=LinCms_Entities_LinUser.md&amp;value=---%0Auid%3A%20LinCms.Entities.LinUser%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/luoyunchong/lin-cms-dotnetcore/blob/master/src/LinCms.Core/Entities/LinUser.cs/#L14" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
