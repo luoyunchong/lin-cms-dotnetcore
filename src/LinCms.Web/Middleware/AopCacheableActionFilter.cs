@@ -80,7 +80,7 @@ public class AopCacheableActionFilter : IAsyncActionFilter
                     ContractResolver = contractResolver
                 }), _expireSeconds);
             }
-       
+
         }
     }
 
@@ -96,7 +96,15 @@ public class AopCacheableActionFilter : IAsyncActionFilter
             {
                 DefaultValueHandling = DefaultValueHandling.Ignore
             });
-            param = ":" + EncryptUtil.Encrypt(serializeString);
+
+            if (string.IsNullOrEmpty(serializeString))
+            {
+                param = EncryptUtil.Encrypt($"{className}:{methodName}");
+            }
+            else
+            {
+                param = ":" + EncryptUtil.Encrypt(serializeString);
+            }
         }
         return string.Concat(cacheKey ?? $"{className}:{methodName}", param);
     }

@@ -17,6 +17,7 @@ namespace LinCms.Middleware;
 public class AopCacheAsyncIntercept : IAsyncInterceptor
 {
 
+    #region AopCacheAsyncIntercept 判断是否开启缓存
     private readonly IConfiguration _configuration;
     private readonly int _expireSeconds;
     public AopCacheAsyncIntercept(IConfiguration configuration)
@@ -46,7 +47,8 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
             return true;
         }
         return false;
-    }
+    } 
+    #endregion
 
     #region 拦截同步执行的方法
     /// <summary>
@@ -99,7 +101,10 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
             string cacheValue = await RedisHelper.GetAsync(cacheKey);
             if (cacheValue != null)
             {
-                await InterceptAsync(cacheKey, (Task)invocation.ReturnValue);
+                if (invocation.ReturnValue != null)
+                {
+                    await (Task)invocation.ReturnValue;
+                }
             }
             else
             {
@@ -109,7 +114,10 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
         else
         {
             invocation.Proceed();
-            await (Task)invocation.ReturnValue;
+            if (invocation.ReturnValue != null)
+            {
+                await (Task)invocation.ReturnValue;
+            }
         }
     }
 
@@ -146,18 +154,11 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
         else
         {
             invocation.Proceed();
-            invocation.ReturnValue = AwaitInterceptAsync((Task<TResult>)invocation.ReturnValue);
+            invocation.ReturnValue = InterceptAsync((Task<TResult>)invocation.ReturnValue);
         }
     }
     #endregion
 
-    // do the continuation work for Task...
-    private async Task InterceptAsync(string cacheKey, Task task)
-    {
-        await task.ConfigureAwait(false);
-    }
-
-    // do the continuation work for Task<T>...
     private async Task<T> InterceptAsync<T>(string cacheKey, Task<T> task)
     {
         T result = await task.ConfigureAwait(false);
@@ -165,7 +166,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
         return result;
     }
 
-    private async Task<T> AwaitInterceptAsync<T>(Task<T> task)
+    private async Task<T> InterceptAsync<T>(Task<T> task)
     {
         T result = await task.ConfigureAwait(false);
         return result;
