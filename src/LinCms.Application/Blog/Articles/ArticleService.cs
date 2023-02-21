@@ -25,7 +25,7 @@ public class ArticleService : ApplicationService, IArticleService
     private readonly IAuditBaseRepository<Comment> _commentRepository;
     private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
     private readonly IClassifyService _classifyService;
-    private readonly ITagService _tagService;
+    private readonly IAuditBaseRepository<Tag> _tagRepository;
     private readonly IUserSubscribeService _userSubscribeService;
     private readonly IFileRepository _fileRepository;
     public ArticleService(
@@ -34,7 +34,7 @@ public class ArticleService : ApplicationService, IArticleService
         IAuditBaseRepository<UserLike> userLikeRepository,
         IAuditBaseRepository<Comment> commentRepository,
         IClassifyService classifyService,
-        ITagService tagService,
+        IAuditBaseRepository<Tag> tagRepository,
         IUserSubscribeService userSubscribeService,
         IAuditBaseRepository<ArticleDraft> articleDraftRepository,
         IFileRepository fileRepository
@@ -46,7 +46,7 @@ public class ArticleService : ApplicationService, IArticleService
         _commentRepository = commentRepository;
 
         _classifyService = classifyService;
-        _tagService = tagService;
+        _tagRepository = tagRepository;
         _userSubscribeService = userSubscribeService;
         _articleDraftRepository = articleDraftRepository;
         _fileRepository = fileRepository;
@@ -59,7 +59,7 @@ public class ArticleService : ApplicationService, IArticleService
         DateTime weeklyDays = DateTime.Now.AddDays(-7);
         DateTime threeDays = DateTime.Now.AddDays(-3);
 
-        long? userId =  CurrentUser.FindUserId();
+        long? userId = CurrentUser.FindUserId();
         List<Article> articles = await _articleRepository
             .Select
             .Include(r => r.UserInfo)
@@ -105,7 +105,7 @@ public class ArticleService : ApplicationService, IArticleService
         {
             await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
             article.Tags?
-                .ForEach(async (u) => { await _tagService.UpdateArticleCountAsync(u.Id, -1); });
+                .ForEach(async (u) => { await UpdateArticleCountAsync(u.Id, -1); });
         }
 
         await _articleRepository.DeleteAsync(new Article { Id = id });
@@ -137,10 +137,10 @@ public class ArticleService : ApplicationService, IArticleService
         }
 
         articleDto.IsLiked =
-            await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId ==  CurrentUser.FindUserId());
+            await _userLikeRepository.Select.AnyAsync(r => r.SubjectId == id && r.CreateUserId == CurrentUser.FindUserId());
         articleDto.IsComment =
             await _commentRepository.Select.AnyAsync(
-                r => r.SubjectId == id && r.CreateUserId ==  CurrentUser.FindUserId());
+                r => r.SubjectId == id && r.CreateUserId == CurrentUser.FindUserId());
         articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(article.Thumbnail);
 
         return articleDto;
@@ -161,7 +161,7 @@ public class ArticleService : ApplicationService, IArticleService
             {
                 Id = articleTagId,
             });
-            await _tagService.UpdateArticleCountAsync(articleTagId, 1);
+            await UpdateArticleCountAsync(articleTagId, 1);
         }
         await _articleRepository.InsertAsync(article);
 
@@ -180,7 +180,7 @@ public class ArticleService : ApplicationService, IArticleService
         Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
 
 
-        if (article.CreateUserId !=  CurrentUser.FindUserId())
+        if (article.CreateUserId != CurrentUser.FindUserId())
         {
             throw new LinCmsException("您无权修改他人的随笔");
         }
@@ -211,35 +211,64 @@ public class ArticleService : ApplicationService, IArticleService
         {
             await _articleDraftRepository.InsertAsync(articleDraft);
         }
+        await UpdateTagAsync(id, updateArticleDto);
     }
 
-    [Transactional]
-    public async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
+    /// <summary>
+    ///  随笔选择多个标签
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="updateArticleDto"></param>
+    /// <returns></returns>
+    private async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
     {
         List<Guid> tagIds = await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
 
-        tagIds.ForEach(async (tagId) => { await _tagService.UpdateArticleCountAsync(tagId, -1); });
+        foreach (var tagId in tagIds)
+        {
+            await UpdateArticleCountAsync(tagId, -1);
+        }
 
         _tagArticleRepository.Delete(r => r.ArticleId == id);
 
         List<TagArticle> tagArticles = new();
 
-        updateArticleDto.TagIds.ForEach(async (tagId) =>
+        foreach (var tagId in updateArticleDto.TagIds)
         {
             tagArticles.Add(new TagArticle()
             {
                 ArticleId = id,
                 TagId = tagId
             });
-            await _tagService.UpdateArticleCountAsync(tagId, 1);
-        });
+            await UpdateArticleCountAsync(tagId, 1);
+        }
         await _tagArticleRepository.InsertAsync(tagArticles);
     }
 
+    private async Task UpdateArticleCountAsync(Guid? id, int inCreaseCount)
+    {
+        if (id == null)
+        {
+            return;
+        }
+        Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+        if (tag == null) { return; }
+        //防止数量一直减，减到小于0
+        if (inCreaseCount < 0)
+        {
+            if (tag.ArticleCount < -inCreaseCount)
+            {
+                return;
+            }
+        }
+        tag.ArticleCount = tag.ArticleCount + inCreaseCount;
+
+        await _tagRepository.UpdateAsync(tag);
+    }
 
     public async Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto)
     {
-        long userId =  CurrentUser.FindUserId() ?? 0;
+        long userId = CurrentUser.FindUserId() ?? 0;
         List<long> subscribeUserIds = await _userSubscribeService.GetSubscribeUserIdAsync(userId);
 
         var articles = await _articleRepository
@@ -280,7 +309,7 @@ public class ArticleService : ApplicationService, IArticleService
         {
             throw new LinCmsException("没有找到相关随笔", ErrorCode.NotFound);
         }
-        if (article.CreateUserId !=  CurrentUser.FindUserId())
+        if (article.CreateUserId != CurrentUser.FindUserId())
         {
             throw new LinCmsException("不是自己的随笔", ErrorCode.NoPermission);
         }

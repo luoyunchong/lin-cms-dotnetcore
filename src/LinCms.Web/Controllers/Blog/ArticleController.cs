@@ -164,7 +164,6 @@ public class ArticleController : ControllerBase
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticleDto)
     {
         await _articleService.UpdateAsync(id, updateArticleDto);
-        await _articleService.UpdateTagAsync(id, updateArticleDto);
         return UnifyResponseDto.Success("更新随笔成功");
     }
 

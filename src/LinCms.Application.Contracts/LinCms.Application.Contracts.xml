@@ -34,14 +34,6 @@
             几小时/秒前
             </summary>
         </member>
-        <member name="M:LinCms.Blog.Articles.IArticleService.UpdateTagAsync(System.Guid,LinCms.Blog.Articles.CreateUpdateArticleDto)">
-            <summary>
-             随笔选择多个标签
-            </summary>
-            <param name="id"></param>
-            <param name="updateArticleDto"></param>
-            <returns></returns>
-        </member>
         <member name="M:LinCms.Blog.Articles.IArticleService.GetSubscribeArticleAsync(LinCms.Data.PageDto)">
             <summary>
             得到我关注的人发布的随笔

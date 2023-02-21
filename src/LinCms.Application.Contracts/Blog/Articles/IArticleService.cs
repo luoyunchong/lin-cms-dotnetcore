@@ -19,14 +19,6 @@ public interface IArticleService
     #endregion
 
     /// <summary>
-    ///  随笔选择多个标签
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="updateArticleDto"></param>
-    /// <returns></returns>
-    Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto);
-
-    /// <summary>
     /// 得到我关注的人发布的随笔
     /// </summary>
     /// <param name="pageDto"></param>
