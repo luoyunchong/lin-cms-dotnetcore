@@ -7,7 +7,7 @@ namespace LinCms.Middleware;
 public static class CacheableMethodInfoExtensions
 {
     /// <summary>
-    /// 判断方法上或类上是否有TransactionalAttribute特性标签 
+    /// 判断方法上或类上是否有CacheableAttribute特性标签 
     /// </summary>
     /// <param name="methodInfo"></param>
     /// <returns></returns>

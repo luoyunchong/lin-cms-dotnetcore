@@ -221,7 +221,7 @@ ElapsedMilliseconds:{3}ms
 
         services.AddFreeKitCore(typeof(long));
 
-        services.Configure<UnitOfWorkDefualtOptions>(u =>
+        services.Configure<UnitOfWorkDefaultOptions>(u =>
         {
             u.IsolationLevel = System.Data.IsolationLevel.ReadCommitted;
             u.Propagation = Propagation.Required;

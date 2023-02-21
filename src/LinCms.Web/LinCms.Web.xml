@@ -721,10 +721,58 @@
             退出登录Token 将过期
             </summary>
         </member>
-        <member name="T:LinCms.Middleware.AopCacheIntercept">
+        <member name="M:LinCms.Middleware.AopCacheableActionFilter.TryGetCacheable(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
             <summary>
-            Aop Cache
+            尝试从方法中获取当前的工作单元配置
             </summary>
+            <param name="context"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:LinCms.Middleware.AopCacheableActionFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
+            <summary>
+            方法执行前执行UnitOfWorkManager工作单元
+            </summary>
+            <param name="context"></param>
+            <param name="next"></param>
+        </member>
+        <member name="T:LinCms.Middleware.AopCacheAsyncIntercept">
+            <summary>
+            异步事务方法拦截
+            </summary>
+        </member>
+        <member name="M:LinCms.Middleware.AopCacheAsyncIntercept.TryBegin(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            当只配置特性标签，但未指定任意属性值时，默认根据UnitOfWorkDefaultOptions
+            </summary>
+            <param name="invocation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Middleware.AopCacheAsyncIntercept.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            拦截同步执行的方法
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:LinCms.Middleware.AopCacheAsyncIntercept.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            拦截返回结果为Task的方法
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:LinCms.Middleware.AopCacheAsyncIntercept.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            拦截返回结果为Task&lt;TResult&gt;的方法
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:LinCms.Middleware.CacheableMethodInfoExtensions.GetCacheableAttributeOrNull(System.Reflection.MethodInfo)">
+            <summary>
+            判断方法上或类上是否有CacheableAttribute特性标签 
+            </summary>
+            <param name="methodInfo"></param>
+            <returns></returns>
         </member>
         <member name="T:LinCms.Middleware.RecaptchaVerifyActionFilter">
             <summary>

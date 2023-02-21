@@ -411,6 +411,15 @@
             登录名
             </summary>
         </member>
+        <member name="P:LinCms.Entities.BlackRecord.CreateUserId">
+            <inheritdoc />
+        </member>
+        <member name="P:LinCms.Entities.BlackRecord.CreateUserName">
+            <inheritdoc />
+        </member>
+        <member name="P:LinCms.Entities.BlackRecord.CreateTime">
+            <inheritdoc />
+        </member>
         <member name="T:LinCms.Entities.Blog.Article">
             <summary>
             随笔
@@ -630,6 +639,27 @@
             <summary>
             随笔数量
             </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.Classify.Articles">
+            <summary>
+            关联随笔
+            </summary>
+        </member>
+        <member name="M:LinCms.Entities.Blog.Classify.ReduceArticleCount">
+            <summary>
+            专栏下随笔数量减少1
+            </summary>
+        </member>
+        <member name="M:LinCms.Entities.Blog.Classify.IncreaseArticleCount">
+            <summary>
+            专栏下随笔数量增加1
+            </summary>
+        </member>
+        <member name="M:LinCms.Entities.Blog.Classify.UpdateArticleCount(System.Int32)">
+            <summary>
+            修改随笔数量
+            </summary>
+            <param name="inCreaseCount"></param>
         </member>
         <member name="T:LinCms.Entities.Blog.Comment">
             <summary>
