@@ -5,7 +5,7 @@ namespace LinCms.Base.BaseItems;
 
 public class BaseItemDto : EntityDto<long>
 {
-    public int BaseTypeId { get; set; }
+    public long BaseTypeId { get; set; }
     public string ItemCode { get; set; }
     public string ItemName { get; set; }
     public bool Status { get; set; }
