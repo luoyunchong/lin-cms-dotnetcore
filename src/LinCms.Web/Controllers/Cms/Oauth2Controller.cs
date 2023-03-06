@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using Autofac;
+﻿using Autofac;
 using DotNetCore.Security;
 using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Cms.Users;
@@ -22,6 +15,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace LinCms.Controllers.Cms;
 
@@ -75,7 +75,12 @@ public class Oauth2Controller : ControllerBase
         if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
             return Redirect(redirectUrl);
 
-        List<string> supportProviders = new List<string> { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ, };
+        List<string> supportProviders = new List<string> {
+            LinUserIdentity.Gitee,
+            LinUserIdentity.GitHub,
+            LinUserIdentity.QQ,
+            LinUserIdentity.Weixin,
+        };
 
         if (!supportProviders.Contains(provider))
         {
@@ -128,7 +133,7 @@ public class Oauth2Controller : ControllerBase
             return BadRequest();
         }
 
-        string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}{Request.Path}-callback?provider={provider}" + $"&redirectUrl={redirectUrl}";
+        string url = $"{Request.PathBase}{Request.Path}-callback?provider={provider}" + $"&redirectUrl={redirectUrl}";
 
         _logger.LogInformation($"SignIn-url:{url}");
         var properties = new AuthenticationProperties { RedirectUri = url };

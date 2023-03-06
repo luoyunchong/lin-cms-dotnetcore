@@ -15,7 +15,7 @@ namespace LinCms.Entities
         public const string Password = "Password";
         public const string QQ = "QQ";
         public const string Gitee = "Gitee";
-        public const string WeiXin = "WeiXin";
+        public const string Weixin = "Weixin";
 
         public LinUserIdentity()
         {
@@ -30,7 +30,7 @@ namespace LinCms.Entities
         }
 
         /// <summary>
-        ///认证类型， Password，GitHub、QQ、WeiXin等
+        ///认证类型， Password，GitHub、QQ、Weixin等
         /// </summary>
         [Column(StringLength = 20)]
         public string IdentityType { get; set; }

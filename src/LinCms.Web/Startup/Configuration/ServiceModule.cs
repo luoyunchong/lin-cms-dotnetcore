@@ -32,6 +32,7 @@ public class ServiceModule : Autofac.Module
         builder.RegisterType<GithubOAuth2Serivice>().Named<IOAuth2Service>(LinUserIdentity.GitHub).InstancePerLifetimeScope();
         builder.RegisterType<GiteeOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Gitee).InstancePerLifetimeScope();
         builder.RegisterType<QQOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.QQ).InstancePerLifetimeScope();
+        builder.RegisterType<WeixinOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Weixin).InstancePerLifetimeScope();
 
     }
 }
