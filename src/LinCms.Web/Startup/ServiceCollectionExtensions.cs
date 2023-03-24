@@ -148,19 +148,19 @@ public static class ServiceCollectionExtensions
     /// <param name="c"></param>
     public static IServiceCollection AddFreeSql(this IServiceCollection services, IConfiguration c)
     {
-        var options = new IdGeneratorOptions(1);
+        //var options = new IdGeneratorOptions(1);
         // options.WorkerIdBitLength = 10; // 默认值6，限定 WorkerId 最大值为2^6-1，即默认最多支持64个节点。
         // options.SeqBitLength = 6; // 默认值6，限制每毫秒生成的ID个数。若生成速度超过5万个/秒，建议加大 SeqBitLength 到 10。
         // options.BaseTime = Your_Base_Time; // 如果要兼容老系统的雪花算法，此处应设置为老系统的BaseTime。
         // ...... 其它参数参考 IdGeneratorOptions 定义。
-        YitIdHelper.SetIdGenerator(options);
+        //YitIdHelper.SetIdGenerator(options);
         // 保存参数（务必调用，否则参数设置不生效）
 
         Func<IServiceProvider, IFreeSql> fsql = r =>
         {
             IFreeSql fsql = new FreeSqlBuilder()
                 .UseConnectionString(c)
-                .UseMappingPriority(MappingPriorityType.Aop, MappingPriorityType.FluentApi, MappingPriorityType.Attribute)
+                .UseMappingPriority(MappingPriorityType.Attribute, MappingPriorityType.FluentApi, MappingPriorityType.Aop)
                 .UseNameConvert(NameConvertType.PascalCaseToUnderscoreWithLower)
                 .UseAutoSyncStructure(true)
                 .UseNoneCommandParameter(true)
@@ -207,19 +207,19 @@ ElapsedMilliseconds:{3}ms
                 r.Property(b => b.Id).IsIdentity(false);
             });
 
-            fsql.Aop.AuditValue += (s, e) =>
-            {
-                if (e.Column.CsType == typeof(long) && e.Property.Name == "Id" && e.Value?.ToString() == "0")
-                {
-                    e.Value = YitIdHelper.NextId();
-                    //e.Column.Attribute.IsIdentity = false;
-                }
-            };
-            fsql.Aop.ConfigEntityProperty += (s, e) =>
-            {
-                if (e.Property.Name == "Id")
-                    e.ModifyResult.IsIdentity = false;
-            };
+            //fsql.Aop.AuditValue += (s, e) =>
+            //{
+            //    if (e.Column.CsType == typeof(long) && e.Property.Name == "Id" && e.Value?.ToString() == "0")
+            //    {
+            //        e.Value = YitIdHelper.NextId();
+            //        //e.Column.Attribute.IsIdentity = false;
+            //    }
+            //};
+            //fsql.Aop.ConfigEntityProperty += (s, e) =>
+            //{
+            //    if (e.Property.Name == "Id")
+            //        e.ModifyResult.IsIdentity = false;
+            //};
             //数据库特性 > 实体特性 > FluentApi（配置特性） > Aop（配置特性）
 
             //敏感词处理
