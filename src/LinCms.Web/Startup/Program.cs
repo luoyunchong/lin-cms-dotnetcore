@@ -141,7 +141,8 @@ app.UseRapiDocUI(r =>
     {
         RenderStyle = "focused",//read | view | focused
         Theme = "light",//light,dark,focused
-        SchemaStyle = "table"//tree | table
+        SchemaStyle = "table",//tree | table
+        ShowMethodInNavBar = "as-colored-text"
     };
 
 });

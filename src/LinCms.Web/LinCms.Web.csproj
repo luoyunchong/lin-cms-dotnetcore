@@ -40,6 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
 		<PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
@@ -47,7 +48,7 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.13" />
-		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.5" />
+		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.4" />

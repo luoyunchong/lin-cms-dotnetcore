@@ -10,12 +10,12 @@
 
 		<ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
 		<PackageReference Include="Caching.CSRedis" Version="3.8.670" />
-		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.687" />
-		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.2.687" />
-		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.687" />
-		<PackageReference Include="FreeSql.Provider.SqlServer" Version="3.2.687" />
-		<PackageReference Include="FreeSql.Provider.Oracle" Version="3.2.687" />
-		<PackageReference Include="FreeSql.Provider.Odbc" Version="3.2.687" />
+		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.692" />
+		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.2.692" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.692" />
+		<PackageReference Include="FreeSql.Provider.SqlServer" Version="3.2.692" />
+		<PackageReference Include="FreeSql.Provider.Oracle" Version="3.2.692" />
+		<PackageReference Include="FreeSql.Provider.Odbc" Version="3.2.692" />
 	</ItemGroup>
 
 </Project>
