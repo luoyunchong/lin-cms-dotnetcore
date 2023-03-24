@@ -202,11 +202,6 @@ ElapsedMilliseconds:{3}ms
 
             fsql.GlobalFilter.Apply<ISoftDelete>("IsDeleted", a => a.IsDeleted == false);
 
-            fsql.CodeFirst.ConfigEntity<LinUser>(r =>
-            {
-                r.Property(b => b.Id).IsIdentity(false);
-            });
-
             //fsql.Aop.AuditValue += (s, e) =>
             //{
             //    if (e.Column.CsType == typeof(long) && e.Property.Name == "Id" && e.Value?.ToString() == "0")
