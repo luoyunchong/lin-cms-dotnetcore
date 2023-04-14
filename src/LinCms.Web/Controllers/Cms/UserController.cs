@@ -36,8 +36,7 @@ public class UserController : ControllerBase
     private readonly IUserRepository _userRepository;
     private readonly IGroupService _groupService;
     private readonly IFileRepository _fileRepository;
-    private readonly ICaptchaManager _captchaManager;
-    public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService, IFileRepository fileRepository, ICaptchaManager captchaManager)
+    public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService, IFileRepository fileRepository)
     {
         _freeSql = freeSql;
         _mapper = mapper;
@@ -46,7 +45,6 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
         _groupService = groupService;
         _fileRepository = fileRepository;
-        _captchaManager = captchaManager;
     }
 
 

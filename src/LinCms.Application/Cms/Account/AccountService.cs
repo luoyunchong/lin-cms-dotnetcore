@@ -47,7 +47,7 @@ public class AccountService : ApplicationService, IAccountService
     /// <returns>验证码</returns>
     public LoginCaptchaDto GenerateCaptcha()
     {
-        if (_loginCaptchaOption.Enabled == false) return new LoginCaptchaDto();
+        //if (_loginCaptchaOption.Enabled == false) return new LoginCaptchaDto();
         string captcha = _captchaManager.GetRandomString(CaptchaManager.RandomStrNum);
         string base64String = _captchaManager.GetRandomCaptchaBase64(captcha);
         string tag = _captchaManager.GetTag(captcha, _loginCaptchaOption.Salt);
