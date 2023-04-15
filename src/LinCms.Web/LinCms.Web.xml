@@ -303,7 +303,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Cms.AccountController.Login(LinCms.Cms.Account.LoginInputDto)">
+        <member name="M:LinCms.Controllers.Cms.AccountController.Login(LinCms.Cms.Account.LoginInputDto,System.String)">
             <summary>
             登录接口
             </summary>

@@ -26,6 +26,4 @@ public class LoginInputDto
     [CanBeNull]
     public string Captcha { get; set; }
 
-    [CanBeNull] 
-    public string Tag { get; set; }
 }

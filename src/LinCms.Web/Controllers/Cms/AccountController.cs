@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using AutoMapper;
-using IGeekFan.FreeKit.Extras.Extensions;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
+using JetBrains.Annotations;
 using LinCms.Cms.Account;
 using LinCms.Cms.Users;
 using LinCms.Common;
@@ -14,7 +11,6 @@ using LinCms.Data.Enums;
 using LinCms.Data.Options;
 using LinCms.Domain.Captcha;
 using LinCms.Entities;
-using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Middleware;
 using Microsoft.AspNetCore.Authentication;
@@ -22,6 +18,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LinCms.Controllers.Cms;
 
@@ -83,7 +81,7 @@ public class AccountController : ApiControllerBase
     [DisableAuditing]
     [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
     [HttpPost("login")]
-    public Task<Tokens> Login([FromBody] LoginInputDto loginInputDto)
+    public Task<Tokens> Login([FromBody] LoginInputDto loginInputDto, [FromHeader][CanBeNull] string? tag)
     {
         if (_loginCaptchaOption.Enabled == true)
         {
@@ -91,7 +89,11 @@ public class AccountController : ApiControllerBase
             {
                 throw new LinCmsException("验证码不可为空");
             }
-            if (!_accountService.VerifyCaptcha(loginInputDto.Captcha, loginInputDto.Tag))
+            if(tag.IsNullOrWhiteSpace())
+            {
+                throw new LinCmsException("非法请求");
+            }
+            if (!_accountService.VerifyCaptcha(loginInputDto.Captcha, tag))
             {
                 throw new LinCmsException("验证码不正确");
             }
