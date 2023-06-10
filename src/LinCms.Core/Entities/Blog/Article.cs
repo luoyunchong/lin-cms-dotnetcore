@@ -66,6 +66,11 @@ namespace LinCms.Entities.Blog
         /// 点赞数量
         /// </summary>
         public int LikesQuantity { get; set; }
+        
+        /// <summary>
+        /// 收藏数量
+        /// </summary>
+        public int CollectQuantity { get; set; }
 
         /// <summary>
         /// 列表缩略图封面
@@ -162,6 +167,25 @@ namespace LinCms.Entities.Blog
             }
 
             LikesQuantity += likesQuantity;
+        }
+        
+        public void UpdateCollectQuantity(int collectQuantity)
+        {
+            if (IsAudit == false)
+            {
+                throw new LinCmsException("该随笔因违规被拉黑");
+            }
+
+            if (collectQuantity < 0)
+            {
+                //防止数量一直减，减到小于0
+                if (CollectQuantity < -collectQuantity)
+                {
+                    return;
+                }
+            }
+
+            CollectQuantity += collectQuantity;
         }
     }
 

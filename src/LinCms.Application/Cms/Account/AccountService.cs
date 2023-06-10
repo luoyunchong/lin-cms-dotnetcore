@@ -22,7 +22,7 @@ public class AccountService : ApplicationService, IAccountService
     private readonly IUserIdentityService _userIdentityService;
     private readonly SiteOption _siteOption;
     private readonly ICaptchaManager _captchaManager;
-    private readonly LoginCaptchaOption _loginCaptchaOption;
+    private readonly CaptchaOption _loginCaptchaOption;
     public AccountService(
         IAuditBaseRepository<LinUser, long> userRepository,
         IEmailSender emailSender,
@@ -30,7 +30,7 @@ public class AccountService : ApplicationService, IAccountService
         IUserIdentityService userIdentityService,
         IOptionsMonitor<SiteOption> siteOption,
         ICaptchaManager captchaManager,
-        IOptionsMonitor<LoginCaptchaOption> loginCaptchaOption)
+        IOptionsMonitor<CaptchaOption> loginCaptchaOption)
     {
         _userRepository = userRepository;
         _emailSender = emailSender;

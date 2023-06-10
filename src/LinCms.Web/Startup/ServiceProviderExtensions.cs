@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AspNetCoreRateLimit;
-using IGeekFan.FreeKit.Extras.AuditEntity;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities;
 using LinCms.FreeSql;

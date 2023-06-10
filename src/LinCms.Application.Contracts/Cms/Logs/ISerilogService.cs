@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using LinCms.Data;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Entities;
 
 namespace LinCms.Cms.Logs;

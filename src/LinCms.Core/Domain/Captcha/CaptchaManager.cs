@@ -2,8 +2,6 @@
 using System.Text;
 using DotNetCore.Security;
 using IGeekFan.FreeKit.Extras.Dependency;
-using LinCms.Common;
-using LinCms.Data.Options;
 using Newtonsoft.Json;
 
 namespace LinCms.Domain.Captcha;
@@ -25,7 +23,7 @@ public class CaptchaManager : ICaptchaManager, ITransientDependency
     public string GetTag(string captcha, string salt = "cryptography_salt", int seconds = 300)
     {
         if (string.IsNullOrWhiteSpace((salt))) salt = Salt;
-        LoginCaptchaBO captchaBo = new(captcha, GetTimeStamp(seconds));
+        CaptchaBO captchaBo = new(captcha, GetTimeStamp(seconds));
         var json = JsonConvert.SerializeObject(captchaBo);
         return _cryptographyService.Encrypt(json, salt);
     }
@@ -62,11 +60,11 @@ public class CaptchaManager : ICaptchaManager, ITransientDependency
         return Convert.ToBase64String(bytes);
     }
 
-    public LoginCaptchaBO DecodeTag(string tag, string salt = "cryptography_salt")
+    public CaptchaBO DecodeTag(string tag, string salt = "cryptography_salt")
     {
         if (string.IsNullOrWhiteSpace((salt))) salt = Salt;
         string json = _cryptographyService.Decrypt(tag, salt);
-        var loginCaptchaBo = JsonConvert.DeserializeObject<LoginCaptchaBO>(json);
+        var loginCaptchaBo = JsonConvert.DeserializeObject<CaptchaBO>(json);
         return loginCaptchaBo;
     }
 

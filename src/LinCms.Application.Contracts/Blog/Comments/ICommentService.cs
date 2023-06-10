@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LinCms.Data;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Entities.Blog;
-using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Blog.Comments;
 
@@ -20,7 +19,7 @@ public interface ICommentService
     /// </summary>
     /// <param name="commentSearchDto"></param>
     /// <returns></returns>
-    Task<PagedResultDto<CommentDto>> GetListAsync([FromQuery] CommentSearchDto commentSearchDto);
+    Task<PagedResultDto<CommentDto>> GetListAsync(CommentSearchDto commentSearchDto);
 
     /// <summary>
     /// 发表评论

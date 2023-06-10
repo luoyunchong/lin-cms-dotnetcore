@@ -34,18 +34,6 @@
             <param name="source"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Common.ImgHelper">
-            <summary>
-            https://cloud.tencent.com/developer/article/2142750
-            </summary>
-        </member>
-        <member name="M:LinCms.Common.ImgHelper.GetVerifyCode(System.String)">
-            <summary>
-            获取图像数字验证码
-            </summary>
-            <param name="text">验证码内容，如4为数字</param>
-            <returns></returns>
-        </member>
         <member name="M:LinCms.Common.LinCmsUtils.GetHash``1(System.IO.Stream)">
             <summary>
             继承HashAlgorithm
@@ -201,21 +189,6 @@
             禁止某些类型文件上传，文件格式以,隔开
             </summary>
         </member>
-        <member name="T:LinCms.Data.Options.LoginCaptchaOption">
-            <summary>
-            验证码配置
-            </summary>
-        </member>
-        <member name="P:LinCms.Data.Options.LoginCaptchaOption.Enabled">
-            <summary>
-            是否启用验证码
-            </summary>
-        </member>
-        <member name="P:LinCms.Data.Options.LoginCaptchaOption.Salt">
-            <summary>
-            盐值
-            </summary>
-        </member>
         <member name="T:LinCms.Data.PageDto">
             <summary>
             分页
@@ -288,6 +261,21 @@
             <param name="num"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Domain.Captcha.CaptchaOption">
+            <summary>
+            验证码配置
+            </summary>
+        </member>
+        <member name="P:LinCms.Domain.Captcha.CaptchaOption.Enabled">
+            <summary>
+            是否启用验证码
+            </summary>
+        </member>
+        <member name="P:LinCms.Domain.Captcha.CaptchaOption.Salt">
+            <summary>
+            盐值
+            </summary>
+        </member>
         <member name="M:LinCms.Domain.Captcha.ICaptchaManager.GetTag(System.String,System.String,System.Int32)">
             <summary>
             获取加密后验证码
@@ -324,6 +312,18 @@
             </summary>
             <param name="tag"></param>
             <param name="salt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LinCms.Domain.Captcha.ImgHelper">
+            <summary>
+            https://cloud.tencent.com/developer/article/2142750
+            </summary>
+        </member>
+        <member name="M:LinCms.Domain.Captcha.ImgHelper.GetVerifyCode(System.String)">
+            <summary>
+            获取图像数字验证码
+            </summary>
+            <param name="text">验证码内容，如4为数字</param>
             <returns></returns>
         </member>
         <member name="T:LinCms.Domain.ITokenManager">
@@ -475,6 +475,11 @@
             点赞数量
             </summary>
         </member>
+        <member name="P:LinCms.Entities.Blog.Article.CollectQuantity">
+            <summary>
+            收藏数量
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Blog.Article.Thumbnail">
             <summary>
             列表缩略图封面
@@ -548,6 +553,11 @@
         <member name="F:LinCms.Entities.Blog.ArticleType.Translated">
             <summary>
             翻译
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Blog.ArticleCollection">
+            <summary>
+            用户文章收藏
             </summary>
         </member>
         <member name="T:LinCms.Entities.Blog.ArticleDraft">
@@ -661,6 +671,37 @@
             </summary>
             <param name="inCreaseCount"></param>
         </member>
+        <member name="T:LinCms.Entities.Blog.Collection">
+            <summary>
+            收藏集
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.Collection.Name">
+            <summary>
+            名称 
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.Collection.Remark">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Blog.Collection.PrivacyType">
+            <summary>
+            公开 当其他人关注此收藏集后不可再更改为隐私
+            隐私 仅自己可见此收藏集
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Blog.PrivacyType.Public">
+            <summary>
+            公开可见
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Blog.PrivacyType.VisibleOnlyMySelf">
+            <summary>
+            仅自己可见
+            </summary>
+        </member>
         <member name="T:LinCms.Entities.Blog.Comment">
             <summary>
             用户评论信息
@@ -714,6 +755,11 @@
         <member name="P:LinCms.Entities.Blog.Comment.RespUserInfo">
             <summary>
             被回复的用户-OneToOne
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Blog.CommentSubjectType.ArticleComment">
+            <summary>
+            文章评价
             </summary>
         </member>
         <member name="P:LinCms.Entities.Blog.Notification.NotificationType">

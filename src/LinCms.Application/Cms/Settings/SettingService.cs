@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Data;
 using LinCms.Entities.Settings;
 using LinCms.Exceptions;

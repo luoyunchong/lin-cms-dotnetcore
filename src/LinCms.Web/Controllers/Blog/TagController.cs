@@ -6,6 +6,7 @@ using LinCms.Entities.Blog;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 
 namespace LinCms.Controllers.Blog;

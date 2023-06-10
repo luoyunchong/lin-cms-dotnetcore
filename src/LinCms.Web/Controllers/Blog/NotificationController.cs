@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Blog.Notifications;
 using LinCms.Data;
 using Microsoft.AspNetCore.Mvc;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Classifys;
-using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
 using LinCms.Extensions;
@@ -21,6 +21,8 @@ public class ClassifyService : CrudAppService<Classify, ClassifyDto, ClassifyDto
     {
         _fileRepository = fileRepository ?? throw new ArgumentNullException(nameof(fileRepository));
     }
+
+    #region CRUD
 
     public override async Task<PagedResultDto<ClassifyDto>> GetListAsync(ClassifySearchDto input)
     {
@@ -105,6 +107,8 @@ public class ClassifyService : CrudAppService<Classify, ClassifyDto, ClassifyDto
         await Repository.UpdateAsync(classify);
         return Mapper.Map<ClassifyDto>(classify);
     }
+
+    #endregion
 
     public override async Task DeleteAsync(Guid id)
     {

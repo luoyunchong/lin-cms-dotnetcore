@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinCms.Data;
+using IGeekFan.FreeKit.Extras.Dto;
 
 namespace LinCms.Blog.UserSubscribes;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FreeSql;
 using IGeekFan.FreeKit.Extras.AuditEntity;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Data;
 
@@ -15,7 +16,7 @@ public abstract class CrudAppService<TEntity, TGetOutputDto, TGetListOutputDto, 
     where TEntity : class, IEntity<TKey> 
     where TKey : IEquatable<TKey>
     where TGetOutputDto : IEntityDto<TKey>
-    where TGetListOutputDto : IEntityDto<TKey>
+    where TGetListOutputDto : class, IEntityDto<TKey>
 {
     protected IAuditBaseRepository<TEntity, TKey> Repository { get; }
 

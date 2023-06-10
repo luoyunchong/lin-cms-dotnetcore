@@ -2,13 +2,13 @@
 
 namespace LinCms.Domain.Captcha;
 
-public class LoginCaptchaBO
+public class CaptchaBO
 {
-    public LoginCaptchaBO()
+    public CaptchaBO()
     {
     }
 
-    public LoginCaptchaBO(string captcha, long expired)
+    public CaptchaBO(string captcha, long expired)
     {
         Captcha = captcha ?? throw new ArgumentNullException(nameof(captcha));
         Expired = expired;

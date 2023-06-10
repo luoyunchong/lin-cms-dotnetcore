@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using LinCms.Data;
+using IGeekFan.FreeKit.Extras.Dto;
 
 namespace LinCms.Base.Localizations;
 

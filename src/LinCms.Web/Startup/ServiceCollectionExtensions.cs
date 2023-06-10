@@ -16,7 +16,7 @@ using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Data.Options;
-using LinCms.Entities;
+using LinCms.Domain.Captcha;
 using LinCms.Extensions;
 using LinCms.FreeSql;
 using LinCms.Middleware;
@@ -34,7 +34,6 @@ using Newtonsoft.Json.Serialization;
 using Owl.reCAPTCHA;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
-using Yitter.IdGenerator;
 
 namespace LinCms.Startup;
 
@@ -67,7 +66,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient("IdentityServer4");
         services.AddEmailSender(configuration);
-        services.Configure<LoginCaptchaOption>(configuration.GetSection("LoginCaptcha"));
+        services.Configure<CaptchaOption>(configuration.GetSection("LoginCaptcha"));
         services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));
         services.Configure<SiteOption>(configuration.GetSection("Site"));
         return services;

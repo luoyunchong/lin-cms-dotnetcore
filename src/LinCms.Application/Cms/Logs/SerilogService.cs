@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FreeSql;
-using LinCms.Data;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Entities;
 using LinCms.Extensions;
 

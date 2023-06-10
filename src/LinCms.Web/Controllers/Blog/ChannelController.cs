@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Aop.Filter;
 using LinCms.Blog.Channels;
 using LinCms.Data;

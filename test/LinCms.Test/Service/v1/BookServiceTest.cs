@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Data;
 using LinCms.v1.Books;
 using Xunit;
@@ -20,7 +21,7 @@ namespace LinCms.Test.Service.v1
             PagedResultDto<BookDto> books = await _bookService.GetPageListAsync(new PageDto { });
             var bookslist = await _bookService.GetListAsync();
 
-            Assert.True(books.Items.Count > 0);
+            Assert.True(books.Count > 0);
         }
     }
 }

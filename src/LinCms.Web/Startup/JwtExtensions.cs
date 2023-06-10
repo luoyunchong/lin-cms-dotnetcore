@@ -23,7 +23,7 @@ public static class JwtExtensions
     {
         JwtSettings jsonWebTokenSettings = new JwtSettings(
             configuration["Authentication:JwtBearer:SecurityKey"],
-            new TimeSpan(1, 0, 0, 0),
+            new TimeSpan(10, 0, 0, 0),
             configuration["Authentication:JwtBearer:Audience"],
             configuration["Authentication:JwtBearer:Issuer"]
         );

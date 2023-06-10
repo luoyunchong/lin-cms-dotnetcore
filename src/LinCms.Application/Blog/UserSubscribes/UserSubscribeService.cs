@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DotNetCore.CAP;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Notifications;
 using LinCms.Cms.Users;
-using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -15,6 +15,9 @@ using LinCms.Security;
 
 namespace LinCms.Blog.UserSubscribes;
 
+/// <summary>
+/// 用户关注（订阅）服务接口
+/// </summary>
 public class UserSubscribeService : ApplicationService, IUserSubscribeService
 {
     private readonly IUserRepository _userRepository;

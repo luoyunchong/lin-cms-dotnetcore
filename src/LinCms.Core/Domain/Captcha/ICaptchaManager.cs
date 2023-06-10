@@ -38,5 +38,5 @@ public interface ICaptchaManager
     /// <param name="tag"></param>
     /// <param name="salt"></param>
     /// <returns></returns>
-    LoginCaptchaBO DecodeTag(string tag, string salt = "cryptography_salt");
+    CaptchaBO DecodeTag(string tag, string salt = "cryptography_salt");
 }

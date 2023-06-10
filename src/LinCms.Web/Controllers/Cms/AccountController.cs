@@ -5,10 +5,8 @@ using IGeekFan.FreeKit.Extras.Security;
 using JetBrains.Annotations;
 using LinCms.Cms.Account;
 using LinCms.Cms.Users;
-using LinCms.Common;
 using LinCms.Data;
 using LinCms.Data.Enums;
-using LinCms.Data.Options;
 using LinCms.Domain.Captcha;
 using LinCms.Entities;
 using LinCms.Exceptions;
@@ -36,9 +34,9 @@ public class AccountController : ApiControllerBase
     private readonly IAccountService _accountService;
     private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;
     private readonly IUserService _userService;
-    private readonly LoginCaptchaOption _loginCaptchaOption;
+    private readonly CaptchaOption _loginCaptchaOption;
     private readonly ICaptchaManager _captchaManager;
-    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<LoginCaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager)
+    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager)
     {
         bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
         _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? nameof(IdentityServer4Service) : nameof(JwtTokenService));
@@ -81,7 +79,7 @@ public class AccountController : ApiControllerBase
     [DisableAuditing]
     [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
     [HttpPost("login")]
-    public Task<Tokens> Login([FromBody] LoginInputDto loginInputDto, [FromHeader][CanBeNull] string? tag)
+    public Task<Tokens> Login([FromBody] LoginInputDto loginInputDto, [FromHeader] string? tag)
     {
         if (_loginCaptchaOption.Enabled == true)
         {

@@ -26,7 +26,6 @@ namespace LinCms.Entities.Blog
         /// 技术频道名称
         /// </summary>
         [Column(StringLength = 50)]
-
         public string ChannelName { get; set; }
 
         /// <summary>

@@ -16,6 +16,7 @@ namespace LinCms.Entities.Blog
         /// 回复评论Id
         /// </summary>
         public Guid? RespId { get; set; }
+
         /// <summary>
         /// 根回复id
         /// </summary>
@@ -27,6 +28,7 @@ namespace LinCms.Entities.Blog
         /// 被回复的用户Id
         /// </summary>
         public long? RespUserId { get; set; }
+
         /// <summary>
         /// 回复的文本内容
         /// </summary>
@@ -37,6 +39,7 @@ namespace LinCms.Entities.Blog
         /// 点赞量
         /// </summary>
         public int LikesQuantity { get; set; }
+
         /// <summary>
         /// 是否已审核
         /// </summary>
@@ -50,13 +53,14 @@ namespace LinCms.Entities.Blog
         /// <summary>
         /// 评论的对象 1 是随笔，其他为以后扩展
         /// </summary>
-        public int SubjectType { get; set; } = 1;
+        public CommentSubjectType SubjectType { get; set; } = CommentSubjectType.ArticleComment;
 
         /// <summary>
         /// 评论的用户-OneToOne
         /// </summary>
         [Navigate("CreateUserId")]
         public virtual LinUser UserInfo { get; set; }
+
         /// <summary>
         /// 被回复的用户-OneToOne
         /// </summary>
@@ -64,15 +68,12 @@ namespace LinCms.Entities.Blog
         public virtual LinUser RespUserInfo { get; set; }
 
 
-        [Navigate("RootCommentId")]
-        public virtual ICollection<Comment> Childs { get; set; }
+        [Navigate("RootCommentId")] public virtual ICollection<Comment> Childs { get; set; }
 
-        [Navigate(nameof(UserLike.SubjectId))]
-        public virtual ICollection<UserLike> UserLikes { get; set; }
+        [Navigate(nameof(UserLike.SubjectId))] public virtual ICollection<UserLike> UserLikes { get; set; }
 
 
-        [Navigate("RespId")]
-        public virtual Comment Parent { get; set; }
+        [Navigate("RespId")] public virtual Comment Parent { get; set; }
 
         public void UpdateLikeQuantity(int likesQuantity)
         {
@@ -93,4 +94,12 @@ namespace LinCms.Entities.Blog
         }
     }
 
+
+    public enum CommentSubjectType
+    {
+        /// <summary>
+        /// 文章评价
+        /// </summary>
+        ArticleComment = 0
+    }
 }

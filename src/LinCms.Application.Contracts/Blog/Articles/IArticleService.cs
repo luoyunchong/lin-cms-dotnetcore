@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Data;
 
 namespace LinCms.Blog.Articles;
@@ -32,6 +33,8 @@ public interface IArticleService
     /// <param name="likesQuantity"></param>
     /// <returns></returns>
     Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity);
+
+    Task UpdateCollectQuantityAysnc(Guid articleId, int collectQuantity);
 
     /// <summary>
     /// 修改随笔是否允许其他人评论

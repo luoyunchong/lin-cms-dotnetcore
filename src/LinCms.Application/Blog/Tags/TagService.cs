@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.UserSubscribes;
-using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
@@ -14,6 +14,9 @@ using LinCms.Security;
 
 namespace LinCms.Blog.Tags;
 
+/// <summary>
+/// 标签服务
+/// </summary>
 public class TagService : ApplicationService, ITagService
 {
     private readonly IAuditBaseRepository<UserTag> _userTagRepository;
@@ -28,6 +31,7 @@ public class TagService : ApplicationService, ITagService
         _fileRepository = fileRepository;
     }
 
+    #region CRUD
     public async Task CreateAsync(CreateUpdateTagDto createTag)
     {
         bool exist = await _tagRepository.Select.AnyAsync(r => r.TagName == createTag.TagName);
@@ -99,6 +103,8 @@ public class TagService : ApplicationService, ITagService
 
         return new PagedResultDto<TagListDto>(tags, totalCount);
     }
+
+    #endregion
 
     public async Task<bool> IsSubscribeAsync(Guid tagId)
     {

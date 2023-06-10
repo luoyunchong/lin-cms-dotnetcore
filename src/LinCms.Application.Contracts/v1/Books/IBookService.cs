@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Data;
 
 namespace LinCms.v1.Books;

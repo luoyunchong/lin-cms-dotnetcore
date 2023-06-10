@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Data;
 using LinCms.Entities.Blog;
@@ -27,6 +28,7 @@ public class ChannelService : ApplicationService, IChannelService
     }
 
 
+    #region CRUD
     public async Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto)
     {
         List<ChannelDto> channel = (await _channelRepository.Select
@@ -43,19 +45,6 @@ public class ChannelService : ApplicationService, IChannelService
             }).ToList();
 
         return new PagedResultDto<ChannelDto>(channel, totalCount);
-    }
-
-    [Cacheable]
-    public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
-    {
-        List<NavChannelListDto> channel = (await _channelRepository.Select
-                .Where(r => r.Status == true)
-                .IncludeMany(r => r.Tags.Select(u => new Tag { TagName = u.TagName, Id = u.Id }), r => r.Where(u => u.Status == true))
-                .OrderByDescending(r => r.SortCode)
-                .OrderBy(r => r.CreateTime)
-                .ToPagerListAsync(pageDto, out long totalCount))
-            .Select(r => Mapper.Map<NavChannelListDto>(r)).ToList();
-        return new PagedResultDto<NavChannelListDto>(channel, totalCount);
     }
 
     public async Task<ChannelDto> GetAsync(Guid id)
@@ -119,5 +108,19 @@ public class ChannelService : ApplicationService, IChannelService
     public Task DeleteAsync(Guid id)
     {
         return _channelRepository.DeleteAsync(new Channel { Id = id });
+    }
+    #endregion
+    
+    [Cacheable]
+    public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
+    {
+        List<NavChannelListDto> channel = (await _channelRepository.Select
+                .Where(r => r.Status == true)
+                .IncludeMany(r => r.Tags.Select(u => new Tag { TagName = u.TagName, Id = u.Id }), r => r.Where(u => u.Status == true))
+                .OrderByDescending(r => r.SortCode)
+                .OrderBy(r => r.CreateTime)
+                .ToPagerListAsync(pageDto, out long totalCount))
+            .Select(r => Mapper.Map<NavChannelListDto>(r)).ToList();
+        return new PagedResultDto<NavChannelListDto>(channel, totalCount);
     }
 }

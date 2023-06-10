@@ -34,21 +34,7 @@
             随笔
             </summary>
         </member>
-        <member name="M:LinCms.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
-            <summary>
-            删除自己的随笔
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Controllers.Blog.ArticleController.Delete(System.Guid)">
-            <summary>
-            管理员删除违规随笔
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Controllers.Blog.ArticleController.Get(LinCms.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetMyArticleList(LinCms.Blog.Articles.ArticleSearchDto)">
             <summary>
             我所有的随笔
             </summary>
@@ -62,11 +48,18 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.Delete(System.Guid)">
             <summary>
-            得到所有的随笔
+            管理员删除违规随笔
             </summary>
-            <param name="searchDto"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.ArticleController.DeleteMyArticleAsync(System.Guid)">
+            <summary>
+            删除自己的随笔
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.GetAsync(System.Guid)">
@@ -74,6 +67,13 @@
             随笔详情
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Blog.Articles.ArticleSearchDto)">
+            <summary>
+            得到所有的随笔
+            </summary>
+            <param name="searchDto"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Controllers.Blog.ArticleController.AuditAsync(System.Guid,System.Boolean)">
@@ -111,6 +111,11 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Controllers.Blog.AuthorCenterController">
+            <summary>
+            随笔草稿箱，自动保存随笔
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Blog.ChannelController">
             <summary>
             技术频道
@@ -127,6 +132,18 @@
             <summary>
             分类专栏
             </summary>
+        </member>
+        <member name="T:LinCms.Controllers.Blog.CollectionController">
+            <summary>
+            收藏
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.CollectionController.CreateOrCancelAsync(LinCms.Blog.Collections.CreateCancelArticleCollectionDto)">
+            <summary>
+            收藏文章、取消收藏文章
+            </summary>
+            <param name="crDto"></param>
+            <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Blog.CommentController">
             <summary>

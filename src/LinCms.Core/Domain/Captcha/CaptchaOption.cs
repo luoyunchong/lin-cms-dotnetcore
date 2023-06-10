@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinCms.Data.Options
+﻿namespace LinCms.Domain.Captcha
 {
     /// <summary>
     /// 验证码配置
     /// </summary>
-    public class LoginCaptchaOption
+    public class CaptchaOption
     {
         /// <summary>
         /// 是否启用验证码

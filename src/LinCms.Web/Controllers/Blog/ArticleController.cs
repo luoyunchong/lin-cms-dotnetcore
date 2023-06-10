@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras;
+using IGeekFan.FreeKit.Extras.Dto;
+
 
 namespace LinCms.Controllers.Blog;
 
@@ -33,7 +35,8 @@ public class ArticleController : ControllerBase
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
 
-    public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser, IArticleService articleService)
+    public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser,
+        IArticleService articleService)
     {
         _articleRepository = articleRepository;
         _mapper = mapper;
@@ -41,36 +44,6 @@ public class ArticleController : ControllerBase
         _articleService = articleService;
     }
 
-    /// <summary>
-    /// 删除自己的随笔
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpDelete("{id}")]
-    public async Task<UnifyResponseDto> DeleteMyArticleAsync(Guid id)
-    {
-        bool isCreateArticle = await _articleRepository.Select.AnyAsync(r => r.Id == id && r.CreateUserId == _currentUser.FindUserId());
-        if (!isCreateArticle)
-        {
-            throw new LinCmsException("无法删除别人的随笔!");
-        }
-
-        await _articleService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
-    }
-
-    /// <summary>
-    /// 管理员删除违规随笔
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpDelete("cms/{id}")]
-    [LinCmsAuthorize("删除随笔", "随笔")]
-    public async Task<UnifyResponseDto> Delete(Guid id)
-    {
-        await _articleService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
-    }
 
     /// <summary>
     /// 我所有的随笔
@@ -79,7 +52,7 @@ public class ArticleController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [AllowAnonymous]
-    public PagedResultDto<ArticleListDto> Get([FromQuery] ArticleSearchDto searchDto)
+    public PagedResultDto<ArticleListDto> GetMyArticleList([FromQuery] ArticleSearchDto searchDto)
     {
         List<ArticleListDto> articles = _articleRepository
             .Select
@@ -95,6 +68,9 @@ public class ArticleController : ControllerBase
 
         return new PagedResultDto<ArticleListDto>(articles, totalCount);
     }
+
+
+    #region CRUD
 
     /// <summary>
     /// 得到所有已审核过的随笔,最新的随笔/三天、七天、月榜、全部
@@ -119,24 +95,35 @@ public class ArticleController : ControllerBase
     }
 
     /// <summary>
-    /// 得到所有的随笔
+    /// 管理员删除违规随笔
     /// </summary>
-    /// <param name="searchDto"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet("all")]
-    [LinCmsAuthorize("所有随笔", "随笔")]
-    public PagedResultDto<ArticleListDto> GetAllArticles([FromQuery] ArticleSearchDto searchDto)
+    [HttpDelete("cms/{id}")]
+    [LinCmsAuthorize("删除随笔", "随笔")]
+    public async Task<UnifyResponseDto> Delete(Guid id)
     {
-        var articles = _articleRepository
-            .Select
-            .WhereCascade(r => r.IsDeleted == false)
-            .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
-            .OrderByDescending(r => r.CreateTime)
-            .ToPagerList(searchDto, out long totalCount)
-            .Select(a => _mapper.Map<ArticleListDto>(a))
-            .ToList();
+        await _articleService.DeleteAsync(id);
+        return UnifyResponseDto.Success();
+    }
 
-        return new PagedResultDto<ArticleListDto>(articles, totalCount);
+    /// <summary>
+    /// 删除自己的随笔
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}")]
+    public async Task<UnifyResponseDto> DeleteMyArticleAsync(Guid id)
+    {
+        bool isCreateArticle =
+            await _articleRepository.Select.AnyAsync(r => r.Id == id && r.CreateUserId == _currentUser.FindUserId());
+        if (!isCreateArticle)
+        {
+            throw new LinCmsException("无法删除别人的随笔!");
+        }
+
+        await _articleService.DeleteAsync(id);
+        return UnifyResponseDto.Success();
     }
 
     /// <summary>
@@ -156,6 +143,8 @@ public class ArticleController : ControllerBase
     public async Task<Guid> CreateAsync([FromBody] CreateUpdateArticleDto createArticle)
     {
         Guid id = await _articleService.CreateAsync(createArticle);
+        string[] keys =await RedisHelper.KeysAsync("ArticleController:GetArticle:*");
+        await RedisHelper.DelAsync(keys);
         return id;
     }
 
@@ -165,6 +154,29 @@ public class ArticleController : ControllerBase
     {
         await _articleService.UpdateAsync(id, updateArticleDto);
         return UnifyResponseDto.Success("更新随笔成功");
+    }
+
+    #endregion
+
+    /// <summary>
+    /// 得到所有的随笔
+    /// </summary>
+    /// <param name="searchDto"></param>
+    /// <returns></returns>
+    [HttpGet("all")]
+    [LinCmsAuthorize("所有随笔", "随笔")]
+    public PagedResultDto<ArticleListDto> GetAllArticles([FromQuery] ArticleSearchDto searchDto)
+    {
+        var articles = _articleRepository
+            .Select
+            .WhereCascade(r => r.IsDeleted == false)
+            .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
+            .OrderByDescending(r => r.CreateTime)
+            .ToPagerList(searchDto, out long totalCount)
+            .Select(a => _mapper.Map<ArticleListDto>(a))
+            .ToList();
+
+        return new PagedResultDto<ArticleListDto>(articles, totalCount);
     }
 
     /// <summary>

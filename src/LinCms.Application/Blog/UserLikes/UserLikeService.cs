@@ -9,6 +9,9 @@ using LinCms.Security;
 
 namespace LinCms.Blog.UserLikes;
 
+/// <summary>
+/// 用户点赞
+/// </summary>
 public class UserLikeService : ApplicationService, IUserLikeService
 {
     private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
@@ -50,13 +53,11 @@ public class UserLikeService : ApplicationService, IUserLikeService
                 break;
         }
 
-        if (exist)
-        {
-            return true;
-        }
+        if (exist) return true;
+     
 
         UserLike userLike = Mapper.Map<UserLike>(createUpdateUserLike);
         await _userLikeRepository.InsertAsync(userLike);
-        return false;
+        return true;
     }
 }

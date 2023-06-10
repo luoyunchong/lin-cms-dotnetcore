@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.AuditEntity;
-using LinCms.Data;
+using IGeekFan.FreeKit.Extras.Dto;
 
 namespace LinCms;
 
 public interface ICrudAppService<TGetOutputDto, TGetListOutputDto, in TKey, in TGetListInput, in TCreateInput, in TUpdateInput>
     where TGetOutputDto : IEntityDto<TKey> 
     where TKey : IEquatable<TKey>
-    where TGetListOutputDto : IEntityDto<TKey> 
+    where TGetListOutputDto : class, IEntityDto<TKey> 
 {
     Task<PagedResultDto<TGetListOutputDto>> GetListAsync(TGetListInput input);
 

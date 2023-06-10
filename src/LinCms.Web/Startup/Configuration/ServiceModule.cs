@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Autofac;
-using Autofac.Extras.DynamicProxy;
+﻿using Autofac;
 using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
-using IGeekFan.FreeKit.Extras.Dependency;
 using LinCms.Entities;
 using LinCms.Middleware;
 

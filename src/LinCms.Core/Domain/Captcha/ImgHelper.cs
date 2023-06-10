@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace LinCms.Common
+namespace LinCms.Domain.Captcha
 {
     /// <summary>
     /// https://cloud.tencent.com/developer/article/2142750
