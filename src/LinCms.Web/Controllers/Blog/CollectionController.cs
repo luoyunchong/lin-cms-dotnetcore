@@ -28,9 +28,15 @@ public class CollectionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<PagedResultDto<Collection>> GetListAsync([FromQuery] CollectionSearchDto searchdto)
+    public async Task<PagedResultDto<CollectionDto>> GetListAsync([FromQuery] CollectionSearchDto searchdto)
     {
         return await _collectionService.GetListAsync(searchdto);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<CollectionDto> GetAsync(Guid id)
+    {
+        return await _collectionService.GetAsync(id);
     }
 
     [HttpPost]

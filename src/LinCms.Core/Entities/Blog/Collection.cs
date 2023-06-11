@@ -20,7 +20,7 @@ public class Collection : FullAuditEntity<Guid, long>
     /// <summary>
     /// 描述
     /// </summary>
-    [Column(StringLength = 500)]
+    [Column(StringLength = 100)]
     [CanBeNull]
     public string Remark { get; set; }
 

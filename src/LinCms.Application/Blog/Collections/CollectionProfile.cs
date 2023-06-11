@@ -9,8 +9,7 @@ public class CollectionProfile:Profile
     public CollectionProfile()
     {
         CreateMap<CreateUpdateCollectionDto, Collection>();
-        CreateMap<Collection, CommentDto>();
-
+        CreateMap<Collection, CollectionDto>();
         CreateMap<CreateCancelArticleCollectionDto, ArticleCollection>();
     }
 }

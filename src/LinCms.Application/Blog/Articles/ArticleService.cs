@@ -18,6 +18,7 @@ namespace LinCms.Blog.Articles;
 
 public class ArticleService : ApplicationService, IArticleService
 {
+    #region Constructor
     private readonly IAuditBaseRepository<Article> _articleRepository;
     private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
     private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
@@ -51,7 +52,8 @@ public class ArticleService : ApplicationService, IArticleService
         _articleDraftRepository = articleDraftRepository;
         _fileRepository = fileRepository;
         _articleCollectionRepository = articleCollectionRepository;
-    }
+    } 
+    #endregion
 
     #region CRUD
     public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)

@@ -8,7 +8,7 @@ namespace LinCms.Entities.Blog
     ///  频道标签
     /// </summary>
     [Table(Name = "blog_channel_tag")]
-    public class ChannelTag : Entity<Guid>
+    public class ChannelTag : FullAuditEntity<Guid, long>
     {
 
         public ChannelTag()
