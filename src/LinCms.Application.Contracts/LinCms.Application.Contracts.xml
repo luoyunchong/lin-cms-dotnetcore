@@ -170,6 +170,22 @@
             编码
             </summary>
         </member>
+        <member name="P:LinCms.Blog.Collections.CollectionDto.Name">
+            <summary>
+            名称 
+            </summary>
+        </member>
+        <member name="P:LinCms.Blog.Collections.CollectionDto.Remark">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:LinCms.Blog.Collections.CollectionDto.PrivacyType">
+            <summary>
+            公开 当其他人关注此收藏集后不可再更改为隐私
+            隐私 仅自己可见此收藏集
+            </summary>
+        </member>
         <member name="P:LinCms.Blog.Collections.CreateUpdateCollectionDto.Remark">
             <summary>
             描述
