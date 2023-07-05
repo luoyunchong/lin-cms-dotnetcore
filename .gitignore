@@ -360,4 +360,3 @@ docs/api/*.yml
 docs/api/.manifest
 /identityserver4/LinCms.IdentityServer4/appsettings.Production.json
 /src/LinCms.Web/appsettings.Production.json
-/src/LinCms.Web/appsettings.Production.json

@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using FreeSql;
-using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Collections;
-using LinCms.Blog.Tags;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;
-using LinCms.Extensions;
 using LinCms.Security;
-using Qiniu.Util;
+using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace LinCms.Blog.Comments;
 
@@ -32,9 +28,20 @@ public class CollectionService : CrudAppService<Collection, CollectionDto, Colle
 
     protected override ISelect<Collection> CreateFilteredQuery(CollectionSearchDto input)
     {
+        Expression<Func<Collection, bool>> exp = u => false;
+        if (input.UserId != null)
+        {
+            if (input.UserId == CurrentUser.FindUserId())
+            {
+                exp = u => u.CreateUserId == input.UserId;
+            }
+            else
+            {
+                exp = exp.And(r => r.PrivacyType == PrivacyType.Public);
+            }
+        }
         return base.CreateFilteredQuery(input)
-             .WhereIf(input.UserId == null || input.UserId == CurrentUser.FindUserId(), r => r.CreateUserId == CurrentUser.FindUserId())
-             .WhereIf(input.UserId != null, r => r.CreateUserId == input.UserId && r.PrivacyType == PrivacyType.Public)
+            .Where(exp)
             .WhereIf(input.Name.IsNotNullOrEmpty(), r => r.Name.Contains(input.Name));
     }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IGeekFan.FreeKit.Extras.Dto;
+﻿using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Classifys;
 using LinCms.Blog.UserSubscribes;
@@ -13,6 +9,10 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using LinCms.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LinCms.Blog.Articles;
 
@@ -52,7 +52,7 @@ public class ArticleService : ApplicationService, IArticleService
         _articleDraftRepository = articleDraftRepository;
         _fileRepository = fileRepository;
         _articleCollectionRepository = articleCollectionRepository;
-    } 
+    }
     #endregion
 
     #region CRUD
@@ -111,7 +111,7 @@ public class ArticleService : ApplicationService, IArticleService
                 .ForEach(async (u) => { await UpdateArticleCountAsync(u.Id, -1); });
         }
 
-        await _articleRepository.DeleteAsync(new Article {Id = id});
+        await _articleRepository.DeleteAsync(new Article { Id = id });
         await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
         await _commentRepository.DeleteAsync(r => r.SubjectId == id);
         await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
@@ -319,14 +319,15 @@ public class ArticleService : ApplicationService, IArticleService
     public async Task UpdateLikeQuantityAysnc(Guid articleId, int likesQuantity)
     {
         Article article = await _articleRepository.Where(r => r.Id == articleId).ToOneAsync();
-        if(article==null)return;
+        if (article == null) return;
         article.UpdateLikeQuantity(likesQuantity);
         await _articleRepository.UpdateAsync(article);
     }
+
     public async Task UpdateCollectQuantityAysnc(Guid articleId, int collectQuantity)
     {
         Article article = await _articleRepository.Where(r => r.Id == articleId).ToOneAsync();
-        if(article==null)return;
+        if (article == null) return;
         article.UpdateCollectQuantity(collectQuantity);
         await _articleRepository.UpdateAsync(article);
     }

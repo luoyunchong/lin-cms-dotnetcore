@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using IGeekFan.FreeKit.Extras.FreeSql;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Articles;
 using LinCms.Blog.Collections;
 using LinCms.Entities.Blog;
 using LinCms.Security;
+using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace LinCms.Blog.Comments;
 
@@ -45,12 +45,11 @@ public class ArticleCollectionService : ApplicationService, IArticleCollectionSe
         }
         else
         {
-            await _articleService.UpdateCollectQuantityAysnc(crDto.ArticleId, 1);
             ArticleCollection articleCollection = Mapper.Map<ArticleCollection>(crDto);
             await _artCollectionRepository.InsertAsync(articleCollection);
         }
-
         await _articleService.UpdateCollectQuantityAysnc(crDto.ArticleId, increaseLikeQuantity);
+
         return increaseLikeQuantity > 0;
     }
 }
