@@ -55,7 +55,8 @@ public static class JwtExtensions
         Configuration.Bind("Basic", basicOption);
 
         //认证
-        AuthenticationBuilder authenticationBuilder = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//使用指定的方案启用 JWT 持有者身份验证。
+        AuthenticationBuilder authenticationBuilder = services
+             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//使用指定的方案启用 JWT 持有者身份验证。
              .AddCookie()
              .AddJwtBearer(options =>
              {
