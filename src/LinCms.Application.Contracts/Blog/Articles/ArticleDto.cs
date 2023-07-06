@@ -57,6 +57,7 @@ public class ArticleDto : Entity<Guid>, ICreateAuditEntity<long>
     public bool IsLiked { get; set; }
     public bool IsComment { get; set; }
     public bool IsCollect { get; set; }
+    public int CollectQuantity { get; set; }
 
     public OpenUserDto UserInfo { get; set; }
 

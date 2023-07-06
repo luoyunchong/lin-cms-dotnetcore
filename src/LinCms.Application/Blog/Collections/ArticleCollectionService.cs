@@ -32,15 +32,13 @@ public class ArticleCollectionService : ApplicationService, IArticleCollectionSe
     [Transactional]
     public async Task<bool> CreateOrCancelAsync(CreateCancelArticleCollectionDto crDto)
     {
-        Expression<Func<ArticleCollection, bool>> predicate = r =>
-            r.CollectionId == crDto.CollectionId && r.ArticleId == crDto.ArticleId &&
-            r.CreateUserId == CurrentUser.FindUserId();
-        int increaseLikeQuantity = 1;
+        Expression<Func<ArticleCollection, bool>> predicate = r =>  r.ArticleId == crDto.ArticleId &&  r.CreateUserId == CurrentUser.FindUserId();
+        int increaseCollectionQuantity = 1;
 
         bool exist = await _artCollectionRepository.Select.AnyAsync(predicate);
         if (exist)
         {
-            increaseLikeQuantity = -1;
+            increaseCollectionQuantity = -1;
             await _artCollectionRepository.DeleteAsync(predicate);
         }
         else
@@ -48,8 +46,8 @@ public class ArticleCollectionService : ApplicationService, IArticleCollectionSe
             ArticleCollection articleCollection = Mapper.Map<ArticleCollection>(crDto);
             await _artCollectionRepository.InsertAsync(articleCollection);
         }
-        await _articleService.UpdateCollectQuantityAysnc(crDto.ArticleId, increaseLikeQuantity);
+        await _articleService.UpdateCollectQuantityAysnc(crDto.ArticleId, increaseCollectionQuantity);
 
-        return increaseLikeQuantity > 0;
+        return increaseCollectionQuantity > 0;
     }
 }
