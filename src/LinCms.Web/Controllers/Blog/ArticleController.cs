@@ -79,7 +79,7 @@ public class ArticleController : ControllerBase
     /// <returns></returns>
     [HttpGet("query")]
     [AllowAnonymous]
-    [Cacheable]
+    // [Cacheable]
     public Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
     {
         return _articleService.GetArticleAsync(searchDto);

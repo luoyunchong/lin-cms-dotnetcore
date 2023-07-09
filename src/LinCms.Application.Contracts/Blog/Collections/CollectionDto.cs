@@ -4,7 +4,7 @@ using System;
 
 namespace LinCms.Blog.Collections;
 
-public class CollectionDto : EntityDto<Guid>
+public class CollectionDto : EntityDto<Guid>, ICreateAuditEntity<long>
 {
     /// <summary>
     /// 名称 
@@ -21,4 +21,8 @@ public class CollectionDto : EntityDto<Guid>
     /// 隐私 仅自己可见此收藏集
     /// </summary>
     public PrivacyType PrivacyType { get; set; }
+
+    public long? CreateUserId { get; set; }
+    public string CreateUserName { get; set; }
+    public DateTime CreateTime { get; set; }
 }

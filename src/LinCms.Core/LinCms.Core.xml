@@ -686,6 +686,11 @@
             描述
             </summary>
         </member>
+        <member name="P:LinCms.Entities.Blog.Collection.Quantity">
+            <summary>
+            收藏数量 
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.Blog.Collection.PrivacyType">
             <summary>
             公开 当其他人关注此收藏集后不可再更改为隐私

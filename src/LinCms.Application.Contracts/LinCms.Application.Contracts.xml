@@ -34,6 +34,16 @@
             几小时/秒前
             </summary>
         </member>
+        <member name="P:LinCms.Blog.Articles.ArticleSearchDto.ClassifyId">
+            <summary>
+            分类Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Blog.Articles.ArticleSearchDto.CollectionId">
+            <summary>
+            收藏集合Id
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.Articles.IArticleService.GetSubscribeArticleAsync(LinCms.Data.PageDto)">
             <summary>
             得到我关注的人发布的随笔

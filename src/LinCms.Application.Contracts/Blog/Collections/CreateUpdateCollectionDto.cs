@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using JetBrains.Annotations;
 using LinCms.Entities.Blog;
 
@@ -11,6 +12,7 @@ public class CreateUpdateCollectionDto
     /// 描述
     /// </summary>
     [CanBeNull]
+    [StringLength(200,ErrorMessage = "描述最长为200")]
     public string Remark { get; set; }
 
     /// <summary>

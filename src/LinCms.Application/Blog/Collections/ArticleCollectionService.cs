@@ -16,12 +16,14 @@ public class ArticleCollectionService : ApplicationService, IArticleCollectionSe
 {
     private readonly IAuditBaseRepository<ArticleCollection> _artCollectionRepository;
     private readonly IArticleService _articleService;
+    private readonly IAuditBaseRepository<Collection> _collectionRepository;
 
     public ArticleCollectionService(IAuditBaseRepository<ArticleCollection> collectionRepository,
-        IArticleService articleService)
+        IArticleService articleService, IAuditBaseRepository<Collection> collectionRepository1)
     {
         _artCollectionRepository = collectionRepository;
         _articleService = articleService;
+        _collectionRepository = collectionRepository1;
     }
 
     /// <summary>
@@ -32,21 +34,32 @@ public class ArticleCollectionService : ApplicationService, IArticleCollectionSe
     [Transactional]
     public async Task<bool> CreateOrCancelAsync(CreateCancelArticleCollectionDto crDto)
     {
-        Expression<Func<ArticleCollection, bool>> predicate = r =>  r.ArticleId == crDto.ArticleId &&  r.CreateUserId == CurrentUser.FindUserId();
+        Expression<Func<ArticleCollection, bool>> predicate = r =>
+            r.ArticleId == crDto.ArticleId && r.CreateUserId == CurrentUser.FindUserId();
+    
         int increaseCollectionQuantity = 1;
 
-        bool exist = await _artCollectionRepository.Select.AnyAsync(predicate);
-        if (exist)
+        ArticleCollection articleCollection = await _artCollectionRepository.Select.Where(predicate).FirstAsync();
+        if (articleCollection != null)
         {
             increaseCollectionQuantity = -1;
             await _artCollectionRepository.DeleteAsync(predicate);
         }
         else
         {
-            ArticleCollection articleCollection = Mapper.Map<ArticleCollection>(crDto);
+            articleCollection = Mapper.Map<ArticleCollection>(crDto);
             await _artCollectionRepository.InsertAsync(articleCollection);
         }
+
         await _articleService.UpdateCollectQuantityAysnc(crDto.ArticleId, increaseCollectionQuantity);
+
+        //更新收藏的数量
+        Collection collection = await _collectionRepository
+            .Where(r => r.Id == articleCollection.CollectionId)
+            .FirstAsync();
+        if (collection == null) return increaseCollectionQuantity > 0;
+        collection.UpdateQuantity(increaseCollectionQuantity);
+        await _collectionRepository.UpdateAsync(collection);
 
         return increaseCollectionQuantity > 0;
     }

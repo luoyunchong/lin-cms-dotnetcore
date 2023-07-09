@@ -62,6 +62,13 @@ public class ArticleService : ApplicationService, IArticleService
         DateTime weeklyDays = DateTime.Now.AddDays(-7);
         DateTime threeDays = DateTime.Now.AddDays(-3);
 
+        var articleIds = new List<Guid>();
+
+        if (searchDto.CollectionId != null)
+        {
+            articleIds = _articleCollectionRepository.Select.Where(r => r.CollectionId == searchDto.CollectionId).ToList(r => r.ArticleId);
+        }
+
         long? userId = CurrentUser.FindUserId();
         List<Article> articles = await _articleRepository
             .Select
@@ -78,6 +85,7 @@ public class ArticleService : ApplicationService, IArticleService
             .WhereIf(searchDto.Sort == "THREE_DAYS_HOTTEST", r => r.CreateTime > threeDays)
             .WhereIf(searchDto.Sort == "WEEKLY_HOTTEST", r => r.CreateTime > weeklyDays)
             .WhereIf(searchDto.Sort == "MONTHLY_HOTTEST", r => r.CreateTime > monthDays)
+            .WhereIf(searchDto.CollectionId != null, r => articleIds.Contains(r.Id))
             .OrderByDescending(
                 searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" ||
                 searchDto.Sort == "MONTHLY_HOTTEST" ||

@@ -13,18 +13,37 @@ namespace LinCms.Blog.Comments;
 /// <summary>
 /// 收藏服务
 /// </summary>
-public class CollectionService : CrudAppService<Collection, CollectionDto, CollectionDto, Guid, CollectionSearchDto, CreateUpdateCollectionDto, CreateUpdateCollectionDto>, ICollectionService
+public class CollectionService :
+    CrudAppService<Collection, CollectionDto, CollectionDto, Guid, CollectionSearchDto, CreateUpdateCollectionDto,
+        CreateUpdateCollectionDto>, ICollectionService
 {
     #region Constructor
+
     private readonly IAuditBaseRepository<Collection, Guid> _collectionRepsitory;
     private readonly IAuditBaseRepository<ArticleCollection> _artCollectionRepsitory;
 
-    public CollectionService(IAuditBaseRepository<Collection, Guid> collectionRepsitory, IAuditBaseRepository<ArticleCollection> artCollectionRepsitory) : base(collectionRepsitory)
+    public CollectionService(IAuditBaseRepository<Collection, Guid> collectionRepsitory,
+        IAuditBaseRepository<ArticleCollection> artCollectionRepsitory) : base(collectionRepsitory)
     {
         _collectionRepsitory = collectionRepsitory;
         _artCollectionRepsitory = artCollectionRepsitory;
     }
+
     #endregion
+
+
+    public override async Task<CollectionDto> UpdateAsync(Guid id, CreateUpdateCollectionDto updateInput)
+    {
+        Collection entity = await GetEntityByIdAsync(id);
+        if (entity.CreateUserId != CurrentUser.FindUserId())
+        {
+            throw new LinCmsException("您只可修改自己创建的收藏集");
+        }
+
+        Mapper.Map(updateInput, entity);
+        await Repository.UpdateAsync(entity);
+        return Mapper.Map<CollectionDto>(entity);
+    }
 
     protected override ISelect<Collection> CreateFilteredQuery(CollectionSearchDto input)
     {
@@ -40,6 +59,7 @@ public class CollectionService : CrudAppService<Collection, CollectionDto, Colle
                 exp = exp.And(r => r.PrivacyType == PrivacyType.Public);
             }
         }
+
         return base.CreateFilteredQuery(input)
             .Where(exp)
             .WhereIf(input.Name.IsNotNullOrEmpty(), r => r.Name.Contains(input.Name));
@@ -54,6 +74,7 @@ public class CollectionService : CrudAppService<Collection, CollectionDto, Colle
         {
             throw new LinCmsException("您只可删除自己创建的收藏集");
         }
+
         await _artCollectionRepsitory.DeleteAsync(r => r.CollectionId == collectionId);
         await _collectionRepsitory.DeleteAsync(r => r.Id == collectionId);
     }
