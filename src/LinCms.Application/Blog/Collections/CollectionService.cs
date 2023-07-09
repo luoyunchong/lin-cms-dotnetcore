@@ -47,7 +47,7 @@ public class CollectionService :
 
     protected override ISelect<Collection> CreateFilteredQuery(CollectionSearchDto input)
     {
-        Expression<Func<Collection, bool>> exp = u => false;
+        Expression<Func<Collection, bool>> exp = u => true;
         if (input.UserId != null)
         {
             if (input.UserId == CurrentUser.FindUserId())
@@ -56,7 +56,7 @@ public class CollectionService :
             }
             else
             {
-                exp = exp.And(r => r.PrivacyType == PrivacyType.Public);
+                exp = exp.And(r => r.CreateUserId == input.UserId && r.PrivacyType == PrivacyType.Public);
             }
         }
 
