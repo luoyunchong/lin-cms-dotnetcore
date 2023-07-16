@@ -8,7 +8,7 @@
   </h1>
 </h1>
 
-😃 A simple and practical CMS implemented by [ASP.NET Core 6](https://docs.microsoft.com/zh-cn/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0)
+😃 A simple and practical CMS implemented by [ASP.NET Core](https://docs.microsoft.com/zh-cn/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0)
 
 ## 项目简介
 
@@ -19,7 +19,7 @@
 
 本项目是完全出于个人喜爱，看到Lin-cms有了python,node.js,社区也有人出了[lin-cms-tp5](https://github.com/ChenJinchuang/lin-cms-tp5)的版本
 
-本项目是 Lin CMS 后端的 [ASP.NET Core 6](https://docs.microsoft.com/zh-cn/dotnet/core/introduction) 的实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
+本项目是 Lin CMS 后端的 [ASP.NET Core](https://docs.microsoft.com/zh-cn/dotnet/core/introduction) 的实现，通过Vue.js实现的前后端分离CMS平台，目前实现简约的权限管理系统、基础字典项管理、随笔专栏，评论点赞，消息通知，标签等仿掘金模块。
 
 ## 什么是 Lin CMS？
 
@@ -76,11 +76,11 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 由于 Lin 采用的是前后端分离的架构，所以你至少需要熟悉 C# 和 Vue。
 
 ### 后端 C#
-该项目的Lin 的服务端框架是基于[.NET6](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
+该项目的Lin 的服务端框架是基于[.NET](https://docs.microsoft.com/zh-cn/dotnet/core/)构建的，所以如果你比较熟悉Mvc、WebAPI、过滤器等概念，或者是 有.NET Framework中Mvc开发经验，相信你一定很容易写出代码。
 
 ### 相关技术
 - 数据库相关：ORM:[FreeSql](https://github.com/dotnetcore/FreeSql)+DataBase:MySQL5.6/MsSqlServer/Oracle/Sqlite/PostgreSQL
-- ASP.NET Core 6 +WebAPI+RESTful
+- ASP.NET Core + WebAPI + RESTful
 - 简化对象映射：[AutoMapper](https://automapper.org/)
 - 身份认证框架：[IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
 - Json Web令牌:JWT

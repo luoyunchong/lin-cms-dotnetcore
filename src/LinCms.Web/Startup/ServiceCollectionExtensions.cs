@@ -264,7 +264,8 @@ ElapsedMilliseconds:{3}ms
         redisClient.Deserialize = JsonConvert.DeserializeObject;
         redisClient.Notice += (s, e) => Log.Information(e.Log);
         services.AddSingleton<IRedisClient>(redisClient);
-        services.Add(ServiceDescriptor.Singleton<IDistributedCache, DistributedCache>());
+        services.AddSingleton(redisClient);
+        services.AddSingleton<IDistributedCache, DistributedCache>();
         return services;
     }
 
