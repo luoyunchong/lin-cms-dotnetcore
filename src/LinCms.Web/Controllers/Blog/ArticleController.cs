@@ -145,8 +145,11 @@ public class ArticleController : ControllerBase
     public async Task<Guid> CreateAsync([FromBody] CreateUpdateArticleDto createArticle)
     {
         Guid id = await _articleService.CreateAsync(createArticle);
-        string[] keys =await _redisClient.KeysAsync("ArticleController:GetArticle:*");
-        await _redisClient.DelAsync(keys);
+        string[] keys = await _redisClient.KeysAsync("ArticleController:GetArticle:*");
+        if (keys.Length > 0)
+        {
+            await _redisClient.DelAsync(keys);
+        }
         return id;
     }
 
