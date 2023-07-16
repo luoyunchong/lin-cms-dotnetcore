@@ -33,7 +33,7 @@ public class IdentityServer4Service : ITokenService
     /// </summary>
     /// <param name="loginInputDto"></param>
     /// <returns></returns>
-    public async Task<Tokens> LoginAsync(LoginInputDto loginInputDto)
+    public async Task<UserAccessToken> LoginAsync(LoginInputDto loginInputDto)
     {
         _logger.LogInformation("IdentityServer4Login");
 
@@ -74,10 +74,10 @@ public class IdentityServer4Service : ITokenService
         JsonElement jsonElement = response.Json;
 
         _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(jsonElement)}");
-        return new Tokens(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString());
+        return new UserAccessToken(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString(), 7200, "Bearer", 24 * 60 * 60 * 7);
     }
 
-    public async Task<Tokens> GetRefreshTokenAsync(string refreshToken)
+    public async Task<UserAccessToken> GetRefreshTokenAsync(string refreshToken)
     {
         HttpClient client = _httpClientFactory.CreateClient();
         DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
@@ -117,6 +117,6 @@ public class IdentityServer4Service : ITokenService
 
         JsonElement jsonElement = response.Json;
 
-        return new Tokens(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString());
+        return new UserAccessToken(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString(), 7200, "Bearer", 24 * 60 * 60 * 7);
     }
 }

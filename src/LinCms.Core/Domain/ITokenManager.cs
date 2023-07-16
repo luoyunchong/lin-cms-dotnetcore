@@ -9,5 +9,5 @@ namespace LinCms.Domain;
 /// </summary>
 public interface ITokenManager
 {
-    Task<Tokens> CreateTokenAsync(LinUser user);
+    Task<UserAccessToken> CreateTokenAsync(LinUser user);
 }

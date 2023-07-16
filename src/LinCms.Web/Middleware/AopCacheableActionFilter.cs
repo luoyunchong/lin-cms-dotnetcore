@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using FreeRedis;
 using LinCms.Common;
 using Newtonsoft.Json.Serialization;
 
@@ -15,8 +16,10 @@ namespace LinCms.Middleware;
 public class AopCacheableActionFilter : IAsyncActionFilter
 {
     private readonly int _expireSeconds;
-    public AopCacheableActionFilter(IConfiguration configuration)
+    private readonly IRedisClient _redisClient;
+    public AopCacheableActionFilter(IConfiguration configuration, IRedisClient redisClient)
     {
+        _redisClient = redisClient;
         _expireSeconds = int.Parse(configuration["Cache:ExpireSeconds"].ToString());
     }
 
@@ -56,7 +59,7 @@ public class AopCacheableActionFilter : IAsyncActionFilter
         }
 
         string cacheKey = GenerateCacheKey(cacheAttr.CacheKey, context);
-        string cacheValue = await RedisHelper.GetAsync(cacheKey);
+        string cacheValue = await _redisClient.GetAsync(cacheKey);
         if (cacheValue != null)
         {
             context.Result = new JsonResult(JsonConvert.DeserializeObject(cacheValue));
@@ -73,7 +76,7 @@ public class AopCacheableActionFilter : IAsyncActionFilter
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 };
 
-                await RedisHelper.SetAsync(cacheKey, JsonConvert.SerializeObject(ob.Value, new JsonSerializerSettings()
+                await _redisClient.SetAsync(cacheKey, JsonConvert.SerializeObject(ob.Value, new JsonSerializerSettings()
                 {
                     ContractResolver = contractResolver
                 }), _expireSeconds);

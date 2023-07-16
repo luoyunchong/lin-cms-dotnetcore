@@ -16,6 +16,7 @@ public class TokenManager : ITokenManager, ITransientDependency
     private readonly ILogger<TokenManager> _logger;
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jsonWebTokenService;
+
     public TokenManager(IJwtService jsonWebTokenService, ILogger<TokenManager> logger, IUserRepository userRepository)
     {
         _jsonWebTokenService = jsonWebTokenService;
@@ -23,14 +24,14 @@ public class TokenManager : ITokenManager, ITransientDependency
         _userRepository = userRepository;
     }
 
-    public async Task<Tokens> CreateTokenAsync(LinUser user)
+    public async Task<UserAccessToken> CreateTokenAsync(LinUser user)
     {
         List<Claim> claims = new()
         {
-            new Claim (FreeKitClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim (FreeKitClaimTypes.Email, user.Email?? ""),
-            new Claim (FreeKitClaimTypes.Name, user.Nickname?? ""),
-            new Claim (FreeKitClaimTypes.UserName, user.Username?? ""),
+            new Claim(FreeKitClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(FreeKitClaimTypes.Email, user.Email ?? ""),
+            new Claim(FreeKitClaimTypes.Name, user.Nickname ?? ""),
+            new Claim(FreeKitClaimTypes.UserName, user.Username ?? ""),
         };
         user.LinGroups?.ForEach(r =>
         {
@@ -43,6 +44,6 @@ public class TokenManager : ITokenManager, ITransientDependency
         user.AddRefreshToken();
         await _userRepository.UpdateAsync(user);
 
-        return new Tokens(token, user.RefreshToken);
+        return new UserAccessToken(token, user.RefreshToken, 24 * 60 * 60, "Bearer", 24 * 60 * 60 * 30);
     }
 }

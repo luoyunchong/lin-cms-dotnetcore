@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FreeRedis;
 
 namespace LinCms.Middleware;
 
@@ -20,9 +21,11 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
     #region AopCacheAsyncIntercept 判断是否开启缓存
     private readonly IConfiguration _configuration;
     private readonly int _expireSeconds;
-    public AopCacheAsyncIntercept(IConfiguration configuration)
+    private readonly IRedisClient _redisClient;
+    public AopCacheAsyncIntercept(IConfiguration configuration, IRedisClient redisClient)
     {
         _configuration = configuration;
+        _redisClient = redisClient;
         _expireSeconds = int.Parse(_configuration["Cache:ExpireSeconds"].ToString());
     }
 
@@ -62,7 +65,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
             MethodInfo method = invocation.MethodInvocationTarget ?? invocation.Method;
             var cacheAttr = method.GetCustomAttributes(typeof(CacheableAttribute), false).FirstOrDefault() as CacheableAttribute;
             string cacheKey = GenerateCacheKey(cacheAttr.CacheKey, invocation);
-            string cacheValue = RedisHelper.Get(cacheKey);
+            string cacheValue = _redisClient.Get(cacheKey);
             if (cacheValue != null)
             {
                 Type returnType = invocation.Method.ReturnType;
@@ -71,7 +74,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
             else
             {
                 invocation.Proceed();
-                RedisHelper.Set(cacheKey, JsonConvert.SerializeObject(invocation.ReturnValue), _expireSeconds);
+                _redisClient.Set(cacheKey, JsonConvert.SerializeObject(invocation.ReturnValue), _expireSeconds);
             }
         }
         else
@@ -98,7 +101,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
             MethodInfo method = invocation.MethodInvocationTarget ?? invocation.Method;
             var cacheAttr = method.GetCustomAttributes(typeof(CacheableAttribute), false).FirstOrDefault() as CacheableAttribute;
             string cacheKey = GenerateCacheKey(cacheAttr.CacheKey, invocation);
-            string cacheValue = await RedisHelper.GetAsync(cacheKey);
+            string cacheValue = await _redisClient.GetAsync(cacheKey);
             if (cacheValue != null)
             {
                 if (invocation.ReturnValue != null)
@@ -136,7 +139,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
             MethodInfo method = invocation.MethodInvocationTarget ?? invocation.Method;
             var cacheAttr = method.GetCustomAttributes(typeof(CacheableAttribute), false).FirstOrDefault() as CacheableAttribute;
             string cacheKey = GenerateCacheKey(cacheAttr.CacheKey, invocation);
-            string cacheValue = RedisHelper.Get(cacheKey);
+            string cacheValue = _redisClient.Get(cacheKey);
             if (cacheValue != null)
             {
                 Type returnType = invocation.Method.ReturnType;
@@ -162,7 +165,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
     private async Task<T> InterceptAsync<T>(string cacheKey, Task<T> task)
     {
         T result = await task.ConfigureAwait(false);
-        await RedisHelper.SetAsync(cacheKey, JsonConvert.SerializeObject(result), _expireSeconds);
+        await _redisClient.SetAsync(cacheKey, JsonConvert.SerializeObject(result), _expireSeconds);
         return result;
     }
 

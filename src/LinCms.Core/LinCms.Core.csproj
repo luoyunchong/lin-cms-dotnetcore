@@ -15,16 +15,16 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.530" />
-		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
+		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.532" />
+		<PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
 		<PackageReference Include="DotNetCore.Security" Version="17.3.0" />
-		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.530" />
-		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.697" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.532" />
+		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.698" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.9" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />	
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
 	</ItemGroup>
 
 </Project>

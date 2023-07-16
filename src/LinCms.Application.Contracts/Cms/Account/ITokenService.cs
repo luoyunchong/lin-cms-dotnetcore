@@ -13,12 +13,12 @@ public interface ITokenService
     /// </summary>
     /// <param name="loginInputDto"></param>
     /// <returns></returns>
-    Task<Tokens> LoginAsync(LoginInputDto loginInputDto);
+    Task<UserAccessToken> LoginAsync(LoginInputDto loginInputDto);
 
     /// <summary>
     /// 刷新token
     /// </summary>
     /// <param name="refreshToken"></param>
     /// <returns></returns>
-    Task<Tokens> GetRefreshTokenAsync(string refreshToken);
+    Task<UserAccessToken> GetRefreshTokenAsync(string refreshToken);
 }

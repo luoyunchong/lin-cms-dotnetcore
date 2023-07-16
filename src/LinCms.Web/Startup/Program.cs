@@ -59,7 +59,7 @@ services
     .AddLinServices(c)
     .AddCustomMvc(c)
     .AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly)
-    .AddCsRedisCore(c)
+    .AddRedisClient(c)
     .AddJwtBearer(c)
     .AddSwaggerGen()//Swagger 扩展方法配置
     .AddCap(c)// 分布式事务一致性CAP

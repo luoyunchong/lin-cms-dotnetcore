@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Blog.Tags;
 using LinCms.Blog.UserSubscribes;
+using LinCms.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,9 +33,10 @@ public class UserTagController : ControllerBase
     /// </summary>
     /// <param name="tagId"></param>
     [HttpPost("{tagId}")]
-    public Task CreateUserTagAsync(Guid tagId)
+    public async Task<UnifyResponseDto> CreateUserTagAsync(Guid tagId)
     {
-        return _userTagService.CreateUserTagAsync(tagId);
+        await _userTagService.CreateUserTagAsync(tagId);
+        return UnifyResponseDto.Success("关注成功");
     }
 
     /// <summary>
@@ -42,9 +44,10 @@ public class UserTagController : ControllerBase
     /// </summary>
     /// <param name="tagId"></param>
     [HttpDelete("{tagId}")]
-    public Task DeleteUserTagAsync(Guid tagId)
+    public async Task<UnifyResponseDto> DeleteUserTagAsync(Guid tagId)
     {
-        return _userTagService.DeleteUserTagAsync(tagId);
+        await _userTagService.DeleteUserTagAsync(tagId);
+        return UnifyResponseDto.Success("取消关注成功");
     }
 
     /// <summary>

@@ -79,7 +79,7 @@ public class AccountController : ApiControllerBase
     [DisableAuditing]
     [ServiceFilter(typeof(RecaptchaVerifyActionFilter))]
     [HttpPost("login")]
-    public Task<Tokens> Login([FromBody] LoginInputDto loginInputDto, [FromHeader] string? tag)
+    public Task<UserAccessToken> Login([FromBody] LoginInputDto loginInputDto, [FromHeader] string? tag)
     {
         if (_loginCaptchaOption.Enabled == true)
         {
@@ -104,7 +104,7 @@ public class AccountController : ApiControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet("refresh")]
-    public async Task<Tokens> GetRefreshTokenAsync()
+    public async Task<UserAccessToken> GetRefreshTokenAsync()
     {
         string? refreshToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
         if (refreshToken == null)

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FreeRedis;
 using IGeekFan.FreeKit.Extras;
 using IGeekFan.FreeKit.Extras.Dto;
 
@@ -34,14 +35,15 @@ public class ArticleController : ControllerBase
     private readonly IArticleService _articleService;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
-
+    private readonly IRedisClient _redisClient;
     public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser,
-        IArticleService articleService)
+        IArticleService articleService, IRedisClient redisClient)
     {
         _articleRepository = articleRepository;
         _mapper = mapper;
         _currentUser = currentUser;
         _articleService = articleService;
+        _redisClient = redisClient;
     }
 
 
@@ -143,8 +145,8 @@ public class ArticleController : ControllerBase
     public async Task<Guid> CreateAsync([FromBody] CreateUpdateArticleDto createArticle)
     {
         Guid id = await _articleService.CreateAsync(createArticle);
-        string[] keys =await RedisHelper.KeysAsync("ArticleController:GetArticle:*");
-        await RedisHelper.DelAsync(keys);
+        string[] keys =await _redisClient.KeysAsync("ArticleController:GetArticle:*");
+        await _redisClient.DelAsync(keys);
         return id;
     }
 

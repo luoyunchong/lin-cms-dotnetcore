@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using AspNetCoreRateLimit;
-using CSRedis;
+﻿using AspNetCoreRateLimit;
 using DotNetCore.CAP;
 using DotNetCore.CAP.Messages;
 using FreeSql;
@@ -26,7 +21,6 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -34,6 +28,11 @@ using Newtonsoft.Json.Serialization;
 using Owl.reCAPTCHA;
 using Savorboard.CAP.InMemoryMessageQueue;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using FreeRedis;
 
 namespace LinCms.Startup;
 
@@ -258,12 +257,14 @@ ElapsedMilliseconds:{3}ms
 
     #region 初始化 Redis配置
 
-    public static IServiceCollection AddCsRedisCore(this IServiceCollection services, IConfiguration c)
-    {
-        //初始化 RedisHelper
-        RedisHelper.Initialization(new CSRedisClient(c.GetConnectionString("CsRedis")));
-        //注册mvc分布式缓存
-        services.AddSingleton<IDistributedCache>(r => new CSRedisCache(RedisHelper.Instance));
+    public static IServiceCollection AddRedisClient(this IServiceCollection services, IConfiguration c)
+    {  
+        var redisClient=new RedisClient(c.GetConnectionString("Redis"));
+        redisClient.Serialize = JsonConvert.SerializeObject;
+        redisClient.Deserialize = JsonConvert.DeserializeObject;
+        redisClient.Notice += (s, e) => Log.Information(e.Log);
+        services.AddSingleton<IRedisClient>(redisClient);
+        services.Add(ServiceDescriptor.Singleton<IDistributedCache, DistributedCache>());
         return services;
     }
 

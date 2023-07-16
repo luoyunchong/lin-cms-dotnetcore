@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FreeRedis;
 using IGeekFan.FreeKit.Email;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
@@ -23,6 +24,7 @@ public class AccountService : ApplicationService, IAccountService
     private readonly SiteOption _siteOption;
     private readonly ICaptchaManager _captchaManager;
     private readonly CaptchaOption _loginCaptchaOption;
+    private readonly IRedisClient _redisClient;
     public AccountService(
         IAuditBaseRepository<LinUser, long> userRepository,
         IEmailSender emailSender,
@@ -30,7 +32,8 @@ public class AccountService : ApplicationService, IAccountService
         IUserIdentityService userIdentityService,
         IOptionsMonitor<SiteOption> siteOption,
         ICaptchaManager captchaManager,
-        IOptionsMonitor<CaptchaOption> loginCaptchaOption)
+        IOptionsMonitor<CaptchaOption> loginCaptchaOption,
+        IRedisClient redisClient)
     {
         _userRepository = userRepository;
         _emailSender = emailSender;
@@ -39,6 +42,7 @@ public class AccountService : ApplicationService, IAccountService
         _siteOption = siteOption.CurrentValue;
         _captchaManager = captchaManager;
         _loginCaptchaOption = loginCaptchaOption.CurrentValue;
+        _redisClient = redisClient;
     }
 
     /// <summary>
@@ -89,7 +93,7 @@ public class AccountService : ApplicationService, IAccountService
         message.Subject = $"vvlog-请点击这里激活您的账号";
 
         string uuid = Guid.NewGuid().ToString();
-        await RedisHelper.SetAsync("SendChangeEmail." + sendEmailCodeInput.Email, uuid, 30 * 60);
+        await _redisClient.SetAsync("SendChangeEmail." + sendEmailCodeInput.Email, uuid, 30 * 60);
 
         message.Body = new TextPart("html")
         {
@@ -119,7 +123,7 @@ public class AccountService : ApplicationService, IAccountService
         message.Subject = $"vvlog-你的验证码是";
 
         string uuid = Guid.NewGuid().ToString();
-        await RedisHelper.SetAsync("SendEmailCode." + registerDto.Email, uuid, 30 * 60);
+        await _redisClient.SetAsync("SendEmailCode." + registerDto.Email, uuid, 30 * 60);
 
         int verificationCode = new Random().Next(100000, 999999);
 
@@ -129,7 +133,7 @@ public class AccountService : ApplicationService, IAccountService
         };
 
         await _emailSender.SendAsync(message);
-        await RedisHelper.SetAsync("SendEmailCode.VerificationCode." + registerDto.Email, verificationCode, 30 * 60);
+        await _redisClient.SetAsync("SendEmailCode.VerificationCode." + registerDto.Email, verificationCode, 30 * 60);
         return uuid;
     }
 
@@ -160,7 +164,7 @@ public class AccountService : ApplicationService, IAccountService
 
         await _emailSender.SendAsync(message);
 
-        await RedisHelper.SetAsync(user.Email, verificationCode, 30 * 60);
+        await _redisClient.SetAsync(user.Email, verificationCode, 30 * 60);
 
         return user.PasswordResetCode;
     }
@@ -178,7 +182,7 @@ public class AccountService : ApplicationService, IAccountService
 
     public async Task ResetPasswordAsync(ResetEmailPasswordDto resetPassword)
     {
-        string resetCode = await RedisHelper.GetAsync(resetPassword.Email);
+        string resetCode = await _redisClient.GetAsync(resetPassword.Email);
         if (resetCode.IsNullOrEmpty())
         {
             throw new LinCmsException("验证码已过期");

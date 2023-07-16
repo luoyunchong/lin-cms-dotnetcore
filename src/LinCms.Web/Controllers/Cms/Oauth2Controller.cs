@@ -107,7 +107,7 @@ public class Oauth2Controller : ControllerBase
             throw new LinCmsException("第三方登录失败！");
         }
 
-        Tokens tokens = await _tokenManager.CreateTokenAsync(user);
+        UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
 
         return Redirect($"{redirectUrl}#login-result?token={tokens.AccessToken}");
     }

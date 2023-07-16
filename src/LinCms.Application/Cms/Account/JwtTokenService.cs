@@ -32,7 +32,7 @@ public class JwtTokenService : ITokenService
     /// </summary>
     /// <param name="loginInputDto"></param>
     /// <returns></returns>
-    public async Task<Tokens> LoginAsync(LoginInputDto loginInputDto)
+    public async Task<UserAccessToken> LoginAsync(LoginInputDto loginInputDto)
     {
         _logger.LogInformation("JwtLogin");
 
@@ -57,12 +57,12 @@ public class JwtTokenService : ITokenService
 
         _logger.LogInformation($"用户{loginInputDto.Username},登录成功");
 
-        Tokens tokens = await _tokenManager.CreateTokenAsync(user);
+        UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
         return tokens;
     }
 
 
-    public async Task<Tokens> GetRefreshTokenAsync(string refreshToken)
+    public async Task<UserAccessToken> GetRefreshTokenAsync(string refreshToken)
     {
         LinUser user = await _userRepository.GetUserAsync(r => r.RefreshToken == refreshToken);
 
@@ -76,7 +76,7 @@ public class JwtTokenService : ITokenService
             throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
         }
 
-        Tokens tokens = await _tokenManager.CreateTokenAsync(user);
+        UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
         _logger.LogInformation($"用户{user.Username},JwtRefreshToken 刷新-登录成功");
 
         return tokens;
