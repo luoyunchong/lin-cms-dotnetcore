@@ -111,12 +111,14 @@ public class ArticleService : ApplicationService, IArticleService
     [Transactional]
     public async Task DeleteAsync(Guid id)
     {
-        Article article = _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).ToOne();
+        Article article = await _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).FirstAsync();
         if (article.IsNotNull())
         {
             await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
-            article.Tags?
-                .ForEach(async (u) => { await UpdateArticleCountAsync(u.Id, -1); });
+            foreach (var u in article.Tags)
+            {
+                await UpdateArticleCountAsync(u.Id, -1);
+            }
         }
 
         await _articleRepository.DeleteAsync(new Article { Id = id });
