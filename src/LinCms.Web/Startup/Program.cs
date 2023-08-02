@@ -108,7 +108,7 @@ app.UseSwaggerUI(r =>
     r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
     r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    r.RoutePrefix = "s";//http://localhost:5000/s/index.html
+    r.RoutePrefix = "swagger";//http://localhost:5000/swagger/index.html
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthAppName(c["Service:Name"]);
@@ -119,12 +119,12 @@ app.UseSwaggerUI(r =>
 app.UseKnife4UI(r =>
 {
     r.DocumentTitle = "LinCms博客模块";
-    r.RoutePrefix = "swagger";//http://localhost:5000/swagger/index.html
+    r.RoutePrefix = "";//http://localhost:5000/index.html
                               //r.InjectStylesheet("");
-    r.SwaggerEndpoint("/base/swagger.json", "base");
-    r.SwaggerEndpoint("/blog/swagger.json", "blog");
-    r.SwaggerEndpoint("/cms/swagger.json", "cms");
-    r.SwaggerEndpoint("/v1/swagger.json", "v1");
+    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
+    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
+    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthAppName(c["Service:Name"]);
@@ -132,7 +132,7 @@ app.UseKnife4UI(r =>
 
 app.UseRapiDocUI(r =>
 {
-    r.RoutePrefix = ""; //RapiDoc http://localhost:5000/index.html
+    r.RoutePrefix = "r"; //RapiDoc http://localhost:5000/r/index.html
     r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
     r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");

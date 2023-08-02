@@ -123,7 +123,7 @@ public class ArticleService : ApplicationService, IArticleService
 
         await _articleRepository.DeleteAsync(new Article { Id = id });
         await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
-        await _commentRepository.DeleteAsync(r => r.SubjectId == id);
+        await _commentRepository.DeleteAsync(r => r.SubjectId == id);   
         await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
     }
 

@@ -24,7 +24,7 @@
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />	
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
 	</ItemGroup>
 
 </Project>
