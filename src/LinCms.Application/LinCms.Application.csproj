@@ -21,7 +21,7 @@
 		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="7.2.2" />
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="IdentityModel" Version="6.2.0" />
-		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.535" />
+		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.536" />
 		<PackageReference Include="MQiniu.Core" Version="1.0.1" />
 		<PackageReference Include="FreeRedis" Version="1.2.5" />
 		<PackageReference Include="FreeRedis.DistributedCache" Version="1.2.5" />

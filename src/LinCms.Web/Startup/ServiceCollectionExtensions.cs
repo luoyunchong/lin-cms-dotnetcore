@@ -125,7 +125,6 @@ public static class ServiceCollectionExtensions
         {
             options.AddPolicy("CorsPolicy",
                 builder => builder
-                    .SetIsOriginAllowed((host) => true)
                     .WithOrigins(c.GetSection("WithOrigins").Get<string[]>())
                     .AllowAnyMethod()
                     .AllowAnyHeader()

@@ -15,10 +15,10 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.535" />
+		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.536" />
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
 		<PackageReference Include="DotNetCore.Security" Version="17.3.0" />
-		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.535" />
+		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.536" />
 		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.805" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
