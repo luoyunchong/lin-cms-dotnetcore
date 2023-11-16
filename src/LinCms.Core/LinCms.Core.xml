@@ -1117,11 +1117,7 @@
             个人介绍
             </summary>
         </member>
-        <member name="P:LinCms.Entities.LinUser.BlogAddress">
-            <summary>
-             个人主页
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "P:LinCms.Entities.LinUser.BlogAddress" -->
         <member name="P:LinCms.Entities.LinUser.JobTitle">
             <summary>
             职位

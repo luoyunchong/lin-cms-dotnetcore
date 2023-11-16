@@ -52,13 +52,14 @@ namespace LinCms.Entities
         /// <summary>
         /// 个人介绍
         /// </summary>
-        [Column(StringLength = 100)]
+        [StringLength(100)]
         public string Introduction { get; set; }
 
         /// <summary>
         ///  个人主页
         /// </summary>
-        [Column(StringLength = 100)]
+        /// </summary>
+        [StringLength(100)]
         public string BlogAddress { get; set; }
 
         /// <summary>

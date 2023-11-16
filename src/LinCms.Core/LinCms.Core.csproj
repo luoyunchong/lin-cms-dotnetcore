@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<RootNamespace>LinCms</RootNamespace>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -15,16 +15,20 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.532" />
-		<PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
+		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.535" />
+		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
 		<PackageReference Include="DotNetCore.Security" Version="17.3.0" />
-		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.532" />
-		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.698" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.9" />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.3" />
+		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.535" />
+		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.805" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />	
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<RootNamespace>LinCms</RootNamespace>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -9,12 +9,16 @@
 	<ItemGroup>
 
 		<ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
-		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.698" />
-		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.2.698" />
-		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.698" />
-		<PackageReference Include="FreeSql.Provider.SqlServer" Version="3.2.698" />
-		<PackageReference Include="FreeSql.Provider.Oracle" Version="3.2.698" />
-		<PackageReference Include="FreeSql.Provider.Odbc" Version="3.2.698" />
+		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.805" />
+		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.2.805" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.805" />
+		<PackageReference Include="FreeSql.Provider.SqlServer" Version="3.2.805" />
+		<PackageReference Include="FreeSql.Provider.Oracle" Version="3.2.805" />
+		<PackageReference Include="FreeSql.Provider.Odbc" Version="3.2.805" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>

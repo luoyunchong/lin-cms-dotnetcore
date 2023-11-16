@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<AssemblyName>LinCms.IdentityServer4</AssemblyName>
 		<UserSecretsId>75054c79-633b-497e-9b1c-f1b5fe1da2b7</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -32,12 +32,12 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
-		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.698" />
-		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.805" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
 		<PackageReference Include="IGeekFan.AspNetCore.RapiDoc" Version="0.0.7" />
-		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.0.0" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -63,6 +63,10 @@
 		<None Update="IS4.pfx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
 	<ProjectExtensions>
 		<VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="http://json.schemastore.org/bozr" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio>
