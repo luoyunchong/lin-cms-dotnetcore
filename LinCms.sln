@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
 		build-all.ps1 = build-all.ps1
+		build_push.sh = build_push.sh
 		Delete BIN OBJ Folders.bat = Delete BIN OBJ Folders.bat
 		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
