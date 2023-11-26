@@ -1,5 +1,6 @@
 ﻿using SkiaSharp;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace LinCms.Domain.Captcha
@@ -43,7 +44,7 @@ namespace LinCms.Domain.Captcha
             }
             using (SKPaint drawStyle = new())
             {
-                var font = SKTypeface.FromFamilyName(fonts[random.Next(0, fonts.Length - 1)], SKFontStyleWeight.SemiBold, SKFontStyleWidth.ExtraCondensed, SKFontStyleSlant.Upright);
+                var font = SKFontManager.Default.CreateTypeface(File.Open("MSYH.TTC", FileMode.Open));
                 drawStyle.Color = SKColors.Red;
                 drawStyle.TextSize = height;
                 drawStyle.StrokeWidth = 2;
