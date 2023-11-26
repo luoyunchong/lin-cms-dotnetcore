@@ -44,7 +44,7 @@ namespace LinCms.Domain.Captcha
             }
             using (SKPaint drawStyle = new())
             {
-                var font = SKFontManager.Default.CreateTypeface(File.Open("MSYH.TTC", FileMode.Open));
+                var font = SKFontManager.Default.CreateTypeface(File.Open("Fonts/JetBrainsMono-Bold.ttf", FileMode.Open));
                 drawStyle.Color = SKColors.Red;
                 drawStyle.TextSize = height;
                 drawStyle.StrokeWidth = 2;
