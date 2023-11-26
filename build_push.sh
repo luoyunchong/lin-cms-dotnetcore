@@ -1,4 +1,4 @@
-SERVER_NAME=lincms_api
+SERVER_NAME=lincms-web
 SERVER_Dockerfile=src/LinCms.Web/Dockerfile
 CID=$(docker ps | grep "${SERVER_NAME}" | awk '{print $1}')
 IID=$(docker images | grep "${SERVER_NAME}" | awk '{print $3}')
