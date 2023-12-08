@@ -12,26 +12,19 @@ using Xunit.Abstractions;
 
 namespace LinCms.Test
 {
-    public class LinCmsTest : BaseLinCmsTest
+    public class LinCmsTest
     {
         private readonly ITestOutputHelper _testOutputHelper;
-        private readonly IFreeSql freeSql;
-        private readonly IJwtService jsonWebTokenService;
+        private readonly IFreeSql _fsql;
+        private readonly IJwtService _jsonWebTokenService;
         private readonly ICryptographyService _cryptographyService;
-        public LinCmsTest(ITestOutputHelper testOut)
+        public LinCmsTest(ITestOutputHelper testOut, IJwtService jsonWebTokenService, IFreeSql freeSql, ICryptographyService cryptographyService)
         {
             _testOutputHelper = testOut;
-            freeSql = GetService<IFreeSql>();
-            jsonWebTokenService = GetService<IJwtService>();
-            _cryptographyService = GetService<ICryptographyService>();
+            _jsonWebTokenService = jsonWebTokenService;
+            _fsql = freeSql;
+            _cryptographyService = cryptographyService;
         }
-
-        [Fact]
-        public void OutputTest()
-        {
-            _testOutputHelper.WriteLine("BaseLinCmsTest ConfigureServices");
-        }
-
 
         //guid:9fd248c8-e9da-412f-bad9-aa5f7f1d7b80,passowrd:IWxIlqMAE3SU3JTogdDAJw==
         [Fact]
@@ -50,10 +43,10 @@ namespace LinCms.Test
         [Fact]
         public void CreateUnitOfWorkTest()
         {
-            using IUnitOfWork uow = freeSql.CreateUnitOfWork();
+            using IUnitOfWork uow = _fsql.CreateUnitOfWork();
             uow.GetOrBeginTransaction();
 
-            using (IUnitOfWork uow2 = freeSql.CreateUnitOfWork())
+            using (IUnitOfWork uow2 = _fsql.CreateUnitOfWork())
             {
                 uow2.GetOrBeginTransaction();
 
@@ -72,7 +65,7 @@ namespace LinCms.Test
             if (token != "" && token.StartsWith("Bearer "))
             {
                 token = token.Remove(0, 7);
-                Dictionary<string, object> dict = jsonWebTokenService.Decode(token);
+                Dictionary<string, object> dict = _jsonWebTokenService.Decode(token);
                 JwtPayload JwtPayload = new JwtSecurityTokenHandler().ReadJwtToken(token).Payload;
                 object nameobj = JwtPayload[ClaimTypes.NameIdentifier];
 
@@ -110,28 +103,6 @@ namespace LinCms.Test
                              where p.GetValue(obj, null) != null
                              select p.Name + "=" + p.GetValue(obj, null).ToString();
             return string.Join("&", properties.ToArray());
-        }
-
-        [Fact]
-        public void string1()
-        {
-
-            var date = DateTime.Now;
-            var s = $"{date:yyyyMMdd}";
-
-            var sql = freeSql.Insert(new BaseItem()).AsTable(old => $"{old}_{date:yyyyMMdd}").ToSql();
-
-            _testOutputHelper.WriteLine(sql);
-
-        }
-
-        [Fact]
-        public void f()
-        {
-            int _min = 100000;
-            int _max = 999999;
-            Random _rdm = new Random();
-            int f = _rdm.Next(_min, _max);
         }
     }
 }
