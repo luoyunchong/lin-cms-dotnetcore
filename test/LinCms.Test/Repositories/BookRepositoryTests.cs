@@ -10,15 +10,15 @@ using Xunit;
 
 namespace LinCms.Test.Repositories
 {
-    public class BookRepositoryTests : BaseLinCmsTest
+    public class BookRepositoryTests
     {
         private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
 
-        public BookRepositoryTests() : base()
+        public BookRepositoryTests(IBookRepository bookRepository, IMapper mapper) : base()
         {
-            _bookRepository = GetRequiredService<IBookRepository>();
-            _mapper = GetRequiredService<IMapper>();
+            _bookRepository = bookRepository;
+            _mapper = mapper;
         }
 
         private Book GetBook()

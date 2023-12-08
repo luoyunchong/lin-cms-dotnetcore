@@ -7,15 +7,15 @@ using Xunit;
 
 namespace LinCms.Test.Service.Blog
 {
-    public class ArticleServiceTest : BaseLinCmsTest
+    public class ArticleServiceTest 
     {
         private readonly IArticleService _articleService;
         private readonly UnitOfWorkManager _unitOfWorkManager;
 
-        public ArticleServiceTest() : base()
+        public ArticleServiceTest(IArticleService articleService, UnitOfWorkManager unitOfWorkManager) : base()
         {
-            _articleService = GetService<IArticleService>();
-            _unitOfWorkManager = GetService<UnitOfWorkManager>();
+            _articleService = articleService;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
         [Fact]

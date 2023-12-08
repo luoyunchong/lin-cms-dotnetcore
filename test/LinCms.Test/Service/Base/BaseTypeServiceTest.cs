@@ -6,17 +6,17 @@ using Xunit;
 
 namespace LinCms.Test.Service.Base
 {
-    public class BaseTypeServiceTest : BaseLinCmsTest
+    public class BaseTypeServiceTest
     {
         private readonly IAuditBaseRepository<BaseType> baseRepository;
         private readonly UnitOfWorkManager _unitOfWorkManager;
         private readonly IFreeSql freeSql;
 
-        public BaseTypeServiceTest() : base()
+        public BaseTypeServiceTest(IAuditBaseRepository<BaseType> baseRepository, UnitOfWorkManager unitOfWorkManager, IFreeSql freeSql) : base()
         {
-            baseRepository = GetService<IAuditBaseRepository<BaseType>>();
-            _unitOfWorkManager = GetService<UnitOfWorkManager>();
-            freeSql = GetService<IFreeSql>();
+            this.baseRepository = baseRepository;
+            _unitOfWorkManager = unitOfWorkManager;
+            this.freeSql = freeSql;
         }
 
         /*

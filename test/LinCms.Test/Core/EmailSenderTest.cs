@@ -7,14 +7,14 @@ using Xunit.Abstractions;
 
 namespace LinCms.Test.Core
 {
-    public class EmailSenderTest : BaseLinCmsTest
+    public class EmailSenderTest 
     {
-        private readonly ITestOutputHelper testOutputHelper;
+        private readonly ITestOutputHelper _testOutputHelper;
         private readonly IEmailSender _emailSender;
-        public EmailSenderTest(ITestOutputHelper testOut)
+        public EmailSenderTest(ITestOutputHelper testOut, IEmailSender emailSender)
         {
-            testOutputHelper = testOut;
-            _emailSender = GetService<IEmailSender>();
+            _testOutputHelper = testOut;
+            _emailSender = emailSender;
         }
 
         [Fact]

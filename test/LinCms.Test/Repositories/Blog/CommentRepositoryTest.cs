@@ -11,18 +11,17 @@ using Xunit;
 
 namespace LinCms.Test.Repositories.Blog
 {
-    public class CommentRepositoryTest : BaseLinCmsTest
+    public class CommentRepositoryTest
     {
         private readonly IAuditBaseRepository<Comment> _baseRepository;
+        private readonly IMapper _mapper;
+        private readonly IFreeSql _fsql;
 
-        private readonly IMapper Mapper;
-        private readonly IFreeSql FreeSql;
-
-        public CommentRepositoryTest() : base()
+        public CommentRepositoryTest(IMapper mapper, IFreeSql freeSql, IAuditBaseRepository<Comment> baseRepository) : base()
         {
-            _baseRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<Comment>>();
-            Mapper = ServiceProvider.GetRequiredService<IMapper>();
-            FreeSql = ServiceProvider.GetRequiredService<IFreeSql>();
+            _mapper = mapper;
+            _fsql = freeSql;
+            _baseRepository = baseRepository;
         }
 
 
@@ -50,7 +49,7 @@ namespace LinCms.Test.Repositories.Blog
         [Fact]
         public void GetComments()
         {
-            dynamic comments = FreeSql.Select<Comment>().Include(r => r.UserInfo).From<UserLike>(
+            dynamic comments = _fsql.Select<Comment>().Include(r => r.UserInfo).From<UserLike>(
                          (z, zzc) =>
                              z.LeftJoin(u => u.Id == zzc.SubjectId)//&& zzc.CreateUserId == _currentUser.FindUserId()
                      )
@@ -83,12 +82,12 @@ namespace LinCms.Test.Repositories.Blog
                 .ToPagerList(commentSearchDto, out long totalCount)
                 .Select(r =>
                 {
-                    CommentDto commentDto = Mapper.Map<CommentDto>(r);
+                    CommentDto commentDto = _mapper.Map<CommentDto>(r);
 
 
                     commentDto.TopComment = r.Childs.ToList().Select(u =>
                     {
-                        CommentDto childrenDto = Mapper.Map<CommentDto>(u);
+                        CommentDto childrenDto = _mapper.Map<CommentDto>(u);
                         return childrenDto;
                     }).ToList();
                     commentDto.IsLiked = r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();

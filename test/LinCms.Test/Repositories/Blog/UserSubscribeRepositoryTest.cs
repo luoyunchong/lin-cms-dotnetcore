@@ -7,12 +7,12 @@ using Xunit;
 
 namespace LinCms.Test.Repositories.Blog
 {
-    public class UserSubscribeRepositoryTest : BaseLinCmsTest
+    public class UserSubscribeRepositoryTest 
     {
         private readonly IAuditBaseRepository<UserSubscribe> _userSubscribeRepository;
-        public UserSubscribeRepositoryTest() : base()
+        public UserSubscribeRepositoryTest(IAuditBaseRepository<UserSubscribe> userSubscribeRepository) : base()
         {
-            _userSubscribeRepository = ServiceProvider.GetService<IAuditBaseRepository<UserSubscribe>>();
+            _userSubscribeRepository = userSubscribeRepository;
         }
 
         [Fact]

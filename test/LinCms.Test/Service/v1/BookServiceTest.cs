@@ -6,13 +6,13 @@ using Xunit;
 
 namespace LinCms.Test.Service.v1
 {
-    public class BookServiceTest : BaseLinCmsTest
+    public class BookServiceTest 
     {
         private readonly IBookService _bookService;
 
-        public BookServiceTest() : base()
+        public BookServiceTest(IBookService bookService) : base()
         {
-            _bookService = GetRequiredService<IBookService>();
+            _bookService = bookService;
         }
 
         [Fact]

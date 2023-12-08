@@ -12,16 +12,16 @@ using Xunit.Abstractions;
 
 namespace LinCms.Test.Repositories.Blog
 {
-    public class ArticleRepositoryTest : BaseLinCmsTest
+    public class ArticleRepositoryTest 
     {
         private readonly IAuditBaseRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
         private readonly ITestOutputHelper _testOutputHelper;
-        public ArticleRepositoryTest(ITestOutputHelper _testOutputHelper) : base()
+        public ArticleRepositoryTest( IAuditBaseRepository<Article> articleRepository, IMapper mapper, ITestOutputHelper testOutputHelper) : base()
         {
-            _articleRepository = ServiceProvider.GetRequiredService<IAuditBaseRepository<Article>>();
-            _mapper = ServiceProvider.GetRequiredService<IMapper>();
-            this._testOutputHelper = _testOutputHelper;
+            _articleRepository = articleRepository;
+            _mapper = mapper;
+            _testOutputHelper = testOutputHelper;
         }
 
         /// <summary>

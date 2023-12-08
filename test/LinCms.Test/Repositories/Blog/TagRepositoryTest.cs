@@ -6,16 +6,16 @@ using Xunit;
 
 namespace LinCms.Test.Repositories.Blog
 {
-    public class TagRepositoryTest : BaseLinCmsTest
+    public class TagRepositoryTest 
     {
 
         private readonly IAuditBaseRepository<Tag> _tagRepository;
         private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
 
-        public TagRepositoryTest()
+        public TagRepositoryTest(IAuditBaseRepository<Tag> tagRepository, IAuditBaseRepository<TagArticle> tagArticleRepository)
         {
-            _tagRepository = ServiceProvider.GetService<IAuditBaseRepository<Tag>>();
-            _tagArticleRepository = ServiceProvider.GetService<IAuditBaseRepository<TagArticle>>();
+            _tagRepository = tagRepository;
+            _tagArticleRepository = tagArticleRepository;
         }
 
         [Fact]

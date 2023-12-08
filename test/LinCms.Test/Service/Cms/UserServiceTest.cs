@@ -12,17 +12,17 @@ using Xunit;
 
 namespace LinCms.Test.Service.Cms
 {
-    public class UserServiceTest : BaseLinCmsTest
+    public class UserServiceTest
     {
         private readonly IUserService _userService;
         private readonly IUserRepository userRepository;
         private readonly IMapper _mapper;
 
-        public UserServiceTest() : base()
+        public UserServiceTest(IUserService userService, IUserRepository userRepository, IMapper mapper) : base()
         {
-            userRepository = GetService<IUserRepository>();
-            _userService = GetService<IUserService>();
-            _mapper = GetService<IMapper>();
+            _userService = userService;
+            this.userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [Fact]

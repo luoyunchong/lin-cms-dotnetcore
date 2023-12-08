@@ -5,13 +5,13 @@ using Xunit;
 namespace LinCms.Test.Service.Cms
 {
 
-    public class LogServiceTest : BaseLinCmsTest
+    public class LogServiceTest 
     {
         private readonly ILogService _logService;
 
-        public LogServiceTest() : base()
+        public LogServiceTest(ILogService logService) : base()
         {
-            _logService = ServiceProvider.GetService<ILogService>();
+            _logService = logService;
         }
 
         [Fact]

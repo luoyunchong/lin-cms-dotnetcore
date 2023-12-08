@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using FreeSql;
 using LinCms.Aop.Filter;
+using LinCms.Controllers;
 using LinCms.Controllers.Cms;
 using LinCms.Data;
 using LinCms.FreeSql;
@@ -92,7 +93,7 @@ namespace LinCms.Test
         [Fact]
         public void GetAssemblyMethodsAttributes()
         {
-            List<Type> assembly = typeof(Startup.ServiceCollectionExtensions).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(ApiControllerBase).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(r =>
@@ -118,7 +119,7 @@ namespace LinCms.Test
         [Fact]
         public void GetControllerAttributes()
         {
-            List<Type> assembly = typeof(Startup.ServiceCollectionExtensions).Assembly.GetTypes().AsEnumerable()
+            List<Type> assembly = typeof(ApiControllerBase).Assembly.GetTypes().AsEnumerable()
                 .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
 
             assembly.ForEach(d =>
