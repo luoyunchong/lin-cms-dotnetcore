@@ -5,6 +5,9 @@ using LinCms.Blog.UserSubscribes;
 
 namespace LinCms.Blog.Tags;
 
+/// <summary>
+/// 标签
+/// </summary>
 public interface ITagService
 {
     Task CreateAsync(CreateUpdateTagDto createTag);
@@ -29,10 +32,27 @@ public interface ITagService
     /// <returns></returns>
     PagedResultDto<TagListDto> GetSubscribeTags(UserSubscribeSearchDto userSubscribeDto);
 
+    /// <summary>
+    /// 修改标签下文章数量
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="inCreaseCount"></param>
+    /// <returns></returns>
     Task UpdateArticleCountAsync(Guid? id, int inCreaseCount);
 
+    /// <summary>
+    /// 更新标签下订阅数
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="inCreaseCount"></param>
+    /// <returns></returns>
     Task UpdateSubscribersCountAsync(Guid? id, int inCreaseCount);
 
+    /// <summary>
+    /// 标签-校正标签对应随笔数量
+    /// </summary>
+    /// <param name="tagId"></param>
+    /// <returns></returns>
     Task CorrectedTagCountAsync(Guid tagId);
 
     /// <summary>

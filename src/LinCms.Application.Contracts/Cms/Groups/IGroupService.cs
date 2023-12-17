@@ -21,6 +21,11 @@ public interface IGroupService
     /// <returns></returns>
     Task DeleteAsync(long id);
 
+    /// <summary>
+    /// 根据用户Id删除用户分组
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     Task DeleteUserGroupAsync(long userId);
 
     /// <summary>

@@ -4,7 +4,7 @@ using IGeekFan.FreeKit.Extras.Security;
 namespace LinCms.Cms.Account;
 
 /// <summary>
-/// 
+///  Token维护
 /// </summary>
 public interface ITokenService
 {

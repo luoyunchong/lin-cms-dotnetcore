@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinCms.Blog.Channels;
 
+/// <summary>
+/// 技术频道
+/// </summary>
 public class ChannelService : ApplicationService, IChannelService
 {
     private readonly IAuditBaseRepository<Channel, Guid> _channelRepository;

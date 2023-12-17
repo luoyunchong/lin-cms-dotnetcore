@@ -4,6 +4,9 @@ using IGeekFan.FreeKit.Extras.Dto;
 
 namespace LinCms.Blog.Notifications;
 
+/// <summary>
+/// 消息通知
+/// </summary>
 public interface INotificationService
 {
     Task<PagedResultDto<NotificationDto>> GetListAsync(NotificationSearchDto pageDto);

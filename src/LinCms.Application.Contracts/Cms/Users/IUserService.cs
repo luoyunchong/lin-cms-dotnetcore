@@ -8,7 +8,7 @@ using LinCms.Entities;
 namespace LinCms.Cms.Users;
 
 /// <summary>
-/// 用户服务 
+/// 用户服务接口
 /// </summary>
 public interface IUserService
 {
@@ -41,8 +41,19 @@ public interface IUserService
     /// <param name="password">密码</param>
     Task CreateAsync(LinUser user, List<long> groupIds, string password);
 
+    /// <summary>
+    /// 更新用户
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="updateUserDto"></param>
+    /// <returns></returns>
     Task UpdateAync(long id, UpdateUserDto updateUserDto);
 
+    /// <summary>
+    /// 删除用户
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     Task DeleteAsync(long id);
 
     /// <summary>

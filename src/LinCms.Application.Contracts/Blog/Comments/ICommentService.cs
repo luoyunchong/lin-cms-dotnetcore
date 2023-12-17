@@ -5,6 +5,9 @@ using LinCms.Entities.Blog;
 
 namespace LinCms.Blog.Comments;
 
+/// <summary>
+/// 评论
+/// </summary>
 public interface ICommentService
 {
     /// <summary>

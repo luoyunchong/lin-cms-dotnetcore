@@ -6,7 +6,10 @@ using LinCms.Entities.Blog;
 
 namespace LinCms.Blog.Collections;
 
+/// <summary>
+/// ÊÕ²Ø¼Ð·þÎñ
+/// </summary>
 public interface ICollectionService : ICrudAppService<CollectionDto, CollectionDto, Guid, CollectionSearchDto, CreateUpdateCollectionDto, CreateUpdateCollectionDto>
 {
- 
+
 }

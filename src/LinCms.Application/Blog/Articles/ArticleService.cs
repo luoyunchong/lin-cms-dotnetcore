@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace LinCms.Blog.Articles;
 
+/// <summary>
+/// 随笔服务
+/// </summary>
 public class ArticleService : ApplicationService, IArticleService
 {
     #region Constructor

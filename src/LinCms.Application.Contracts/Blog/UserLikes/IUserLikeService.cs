@@ -2,6 +2,9 @@
 
 namespace LinCms.Blog.UserLikes;
 
+/// <summary>
+/// 用户点赞
+/// </summary>
 public interface IUserLikeService
 {
     /// <summary>

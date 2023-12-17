@@ -6,6 +6,9 @@ using LinCms.Data;
 
 namespace LinCms.Cms.Settings;
 
+/// <summary>
+/// 通用配置项
+/// </summary>
 public interface ISettingService
 {
     Task<PagedResultDto<SettingDto>> GetPagedListAsync(PageDto pageDto);

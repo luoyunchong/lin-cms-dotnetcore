@@ -4,6 +4,9 @@ using LinCms.Cms.Users;
 
 namespace LinCms.Cms.Account;
 
+/// <summary>
+/// 账号服务
+/// </summary>
 public interface IAccountService
 {
 

@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Cms.Files;
 
+/// <summary>
+/// 文件服务
+/// </summary>
 public interface IFileService
 {
     /// <summary>

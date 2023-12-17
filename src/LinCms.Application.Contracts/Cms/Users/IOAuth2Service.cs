@@ -4,6 +4,9 @@ using LinCms.Data;
 
 namespace LinCms.Cms.Users;
 
+/// <summary>
+/// OAuath2.0登录绑定授权
+/// </summary>
 public interface IOAuth2Service
 {
     /// <summary>

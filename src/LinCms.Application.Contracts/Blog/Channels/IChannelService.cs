@@ -5,6 +5,9 @@ using LinCms.Data;
 
 namespace LinCms.Blog.Channels;
 
+/// <summary>
+/// 技术频道
+/// </summary>
 public interface IChannelService
 {
     #region CRUD
