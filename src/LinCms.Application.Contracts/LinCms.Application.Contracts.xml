@@ -163,6 +163,11 @@
             是否有效
             </summary>
         </member>
+        <member name="T:LinCms.Blog.Channels.IChannelService">
+            <summary>
+            技术频道
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.Channels.IChannelService.GetNavListAsync(LinCms.Data.PageDto)">
             <summary>
             首页减少不必要的字段后，流量字节更少
@@ -178,6 +183,11 @@
         <member name="P:LinCms.Blog.Channels.NavChannelListDto.ChannelCode">
             <summary>
             编码
+            </summary>
+        </member>
+        <member name="T:LinCms.Blog.Classifys.IClassifyService">
+            <summary>
+            用户自己的分类
             </summary>
         </member>
         <member name="P:LinCms.Blog.Collections.CollectionDto.Name">
@@ -205,6 +215,23 @@
             <summary>
             公开 当其他人关注此收藏集后不可再更改为隐私
             隐私 仅自己可见此收藏集
+            </summary>
+        </member>
+        <member name="T:LinCms.Blog.Collections.IArticleCollectionService">
+            <summary>
+            文章收藏服务
+            </summary>
+        </member>
+        <member name="M:LinCms.Blog.Collections.IArticleCollectionService.CreateOrCancelAsync(LinCms.Blog.Collections.CreateCancelArticleCollectionDto)">
+            <summary>
+            收藏或取消收藏文章
+            </summary>
+            <param name="crDto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LinCms.Blog.Collections.ICollectionService">
+            <summary>
+            收藏夹服务
             </summary>
         </member>
         <member name="P:LinCms.Blog.Comments.CommentDto.RespId">
@@ -262,6 +289,11 @@
             被回复的用户Id
             </summary>
         </member>
+        <member name="T:LinCms.Blog.Comments.ICommentService">
+            <summary>
+            评论
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.Comments.ICommentService.GetListByArticleAsync(LinCms.Blog.Comments.CommentSearchDto)">
             <summary>
             随笔下的评论列表
@@ -310,6 +342,11 @@
             <param name="likesQuantity"></param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Blog.Notifications.INotificationService">
+            <summary>
+            消息通知
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.Notifications.INotificationService.CreateOrCancelAsync(LinCms.Blog.Notifications.CreateNotificationDto)">
             <summary>
             新增一个消息通知,或取消消息通知
@@ -342,6 +379,11 @@
             别名
             </summary>
         </member>
+        <member name="T:LinCms.Blog.Tags.ITagService">
+            <summary>
+            标签
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.Tags.ITagService.IsSubscribeAsync(System.Guid)">
             <summary>
             判断标签是否被关注
@@ -354,6 +396,29 @@
             得到某个用户关注的标签
             </summary>
             <param name="userSubscribeDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Tags.ITagService.UpdateArticleCountAsync(System.Nullable{System.Guid},System.Int32)">
+            <summary>
+            修改标签下文章数量
+            </summary>
+            <param name="id"></param>
+            <param name="inCreaseCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Tags.ITagService.UpdateSubscribersCountAsync(System.Nullable{System.Guid},System.Int32)">
+            <summary>
+            更新标签下订阅数
+            </summary>
+            <param name="id"></param>
+            <param name="inCreaseCount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.Tags.ITagService.CorrectedTagCountAsync(System.Guid)">
+            <summary>
+            标签-校正标签对应随笔数量
+            </summary>
+            <param name="tagId"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Blog.Tags.ITagService.IncreaseTagViewHits(System.Guid)">
@@ -386,12 +451,22 @@
             1.随笔 2 评论
             </summary>
         </member>
+        <member name="T:LinCms.Blog.UserLikes.IUserLikeService">
+            <summary>
+            用户点赞
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.UserLikes.IUserLikeService.CreateOrCancelAsync(LinCms.Blog.UserLikes.CreateUpdateUserLikeDto)">
             <summary>
             点赞/取消点赞随笔、评论 
             </summary>
             <param name="createUpdateUserLike"></param>
             <returns></returns>
+        </member>
+        <member name="T:LinCms.Blog.UserSubscribes.IUserSubscribeService">
+            <summary>
+            用户关注（订阅）服务接口
+            </summary>
         </member>
         <member name="M:LinCms.Blog.UserSubscribes.IUserSubscribeService.GetSubscribeUserIdAsync(System.Int64)">
             <summary>
@@ -407,6 +482,27 @@
             <param name="searchDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Blog.UserSubscribes.IUserSubscribeService.GetUserFansList(LinCms.Blog.UserSubscribes.UserSubscribeSearchDto)">
+            <summary>
+            获取某个用户的粉丝
+            </summary>
+            <param name="searchDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.UserSubscribes.IUserSubscribeService.CreateAsync(System.Int64)">
+            <summary>
+            关注用户
+            </summary>
+            <param name="subscribeUserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Blog.UserSubscribes.IUserSubscribeService.DeleteAsync(System.Int64)">
+            <summary>
+            取消关注
+            </summary>
+            <param name="subscribeUserId"></param>
+            <returns></returns>
+        </member>
         <member name="P:LinCms.Blog.UserSubscribes.UserSubscribeDto.SubscribeUserId">
             <summary>
             被关注的用户Id
@@ -420,6 +516,11 @@
         <member name="P:LinCms.Blog.UserSubscribes.UserSubscribeDto.Subscribeer">
             <summary>
             关注者
+            </summary>
+        </member>
+        <member name="T:LinCms.Cms.Account.IAccountService">
+            <summary>
+            账号服务
             </summary>
         </member>
         <member name="M:LinCms.Cms.Account.IAccountService.GenerateCaptcha">
@@ -459,7 +560,7 @@
         </member>
         <member name="T:LinCms.Cms.Account.ITokenService">
             <summary>
-            
+             Token维护
             </summary>
         </member>
         <member name="M:LinCms.Cms.Account.ITokenService.LoginAsync(LinCms.Cms.Account.LoginInputDto)">
@@ -546,6 +647,11 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="T:LinCms.Cms.Users.IOAuth2Service">
+            <summary>
+            OAuath2.0登录绑定授权
+            </summary>
+        </member>
         <member name="M:LinCms.Cms.Users.IOAuth2Service.SaveUserAsync(System.Security.Claims.ClaimsPrincipal,System.String)">
             <summary>
             第三方登录后，自动注册用户信息
@@ -625,7 +731,7 @@
         </member>
         <member name="T:LinCms.Cms.Users.IUserService">
             <summary>
-            用户服务 
+            用户服务接口
             </summary>
         </member>
         <member name="M:LinCms.Cms.Users.IUserService.ChangePasswordAsync(LinCms.Cms.Users.ChangePasswordDto)">
@@ -656,6 +762,21 @@
             <param name="user">用户</param>
             <param name="groupIds">分组Id集合</param>
             <param name="password">密码</param>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserService.UpdateAync(System.Int64,LinCms.Cms.Admins.UpdateUserDto)">
+            <summary>
+            更新用户
+            </summary>
+            <param name="id"></param>
+            <param name="updateUserDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Users.IUserService.DeleteAsync(System.Int64)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="M:LinCms.Cms.Users.IUserService.ResetPasswordAsync(System.Int64,LinCms.Cms.Admins.ResetPasswordDto)">
             <summary>
@@ -731,6 +852,11 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="T:LinCms.Cms.Files.IFileService">
+            <summary>
+            文件服务
+            </summary>
+        </member>
         <member name="M:LinCms.Cms.Files.IFileService.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
             <summary>
             单文件上传，键为file
@@ -744,6 +870,13 @@
             管理员删除一个权限分组
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteUserGroupAsync(System.Int64)">
+            <summary>
+            根据用户Id删除用户分组
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:LinCms.Cms.Groups.IGroupService.CheckIsRootByUserId(System.Int64)">
@@ -880,6 +1013,11 @@
         <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.ProviderKey">
             <summary>
             提供者值
+            </summary>
+        </member>
+        <member name="T:LinCms.Cms.Settings.ISettingService">
+            <summary>
+            通用配置项
             </summary>
         </member>
         <member name="M:LinCms.Cms.Settings.ISettingService.SetAsync(LinCms.Cms.Settings.CreateUpdateSettingDto)">
