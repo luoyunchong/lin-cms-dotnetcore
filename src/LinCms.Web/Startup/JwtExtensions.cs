@@ -90,13 +90,6 @@ public static class JwtExtensions
                      // If you want to allow a certain amount of clock drift, set thatValidIssuer  here
                      //ClockSkew = TimeSpan.Zero
                  };
-
-                 //options.TokenValidationParameters = new TokenValidationParameters()
-                 //{
-                 //    ClockSkew = TimeSpan.Zero   //偏移设置为了0s,用于测试过期策略,完全按照access_token的过期时间策略，默认原本为5分钟
-                 //};
-
-
                  //使用Authorize设置为需要登录时，返回json格式数据。
                  options.Events = new JwtBearerEvents()
                  {

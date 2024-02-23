@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.FreeSql;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities;
@@ -15,10 +16,12 @@ public class PermissionService : ApplicationService, IPermissionService
 {
     private readonly IAuditBaseRepository<LinPermission, long> _permissionRepository;
     private readonly IAuditBaseRepository<LinGroupPermission, long> _groupPermissionRepository;
-    public PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository, IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
+    private readonly ICurrentUser _currentUser;
+    public PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository, IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository, ICurrentUser currentUser)
     {
         _permissionRepository = permissionRepository;
         _groupPermissionRepository = groupPermissionRepository;
+        _currentUser = currentUser;
     }
 
     public IDictionary<string, List<PermissionDto>> GetAllStructualPermissions()

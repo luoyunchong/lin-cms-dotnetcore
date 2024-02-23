@@ -87,7 +87,7 @@ public class AccountController : ApiControllerBase
             {
                 throw new LinCmsException("验证码不可为空");
             }
-            if(tag.IsNullOrWhiteSpace())
+            if (tag.IsNullOrWhiteSpace())
             {
                 throw new LinCmsException("非法请求");
             }
@@ -104,9 +104,10 @@ public class AccountController : ApiControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet("refresh")]
+    [AllowAnonymous]
     public async Task<UserAccessToken> GetRefreshTokenAsync()
     {
-        string? refreshToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
+        string? refreshToken = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
         if (refreshToken == null)
         {
             throw new LinCmsException("请先登录.", ErrorCode.RefreshTokenError);
