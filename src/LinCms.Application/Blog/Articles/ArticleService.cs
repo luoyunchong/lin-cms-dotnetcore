@@ -22,10 +22,12 @@ namespace LinCms.Blog.Articles;
 public class ArticleService : ApplicationService, IArticleService
 {
     #region Constructor
+
     private readonly IAuditBaseRepository<Article> _articleRepository;
     private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
     private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
     private readonly IAuditBaseRepository<ArticleCollection> _articleCollectionRepository;
+    private readonly IAuditBaseRepository<Collection> _collectionRepository;
     private readonly IAuditBaseRepository<Comment> _commentRepository;
     private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
     private readonly IClassifyService _classifyService;
@@ -42,7 +44,8 @@ public class ArticleService : ApplicationService, IArticleService
         IAuditBaseRepository<Tag> tagRepository,
         IUserSubscribeService userSubscribeService,
         IAuditBaseRepository<ArticleDraft> articleDraftRepository,
-        IFileRepository fileRepository, IAuditBaseRepository<ArticleCollection> articleCollectionRepository)
+        IFileRepository fileRepository, IAuditBaseRepository<ArticleCollection> articleCollectionRepository,
+        IAuditBaseRepository<Collection> collectionRepository)
     {
         _articleRepository = articleRepository;
         _tagArticleRepository = tagArticleRepository;
@@ -55,10 +58,13 @@ public class ArticleService : ApplicationService, IArticleService
         _articleDraftRepository = articleDraftRepository;
         _fileRepository = fileRepository;
         _articleCollectionRepository = articleCollectionRepository;
+        _collectionRepository = collectionRepository;
     }
+
     #endregion
 
     #region CRUD
+
     public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)
     {
         DateTime monthDays = DateTime.Now.AddDays(-30);
@@ -69,7 +75,15 @@ public class ArticleService : ApplicationService, IArticleService
 
         if (searchDto.CollectionId != null)
         {
-            articleIds = _articleCollectionRepository.Select.Where(r => r.CollectionId == searchDto.CollectionId).ToList(r => r.ArticleId);
+            var collection = await _collectionRepository.GetAsync(searchDto.CollectionId.Value);
+            if (collection.PrivacyType == PrivacyType.VisibleOnlyMySelf &&
+                collection.CreateUserId != CurrentUser.FindUserId())
+            {
+                throw new LinCmsException("该收藏集是私密的，只有创建者可见");
+            }
+
+            articleIds = _articleCollectionRepository.Select.Where(r => r.CollectionId == searchDto.CollectionId)
+                .ToList(r => r.ArticleId);
         }
 
         long? userId = CurrentUser.FindUserId();
@@ -124,9 +138,9 @@ public class ArticleService : ApplicationService, IArticleService
             }
         }
 
-        await _articleRepository.DeleteAsync(new Article { Id = id });
+        await _articleRepository.DeleteAsync(new Article {Id = id});
         await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
-        await _commentRepository.DeleteAsync(r => r.SubjectId == id);   
+        await _commentRepository.DeleteAsync(r => r.SubjectId == id);
         await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
     }
 
