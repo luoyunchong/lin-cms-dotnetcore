@@ -60,7 +60,7 @@ public static class ServiceCollectionExtensions
         services.Configure<FormOptions>(options =>
         {
             //单个文件上传的大小限制为8 MB      默认134217728 应该是128MB
-            options.MultipartBodyLengthLimit = 1024 * 1024 * 8; //8MB
+            options.MultipartBodyLengthLimit = 1024 * 1024 * 128; //8MB
         });
 
         services.AddHttpClient("IdentityServer4");
