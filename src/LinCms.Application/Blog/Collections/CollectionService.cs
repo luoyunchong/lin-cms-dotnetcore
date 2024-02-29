@@ -78,4 +78,17 @@ public class CollectionService :
         await _artCollectionRepsitory.DeleteAsync(r => r.CollectionId == collectionId);
         await _collectionRepsitory.DeleteAsync(r => r.Id == collectionId);
     }
+
+    public override async Task<CollectionDto> GetAsync(Guid id)
+    {
+        var collectionDto = await base.GetAsync(id);
+        if (collectionDto.PrivacyType == PrivacyType.VisibleOnlyMySelf)
+        {
+            if (collectionDto.CreateUserId != CurrentUser.FindUserId())
+            {
+                throw new LinCmsException($"作者设置了仅自己可见");
+            }
+        }
+        return collectionDto;
+    }
 }

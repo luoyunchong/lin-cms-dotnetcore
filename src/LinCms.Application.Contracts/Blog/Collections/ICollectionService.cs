@@ -7,7 +7,7 @@ using LinCms.Entities.Blog;
 namespace LinCms.Blog.Collections;
 
 /// <summary>
-/// �ղؼз���
+/// 收藏夹服务
 /// </summary>
 public interface ICollectionService : ICrudAppService<CollectionDto, CollectionDto, Guid, CollectionSearchDto, CreateUpdateCollectionDto, CreateUpdateCollectionDto>
 {
