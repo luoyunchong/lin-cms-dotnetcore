@@ -43,7 +43,7 @@ public class LocalFileService : IFileService
             throw new LinCmsException("文件为空");
         }
 
-        string saveFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        string saveFileName = Guid.NewGuid() + Path.GetExtension(file.FileName).ToLower();
 
         //得到 assets/202005
         string path = Path.Combine(_fileStorageOption.LocalFile.PrefixPath, DateTime.Now.ToString("yyyyMM"));
@@ -98,7 +98,7 @@ public class LocalFileService : IFileService
         {
             LinFile saveLinFile = new()
             {
-                Extension = Path.GetExtension(file.FileName),
+                Extension = Path.GetExtension(file.FileName).ToLower(),
                 Md5 = md5,
                 Name = file.FileName,
                 Path = path,
