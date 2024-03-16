@@ -68,7 +68,7 @@ public class JwtTokenService : ITokenService
 
         if (user.IsNull())
         {
-            throw new LinCmsException("该refreshToken无效!");
+            throw new LinCmsException("该refreshToken无效!", ErrorCode.RefreshTokenError);
         }
 
         if (DateTime.Compare(user.LastLoginTime, DateTime.Now) > new TimeSpan(30, 0, 0, 0).Ticks)
@@ -77,8 +77,7 @@ public class JwtTokenService : ITokenService
         }
 
         UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
-        _logger.LogInformation($"用户{user.Username},JwtRefreshToken 刷新-登录成功");
-
+        
         return tokens;
     }
 

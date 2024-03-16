@@ -33,7 +33,6 @@ public class AccountController : ApiControllerBase
     private readonly ITokenService _tokenService;
     private readonly IAccountService _accountService;
     private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;
-    private readonly IUserService _userService;
     private readonly CaptchaOption _loginCaptchaOption;
     private readonly ICaptchaManager _captchaManager;
     public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager)
@@ -42,7 +41,6 @@ public class AccountController : ApiControllerBase
         _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? nameof(IdentityServer4Service) : nameof(JwtTokenService));
         _accountService = accountService;
         _blackRecordRepository = blackRecordRepository;
-        _userService = userService;
         _loginCaptchaOption = loginCaptchaOption.CurrentValue;
         _captchaManager = captchaManager;
     }
@@ -81,7 +79,7 @@ public class AccountController : ApiControllerBase
     [HttpPost("login")]
     public Task<UserAccessToken> Login([FromBody] LoginInputDto loginInputDto, [FromHeader] string? tag)
     {
-        if (_loginCaptchaOption.Enabled == true)
+        if (_loginCaptchaOption.Enabled)
         {
             if (loginInputDto.Captcha.IsNullOrWhiteSpace())
             {
