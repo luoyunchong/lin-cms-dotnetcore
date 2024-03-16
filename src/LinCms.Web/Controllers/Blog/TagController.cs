@@ -43,7 +43,6 @@ public class TagController : ControllerBase
         return await _tagService.GetListAsync(searchDto);
     }
 
-    [Cacheable]
     [HttpGet("public")]
     public virtual async Task<PagedResultDto<TagListDto>> GetListAsync([FromQuery] TagSearchDto searchDto)
     {
