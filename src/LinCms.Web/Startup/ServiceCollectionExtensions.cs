@@ -243,6 +243,7 @@ ElapsedMilliseconds:{3}ms
         services.AddSingleton(fsql);
 
         services.AddFreeKitCore(typeof(long));
+        services.AddUnitOfWorkManager();  
 
         services.Configure<UnitOfWorkDefaultOptions>(u =>
         {
