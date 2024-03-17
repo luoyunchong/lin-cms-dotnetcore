@@ -237,7 +237,7 @@ public class ArticleService : ApplicationService, IArticleService
 
         Mapper.Map(updateArticleDto, article);
         article.WordNumber = article.Content.Length;
-        article.ReadingTime = article.Content.Length / 800;
+        article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(article.Content).Minutes;
         await _articleRepository.UpdateAsync(article);
 
         ArticleDraft articleDraft = Mapper.Map<ArticleDraft>(article);
