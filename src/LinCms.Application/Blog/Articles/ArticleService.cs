@@ -2,6 +2,7 @@
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Classifys;
 using LinCms.Blog.UserSubscribes;
+using LinCms.Common;
 using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Entities.Blog;
@@ -138,7 +139,7 @@ public class ArticleService : ApplicationService, IArticleService
             }
         }
 
-        await _articleRepository.DeleteAsync(new Article {Id = id});
+        await _articleRepository.DeleteAsync(new Article { Id = id });
         await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
         await _commentRepository.DeleteAsync(r => r.SubjectId == id);
         await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
@@ -187,7 +188,7 @@ public class ArticleService : ApplicationService, IArticleService
         Article article = Mapper.Map<Article>(createArticle);
         article.Archive = DateTime.Now.ToString("yyy年MM月");
         article.WordNumber = createArticle.Content.Length;
-        article.ReadingTime = createArticle.Content.Length / 800;
+        article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(createArticle.Content).Minutes;
 
         article.Tags = new List<Tag>();
         foreach (var articleTagId in createArticle.TagIds)

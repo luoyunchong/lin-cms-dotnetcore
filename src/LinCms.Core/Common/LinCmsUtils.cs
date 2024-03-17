@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -99,6 +101,44 @@ namespace LinCms.Common
                 return false;
             return Regex.IsMatch(mobile, @"^(13|14|15|16|18|19|17)\d{9}$");
         }
+    }
 
+    public class TextAnalysisUtil
+    {
+        // 从内容中提取汉字
+        private static List<char> GetChinese(string content)
+        {
+            return Regex.Matches(content, @"[\u4E00-\u9FD5]").Select(m => m.Value[0]).ToList();
+        }
+
+        // 从内容中提取拉丁文单词
+        private static List<string> GetWords(string content)
+        {
+            return Regex.Matches(content, @"[\w\d\s\u00C0-\u024F\u0400-\u04FF.@/]+", RegexOptions.IgnoreCase)
+                        .Select(m => m.Value).ToList();
+        }
+
+        // 计算内容字数
+        private static int GetWordNumber(string content)
+        {
+            var words = GetWords(content);
+            int wordCount = words.Sum(word => string.IsNullOrWhiteSpace(word) ? 0 : word.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries).Length);
+            int chineseCount = GetChinese(content).Count;
+            return wordCount + chineseCount;
+        }
+
+        // 计算阅读时间
+        public static ReadingTime GetReadingTime(string content, int wordsPerMinute = 300)
+        {
+            int words = GetWordNumber(content ?? "");
+            double minutes = Math.Round((double)words / wordsPerMinute, 2);
+            return new ReadingTime { Minutes = minutes, Words = words };
+        }
+    }
+
+    public class ReadingTime
+    {
+        public double Minutes { get; set; }
+        public int Words { get; set; }
     }
 }

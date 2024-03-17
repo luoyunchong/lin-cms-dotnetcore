@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using IGeekFan.FreeKit.Extras.AuditEntity;
+using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities;
 using LinCms.IRepositories;
 using LinCms.v1.Books;
@@ -12,10 +13,10 @@ namespace LinCms.Test.Repositories
 {
     public class BookRepositoryTests
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IAuditBaseRepository<Book,long> _bookRepository;
         private readonly IMapper _mapper;
 
-        public BookRepositoryTests(IBookRepository bookRepository, IMapper mapper) : base()
+        public BookRepositoryTests(IAuditBaseRepository<Book, long> bookRepository, IMapper mapper) : base()
         {
             _bookRepository = bookRepository;
             _mapper = mapper;
