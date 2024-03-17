@@ -45,8 +45,9 @@ public class SettingService : ApplicationService, ISettingService
 
     public async Task SetAsync(CreateUpdateSettingDto createSetting)
     {
-        LinSetting setting = await _settingRepository.FindAsync(createSetting.Name, createSetting.ProviderName,createSetting.ProviderKey);
-    
+        LinSetting setting = await _settingRepository.FindAsync(createSetting.Name, createSetting.ProviderName,
+            createSetting.ProviderKey);
+
         if (setting == null)
         {
             await _settingRepository.InsertAsync(Mapper.Map<LinSetting>(createSetting));
@@ -65,7 +66,9 @@ public class SettingService : ApplicationService, ISettingService
 
     public async Task<PagedResultDto<SettingDto>> GetPagedListAsync(PageDto pageDto)
     {
-        List<SettingDto> list = (await _settingRepository.Select.ToPagerListAsync(pageDto, out long totalCount))
+        List<SettingDto> list =
+            (await _settingRepository.Select.OrderByDescending(r => r.CreateTime)
+                .ToPagerListAsync(pageDto, out long totalCount))
             .Select(r => Mapper.Map<SettingDto>(r)).ToList();
 
         return new PagedResultDto<SettingDto>(list, totalCount);
@@ -75,7 +78,7 @@ public class SettingService : ApplicationService, ISettingService
     {
         LinSetting setting = await _settingRepository.FindAsync(createSettingDto.Name,
             createSettingDto.ProviderName, createSettingDto.ProviderKey);
-        ;
+      
         if (setting != null)
         {
             throw new LinCmsException("该配置已存在");

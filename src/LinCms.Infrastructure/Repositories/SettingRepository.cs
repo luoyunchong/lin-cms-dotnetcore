@@ -9,9 +9,10 @@ using LinCms.IRepositories;
 
 namespace LinCms.Repositories;
 
-public class SettingRepository : AuditDefaultRepository<LinSetting,Guid,long>, ISettingRepository
+public class SettingRepository : AuditDefaultRepository<LinSetting, Guid, Guid>, ISettingRepository
 {
-    public SettingRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager, currentUser)
+    public SettingRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser) : base(unitOfWorkManager,
+        currentUser)
     {
     }
 
@@ -26,6 +27,8 @@ public class SettingRepository : AuditDefaultRepository<LinSetting,Guid,long>, I
         return await Select
             .Where(
                 s => s.ProviderName == providerName && s.ProviderKey == providerKey
-            ).ToListAsync();
+            )
+            .OrderByDescending(r => r.CreateTime)
+            .ToListAsync();
     }
 }
