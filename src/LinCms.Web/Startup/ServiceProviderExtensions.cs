@@ -52,9 +52,8 @@ public static class ServiceProviderExtensions
         //在运行时直接生成表结构,初始化数据
         try
         {
-            fsql.CodeFirst
-                .SeedData()
-                .SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(LinUser)));
+            fsql.CodeFirst.SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(LinUser)));
+            fsql.CodeFirst.SeedData();
         }
         catch (Exception e)
         {
