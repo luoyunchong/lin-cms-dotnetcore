@@ -1290,26 +1290,6 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="T:LinCms.LinCms.Core.NameValue">
-            <summary>
-            Can be used to store Name/Value (or Key/Value) pairs.
-            </summary>
-        </member>
-        <member name="T:LinCms.LinCms.Core.NameValue`1">
-            <summary>
-            Can be used to store Name/Value (or Key/Value) pairs.
-            </summary>
-        </member>
-        <member name="P:LinCms.LinCms.Core.NameValue`1.Name">
-            <summary>
-            Name.
-            </summary>
-        </member>
-        <member name="P:LinCms.LinCms.Core.NameValue`1.Value">
-            <summary>
-            Value.
-            </summary>
-        </member>
         <member name="T:LinCms.Middleware.CustomExceptionMiddleWare">
             <summary>
             如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法

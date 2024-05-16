@@ -18,8 +18,16 @@ public static class CapUnitOfWorkExtensions
     {
         //看了源码，换了新的写法，换不同的数据库，就需要手动修改这段代码了（MySqlCapTransaction）
         //publisher.Transaction.Value = (ICapTransaction)publisher.ServiceProvider.GetService(typeof(ICapTransaction));新版本只能得到null
-        publisher.Transaction.Value = ActivatorUtilities.CreateInstance<MySqlCapTransaction>(publisher.ServiceProvider);
-        return publisher.Transaction.Value.Begin(unitOfWork.GetOrBeginTransaction(), autoCommit);
+      
+        // publisher.Transaction.Value = ActivatorUtilities.CreateInstance<MySqlCapTransaction>(publisher.ServiceProvider);
+        // return publisher.Transaction.Value.Begin(unitOfWork.GetOrBeginTransaction(), autoCommit);
+        
+        //第2次接口变化，适配CAP
+        var dbTransaction = unitOfWork.GetOrBeginTransaction();
+        publisher.Transaction = ActivatorUtilities.CreateInstance<MySqlCapTransaction>(publisher.ServiceProvider);
+        publisher.Transaction.DbTransaction = dbTransaction;
+        publisher.Transaction.AutoCommit = autoCommit;
+        return publisher.Transaction;
     }
 
     /// <summary>

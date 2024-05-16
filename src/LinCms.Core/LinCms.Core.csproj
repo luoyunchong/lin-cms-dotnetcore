@@ -15,20 +15,21 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.539" />
+		<PackageReference Include="IGeekFan.FreeKit.Extras" Version="0.0.540" />
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
 		<PackageReference Include="DotNetCore.Security" Version="17.3.0" />
-		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.539" />
-		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.815" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
+		<PackageReference Include="IGeekFan.FreeKit.Email" Version="0.0.540" />
+		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.2.822" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.5" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
 		<PackageReference Include="Z.ExtensionMethods" Version="2.1.1" />	
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
+
 
 </Project>

@@ -71,7 +71,7 @@ public class IdentityServer4Service : ITokenService
             throw new LinCmsException(response.ErrorDescription);
         }
 
-        JsonElement jsonElement = response.Json;
+        var jsonElement = response.Json;
 
         _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(jsonElement)}");
         return new UserAccessToken(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString(), 7200, "Bearer", 24 * 60 * 60 * 7);
@@ -115,7 +115,7 @@ public class IdentityServer4Service : ITokenService
             throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
         }
 
-        JsonElement jsonElement = response.Json;
+        var jsonElement = response.Json;
 
         return new UserAccessToken(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString(), 7200, "Bearer", 24 * 60 * 60 * 7);
     }
