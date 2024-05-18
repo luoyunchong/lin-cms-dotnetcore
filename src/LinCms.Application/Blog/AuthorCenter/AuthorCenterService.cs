@@ -9,12 +9,9 @@ namespace LinCms.Blog.AuthorCenter
     /// 创建者中心统计
     /// </summary>
     public class AuthorCenterService(IAuditBaseRepository<Article> articleRepository,
-            IAuditBaseRepository<UserLike> userLikeRepository, 
-            IAuditBaseRepository<Comment> commentRepository)
+            IAuditBaseRepository<UserLike> userLikeRepository)
         : ApplicationService, IAuthorCenterService
     {
-        private readonly IAuditBaseRepository<Comment> _commentRepository = commentRepository;
-
         public async Task<ArticleCardDto> GetArtcileCardAsync()
         {
             long? userid = CurrentUser.FindUserId();

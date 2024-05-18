@@ -831,6 +831,11 @@
             七牛云上传服务
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.v1.QiniuController.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Options.IOptionsSnapshot{LinCms.Data.Options.FileStorageOption},Autofac.IComponentContext,LinCms.Blog.Tags.ITagService,IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Tag})">
+            <summary>
+            七牛云上传服务
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.v1.QiniuController.UploadTagByJson">
             <summary>
             将掘金中的取所有标签存到七牛云上，基本信息存入数据库

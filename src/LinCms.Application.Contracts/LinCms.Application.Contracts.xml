@@ -44,6 +44,11 @@
             收藏集合Id
             </summary>
         </member>
+        <member name="F:LinCms.Blog.Articles.ArticleSearchTypeEnum.Like">
+            <summary>
+            点赞
+            </summary>
+        </member>
         <member name="M:LinCms.Blog.Articles.IArticleService.GetSubscribeArticleAsync(LinCms.Data.PageDto)">
             <summary>
             得到我关注的人发布的随笔

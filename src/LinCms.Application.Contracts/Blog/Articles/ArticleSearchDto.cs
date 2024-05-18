@@ -19,9 +19,19 @@ public class ArticleSearchDto : PageDto
     /// </summary>
     public Guid? CollectionId { get; set; }
 
+    public ArticleSearchTypeEnum? ArticleSearchType { get; set; }
     public override string ToString()
     {
         return $"{ClassifyId}:{ChannelId}:{TagId}:{Title}:{UserId}:{Count}:{Page}:{Sort}";
     }
 
+}
+
+
+public enum ArticleSearchTypeEnum
+{
+    /// <summary>
+    /// 点赞
+    /// </summary>
+    Like,
 }

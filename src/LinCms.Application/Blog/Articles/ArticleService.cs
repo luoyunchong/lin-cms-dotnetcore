@@ -38,6 +38,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
 
     #region CRUD
 
+    /// <inheritdoc />
     public async Task<PagedResultDto<ArticleListDto>> GetArticleAsync(ArticleSearchDto searchDto)
     {
         DateTime monthDays = DateTime.Now.AddDays(-30);
@@ -60,6 +61,18 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
         }
 
         long? userId = CurrentUser.FindUserId();
+
+        List<Guid> likedArticleIds = new();
+        bool isAnyLiked = false;
+
+        if (searchDto.ArticleSearchType == ArticleSearchTypeEnum.Like)
+        {
+            likedArticleIds = await userLikeRepository.Select
+                .Where(r => r.CreateUserId == userId && r.SubjectType == UserLikeSubjectType.UserLikeArticle)
+                .ToListAsync(r => r.SubjectId);
+            isAnyLiked = searchDto.ArticleSearchType == ArticleSearchTypeEnum.Like && likedArticleIds.Any();
+        }
+
         List<Article> articles = await articleRepository
             .Select
             .Include(r => r.UserInfo)
@@ -76,12 +89,14 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
             .WhereIf(searchDto.Sort == "WEEKLY_HOTTEST", r => r.CreateTime > weeklyDays)
             .WhereIf(searchDto.Sort == "MONTHLY_HOTTEST", r => r.CreateTime > monthDays)
             .WhereIf(searchDto.CollectionId != null, r => articleIds.Contains(r.Id))
+            .WhereIf(isAnyLiked, r => likedArticleIds.Contains(r.Id))
             .OrderByDescending(
                 searchDto.Sort == "THREE_DAYS_HOTTEST" || searchDto.Sort == "WEEKLY_HOTTEST" ||
                 searchDto.Sort == "MONTHLY_HOTTEST" ||
                 searchDto.Sort == "HOTTEST",
                 r => r.ViewHits + (r.LikesQuantity * 20) + (r.CommentQuantity * 30))
-            .OrderByDescending(r => r.CreateTime).ToPagerListAsync(searchDto, out long totalCount);
+            .OrderByDescending(r => r.CreateTime)
+            .ToPagerListAsync(searchDto, out long totalCount);
 
         List<ArticleListDto> articleDtos = articles
             .Select(a =>
@@ -111,7 +126,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
             }
         }
 
-        await articleRepository.DeleteAsync(new Article { Id = id });
+        await articleRepository.DeleteAsync(new Article {Id = id});
         await tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
         await commentRepository.DeleteAsync(r => r.SubjectId == id);
         await userLikeRepository.DeleteAsync(r => r.SubjectId == id);
@@ -160,7 +175,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
         Article article = Mapper.Map<Article>(createArticle);
         article.Archive = DateTime.Now.ToString("yyy年MM月");
         article.WordNumber = createArticle.Content.Length;
-        article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(createArticle.Content).Minutes;
+        article.ReadingTime = (long) TextAnalysisUtil.GetReadingTime(createArticle.Content).Minutes;
 
         article.Tags = new List<Tag>();
         foreach (var articleTagId in createArticle.TagIds)
@@ -209,7 +224,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
 
         Mapper.Map(updateArticleDto, article);
         article.WordNumber = article.Content.Length;
-        article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(article.Content).Minutes;
+        article.ReadingTime = (long) TextAnalysisUtil.GetReadingTime(article.Content).Minutes;
         await articleRepository.UpdateAsync(article);
 
         ArticleDraft articleDraft = Mapper.Map<ArticleDraft>(article);
