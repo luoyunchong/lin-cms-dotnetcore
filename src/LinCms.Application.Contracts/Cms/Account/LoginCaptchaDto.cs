@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LinCms.Cms.Users
+namespace LinCms.Cms.Account
 {
     public class LoginCaptchaDto
     {

@@ -9,7 +9,17 @@
             数据字典-详情项
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Base.BaseItemController.#ctor(LinCms.Base.BaseItems.IBaseItemService)">
+            <summary>
+            数据字典-详情项
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Base.BaseTypeController">
+            <summary>
+            数据字典-分类
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Base.BaseTypeController.#ctor(LinCms.Base.BaseTypes.IBaseTypeService)">
             <summary>
             数据字典-分类
             </summary>
@@ -19,7 +29,17 @@
             多语言
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Base.CultureController.#ctor(LinCms.Base.Localizations.ICultureService)">
+            <summary>
+            多语言
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Base.DocController">
+            <summary>
+            简单文档示例，仅仅是一个demo
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Base.DocController.#ctor(LinCms.Base.Docs.IDocService)">
             <summary>
             简单文档示例，仅仅是一个demo
             </summary>
@@ -29,7 +49,17 @@
             语言下的本地化资源
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Base.ResourceController.#ctor(LinCms.Base.Localizations.IResourceService)">
+            <summary>
+            语言下的本地化资源
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Blog.ArticleController">
+            <summary>
+            随笔
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.ArticleController.#ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Article},AutoMapper.IMapper,IGeekFan.FreeKit.Extras.Security.ICurrentUser,LinCms.Blog.Articles.IArticleService,FreeRedis.IRedisClient)">
             <summary>
             随笔
             </summary>
@@ -104,6 +134,11 @@
             随笔草稿箱，自动保存随笔
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Blog.ArticleDraftController.#ctor(LinCms.Blog.ArticleDrafts.IArticleDraftService)">
+            <summary>
+            随笔草稿箱，自动保存随笔
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.Blog.ArticleDraftController.GetAsync(System.Guid)">
             <summary>
             用户的随笔草稿详情
@@ -116,7 +151,17 @@
             随笔草稿箱，自动保存随笔
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Blog.AuthorCenterController.#ctor(LinCms.Blog.AuthorCenter.IAuthorCenterService)">
+            <summary>
+            随笔草稿箱，自动保存随笔
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Blog.ChannelController">
+            <summary>
+            技术频道
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.ChannelController.#ctor(LinCms.Blog.Channels.IChannelService)">
             <summary>
             技术频道
             </summary>
@@ -133,7 +178,17 @@
             分类专栏
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Blog.ClassifyController.#ctor(LinCms.Blog.Classifys.IClassifyService)">
+            <summary>
+            分类专栏
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Blog.CollectionController">
+            <summary>
+            收藏
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.CollectionController.#ctor(LinCms.Blog.Collections.ICollectionService,LinCms.Blog.Collections.IArticleCollectionService)">
             <summary>
             收藏
             </summary>
@@ -146,6 +201,11 @@
             <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Blog.CommentController">
+            <summary>
+            随笔评论
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.CommentController.#ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Comment},LinCms.Blog.Comments.ICommentService,IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Article})">
             <summary>
             随笔评论
             </summary>
@@ -206,7 +266,17 @@
             消息通知
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Blog.NotificationController.#ctor(LinCms.Blog.Notifications.INotificationService)">
+            <summary>
+            消息通知
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Blog.TagController">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.TagController.#ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Tag},LinCms.Blog.Tags.ITagService)">
             <summary>
             标签
             </summary>
@@ -219,6 +289,11 @@
             <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Blog.UserLikeController">
+            <summary>
+             用户点赞随笔
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.UserLikeController.#ctor(IGeekFan.FreeKit.Extras.Security.ICurrentUser,IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Article},IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.Comment},DotNetCore.CAP.ICapPublisher,FreeSql.UnitOfWorkManager,LinCms.Blog.UserLikes.IUserLikeService)">
             <summary>
              用户点赞随笔
             </summary>
@@ -239,6 +314,11 @@
             <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Blog.UserSubscribeController">
+            <summary>
+            用户订阅
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.UserSubscribeController.#ctor(IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.UserSubscribe},IGeekFan.FreeKit.Extras.Security.ICurrentUser,LinCms.Blog.UserSubscribes.IUserSubscribeService,IGeekFan.FreeKit.Extras.FreeSql.IAuditBaseRepository{LinCms.Entities.Blog.UserTag})">
             <summary>
             用户订阅
             </summary>
@@ -281,6 +361,11 @@
             <param name="userId"></param>
         </member>
         <member name="T:LinCms.Controllers.Blog.UserTagController">
+            <summary>
+            用户关注标签
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Blog.UserTagController.#ctor(LinCms.Blog.Tags.ITagService,LinCms.Blog.Tags.IUserTagService)">
             <summary>
             用户关注标签
             </summary>
@@ -429,7 +514,17 @@
             分组
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Cms.GroupController.#ctor(LinCms.Cms.Groups.IGroupService)">
+            <summary>
+            分组
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Cms.LogController">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.LogController.#ctor(LinCms.Cms.Logs.ILogService,LinCms.Cms.Logs.ISerilogService)">
             <summary>
             日志
             </summary>
@@ -461,6 +556,11 @@
             <returns></returns>
         </member>
         <member name="T:LinCms.Controllers.Cms.Oauth2Controller">
+            <summary>
+            第三方登录
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.Oauth2Controller.#ctor(LinCms.Cms.Users.IUserIdentityService,Microsoft.Extensions.Logging.ILogger{LinCms.Controllers.Cms.Oauth2Controller},LinCms.IRepositories.IUserRepository,DotNetCore.Security.IJwtService,Autofac.IComponentContext,LinCms.Domain.ITokenManager)">
             <summary>
             第三方登录
             </summary>
@@ -530,6 +630,11 @@
             权限
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Cms.PermissionController.#ctor(LinCms.Cms.Permissions.IPermissionService)">
+            <summary>
+            权限
+            </summary>
+        </member>
         <member name="M:LinCms.Controllers.Cms.PermissionController.GetAllPermissions">
             <summary>
             查询所有可分配的权限
@@ -555,7 +660,17 @@
             设置
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.Cms.SettingController.#ctor(LinCms.Cms.Settings.ISettingService,IGeekFan.FreeKit.Extras.Security.ICurrentUser,LinCms.IRepositories.ISettingRepository)">
+            <summary>
+            设置
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.Cms.UserController">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.Cms.UserController.#ctor(IFreeSql,AutoMapper.IMapper,LinCms.Cms.Users.IUserService,IGeekFan.FreeKit.Extras.Security.ICurrentUser,LinCms.IRepositories.IUserRepository,LinCms.Cms.Groups.IGroupService,LinCms.IRepositories.IFileRepository)">
             <summary>
             用户
             </summary>
@@ -630,7 +745,17 @@
             图书
             </summary>
         </member>
+        <member name="M:LinCms.Controllers.v1.BookController.#ctor(LinCms.v1.Books.IBookService)">
+            <summary>
+            图书
+            </summary>
+        </member>
         <member name="T:LinCms.Controllers.v1.MonitorController">
+            <summary>
+            监控
+            </summary>
+        </member>
+        <member name="M:LinCms.Controllers.v1.MonitorController.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
             监控
             </summary>
@@ -792,6 +917,11 @@
             <returns></returns>
         </member>
         <member name="T:LinCms.Middleware.RecaptchaVerifyActionFilter">
+            <summary>
+            验证码过滤器，可配置某个方法是否需要Google人机验证
+            </summary>
+        </member>
+        <member name="M:LinCms.Middleware.RecaptchaVerifyActionFilter.#ctor(Microsoft.Extensions.Logging.ILogger{LinCms.Middleware.RecaptchaVerifyActionFilter},Microsoft.Extensions.Options.IOptionsMonitor{LinCms.Models.Options.GooglereCAPTCHAOptions},Owl.reCAPTCHA.v3.IreCAPTCHASiteVerifyV3)">
             <summary>
             验证码过滤器，可配置某个方法是否需要Google人机验证
             </summary>

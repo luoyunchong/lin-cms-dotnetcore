@@ -10,16 +10,10 @@ using LinCms.Security;
 
 namespace LinCms.Cms.Users;
 
-public class UserIdentityService : ApplicationService, IUserIdentityService
+public class UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
+        ICryptographyService cryptographyService)
+    : ApplicationService, IUserIdentityService
 {
-    private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-    private readonly ICryptographyService _cryptographyService;
-    public UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, ICryptographyService cryptographyService)
-    {
-        _userIdentityRepository = userIdentityRepository;
-        _cryptographyService = cryptographyService;
-    }
-
     public async Task<bool> VerifyUserPasswordAsync(long userId, string password, string salt)
     {
         LinUserIdentity userIdentity = await GetFirstByUserIdAsync(userId);
@@ -28,7 +22,7 @@ public class UserIdentityService : ApplicationService, IUserIdentityService
         {
             return true;
         }
-        string encryptPassword = _cryptographyService.Encrypt(password, salt);
+        string encryptPassword = cryptographyService.Encrypt(password, salt);
         return userIdentity.Credential == encryptPassword;
     }
 
@@ -43,35 +37,35 @@ public class UserIdentityService : ApplicationService, IUserIdentityService
 
     public Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword, string salt)
     {
-        string encryptPassword = _cryptographyService.Encrypt(newpassword, salt);
+        string encryptPassword = cryptographyService.Encrypt(newpassword, salt);
         if (linUserIdentity == null)
         {
             linUserIdentity = new LinUserIdentity(LinUserIdentity.Password, "", encryptPassword, DateTime.Now);
-            return _userIdentityRepository.InsertAsync(linUserIdentity);
+            return userIdentityRepository.InsertAsync(linUserIdentity);
         }
         else
         {
             linUserIdentity.Credential = encryptPassword;
-            return _userIdentityRepository.UpdateAsync(linUserIdentity);
+            return userIdentityRepository.UpdateAsync(linUserIdentity);
         }
     }
 
     [Transactional]
     public Task DeleteAsync(long userId)
     {
-        return _userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
+        return userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
     }
 
     public Task<LinUserIdentity> GetFirstByUserIdAsync(long userId)
     {
-        return _userIdentityRepository
+        return userIdentityRepository
             .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
             .FirstAsync();
     }
 
     public async Task<List<UserIdentityDto>> GetListAsync(long userId)
     {
-        List<LinUserIdentity> userIdentities = await _userIdentityRepository
+        List<LinUserIdentity> userIdentities = await userIdentityRepository
             .Where(r => r.CreateUserId == userId)
             .ToListAsync();
 
@@ -80,13 +74,13 @@ public class UserIdentityService : ApplicationService, IUserIdentityService
 
     public async Task UnBind(Guid id)
     {
-        LinUserIdentity userIdentity = await _userIdentityRepository.GetAsync(id);
+        LinUserIdentity userIdentity = await userIdentityRepository.GetAsync(id);
         if (userIdentity == null || userIdentity.CreateUserId !=  CurrentUser.FindUserId())
         {
             throw new LinCmsException("你无权解绑此账号");
         }
 
-        List<LinUserIdentity> userIdentities = await _userIdentityRepository.Select.Where(r => r.CreateUserId ==  CurrentUser.FindUserId()).ToListAsync();
+        List<LinUserIdentity> userIdentities = await userIdentityRepository.Select.Where(r => r.CreateUserId ==  CurrentUser.FindUserId()).ToListAsync();
 
         bool hasPwd = userIdentities.Any(r => r.IdentityType == LinUserIdentity.Password);
 
@@ -94,6 +88,6 @@ public class UserIdentityService : ApplicationService, IUserIdentityService
         {
             throw new LinCmsException("你未设置密码，无法解绑最后一个第三方登录账号");
         }
-        await _userIdentityRepository.DeleteAsync(userIdentity);
+        await userIdentityRepository.DeleteAsync(userIdentity);
     }
 }

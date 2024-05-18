@@ -26,7 +26,7 @@ public class AopCacheAsyncIntercept : IAsyncInterceptor
     {
         _configuration = configuration;
         _redisClient = redisClient;
-        _expireSeconds = int.Parse(_configuration["Cache:ExpireSeconds"].ToString());
+        _expireSeconds = int.Parse(_configuration["Cache:ExpireSeconds"]);
     }
 
     /// <summary>

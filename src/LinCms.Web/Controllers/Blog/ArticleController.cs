@@ -29,24 +29,14 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/articles")]
 [ApiController]
 [Authorize]
-public class ArticleController : ControllerBase
+public class ArticleController(
+        IAuditBaseRepository<Article> articleRepository, 
+        IMapper mapper,
+        ICurrentUser currentUser,
+        IArticleService articleService, 
+        IRedisClient redisClient)
+    : ControllerBase
 {
-    private readonly IAuditBaseRepository<Article> _articleRepository;
-    private readonly IArticleService _articleService;
-    private readonly IMapper _mapper;
-    private readonly ICurrentUser _currentUser;
-    private readonly IRedisClient _redisClient;
-    public ArticleController(IAuditBaseRepository<Article> articleRepository, IMapper mapper, ICurrentUser currentUser,
-        IArticleService articleService, IRedisClient redisClient)
-    {
-        _articleRepository = articleRepository;
-        _mapper = mapper;
-        _currentUser = currentUser;
-        _articleService = articleService;
-        _redisClient = redisClient;
-    }
-
-
     /// <summary>
     /// 我所有的随笔
     /// </summary>
@@ -56,16 +46,16 @@ public class ArticleController : ControllerBase
     [AllowAnonymous]
     public PagedResultDto<ArticleListDto> GetMyArticleList([FromQuery] ArticleSearchDto searchDto)
     {
-        List<ArticleListDto> articles = _articleRepository
+        List<ArticleListDto> articles = articleRepository
             .Select
             .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
-            .Where(r => r.CreateUserId == _currentUser.FindUserId())
+            .Where(r => r.CreateUserId == currentUser.FindUserId())
             .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
             .WhereIf(searchDto.ClassifyId.HasValue, r => r.ClassifyId == searchDto.ClassifyId)
             .OrderByDescending(r => r.IsStickie)
             .OrderByDescending(r => r.Id)
             .ToPagerList(searchDto, out long totalCount)
-            .Select(a => _mapper.Map<ArticleListDto>(a))
+            .Select(a => mapper.Map<ArticleListDto>(a))
             .ToList();
 
         return new PagedResultDto<ArticleListDto>(articles, totalCount);
@@ -84,7 +74,7 @@ public class ArticleController : ControllerBase
     // [Cacheable]
     public Task<PagedResultDto<ArticleListDto>> GetArticleAsync([FromQuery] ArticleSearchDto searchDto)
     {
-        return _articleService.GetArticleAsync(searchDto);
+        return articleService.GetArticleAsync(searchDto);
 
         //string redisKey = "article:query:" + EncryptUtil.Encrypt(JsonConvert.SerializeObject(searchDto, Formatting.Indented, new JsonSerializerSettings
         //{
@@ -105,7 +95,7 @@ public class ArticleController : ControllerBase
     [LinCmsAuthorize("删除随笔", "随笔")]
     public async Task<UnifyResponseDto> Delete(Guid id)
     {
-        await _articleService.DeleteAsync(id);
+        await articleService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
@@ -118,13 +108,13 @@ public class ArticleController : ControllerBase
     public async Task<UnifyResponseDto> DeleteMyArticleAsync(Guid id)
     {
         bool isCreateArticle =
-            await _articleRepository.Select.AnyAsync(r => r.Id == id && r.CreateUserId == _currentUser.FindUserId());
+            await articleRepository.Select.AnyAsync(r => r.Id == id && r.CreateUserId == currentUser.FindUserId());
         if (!isCreateArticle)
         {
             throw new LinCmsException("无法删除别人的随笔!");
         }
 
-        await _articleService.DeleteAsync(id);
+        await articleService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
@@ -137,18 +127,18 @@ public class ArticleController : ControllerBase
     [AllowAnonymous]
     public async Task<ArticleDto> GetAsync(Guid id)
     {
-        await _articleRepository.UpdateDiy.Set(r => r.ViewHits + 1).Where(r => r.Id == id).ExecuteAffrowsAsync();
-        return await _articleService.GetAsync(id);
+        await articleRepository.UpdateDiy.Set(r => r.ViewHits + 1).Where(r => r.Id == id).ExecuteAffrowsAsync();
+        return await articleService.GetAsync(id);
     }
 
     [HttpPost]
     public async Task<Guid> CreateAsync([FromBody] CreateUpdateArticleDto createArticle)
     {
-        Guid id = await _articleService.CreateAsync(createArticle);
-        string[] keys = await _redisClient.KeysAsync("ArticleController:GetArticle:*");
+        Guid id = await articleService.CreateAsync(createArticle);
+        string[] keys = await redisClient.KeysAsync("ArticleController:GetArticle:*");
         if (keys.Length > 0)
         {
-            await _redisClient.DelAsync(keys);
+            await redisClient.DelAsync(keys);
         }
         return id;
     }
@@ -157,7 +147,7 @@ public class ArticleController : ControllerBase
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateArticleDto updateArticleDto)
     {
-        await _articleService.UpdateAsync(id, updateArticleDto);
+        await articleService.UpdateAsync(id, updateArticleDto);
         return UnifyResponseDto.Success("更新随笔成功");
     }
 
@@ -172,13 +162,13 @@ public class ArticleController : ControllerBase
     [LinCmsAuthorize("所有随笔", "随笔")]
     public PagedResultDto<ArticleListDto> GetAllArticles([FromQuery] ArticleSearchDto searchDto)
     {
-        var articles = _articleRepository
+        var articles = articleRepository
             .Select
             .WhereCascade(r => r.IsDeleted == false)
             .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
             .OrderByDescending(r => r.CreateTime)
             .ToPagerList(searchDto, out long totalCount)
-            .Select(a => _mapper.Map<ArticleListDto>(a))
+            .Select(a => mapper.Map<ArticleListDto>(a))
             .ToList();
 
         return new PagedResultDto<ArticleListDto>(articles, totalCount);
@@ -194,14 +184,14 @@ public class ArticleController : ControllerBase
     [HttpPut("audit/{id}")]
     public async Task<UnifyResponseDto> AuditAsync(Guid id, bool isAudit)
     {
-        Article article = await _articleRepository.Select.Where(r => r.Id == id).ToOneAsync();
+        Article article = await articleRepository.Select.Where(r => r.Id == id).ToOneAsync();
         if (article == null)
         {
             throw new LinCmsException("没有找到相关随笔");
         }
 
         article.IsAudit = isAudit;
-        await _articleRepository.UpdateAsync(article);
+        await articleRepository.UpdateAsync(article);
         return UnifyResponseDto.Success();
     }
 
@@ -213,7 +203,7 @@ public class ArticleController : ControllerBase
     [HttpGet("subscribe")]
     public Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync([FromQuery] PageDto pageDto)
     {
-        return _articleService.GetSubscribeArticleAsync(pageDto);
+        return articleService.GetSubscribeArticleAsync(pageDto);
     }
 
     /// <summary>
@@ -225,6 +215,6 @@ public class ArticleController : ControllerBase
     [HttpPut("{id}/comment-able/{commentable}")]
     public Task UpdateCommentable(Guid id, bool commentable)
     {
-        return _articleService.UpdateCommentable(id, commentable);
+        return articleService.UpdateCommentable(id, commentable);
     }
 }

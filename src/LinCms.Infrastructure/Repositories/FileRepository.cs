@@ -8,13 +8,12 @@ using Microsoft.Extensions.Options;
 
 namespace LinCms.Repositories;
 
-public class FileRepository : AuditDefaultRepository<LinFile, long, long>, IFileRepository
+public class FileRepository(UnitOfWorkManager unitOfWorkManager,
+        ICurrentUser currentUser,
+        IOptionsMonitor<FileStorageOption> fileStorageOption)
+    : AuditDefaultRepository<LinFile, long, long>(unitOfWorkManager, currentUser), IFileRepository
 {
-    private readonly FileStorageOption _fileStorageOption;
-    public FileRepository(UnitOfWorkManager unitOfWorkManager, ICurrentUser currentUser, IOptionsMonitor<FileStorageOption> fileStorageOption) : base(unitOfWorkManager, currentUser)
-    {
-        _fileStorageOption = fileStorageOption.CurrentValue;
-    }
+    private readonly FileStorageOption _fileStorageOption = fileStorageOption.CurrentValue;
 
     public string GetFileUrl(string path)
     {

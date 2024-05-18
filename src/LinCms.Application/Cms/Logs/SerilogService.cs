@@ -8,18 +8,11 @@ using LinCms.Extensions;
 
 namespace LinCms.Cms.Logs;
 
-public class SerilogService : ISerilogService
+public class SerilogService(IBaseRepository<SerilogDO> serilogBaseRepository) : ISerilogService
 {
-    private readonly IBaseRepository<SerilogDO> _serilogBaseRepository;
-
-    public SerilogService(IBaseRepository<SerilogDO> serilogBaseRepository)
-    {
-        _serilogBaseRepository = serilogBaseRepository;
-    }
-
     public async Task<PagedResultDto<SerilogDO>> GetListAsync(SerilogSearchDto searchDto)
     {
-        List<SerilogDO> serilogLists = await _serilogBaseRepository.Select
+        List<SerilogDO> serilogLists = await serilogBaseRepository.Select
             .WhereIf(searchDto.Start.HasValue, r => r.Timestamp >= searchDto.Start.Value)
             .WhereIf(searchDto.End.HasValue, r => r.Timestamp <= searchDto.End.Value)
             .WhereIf(!string.IsNullOrEmpty(searchDto.Keyword), r => r.Message.Contains(searchDto.Keyword))
@@ -35,10 +28,10 @@ public class SerilogService : ISerilogService
 
         return new LogDashboard()
         {
-            AllCount = await _serilogBaseRepository.Select.CountAsync(),
-            TodayCount = await _serilogBaseRepository.Select.Where(x => x.Timestamp >= now.Date && x.Timestamp <= now.Date.AddHours(23).AddMinutes(59).AddSeconds(59)).CountAsync(),
-            HourCount = await _serilogBaseRepository.Select.Where(x => x.Timestamp >= now.AddHours(-1) && x.Timestamp <= now).CountAsync(),
-            UniqueCount = await _serilogBaseRepository.Select.WithSql(@"select count(*) AS TOTAL from app_serilog group by message").CountAsync(),
+            AllCount = await serilogBaseRepository.Select.CountAsync(),
+            TodayCount = await serilogBaseRepository.Select.Where(x => x.Timestamp >= now.Date && x.Timestamp <= now.Date.AddHours(23).AddMinutes(59).AddSeconds(59)).CountAsync(),
+            HourCount = await serilogBaseRepository.Select.Where(x => x.Timestamp >= now.AddHours(-1) && x.Timestamp <= now).CountAsync(),
+            UniqueCount = await serilogBaseRepository.Select.WithSql(@"select count(*) AS TOTAL from app_serilog group by message").CountAsync(),
         };
     }
 }

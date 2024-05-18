@@ -17,16 +17,10 @@ using Qiniu.Util;
 namespace LinCms.Cms.Files;
 
 [DisableConventionalRegistration]
-public class QiniuService : IFileService
+public class QiniuService(IAuditBaseRepository<LinFile> fileRepository, IOptions<FileStorageOption> fileStorageOption)
+    : IFileService
 {
-    private readonly IAuditBaseRepository<LinFile> _fileRepository;
-    private readonly FileStorageOption _fileStorageOption;
-
-    public QiniuService(IAuditBaseRepository<LinFile> fileRepository, IOptions<FileStorageOption> fileStorageOption)
-    {
-        _fileRepository = fileRepository;
-        _fileStorageOption = fileStorageOption.Value;
-    }
+    private readonly FileStorageOption _fileStorageOption = fileStorageOption.Value;
 
     private string GetAccessToken()
     {
@@ -70,7 +64,7 @@ public class QiniuService : IFileService
     {
         string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
 
-        LinFile linFile = await _fileRepository.Where(r => r.Md5 == md5 && r.Type == 2).FirstAsync();
+        LinFile linFile = await fileRepository.Where(r => r.Md5 == md5 && r.Type == 2).FirstAsync();
 
         if (linFile != null)
         {
@@ -95,7 +89,7 @@ public class QiniuService : IFileService
             Size = file.Length,
         };
 
-        long id = (await _fileRepository.InsertAsync(saveLinFile)).Id;
+        long id = (await fileRepository.InsertAsync(saveLinFile)).Id;
 
         return new FileDto
         {

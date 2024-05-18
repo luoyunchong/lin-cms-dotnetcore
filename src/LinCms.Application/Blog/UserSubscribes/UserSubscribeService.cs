@@ -18,23 +18,13 @@ namespace LinCms.Blog.UserSubscribes;
 /// <summary>
 /// 用户关注（订阅）服务接口
 /// </summary>
-public class UserSubscribeService : ApplicationService, IUserSubscribeService
+public class UserSubscribeService(IAuditBaseRepository<UserSubscribe, Guid> userSubscribeRepository,
+        IUserRepository userRepository, ICapPublisher capBus, IFileRepository fileRepository)
+    : ApplicationService, IUserSubscribeService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAuditBaseRepository<UserSubscribe, Guid> _userSubscribeRepository;
-    private readonly ICapPublisher _capBus;
-    private readonly IFileRepository _fileRepository;
-    public UserSubscribeService(IAuditBaseRepository<UserSubscribe, Guid> userSubscribeRepository, IUserRepository userRepository, ICapPublisher capBus, IFileRepository fileRepository)
-    {
-        _userSubscribeRepository = userSubscribeRepository;
-        _userRepository = userRepository;
-        _capBus = capBus;
-        _fileRepository = fileRepository;
-    }
-
     public async Task<List<long>> GetSubscribeUserIdAsync(long userId)
     {
-        List<long> subscribeUserIds = await _userSubscribeRepository
+        List<long> subscribeUserIds = await userSubscribeRepository
             .Select.Where(r => r.CreateUserId == userId)
             .ToListAsync(r => r.SubscribeUserId);
         return subscribeUserIds;
@@ -42,7 +32,7 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
 
     public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList(UserSubscribeSearchDto searchDto)
     {
-        List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.SubscribeUser)
+        List<UserSubscribeDto> userSubscribes = userSubscribeRepository.Select.Include(r => r.SubscribeUser)
             .Where(r => r.CreateUserId == searchDto.UserId)
             .OrderByDescending(r => r.CreateTime)
             .ToPager(searchDto, out long count)
@@ -58,17 +48,17 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
                     Avatar = r.SubscribeUser.Avatar,
                     Username = r.SubscribeUser.Username,
                 },
-                IsSubscribeed = _userSubscribeRepository.Select.Any(r => r.CreateUserId ==  CurrentUser.FindUserId() && r.SubscribeUserId == r.SubscribeUserId)
+                IsSubscribeed = userSubscribeRepository.Select.Any(r => r.CreateUserId ==  CurrentUser.FindUserId() && r.SubscribeUserId == r.SubscribeUserId)
             });
 
-        userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
+        userSubscribes.ForEach(r => { r.Subscribeer.Avatar = fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
 
         return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
     }
 
     public PagedResultDto<UserSubscribeDto> GetUserFansList(UserSubscribeSearchDto searchDto)
     {
-        List<UserSubscribeDto> userSubscribes = _userSubscribeRepository.Select.Include(r => r.LinUser)
+        List<UserSubscribeDto> userSubscribes = userSubscribeRepository.Select.Include(r => r.LinUser)
             .Where(r => r.SubscribeUserId == searchDto.UserId)
             .OrderByDescending(r => r.CreateTime)
             .ToPager(searchDto, out long count)
@@ -85,11 +75,11 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
                     Username = r.LinUser.Username,
                 },
                 //当前登录的用户是否关注了这个粉丝
-                IsSubscribeed = _userSubscribeRepository.Select.Any(
+                IsSubscribeed = userSubscribeRepository.Select.Any(
                     u => u.CreateUserId ==  CurrentUser.FindUserId() && u.SubscribeUserId == r.CreateUserId)
             });
 
-        userSubscribes.ForEach(r => { r.Subscribeer.Avatar = _fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
+        userSubscribes.ForEach(r => { r.Subscribeer.Avatar = fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
 
         return new PagedResultDto<UserSubscribeDto>(userSubscribes, count);
     }
@@ -102,7 +92,7 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
             throw new LinCmsException("您无法关注自己");
         }
 
-        LinUser linUser = _userRepository.Select.Where(r => r.Id == subscribeUserId).ToOne();
+        LinUser linUser = userRepository.Select.Where(r => r.Id == subscribeUserId).ToOne();
         if (linUser == null)
         {
             throw new LinCmsException("该用户不存在");
@@ -113,19 +103,19 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
             throw new LinCmsException("该用户已被拉黑");
         }
 
-        bool any = _userSubscribeRepository.Select.Any(r =>
+        bool any = userSubscribeRepository.Select.Any(r =>
             r.CreateUserId ==  CurrentUser.FindUserId() && r.SubscribeUserId == subscribeUserId);
         if (any)
         {
             throw new LinCmsException("您已关注该用户");
         }
 
-        using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
+        using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(capBus, false);
 
         UserSubscribe userSubscribe = new() { SubscribeUserId = subscribeUserId };
-        await _userSubscribeRepository.InsertAsync(userSubscribe);
+        await userSubscribeRepository.InsertAsync(userSubscribe);
 
-        await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
+        await capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
         {
             NotificationType = NotificationType.UserLikeUser,
             NotificationRespUserId = subscribeUserId,
@@ -139,7 +129,7 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
     [Transactional]
     public async Task DeleteAsync(long subscribeUserId)
     {
-        bool any = await _userSubscribeRepository.Select.AnyAsync(r =>
+        bool any = await userSubscribeRepository.Select.AnyAsync(r =>
             r.CreateUserId ==  CurrentUser.FindUserId() && r.SubscribeUserId == subscribeUserId);
         if (!any)
         {
@@ -147,11 +137,11 @@ public class UserSubscribeService : ApplicationService, IUserSubscribeService
         }
 
 
-        using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
+        using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(capBus, false);
 
-        await _userSubscribeRepository.DeleteAsync(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId ==  CurrentUser.FindUserId());
+        await userSubscribeRepository.DeleteAsync(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId ==  CurrentUser.FindUserId());
 
-        await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
+        await capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
         {
             NotificationType = NotificationType.UserLikeUser,
             NotificationRespUserId = subscribeUserId,

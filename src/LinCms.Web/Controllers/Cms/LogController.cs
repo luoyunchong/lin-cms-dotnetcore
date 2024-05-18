@@ -17,17 +17,8 @@ namespace LinCms.Controllers.Cms;
 [Route("cms/log")]
 [ApiController]
 [DisableAuditing]
-public class LogController : ControllerBase
+public class LogController(ILogService logService, ISerilogService serilogService) : ControllerBase
 {
-    private readonly ILogService _logService;
-    private readonly ISerilogService _serilogService;
-
-    public LogController(ILogService logService, ISerilogService serilogService)
-    {
-        _logService = logService;
-        _serilogService = serilogService;
-    }
-
     /// <summary>
     /// 查询日志记录的用户
     /// </summary>
@@ -36,7 +27,7 @@ public class LogController : ControllerBase
     [LinCmsAuthorize("查询日志记录的用户", "日志")]
     public List<string> GetUsers([FromQuery] PageDto pageDto)
     {
-        return _logService.GetLoggedUsers(pageDto);
+        return logService.GetLoggedUsers(pageDto);
     }
 
     /// <summary>
@@ -47,7 +38,7 @@ public class LogController : ControllerBase
     [LinCmsAuthorize("查询所有日志", "日志")]
     public PagedResultDto<LinLog> GetLogs([FromQuery] LogSearchDto searchDto)
     {
-        return _logService.GetUserLogs(searchDto);
+        return logService.GetUserLogs(searchDto);
     }
 
     /// <summary>
@@ -59,7 +50,7 @@ public class LogController : ControllerBase
     [LinCmsAuthorize("搜索日志", "日志")]
     public PagedResultDto<LinLog> GetUserLogs([FromQuery] LogSearchDto searchDto)
     {
-        return _logService.GetUserLogs(searchDto);
+        return logService.GetUserLogs(searchDto);
     }
 
     /// <summary>
@@ -71,18 +62,18 @@ public class LogController : ControllerBase
     [LinCmsAuthorize("Serilog日志", "日志")]
     public Task<PagedResultDto<SerilogDO>> GetSerilogListAsync([FromQuery] SerilogSearchDto searchDto)
     {
-        return _serilogService.GetListAsync(searchDto);
+        return serilogService.GetListAsync(searchDto);
     }
 
     [HttpGet("visitis")]
     public VisitLogUserDto GetUserAndVisits()
     {
-        return _logService.GetUserAndVisits();
+        return logService.GetUserAndVisits();
     }
 
     [HttpGet("dashboard")]
     public Task<LogDashboard> GetLogDashboard()
     {
-        return _serilogService.GetLogDashboard();
+        return serilogService.GetLogDashboard();
     }
 }

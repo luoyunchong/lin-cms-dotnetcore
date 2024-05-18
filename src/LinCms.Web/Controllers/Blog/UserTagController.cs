@@ -17,17 +17,8 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/user-tag")]
 [ApiController]
 [Authorize]
-public class UserTagController : ControllerBase
+public class UserTagController(ITagService tagService, IUserTagService userTagService) : ControllerBase
 {
-    private readonly ITagService _tagService;
-    private readonly IUserTagService _userTagService;
-
-    public UserTagController(ITagService tagService, IUserTagService userTagService)
-    {
-        _userTagService = userTagService;
-        _tagService = tagService;
-    }
-
     /// <summary>
     /// 用户关注标签
     /// </summary>
@@ -35,7 +26,7 @@ public class UserTagController : ControllerBase
     [HttpPost("{tagId}")]
     public async Task<UnifyResponseDto> CreateUserTagAsync(Guid tagId)
     {
-        await _userTagService.CreateUserTagAsync(tagId);
+        await userTagService.CreateUserTagAsync(tagId);
         return UnifyResponseDto.Success("关注成功");
     }
 
@@ -46,7 +37,7 @@ public class UserTagController : ControllerBase
     [HttpDelete("{tagId}")]
     public async Task<UnifyResponseDto> DeleteUserTagAsync(Guid tagId)
     {
-        await _userTagService.DeleteUserTagAsync(tagId);
+        await userTagService.DeleteUserTagAsync(tagId);
         return UnifyResponseDto.Success("取消关注成功");
     }
 
@@ -58,6 +49,6 @@ public class UserTagController : ControllerBase
     [AllowAnonymous]
     public PagedResultDto<TagListDto> GetUserTagList([FromQuery] UserSubscribeSearchDto userSubscribeDto)
     {
-        return _tagService.GetSubscribeTags(userSubscribeDto);
+        return tagService.GetSubscribeTags(userSubscribeDto);
     }
 }

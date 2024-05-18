@@ -16,18 +16,10 @@ using Newtonsoft.Json;
 namespace LinCms.Cms.Account;
 
 [DisableConventionalRegistration]
-public class IdentityServer4Service : ITokenService
+public class IdentityServer4Service(ILogger<IdentityServer4Service> logger, IConfiguration configuration,
+        IHttpClientFactory httpClientFactory)
+    : ITokenService
 {
-    private readonly IConfiguration _configuration;
-    private readonly ILogger<IdentityServer4Service> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
-    public IdentityServer4Service(ILogger<IdentityServer4Service> logger, IConfiguration configuration, IHttpClientFactory httpClientFactory)
-    {
-        _logger = logger;
-        _configuration = configuration;
-        _httpClientFactory = httpClientFactory;
-    }
-
     /// <summary>
     /// Ids4密码模式登录
     /// </summary>
@@ -35,16 +27,16 @@ public class IdentityServer4Service : ITokenService
     /// <returns></returns>
     public async Task<UserAccessToken> LoginAsync(LoginInputDto loginInputDto)
     {
-        _logger.LogInformation("IdentityServer4Login");
+        logger.LogInformation("IdentityServer4Login");
 
-        HttpClient client = _httpClientFactory.CreateClient("IdentityServer4");
+        HttpClient client = httpClientFactory.CreateClient("IdentityServer4");
 
         DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
         {
-            Address = _configuration["Service:Authority"],
+            Address = configuration["Service:Authority"],
             Policy = new DiscoveryPolicy
             {
-                RequireHttps = _configuration["Service:UseHttps"].ToBoolean()
+                RequireHttps = configuration["Service:UseHttps"].ToBoolean()
             }
         });
 
@@ -57,13 +49,13 @@ public class IdentityServer4Service : ITokenService
         {
             Address = disco.TokenEndpoint,
             GrantType = GrantType.ResourceOwnerPassword,
-            ClientId = _configuration["Service:ClientId"],
-            ClientSecret = _configuration["Service:ClientSecret"],
+            ClientId = configuration["Service:ClientId"],
+            ClientSecret = configuration["Service:ClientSecret"],
             Parameters = {
                 { "UserName", loginInputDto.Username },
                 { "Password", loginInputDto.Password }
             },
-            Scope = _configuration["Service:Name"],
+            Scope = configuration["Service:Name"],
         });
 
         if (response.IsError)
@@ -73,19 +65,19 @@ public class IdentityServer4Service : ITokenService
 
         var jsonElement = response.Json;
 
-        _logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(jsonElement)}");
+        logger.LogInformation($"用户{loginInputDto.Username},登录成功，{JsonConvert.SerializeObject(jsonElement)}");
         return new UserAccessToken(jsonElement.GetProperty("access_token").ToString(), jsonElement.GetProperty("refresh_token").ToString(), 7200, "Bearer", 24 * 60 * 60 * 7);
     }
 
     public async Task<UserAccessToken> GetRefreshTokenAsync(string refreshToken)
     {
-        HttpClient client = _httpClientFactory.CreateClient();
+        HttpClient client = httpClientFactory.CreateClient();
         DiscoveryDocumentResponse disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
         {
-            Address = _configuration["Service:Authority"],
+            Address = configuration["Service:Authority"],
             Policy = new DiscoveryPolicy
             {
-                RequireHttps = _configuration["Service:UseHttps"].ToBoolean()
+                RequireHttps = configuration["Service:UseHttps"].ToBoolean()
             }
         });
 
@@ -104,14 +96,14 @@ public class IdentityServer4Service : ITokenService
             Address = disco.TokenEndpoint,
             GrantType = OidcConstants.GrantTypes.RefreshToken,
 
-            ClientId = _configuration["Service:ClientId"],
-            ClientSecret = _configuration["Service:ClientSecret"],
+            ClientId = configuration["Service:ClientId"],
+            ClientSecret = configuration["Service:ClientSecret"],
             Parameters = parameters
         });
 
         if (response.IsError)
         {
-            _logger.LogError(response.Error + response.ErrorDescription);
+            logger.LogError(response.Error + response.ErrorDescription);
             throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
         }
 

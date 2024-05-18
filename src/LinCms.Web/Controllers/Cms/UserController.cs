@@ -24,27 +24,15 @@ namespace LinCms.Controllers.Cms;
 [ApiController]
 [Route("cms/user")]
 [Authorize]
-public class UserController : ControllerBase
+public class UserController(IFreeSql freeSql, 
+        IMapper mapper, 
+        IUserService userSevice, 
+        ICurrentUser currentUser,
+        IUserRepository userRepository,
+        IGroupService groupService, 
+        IFileRepository fileRepository)
+    : ControllerBase
 {
-    private readonly IFreeSql _freeSql;
-    private readonly IMapper _mapper;
-    private readonly IUserService _userSevice;
-    private readonly ICurrentUser _currentUser;
-    private readonly IUserRepository _userRepository;
-    private readonly IGroupService _groupService;
-    private readonly IFileRepository _fileRepository;
-    public UserController(IFreeSql freeSql, IMapper mapper, IUserService userSevice, ICurrentUser currentUser, IUserRepository userRepository, IGroupService groupService, IFileRepository fileRepository)
-    {
-        _freeSql = freeSql;
-        _mapper = mapper;
-        _userSevice = userSevice;
-        _currentUser = currentUser;
-        _userRepository = userRepository;
-        _groupService = groupService;
-        _fileRepository = fileRepository;
-    }
-
-
     [HttpGet("get")]
     public JsonResult Get()
     {
@@ -60,7 +48,7 @@ public class UserController : ControllerBase
     [Authorize(Roles = LinGroup.Admin)]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUserDto userInput)
     {
-        await _userSevice.CreateAsync(_mapper.Map<LinUser>(userInput), userInput.GroupIds, userInput.Password);
+        await userSevice.CreateAsync(mapper.Map<LinUser>(userInput), userInput.GroupIds, userInput.Password);
         return UnifyResponseDto.Success("用户创建成功");
     }
 
@@ -70,7 +58,7 @@ public class UserController : ControllerBase
     [HttpGet("information")]
     public Task<UserInformation> GetInformationAsync()
     {
-        return _userSevice.GetInformationAsync(_currentUser.FindUserId() ?? 0);
+        return userSevice.GetInformationAsync(currentUser.FindUserId() ?? 0);
     }
 
     /// <summary>
@@ -80,10 +68,10 @@ public class UserController : ControllerBase
     [HttpGet("permissions")]
     public async Task<UserInformation> Permissions()
     {
-        UserInformation userInformation = await _userSevice.GetInformationAsync(_currentUser.FindUserId() ?? 0);
-        var permissions = await _userSevice.GetStructualUserPermissions(_currentUser.FindUserId() ?? 0);
+        UserInformation userInformation = await userSevice.GetInformationAsync(currentUser.FindUserId() ?? 0);
+        var permissions = await userSevice.GetStructualUserPermissions(currentUser.FindUserId() ?? 0);
         userInformation.Permissions = permissions;
-        userInformation.Admin = _groupService.CheckIsRootByUserId(_currentUser.FindUserId() ?? 0);
+        userInformation.Admin = groupService.CheckIsRootByUserId(currentUser.FindUserId() ?? 0);
         return userInformation;
     }
 
@@ -96,7 +84,7 @@ public class UserController : ControllerBase
     [HttpPut("change_password")]
     public async Task<UnifyResponseDto> ChangePasswordAsync([FromBody] ChangePasswordDto passwordDto)
     {
-        await _userSevice.ChangePasswordAsync(passwordDto);
+        await userSevice.ChangePasswordAsync(passwordDto);
         return UnifyResponseDto.Success("密码修改成功");
     }
 
@@ -108,7 +96,7 @@ public class UserController : ControllerBase
     [HttpPut("avatar")]
     public async Task<UnifyResponseDto> SetAvatar(UpdateAvatarDto avatarDto)
     {
-        await _freeSql.Update<LinUser>(_currentUser.FindUserId()).Set(a => new LinUser()
+        await freeSql.Update<LinUser>(currentUser.FindUserId()).Set(a => new LinUser()
         {
             Avatar = avatarDto.Avatar
         }).ExecuteAffrowsAsync();
@@ -125,7 +113,7 @@ public class UserController : ControllerBase
     [HttpPut("nickname")]
     public UnifyResponseDto SetNickname(UpdateNicknameDto updateNicknameDto)
     {
-        _freeSql.Update<LinUser>(_currentUser.FindUserId()).Set(a => new LinUser()
+        freeSql.Update<LinUser>(currentUser.FindUserId()).Set(a => new LinUser()
         {
             Nickname = updateNicknameDto.Nickname
         }).ExecuteAffrows();
@@ -141,7 +129,7 @@ public class UserController : ControllerBase
     [HttpPut]
     public async Task<UnifyResponseDto> SetProfileInfo(UpdateProfileDto profileDto)
     {
-        await _freeSql.Update<LinUser>(_currentUser.FindUserId()).Set(a => new LinUser()
+        await freeSql.Update<LinUser>(currentUser.FindUserId()).Set(a => new LinUser()
         {
             Nickname = profileDto.Nickname,
             BlogAddress = profileDto.BlogAddress,
@@ -161,8 +149,8 @@ public class UserController : ControllerBase
     [HttpGet("avatar/{userId}")]
     public async Task<string> GetAvatarAsync(long userId)
     {
-        string avatar = await _userRepository.Where(r => r.Id == userId).FirstAsync(r => r.Avatar);
-        return _fileRepository.GetFileUrl(avatar);
+        string avatar = await userRepository.Where(r => r.Id == userId).FirstAsync(r => r.Avatar);
+        return fileRepository.GetFileUrl(avatar);
 
     }
 
@@ -175,10 +163,10 @@ public class UserController : ControllerBase
     [HttpGet("{userId}")]
     public async Task<OpenUserDto?> GetUserByUserId(long userId)
     {
-        LinUser linUser = await _userRepository.Where(r => r.Id == userId).FirstAsync();
-        OpenUserDto openUser = _mapper.Map<LinUser, OpenUserDto>(linUser);
+        LinUser linUser = await userRepository.Where(r => r.Id == userId).FirstAsync();
+        OpenUserDto openUser = mapper.Map<LinUser, OpenUserDto>(linUser);
         if (openUser == null) return null;
-        openUser.Avatar = _fileRepository.GetFileUrl(openUser.Avatar);
+        openUser.Avatar = fileRepository.GetFileUrl(openUser.Avatar);
         return openUser;
     }
 
@@ -191,7 +179,7 @@ public class UserController : ControllerBase
     [HttpGet("novices")]
     public virtual async Task<List<UserNoviceDto>> GetNovicesAsync()
     {
-        List<UserNoviceDto> userNoviceDtos = (await _userRepository.Select
+        List<UserNoviceDto> userNoviceDtos = (await userRepository.Select
             .OrderByDescending(r => r.CreateTime)
             .Take(12)
             .ToListAsync(r => new UserNoviceDto()
@@ -205,7 +193,7 @@ public class UserController : ControllerBase
                 CreateTime = r.CreateTime,
             })).Select(r =>
             {
-                r.Avatar = _fileRepository.GetFileUrl(r.Avatar);
+                r.Avatar = fileRepository.GetFileUrl(r.Avatar);
                 return r;
             }).ToList();
 

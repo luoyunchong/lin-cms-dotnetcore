@@ -8,15 +8,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LinCms.Data.Authorization;
 
-public class PermissionAuthorizationHandler : AuthorizationHandler<ModuleAuthorizationRequirement>
+public class PermissionAuthorizationHandler(IPermissionService permissionService) : AuthorizationHandler<ModuleAuthorizationRequirement>
 {
-    private readonly IPermissionService _permissionService;
-
-    public PermissionAuthorizationHandler(IPermissionService permissionService)
-    {
-        _permissionService = permissionService;
-    }
-
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, ModuleAuthorizationRequirement requirement)
     {
         AuthorizationFilterContext filterContext = context.Resource as AuthorizationFilterContext;
@@ -28,7 +21,7 @@ public class PermissionAuthorizationHandler : AuthorizationHandler<ModuleAuthori
             return;
         }
 
-        if (await _permissionService.CheckPermissionAsync(requirement.Module, requirement.Name))
+        if (await permissionService.CheckPermissionAsync(requirement.Module, requirement.Name))
         {
             context.Succeed(requirement);
             return;

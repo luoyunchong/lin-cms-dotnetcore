@@ -14,14 +14,8 @@ namespace LinCms.Controllers.Cms;
 [ApiExplorerSettings(GroupName = "cms")]
 [Route("cms/admin/permission")]
 [ApiController]
-public class PermissionController : ControllerBase
+public class PermissionController(IPermissionService permissionService) : ControllerBase
 {
-    private readonly IPermissionService _permissionService;
-    public PermissionController(IPermissionService permissionService)
-    {
-        _permissionService = permissionService;
-    }
-
     /// <summary>
     /// 查询所有可分配的权限
     /// </summary>
@@ -30,7 +24,7 @@ public class PermissionController : ControllerBase
     [LinCmsAuthorize("查询所有可分配的权限", "管理员")]
     public IDictionary<string, List<PermissionDto>> GetAllPermissions()
     {
-        return _permissionService.GetAllStructualPermissions();
+        return permissionService.GetAllStructualPermissions();
     }
 
     /// <summary>
@@ -42,7 +36,7 @@ public class PermissionController : ControllerBase
     [LinCmsAuthorize("删除多个权限", "管理员")]
     public async Task<UnifyResponseDto> RemovePermissions(RemovePermissionDto permissionDto)
     {
-        await _permissionService.DeletePermissionsAsync(permissionDto);
+        await permissionService.DeletePermissionsAsync(permissionDto);
         return UnifyResponseDto.Success("删除权限成功");
     }
 
@@ -56,13 +50,13 @@ public class PermissionController : ControllerBase
     public async Task<UnifyResponseDto> DispatchPermissions(DispatchPermissionsDto permissionDto)
     {
         List<PermissionDefinition> permissionDefinitions = ReflexHelper.GetAssemblyLinCmsAttributes();
-        await _permissionService.DispatchPermissions(permissionDto, permissionDefinitions);
+        await permissionService.DispatchPermissions(permissionDto, permissionDefinitions);
         return UnifyResponseDto.Success("添加权限成功");
     }
 
     [HttpGet("tree-list")]
     public Task<List<TreePermissionDto>> GetTreePermissionListAsync()
     {
-        return _permissionService.GetTreePermissionListAsync();
+        return permissionService.GetTreePermissionListAsync();
     }
 }

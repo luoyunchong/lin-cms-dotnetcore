@@ -13,19 +13,13 @@ using System.Threading.Tasks;
 namespace LinCms.Cms.Users;
 
 [DisableConventionalRegistration]
-public class WeixinOAuth2Service : OAuthService, IOAuth2Service
+public class WeixinOAuth2Service(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
+        IUserRepository userRepository)
+    : OAuthService(userIdentityRepository), IOAuth2Service
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-
-    public WeixinOAuth2Service(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, IUserRepository userRepository) : base(userIdentityRepository)
-    {
-        _userIdentityRepository = userIdentityRepository;
-        _userRepository = userRepository;
-    }
     public override async Task<long> SaveUserAsync(ClaimsPrincipal principal, string unionId)
     {
-        LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.Weixin && r.Credential == unionId).FirstAsync();
+        LinUserIdentity linUserIdentity = await userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.Weixin && r.Credential == unionId).FirstAsync();
 
         long userId = 0;
         if (linUserIdentity == null)
@@ -60,7 +54,7 @@ public class WeixinOAuth2Service : OAuthService, IOAuth2Service
                     new(LinUserIdentity.Weixin,nickname,unionId,DateTime.Now)
                 }
             };
-            await _userRepository.InsertAsync(user);
+            await userRepository.InsertAsync(user);
             userId = user.Id;
         }
         else

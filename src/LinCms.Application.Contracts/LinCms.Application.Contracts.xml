@@ -577,6 +577,16 @@
             <param name="refreshToken"></param>
             <returns></returns>
         </member>
+        <member name="P:LinCms.Cms.Account.LoginCaptchaDto.Tag">
+            <summary>
+            验证码图片地址，可使用base64
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Account.LoginCaptchaDto.Image">
+            <summary>
+            加密后的验证码
+            </summary>
+        </member>
         <member name="P:LinCms.Cms.Account.LoginInputDto.Username">
             <summary>
             登录名:admin
@@ -607,14 +617,199 @@
             密码
             </summary>
         </member>
-        <member name="P:LinCms.Cms.Users.LoginCaptchaDto.Tag">
+        <member name="T:LinCms.Cms.Files.IFileService">
             <summary>
-            验证码图片地址，可使用base64
+            文件服务
             </summary>
         </member>
-        <member name="P:LinCms.Cms.Users.LoginCaptchaDto.Image">
+        <member name="M:LinCms.Cms.Files.IFileService.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
             <summary>
-            加密后的验证码
+            单文件上传，键为file
+            </summary>
+            <param name="file"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteAsync(System.Int64)">
+            <summary>
+            管理员删除一个权限分组
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteUserGroupAsync(System.Int64)">
+            <summary>
+            根据用户Id删除用户分组
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.CheckIsRootByUserId(System.Int64)">
+            <summary>
+            检查该用户是否在root分组中
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.GetGroupIdsByUserIdAsync(System.Int64)">
+            <summary>
+            根据用户Id得到获得用户的所有分组id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteUserGroupAsync(System.Int64,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            删除用户与分组直接的关联
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="deleteGroupIds">删除的分组Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Groups.IGroupService.AddUserGroupAsync(System.Int64,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            添加用户与分组直接的关联
+            </summary>
+            <param name="userId">用户Id</param>
+            <param name="addGroupIds">要新增的分组Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:LinCms.Cms.Logs.ILogService.GetUserAndVisits">
+            <summary>
+            管理端访问与用户统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.Authority">
+            <summary>
+            访问哪个权限
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.Message">
+            <summary>
+            日志信息
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.Method">
+            <summary>
+            请求方法
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.Path">
+            <summary>
+            请求路径
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.StatusCode">
+            <summary>
+            请求的http返回码
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.UserId">
+            <summary>
+            用户id
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogDto.Username">
+            <summary>
+            用户当时的昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogSearchDto.Name">
+            <summary>
+            用户昵称
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogSearchDto.Start">
+            <summary>
+            起始时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.LogSearchDto.End">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.SerilogSearchDto.Start">
+            <summary>
+            起始时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.SerilogSearchDto.End">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.TotalVisitsCount">
+            <summary>
+            总访问量
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.TotalUserCount">
+            <summary>
+            总用户数
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.MonthVisitsCount">
+            <summary>
+            新增访问量 (月)
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.MonthUserCount">
+            <summary>
+            新增用户数(月)
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.Name">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.ProviderName">
+            <summary>
+            提供者键
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.ProviderKey">
+            <summary>
+            提供者值
+            </summary>
+        </member>
+        <member name="T:LinCms.Cms.Settings.ISettingService">
+            <summary>
+            通用配置项
+            </summary>
+        </member>
+        <member name="M:LinCms.Cms.Settings.ISettingService.SetAsync(LinCms.Cms.Settings.CreateUpdateSettingDto)">
+            <summary>
+            用户设置自己的一些配置
+            </summary>
+            <param name="createSetting"></param>
+            <returns></returns>
+        </member>
+        <member name="P:LinCms.Cms.Settings.SettingDto.Name">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.SettingDto.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.SettingDto.ProviderName">
+            <summary>
+            提供者键
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Settings.SettingDto.ProviderKey">
+            <summary>
+            提供者值
             </summary>
         </member>
         <member name="P:LinCms.Cms.Users.CreateUserDto.Username">
@@ -850,201 +1045,6 @@
         <member name="P:LinCms.Cms.Users.UserInformation.Groups">
             <summary>
             用户所属的权限组id
-            </summary>
-        </member>
-        <member name="T:LinCms.Cms.Files.IFileService">
-            <summary>
-            文件服务
-            </summary>
-        </member>
-        <member name="M:LinCms.Cms.Files.IFileService.UploadAsync(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
-            <summary>
-            单文件上传，键为file
-            </summary>
-            <param name="file"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteAsync(System.Int64)">
-            <summary>
-            管理员删除一个权限分组
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteUserGroupAsync(System.Int64)">
-            <summary>
-            根据用户Id删除用户分组
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Groups.IGroupService.CheckIsRootByUserId(System.Int64)">
-            <summary>
-            检查该用户是否在root分组中
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Groups.IGroupService.GetGroupIdsByUserIdAsync(System.Int64)">
-            <summary>
-            根据用户Id得到获得用户的所有分组id
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Groups.IGroupService.DeleteUserGroupAsync(System.Int64,System.Collections.Generic.List{System.Int64})">
-            <summary>
-            删除用户与分组直接的关联
-            </summary>
-            <param name="userId">用户Id</param>
-            <param name="deleteGroupIds">删除的分组Id</param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Groups.IGroupService.AddUserGroupAsync(System.Int64,System.Collections.Generic.List{System.Int64})">
-            <summary>
-            添加用户与分组直接的关联
-            </summary>
-            <param name="userId">用户Id</param>
-            <param name="addGroupIds">要新增的分组Id</param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Cms.Logs.ILogService.GetUserAndVisits">
-            <summary>
-            管理端访问与用户统计
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.Authority">
-            <summary>
-            访问哪个权限
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.Message">
-            <summary>
-            日志信息
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.Method">
-            <summary>
-            请求方法
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.Path">
-            <summary>
-            请求路径
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.StatusCode">
-            <summary>
-            请求的http返回码
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.UserId">
-            <summary>
-            用户id
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogDto.Username">
-            <summary>
-            用户当时的昵称
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogSearchDto.Name">
-            <summary>
-            用户昵称
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogSearchDto.Start">
-            <summary>
-            起始时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.LogSearchDto.End">
-            <summary>
-            结束时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.SerilogSearchDto.Start">
-            <summary>
-            起始时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.SerilogSearchDto.End">
-            <summary>
-            结束时间
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.TotalVisitsCount">
-            <summary>
-            总访问量
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.TotalUserCount">
-            <summary>
-            总用户数
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.MonthVisitsCount">
-            <summary>
-            新增访问量 (月)
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Logs.VisitLogUserDto.MonthUserCount">
-            <summary>
-            新增用户数(月)
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.Name">
-            <summary>
-            键
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.ProviderName">
-            <summary>
-            提供者键
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.ProviderKey">
-            <summary>
-            提供者值
-            </summary>
-        </member>
-        <member name="T:LinCms.Cms.Settings.ISettingService">
-            <summary>
-            通用配置项
-            </summary>
-        </member>
-        <member name="M:LinCms.Cms.Settings.ISettingService.SetAsync(LinCms.Cms.Settings.CreateUpdateSettingDto)">
-            <summary>
-            用户设置自己的一些配置
-            </summary>
-            <param name="createSetting"></param>
-            <returns></returns>
-        </member>
-        <member name="P:LinCms.Cms.Settings.SettingDto.Name">
-            <summary>
-            键
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.SettingDto.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.SettingDto.ProviderName">
-            <summary>
-            提供者键
-            </summary>
-        </member>
-        <member name="P:LinCms.Cms.Settings.SettingDto.ProviderKey">
-            <summary>
-            提供者值
             </summary>
         </member>
     </members>

@@ -19,24 +19,12 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/subscribe")]
 [ApiController]
 [Authorize]
-public class UserSubscribeController : ControllerBase
-{
-    private readonly IAuditBaseRepository<UserSubscribe> _userSubscribeRepository;
-    private readonly ICurrentUser _currentUser;
-    private readonly IUserSubscribeService _userSubscribeService;
-    private readonly IAuditBaseRepository<UserTag> _userTagRepository;
-
-    public UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
+public class UserSubscribeController(IAuditBaseRepository<UserSubscribe> userSubscribeRepository,
         ICurrentUser currentUser,
         IUserSubscribeService userSubscribeService,
         IAuditBaseRepository<UserTag> userTagRepository)
-    {
-        _userSubscribeRepository = userSubscribeRepository;
-        _currentUser = currentUser;
-        _userSubscribeService = userSubscribeService;
-        _userTagRepository = userTagRepository;
-    }
-
+    : ControllerBase
+{
     /// <summary>
     /// 判断当前登录的用户是否关注了beSubscribeUserId
     /// </summary>
@@ -46,8 +34,8 @@ public class UserSubscribeController : ControllerBase
     [AllowAnonymous]
     public bool Get(long subscribeUserId)
     {
-        if (_currentUser.FindUserId() == null) return false;
-        return _userSubscribeRepository.Select.Any(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == _currentUser.FindUserId());
+        if (currentUser.FindUserId() == null) return false;
+        return userSubscribeRepository.Select.Any(r => r.SubscribeUserId == subscribeUserId && r.CreateUserId == currentUser.FindUserId());
     }
 
     /// <summary>
@@ -57,7 +45,7 @@ public class UserSubscribeController : ControllerBase
     [HttpDelete("{subscribeUserId}")]
     public Task DeleteAsync(long subscribeUserId)
     {
-        return _userSubscribeService.DeleteAsync(subscribeUserId);
+        return userSubscribeService.DeleteAsync(subscribeUserId);
     }
 
     /// <summary>
@@ -67,7 +55,7 @@ public class UserSubscribeController : ControllerBase
     [HttpPost("{subscribeUserId}")]
     public Task CreateAsync(long subscribeUserId)
     {
-        return _userSubscribeService.CreateAsync(subscribeUserId);
+        return userSubscribeService.CreateAsync(subscribeUserId);
     }
 
     /// <summary>
@@ -78,7 +66,7 @@ public class UserSubscribeController : ControllerBase
     [AllowAnonymous]
     public PagedResultDto<UserSubscribeDto> GetUserSubscribeeeList([FromQuery] UserSubscribeSearchDto searchDto)
     {
-        return _userSubscribeService.GetUserSubscribeeeList(searchDto);
+        return userSubscribeService.GetUserSubscribeeeList(searchDto);
     }
 
     /// <summary>
@@ -89,7 +77,7 @@ public class UserSubscribeController : ControllerBase
     [AllowAnonymous]
     public PagedResultDto<UserSubscribeDto> GetUserFansList([FromQuery] UserSubscribeSearchDto searchDto)
     {
-        return _userSubscribeService.GetUserFansList(searchDto);
+        return userSubscribeService.GetUserFansList(searchDto);
     }
 
     /// <summary>
@@ -100,15 +88,15 @@ public class UserSubscribeController : ControllerBase
     [AllowAnonymous]
     public SubscribeCountDto GetUserSubscribeInfo(long userId)
     {
-        long subscribeCount = _userSubscribeRepository.Select
+        long subscribeCount = userSubscribeRepository.Select
             .Where(r => r.CreateUserId == userId)
             .Count();
 
-        long fansCount = _userSubscribeRepository.Select
+        long fansCount = userSubscribeRepository.Select
             .Where(r => r.SubscribeUserId == userId)
             .Count();
 
-        long tagCount = _userTagRepository.Select.Include(r => r.Tag)
+        long tagCount = userTagRepository.Select.Include(r => r.Tag)
             .Where(r => r.CreateUserId == userId).Count();
 
         return new SubscribeCountDto

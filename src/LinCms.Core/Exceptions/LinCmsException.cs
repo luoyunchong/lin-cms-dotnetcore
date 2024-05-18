@@ -4,31 +4,23 @@ using LinCms.Data.Enums;
 namespace LinCms.Exceptions
 {
     [Serializable]
-    public class LinCmsException : ApplicationException
+    public class LinCmsException(string message = "服务器繁忙，请稍后再试!", ErrorCode errorCode = ErrorCode.Fail, int code = 400)
+        : ApplicationException(message)
     {
         /// <summary>
         /// 状态码
         /// </summary>
-        private readonly int _code;
+        private readonly int _code = code;
         /// <summary>
         /// 错误码，当为0时，代表正常
         /// </summary>
 
-        private readonly ErrorCode _errorCode;
+        private readonly ErrorCode _errorCode = errorCode;
         /// <summary>
         /// 
         /// </summary>
-        public LinCmsException() : base("服务器繁忙，请稍后再试!")
+        public LinCmsException() : this("服务器繁忙，请稍后再试!", ErrorCode.Fail, 400)
         {
-            _errorCode = ErrorCode.Fail;
-            _code = 400;
-        }
-
-        public LinCmsException(string message = "服务器繁忙，请稍后再试!", ErrorCode errorCode = ErrorCode.Fail, int code = 400) : base(message)
-        {
-            _errorCode = errorCode;
-            _code = code;
-
         }
 
         /// <summary>

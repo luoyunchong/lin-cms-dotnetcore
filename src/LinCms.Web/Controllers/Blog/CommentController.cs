@@ -20,21 +20,11 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/comments")]
 [ApiController]
 [Authorize]
-public class CommentController : ControllerBase
+public class CommentController(IAuditBaseRepository<Comment> commentAuditBaseRepository,
+        ICommentService commentService,
+        IAuditBaseRepository<Article> articleRepository)
+    : ControllerBase
 {
-    private readonly IAuditBaseRepository<Comment> _commentRepository;
-    private readonly ICommentService _commentService;
-    private readonly IAuditBaseRepository<Article> _articleRepository;
-
-    public CommentController(
-        IAuditBaseRepository<Comment> commentAuditBaseRepository,
-        ICommentService commentService, IAuditBaseRepository<Article> articleRepository)
-    {
-        _commentRepository = commentAuditBaseRepository;
-        _commentService = commentService;
-        _articleRepository = articleRepository;
-    }
-
     /// <summary>
     /// 评论分页列表页,当随笔Id有值时，查询出此随笔的评论
     /// </summary>
@@ -44,7 +34,7 @@ public class CommentController : ControllerBase
     [AllowAnonymous]
     public Task<PagedResultDto<CommentDto>> GetListByArticleAsync([FromQuery] CommentSearchDto commentSearchDto)
     {
-        return _commentService.GetListByArticleAsync(commentSearchDto);
+        return commentService.GetListByArticleAsync(commentSearchDto);
     }
 
     /// <summary>
@@ -56,7 +46,7 @@ public class CommentController : ControllerBase
     [LinCmsAuthorize("评论列表", "评论")]
     public Task<PagedResultDto<CommentDto>> GetListAsync([FromQuery] CommentSearchDto commentSearchDto)
     {
-        return _commentService.GetListAsync(commentSearchDto);
+        return commentService.GetListAsync(commentSearchDto);
     }
 
     /// <summary>
@@ -68,7 +58,7 @@ public class CommentController : ControllerBase
     [LinCmsAuthorize("删除评论", "评论")]
     public async Task<UnifyResponseDto> DeleteAsync(Guid id)
     {
-        await _commentService.DeleteAsync(id);
+        await commentService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
@@ -80,7 +70,7 @@ public class CommentController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<UnifyResponseDto> DeleteMyComment(Guid id)
     {
-        await _commentService.DeleteMyComment(id);
+        await commentService.DeleteMyComment(id);
         return UnifyResponseDto.Success();
     }
 
@@ -92,7 +82,7 @@ public class CommentController : ControllerBase
     [HttpPost]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateCommentDto createCommentDto)
     {
-        await _commentService.CreateAsync(createCommentDto);
+        await commentService.CreateAsync(createCommentDto);
         return UnifyResponseDto.Success("评论成功");
     }
 
@@ -106,14 +96,14 @@ public class CommentController : ControllerBase
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, bool isAudit)
     {
-        Comment comment =await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
+        Comment comment = await commentAuditBaseRepository.Select.Where(r => r.Id == id).FirstAsync();
         if (comment == null)
         {
             throw new LinCmsException("没有找到相关评论");
         }
 
         comment.IsAudit = isAudit;
-        await _commentRepository.UpdateAsync(comment);
+        await commentAuditBaseRepository.UpdateAsync(comment);
         return UnifyResponseDto.Success();
     }
 
@@ -127,17 +117,16 @@ public class CommentController : ControllerBase
     [HttpPut("{subjectId}/type/${subject_type}")]
     public UnifyResponseDto CorrectedComment(Guid subjectId, int subjectType)
     {
-        long count = _commentRepository.Select.Where(r => r.SubjectId == subjectId).Count();
+        long count = commentAuditBaseRepository.Select.Where(r => r.SubjectId == subjectId).Count();
 
         switch (subjectType)
         {
             case 1:
-                _articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId)
+                articleRepository.UpdateDiy.Set(r => r.CommentQuantity, count).Where(r => r.Id == subjectId)
                     .ExecuteAffrows();
                 break;
         }
 
         return UnifyResponseDto.Success();
     }
-
 }

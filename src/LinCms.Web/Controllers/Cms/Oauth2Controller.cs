@@ -31,24 +31,15 @@ namespace LinCms.Controllers.Cms;
 [ApiExplorerSettings(GroupName = "cms")]
 [Route("cms/oauth2")]
 [ApiController]
-public class Oauth2Controller : ControllerBase
+public class Oauth2Controller(IUserIdentityService userCommunityService, 
+        ILogger<Oauth2Controller> logger,
+        IUserRepository userRepository,
+        IJwtService jsonWebTokenService, 
+        IComponentContext componentContext,
+        ITokenManager tokenManager)
+    : ControllerBase
 {
     private const string LoginProviderKey = "LoginProvider";
-    private readonly IUserIdentityService _userCommunityService;
-    private readonly ILogger<Oauth2Controller> _logger;
-    private readonly IUserRepository _userRepository;
-    private readonly IJwtService _jsonWebTokenService;
-    private readonly IComponentContext _componentContext;
-    private readonly ITokenManager _tokenManager;
-    public Oauth2Controller(IUserIdentityService userCommunityService, ILogger<Oauth2Controller> logger, IUserRepository userRepository, IJwtService jsonWebTokenService, IComponentContext componentContext, ITokenManager tokenManager)
-    {
-        _userCommunityService = userCommunityService;
-        _logger = logger;
-        _userRepository = userRepository;
-        _jsonWebTokenService = jsonWebTokenService;
-        _componentContext = componentContext;
-        _tokenManager = tokenManager;
-    }
 
     /// <summary>
     /// 授权成功后自动回调的地址
@@ -84,11 +75,11 @@ public class Oauth2Controller : ControllerBase
 
         if (!supportProviders.Contains(provider))
         {
-            _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+            logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
             throw new LinCmsException($"未知的privoder:{provider}！");
         }
 
-        IOAuth2Service oAuth2Service = _componentContext.ResolveNamed<IOAuth2Service>(provider);
+        IOAuth2Service oAuth2Service = componentContext.ResolveNamed<IOAuth2Service>(provider);
 
         long id = await oAuth2Service.SaveUserAsync(authenticateResult.Principal, openIdClaim.Value);
 
@@ -96,7 +87,7 @@ public class Oauth2Controller : ControllerBase
 
         //List<Claim> authClaims = authenticateResult.Principal.Claims.ToList();
 
-        LinUser user = await _userRepository.Select
+        LinUser user = await userRepository.Select
             .IncludeMany(r => r.LinGroups)
             .WhereCascade(r => r.IsDeleted == false)
             .Where(r => r.Id == id)
@@ -107,7 +98,7 @@ public class Oauth2Controller : ControllerBase
             throw new LinCmsException("第三方登录失败！");
         }
 
-        UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
+        UserAccessToken tokens = await tokenManager.CreateTokenAsync(user);
 
         return Redirect($"{redirectUrl}#login-result?token={tokens.AccessToken}");
     }
@@ -135,7 +126,7 @@ public class Oauth2Controller : ControllerBase
 
         string url = $"{Request.PathBase}{Request.Path}-callback?provider={provider}" + $"&redirectUrl={redirectUrl}";
 
-        _logger.LogInformation($"SignIn-url:{url}");
+        logger.LogInformation($"SignIn-url:{url}");
         var properties = new AuthenticationProperties { RedirectUri = url };
         properties.Items[LoginProviderKey] = provider;
         return Challenge(properties, provider);
@@ -177,7 +168,7 @@ public class Oauth2Controller : ControllerBase
         if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
             return Redirect($"{redirectUrl}#bind-result?code={ErrorCode.Fail}&message={HttpUtility.UrlEncode("未能获取openId")}");
 
-        JwtPayload jwtPayload = (JwtPayload)_jsonWebTokenService.Decode(token);
+        JwtPayload jwtPayload = (JwtPayload)jsonWebTokenService.Decode(token);
         string? nameIdentifier = jwtPayload.Claims.FirstOrDefault(r => r.Type == ClaimTypes.NameIdentifier)?.Value;
         if (nameIdentifier.IsNullOrWhiteSpace())
         {
@@ -190,12 +181,12 @@ public class Oauth2Controller : ControllerBase
 
         if (!supportProviders.Contains(provider))
         {
-            _logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
+            logger.LogError($"未知的privoder:{provider},redirectUrl:{redirectUrl}");
             unifyResponseDto = UnifyResponseDto.Error($"未知的privoder:{provider}！");
         }
         else
         {
-            IOAuth2Service oAuth2Service = _componentContext.ResolveNamed<IOAuth2Service>(provider);
+            IOAuth2Service oAuth2Service = componentContext.ResolveNamed<IOAuth2Service>(provider);
             unifyResponseDto = await oAuth2Service.BindAsync(authenticateResult.Principal, provider, openIdClaim.Value, userId);
         }
 
@@ -228,7 +219,7 @@ public class Oauth2Controller : ControllerBase
         string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}{Request.Path}-callback?provider={provider}"
                      + $"&redirectUrl={redirectUrl}&token={token}";
 
-        _logger.LogInformation($"SignIn-url:{url}");
+        logger.LogInformation($"SignIn-url:{url}");
         var properties = new AuthenticationProperties
         {
             RedirectUri = url,
@@ -294,7 +285,7 @@ public class Oauth2Controller : ControllerBase
     [HttpGet("bindlist")]
     public async Task<List<UserIdentityDto>> GetListAsync([FromServices] ICurrentUser currentUser)
     {
-        return (await _userCommunityService.GetListAsync(currentUser.FindUserId() ?? 0)).Where(r => r.IdentityType != LinUserIdentity.Password).ToList();
+        return (await userCommunityService.GetListAsync(currentUser.FindUserId() ?? 0)).Where(r => r.IdentityType != LinUserIdentity.Password).ToList();
     }
 
     /// <summary>
@@ -306,6 +297,6 @@ public class Oauth2Controller : ControllerBase
     [HttpDelete("unbind/{id}")]
     public Task UnBind(Guid id)
     {
-        return _userCommunityService.UnBind(id);
+        return userCommunityService.UnBind(id);
     }
 }

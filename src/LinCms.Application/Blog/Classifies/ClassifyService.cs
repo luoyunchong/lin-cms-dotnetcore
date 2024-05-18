@@ -13,14 +13,11 @@ using LinCms.Security;
 
 namespace LinCms.Blog.Classifies;
 
-public class ClassifyService : CrudAppService<Classify, ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto, CreateUpdateClassifyDto>, IClassifyService
+public class ClassifyService(IAuditBaseRepository<Classify, Guid> repository, IFileRepository fileRepository)
+    : CrudAppService<Classify, ClassifyDto, ClassifyDto, Guid, ClassifySearchDto, CreateUpdateClassifyDto,
+        CreateUpdateClassifyDto>(repository), IClassifyService
 {
-    private readonly IFileRepository _fileRepository;
-
-    public ClassifyService(IAuditBaseRepository<Classify, Guid> repository, IFileRepository fileRepository) : base(repository)
-    {
-        _fileRepository = fileRepository ?? throw new ArgumentNullException(nameof(fileRepository));
-    }
+    private readonly IFileRepository _fileRepository = fileRepository ?? throw new ArgumentNullException(nameof(fileRepository));
 
     #region CRUD
 

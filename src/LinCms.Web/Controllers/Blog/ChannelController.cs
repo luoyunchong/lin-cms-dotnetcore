@@ -16,19 +16,13 @@ namespace LinCms.Controllers.Blog;
 [Area("blog")]
 [Route("api/blog/channels")]
 [ApiController]
-public class ChannelController : ControllerBase
+public class ChannelController(IChannelService channelService) : ControllerBase
 {
-    private readonly IChannelService _channelService;
-    public ChannelController(IChannelService channelService)
-    {
-        _channelService = channelService;
-    }
-
     [LinCmsAuthorize("删除技术频道", "技术频道")]
     [HttpDelete("{id}")]
     public async Task<UnifyResponseDto> DeleteAsync(Guid id)
     {
-        await _channelService.DeleteAsync(id);
+        await channelService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
@@ -36,7 +30,7 @@ public class ChannelController : ControllerBase
     [HttpGet]
     public Task<PagedResultDto<ChannelDto>> GetListAsync([FromQuery] ChannelSearchDto searchDto)
     {
-        return _channelService.GetListAsync(searchDto);
+        return channelService.GetListAsync(searchDto);
     }
 
     /// <summary>
@@ -47,20 +41,20 @@ public class ChannelController : ControllerBase
     [HttpGet("nav")]
     public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync([FromQuery] PageDto pageDto)
     {
-        return await _channelService.GetNavListAsync(pageDto);
+        return await channelService.GetNavListAsync(pageDto);
     }
 
     [HttpGet("{id}")]
     public Task<ChannelDto> GetAsync(Guid id)
     {
-        return _channelService.GetAsync(id);
+        return channelService.GetAsync(id);
     }
 
     [LinCmsAuthorize("新增技术频道", "技术频道")]
     [HttpPost]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
     {
-        await _channelService.CreateAsync(createChannel);
+        await channelService.CreateAsync(createChannel);
         return UnifyResponseDto.Success("新建技术频道成功");
     }
 
@@ -68,7 +62,7 @@ public class ChannelController : ControllerBase
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateChannelDto updateChannel)
     {
-        await _channelService.UpdateAsync(id, updateChannel);
+        await channelService.UpdateAsync(id, updateChannel);
         return UnifyResponseDto.Success("更新技术频道成功");
     }
 }

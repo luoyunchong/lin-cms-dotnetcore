@@ -15,32 +15,25 @@ namespace LinCms.Controllers.Blog;
 [Area("blog")]
 [Route("api/blog/notifications")]
 [ApiController]
-public class NotificationController : ControllerBase
+public class NotificationController(INotificationService notificationService) : ControllerBase
 {
-    private readonly INotificationService _notificationService;
-
-    public NotificationController(INotificationService notificationService)
-    {
-        _notificationService = notificationService;
-    }
-
     [HttpGet]
     public async Task<PagedResultDto<NotificationDto>> GetListAsync([FromQuery] NotificationSearchDto pageDto)
     {
-        return await _notificationService.GetListAsync(pageDto);
+        return await notificationService.GetListAsync(pageDto);
     }
 
     [NonAction]
     [CapSubscribe(CreateNotificationDto.CreateOrCancelAsync)]
     public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateNotificationDto createNotification)
     {
-        await _notificationService.CreateOrCancelAsync(createNotification);
+        await notificationService.CreateOrCancelAsync(createNotification);
         return UnifyResponseDto.Success("新建消息成功");
     }
 
     [HttpPut("{id}")]
     public async Task SetNotificationReadAsync(Guid id)
     {
-        await _notificationService.SetNotificationReadAsync(id);
+        await notificationService.SetNotificationReadAsync(id);
     }
 }

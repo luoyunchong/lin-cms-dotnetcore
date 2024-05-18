@@ -16,19 +16,14 @@ using Microsoft.Extensions.Options;
 namespace LinCms.Cms.Files;
 
 [DisableConventionalRegistration]
-public class LocalFileService : IFileService
+public class LocalFileService(IWebHostEnvironment hostingEnv, 
+        IAuditBaseRepository<LinFile, long> fileRepository,
+        IOptions<FileStorageOption> fileStorageOption,
+        ICurrentUser currentUser)
+    : IFileService
 {
-    private readonly IWebHostEnvironment _hostingEnv;
-    private readonly IAuditBaseRepository<LinFile, long> _fileRepository;
-    private readonly FileStorageOption _fileStorageOption;
-    private readonly ICurrentUser _currentUser;
-    public LocalFileService(IWebHostEnvironment hostingEnv, IAuditBaseRepository<LinFile, long> fileRepository, IOptions<FileStorageOption> fileStorageOption, ICurrentUser currentUser)
-    {
-        _hostingEnv = hostingEnv;
-        _fileRepository = fileRepository;
-        _fileStorageOption = fileStorageOption.Value;
-        _currentUser = currentUser;
-    }
+    private readonly FileStorageOption _fileStorageOption = fileStorageOption.Value;
+    private readonly ICurrentUser _currentUser = currentUser;
 
     /// <summary>
     /// 本地文件上传，生成目录格式 {PrefixPath}/{yyyyMM}/{guid}.文件后缀
@@ -48,7 +43,7 @@ public class LocalFileService : IFileService
         //得到 assets/202005
         string path = Path.Combine(_fileStorageOption.LocalFile.PrefixPath, DateTime.Now.ToString("yyyyMM"));
         //得到wwwroot/assets/202005
-        string createFolder = Path.Combine(_hostingEnv.WebRootPath, path);
+        string createFolder = Path.Combine(hostingEnv.WebRootPath, path);
         //创建这种不存在的目录
         if (!Directory.Exists(createFolder))
         {
@@ -77,9 +72,9 @@ public class LocalFileService : IFileService
     public async Task<FileDto> UploadAsync(IFormFile file, int key = 0)
     {
         string md5 = LinCmsUtils.GetHash<MD5>(file.OpenReadStream());
-        LinFile linFile = await _fileRepository.Where(r => r.Md5 == md5 && r.Type == 1).OrderByDescending(r => r.CreateTime).FirstAsync();
+        LinFile linFile = await fileRepository.Where(r => r.Md5 == md5 && r.Type == 1).OrderByDescending(r => r.CreateTime).FirstAsync();
 
-        if (linFile != null && File.Exists(Path.Combine(_hostingEnv.WebRootPath, linFile.Path)))
+        if (linFile != null && File.Exists(Path.Combine(hostingEnv.WebRootPath, linFile.Path)))
         {
             return new FileDto
             {
@@ -105,12 +100,12 @@ public class LocalFileService : IFileService
                 Type = 1,
                 Size = len
             };
-            id = (await _fileRepository.InsertAsync(saveLinFile)).Id;
+            id = (await fileRepository.InsertAsync(saveLinFile)).Id;
         }
         else
         {
             linFile.Path = path;
-            await _fileRepository.UpdateAsync(linFile);
+            await fileRepository.UpdateAsync(linFile);
             id = linFile.Id;
         }
 

@@ -25,20 +25,11 @@ namespace LinCms.Controllers.v1;
 [ApiExplorerSettings(GroupName = "v1")]
 [Route("v1/qiniu")]
 [ApiController]
-public class QiniuController : ControllerBase
+public class QiniuController(IWebHostEnvironment hostingEnv, IOptionsSnapshot<FileStorageOption> optionsSnapshot,
+        IComponentContext componentContext, ITagService tagService, IAuditBaseRepository<Tag> tagAuditBaseRepository)
+    : ControllerBase
 {
-    private readonly IFileService _fileService;
-    private readonly IWebHostEnvironment _hostingEnv;
-    private readonly ITagService _tagService;
-    private readonly IAuditBaseRepository<Tag> _tagAuditBaseRepository;
-    public QiniuController(IWebHostEnvironment hostingEnv, IOptionsSnapshot<FileStorageOption> optionsSnapshot, IComponentContext componentContext, ITagService tagService, IAuditBaseRepository<Tag> tagAuditBaseRepository)
-    {
-        var _fileStorageOption = optionsSnapshot.Value;
-        _hostingEnv = hostingEnv;
-        _fileService = componentContext.ResolveNamed<IFileService>(_fileStorageOption.ServiceName); ;
-        _tagService = tagService;
-        _tagAuditBaseRepository = tagAuditBaseRepository;
-    }
+    private readonly IFileService _fileService = componentContext.ResolveNamed<IFileService>(optionsSnapshot.Value.ServiceName);
 
     /// <summary>
     /// 将掘金中的取所有标签存到七牛云上，基本信息存入数据库
@@ -49,7 +40,7 @@ public class QiniuController : ControllerBase
     [HttpPost("tag")]
     public async Task<UnifyResponseDto> UploadTagByJson()
     {
-        string tagPath = Path.Combine(_hostingEnv.WebRootPath, "json-tag.json");
+        string tagPath = Path.Combine(hostingEnv.WebRootPath, "json-tag.json");
         string text = System.IO.File.ReadAllText(tagPath);
 
         JObject? json = JsonConvert.DeserializeObject<JObject>(text);
@@ -60,7 +51,7 @@ public class QiniuController : ControllerBase
         {
 
             string? tagName = tag["tag"]["tag_name"]?.ToString();
-            bool valid = await _tagAuditBaseRepository.Where(r => r.TagName == tagName).AnyAsync();
+            bool valid = await tagAuditBaseRepository.Where(r => r.TagName == tagName).AnyAsync();
 
             if (valid)
             {
@@ -80,7 +71,7 @@ public class QiniuController : ControllerBase
                     Status = true,
                     Thumbnail = fileDto.Path
                 };
-                await _tagService.CreateAsync(tagEntity);
+                await tagService.CreateAsync(tagEntity);
             }
             catch (Exception e)
             {

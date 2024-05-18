@@ -17,41 +17,33 @@ namespace LinCms.Controllers.v1;
 [Route("v1/book")]
 [ApiController]
 // [Authorize]
-public class BookController : ControllerBase
+public class BookController(IBookService bookService) : ControllerBase
 {
-    private readonly IBookService _bookService;
-    private readonly IDataSeedContributor _contributor;
-    public BookController(IBookService bookService, IDataSeedContributor contributor)
-    {
-        _bookService = bookService;
-        _contributor = contributor;
-    }
-
     [Logger("删除图书")]
     [HttpDelete("{id}")]
     [LinCmsAuthorize("删除图书", "图书")]
     public async Task<UnifyResponseDto> DeleteAsync(int id)
     {
-        await _bookService.DeleteAsync(id);
+        await bookService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
     [HttpGet("list")]
     public async Task<List<BookDto>> GetListAsync()
     {
-        return await _bookService.GetListAsync();
+        return await bookService.GetListAsync();
     }
 
     [HttpGet]
     public async Task<PagedResultDto<BookDto>> GetPageListAsync([FromQuery] PageDto pageDto)
     {
-        return await _bookService.GetPageListAsync(pageDto);
+        return await bookService.GetPageListAsync(pageDto);
     }
 
     [HttpGet("{id}")]
     public async Task<BookDto> GetAsync(int id)
     {
-        return await _bookService.GetAsync(id);
+        return await bookService.GetAsync(id);
     }
 
     [Logger("新建图书")]
@@ -59,7 +51,7 @@ public class BookController : ControllerBase
     [LinCmsAuthorize("新建图书", "图书")]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateBookDto createBook)
     {
-        await _bookService.CreateAsync(createBook);
+        await bookService.CreateAsync(createBook);
         return UnifyResponseDto.Success("新建图书成功");
     }
 
@@ -68,7 +60,7 @@ public class BookController : ControllerBase
     [LinCmsAuthorize("更新图书", "图书")]
     public async Task<UnifyResponseDto> UpdateAsync(int id, [FromBody] CreateUpdateBookDto updateBook)
     {
-        await _bookService.UpdateAsync(id, updateBook);
+        await bookService.UpdateAsync(id, updateBook);
         return UnifyResponseDto.Success("更新图书成功");
     }
 }

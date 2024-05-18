@@ -16,30 +16,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace LinCms.Cms.Groups;
 
-public class GroupService : ApplicationService, IGroupService
-{
-    private readonly IFreeSql _freeSql;
-    private readonly IPermissionService _permissionService;
-    private readonly IAuditBaseRepository<LinGroup, long> _groupRepository;
-    private readonly IAuditBaseRepository<LinUserGroup, long> _userGroupRepository;
-    private readonly IAuditBaseRepository<LinGroupPermission, long> _groupPermissionRepository;
-
-    public GroupService(IFreeSql freeSql,
+public class GroupService(IFreeSql freeSql,
         IPermissionService permissionService,
         IAuditBaseRepository<LinGroup, long> groupRepository,
         IAuditBaseRepository<LinUserGroup, long> userGroupRepository,
         IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
-    {
-        _freeSql = freeSql;
-        _permissionService = permissionService;
-        _groupRepository = groupRepository;
-        _userGroupRepository = userGroupRepository;
-        _groupPermissionRepository = groupPermissionRepository;
-    }
-
+    : ApplicationService, IGroupService
+{
     public async Task<List<LinGroup>> GetListAsync()
     {
-        List<LinGroup> linGroups = await _groupRepository.Select
+        List<LinGroup> linGroups = await groupRepository.Select
             .OrderBy(r => r.SortCode)
             .ToListAsync();
 
@@ -48,9 +34,9 @@ public class GroupService : ApplicationService, IGroupService
 
     public async Task<GroupDto> GetAsync(long id)
     {
-        LinGroup group = await _groupRepository.Where(r => r.Id == id).FirstAsync();
+        LinGroup group = await groupRepository.Where(r => r.Id == id).FirstAsync();
         GroupDto groupDto = Mapper.Map<GroupDto>(group);
-        groupDto.Permissions = await _permissionService.GetPermissionByGroupIds(new List<long>() { id });
+        groupDto.Permissions = await permissionService.GetPermissionByGroupIds(new List<long>() { id });
         return groupDto;
     }
 
@@ -61,7 +47,7 @@ public class GroupService : ApplicationService, IGroupService
     /// <returns></returns>
     public async Task CreateAsync(CreateGroupDto inputDto)
     {
-        bool exist = await _groupRepository.Select.AnyAsync(r => r.Name == inputDto.Name);
+        bool exist = await groupRepository.Select.AnyAsync(r => r.Name == inputDto.Name);
         if (exist)
         {
             throw new LinCmsException($"权限组标识符{inputDto.Name}已存在，不可创建同名权限组", ErrorCode.RepeatField);
@@ -69,12 +55,12 @@ public class GroupService : ApplicationService, IGroupService
 
         LinGroup linGroup = Mapper.Map<LinGroup>(inputDto);
 
-        using Object<DbConnection> conn = _freeSql.Ado.MasterPool.Get();
+        using Object<DbConnection> conn = freeSql.Ado.MasterPool.Get();
         await using DbTransaction transaction = await conn.Value.BeginTransactionAsync();
         try
         {
-            long groupId = await _freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
-            List<LinPermission> allPermissions = await _freeSql.Select<LinPermission>().WithTransaction(transaction).ToListAsync();
+            long groupId = await freeSql.Insert(linGroup).WithTransaction(transaction).ExecuteIdentityAsync();
+            List<LinPermission> allPermissions = await freeSql.Select<LinPermission>().WithTransaction(transaction).ToListAsync();
             List<LinGroupPermission> linPermissions = new();
             inputDto.PermissionIds.ForEach(r =>
             {
@@ -86,7 +72,7 @@ public class GroupService : ApplicationService, IGroupService
                 linPermissions.Add(new LinGroupPermission(groupId, pdDto.Id));
             });
 
-            await _freeSql.Insert<LinGroupPermission>()
+            await freeSql.Insert<LinGroupPermission>()
                 .WithTransaction(transaction)
                 .AppendData(linPermissions)
                 .ExecuteAffrowsAsync();
@@ -101,7 +87,7 @@ public class GroupService : ApplicationService, IGroupService
 
     public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)
     {
-        LinGroup group = await _groupRepository.Where(r => r.Id == id).FirstAsync();
+        LinGroup group = await groupRepository.Where(r => r.Id == id).FirstAsync();
 
         if (group.IsStatic)
         {
@@ -111,14 +97,14 @@ public class GroupService : ApplicationService, IGroupService
             }
         }
 
-        bool anyName = await _groupRepository.Where(r => r.Name == updateGroupDto.Name && r.Id != id).AnyAsync();
+        bool anyName = await groupRepository.Where(r => r.Name == updateGroupDto.Name && r.Id != id).AnyAsync();
         if (anyName)
         {
             throw new LinCmsException($"权限组标识符:{updateGroupDto.Name}已存在!", ErrorCode.RepeatField);
         }
 
         Mapper.Map(updateGroupDto, group);
-        await _groupRepository.UpdateAsync(group);
+        await groupRepository.UpdateAsync(group);
     }
 
     /// <summary>
@@ -129,7 +115,7 @@ public class GroupService : ApplicationService, IGroupService
     [Transactional]
     public async Task DeleteAsync(long id)
     {
-        LinGroup linGroup = await _groupRepository.Where(r => r.Id == id).FirstAsync();
+        LinGroup linGroup = await groupRepository.Where(r => r.Id == id).FirstAsync();
 
         if (linGroup.IsNull())
         {
@@ -141,14 +127,14 @@ public class GroupService : ApplicationService, IGroupService
             throw new LinCmsException("无法删除静态权限组!");
         }
 
-        bool exist = await _userGroupRepository.Select.AnyAsync(r => r.GroupId == id);
+        bool exist = await userGroupRepository.Select.AnyAsync(r => r.GroupId == id);
         if (exist)
         {
             throw new LinCmsException("分组下存在用户，不可删除", ErrorCode.Inoperable);
         }
 
-        await _groupRepository.DeleteAsync(id);
-        await _groupPermissionRepository.DeleteAsync(r => r.GroupId == id);
+        await groupRepository.DeleteAsync(id);
+        await groupPermissionRepository.DeleteAsync(r => r.GroupId == id);
 
         //_freeSql.Transaction(() =>
         //{
@@ -161,7 +147,7 @@ public class GroupService : ApplicationService, IGroupService
     [Transactional]
     public async Task DeleteUserGroupAsync(long userId)
     {
-        await _userGroupRepository.DeleteAsync(r => r.UserId == userId);
+        await userGroupRepository.DeleteAsync(r => r.UserId == userId);
     }
 
     public bool CheckIsRootByUserId(long userId)
@@ -171,7 +157,7 @@ public class GroupService : ApplicationService, IGroupService
 
     public Task<List<long>> GetGroupIdsByUserIdAsync(long userId)
     {
-        return _userGroupRepository.Where(r => r.UserId == userId).ToListAsync(r => r.GroupId);
+        return userGroupRepository.Where(r => r.UserId == userId).ToListAsync(r => r.GroupId);
     }
 
     [Transactional]
@@ -179,7 +165,7 @@ public class GroupService : ApplicationService, IGroupService
     {
         if (deleteGroupIds == null || deleteGroupIds.IsEmpty())
             return null;
-        return _userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
+        return userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
     }
 
     [Transactional]
@@ -194,7 +180,7 @@ public class GroupService : ApplicationService, IGroupService
         }
         List<LinUserGroup> userGroups = new();
         addGroupIds.ForEach(groupId => { userGroups.Add(new LinUserGroup(userId, groupId)); });
-        await _userGroupRepository.InsertAsync(userGroups);
+        await userGroupRepository.InsertAsync(userGroups);
     }
 
 
@@ -205,6 +191,6 @@ public class GroupService : ApplicationService, IGroupService
     /// <returns></returns>
     private async Task<bool> CheckGroupExistByIds(List<long> addGroupIds)
     {
-        return (await _groupRepository.Where(r => addGroupIds.Contains(r.Id)).CountAsync()) == addGroupIds.Count;
+        return (await groupRepository.Where(r => addGroupIds.Contains(r.Id)).CountAsync()) == addGroupIds.Count;
     }
 }

@@ -13,17 +13,10 @@ using LinCms.IRepositories;
 namespace LinCms.Cms.Users;
 
 [DisableConventionalRegistration]
-public class QQOAuth2Service : OAuthService, IOAuth2Service
+public class QQOAuth2Service(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
+        IUserRepository userRepository)
+    : OAuthService(userIdentityRepository), IOAuth2Service
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-
-    public QQOAuth2Service(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, IUserRepository userRepository) : base(userIdentityRepository)
-    {
-        _userIdentityRepository = userIdentityRepository;
-        _userRepository = userRepository;
-    }
-
     /// <summary>
     /// qq快速登录的信息，唯一值openid,昵称(nickname)，性别(gender)，picture（30像素）,picture_medium(50像素），picture_full 100 像素，avatar（40像素），avatar_full(100像素）
     /// </summary>
@@ -33,7 +26,7 @@ public class QQOAuth2Service : OAuthService, IOAuth2Service
     public override async Task<long> SaveUserAsync(ClaimsPrincipal principal, string openId)
     {
 
-        LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.QQ && r.Credential == openId).FirstAsync();
+        LinUserIdentity linUserIdentity = await userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.QQ && r.Credential == openId).FirstAsync();
 
         long userId = 0;
         if (linUserIdentity == null)
@@ -69,7 +62,7 @@ public class QQOAuth2Service : OAuthService, IOAuth2Service
                     new(LinUserIdentity.QQ, nickname, openId,DateTime.Now)
                 }
             };
-            await _userRepository.InsertAsync(user);
+            await userRepository.InsertAsync(user);
             userId = user.Id;
         }
         else

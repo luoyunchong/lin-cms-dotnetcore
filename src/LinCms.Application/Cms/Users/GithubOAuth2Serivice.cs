@@ -13,18 +13,10 @@ using LinCms.IRepositories;
 namespace LinCms.Cms.Users;
 
 [DisableConventionalRegistration]
-public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
+public class GithubOAuth2Serivice(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
+        IUserRepository userRepository)
+    : OAuthService(userIdentityRepository), IOAuth2Service
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-
-    public GithubOAuth2Serivice(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, IUserRepository userRepository) : base(userIdentityRepository)
-    {
-        _userIdentityRepository = userIdentityRepository;
-        _userRepository = userRepository;
-    }
-
-
     /// <summary>
     /// 记录授权成功后的信息
     /// </summary>
@@ -33,7 +25,7 @@ public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
     /// <returns></returns>
     public override async Task<long> SaveUserAsync(ClaimsPrincipal principal, string openId)
     {
-        LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.GitHub && r.Credential == openId).FirstAsync();
+        LinUserIdentity linUserIdentity = await userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.GitHub && r.Credential == openId).FirstAsync();
 
         long userId = 0;
         if (linUserIdentity == null)
@@ -70,7 +62,7 @@ public class GithubOAuth2Serivice : OAuthService, IOAuth2Service
                     new(LinUserIdentity.GitHub,name,openId,DateTime.Now)
                 }
             };
-            await _userRepository.InsertAsync(user);
+            await userRepository.InsertAsync(user);
             userId = user.Id;
         }
         else

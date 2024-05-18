@@ -22,31 +22,14 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/user-like")]
 [ApiController]
 [Authorize]
-public class UserLikeController : ApiControllerBase
-{
-    private readonly IAuditBaseRepository<Article> _articleRepository;
-    private readonly ICurrentUser _currentUser;
-    private readonly IAuditBaseRepository<Comment> _commentRepository;
-    private readonly ICapPublisher _capBus;
-    private readonly IUserLikeService _userLikeService;
-    private readonly UnitOfWorkManager _unitOfWorkManager;
-    public UserLikeController(
-        ICurrentUser currentUser,
+public class UserLikeController(ICurrentUser currentUser,
         IAuditBaseRepository<Article> articleRepository,
         IAuditBaseRepository<Comment> commentRepository,
         ICapPublisher capBus,
         UnitOfWorkManager unitOfWorkManager,
-        IUserLikeService userLikeService
-    ) : base()
-    {
-        _currentUser = currentUser;
-        _articleRepository = articleRepository;
-        _commentRepository = commentRepository;
-        _capBus = capBus;
-        _userLikeService = userLikeService;
-        _unitOfWorkManager = unitOfWorkManager;
-    }
-
+        IUserLikeService userLikeService)
+    : ApiControllerBase
+{
     /// <summary>
     /// 用户点赞/取消点赞随笔、评论 
     /// </summary>
@@ -55,10 +38,10 @@ public class UserLikeController : ApiControllerBase
     [HttpPost]
     public async Task<UnifyResponseDto> CreateOrCancelAsync([FromBody] CreateUpdateUserLikeDto createUpdateUserLike)
     {
-        IUnitOfWork unitOfWork = _unitOfWorkManager.Begin();
-        using ICapTransaction capTransaction = unitOfWork.BeginTransaction(_capBus, false);
+        IUnitOfWork unitOfWork = unitOfWorkManager.Begin();
+        using ICapTransaction capTransaction = unitOfWork.BeginTransaction(capBus, false);
 
-        bool isCancel = await _userLikeService.CreateOrCancelAsync(createUpdateUserLike);
+        bool isCancel = await userLikeService.CreateOrCancelAsync(createUpdateUserLike);
 
         await PublishUserLikeNotification(createUpdateUserLike, isCancel);
 
@@ -77,7 +60,7 @@ public class UserLikeController : ApiControllerBase
     {
         var createNotificationDto = new CreateNotificationDto()
         {
-            UserInfoId = _currentUser.FindUserId() ?? 0,
+            UserInfoId = currentUser.FindUserId() ?? 0,
             CreateTime = DateTime.Now,
             IsCancel = isCancel
         };
@@ -86,7 +69,7 @@ public class UserLikeController : ApiControllerBase
         {
             case UserLikeSubjectType.UserLikeArticle:
 
-                Article subjectArticle = await _articleRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
+                Article subjectArticle = await articleRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
 
                 createNotificationDto.NotificationRespUserId = subjectArticle.CreateUserId.Value;
                 createNotificationDto.NotificationType = NotificationType.UserLikeArticle;
@@ -95,7 +78,7 @@ public class UserLikeController : ApiControllerBase
 
             case UserLikeSubjectType.UserLikeComment:
 
-                Comment subjectComment = await _commentRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
+                Comment subjectComment = await commentRepository.Where(r => r.Id == createUpdateUserLike.SubjectId).ToOneAsync();
 
                 createNotificationDto.NotificationRespUserId = subjectComment.CreateUserId.Value;
                 createNotificationDto.NotificationType = NotificationType.UserLikeArticleComment;
@@ -104,9 +87,9 @@ public class UserLikeController : ApiControllerBase
                 break;
         }
 
-        if (createNotificationDto.NotificationRespUserId != 0 && _currentUser.FindUserId() != createNotificationDto.NotificationRespUserId)
+        if (createNotificationDto.NotificationRespUserId != 0 && currentUser.FindUserId() != createNotificationDto.NotificationRespUserId)
         {
-            await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, createNotificationDto);
+            await capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, createNotificationDto);
         }
     }
 }

@@ -15,13 +15,13 @@ namespace LinCms.Test.Service.Cms
     public class UserServiceTest
     {
         private readonly IUserService _userService;
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
         public UserServiceTest(IUserService userService, IUserRepository userRepository, IMapper mapper) : base()
         {
             _userService = userService;
-            this.userRepository = userRepository;
+            this._userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -46,7 +46,7 @@ namespace LinCms.Test.Service.Cms
         [Fact]
         public void GetUserListByGroupId()
         {
-            List<UserDto> linUsers = userRepository.Select
+            List<UserDto> linUsers = _userRepository.Select
                 .IncludeMany(r => r.LinGroups)
                 .OrderByDescending(r => r.Id).ToPagerList(new PageDto(), out long totalCount)
                 .Select(r =>
@@ -62,7 +62,7 @@ namespace LinCms.Test.Service.Cms
         [Fact]
         public async Task GetToList()
         {
-            var linUsers = await userRepository.Select
+            var linUsers = await _userRepository.Select
                 .IncludeMany(r => r.LinGroups.Select(u => new LinGroup { Id = u.Id, Name = u.Name }))
                 .OrderByDescending(r => r.Id)
                 .ToListAsync();
@@ -71,7 +71,7 @@ namespace LinCms.Test.Service.Cms
         [Fact]
         public async Task GetSelectToList()
         {
-            var linUsers = await userRepository.Select
+            var linUsers = await _userRepository.Select
                 .IncludeMany(r => r.LinGroups.Select(u => new LinGroup { Id = u.Id, Name = u.Name }))
                 .OrderByDescending(r => r.Id)
                 .ToListAsync(r => new
@@ -85,7 +85,7 @@ namespace LinCms.Test.Service.Cms
         [Fact]
         public async Task GetSelectDtoToList()
         {
-            var linUsers = await userRepository.Select
+            var linUsers = await _userRepository.Select
                 .IncludeMany(r => r.LinGroups.Select(u => new LinGroup { Id = u.Id, Name = u.Name }))
                 .OrderByDescending(r => r.Id)
                 .ToListAsync(r => new UserDto

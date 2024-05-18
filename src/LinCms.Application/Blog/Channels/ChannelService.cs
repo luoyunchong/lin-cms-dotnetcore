@@ -17,24 +17,15 @@ namespace LinCms.Blog.Channels;
 /// <summary>
 /// 技术频道
 /// </summary>
-public class ChannelService : ApplicationService, IChannelService
+public class ChannelService(IAuditBaseRepository<Channel, Guid> channelRepository,
+        IAuditBaseRepository<ChannelTag, Guid> channelTagRepository,
+        IFileRepository fileRepository)
+    : ApplicationService, IChannelService
 {
-    private readonly IAuditBaseRepository<Channel, Guid> _channelRepository;
-    private readonly IAuditBaseRepository<ChannelTag, Guid> _channelTagRepository;
-    private readonly IFileRepository _fileRepository;
-
-    public ChannelService(IAuditBaseRepository<Channel, Guid> channelRepository, IAuditBaseRepository<ChannelTag, Guid> channelTagRepository, IFileRepository fileRepository)
-    {
-        _channelRepository = channelRepository;
-        _channelTagRepository = channelTagRepository;
-        _fileRepository = fileRepository;
-    }
-
-
     #region CRUD
     public async Task<PagedResultDto<ChannelDto>> GetListAsync(ChannelSearchDto searchDto)
     {
-        List<ChannelDto> channel = (await _channelRepository.Select
+        List<ChannelDto> channel = (await channelRepository.Select
                 .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
                 .WhereIf(searchDto.ChannelName.IsNotNullOrEmpty(), r => r.ChannelName.Contains(searchDto.ChannelName))
                 .OrderByDescending(r => r.SortCode)
@@ -43,7 +34,7 @@ public class ChannelService : ApplicationService, IChannelService
             .Select(r =>
             {
                 ChannelDto channelDto = Mapper.Map<ChannelDto>(r);
-                channelDto.ThumbnailDisplay = _fileRepository.GetFileUrl(channelDto.Thumbnail);
+                channelDto.ThumbnailDisplay = fileRepository.GetFileUrl(channelDto.Thumbnail);
                 return channelDto;
             }).ToList();
 
@@ -52,19 +43,19 @@ public class ChannelService : ApplicationService, IChannelService
 
     public async Task<ChannelDto> GetAsync(Guid id)
     {
-        Channel channel = await _channelRepository.Select
+        Channel channel = await channelRepository.Select
             .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
             .Where(a => a.Id == id)
             .WhereCascade(r => r.IsDeleted == false).ToOneAsync();
 
         ChannelDto channelDto = Mapper.Map<ChannelDto>(channel);
-        channelDto.ThumbnailDisplay = _fileRepository.GetFileUrl(channelDto.Thumbnail);
+        channelDto.ThumbnailDisplay = fileRepository.GetFileUrl(channelDto.Thumbnail);
         return channelDto;
     }
 
     public async Task CreateAsync([FromBody] CreateUpdateChannelDto createChannel)
     {
-        bool exist = await _channelRepository.Select.AnyAsync(r => r.ChannelName == createChannel.ChannelName && r.ChannelCode == createChannel.ChannelCode);
+        bool exist = await channelRepository.Select.AnyAsync(r => r.ChannelName == createChannel.ChannelName && r.ChannelCode == createChannel.ChannelCode);
         if (exist)
         {
             throw new LinCmsException($"技术频道[{createChannel.ChannelName}]已存在");
@@ -81,43 +72,43 @@ public class ChannelService : ApplicationService, IChannelService
             });
         });
 
-        await _channelRepository.InsertAsync(channel);
+        await channelRepository.InsertAsync(channel);
     }
 
     [Transactional]
     public async Task UpdateAsync(Guid id, CreateUpdateChannelDto updateChannel)
     {
-        Channel channel = await _channelRepository.Select.Where(r => r.Id == id).ToOneAsync();
+        Channel channel = await channelRepository.Select.Where(r => r.Id == id).ToOneAsync();
         if (channel == null)
         {
             throw new LinCmsException("该数据不存在");
         }
 
-        bool exist = await _channelRepository.Select.AnyAsync(r => r.ChannelName == updateChannel.ChannelName && r.Id != id && r.ChannelCode == updateChannel.ChannelCode);
+        bool exist = await channelRepository.Select.AnyAsync(r => r.ChannelName == updateChannel.ChannelName && r.Id != id && r.ChannelCode == updateChannel.ChannelCode);
         if (exist)
         {
             throw new LinCmsException($"技术频道[{updateChannel.ChannelName}]已存在");
         }
 
         Mapper.Map(updateChannel, channel);
-        await _channelRepository.UpdateAsync(channel);
-        await _channelTagRepository.DeleteAsync(r => r.ChannelId == id);
+        await channelRepository.UpdateAsync(channel);
+        await channelTagRepository.DeleteAsync(r => r.ChannelId == id);
 
         var channelTagLists = new List<ChannelTag>();
         updateChannel.TagIds?.ForEach(r => { channelTagLists.Add(new ChannelTag(id, r)); });
-        await _channelTagRepository.InsertAsync(channelTagLists);
+        await channelTagRepository.InsertAsync(channelTagLists);
     }
 
     public Task DeleteAsync(Guid id)
     {
-        return _channelRepository.DeleteAsync(new Channel { Id = id });
+        return channelRepository.DeleteAsync(new Channel { Id = id });
     }
     #endregion
     
     [Cacheable]
     public async Task<PagedResultDto<NavChannelListDto>> GetNavListAsync(PageDto pageDto)
     {
-        List<NavChannelListDto> channel = (await _channelRepository.Select
+        List<NavChannelListDto> channel = (await channelRepository.Select
                 .Where(r => r.Status == true)
                 .IncludeMany(r => r.Tags.Select(u => new Tag { TagName = u.TagName, Id = u.Id }), r => r.Where(u => u.Status == true))
                 .OrderByDescending(r => r.SortCode)

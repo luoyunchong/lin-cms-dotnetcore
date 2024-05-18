@@ -15,16 +15,9 @@ namespace LinCms.Middleware
     /// <summary>
     /// 如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
     /// </summary>
-    public class CustomExceptionMiddleWare : IMiddleware
+    public class CustomExceptionMiddleWare(ILogger<CustomExceptionMiddleWare> logger, IWebHostEnvironment environment)
+        : IMiddleware
     {
-        private readonly ILogger<CustomExceptionMiddleWare> _logger;
-        private readonly IWebHostEnvironment _environment;
-        public CustomExceptionMiddleWare(ILogger<CustomExceptionMiddleWare> logger, IWebHostEnvironment environment)
-        {
-            _logger = logger;
-            _environment = environment;
-        }
-
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
@@ -39,7 +32,7 @@ namespace LinCms.Middleware
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e.Message, "处理异常再出异常");
+                    logger.LogError(e.Message, "处理异常再出异常");
                 }
             }
         }
@@ -54,8 +47,8 @@ namespace LinCms.Middleware
             else
             {
 
-                _logger.LogError(ex, "系统异常信息");
-                if (_environment.IsDevelopment())
+                logger.LogError(ex, "系统异常信息");
+                if (environment.IsDevelopment())
                 {
                     string errorMsg = "异常信息：";
 

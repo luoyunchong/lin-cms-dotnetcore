@@ -17,33 +17,26 @@ namespace LinCms.Controllers.Blog;
 [Area("blog")]
 [Route("api/blog/classifies")]
 [ApiController]
-public class ClassifyController : ControllerBase
+public class ClassifyController(IClassifyService classifyService) : ControllerBase
 {
-    private readonly IClassifyService _classifyService;
-
-    public ClassifyController(IClassifyService classifyService)
-    {
-        _classifyService = classifyService;
-    }
-
     [HttpDelete("{id}")]
     public async Task<UnifyResponseDto> DeleteClassify(Guid id)
     {
-        await _classifyService.DeleteAsync(id);
+        await classifyService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
     [HttpGet]
     public List<ClassifyDto> GetListByUserId(long? userId)
     {
-        return _classifyService.GetListByUserId(userId);
+        return classifyService.GetListByUserId(userId);
     }
 
     [LinCmsAuthorize("删除", "分类专栏")]
     [HttpDelete("cms/{id}")]
     public async Task<UnifyResponseDto> Delete(Guid id)
     {
-        await _classifyService.DeleteAsync(id);
+        await classifyService.DeleteAsync(id);
         return UnifyResponseDto.Success();
     }
 
@@ -51,26 +44,26 @@ public class ClassifyController : ControllerBase
     [HttpGet("cms")]
     public Task<PagedResultDto<ClassifyDto>> GetListAsync([FromQuery] ClassifySearchDto pageDto)
     {
-        return _classifyService.GetListAsync(pageDto);
+        return classifyService.GetListAsync(pageDto);
     }
 
     [HttpGet("{id}")]
     public Task<ClassifyDto> GetAsync(Guid id)
     {
-        return _classifyService.GetAsync(id);
+        return classifyService.GetAsync(id);
     }
 
     [HttpPost]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateClassifyDto createClassify)
     {
-        await _classifyService.CreateAsync(createClassify);
+        await classifyService.CreateAsync(createClassify);
         return UnifyResponseDto.Success("新建分类专栏成功");
     }
 
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateClassifyDto updateClassify)
     {
-        await _classifyService.UpdateAsync(id, updateClassify);
+        await classifyService.UpdateAsync(id, updateClassify);
         return UnifyResponseDto.Success("更新分类专栏成功");
     }
 }

@@ -14,14 +14,8 @@ namespace LinCms.Controllers.v1;
 [Route("v1/monitor")]
 [ApiController]
 [AllowAnonymous]
-public class MonitorController : ControllerBase
+public class MonitorController(IWebHostEnvironment env) : ControllerBase
 {
-    private readonly IWebHostEnvironment _env;
-    public MonitorController(IWebHostEnvironment env)
-    {
-        _env = env;
-    }
-
     /// <summary>
     /// 服务器配置信息
     /// </summary>
@@ -33,10 +27,10 @@ public class MonitorController : ControllerBase
     {
         return new ServerViewModel()
         {
-            EnvironmentName = _env.EnvironmentName,
+            EnvironmentName = env.EnvironmentName,
             OSArchitecture = RuntimeInformation.OSArchitecture.ToString(),
-            ContentRootPath = _env.ContentRootPath,
-            WebRootPath = _env.WebRootPath,
+            ContentRootPath = env.ContentRootPath,
+            WebRootPath = env.WebRootPath,
             FrameworkDescription = RuntimeInformation.FrameworkDescription,
             MemoryFootprint = (Process.GetCurrentProcess().WorkingSet64 / 1048576).ToString("N2") + " MB",
             WorkingTime = TimeSubTract(DateTime.Now, Process.GetCurrentProcess().StartTime),

@@ -12,20 +12,13 @@ using LinCms.Security;
 
 namespace LinCms.Blog.Notifications;
 
-public class NotificationService : ApplicationService, INotificationService
+public class NotificationService(IAuditBaseRepository<Notification> notificationRepository,
+        IFileRepository fileRepository)
+    : ApplicationService, INotificationService
 {
-    private readonly IAuditBaseRepository<Notification> _notificationRepository;
-    private readonly IFileRepository _fileRepository;
-
-    public NotificationService(IAuditBaseRepository<Notification> notificationRepository, IFileRepository fileRepository)
-    {
-        _notificationRepository = notificationRepository;
-        _fileRepository = fileRepository;
-    }
-
     public async Task<PagedResultDto<NotificationDto>> GetListAsync(NotificationSearchDto pageDto)
     {
-        List<NotificationDto> notification = (await _notificationRepository.Select
+        List<NotificationDto> notification = (await notificationRepository.Select
                 .Include(r => r.ArticleEntry)
                 .Include(r => r.CommentEntry)
                 .Include(r => r.UserInfo)
@@ -45,7 +38,7 @@ public class NotificationService : ApplicationService, INotificationService
                 NotificationDto notificationDto = Mapper.Map<NotificationDto>(r);
                 if (notificationDto.UserInfo != null)
                 {
-                    notificationDto.UserInfo.Avatar = _fileRepository.GetFileUrl(notificationDto.UserInfo.Avatar);
+                    notificationDto.UserInfo.Avatar = fileRepository.GetFileUrl(notificationDto.UserInfo.Avatar);
                 }
 
                 return notificationDto;
@@ -59,7 +52,7 @@ public class NotificationService : ApplicationService, INotificationService
         if (notificationDto.IsCancel == false)
         {
             Notification linNotification = Mapper.Map<Notification>(notificationDto);
-            await _notificationRepository.InsertAsync(linNotification);
+            await notificationRepository.InsertAsync(linNotification);
         }
         else
         {
@@ -90,12 +83,12 @@ public class NotificationService : ApplicationService, INotificationService
                     break;
             }
 
-            await _notificationRepository.DeleteAsync(exprssion);
+            await notificationRepository.DeleteAsync(exprssion);
         }
     }
 
     public async Task SetNotificationReadAsync(Guid id)
     {
-        await _notificationRepository.UpdateDiy.Where(r => r.Id == id).Set(r => r.IsRead, true).ExecuteAffrowsAsync();
+        await notificationRepository.UpdateDiy.Where(r => r.Id == id).Set(r => r.IsRead, true).ExecuteAffrowsAsync();
     }
 }

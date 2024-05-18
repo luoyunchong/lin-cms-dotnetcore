@@ -13,44 +13,38 @@ namespace LinCms.Controllers.Base;
 [Area("base")]
 [Route("api/base/resource")]
 [ApiController]
-public class ResourceController : ControllerBase
+public class ResourceController(IResourceService resourceService) : ControllerBase
 {
-    private readonly IResourceService _resourceService;
-    public ResourceController(IResourceService resourceService)
-    {
-        _resourceService = resourceService;
-    }
-
     [HttpDelete("{id}")]
     [LinCmsAuthorize("删除本地化资源", "本地化资源管理")]
     public Task DeleteAsync(long id)
     {
-        return _resourceService.DeleteAsync(id);
+        return resourceService.DeleteAsync(id);
     }
 
     [HttpGet]
     public Task<PagedResultDto<ResourceDto>> GetListAsync([FromQuery] ResourceSearchDto searchDto)
     {
-        return _resourceService.GetListAsync(searchDto);
+        return resourceService.GetListAsync(searchDto);
     }
 
     [HttpGet("{id}")]
     public Task<ResourceDto> GetAsync(long id)
     {
-        return _resourceService.GetAsync(id);
+        return resourceService.GetAsync(id);
     }
 
     [HttpPost]
     [LinCmsAuthorize("创建本地化资源 ", "本地化资源管理")]
     public Task CreateAsync([FromBody] ResourceDto createResource)
     {
-        return _resourceService.CreateAsync(createResource);
+        return resourceService.CreateAsync(createResource);
     }
 
     [HttpPut]
     [LinCmsAuthorize("更新本地化资源 ", "本地化资源管理")]
     public Task UpdateAsync([FromBody] ResourceDto updateResource)
     {
-        return _resourceService.UpdateAsync(updateResource);
+        return resourceService.UpdateAsync(updateResource);
     }
 }

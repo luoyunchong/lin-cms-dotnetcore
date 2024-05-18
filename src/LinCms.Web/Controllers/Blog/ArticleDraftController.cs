@@ -16,18 +16,12 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/articles/draft")]
 [ApiController]
 [Authorize]
-public class ArticleDraftController : ControllerBase
+public class ArticleDraftController(IArticleDraftService articleDraftService) : ControllerBase
 {
-    private readonly IArticleDraftService _articleDraftService;
-    public ArticleDraftController(IArticleDraftService articleDraftService)
-    {
-        _articleDraftService = articleDraftService;
-    }
-
     [HttpPut("{id}")]
     public Task UpdateAsync(Guid id, [FromBody] UpdateArticleDraftDto updateArticleDto)
     {
-        return _articleDraftService.UpdateAsync(id, updateArticleDto);
+        return articleDraftService.UpdateAsync(id, updateArticleDto);
     }
 
     /// <summary>
@@ -38,6 +32,6 @@ public class ArticleDraftController : ControllerBase
     [HttpGet("{id}")]
     public Task<ArticleDraftDto> GetAsync(Guid id)
     {
-        return _articleDraftService.GetAsync(id);
+        return articleDraftService.GetAsync(id);
     }
 }

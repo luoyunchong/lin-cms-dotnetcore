@@ -18,21 +18,14 @@ namespace LinCms.Controllers.Blog;
 [Area("blog")]
 [Route("api/blog/tags")]
 [ApiController]
-public class TagController : ControllerBase
+public class TagController(IAuditBaseRepository<Tag> tagRepository, ITagService tagService)
+    : ControllerBase
 {
-    private readonly IAuditBaseRepository<Tag> _tagRepository;
-    private readonly ITagService _tagService;
-    public TagController(IAuditBaseRepository<Tag> tagRepository, ITagService tagService)
-    {
-        _tagRepository = tagRepository;
-        _tagService = tagService;
-    }
-
     [HttpDelete("{id}")]
     [LinCmsAuthorize("删除标签", "标签管理")]
     public async Task<UnifyResponseDto> DeleteAsync(Guid id)
     {
-        await _tagRepository.DeleteAsync(new Tag { Id = id });
+        await tagRepository.DeleteAsync(new Tag { Id = id });
         return UnifyResponseDto.Success();
     }
 
@@ -40,28 +33,28 @@ public class TagController : ControllerBase
     [LinCmsAuthorize("所有标签", "标签管理")]
     public async Task<PagedResultDto<TagListDto>> GetAllAsync([FromQuery] TagSearchDto searchDto)
     {
-        return await _tagService.GetListAsync(searchDto);
+        return await tagService.GetListAsync(searchDto);
     }
 
     [HttpGet("public")]
     public virtual async Task<PagedResultDto<TagListDto>> GetListAsync([FromQuery] TagSearchDto searchDto)
     {
         searchDto.Status = true;
-        return await _tagService.GetListAsync(searchDto);
+        return await tagService.GetListAsync(searchDto);
     }
 
     [HttpGet("{id}")]
     public async Task<TagListDto> GetAsync(Guid id)
     {
-        await _tagService.IncreaseTagViewHits(id);
-        return await _tagService.GetAsync(id);
+        await tagService.IncreaseTagViewHits(id);
+        return await tagService.GetAsync(id);
     }
 
     [HttpPost]
     [LinCmsAuthorize("新增标签", "标签管理")]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUpdateTagDto createTag)
     {
-        await _tagService.CreateAsync(createTag);
+        await tagService.CreateAsync(createTag);
         return UnifyResponseDto.Success("新建标签成功");
     }
 
@@ -69,7 +62,7 @@ public class TagController : ControllerBase
     [HttpPut("{id}")]
     public async Task<UnifyResponseDto> UpdateAsync(Guid id, [FromBody] CreateUpdateTagDto updateTag)
     {
-        await _tagService.UpdateAsync(id, updateTag);
+        await tagService.UpdateAsync(id, updateTag);
         return UnifyResponseDto.Success("更新标签成功");
     }
 
@@ -82,7 +75,7 @@ public class TagController : ControllerBase
     [HttpPut("correct/{tagId}")]
     public async Task<UnifyResponseDto> CorrectedTagCountAsync(Guid tagId)
     {
-        await _tagService.CorrectedTagCountAsync(tagId);
+        await tagService.CorrectedTagCountAsync(tagId);
         return UnifyResponseDto.Success();
     }
 }

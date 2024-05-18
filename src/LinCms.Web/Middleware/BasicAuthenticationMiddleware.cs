@@ -29,17 +29,12 @@ public class BasicAuthenticationOption : AuthenticationSchemeOptions
     public string UserPassword { get; set; }
 }
 
-public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticationOption>
-{
-    public BasicAuthenticationHandler(
-        IOptionsMonitor<BasicAuthenticationOption> options,
+public class BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOption> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
         ISystemClock clock)
-        : base(options, logger, encoder, clock)
-    {
-    }
-
+    : AuthenticationHandler<BasicAuthenticationOption>(options, logger, encoder, clock)
+{
     /// <summary>
     /// 认证
     /// </summary>
@@ -130,25 +125,17 @@ public static class BasicAuthentication
     }
 }
 
-public class BasicAuthenticationMiddleware
+public class BasicAuthenticationMiddleware(RequestDelegate next, ILogger<BasicAuthenticationMiddleware>logger)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger _logger;
-
-    public BasicAuthenticationMiddleware(RequestDelegate next, ILoggerFactory LoggerFactory)
-    {
-        _next = next;
-        _logger = LoggerFactory.CreateLogger<BasicAuthenticationMiddleware>();
-    }
     public async Task Invoke(HttpContext httpContext, IAuthenticationService authenticationService)
     {
         var authenticated = await authenticationService.AuthenticateAsync(httpContext, BasicAuthenticationScheme.DefaultScheme);
-        _logger.LogInformation("Access Status：" + authenticated.Succeeded);
+        logger.LogInformation("Access Status：" + authenticated.Succeeded);
         if (!authenticated.Succeeded)
         {
             await authenticationService.ChallengeAsync(httpContext, BasicAuthenticationScheme.DefaultScheme, new AuthenticationProperties { });
             return;
         }
-        await _next(httpContext);
+        await next(httpContext);
     }
 }

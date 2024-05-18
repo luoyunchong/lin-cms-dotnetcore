@@ -18,52 +18,43 @@ namespace LinCms.Controllers.Cms;
 [ApiExplorerSettings(GroupName = "cms")]
 [Route("cms/settings")]
 [ApiController]
-public class SettingController : ControllerBase
-{
-    private readonly ISettingService _settingService;
-    private readonly ICurrentUser _currentUser;
-    private readonly ISettingRepository _settingRepository;
-
-    public SettingController(ISettingService settingService, ICurrentUser currentUser,
+public class SettingController(ISettingService settingService, 
+        ICurrentUser currentUser,
         ISettingRepository settingRepository)
-    {
-        _settingService = settingService;
-        _currentUser = currentUser;
-        _settingRepository = settingRepository;
-    }
-
+    : ControllerBase
+{
     [LinCmsAuthorize("得到所有设置", "设置")]
     [HttpGet]
     public async Task<PagedResultDto<SettingDto>> GetPagedListAsync([FromQuery] PageDto pageDto)
     {
-        return await _settingService.GetPagedListAsync(pageDto);
+        return await settingService.GetPagedListAsync(pageDto);
     }
 
     [LinCmsAuthorize("删除设置", "设置")]
     [HttpDelete("{id}")]
     public async Task Delete(Guid id)
     {
-        await _settingRepository.DeleteAsync(id);
+        await settingRepository.DeleteAsync(id);
     }
 
     [LinCmsAuthorize("新增设置", "设置")]
     [HttpPost]
     public async Task CreateAsync([FromBody] CreateUpdateSettingDto createSetting)
     {
-        await _settingService.CreateAsync(createSetting);
+        await settingService.CreateAsync(createSetting);
     }
 
     [LinCmsAuthorize("修改设置", "设置")]
     [HttpPut("{id}")]
     public async Task UpdateAsync(Guid id, [FromBody] CreateUpdateSettingDto updateSettingDto)
     {
-        await _settingService.UpdateAsync(id, updateSettingDto);
+        await settingService.UpdateAsync(id, updateSettingDto);
     }
 
     [HttpGet("{id}")]
     public Task<SettingDto> Get(Guid id)
     {
-        return _settingService.GetAsync(id);
+        return settingService.GetAsync(id);
     }
 
     [HttpPost("set-values")]
@@ -76,10 +67,10 @@ public class SettingController : ControllerBase
             {
                 Value = kValue.Value,
                 ProviderName = "U",
-                ProviderKey = _currentUser.FindUserId().ToString(),
+                ProviderKey = currentUser.FindUserId().ToString(),
                 Name = key
             };
-            await _settingService.SetAsync(createSetting);
+            await settingService.SetAsync(createSetting);
         }
     }
 
@@ -87,20 +78,20 @@ public class SettingController : ControllerBase
     public async Task<string> GetSettingByKey(string key)
     {
         string providerName = "U";
-        string? providerKey = _currentUser.FindUserId().ToString();
-        return await _settingService.GetOrNullAsync(key, providerName, providerKey);
+        string? providerKey = currentUser.FindUserId().ToString();
+        return await settingService.GetOrNullAsync(key, providerName, providerKey);
     }
 
     [HttpGet("keys")]
     public async Task<IDictionary<string, string>> GetSettingKeys([FromQuery(Name = "keys[]")] List<string> keys)
     {
         string providerName = "U";
-        string? providerKey = _currentUser.FindUserId().ToString();
+        string? providerKey = currentUser.FindUserId().ToString();
         IDictionary<string, string> values = new Dictionary<string, string>();
 
         foreach (var key in keys)
         {
-            string value = await _settingService.GetOrNullAsync(key, providerName, providerKey);
+            string value = await settingService.GetOrNullAsync(key, providerName, providerKey);
             values.Add(key, value);
         }
         return values;

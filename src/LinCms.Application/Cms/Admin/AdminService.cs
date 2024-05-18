@@ -7,17 +7,11 @@ using LinCms.Entities;
 
 namespace LinCms.Cms.Admin;
 
-public class AdminService : ApplicationService, IAdminService
+public class AdminService(IAuditBaseRepository<LinPermission> permissionRepository) : ApplicationService, IAdminService
 {
-    private readonly IAuditBaseRepository<LinPermission> _permissionRepository;
-    public AdminService(IAuditBaseRepository<LinPermission> permissionRepository)
-    {
-        _permissionRepository = permissionRepository;
-    }
-
     public IDictionary<string, List<PermissionDto>> GetAllStructualPermissions()
     {
-        return _permissionRepository.Select.ToList()
+        return permissionRepository.Select.ToList()
             .GroupBy(r => r.Module)
             .ToDictionary(
                 group => group.Key,

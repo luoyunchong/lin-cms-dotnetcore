@@ -6,28 +6,23 @@ using LinCms.Exceptions;
 
 namespace LinCms.Base.Localizations;
 
-public class CultureService : ApplicationService, ICultureService
+public class CultureService(IAuditBaseRepository<LocalCulture, long> cultureRepository) : ApplicationService,
+    ICultureService
 {
-    private readonly IAuditBaseRepository<LocalCulture, long> _cultureRepository;
-    public CultureService(IAuditBaseRepository<LocalCulture, long> cultureRepository)
-    {
-        _cultureRepository = cultureRepository;
-    }
-
     public async Task DeleteAsync(long id)
     {
-        await _cultureRepository.DeleteAsync(new LocalCulture { Id = id });
+        await cultureRepository.DeleteAsync(new LocalCulture { Id = id });
     }
 
     public async Task<List<CultureDto>> GetListAsync()
     {
-        List<LocalCulture> entities = await _cultureRepository.Select.ToListAsync();
+        List<LocalCulture> entities = await cultureRepository.Select.ToListAsync();
         return Mapper.Map<List<CultureDto>>(entities);
     }
 
     public async Task<CultureDto> GetAsync(long id)
     {
-        LocalCulture entity = await _cultureRepository.Select
+        LocalCulture entity = await cultureRepository.Select
             .Where(a => a.Id == id).ToOneAsync();
 
         CultureDto resourceDto = Mapper.Map<CultureDto>(entity);
@@ -36,33 +31,33 @@ public class CultureService : ApplicationService, ICultureService
 
     public async Task<CultureDto> CreateAsync(CultureDto cultureDto)
     {
-        bool exist = await _cultureRepository.Select.AnyAsync(r => r.Name == cultureDto.Name);
+        bool exist = await cultureRepository.Select.AnyAsync(r => r.Name == cultureDto.Name);
         if (exist)
         {
             throw new LinCmsException($"Name[{cultureDto.Name}]已存在");
         }
 
         LocalCulture localCulture = Mapper.Map<LocalCulture>(cultureDto);
-        await _cultureRepository.InsertAsync(localCulture);
+        await cultureRepository.InsertAsync(localCulture);
         return Mapper.Map<CultureDto>(localCulture);
     }
 
     public async Task<CultureDto> UpdateAsync(CultureDto cultureDto)
     {
-        LocalCulture localCulture = await _cultureRepository.Select.Where(r => r.Id == cultureDto.Id).ToOneAsync();
+        LocalCulture localCulture = await cultureRepository.Select.Where(r => r.Id == cultureDto.Id).ToOneAsync();
         if (localCulture == null)
         {
             throw new LinCmsException("该数据不存在");
         }
 
-        bool exist = await _cultureRepository.Select.AnyAsync(r => r.Name == cultureDto.Name && r.Id != cultureDto.Id);
+        bool exist = await cultureRepository.Select.AnyAsync(r => r.Name == cultureDto.Name && r.Id != cultureDto.Id);
         if (exist)
         {
             throw new LinCmsException($"Name[{cultureDto.Name}]已存在");
         }
 
         Mapper.Map(cultureDto, localCulture);
-        await _cultureRepository.UpdateAsync(localCulture);
+        await cultureRepository.UpdateAsync(localCulture);
         return Mapper.Map<CultureDto>(localCulture);
     }
 }

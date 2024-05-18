@@ -13,20 +13,10 @@ using Microsoft.Extensions.Logging;
 namespace LinCms.Cms.Account;
 
 [DisableConventionalRegistration]
-public class JwtTokenService : ITokenService
+public class JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger,
+        IUserIdentityService userIdentityService, ITokenManager tokenManager)
+    : ITokenService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IUserIdentityService _userIdentityService;
-    private readonly ILogger<JwtTokenService> _logger;
-    private readonly ITokenManager _tokenManager;
-
-    public JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger, IUserIdentityService userIdentityService,ITokenManager tokenManager)
-    {
-        _userRepository = userRepository;
-        _logger = logger;
-        _userIdentityService = userIdentityService;
-        _tokenManager = tokenManager;
-    }
     /// <summary>
     /// JWT登录
     /// </summary>
@@ -34,9 +24,9 @@ public class JwtTokenService : ITokenService
     /// <returns></returns>
     public async Task<UserAccessToken> LoginAsync(LoginInputDto loginInputDto)
     {
-        _logger.LogInformation("JwtLogin");
+        logger.LogInformation("JwtLogin");
 
-        LinUser user = await _userRepository.GetUserAsync(r => r.Username == loginInputDto.Username || r.Email == loginInputDto.Username);
+        LinUser user = await userRepository.GetUserAsync(r => r.Username == loginInputDto.Username || r.Email == loginInputDto.Username);
 
         if (user == null)
         {
@@ -48,23 +38,23 @@ public class JwtTokenService : ITokenService
             throw new LinCmsException("用户未激活", ErrorCode.NoPermission);
         }
 
-        bool valid = await _userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password, user.Salt);
+        bool valid = await userIdentityService.VerifyUserPasswordAsync(user.Id, loginInputDto.Password, user.Salt);
 
         if (!valid)
         {
             throw new LinCmsException("请输入正确密码", ErrorCode.ParameterError);
         }
 
-        _logger.LogInformation($"用户{loginInputDto.Username},登录成功");
+        logger.LogInformation($"用户{loginInputDto.Username},登录成功");
 
-        UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
+        UserAccessToken tokens = await tokenManager.CreateTokenAsync(user);
         return tokens;
     }
 
 
     public async Task<UserAccessToken> GetRefreshTokenAsync(string refreshToken)
     {
-        LinUser user = await _userRepository.GetUserAsync(r => r.RefreshToken == refreshToken);
+        LinUser user = await userRepository.GetUserAsync(r => r.RefreshToken == refreshToken);
 
         if (user.IsNull())
         {
@@ -76,7 +66,7 @@ public class JwtTokenService : ITokenService
             throw new LinCmsException("请重新登录", ErrorCode.RefreshTokenError);
         }
 
-        UserAccessToken tokens = await _tokenManager.CreateTokenAsync(user);
+        UserAccessToken tokens = await tokenManager.CreateTokenAsync(user);
         
         return tokens;
     }

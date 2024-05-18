@@ -16,18 +16,9 @@ namespace LinCms.Controllers.v1;
 [Route("v1/test")]
 [ApiExplorerSettings(GroupName = "v1")]
 [ApiController]
-public class TestController : ControllerBase
+public class TestController(IFreeSql freeSql, ICapPublisher capBus, UnitOfWorkManager unitOfWorkManager)
+    : ControllerBase
 {
-    private readonly IFreeSql _freeSql;
-    private readonly ICapPublisher _capBus;
-    private readonly UnitOfWorkManager _unitOfWorkManager;
-    public TestController(IFreeSql freeSql, ICapPublisher capBus, UnitOfWorkManager unitOfWorkManager)
-    {
-        _freeSql = freeSql;
-        _capBus = capBus;
-        _unitOfWorkManager = unitOfWorkManager;
-    }
-
     [HttpGet("info")]
     [LinCmsAuthorize("查看lin的信息", "信息")]
     [Logger(template: "{user.UserName}又皮了一波")]
@@ -104,9 +95,9 @@ public class TestController : ControllerBase
     public DateTime FreeSqlTransaction(int id)
     {
         DateTime now = DateTime.Now;
-        using (var uow = _freeSql.CreateUnitOfWork())
+        using (var uow = freeSql.CreateUnitOfWork())
         {
-            ICapTransaction trans = uow.BeginTransaction(_capBus, false);
+            ICapTransaction trans = uow.BeginTransaction(capBus, false);
             var repo = uow.GetRepository<Book>();
 
             repo.Insert(new Book()
@@ -141,7 +132,7 @@ public class TestController : ControllerBase
                 CreateUserId = 3
             });
 
-            _capBus.Publish("freesql.time", now);
+            capBus.Publish("freesql.time", now);
             trans.Commit(uow);
         }
 
@@ -153,9 +144,9 @@ public class TestController : ControllerBase
     public DateTime UnitOfWorkManagerTransaction(int id, [FromServices] IBaseRepository<Book> repo)
     {
         DateTime now = DateTime.Now;
-        using (IUnitOfWork uow = _unitOfWorkManager.Begin())
+        using (IUnitOfWork uow = unitOfWorkManager.Begin())
         {
-            ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
+            ICapTransaction trans = unitOfWorkManager.Current.BeginTransaction(capBus, false);
             repo.Insert(new Book()
             {
                 Author = "luoyunchong",
@@ -166,7 +157,7 @@ public class TestController : ControllerBase
                 CreateUserId = 2
             });
 
-            _capBus.Publish("freesql.time", now);
+            capBus.Publish("freesql.time", now);
             trans.Commit(uow);
         }
         return now;
@@ -176,9 +167,9 @@ public class TestController : ControllerBase
     public DateTime FreeSqlUnitOfWorkManagerTransaction(int id, [FromServices] IBaseRepository<Book> repo)
     {
         DateTime now = DateTime.Now;
-        using (IUnitOfWork uow = _unitOfWorkManager.Begin())
+        using (IUnitOfWork uow = unitOfWorkManager.Begin())
         {
-            ICapTransaction trans = _unitOfWorkManager.Current.BeginTransaction(_capBus, false);
+            ICapTransaction trans = unitOfWorkManager.Current.BeginTransaction(capBus, false);
 
             repo.Insert(new Book()
             {
@@ -212,7 +203,7 @@ public class TestController : ControllerBase
                 CreateUserId = 3
             });
 
-            _capBus.Publish("freesql.time", now);
+            capBus.Publish("freesql.time", now);
             trans.Commit(uow);
         }
 

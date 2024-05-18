@@ -13,18 +13,11 @@ namespace LinCms.Controllers.Blog;
 [Route("api/blog/author_center")]
 [ApiController]
 [Authorize]
-public class AuthorCenterController : ControllerBase
+public class AuthorCenterController(IAuthorCenterService authorCenterService) : ControllerBase
 {
-    private readonly IAuthorCenterService _authorCenterService;
-
-    public AuthorCenterController(IAuthorCenterService authorCenterService)
-    {
-        _authorCenterService = authorCenterService;
-    }
-
     [HttpGet("card")]
     public async Task<ArticleCardDto> GetArtcileCardAsync()
     {
-        return await _authorCenterService.GetArtcileCardAsync();
+        return await authorCenterService.GetArtcileCardAsync();
     }
 }

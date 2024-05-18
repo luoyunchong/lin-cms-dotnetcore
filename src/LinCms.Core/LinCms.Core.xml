@@ -1295,6 +1295,11 @@
             如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
             </summary>
         </member>
+        <member name="M:LinCms.Middleware.CustomExceptionMiddleWare.#ctor(Microsoft.Extensions.Logging.ILogger{LinCms.Middleware.CustomExceptionMiddleWare},Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            如果使用中间件处理异常，当异常处理后，之后 会再去执行LogActionFilterAttriute中的OnActionExecuted方法
+            </summary>
+        </member>
         <member name="M:LinCms.Middleware.CustomExceptionMiddleWare.JsonHandle(Microsoft.AspNetCore.Http.HttpContext,System.String,LinCms.Data.Enums.ErrorCode,System.Int32)">
             <summary>
             处理方式：返回Json格式

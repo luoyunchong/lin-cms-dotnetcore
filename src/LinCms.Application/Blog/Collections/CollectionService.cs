@@ -13,21 +13,13 @@ namespace LinCms.Blog.Comments;
 /// <summary>
 /// 收藏服务
 /// </summary>
-public class CollectionService :
-    CrudAppService<Collection, CollectionDto, CollectionDto, Guid, CollectionSearchDto, CreateUpdateCollectionDto,
-        CreateUpdateCollectionDto>, ICollectionService
+public class CollectionService(IAuditBaseRepository<Collection, Guid> collectionRepsitory,
+        IAuditBaseRepository<ArticleCollection> artCollectionRepsitory)
+    :
+        CrudAppService<Collection, CollectionDto, CollectionDto, Guid, CollectionSearchDto, CreateUpdateCollectionDto,
+            CreateUpdateCollectionDto>(collectionRepsitory), ICollectionService
 {
     #region Constructor
-
-    private readonly IAuditBaseRepository<Collection, Guid> _collectionRepsitory;
-    private readonly IAuditBaseRepository<ArticleCollection> _artCollectionRepsitory;
-
-    public CollectionService(IAuditBaseRepository<Collection, Guid> collectionRepsitory,
-        IAuditBaseRepository<ArticleCollection> artCollectionRepsitory) : base(collectionRepsitory)
-    {
-        _collectionRepsitory = collectionRepsitory;
-        _artCollectionRepsitory = artCollectionRepsitory;
-    }
 
     #endregion
 
@@ -69,14 +61,14 @@ public class CollectionService :
     [Transactional]
     public override async Task DeleteAsync(Guid collectionId)
     {
-        Collection collection = await _collectionRepsitory.Where(r => r.Id == collectionId).FirstAsync();
+        Collection collection = await collectionRepsitory.Where(r => r.Id == collectionId).FirstAsync();
         if (collection.CreateUserId != CurrentUser.FindUserId())
         {
             throw new LinCmsException("您只可删除自己创建的收藏集");
         }
 
-        await _artCollectionRepsitory.DeleteAsync(r => r.CollectionId == collectionId);
-        await _collectionRepsitory.DeleteAsync(r => r.Id == collectionId);
+        await artCollectionRepsitory.DeleteAsync(r => r.CollectionId == collectionId);
+        await collectionRepsitory.DeleteAsync(r => r.Id == collectionId);
     }
 
     public override async Task<CollectionDto> GetAsync(Guid id)

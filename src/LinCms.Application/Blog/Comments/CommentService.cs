@@ -19,29 +19,17 @@ namespace LinCms.Blog.Comments;
 /// <summary>
 /// 评论
 /// </summary>
-public class CommentService : ApplicationService, ICommentService
-{
-    private readonly IAuditBaseRepository<Comment> _commentRepository;
-    private readonly IAuditBaseRepository<Article> _articleRepository;
-    private readonly IFileRepository _fileRepository;
-    private readonly ICapPublisher _capBus;
-
-    public CommentService(IAuditBaseRepository<Comment> commentRepository,
+public class CommentService(IAuditBaseRepository<Comment> commentRepository,
         IAuditBaseRepository<Article> articleRepository,
         IFileRepository fileRepository, ICapPublisher capBus)
-    {
-        _commentRepository = commentRepository;
-        _articleRepository = articleRepository;
-        _fileRepository = fileRepository;
-        _capBus = capBus;
-    }
-
+    : ApplicationService, ICommentService
+{
     #region CRUD
 
     public async Task<PagedResultDto<CommentDto>> GetListByArticleAsync([FromQuery] CommentSearchDto commentSearchDto)
     {
         long? userId = CurrentUser.FindUserId();
-        List<CommentDto> comments = (await _commentRepository
+        List<CommentDto> comments = (await commentRepository
                 .Select
                 .Include(r => r.UserInfo)
                 .Include(r => r.RespUserInfo)
@@ -69,7 +57,7 @@ public class CommentService : ApplicationService, ICommentService
                 }
                 else
                 {
-                    commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
+                    commentDto.UserInfo.Avatar = fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
                 }
 
                 commentDto.IsLiked = userId != null && r.UserLikes.Where(u => u.CreateUserId == userId).IsNotEmpty();
@@ -78,7 +66,7 @@ public class CommentService : ApplicationService, ICommentService
                     CommentDto childrenDto = Mapper.Map<CommentDto>(u);
                     if (childrenDto.UserInfo != null)
                     {
-                        childrenDto.UserInfo.Avatar = _fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
+                        childrenDto.UserInfo.Avatar = fileRepository.GetFileUrl(childrenDto.UserInfo.Avatar);
                     }
 
                     if (childrenDto.IsAudit == false)
@@ -102,14 +90,14 @@ public class CommentService : ApplicationService, ICommentService
 
     private long GetCommentCount(CommentSearchDto commentSearchDto)
     {
-        return _commentRepository
+        return commentRepository
             .Select
             .Where(r => r.IsDeleted == false && r.SubjectId == commentSearchDto.SubjectId).Count();
     }
 
     public async Task<PagedResultDto<CommentDto>> GetListAsync([FromQuery] CommentSearchDto commentSearchDto)
     {
-        List<CommentDto> comments = (await _commentRepository
+        List<CommentDto> comments = (await commentRepository
                 .Select
                 .Include(r => r.UserInfo)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
@@ -123,7 +111,7 @@ public class CommentService : ApplicationService, ICommentService
 
                 if (commentDto.UserInfo != null)
                 {
-                    commentDto.UserInfo.Avatar = _fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
+                    commentDto.UserInfo.Avatar = fileRepository.GetFileUrl(commentDto.UserInfo.Avatar);
                 }
 
                 return commentDto;
@@ -136,11 +124,11 @@ public class CommentService : ApplicationService, ICommentService
     public async Task CreateAsync(CreateCommentDto createCommentDto)
     {
         Comment comment = Mapper.Map<Comment>(createCommentDto);
-        await _commentRepository.InsertAsync(comment);
+        await commentRepository.InsertAsync(comment);
 
         if (createCommentDto.RootCommentId.HasValue)
         {
-            await _commentRepository.UpdateDiy
+            await commentRepository.UpdateDiy
                 .Set(r => r.ChildsCount + 1)
                 .Where(r => r.Id == createCommentDto.RootCommentId)
                 .ExecuteAffrowsAsync();
@@ -149,7 +137,7 @@ public class CommentService : ApplicationService, ICommentService
         switch (createCommentDto.SubjectType)
         {
             case 1:
-                await _articleRepository.UpdateDiy
+                await articleRepository.UpdateDiy
                     .Set(r => r.CommentQuantity + 1)
                     .Where(r => r.Id == createCommentDto.SubjectId)
                     .ExecuteAffrowsAsync();
@@ -160,8 +148,8 @@ public class CommentService : ApplicationService, ICommentService
 
         if (CurrentUser.FindUserId() != createCommentDto.RespUserId)
         {
-            using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
-            await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
+            using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(capBus, false);
+            await capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
             {
                 NotificationType = NotificationType.UserCommentOnArticle,
                 ArticleId = createCommentDto.SubjectId,
@@ -176,7 +164,7 @@ public class CommentService : ApplicationService, ICommentService
 
     public async Task DeleteAsync(Guid id)
     {
-        Comment comment = _commentRepository.Select.Where(r => r.Id == id).First();
+        Comment comment = commentRepository.Select.Where(r => r.Id == id).First();
         await DeleteAsync(comment);
     }
 
@@ -191,20 +179,20 @@ public class CommentService : ApplicationService, ICommentService
         //如果是根评论，删除所有的子评论
         if (!comment.RootCommentId.HasValue)
         {
-            affrows += await _commentRepository.DeleteAsync(r => r.RootCommentId == comment.Id);
+            affrows += await commentRepository.DeleteAsync(r => r.RootCommentId == comment.Id);
         }
         else
         {
-            await _commentRepository.UpdateDiy.Set(r => r.ChildsCount - 1).Where(r => r.Id == comment.RootCommentId)
+            await commentRepository.UpdateDiy.Set(r => r.ChildsCount - 1).Where(r => r.Id == comment.RootCommentId)
                 .ExecuteAffrowsAsync();
         }
 
-        affrows += await _commentRepository.DeleteAsync(new Comment {Id = comment.Id});
+        affrows += await commentRepository.DeleteAsync(new Comment {Id = comment.Id});
 
         switch (comment.SubjectType)
         {
             case CommentSubjectType.ArticleComment:
-                await _articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows)
+                await articleRepository.UpdateDiy.Set(r => r.CommentQuantity - affrows)
                     .Where(r => r.Id == comment.SubjectId).ExecuteAffrowsAsync();
                 break;
             default:
@@ -217,7 +205,7 @@ public class CommentService : ApplicationService, ICommentService
     [Transactional]
     public async Task DeleteMyComment(Guid id)
     {
-        Comment comment = await _commentRepository.Select.Where(r => r.Id == id).FirstAsync();
+        Comment comment = await commentRepository.Select.Where(r => r.Id == id).FirstAsync();
         if (comment == null)
         {
             throw new LinCmsException("该评论已删除");
@@ -228,11 +216,11 @@ public class CommentService : ApplicationService, ICommentService
             throw new LinCmsException("无权限删除他人的评论");
         }
 
-        using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(_capBus, false);
+        using ICapTransaction capTransaction = UnitOfWorkManager.Current.BeginTransaction(capBus, false);
 
         await DeleteAsync(comment);
 
-        await _capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
+        await capBus.PublishAsync(CreateNotificationDto.CreateOrCancelAsync, new CreateNotificationDto()
         {
             NotificationType = NotificationType.UserCommentOnArticle,
             ArticleId = comment.SubjectId,
@@ -245,9 +233,9 @@ public class CommentService : ApplicationService, ICommentService
 
     public async Task UpdateLikeQuantityAysnc(Guid subjectId, int likesQuantity)
     {
-        Comment comment = await _commentRepository.Select.Where(r => r.Id == subjectId).ToOneAsync();
+        Comment comment = await commentRepository.Select.Where(r => r.Id == subjectId).ToOneAsync();
         if (comment == null) return;
         comment.UpdateLikeQuantity(likesQuantity);
-        await _commentRepository.UpdateAsync(comment);
+        await commentRepository.UpdateAsync(comment);
     }
 }

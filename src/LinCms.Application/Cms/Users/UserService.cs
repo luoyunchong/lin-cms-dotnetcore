@@ -17,72 +17,56 @@ using LinCms.IRepositories;
 using LinCms.Security;
 
 namespace LinCms.Cms.Users;
-public class UserService : ApplicationService, IUserService
-{
-    private readonly IUserRepository _userRepository;
-    private readonly IUserIdentityService _userIdentityService;
-    private readonly IPermissionService _permissionService;
-    private readonly IGroupService _groupService;
-    private readonly IFileRepository _fileRepository;
-    private readonly ICryptographyService _cryptographyService;
-
-    public UserService(IUserRepository userRepository,
+public class UserService(IUserRepository userRepository,
         IUserIdentityService userIdentityService,
         IPermissionService permissionService,
         IGroupService groupService,
         IFileRepository fileRepository,
         ICryptographyService cryptographyService)
-    {
-        _userRepository = userRepository;
-        _userIdentityService = userIdentityService;
-        _permissionService = permissionService;
-        _groupService = groupService;
-        _fileRepository = fileRepository;
-        _cryptographyService = cryptographyService;
-    }
-
+    : ApplicationService, IUserService
+{
     public async Task ChangePasswordAsync(ChangePasswordDto passwordDto)
     {
         long currentUserId = CurrentUser.FindUserId() ?? 0;
-        LinUser user = await _userRepository.Where(r => r.Id == currentUserId).FirstAsync();
+        LinUser user = await userRepository.Where(r => r.Id == currentUserId).FirstAsync();
 
-        bool valid = await _userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword, user.Salt);
+        bool valid = await userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword, user.Salt);
         if (!valid)
         {
             throw new LinCmsException("旧密码不正确");
         }
 
-        await _userIdentityService.ChangePasswordAsync(user.Id, passwordDto.NewPassword, user.Salt);
+        await userIdentityService.ChangePasswordAsync(user.Id, passwordDto.NewPassword, user.Salt);
     }
 
     public Task<LinUser> GetUserAsync(string username)
     {
-        return _userRepository.Where(r => r.Username == username).FirstAsync();
+        return userRepository.Where(r => r.Username == username).FirstAsync();
     }
 
     [Transactional]
     public async Task DeleteAsync(long userId)
     {
-        await _userRepository.DeleteAsync(new LinUser() { Id = userId });
-        await _userIdentityService.DeleteAsync(userId);
-        await _groupService.DeleteUserGroupAsync(userId);
+        await userRepository.DeleteAsync(new LinUser() { Id = userId });
+        await userIdentityService.DeleteAsync(userId);
+        await groupService.DeleteUserGroupAsync(userId);
     }
 
     public async Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto)
     {
-        LinUser user = await _userRepository.Where(r => r.Id == id).FirstAsync();
+        LinUser user = await userRepository.Where(r => r.Id == id).FirstAsync();
 
         if (user == null)
         {
             throw new LinCmsException("用户不存在", ErrorCode.NotFound);
         }
 
-        await _userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword, user.Salt);
+        await userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword, user.Salt);
     }
 
     public PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto)
     {
-        List<UserDto> linUsers = _userRepository.Select
+        List<UserDto> linUsers = userRepository.Select
             .IncludeMany(r => r.LinGroups)
             .WhereIf(searchDto.GroupId != null, r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
             .OrderByDescending(r => r.Id)
@@ -102,7 +86,7 @@ public class UserService : ApplicationService, IUserService
     {
         if (!string.IsNullOrEmpty(user.Username))
         {
-            bool isRepeatName = await _userRepository.Select.AnyAsync(r => r.Username == user.Username);
+            bool isRepeatName = await userRepository.Select.AnyAsync(r => r.Username == user.Username);
 
             if (isRepeatName)
             {
@@ -112,14 +96,14 @@ public class UserService : ApplicationService, IUserService
 
         if (!string.IsNullOrEmpty(user.Email.Trim()))
         {
-            var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == user.Email.Trim());
+            var isRepeatEmail = await userRepository.Select.AnyAsync(r => r.Email == user.Email.Trim());
             if (isRepeatEmail)
             {
                 throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
             }
         }
         user.Salt = Guid.NewGuid().ToString();
-        string encryptPassword = _cryptographyService.Encrypt(password, user.Salt);
+        string encryptPassword = cryptographyService.Encrypt(password, user.Salt);
         user.LinUserGroups = new List<LinUserGroup>();
         groupIds?.ForEach(groupId =>
         {
@@ -132,7 +116,7 @@ public class UserService : ApplicationService, IUserService
         {
             new(LinUserIdentity.Password,user.Username,encryptPassword,DateTime.Now)
         };
-        await _userRepository.InsertAsync(user);
+        await userRepository.InsertAsync(user);
     }
 
     /// <summary>
@@ -144,7 +128,7 @@ public class UserService : ApplicationService, IUserService
     [Transactional]
     public async Task UpdateAync(long id, UpdateUserDto updateUserDto)
     {
-        LinUser linUser = await _userRepository.Where(r => r.Id == id).ToOneAsync();
+        LinUser linUser = await userRepository.Where(r => r.Id == id).ToOneAsync();
         if (linUser == null)
         {
             throw new LinCmsException("用户不存在", ErrorCode.NotFound);
@@ -152,7 +136,7 @@ public class UserService : ApplicationService, IUserService
 
         if (!string.IsNullOrEmpty(updateUserDto.Username))
         {
-            bool isRepeatName = await _userRepository.Select.AnyAsync(r => r.Username == updateUserDto.Username && r.Id != id);
+            bool isRepeatName = await userRepository.Select.AnyAsync(r => r.Username == updateUserDto.Username && r.Id != id);
 
             if (isRepeatName)
             {
@@ -162,14 +146,14 @@ public class UserService : ApplicationService, IUserService
 
         if (!string.IsNullOrEmpty(updateUserDto.Email?.Trim()))
         {
-            var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == updateUserDto.Email.Trim() && r.Id != id);
+            var isRepeatEmail = await userRepository.Select.AnyAsync(r => r.Email == updateUserDto.Email.Trim() && r.Id != id);
             if (isRepeatEmail)
             {
                 throw new LinCmsException("注册邮箱重复，请重新输入", ErrorCode.RepeatField);
             }
         }
 
-        List<long> existGroupIds = await _groupService.GetGroupIdsByUserIdAsync(id);
+        List<long> existGroupIds = await groupService.GetGroupIdsByUserIdAsync(id);
 
         //删除existGroupIds有，而newGroupIds没有的
         List<long> deleteIds = existGroupIds.Where(r => !updateUserDto.GroupIds.Contains(r)).ToList();
@@ -178,14 +162,14 @@ public class UserService : ApplicationService, IUserService
         List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
 
         Mapper.Map(updateUserDto, linUser);
-        await _userRepository.UpdateAsync(linUser);
-        await _groupService.DeleteUserGroupAsync(id, deleteIds);
-        await _groupService.AddUserGroupAsync(id, addIds);
+        await userRepository.UpdateAsync(linUser);
+        await groupService.DeleteUserGroupAsync(id, deleteIds);
+        await groupService.AddUserGroupAsync(id, addIds);
     }
 
     public async Task ChangeStatusAsync(long id, UserStatus userStatus)
     {
-        LinUser user = await _userRepository.Select.Where(r => r.Id == id).ToOneAsync();
+        LinUser user = await userRepository.Select.Where(r => r.Id == id).ToOneAsync();
 
         if (user == null)
         {
@@ -202,7 +186,7 @@ public class UserService : ApplicationService, IUserService
             throw new LinCmsException("当前用户已处于激活状态");
         }
 
-        await _userRepository.UpdateDiy.Where(r => r.Id == id)
+        await userRepository.UpdateDiy.Where(r => r.Id == id)
             .Set(r => new { Active = userStatus.GetHashCode() })
             .ExecuteUpdatedAsync();
     }
@@ -211,16 +195,16 @@ public class UserService : ApplicationService, IUserService
     {
         if (CurrentUser.FindUserId() != null)
         {
-            return _userRepository.Select.Where(r => r.Id == CurrentUser.FindUserId()).ToOneAsync();
+            return userRepository.Select.Where(r => r.Id == CurrentUser.FindUserId()).ToOneAsync();
         }
         return null;
     }
 
     public async Task<UserInformation> GetInformationAsync(long userId)
     {
-        LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
+        LinUser linUser = await userRepository.GetUserAsync(r => r.Id == userId);
         if (linUser == null) return null;
-        linUser.Avatar = _fileRepository.GetFileUrl(linUser.Avatar);
+        linUser.Avatar = fileRepository.GetFileUrl(linUser.Avatar);
 
         UserInformation userInformation = Mapper.Map<UserInformation>(linUser);
         userInformation.Groups = linUser.LinGroups.Select(r => Mapper.Map<GroupDto>(r)).ToList();
@@ -232,7 +216,7 @@ public class UserService : ApplicationService, IUserService
     public async Task<List<IDictionary<string, object>>> GetStructualUserPermissions(long userId)
     {
         List<LinPermission> permissions = await GetUserPermissionsAsync(userId);
-        return _permissionService.StructuringPermissions(permissions);
+        return permissionService.StructuringPermissions(permissions);
     }
 
     /// <summary>
@@ -242,12 +226,12 @@ public class UserService : ApplicationService, IUserService
     /// <returns></returns>
     public async Task<List<LinPermission>> GetUserPermissionsAsync(long userId)
     {
-        LinUser linUser = await _userRepository.GetUserAsync(r => r.Id == userId);
+        LinUser linUser = await userRepository.GetUserAsync(r => r.Id == userId);
         List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();
         if (linUser.LinGroups == null || linUser.LinGroups.Count == 0)
         {
             return new List<LinPermission>();
         }
-        return await _permissionService.GetPermissionByGroupIds(groupIds);
+        return await permissionService.GetPermissionByGroupIds(groupIds);
     }
 }

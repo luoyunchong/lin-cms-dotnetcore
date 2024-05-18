@@ -13,20 +13,14 @@ using LinCms.IRepositories;
 namespace LinCms.Cms.Users;
 
 [DisableConventionalRegistration]
-public class GiteeOAuth2Service : OAuthService, IOAuth2Service
+public class GiteeOAuth2Service(IAuditBaseRepository<LinUserIdentity> userIdentityRepository,
+        IUserRepository userRepository)
+    : OAuthService(userIdentityRepository), IOAuth2Service
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IAuditBaseRepository<LinUserIdentity> _userIdentityRepository;
-
-    public GiteeOAuth2Service(IAuditBaseRepository<LinUserIdentity> userIdentityRepository, IUserRepository userRepository) : base(userIdentityRepository)
-    {
-        _userIdentityRepository = userIdentityRepository;
-        _userRepository = userRepository;
-    }
     public override async Task<long> SaveUserAsync(ClaimsPrincipal principal, string openId)
     {
 
-        LinUserIdentity linUserIdentity = await _userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.Gitee && r.Credential == openId).FirstAsync();
+        LinUserIdentity linUserIdentity = await userIdentityRepository.Where(r => r.IdentityType == LinUserIdentity.Gitee && r.Credential == openId).FirstAsync();
 
         long userId = 0;
         if (linUserIdentity == null)
@@ -65,7 +59,7 @@ public class GiteeOAuth2Service : OAuthService, IOAuth2Service
                     new(LinUserIdentity.Gitee,name,openId,DateTime.Now)
                 }
             };
-            await _userRepository.InsertAsync(user);
+            await userRepository.InsertAsync(user);
             userId = user.Id;
         }
         else

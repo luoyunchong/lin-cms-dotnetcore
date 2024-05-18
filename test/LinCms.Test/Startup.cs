@@ -44,7 +44,7 @@ namespace LinCms.Test
                         typeof(AopCacheIntercept)
                     };
                     containerBuilder.RegisterModule(new UnitOfWorkModule(currentAssemblies, interceptorServiceTypes));
-                    containerBuilder.RegisterModule(new AutofacModule(c));
+                    containerBuilder.RegisterModule(new AutofacModule());
                 })
                 .ConfigureServices((context, services) =>
                 {

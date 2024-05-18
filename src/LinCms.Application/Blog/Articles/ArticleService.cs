@@ -20,24 +20,7 @@ namespace LinCms.Blog.Articles;
 /// <summary>
 /// 随笔服务
 /// </summary>
-public class ArticleService : ApplicationService, IArticleService
-{
-    #region Constructor
-
-    private readonly IAuditBaseRepository<Article> _articleRepository;
-    private readonly IAuditBaseRepository<ArticleDraft> _articleDraftRepository;
-    private readonly IAuditBaseRepository<UserLike> _userLikeRepository;
-    private readonly IAuditBaseRepository<ArticleCollection> _articleCollectionRepository;
-    private readonly IAuditBaseRepository<Collection> _collectionRepository;
-    private readonly IAuditBaseRepository<Comment> _commentRepository;
-    private readonly IAuditBaseRepository<TagArticle> _tagArticleRepository;
-    private readonly IClassifyService _classifyService;
-    private readonly IAuditBaseRepository<Tag> _tagRepository;
-    private readonly IUserSubscribeService _userSubscribeService;
-    private readonly IFileRepository _fileRepository;
-
-    public ArticleService(
-        IAuditBaseRepository<Article> articleRepository,
+public class ArticleService(IAuditBaseRepository<Article> articleRepository,
         IAuditBaseRepository<TagArticle> tagArticleRepository,
         IAuditBaseRepository<UserLike> userLikeRepository,
         IAuditBaseRepository<Comment> commentRepository,
@@ -47,20 +30,9 @@ public class ArticleService : ApplicationService, IArticleService
         IAuditBaseRepository<ArticleDraft> articleDraftRepository,
         IFileRepository fileRepository, IAuditBaseRepository<ArticleCollection> articleCollectionRepository,
         IAuditBaseRepository<Collection> collectionRepository)
-    {
-        _articleRepository = articleRepository;
-        _tagArticleRepository = tagArticleRepository;
-        _userLikeRepository = userLikeRepository;
-        _commentRepository = commentRepository;
-
-        _classifyService = classifyService;
-        _tagRepository = tagRepository;
-        _userSubscribeService = userSubscribeService;
-        _articleDraftRepository = articleDraftRepository;
-        _fileRepository = fileRepository;
-        _articleCollectionRepository = articleCollectionRepository;
-        _collectionRepository = collectionRepository;
-    }
+    : ApplicationService, IArticleService
+{
+    #region Constructor
 
     #endregion
 
@@ -76,19 +48,19 @@ public class ArticleService : ApplicationService, IArticleService
 
         if (searchDto.CollectionId != null)
         {
-            var collection = await _collectionRepository.GetAsync(searchDto.CollectionId.Value);
+            var collection = await collectionRepository.GetAsync(searchDto.CollectionId.Value);
             if (collection.PrivacyType == PrivacyType.VisibleOnlyMySelf &&
                 collection.CreateUserId != CurrentUser.FindUserId())
             {
                 throw new LinCmsException("该收藏集是私密的，只有创建者可见");
             }
 
-            articleIds = _articleCollectionRepository.Select.Where(r => r.CollectionId == searchDto.CollectionId)
+            articleIds = articleCollectionRepository.Select.Where(r => r.CollectionId == searchDto.CollectionId)
                 .ToList(r => r.ArticleId);
         }
 
         long? userId = CurrentUser.FindUserId();
-        List<Article> articles = await _articleRepository
+        List<Article> articles = await articleRepository
             .Select
             .Include(r => r.UserInfo)
             .IncludeMany(r => r.Tags, r => r.Where(u => u.Status == true))
@@ -117,7 +89,7 @@ public class ArticleService : ApplicationService, IArticleService
                 ArticleListDto articleDto = Mapper.Map<ArticleListDto>(a);
 
                 articleDto.IsLiked = userId != null && a.UserLikes.Any();
-                articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(articleDto.Thumbnail);
+                articleDto.ThumbnailDisplay = fileRepository.GetFileUrl(articleDto.Thumbnail);
 
                 return articleDto;
             })
@@ -129,25 +101,25 @@ public class ArticleService : ApplicationService, IArticleService
     [Transactional]
     public async Task DeleteAsync(Guid id)
     {
-        Article article = await _articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).FirstAsync();
+        Article article = await articleRepository.Select.Where(r => r.Id == id).IncludeMany(r => r.Tags).FirstAsync();
         if (article.IsNotNull())
         {
-            await _classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
+            await classifyService.UpdateArticleCountAsync(article.ClassifyId, 1);
             foreach (var u in article.Tags)
             {
                 await UpdateArticleCountAsync(u.Id, -1);
             }
         }
 
-        await _articleRepository.DeleteAsync(new Article { Id = id });
-        await _tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
-        await _commentRepository.DeleteAsync(r => r.SubjectId == id);
-        await _userLikeRepository.DeleteAsync(r => r.SubjectId == id);
+        await articleRepository.DeleteAsync(new Article { Id = id });
+        await tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
+        await commentRepository.DeleteAsync(r => r.SubjectId == id);
+        await userLikeRepository.DeleteAsync(r => r.SubjectId == id);
     }
 
     public async Task<ArticleDto> GetAsync(Guid id)
     {
-        Article article = await _articleRepository.Select
+        Article article = await articleRepository.Select
             .Include(r => r.Classify).IncludeMany(r => r.Tags).Include(r => r.UserInfo)
             .WhereCascade(r => r.IsDeleted == false).Where(a => a.Id == id).ToOneAsync();
 
@@ -160,24 +132,24 @@ public class ArticleService : ApplicationService, IArticleService
 
         if (articleDto.Tags.IsNotNull())
         {
-            articleDto.Tags.ForEach(r => { r.ThumbnailDisplay = _fileRepository.GetFileUrl(r.Thumbnail); });
+            articleDto.Tags.ForEach(r => { r.ThumbnailDisplay = fileRepository.GetFileUrl(r.Thumbnail); });
         }
 
         if (articleDto.UserInfo.IsNotNull())
         {
-            articleDto.UserInfo.Avatar = _fileRepository.GetFileUrl(articleDto.UserInfo.Avatar);
+            articleDto.UserInfo.Avatar = fileRepository.GetFileUrl(articleDto.UserInfo.Avatar);
         }
 
         articleDto.IsLiked =
-            await _userLikeRepository.Select.AnyAsync(r =>
+            await userLikeRepository.Select.AnyAsync(r =>
                 r.SubjectId == id && r.CreateUserId == CurrentUser.FindUserId());
         articleDto.IsComment =
-            await _commentRepository.Select.AnyAsync(r =>
+            await commentRepository.Select.AnyAsync(r =>
                 r.SubjectId == id && r.CreateUserId == CurrentUser.FindUserId());
         articleDto.IsCollect =
-            await _articleCollectionRepository.Select.AnyAsync(r =>
+            await articleCollectionRepository.Select.AnyAsync(r =>
                 r.ArticleId == id && r.CreateUserId == CurrentUser.FindUserId());
-        articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(article.Thumbnail);
+        articleDto.ThumbnailDisplay = fileRepository.GetFileUrl(article.Thumbnail);
 
         return articleDto;
     }
@@ -200,14 +172,14 @@ public class ArticleService : ApplicationService, IArticleService
             await UpdateArticleCountAsync(articleTagId, 1);
         }
 
-        await _articleRepository.InsertAsync(article);
+        await articleRepository.InsertAsync(article);
 
-        await _articleDraftRepository.InsertAsync(new ArticleDraft(article.Id, createArticle.Content,
+        await articleDraftRepository.InsertAsync(new ArticleDraft(article.Id, createArticle.Content,
             createArticle.Title, createArticle.Editor));
 
         if (createArticle.ClassifyId != null)
         {
-            await _classifyService.UpdateArticleCountAsync(createArticle.ClassifyId, 1);
+            await classifyService.UpdateArticleCountAsync(createArticle.ClassifyId, 1);
         }
 
         return article.Id;
@@ -216,7 +188,7 @@ public class ArticleService : ApplicationService, IArticleService
     [Transactional]
     public async Task UpdateAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
     {
-        Article article = _articleRepository.Select.Where(r => r.Id == id).ToOne();
+        Article article = articleRepository.Select.Where(r => r.Id == id).ToOne();
 
 
         if (article.CreateUserId != CurrentUser.FindUserId())
@@ -231,24 +203,24 @@ public class ArticleService : ApplicationService, IArticleService
 
         if (article.ClassifyId != updateArticleDto.ClassifyId)
         {
-            await _classifyService.UpdateArticleCountAsync(article.ClassifyId, -1);
-            await _classifyService.UpdateArticleCountAsync(updateArticleDto.ClassifyId, 1);
+            await classifyService.UpdateArticleCountAsync(article.ClassifyId, -1);
+            await classifyService.UpdateArticleCountAsync(updateArticleDto.ClassifyId, 1);
         }
 
         Mapper.Map(updateArticleDto, article);
         article.WordNumber = article.Content.Length;
         article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(article.Content).Minutes;
-        await _articleRepository.UpdateAsync(article);
+        await articleRepository.UpdateAsync(article);
 
         ArticleDraft articleDraft = Mapper.Map<ArticleDraft>(article);
-        bool exist = await _articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
+        bool exist = await articleDraftRepository.Select.AnyAsync(r => r.Id == article.Id);
         if (exist)
         {
-            await _articleDraftRepository.UpdateAsync(articleDraft);
+            await articleDraftRepository.UpdateAsync(articleDraft);
         }
         else
         {
-            await _articleDraftRepository.InsertAsync(articleDraft);
+            await articleDraftRepository.InsertAsync(articleDraft);
         }
 
         await UpdateTagAsync(id, updateArticleDto);
@@ -264,14 +236,14 @@ public class ArticleService : ApplicationService, IArticleService
     /// <returns></returns>
     private async Task UpdateTagAsync(Guid id, CreateUpdateArticleDto updateArticleDto)
     {
-        List<Guid> tagIds = await _tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
+        List<Guid> tagIds = await tagArticleRepository.Select.Where(r => r.ArticleId == id).ToListAsync(r => r.TagId);
 
         foreach (var tagId in tagIds)
         {
             await UpdateArticleCountAsync(tagId, -1);
         }
 
-        _tagArticleRepository.Delete(r => r.ArticleId == id);
+        tagArticleRepository.Delete(r => r.ArticleId == id);
 
         List<TagArticle> tagArticles = new();
 
@@ -285,7 +257,7 @@ public class ArticleService : ApplicationService, IArticleService
             await UpdateArticleCountAsync(tagId, 1);
         }
 
-        await _tagArticleRepository.InsertAsync(tagArticles);
+        await tagArticleRepository.InsertAsync(tagArticles);
     }
 
     private async Task UpdateArticleCountAsync(Guid? id, int inCreaseCount)
@@ -295,7 +267,7 @@ public class ArticleService : ApplicationService, IArticleService
             return;
         }
 
-        Tag tag = await _tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
+        Tag tag = await tagRepository.Select.Where(r => r.Id == id).ToOneAsync();
         if (tag == null)
         {
             return;
@@ -312,15 +284,15 @@ public class ArticleService : ApplicationService, IArticleService
 
         tag.ArticleCount = tag.ArticleCount + inCreaseCount;
 
-        await _tagRepository.UpdateAsync(tag);
+        await tagRepository.UpdateAsync(tag);
     }
 
     public async Task<PagedResultDto<ArticleListDto>> GetSubscribeArticleAsync(PageDto pageDto)
     {
         long userId = CurrentUser.FindUserId() ?? 0;
-        List<long> subscribeUserIds = await _userSubscribeService.GetSubscribeUserIdAsync(userId);
+        List<long> subscribeUserIds = await userSubscribeService.GetSubscribeUserIdAsync(userId);
 
-        var articles = await _articleRepository
+        var articles = await articleRepository
             .Select
             .Include(r => r.Classify)
             .Include(r => r.UserInfo)
@@ -336,7 +308,7 @@ public class ArticleService : ApplicationService, IArticleService
             {
                 ArticleListDto articleDto = Mapper.Map<ArticleListDto>(r);
                 articleDto.IsLiked = r.UserLikes.Any();
-                articleDto.ThumbnailDisplay = _fileRepository.GetFileUrl(articleDto.Thumbnail);
+                articleDto.ThumbnailDisplay = fileRepository.GetFileUrl(articleDto.Thumbnail);
                 return articleDto;
             })
             .ToList();
@@ -346,23 +318,23 @@ public class ArticleService : ApplicationService, IArticleService
 
     public async Task UpdateLikeQuantityAysnc(Guid articleId, int likesQuantity)
     {
-        Article article = await _articleRepository.Where(r => r.Id == articleId).ToOneAsync();
+        Article article = await articleRepository.Where(r => r.Id == articleId).ToOneAsync();
         if (article == null) return;
         article.UpdateLikeQuantity(likesQuantity);
-        await _articleRepository.UpdateAsync(article);
+        await articleRepository.UpdateAsync(article);
     }
 
     public async Task UpdateCollectQuantityAysnc(Guid articleId, int collectQuantity)
     {
-        Article article = await _articleRepository.Where(r => r.Id == articleId).ToOneAsync();
+        Article article = await articleRepository.Where(r => r.Id == articleId).ToOneAsync();
         if (article == null) return;
         article.UpdateCollectQuantity(collectQuantity);
-        await _articleRepository.UpdateAsync(article);
+        await articleRepository.UpdateAsync(article);
     }
 
     public async Task UpdateCommentable(Guid id, bool commentable)
     {
-        Article article = await _articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
+        Article article = await articleRepository.Select.Where(a => a.Id == id).ToOneAsync();
         if (article == null)
         {
             throw new LinCmsException("没有找到相关随笔", ErrorCode.NotFound);
@@ -374,6 +346,6 @@ public class ArticleService : ApplicationService, IArticleService
         }
 
         article.Commentable = commentable;
-        await _articleRepository.UpdateAsync(article);
+        await articleRepository.UpdateAsync(article);
     }
 }

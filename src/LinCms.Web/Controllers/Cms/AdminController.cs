@@ -13,15 +13,9 @@ namespace LinCms.Controllers.Cms;
 [ApiExplorerSettings(GroupName = "cms")]
 [Route("cms/admin")]
 [ApiController]
-public class AdminController : ControllerBase
+public class AdminController(IUserService userSevice, IAdminService adminService) : ControllerBase
 {
-    private readonly IUserService _userSevice;
-    private readonly IAdminService _adminService;
-    public AdminController(IUserService userSevice, IAdminService adminService)
-    {
-        _userSevice = userSevice;
-        _adminService = adminService;
-    }
+    private readonly IAdminService _adminService = adminService;
 
     /// <summary>
     /// 用户信息分页列表项
@@ -32,7 +26,7 @@ public class AdminController : ControllerBase
     [LinCmsAuthorize("查询所有用户", "管理员")]
     public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery] UserSearchDto searchDto)
     {
-        return _userSevice.GetUserListByGroupId(searchDto);
+        return userSevice.GetUserListByGroupId(searchDto);
     }
 
     /// <summary>
@@ -45,7 +39,7 @@ public class AdminController : ControllerBase
     [LinCmsAuthorize("修改用户密码", "管理员")]
     public Task ChangeStatusAsync(long id, UserStatus userStatus)
     {
-        return _userSevice.ChangeStatusAsync(id, userStatus);
+        return userSevice.ChangeStatusAsync(id, userStatus);
     }
 
     /// <summary>
@@ -58,7 +52,7 @@ public class AdminController : ControllerBase
     [LinCmsAuthorize("管理员更新用户信息", "管理员")]
     public async Task<UnifyResponseDto> UpdateAsync(long id, [FromBody] UpdateUserDto updateUserDto)
     {
-        await _userSevice.UpdateAync(id, updateUserDto);
+        await userSevice.UpdateAync(id, updateUserDto);
         return UnifyResponseDto.Success();
     }
 
@@ -72,7 +66,7 @@ public class AdminController : ControllerBase
     [LinCmsAuthorize("删除用户", "管理员")]
     public async Task<UnifyResponseDto> DeleteAsync(long id)
     {
-        await _userSevice.DeleteAsync(id);
+        await userSevice.DeleteAsync(id);
         return UnifyResponseDto.Success("删除用户成功");
     }
 
@@ -86,7 +80,7 @@ public class AdminController : ControllerBase
     [LinCmsAuthorize("修改用户密码", "管理员")]
     public async Task<UnifyResponseDto> ResetPasswordAsync(long id, [FromBody] ResetPasswordDto resetPasswordDto)
     {
-        await _userSevice.ResetPasswordAsync(id, resetPasswordDto);
+        await userSevice.ResetPasswordAsync(id, resetPasswordDto);
         return UnifyResponseDto.Success("密码修改成功");
     }
 

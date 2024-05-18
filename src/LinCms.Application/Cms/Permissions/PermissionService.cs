@@ -12,21 +12,15 @@ using LinCms.Security;
 
 namespace LinCms.Cms.Permissions;
 
-public class PermissionService : ApplicationService, IPermissionService
+public class PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository,
+        IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository, ICurrentUser currentUser)
+    : ApplicationService, IPermissionService
 {
-    private readonly IAuditBaseRepository<LinPermission, long> _permissionRepository;
-    private readonly IAuditBaseRepository<LinGroupPermission, long> _groupPermissionRepository;
-    private readonly ICurrentUser _currentUser;
-    public PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository, IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository, ICurrentUser currentUser)
-    {
-        _permissionRepository = permissionRepository;
-        _groupPermissionRepository = groupPermissionRepository;
-        _currentUser = currentUser;
-    }
+    private readonly ICurrentUser _currentUser = currentUser;
 
     public IDictionary<string, List<PermissionDto>> GetAllStructualPermissions()
     {
-        return _permissionRepository.Select.ToList()
+        return permissionRepository.Select.ToList()
             .GroupBy(r => r.Module)
             .ToDictionary(
                 group => group.Key,
@@ -48,11 +42,11 @@ public class PermissionService : ApplicationService, IPermissionService
         if (CurrentUser.IsInGroup(LinConsts.Group.Admin)) return true;
         long[] groups = CurrentUser.FindGroupIds().Select(long.Parse).ToArray();
 
-        LinPermission linPermission = await _permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();
+        LinPermission linPermission = await permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();
 
         if (linPermission == null || groups == null || groups.Length == 0) return false;
 
-        bool existPermission = await _groupPermissionRepository.Select
+        bool existPermission = await groupPermissionRepository.Select
             .AnyAsync(r => groups.Contains(r.GroupId) && r.PermissionId == linPermission.Id);
 
         return existPermission;
@@ -61,7 +55,7 @@ public class PermissionService : ApplicationService, IPermissionService
 
     public Task DeletePermissionsAsync(RemovePermissionDto permissionDto)
     {
-        return _groupPermissionRepository.DeleteAsync(r =>
+        return groupPermissionRepository.DeleteAsync(r =>
             permissionDto.PermissionIds.Contains(r.PermissionId) && r.GroupId == permissionDto.GroupId);
     }
 
@@ -72,16 +66,16 @@ public class PermissionService : ApplicationService, IPermissionService
         {
             linPermissions.Add(new LinGroupPermission(permissionDto.GroupId, permissionId));
         });
-        return _groupPermissionRepository.InsertAsync(linPermissions);
+        return groupPermissionRepository.InsertAsync(linPermissions);
     }
 
     public async Task<List<LinPermission>> GetPermissionByGroupIds(List<long> groupIds)
     {
-        List<long> permissionIds = _groupPermissionRepository
+        List<long> permissionIds = groupPermissionRepository
             .Where(a => groupIds.Contains(a.GroupId))
             .ToList(r => r.PermissionId);
 
-        List<LinPermission> listPermissions = await _permissionRepository
+        List<LinPermission> listPermissions = await permissionRepository
             .Where(a => permissionIds.Contains(a.Id))
             .ToListAsync();
 
@@ -120,12 +114,12 @@ public class PermissionService : ApplicationService, IPermissionService
 
     public Task<LinPermission> GetAsync(string permissionName)
     {
-        return _permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
+        return permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
     }
 
     public async Task<List<TreePermissionDto>> GetTreePermissionListAsync()
     {
-        var permissions = await _permissionRepository.Select.ToListAsync();
+        var permissions = await permissionRepository.Select.ToListAsync();
 
         List<TreePermissionDto> treePermissionDtos = permissions.GroupBy(r => r.Module).Select(r =>
             new TreePermissionDto

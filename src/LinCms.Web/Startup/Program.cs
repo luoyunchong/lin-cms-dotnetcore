@@ -45,7 +45,7 @@ builder.Host
             typeof(AopCacheIntercept)
         };
         containerBuilder.RegisterModule(new UnitOfWorkModule(currentAssemblies, interceptorServiceTypes));
-        containerBuilder.RegisterModule(new AutofacModule(c));
+        containerBuilder.RegisterModule(new AutofacModule());
     });
 
 builder.WebHost.ConfigureKestrel((context, options) =>
