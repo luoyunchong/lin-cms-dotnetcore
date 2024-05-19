@@ -607,19 +607,29 @@
             验证码
             </summary>
         </member>
-        <member name="P:LinCms.Cms.Account.RegisterEmailCodeInput.Nickname">
-            <summary>
-            昵称
-            </summary>
-        </member>
         <member name="P:LinCms.Cms.Account.RegisterEmailCodeInput.Email">
             <summary>
             邮件
             </summary>
         </member>
+        <member name="P:LinCms.Cms.Account.RegisterDto.Nickname">
+            <summary>
+            昵称
+            </summary>
+        </member>
         <member name="P:LinCms.Cms.Account.RegisterDto.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Account.RegisterDto.EmailCode">
+            <summary>
+             发送邮件时返回的唯一码，以保证用户请求与验证码是一个请求
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Account.RegisterDto.VerificationCode">
+            <summary>
+            邮件发送的验证码
             </summary>
         </member>
         <member name="T:LinCms.Cms.Files.IFileService">

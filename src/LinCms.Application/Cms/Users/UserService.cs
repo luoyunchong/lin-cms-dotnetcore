@@ -69,6 +69,9 @@ public class UserService(IUserRepository userRepository,
         List<UserDto> linUsers = userRepository.Select
             .IncludeMany(r => r.LinGroups)
             .WhereIf(searchDto.GroupId != null, r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
+            .WhereIf(searchDto.Email.IsNotNullOrWhiteSpace(), r => r.Email.Contains(searchDto.Email))
+            .WhereIf(searchDto.Nickname.IsNotNullOrWhiteSpace(), r => r.Nickname.Contains(searchDto.Nickname))
+            .WhereIf(searchDto.Username.IsNotNullOrWhiteSpace(), r => r.Username.Contains(searchDto.Username))
             .OrderByDescending(r => r.Id)
             .ToPagerList(searchDto, out long totalCount)
             .Select(r =>

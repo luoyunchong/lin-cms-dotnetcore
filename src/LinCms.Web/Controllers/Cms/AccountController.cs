@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FreeRedis;
 using LinCms.Aop.Attributes;
 
 namespace LinCms.Controllers.Cms;
@@ -35,7 +36,8 @@ public class AccountController : ApiControllerBase
     private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;
     private readonly CaptchaOption _loginCaptchaOption;
     private readonly ICaptchaManager _captchaManager;
-    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager)
+    private readonly RedisClient _redisClient;
+    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager, RedisClient redisClient)
     {
         bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
         _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? nameof(IdentityServer4Service) : nameof(JwtTokenService));
@@ -43,6 +45,7 @@ public class AccountController : ApiControllerBase
         _blackRecordRepository = blackRecordRepository;
         _loginCaptchaOption = loginCaptchaOption.CurrentValue;
         _captchaManager = captchaManager;
+        _redisClient = redisClient;
     }
 
 
@@ -154,19 +157,20 @@ public class AccountController : ApiControllerBase
     [HttpPost("account/register")]
     public async Task<UnifyResponseDto> Register([FromBody] RegisterDto registerDto, [FromServices] IMapper mapper, [FromServices] IUserService userSevice)
     {
-        //string uuid = await RedisHelper.GetAsync("SendEmailCode." + registerDto.Email);
+        string uuid = await _redisClient.GetAsync("SendEmailCode." + registerDto.Email);
 
-        //if (uuid != registerDto.EmailCode)
-        //{
-        //    return UnifyResponseDto.Error("非法请求");
-        //}
+        if (uuid != registerDto.EmailCode)
+        {
+            return UnifyResponseDto.Error("非法请求");
+        }
 
-        //string verificationCode = await RedisHelper.GetAsync("SendEmailCode.VerificationCode" + registerDto.Email);
-        //if (verificationCode != registerDto.VerificationCode)
-        //{
-        //    return UnifyResponseDto.Error("验证码不正确");
-        //}
-        //暂时设置直接激活，因前台未同步改造成功
+        string verificationCode = await _redisClient.GetAsync("SendEmailCode.VerificationCode" + registerDto.Email);
+        if (verificationCode != registerDto.VerificationCode)
+        {
+            return UnifyResponseDto.Error("验证码不正确");
+        }
+        //验证通过后，删除redis中的验证码
+        await _redisClient.DelAsync("SendEmailCode." + registerDto.Email);
         LinUser user = mapper.Map<LinUser>(registerDto);
         user.IsEmailConfirmed = true;
         await userSevice.CreateAsync(user, new List<long>(), registerDto.Password);

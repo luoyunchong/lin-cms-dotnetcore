@@ -119,7 +119,7 @@ public class AccountService : ApplicationService, IAccountService
 
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_mailKitOptions.UserName, _mailKitOptions.UserName));
-        message.To.Add(new MailboxAddress(registerDto.Nickname, registerDto.Email));
+        message.To.Add(new MailboxAddress(registerDto.Email, registerDto.Email));
         message.Subject = $"vvlog-你的验证码是";
 
         string uuid = Guid.NewGuid().ToString();
@@ -129,7 +129,7 @@ public class AccountService : ApplicationService, IAccountService
 
         message.Body = new TextPart("html")
         {
-            Text = $@"{registerDto.Nickname},您好!</br>你此次验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{verificationCode}"
+            Text = $@"{registerDto.Email},您好!</br>你此次验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{verificationCode}"
         };
 
         await _emailSender.SendAsync(message);

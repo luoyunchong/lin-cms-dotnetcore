@@ -7,13 +7,6 @@ namespace LinCms.Cms.Account;
 public class RegisterEmailCodeInput : IValidatableObject
 {
     /// <summary>
-    /// 昵称
-    /// </summary>
-    [StringLength(10, MinimumLength = 2, ErrorMessage = "昵称长度必须在2~10之间")]
-    [Required(ErrorMessage = "昵称不可为空")]
-    public string Nickname { get; set; }
-
-    /// <summary>
     /// 邮件
     /// </summary>
     [Required(ErrorMessage = "邮件不能为空")]
@@ -47,6 +40,13 @@ public class RegisterEmailCodeInput : IValidatableObject
 public class RegisterDto : RegisterEmailCodeInput
 {
     /// <summary>
+    /// 昵称
+    /// </summary>
+    [StringLength(10, MinimumLength = 2, ErrorMessage = "昵称长度必须在2~10之间")]
+    [Required(ErrorMessage = "昵称不可为空")]
+    public string Nickname { get; set; }
+    
+    /// <summary>
     /// 密码
     /// </summary>
     [Required(ErrorMessage = "新密码不可为空")]
@@ -56,12 +56,12 @@ public class RegisterDto : RegisterEmailCodeInput
     /// <summary>
     ///  发送邮件时返回的唯一码，以保证用户请求与验证码是一个请求
     /// </summary>
-    //[Required(ErrorMessage = "非法请求")]
-    //public string EmailCode { get; set; }
+    [Required(ErrorMessage = "请获取邮件验证码")]
+    public string EmailCode { get; set; }
 
     /// <summary>
     /// 邮件发送的验证码
     /// </summary>
-    //[Required(ErrorMessage = "邮件发送的验证码不能为空")]
-    //public string VerificationCode { get; set; }
+    [Required(ErrorMessage = "邮件发送的验证码不能为空")]
+    public string VerificationCode { get; set; }
 }
