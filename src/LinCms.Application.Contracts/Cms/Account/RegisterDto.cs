@@ -12,7 +12,6 @@ public class RegisterEmailCodeInput : IValidatableObject
     [Required(ErrorMessage = "邮件不能为空")]
     public string Email { get; set; }
 
-
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (!Email.IsNullOrEmpty())
@@ -50,7 +49,7 @@ public class RegisterDto : RegisterEmailCodeInput
     /// 密码
     /// </summary>
     [Required(ErrorMessage = "新密码不可为空")]
-    [RegularExpression("^[A-Za-z0-9_*&$#@]{6,22}$", ErrorMessage = "密码长度必须在6~22位之间，包含字符、数字和 _")]
+    [RegularExpression(AccountContract.PasswordRegex, ErrorMessage = AccountContract.PasswordErrorMessage)]
     public string Password { get; set; }
 
     /// <summary>
