@@ -1,15 +1,10 @@
 ﻿using System;
 
-namespace IGeekFan.FreeKit.Extras.FreeSql
+namespace LinCms.Aop.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class LoggerAttribute : Attribute
+    public class LoggerAttribute(string template) : Attribute
     {
-        public string Template { get; }
-
-        public LoggerAttribute(string template)
-        {
-            Template = template ?? throw new ArgumentNullException(nameof(template));
-        }
+        public string Template { get; } = template ?? throw new ArgumentNullException(nameof(template));
     }
 }

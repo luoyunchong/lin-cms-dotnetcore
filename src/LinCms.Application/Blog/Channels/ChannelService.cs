@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras;
 using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Aop.Attributes;
 using LinCms.Data;
 using LinCms.Entities.Blog;
 using LinCms.Exceptions;

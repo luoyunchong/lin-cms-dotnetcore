@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DotNetCore.CAP;
 using FreeSql;
-using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Data.Enums;

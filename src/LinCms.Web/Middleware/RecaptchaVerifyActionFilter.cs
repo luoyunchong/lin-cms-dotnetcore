@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using LinCms.Exceptions;
 using LinCms.Models.Options;

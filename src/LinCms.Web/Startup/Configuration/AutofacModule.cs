@@ -2,7 +2,6 @@
 using LinCms.Data;
 using LinCms.Data.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 
 namespace LinCms.Startup.Configuration;
 

@@ -11,19 +11,9 @@ using System.Threading.Tasks;
 
 namespace LinCms.Domain;
 
-public class TokenManager : ITokenManager, ITransientDependency
+public class TokenManager(IJwtService jsonWebTokenService, ILogger<TokenManager> logger, IUserRepository userRepository)
+    : ITokenManager, ITransientDependency
 {
-    private readonly ILogger<TokenManager> _logger;
-    private readonly IUserRepository _userRepository;
-    private readonly IJwtService _jsonWebTokenService;
-
-    public TokenManager(IJwtService jsonWebTokenService, ILogger<TokenManager> logger, IUserRepository userRepository)
-    {
-        _jsonWebTokenService = jsonWebTokenService;
-        _logger = logger;
-        _userRepository = userRepository;
-    }
-
     public async Task<UserAccessToken> CreateTokenAsync(LinUser user)
     {
         List<Claim> claims = new()
@@ -39,10 +29,10 @@ public class TokenManager : ITokenManager, ITransientDependency
             claims.Add(new Claim(LinCmsClaimTypes.GroupIds, r.Id.ToString()));
         });
 
-        string token = _jsonWebTokenService.Encode(claims);
+        string token = jsonWebTokenService.Encode(claims);
 
         user.AddRefreshToken();
-        await _userRepository.UpdateAsync(user);
+        await userRepository.UpdateAsync(user);
 
         return new UserAccessToken(token, user.RefreshToken, 24 * 60 * 60, "Bearer", 24 * 60 * 60 * 30);
     }

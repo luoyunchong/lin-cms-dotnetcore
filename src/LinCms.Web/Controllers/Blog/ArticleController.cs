@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FreeRedis;
-using IGeekFan.FreeKit.Extras;
 using IGeekFan.FreeKit.Extras.Dto;
 
 

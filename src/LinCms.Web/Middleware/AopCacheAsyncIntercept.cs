@@ -1,5 +1,4 @@
 ﻿using Castle.DynamicProxy;
-using IGeekFan.FreeKit.Extras;
 using LinCms.Common;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using FreeRedis;
+using LinCms.Aop.Attributes;
 
 namespace LinCms.Middleware;
 

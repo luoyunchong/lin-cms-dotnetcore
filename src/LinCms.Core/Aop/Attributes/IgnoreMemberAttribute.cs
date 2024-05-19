@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IGeekFan.FreeKit.Extras.FreeSql
+namespace LinCms.Aop.Attributes
 {
     // source: https://github.com/jhewlett/ValueObject
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]

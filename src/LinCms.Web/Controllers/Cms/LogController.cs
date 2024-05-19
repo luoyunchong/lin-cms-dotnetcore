@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.Dto;
-using IGeekFan.FreeKit.Extras.FreeSql;
+using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Logs;
 using LinCms.Data;

@@ -1,5 +1,4 @@
-﻿using IGeekFan.FreeKit.Extras;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +7,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using FreeRedis;
+using LinCms.Aop.Attributes;
 using LinCms.Common;
 using Newtonsoft.Json.Serialization;
 

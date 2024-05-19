@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IGeekFan.FreeKit.Extras;
+namespace LinCms.Aop.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class CacheableAttribute : Attribute
