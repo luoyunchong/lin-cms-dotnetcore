@@ -165,17 +165,39 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
 
         return user;
     }
+    
+    private async Task IncreateVerificationCodeCount(string email)
+    {
+        string keyCount = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode_Count, email);
+        string count = await redisClient.GetAsync(keyCount);
+        if(count.IsNullOrWhiteSpace())
+        {
+            await redisClient.SetAsync(keyCount, 1, 30 * 60);
+        }
+        else
+        {
+            int.TryParse(count, out int countInt);
+            if(countInt >= 5)
+            {
+                throw new LinCmsException("验证码已过期");
+            }
+            await redisClient.IncrByAsync(keyCount, 1);
+        }
+    }
 
     public async Task ResetPasswordAsync(ResetEmailPasswordDto resetPassword)
     {
         string key = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode, resetPassword.Email);
         string resetCode = await redisClient.GetAsync(key);
+        
         if (resetCode.IsNullOrWhiteSpace())
         {
+            await IncreateVerificationCodeCount(resetPassword.Email);
             throw new LinCmsException("验证码已过期");
         }
         if (resetPassword.ResetCode != resetCode)
         {
+            await IncreateVerificationCodeCount(resetPassword.Email);
             throw new LinCmsException("验证码不正确");//InvalidEmailConfirmationCode
         }
 

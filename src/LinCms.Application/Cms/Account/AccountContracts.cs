@@ -16,4 +16,6 @@ public class AccountContracts
     /// </summary>
     public static string SendPasswordResetCode_VerificationCode = "AccountService.SendPasswordResetCode.VerificationCode.{0}";
 
+    public static string SendPasswordResetCode_VerificationCode_Count = "AccountService.SendPasswordResetCode.VerificationCode.{0}.Count";
+
 }
