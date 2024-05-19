@@ -157,20 +157,26 @@ public class AccountController : ApiControllerBase
     [HttpPost("account/register")]
     public async Task<UnifyResponseDto> Register([FromBody] RegisterDto registerDto, [FromServices] IMapper mapper, [FromServices] IUserService userSevice)
     {
-        string uuid = await _redisClient.GetAsync("SendEmailCode." + registerDto.Email);
+        string key = string.Format(AccountContracts.SendEmailCode_EmailCode, registerDto.Email);
+        string uuid = await _redisClient.GetAsync(key);
 
         if (uuid != registerDto.EmailCode)
         {
             return UnifyResponseDto.Error("非法请求");
         }
 
-        string verificationCode = await _redisClient.GetAsync("SendEmailCode.VerificationCode" + registerDto.Email);
+        string keyVerificationCode = string.Format(AccountContracts.SendEmailCode_VerificationCode, registerDto.Email);
+        string verificationCode = await _redisClient.GetAsync(keyVerificationCode);
+        if (string.IsNullOrWhiteSpace(verificationCode))
+        {
+            return UnifyResponseDto.Error("验证码已过期");
+        }
         if (verificationCode != registerDto.VerificationCode)
         {
             return UnifyResponseDto.Error("验证码不正确");
         }
         //验证通过后，删除redis中的验证码
-        await _redisClient.DelAsync("SendEmailCode." + registerDto.Email);
+        await _redisClient.DelAsync(keyVerificationCode);
         LinUser user = mapper.Map<LinUser>(registerDto);
         user.IsEmailConfirmed = true;
         await userSevice.CreateAsync(user, new List<long>(), registerDto.Password);

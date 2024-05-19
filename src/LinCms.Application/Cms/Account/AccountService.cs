@@ -15,18 +15,7 @@ using MimeKit;
 
 namespace LinCms.Cms.Account;
 
-public class AccountService : ApplicationService, IAccountService
-{
-    private readonly IAuditBaseRepository<LinUser, long> _userRepository;
-    private readonly IEmailSender _emailSender;
-    private readonly MailKitOptions _mailKitOptions;
-    private readonly IUserIdentityService _userIdentityService;
-    private readonly SiteOption _siteOption;
-    private readonly ICaptchaManager _captchaManager;
-    private readonly CaptchaOption _loginCaptchaOption;
-    private readonly IRedisClient _redisClient;
-    public AccountService(
-        IAuditBaseRepository<LinUser, long> userRepository,
+public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
         IEmailSender emailSender,
         IOptions<MailKitOptions> options,
         IUserIdentityService userIdentityService,
@@ -34,16 +23,11 @@ public class AccountService : ApplicationService, IAccountService
         ICaptchaManager captchaManager,
         IOptionsMonitor<CaptchaOption> loginCaptchaOption,
         IRedisClient redisClient)
-    {
-        _userRepository = userRepository;
-        _emailSender = emailSender;
-        _mailKitOptions = options.Value;
-        _userIdentityService = userIdentityService;
-        _siteOption = siteOption.CurrentValue;
-        _captchaManager = captchaManager;
-        _loginCaptchaOption = loginCaptchaOption.CurrentValue;
-        _redisClient = redisClient;
-    }
+    : ApplicationService, IAccountService
+{
+    private readonly MailKitOptions _mailKitOptions = options.Value;
+    private readonly SiteOption _siteOption = siteOption.CurrentValue;
+    private readonly CaptchaOption _loginCaptchaOption = loginCaptchaOption.CurrentValue;
 
     /// <summary>
     /// 生成无状态的登录验证码
@@ -52,9 +36,9 @@ public class AccountService : ApplicationService, IAccountService
     public LoginCaptchaDto GenerateCaptcha()
     {
         //if (_loginCaptchaOption.Enabled == false) return new LoginCaptchaDto();
-        string captcha = _captchaManager.GetRandomString(CaptchaManager.RandomStrNum);
-        string base64String = _captchaManager.GetRandomCaptchaBase64(captcha);
-        string tag = _captchaManager.GetTag(captcha, _loginCaptchaOption.Salt);
+        string captcha = captchaManager.GetRandomString(CaptchaManager.RandomStrNum);
+        string base64String = captchaManager.GetRandomCaptchaBase64(captcha);
+        string tag = captchaManager.GetTag(captcha, _loginCaptchaOption.Salt);
         return new LoginCaptchaDto(tag, "data:image/png;base64," + base64String);
     }
 
@@ -66,8 +50,8 @@ public class AccountService : ApplicationService, IAccountService
     /// <returns></returns>
     public bool VerifyCaptcha(String captcha, String tag)
     {
-        var captchaBo = _captchaManager.DecodeTag(tag, _loginCaptchaOption.Salt);
-        long t = _captchaManager.GetTimeStamp();
+        var captchaBo = captchaManager.DecodeTag(tag, _loginCaptchaOption.Salt);
+        long t = captchaManager.GetTimeStamp();
         return string.Compare(captchaBo.Captcha, captcha, StringComparison.OrdinalIgnoreCase) == 0 && t > captchaBo.Expired;
     }
 
@@ -81,7 +65,7 @@ public class AccountService : ApplicationService, IAccountService
     /// <exception cref="LinCmsException"></exception>
     public async Task<string> SendChangeEmailAsync(SendEmailCodeInput sendEmailCodeInput)
     {
-        var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == sendEmailCodeInput.Email.Trim());
+        var isRepeatEmail = await userRepository.Select.AnyAsync(r => r.Email == sendEmailCodeInput.Email.Trim());
         if (isRepeatEmail)
         {
             throw new LinCmsException("该邮箱重复，请重新输入", ErrorCode.RepeatField);
@@ -93,7 +77,7 @@ public class AccountService : ApplicationService, IAccountService
         message.Subject = $"vvlog-请点击这里激活您的账号";
 
         string uuid = Guid.NewGuid().ToString();
-        await _redisClient.SetAsync("SendChangeEmail." + sendEmailCodeInput.Email, uuid, 30 * 60);
+        await redisClient.SetAsync("SendChangeEmail." + sendEmailCodeInput.Email, uuid, 30 * 60);
 
         message.Body = new TextPart("html")
         {
@@ -103,7 +87,7 @@ public class AccountService : ApplicationService, IAccountService
 祝您使用愉快，使用过程中您有任何问题请及时联系我们。</br>"
         };
 
-        await _emailSender.SendAsync(message);
+        await emailSender.SendAsync(message);
         return "";
     } 
     #endregion
@@ -111,7 +95,7 @@ public class AccountService : ApplicationService, IAccountService
 
     public async Task<string> SendEmailCodeAsync(RegisterEmailCodeInput registerDto)
     {
-        var isRepeatEmail = await _userRepository.Select.AnyAsync(r => r.Email == registerDto.Email.Trim());
+        var isRepeatEmail = await userRepository.Select.AnyAsync(r => r.Email == registerDto.Email.Trim());
         if (isRepeatEmail)
         {
             throw new LinCmsException("该邮箱已注册，请更换", ErrorCode.RepeatField);
@@ -122,8 +106,9 @@ public class AccountService : ApplicationService, IAccountService
         message.To.Add(new MailboxAddress(registerDto.Email, registerDto.Email));
         message.Subject = $"vvlog-你的验证码是";
 
-        string uuid = Guid.NewGuid().ToString();
-        await _redisClient.SetAsync("SendEmailCode." + registerDto.Email, uuid, 30 * 60);
+        string uuid = Guid.NewGuid().ToString(); 
+        string key = string.Format(AccountContracts.SendEmailCode_EmailCode, registerDto.Email);
+        await redisClient.SetAsync(key, uuid, 30 * 60);
 
         int verificationCode = new Random().Next(100000, 999999);
 
@@ -131,9 +116,10 @@ public class AccountService : ApplicationService, IAccountService
         {
             Text = $@"{registerDto.Email},您好!</br>你此次验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{verificationCode}"
         };
-
-        await _emailSender.SendAsync(message);
-        await _redisClient.SetAsync("SendEmailCode.VerificationCode." + registerDto.Email, verificationCode, 30 * 60);
+        
+        string keyVerificationCode = string.Format(AccountContracts.SendEmailCode_VerificationCode, registerDto.Email);
+        await emailSender.SendAsync(message);
+        await redisClient.SetAsync(keyVerificationCode, verificationCode, 30 * 60);
         return uuid;
     }
 
@@ -160,18 +146,18 @@ public class AccountService : ApplicationService, IAccountService
             Text = $@"{user.Nickname},您好!</br>你此次重置密码的验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{verificationCode}"
         };
 
-        await _userRepository.UpdateAsync(user);
+        await userRepository.UpdateAsync(user);
 
-        await _emailSender.SendAsync(message);
-
-        await _redisClient.SetAsync(user.Email, verificationCode, 30 * 60);
+        await emailSender.SendAsync(message);
+        string key = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode, user.Email);
+        await redisClient.SetAsync(key, verificationCode, 30 * 60);
 
         return user.PasswordResetCode;
     }
 
     private async Task<LinUser> GetUserByChecking(string inputEmailAddress)
     {
-        var user = await _userRepository.Select.Where(r => r.Email == inputEmailAddress).FirstAsync();
+        var user = await userRepository.Select.Where(r => r.Email == inputEmailAddress).FirstAsync();
         if (user == null)
         {
             throw new LinCmsException("InvalidEmailAddress");
@@ -182,8 +168,9 @@ public class AccountService : ApplicationService, IAccountService
 
     public async Task ResetPasswordAsync(ResetEmailPasswordDto resetPassword)
     {
-        string resetCode = await _redisClient.GetAsync(resetPassword.Email);
-        if (resetCode.IsNullOrEmpty())
+        string key = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode, resetPassword.Email);
+        string resetCode = await redisClient.GetAsync(key);
+        if (resetCode.IsNullOrWhiteSpace())
         {
             throw new LinCmsException("验证码已过期");
         }
@@ -192,14 +179,14 @@ public class AccountService : ApplicationService, IAccountService
             throw new LinCmsException("验证码不正确");//InvalidEmailConfirmationCode
         }
 
-        var user = await _userRepository.Select.Where(r => r.Email == resetPassword.Email).FirstAsync();
+        var user = await userRepository.Select.Where(r => r.Email == resetPassword.Email).FirstAsync();
         if (user == null || resetPassword.PasswordResetCode != user.PasswordResetCode)
         {
             throw new LinCmsException("该请求无效，请重新获取验证码");
         }
 
         user.PasswordResetCode = null;
-        await _userRepository.UpdateAsync(user);
-        await _userIdentityService.ChangePasswordAsync(user.Id, resetPassword.Password, user.Salt);
+        await userRepository.UpdateAsync(user);
+        await userIdentityService.ChangePasswordAsync(user.Id, resetPassword.Password, user.Salt);
     }
 }
