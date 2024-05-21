@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.Dto;
+using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Aop.Attributes;
 using LinCms.Aop.Filter;
 using LinCms.Cms.Admins;
@@ -36,7 +37,7 @@ public class AdminController(IUserService userSevice, IAdminService adminService
     /// <param name="userStatus"></param>
     /// <returns></returns>
     [HttpPut("user/{id}/status/{userStatus}")]
-    [LinCmsAuthorize("修改用户密码", "管理员")]
+    [LinCmsAuthorize("修改用户状态", "管理员")]
     public Task ChangeStatusAsync(long id, UserStatus userStatus)
     {
         return userSevice.ChangeStatusAsync(id, userStatus);
@@ -54,6 +55,18 @@ public class AdminController(IUserService userSevice, IAdminService adminService
     {
         await userSevice.UpdateAync(id, updateUserDto);
         return UnifyResponseDto.Success();
+    }
+
+    /// <summary>
+    /// 根据用户Id获取用户信息
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("user/{id}")]
+    [LinCmsAuthorize("查询所有用户", "管理员")]
+    public Task<UserInformation> GetInformationAsync(int id)
+    {
+        return userSevice.GetInformationAsync(id);
     }
 
     /// <summary>

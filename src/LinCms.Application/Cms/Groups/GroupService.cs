@@ -2,9 +2,7 @@
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
-
 using FreeSql.Internal.ObjectPool;
-
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Cms.Permissions;
 using LinCms.Common;
@@ -135,13 +133,6 @@ public class GroupService(IFreeSql freeSql,
 
         await groupRepository.DeleteAsync(id);
         await groupPermissionRepository.DeleteAsync(r => r.GroupId == id);
-
-        //_freeSql.Transaction(() =>
-        //{
-        //    _freeSql.Delete<LinGroupPermission>(new LinGroupPermission { GroupId = id }).ExecuteAffrows();
-        //    _freeSql.Delete<LinGroup>(id).ExecuteAffrows();
-        //});
-
     }
 
     [Transactional]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCore.Security;
@@ -27,26 +28,24 @@ public class UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdent
     }
 
 
-    public async Task ChangePasswordAsync(long userId, string newpassword, string salt)
+    public async Task ChangePasswordAsync(long userId, string newpassword,string salt)
     {
-        var linUserIdentity = await GetFirstByUserIdAsync(userId); ;
-
-        await ChangePasswordAsync(linUserIdentity, newpassword, salt);
+        var userIdentity = await GetFirstByUserIdAsync(userId);
+        await ChangePasswordAsync(userIdentity, newpassword, salt);
     }
 
-
-    public Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword, string salt)
+    public async Task ChangePasswordAsync(LinUserIdentity linUserIdentity, string newpassword, string salt)
     {
         string encryptPassword = cryptographyService.Encrypt(newpassword, salt);
         if (linUserIdentity == null)
         {
             linUserIdentity = new LinUserIdentity(LinUserIdentity.Password, "", encryptPassword, DateTime.Now);
-            return userIdentityRepository.InsertAsync(linUserIdentity);
+            await userIdentityRepository.InsertAsync(linUserIdentity);
         }
         else
         {
             linUserIdentity.Credential = encryptPassword;
-            return userIdentityRepository.UpdateAsync(linUserIdentity);
+            await userIdentityRepository.UpdateAsync(linUserIdentity);
         }
     }
 
@@ -56,7 +55,7 @@ public class UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdent
         return userIdentityRepository.Where(r => r.CreateUserId == userId).ToDelete().ExecuteAffrowsAsync();
     }
 
-    public Task<LinUserIdentity> GetFirstByUserIdAsync(long userId)
+    public Task<LinUserIdentity?> GetFirstByUserIdAsync(long userId)
     {
         return userIdentityRepository
             .Where(r => r.CreateUserId == userId && r.IdentityType == LinUserIdentity.Password)
@@ -75,12 +74,12 @@ public class UserIdentityService(IAuditBaseRepository<LinUserIdentity> userIdent
     public async Task UnBind(Guid id)
     {
         LinUserIdentity userIdentity = await userIdentityRepository.GetAsync(id);
-        if (userIdentity == null || userIdentity.CreateUserId !=  CurrentUser.FindUserId())
+        if (userIdentity == null || userIdentity.CreateUserId != CurrentUser.FindUserId())
         {
             throw new LinCmsException("你无权解绑此账号");
         }
 
-        List<LinUserIdentity> userIdentities = await userIdentityRepository.Select.Where(r => r.CreateUserId ==  CurrentUser.FindUserId()).ToListAsync();
+        List<LinUserIdentity> userIdentities = await userIdentityRepository.Select.Where(r => r.CreateUserId == CurrentUser.FindUserId()).ToListAsync();
 
         bool hasPwd = userIdentities.Any(r => r.IdentityType == LinUserIdentity.Password);
 

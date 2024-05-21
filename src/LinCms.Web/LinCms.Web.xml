@@ -465,6 +465,13 @@
             <param name="updateUserDto"></param>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Controllers.Cms.AdminController.GetInformationAsync(System.Int32)">
+            <summary>
+            根据用户Id获取用户信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:LinCms.Controllers.Cms.AdminController.DeleteAsync(System.Int64)">
             <summary>
             删除用户

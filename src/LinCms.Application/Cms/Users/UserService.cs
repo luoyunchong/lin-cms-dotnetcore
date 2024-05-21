@@ -35,6 +35,11 @@ public class UserService(IUserRepository userRepository,
         {
             throw new LinCmsException("旧密码不正确");
         }
+        if(user.Salt.IsNullOrWhiteSpace())
+        {
+            user.Salt = Guid.NewGuid().ToString();
+            await userRepository.UpdateAsync(user);
+        }
 
         await userIdentityService.ChangePasswordAsync(user.Id, passwordDto.NewPassword, user.Salt);
     }
@@ -59,6 +64,12 @@ public class UserService(IUserRepository userRepository,
         if (user == null)
         {
             throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+        }
+
+        if (user.Salt.IsNullOrWhiteSpace())
+        {
+            user.Salt = Guid.NewGuid().ToString();
+            await userRepository.UpdateAsync(user);
         }
 
         await userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword, user.Salt);
