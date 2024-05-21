@@ -50,7 +50,7 @@ public class AccountController : ApiControllerBase
 
 
     /// <summary>
-    /// 生成无状态的登录验证码
+    /// 生成无状态的图片验证码
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]

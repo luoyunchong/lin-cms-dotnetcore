@@ -381,21 +381,6 @@
             排序码
             </summary>
         </member>
-        <member name="T:LinCms.Entities.Base.Doc">
-            <summary>
-            文档---示例代码生成。
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.Base.Doc.Name">
-            <summary>
-            文档名
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.Base.Doc.DisplayName">
-            <summary>
-            显示名
-            </summary>
-        </member>
         <member name="T:LinCms.Entities.BlackRecord">
             <summary>
             黑名单，实现登录Token的过期

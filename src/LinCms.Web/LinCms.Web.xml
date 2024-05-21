@@ -34,16 +34,6 @@
             多语言
             </summary>
         </member>
-        <member name="T:LinCms.Controllers.Base.DocController">
-            <summary>
-            简单文档示例，仅仅是一个demo
-            </summary>
-        </member>
-        <member name="M:LinCms.Controllers.Base.DocController.#ctor(LinCms.Base.Docs.IDocService)">
-            <summary>
-            简单文档示例，仅仅是一个demo
-            </summary>
-        </member>
         <member name="T:LinCms.Controllers.Base.ResourceController">
             <summary>
             语言下的本地化资源
@@ -395,7 +385,7 @@
         </member>
         <member name="M:LinCms.Controllers.Cms.AccountController.Captcha">
             <summary>
-            生成无状态的登录验证码
+            生成无状态的图片验证码
             </summary>
             <returns></returns>
         </member>
