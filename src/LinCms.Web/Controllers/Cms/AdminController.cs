@@ -25,9 +25,9 @@ public class AdminController(IUserService userSevice, IAdminService adminService
     /// <returns></returns>
     [HttpGet("users")]
     [LinCmsAuthorize("查询所有用户", "管理员")]
-    public PagedResultDto<UserDto> GetUserListByGroupId([FromQuery] UserSearchDto searchDto)
+    public Task<PagedResultDto<UserDto>> GetListAsync([FromQuery] UserSearchDto searchDto)
     {
-        return userSevice.GetUserListByGroupId(searchDto);
+        return userSevice.GetListAsync(searchDto);
     }
 
     /// <summary>

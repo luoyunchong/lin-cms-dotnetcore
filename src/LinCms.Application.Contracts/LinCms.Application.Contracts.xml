@@ -645,6 +645,11 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="P:LinCms.Cms.Groups.GroupQuery.Info">
+            <summary>
+            权限组描述
+            </summary>
+        </member>
         <member name="M:LinCms.Cms.Groups.IGroupService.DeleteAsync(System.Int64)">
             <summary>
             管理员删除一个权限分组
@@ -951,7 +956,7 @@
             <param name="passwordDto"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Cms.Users.IUserService.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">
+        <member name="M:LinCms.Cms.Users.IUserService.GetListAsync(LinCms.Cms.Admins.UserSearchDto)">
             <summary>
             根据分组条件查询用户信息
             </summary>

@@ -35,7 +35,7 @@ public class UserService(IUserRepository userRepository,
         {
             throw new LinCmsException("旧密码不正确");
         }
-        if(user.Salt.IsNullOrWhiteSpace())
+        if (user.Salt.IsNullOrWhiteSpace())
         {
             user.Salt = Guid.NewGuid().ToString();
             await userRepository.UpdateAsync(user);
@@ -75,16 +75,16 @@ public class UserService(IUserRepository userRepository,
         await userIdentityService.ChangePasswordAsync(id, resetPasswordDto.ConfirmPassword, user.Salt);
     }
 
-    public PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto)
+    public async Task<PagedResultDto<UserDto>> GetListAsync(UserSearchDto searchDto)
     {
-        List<UserDto> linUsers = userRepository.Select
+        List<UserDto> linUsers = (await userRepository.Select
             .IncludeMany(r => r.LinGroups)
             .WhereIf(searchDto.GroupId != null, r => r.LinUserGroups.AsSelect().Any(u => u.GroupId == searchDto.GroupId))
             .WhereIf(searchDto.Email.IsNotNullOrWhiteSpace(), r => r.Email.Contains(searchDto.Email))
             .WhereIf(searchDto.Nickname.IsNotNullOrWhiteSpace(), r => r.Nickname.Contains(searchDto.Nickname))
             .WhereIf(searchDto.Username.IsNotNullOrWhiteSpace(), r => r.Username.Contains(searchDto.Username))
             .OrderByDescending(r => r.Id)
-            .ToPagerList(searchDto, out long totalCount)
+            .ToPagerListAsync(searchDto, out long totalCount))
             .Select(r =>
             {
                 UserDto userDto = Mapper.Map<UserDto>(r);

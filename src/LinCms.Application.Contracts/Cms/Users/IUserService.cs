@@ -24,7 +24,7 @@ public interface IUserService
     /// </summary>
     /// <param name="searchDto"></param>
     /// <returns></returns>
-    PagedResultDto<UserDto> GetUserListByGroupId(UserSearchDto searchDto);
+    Task<PagedResultDto<UserDto>> GetListAsync(UserSearchDto searchDto);
 
     /// <summary>
     /// 修改用户状态

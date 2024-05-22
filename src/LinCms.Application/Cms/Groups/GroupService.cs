@@ -3,12 +3,15 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using FreeSql.Internal.ObjectPool;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Cms.Permissions;
 using LinCms.Common;
+using LinCms.Data;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Exceptions;
+using LinCms.Extensions;
 using LinCms.Security;
 using Microsoft.AspNetCore.Http;
 
@@ -21,13 +24,15 @@ public class GroupService(IFreeSql freeSql,
         IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
     : ApplicationService, IGroupService
 {
-    public async Task<List<LinGroup>> GetListAsync()
+    public async Task<PagedResultDto<LinGroup>> GetListAsync(GroupQuery query)
     {
         List<LinGroup> linGroups = await groupRepository.Select
+            .WhereIf(query.Name.IsNotNullOrWhiteSpace(), r => r.Name.Contains(query.Name))
+            .WhereIf(query.Info.IsNotNullOrWhiteSpace(), r => r.Info.Contains(query.Info))
             .OrderBy(r => r.SortCode)
-            .ToListAsync();
+            .ToPagerListAsync(query, out long count);
 
-        return linGroups;
+        return new PagedResultDto<LinGroup>(linGroups, count);
     }
 
     public async Task<GroupDto> GetAsync(long id)

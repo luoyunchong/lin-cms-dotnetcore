@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using IGeekFan.FreeKit.Extras.Dto;
 using LinCms.Entities;
 
 namespace LinCms.Cms.Groups;
 
 public interface IGroupService
 {
-    Task<List<LinGroup>> GetListAsync();
+    Task<PagedResultDto<LinGroup>> GetListAsync(GroupQuery query);
 
     Task<GroupDto> GetAsync(long id);
 

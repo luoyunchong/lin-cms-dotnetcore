@@ -442,7 +442,7 @@
             <param name="resetPassword"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Cms.AdminController.GetUserListByGroupId(LinCms.Cms.Admins.UserSearchDto)">
+        <member name="M:LinCms.Controllers.Cms.AdminController.GetListAsync(LinCms.Cms.Admins.UserSearchDto)">
             <summary>
             用户信息分页列表项
             </summary>
@@ -508,12 +508,12 @@
         </member>
         <member name="T:LinCms.Controllers.Cms.GroupController">
             <summary>
-            分组
+            权限组
             </summary>
         </member>
         <member name="M:LinCms.Controllers.Cms.GroupController.#ctor(LinCms.Cms.Groups.IGroupService)">
             <summary>
-            分组
+            权限组
             </summary>
         </member>
         <member name="T:LinCms.Controllers.Cms.LogController">
