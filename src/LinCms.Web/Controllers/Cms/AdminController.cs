@@ -14,10 +14,8 @@ namespace LinCms.Controllers.Cms;
 [ApiExplorerSettings(GroupName = "cms")]
 [Route("cms/admin")]
 [ApiController]
-public class AdminController(IUserService userSevice, IAdminService adminService) : ControllerBase
+public class AdminController(IUserService userSevice) : ControllerBase
 {
-    private readonly IAdminService _adminService = adminService;
-
     /// <summary>
     /// 用户信息分页列表项
     /// </summary>

@@ -12,23 +12,46 @@ using LinCms.Security;
 
 namespace LinCms.Cms.Permissions;
 
+public class PermissionTreeBuilder
+{
+    public List<PermissionTreeNode> BuildTree(List<PermissionTreeNode> nodes)
+    {
+        var nodeDict = nodes.ToDictionary(n => n.Id);
+        List<PermissionTreeNode> roots = new List<PermissionTreeNode>();
+
+        foreach (var node in nodes)
+        {
+            if (node.ParentId == 0)  // 假定ParentId为0表示根节点
+            {
+                roots.Add(node);
+            }
+            else
+            {
+                if (nodeDict.TryGetValue(node.ParentId, out PermissionTreeNode parentNode))
+                {
+                    parentNode.Children.Add(node);
+                }
+            }
+        }
+
+        return roots;  // 返回森林中所有根节点的列表
+    }
+
+}
+
 public class PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository,
         IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository, ICurrentUser currentUser)
     : ApplicationService, IPermissionService
 {
     private readonly ICurrentUser _currentUser = currentUser;
 
-    public IDictionary<string, List<PermissionDto>> GetAllStructualPermissions()
+    public async Task<List<PermissionTreeNode>> GetPermissionTreeNodes()
     {
-        return permissionRepository.Select.ToList()
-            .GroupBy(r => r.Module)
-            .ToDictionary(
-                group => group.Key,
-                group =>
-                    Mapper.Map<List<PermissionDto>>(group.ToList())
-            );
-
+        var permissionList = await permissionRepository.Select.ToListAsync();
+        var nodes = Mapper.Map<List<LinPermission>, List<PermissionTreeNode>>(permissionList);
+        return new PermissionTreeBuilder().BuildTree(nodes);
     }
+
 
     /// <summary>
     /// 检查当前登录的用户的分组权限
@@ -42,7 +65,7 @@ public class PermissionService(IAuditBaseRepository<LinPermission, long> permiss
         if (CurrentUser.IsInGroup(LinConsts.Group.Admin)) return true;
         long[] groups = CurrentUser.FindGroupIds().Select(long.Parse).ToArray();
 
-        LinPermission linPermission = await permissionRepository.Where(r => r.Module == module && r.Name == permission).FirstAsync();
+        LinPermission linPermission = await permissionRepository.Where(r => r.PermissionType == PermissionType.Permission && r.Name == permission).FirstAsync();
 
         if (linPermission == null || groups == null || groups.Length == 0) return false;
 
@@ -85,7 +108,7 @@ public class PermissionService(IAuditBaseRepository<LinPermission, long> permiss
 
     public List<IDictionary<string, object>> StructuringPermissions(List<LinPermission> permissions)
     {
-        var groupPermissions = permissions.GroupBy(r => r.Module).Select(r => new
+        var groupPermissions = permissions.Where(r => r.PermissionType == PermissionType.Folder).GroupBy(r => r.Name).Select(r => new
         {
             r.Key,
             Children = r.Select(u => u.Name).ToList()
@@ -115,35 +138,5 @@ public class PermissionService(IAuditBaseRepository<LinPermission, long> permiss
     public Task<LinPermission> GetAsync(string permissionName)
     {
         return permissionRepository.Where(r => r.Name == permissionName).FirstAsync();
-    }
-
-    public async Task<List<TreePermissionDto>> GetTreePermissionListAsync()
-    {
-        var permissions = await permissionRepository.Select.ToListAsync();
-
-        List<TreePermissionDto> treePermissionDtos = permissions.GroupBy(r => r.Module).Select(r =>
-            new TreePermissionDto
-            {
-                Rowkey = Guid.NewGuid().ToString(),
-                Children = new List<TreePermissionDto>(),
-                Name = r.Key,
-            }).ToList();
-
-
-        foreach (var permission in treePermissionDtos)
-        {
-            var childrens = permissions.Where(u => u.Module == permission.Name)
-                .Select(r => new TreePermissionDto
-                {
-                    Rowkey = r.Id.ToString(),
-                    Name = r.Name,
-                    Router = r.Router,
-                    CreateTime = r.CreateTime
-                })
-                .ToList();
-            permission.Children = childrens;
-        }
-
-        return treePermissionDtos;
     }
 }

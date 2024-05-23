@@ -15,16 +15,16 @@ namespace LinCms.Controllers.Cms;
 [Route("cms/admin/permission")]
 [ApiController]
 public class PermissionController(IPermissionService permissionService) : ControllerBase
-{
+{  
     /// <summary>
-    /// 查询所有可分配的权限
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet]
+   /// 查询所有可分配的权限
+   /// </summary>
+   /// <returns></returns>
+    [HttpGet("tree")]
     [LinCmsAuthorize("查询所有可分配的权限", "管理员")]
-    public IDictionary<string, List<PermissionDto>> GetAllPermissions()
+    public async Task<List<PermissionTreeNode>> GetPermissionTreeNodes()
     {
-        return permissionService.GetAllStructualPermissions();
+        return await permissionService.GetPermissionTreeNodes();
     }
 
     /// <summary>
@@ -52,11 +52,5 @@ public class PermissionController(IPermissionService permissionService) : Contro
         List<PermissionDefinition> permissionDefinitions = ReflexHelper.GetAssemblyLinCmsAttributes();
         await permissionService.DispatchPermissions(permissionDto, permissionDefinitions);
         return UnifyResponseDto.Success("添加权限成功");
-    }
-
-    [HttpGet("tree-list")]
-    public Task<List<TreePermissionDto>> GetTreePermissionListAsync()
-    {
-        return permissionService.GetTreePermissionListAsync();
     }
 }

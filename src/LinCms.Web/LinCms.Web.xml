@@ -632,7 +632,7 @@
             权限
             </summary>
         </member>
-        <member name="M:LinCms.Controllers.Cms.PermissionController.GetAllPermissions">
+        <member name="M:LinCms.Controllers.Cms.PermissionController.GetPermissionTreeNodes">
             <summary>
             查询所有可分配的权限
             </summary>

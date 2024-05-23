@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.PortableExecutable;
 using System.Threading;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.FreeSql;
@@ -47,7 +48,7 @@ public class DataSeedContributor : IDataSeedContributor
         List<LinPermission> insertPermissions = new();
         List<LinPermission> updatePermissions = new();
 
-        List<LinPermission> allPermissions = await _permissionRepository.Select.ToListAsync(cancellationToken);
+        List<LinPermission> allPermissions = await _permissionRepository.Select.Where(r => r.PermissionType == PermissionType.Permission).ToListAsync(cancellationToken);
 
         Expression<Func<LinGroupPermission, bool>> expression = u => false;
         Expression<Func<LinPermission, bool>> permissionExpression = u => false;
@@ -64,19 +65,51 @@ public class DataSeedContributor : IDataSeedContributor
         effectRows += await _groupPermissionRepository.DeleteAsync(expression, cancellationToken);
         _logger.LogInformation($"删除了{effectRows}条数据");
 
-        linCmsAttributes.ForEach(r =>
+
+        #region Module 目录
+        var allModules = await _permissionRepository.Select.Where(r => r.PermissionType == PermissionType.Folder).ToListAsync(cancellationToken);
+
+        var permissionDefinitionsByModules = linCmsAttributes.GroupBy(r => r.Module).ToList();
+
+        var insertMoudles = new List<LinPermission>();
+        foreach (var module in permissionDefinitionsByModules)
         {
-            LinPermission permissionEntity = allPermissions.FirstOrDefault(u => u.Module == r.Module && u.Name == r.Permission);
+            LinPermission permissionEntity = allModules.FirstOrDefault(u => u.Name == module.Key);
             if (permissionEntity == null)
             {
-                insertPermissions.Add(new LinPermission(r.Permission, r.Module, r.Router));
+                insertMoudles.Add(new LinPermission()
+                {
+                    PermissionType = PermissionType.Folder,
+                    Name = module.Key,
+                    ParentId = 0
+                });
+            }
+        }
+        await _permissionRepository.InsertAsync(insertMoudles, cancellationToken);
+        #endregion
+
+        allModules = await _permissionRepository.Select.Where(r => r.PermissionType == PermissionType.Folder).ToListAsync(cancellationToken);
+
+        linCmsAttributes.ForEach(r =>
+        {
+            LinPermission permissionEntity = allPermissions.FirstOrDefault(u => u.Name == r.Permission);
+
+            var parentId = allModules.Where(u => u.Name == r.Module).First().Id;
+            if (permissionEntity == null)
+            {
+                insertPermissions.Add(new LinPermission(r.Permission, PermissionType.Permission, r.Router)
+                {
+                    ParentId = parentId
+                });
             }
             else
             {
-                bool routerExist = allPermissions.Any(u => u.Module == r.Module && u.Name == r.Permission && u.Router == r.Router);
+                bool routerExist = allPermissions.Any(u => u.Name == r.Permission && u.Router == r.Router);
                 if (!routerExist)
                 {
                     permissionEntity.Router = r.Router;
+                    permissionEntity.ParentId = parentId;
+                    permissionEntity.PermissionType  = PermissionType.Permission;
                     updatePermissions.Add(permissionEntity);
                 }
             }

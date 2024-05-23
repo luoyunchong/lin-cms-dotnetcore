@@ -1047,14 +1047,14 @@
             权限表
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinPermission.ParentId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
         <member name="P:LinCms.Entities.LinPermission.Name">
             <summary>
             所属权限、权限名称，例如：访问首页
-            </summary>
-        </member>
-        <member name="P:LinCms.Entities.LinPermission.Module">
-            <summary>
-            权限所属模块，例如：人员管理
             </summary>
         </member>
         <member name="P:LinCms.Entities.LinPermission.Router">

@@ -172,7 +172,7 @@ public class ReflexHelper
 
     public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinPermission> listAuths)
     {
-        var groupAuths = listAuths.GroupBy(r => r.Module).Select(r => new
+        var groupAuths = listAuths.Where(r=>r.PermissionType==PermissionType.Folder).GroupBy(r => r.Name).Select(r => new
         {
             r.Key,
             Children = r.Select(u => u.Name).ToList()

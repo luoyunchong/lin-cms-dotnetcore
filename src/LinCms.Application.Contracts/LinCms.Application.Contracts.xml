@@ -780,6 +780,11 @@
             新增用户数(月)
             </summary>
         </member>
+        <member name="P:LinCms.Cms.Permissions.PermissionDto.ParentId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
         <member name="P:LinCms.Cms.Settings.CreateUpdateSettingDto.Name">
             <summary>
             键

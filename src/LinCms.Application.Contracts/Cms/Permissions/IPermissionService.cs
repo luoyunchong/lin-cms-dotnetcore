@@ -7,7 +7,7 @@ namespace LinCms.Cms.Permissions;
 
 public interface IPermissionService
 {
-    IDictionary<string, List<PermissionDto>> GetAllStructualPermissions();
+    Task<List<PermissionTreeNode>> GetPermissionTreeNodes();
     Task<bool> CheckPermissionAsync(string module, string permission);
     Task DeletePermissionsAsync(RemovePermissionDto permissionDto);
 
@@ -18,7 +18,5 @@ public interface IPermissionService
     List<IDictionary<string, object>> StructuringPermissions(List<LinPermission> permissions);
 
     Task<LinPermission> GetAsync(string permissionName);
-
-    Task<List<TreePermissionDto>> GetTreePermissionListAsync();
 
 }
