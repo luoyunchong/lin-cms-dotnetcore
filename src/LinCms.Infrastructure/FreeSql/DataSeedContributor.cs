@@ -72,6 +72,7 @@ public class DataSeedContributor : IDataSeedContributor
         var permissionDefinitionsByModules = linCmsAttributes.GroupBy(r => r.Module).ToList();
 
         var insertMoudles = new List<LinPermission>();
+        var sortCode = 10;
         foreach (var module in permissionDefinitionsByModules)
         {
             LinPermission permissionEntity = allModules.FirstOrDefault(u => u.Name == module.Key);
@@ -81,8 +82,10 @@ public class DataSeedContributor : IDataSeedContributor
                 {
                     PermissionType = PermissionType.Folder,
                     Name = module.Key,
-                    ParentId = 0
+                    ParentId = 0,
+                    SortCode = sortCode
                 });
+                sortCode += 10;
             }
         }
         await _permissionRepository.InsertAsync(insertMoudles, cancellationToken);
@@ -90,29 +93,36 @@ public class DataSeedContributor : IDataSeedContributor
 
         allModules = await _permissionRepository.Select.Where(r => r.PermissionType == PermissionType.Folder).ToListAsync(cancellationToken);
 
+        sortCode = 0;
         linCmsAttributes.ForEach(r =>
         {
             LinPermission permissionEntity = allPermissions.FirstOrDefault(u => u.Name == r.Permission);
 
-            var parentId = allModules.Where(u => u.Name == r.Module).First().Id;
+            var parent = allModules.First(u => u.Name == r.Module);
+            var parentId = parent.Id;
+            sortCode = parent.SortCode;
             if (permissionEntity == null)
             {
                 insertPermissions.Add(new LinPermission(r.Permission, PermissionType.Permission, r.Router)
                 {
-                    ParentId = parentId
+                    ParentId = parentId,
+                    SortCode = sortCode
                 });
             }
             else
             {
-                bool routerExist = allPermissions.Any(u => u.Name == r.Permission && u.Router == r.Router);
+                bool routerExist = allPermissions.Any(u => u.Name == r.Permission);
                 if (!routerExist)
                 {
                     permissionEntity.Router = r.Router;
                     permissionEntity.ParentId = parentId;
-                    permissionEntity.PermissionType  = PermissionType.Permission;
+                    permissionEntity.PermissionType = PermissionType.Permission;
+                    permissionEntity.SortCode = sortCode;
                     updatePermissions.Add(permissionEntity);
                 }
             }
+
+            sortCode += 1;
         });
 
         await _permissionRepository.InsertAsync(insertPermissions, cancellationToken);

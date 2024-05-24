@@ -14,10 +14,9 @@ using System.Threading.Tasks;
 namespace LinCms.Cms.Permissions;
 
 public class PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository,
-        IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository, ICurrentUser currentUser)
+        IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository)
     : ApplicationService, IPermissionService
 {
-    private readonly ICurrentUser _currentUser = currentUser;
 
     public async Task<List<PermissionTreeNode>> GetPermissionTreeNodes()
     {

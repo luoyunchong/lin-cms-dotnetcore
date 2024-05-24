@@ -69,18 +69,33 @@ public class ReflexHelper
 
                     foreach (Attribute attribute in methodInfo.GetCustomAttributes())
                     {
-                        if (attribute is LinCmsAuthorizeAttribute linAttribute && linAttribute.Permission.IsNotNullOrEmpty() && linAttribute.Module.IsNotNullOrEmpty())
+                        if (attribute is LinCmsAuthorizeAttribute linAttribute &&
+                            linAttribute.Permission.IsNotNullOrEmpty() && linAttribute.Module.IsNotNullOrEmpty())
                         {
-                            string actionTemplate = methodAttribute.Template != null ? "/" + methodAttribute.Template + " " : " ";
-                            string router = $"{routerAttribute.Template}{actionTemplate}{methodAttribute.HttpMethods.FirstOrDefault()}";
-                            linAuths.Add(
-                                new PermissionDefinition(
-                                    linAttribute.Permission,
-                                    linAttribute.Module,
-                                    router
-                                )
-                            );
-                            //methodInfo.Name.ToSnakeCase()
+                            string actionTemplate = methodAttribute.Template != null
+                                ? "/" + methodAttribute.Template + " "
+                                : " ";
+                            string router =
+                                $"{routerAttribute.Template}{actionTemplate}{methodAttribute.HttpMethods.FirstOrDefault()}";
+
+                            // 判断 linAuths中的权限中是否已存在,如果存在，router增加现有router值
+
+                            if (linAuths.Any(definition => definition.Permission == linAttribute.Permission))
+                            {
+                                PermissionDefinition permissionDefinition = linAuths.First(definition => definition.Permission == linAttribute.Permission);
+                                permissionDefinition.Router += "," + router;
+                            }
+                            else
+                            {
+
+                                linAuths.Add(
+                                    new PermissionDefinition(
+                                        linAttribute.Permission,
+                                        linAttribute.Module,
+                                        router
+                                    )
+                                );
+                            }
                         }
                     }
                 }
@@ -172,7 +187,7 @@ public class ReflexHelper
 
     public static List<IDictionary<string, object>> AuthsConvertToTree(List<LinPermission> listAuths)
     {
-        var groupAuths = listAuths.Where(r=>r.PermissionType==PermissionType.Folder).GroupBy(r => r.Name).Select(r => new
+        var groupAuths = listAuths.Where(r => r.PermissionType == PermissionType.Folder).GroupBy(r => r.Name).Select(r => new
         {
             r.Key,
             Children = r.Select(u => u.Name).ToList()
