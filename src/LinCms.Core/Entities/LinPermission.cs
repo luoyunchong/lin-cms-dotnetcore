@@ -39,6 +39,12 @@ namespace LinCms.Entities
         /// </summary>
         [Column(StringLength = 200)]
         public string Router { get; set; }
+
+        /// <summary>
+        ///  排序
+        /// </summary>
+        public int SortCode { get; set; }
+
     }
 
     public enum PermissionType

@@ -8,7 +8,8 @@ public class PermissionProfile : Profile
     public PermissionProfile()
     {
         CreateMap<LinPermission, PermissionDto>();
-        CreateMap<LinPermission, PermissionNode>();
+        CreateMap<LinPermission, TreeNode>();
         CreateMap<LinPermission, PermissionTreeNode>();
+        CreateMap<PermissioCreateUpdateDto, LinPermission>();
     }
 }

@@ -1,43 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
-using IGeekFan.FreeKit.Extras.FreeSql;
+﻿using IGeekFan.FreeKit.Extras.FreeSql;
 using IGeekFan.FreeKit.Extras.Security;
 using LinCms.Common;
 using LinCms.Data;
 using LinCms.Entities;
 using LinCms.Security;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Security;
+using System.Threading.Tasks;
 
 namespace LinCms.Cms.Permissions;
-
-public class PermissionTreeBuilder
-{
-    public List<PermissionTreeNode> BuildTree(List<PermissionTreeNode> nodes)
-    {
-        var nodeDict = nodes.ToDictionary(n => n.Id);
-        List<PermissionTreeNode> roots = new List<PermissionTreeNode>();
-
-        foreach (var node in nodes)
-        {
-            if (node.ParentId == 0)  // 假定ParentId为0表示根节点
-            {
-                roots.Add(node);
-            }
-            else
-            {
-                if (nodeDict.TryGetValue(node.ParentId, out PermissionTreeNode parentNode))
-                {
-                    parentNode.Children.Add(node);
-                }
-            }
-        }
-
-        return roots;  // 返回森林中所有根节点的列表
-    }
-
-}
 
 public class PermissionService(IAuditBaseRepository<LinPermission, long> permissionRepository,
         IAuditBaseRepository<LinGroupPermission, long> groupPermissionRepository, ICurrentUser currentUser)
@@ -47,19 +21,17 @@ public class PermissionService(IAuditBaseRepository<LinPermission, long> permiss
 
     public async Task<List<PermissionTreeNode>> GetPermissionTreeNodes()
     {
-        var permissionList = await permissionRepository.Select.ToListAsync();
+        var permissionList = await permissionRepository.Select.OrderBy(r => r.SortCode).ToListAsync();
         var nodes = Mapper.Map<List<LinPermission>, List<PermissionTreeNode>>(permissionList);
-        return new PermissionTreeBuilder().BuildTree(nodes);
+        return new TreeBuilder().BuildPermissionTree(nodes);
     }
-
 
     /// <summary>
     /// 检查当前登录的用户的分组权限
     /// </summary>
-    /// <param name="module">模块</param>
     /// <param name="permission">权限名</param>
     /// <returns></returns>
-    public async Task<bool> CheckPermissionAsync(string module, string permission)
+    public async Task<bool> CheckPermissionAsync(string permission)
     {
         //默认Admin角色拥有所有权限
         if (CurrentUser.IsInGroup(LinConsts.Group.Admin)) return true;
@@ -67,7 +39,7 @@ public class PermissionService(IAuditBaseRepository<LinPermission, long> permiss
 
         LinPermission linPermission = await permissionRepository.Where(r => r.PermissionType == PermissionType.Permission && r.Name == permission).FirstAsync();
 
-        if (linPermission == null || groups == null || groups.Length == 0) return false;
+        if (linPermission == null || groups.Length == 0) return false;
 
         bool existPermission = await groupPermissionRepository.Select
             .AnyAsync(r => groups.Contains(r.GroupId) && r.PermissionId == linPermission.Id);
@@ -133,6 +105,23 @@ public class PermissionService(IAuditBaseRepository<LinPermission, long> permiss
         }
 
         return list;
+    }
+
+    public async Task UpdateAsync(int id, PermissioCreateUpdateDto createUpdateDto)
+    {
+        LinPermission permission = await permissionRepository.GetAsync(id);
+        Mapper.Map(createUpdateDto, permission);
+        await permissionRepository.UpdateAsync(permission);
+    }
+
+    public async Task CreateAsync(PermissioCreateUpdateDto createUpdateDto)
+    {
+        await permissionRepository.UpdateAsync(Mapper.Map<LinPermission>(createUpdateDto));
+    }
+
+    public  async Task DeleteAsync(int id)
+    {
+        await permissionRepository.DeleteAsync(id);
     }
 
     public Task<LinPermission> GetAsync(string permissionName)

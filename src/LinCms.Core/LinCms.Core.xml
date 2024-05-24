@@ -1062,6 +1062,11 @@
             后台路由
             </summary>
         </member>
+        <member name="P:LinCms.Entities.LinPermission.SortCode">
+            <summary>
+             排序
+            </summary>
+        </member>
         <member name="T:LinCms.Entities.LinUser">
             <summary>
             用户

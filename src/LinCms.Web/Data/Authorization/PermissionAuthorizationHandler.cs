@@ -21,7 +21,7 @@ public class PermissionAuthorizationHandler(IPermissionService permissionService
             return;
         }
 
-        if (await permissionService.CheckPermissionAsync(requirement.Module, requirement.Name))
+        if (await permissionService.CheckPermissionAsync(requirement.Name))
         {
             context.Succeed(requirement);
             return;

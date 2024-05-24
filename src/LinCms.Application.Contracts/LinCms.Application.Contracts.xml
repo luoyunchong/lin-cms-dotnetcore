@@ -780,6 +780,26 @@
             新增用户数(月)
             </summary>
         </member>
+        <member name="P:LinCms.Cms.Permissions.PermissioCreateUpdateDto.ParentId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Permissions.PermissioCreateUpdateDto.Name">
+            <summary>
+            所属权限、权限名称，例如：访问首页
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Permissions.PermissioCreateUpdateDto.Router">
+            <summary>
+            后台路由
+            </summary>
+        </member>
+        <member name="P:LinCms.Cms.Permissions.PermissioCreateUpdateDto.SortCode">
+            <summary>
+             排序
+            </summary>
+        </member>
         <member name="P:LinCms.Cms.Permissions.PermissionDto.ParentId">
             <summary>
             父级Id
