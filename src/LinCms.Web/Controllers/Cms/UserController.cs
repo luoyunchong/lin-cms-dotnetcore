@@ -43,7 +43,7 @@ public class UserController(IFreeSql freeSql,
     /// </summary>
     /// <param name="userInput"></param>
     [Logger("管理员新建了一个用户")]
-    [HttpPost("register")]
+    [HttpPost]
     [Authorize(Roles = LinGroup.Admin)]
     public async Task<UnifyResponseDto> CreateAsync([FromBody] CreateUserDto userInput)
     {
