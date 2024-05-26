@@ -24,8 +24,9 @@ public class ClassifyService(IAuditBaseRepository<Classify, Guid> repository, IF
     public override async Task<PagedResultDto<ClassifyDto>> GetListAsync(ClassifySearchDto input)
     {
         List<ClassifyDto> classify = (await Repository.Select
+                .WhereIf(input.UserId != null, r => r.CreateUserId == input.UserId)
                 .WhereIf(input.ClassifyName.IsNotNullOrEmpty(), r => r.ClassifyName.Contains(input.ClassifyName))
-                .OrderByDescending(r => r.CreateTime)
+                .OrderByDescending(r => r.SortCode)
                 .ToPagerListAsync(input, out long totalCount))
             .Select(r =>
             {
@@ -37,26 +38,6 @@ public class ClassifyService(IAuditBaseRepository<Classify, Guid> repository, IF
         return new PagedResultDto<ClassifyDto>(classify, totalCount);
     }
 
-    public List<ClassifyDto> GetListByUserId(long? userId)
-    {
-        if (!userId.HasValue)
-        {
-            userId = CurrentUser.FindUserId();
-        }
-
-        List<ClassifyDto> classify = Repository.Select
-            .Where(r => r.CreateUserId == userId)
-            .OrderByDescending(r => r.SortCode)
-            .ToList()
-            .Select(r =>
-            {
-                ClassifyDto classifyDto = Mapper.Map<ClassifyDto>(r);
-                classifyDto.ThumbnailDisplay = _fileRepository.GetFileUrl(classifyDto.Thumbnail);
-                return classifyDto;
-            }).ToList();
-
-        return classify;
-    }
 
     public override async Task<ClassifyDto> GetAsync(Guid id)
     {

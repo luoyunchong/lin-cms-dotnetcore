@@ -28,10 +28,10 @@ public class SerilogService(IBaseRepository<SerilogDO> serilogBaseRepository) : 
 
         return new LogDashboard()
         {
-            AllCount = await serilogBaseRepository.Select.CountAsync(),
-            TodayCount = await serilogBaseRepository.Select.Where(x => x.Timestamp >= now.Date && x.Timestamp <= now.Date.AddHours(23).AddMinutes(59).AddSeconds(59)).CountAsync(),
-            HourCount = await serilogBaseRepository.Select.Where(x => x.Timestamp >= now.AddHours(-1) && x.Timestamp <= now).CountAsync(),
-            UniqueCount = await serilogBaseRepository.Select.WithSql(@"select count(*) AS TOTAL from app_serilog group by message").CountAsync(),
+            AllCount = await serilogBaseRepository.Select.CommandTimeout(20).CountAsync(),
+            TodayCount = await serilogBaseRepository.Select.CommandTimeout(20).Where(x => x.Timestamp >= now.Date && x.Timestamp <= now.Date.AddHours(23).AddMinutes(59).AddSeconds(59)).CountAsync(),
+            HourCount = await serilogBaseRepository.Select.CommandTimeout(20).Where(x => x.Timestamp >= now.AddHours(-1) && x.Timestamp <= now).CountAsync(),
+            UniqueCount = await serilogBaseRepository.Select.CommandTimeout(20).WithSql(@"select count(*) AS TOTAL from app_serilog group by message").CountAsync(),
         };
     }
 }

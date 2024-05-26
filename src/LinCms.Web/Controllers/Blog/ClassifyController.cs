@@ -19,29 +19,8 @@ namespace LinCms.Controllers.Blog;
 [ApiController]
 public class ClassifyController(IClassifyService classifyService) : ControllerBase
 {
-    [HttpDelete("{id}")]
-    public async Task<UnifyResponseDto> DeleteClassify(Guid id)
-    {
-        await classifyService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
-    }
-
-    [HttpGet]
-    public List<ClassifyDto> GetListByUserId(long? userId)
-    {
-        return classifyService.GetListByUserId(userId);
-    }
-
-    [LinCmsAuthorize("删除", "分类专栏")]
-    [HttpDelete("cms/{id}")]
-    public async Task<UnifyResponseDto> Delete(Guid id)
-    {
-        await classifyService.DeleteAsync(id);
-        return UnifyResponseDto.Success();
-    }
-
-    [LinCmsAuthorize("分类专栏列表", "分类专栏")]
-    [HttpGet("cms")]
+  
+  
     public Task<PagedResultDto<ClassifyDto>> GetListAsync([FromQuery] ClassifySearchDto pageDto)
     {
         return classifyService.GetListAsync(pageDto);
@@ -65,5 +44,12 @@ public class ClassifyController(IClassifyService classifyService) : ControllerBa
     {
         await classifyService.UpdateAsync(id, updateClassify);
         return UnifyResponseDto.Success("更新分类专栏成功");
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<UnifyResponseDto> Delete(Guid id)
+    {
+        await classifyService.DeleteAsync(id);
+        return UnifyResponseDto.Success();
     }
 }
