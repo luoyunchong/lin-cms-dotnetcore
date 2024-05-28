@@ -100,6 +100,7 @@ public class CommentService(IAuditBaseRepository<Comment> commentRepository,
         List<CommentDto> comments = (await commentRepository
                 .Select
                 .Include(r => r.UserInfo)
+                .WhereIf(commentSearchDto.IsAudit != null, r => r.IsAudit == commentSearchDto.IsAudit)
                 .WhereIf(commentSearchDto.SubjectId.HasValue, r => r.SubjectId == commentSearchDto.SubjectId)
                 .WhereIf(commentSearchDto.Text.IsNotNullOrEmpty(), r => r.Text.Contains(commentSearchDto.Text))
                 .OrderByDescending(r => r.CreateTime)
@@ -187,7 +188,7 @@ public class CommentService(IAuditBaseRepository<Comment> commentRepository,
                 .ExecuteAffrowsAsync();
         }
 
-        affrows += await commentRepository.DeleteAsync(new Comment {Id = comment.Id});
+        affrows += await commentRepository.DeleteAsync(new Comment { Id = comment.Id });
 
         switch (comment.SubjectType)
         {
@@ -224,7 +225,7 @@ public class CommentService(IAuditBaseRepository<Comment> commentRepository,
         {
             NotificationType = NotificationType.UserCommentOnArticle,
             ArticleId = comment.SubjectId,
-            UserInfoId = (long) CurrentUser.FindUserId(),
+            UserInfoId = (long)CurrentUser.FindUserId(),
             CommentId = comment.Id,
             IsCancel = true
         });

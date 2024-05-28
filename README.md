@@ -13,6 +13,7 @@
 ## 项目简介
 
 ![Publish](https://github.com/luoyunchong/lin-cms-dotnetcore/workflows/Publish/badge.svg)
+[![.NET IDE Rider](https://img.shields.io/static/v1?style=float&logo=rider&label=Rider&message=jetbrains&color=red)](https://www.jetbrains.com/rider/)
 ![](https://img.shields.io/badge/.net8.0.0-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-IGeekFan-3963bc.svg)

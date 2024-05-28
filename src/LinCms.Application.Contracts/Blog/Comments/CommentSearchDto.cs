@@ -9,4 +9,6 @@ public class CommentSearchDto : PageDto
     public Guid? SubjectId { get; set; }
 
     public String Text { get; set; }
+
+    public bool? IsAudit { get; set; }
 }
