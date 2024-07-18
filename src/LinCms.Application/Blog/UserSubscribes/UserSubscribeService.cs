@@ -48,7 +48,7 @@ public class UserSubscribeService(IAuditBaseRepository<UserSubscribe, Guid> user
                     Avatar = r.SubscribeUser.Avatar,
                     Username = r.SubscribeUser.Username,
                 },
-                IsSubscribeed = userSubscribeRepository.Select.Any(r => r.CreateUserId ==  CurrentUser.FindUserId() && r.SubscribeUserId == r.SubscribeUserId)
+                IsSubscribeed = userSubscribeRepository.Select.Any(u => u.CreateUserId ==  CurrentUser.FindUserId() && u.SubscribeUserId == r.SubscribeUserId)
             });
 
         userSubscribes.ForEach(r => { r.Subscribeer.Avatar = fileRepository.GetFileUrl(r.Subscribeer.Avatar); });
