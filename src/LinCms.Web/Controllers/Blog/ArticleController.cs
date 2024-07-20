@@ -29,10 +29,10 @@ namespace LinCms.Controllers.Blog;
 [ApiController]
 [Authorize]
 public class ArticleController(
-        IAuditBaseRepository<Article> articleRepository, 
+        IAuditBaseRepository<Article> articleRepository,
         IMapper mapper,
         ICurrentUser currentUser,
-        IArticleService articleService, 
+        IArticleService articleService,
         IRedisClient redisClient)
     : ControllerBase
 {
@@ -159,18 +159,9 @@ public class ArticleController(
     /// <returns></returns>
     [HttpGet("all")]
     [LinCmsAuthorize("所有随笔", "随笔")]
-    public PagedResultDto<ArticleListDto> GetAllArticles([FromQuery] ArticleSearchDto searchDto)
+    public async Task<PagedResultDto<ArticleListDto>> GetAllArticleAsync([FromQuery] ArticleSearchDto searchDto)
     {
-        var articles = articleRepository
-            .Select
-            .WhereCascade(r => r.IsDeleted == false)
-            .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
-            .OrderByDescending(r => r.CreateTime)
-            .ToPagerList(searchDto, out long totalCount)
-            .Select(a => mapper.Map<ArticleListDto>(a))
-            .ToList();
-
-        return new PagedResultDto<ArticleListDto>(articles, totalCount);
+        return await articleService.GetAllArticleAsync(searchDto);
     }
 
     /// <summary>

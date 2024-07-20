@@ -12,6 +12,7 @@ public class ArticleSearchDto : PageDto
     public Guid? ChannelId { get; set; }
     public Guid? TagId { get; set; }
     public string Title { get; set; }
+    public Guid? ArticleId { get; set; }
     public long? UserId { get; set; }
    
     /// <summary>

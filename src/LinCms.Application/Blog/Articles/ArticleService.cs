@@ -1,4 +1,5 @@
-﻿using IGeekFan.FreeKit.Extras.Dto;
+﻿using AutoMapper;
+using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Classifys;
 using LinCms.Blog.UserSubscribes;
@@ -10,6 +11,7 @@ using LinCms.Exceptions;
 using LinCms.Extensions;
 using LinCms.IRepositories;
 using LinCms.Security;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -126,7 +128,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
             }
         }
 
-        await articleRepository.DeleteAsync(new Article {Id = id});
+        await articleRepository.DeleteAsync(new Article { Id = id });
         await tagArticleRepository.DeleteAsync(r => r.ArticleId == id);
         await commentRepository.DeleteAsync(r => r.SubjectId == id);
         await userLikeRepository.DeleteAsync(r => r.SubjectId == id);
@@ -175,7 +177,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
         Article article = Mapper.Map<Article>(createArticle);
         article.Archive = DateTime.Now.ToString("yyy年MM月");
         article.WordNumber = createArticle.Content.Length;
-        article.ReadingTime = (long) TextAnalysisUtil.GetReadingTime(createArticle.Content).Minutes;
+        article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(createArticle.Content).Minutes;
 
         article.Tags = new List<Tag>();
         foreach (var articleTagId in createArticle.TagIds)
@@ -224,7 +226,7 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
 
         Mapper.Map(updateArticleDto, article);
         article.WordNumber = article.Content.Length;
-        article.ReadingTime = (long) TextAnalysisUtil.GetReadingTime(article.Content).Minutes;
+        article.ReadingTime = (long)TextAnalysisUtil.GetReadingTime(article.Content).Minutes;
         await articleRepository.UpdateAsync(article);
 
         ArticleDraft articleDraft = Mapper.Map<ArticleDraft>(article);
@@ -242,6 +244,22 @@ public class ArticleService(IAuditBaseRepository<Article> articleRepository,
     }
 
     #endregion
+
+
+    public async Task<PagedResultDto<ArticleListDto>> GetAllArticleAsync(ArticleSearchDto searchDto)
+    {
+        var articles = (await articleRepository
+            .Select
+            .WhereCascade(r => r.IsDeleted == false)
+            .WhereIf(searchDto.ArticleId.HasValue, r => r.Id == searchDto.ArticleId)
+            .WhereIf(searchDto.Title.IsNotNullOrEmpty(), r => r.Title.Contains(searchDto.Title))
+            .OrderByDescending(r => r.CreateTime)
+            .ToPagerListAsync(searchDto, out long totalCount))
+            .Select(a => Mapper.Map<ArticleListDto>(a))
+            .ToList();
+
+        return new PagedResultDto<ArticleListDto>(articles, totalCount);
+    }
 
     /// <summary>
     ///  随笔选择多个标签

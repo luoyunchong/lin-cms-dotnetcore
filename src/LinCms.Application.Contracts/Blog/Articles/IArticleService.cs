@@ -19,6 +19,9 @@ public interface IArticleService
     Task<ArticleDto> GetAsync(Guid id);
     #endregion
 
+
+    Task<PagedResultDto<ArticleListDto>> GetAllArticleAsync(ArticleSearchDto searchDto);
+
     /// <summary>
     /// 得到我关注的人发布的随笔
     /// </summary>
