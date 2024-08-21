@@ -89,7 +89,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:LinCms.Controllers.Blog.ArticleController.GetAllArticles(LinCms.Blog.Articles.ArticleSearchDto)">
+        <member name="M:LinCms.Controllers.Blog.ArticleController.GetAllArticleAsync(LinCms.Blog.Articles.ArticleSearchDto)">
             <summary>
             得到所有的随笔
             </summary>

@@ -9,12 +9,14 @@
 	<ItemGroup>
 
 		<ProjectReference Include="..\LinCms.Core\LinCms.Core.csproj" />
-		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.2.822" />
-		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.2.822" />
-		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.822" />
-		<PackageReference Include="FreeSql.Provider.SqlServer" Version="3.2.822" />
-		<PackageReference Include="FreeSql.Provider.Oracle" Version="3.2.822" />
-		<PackageReference Include="FreeSql.Provider.Odbc" Version="3.2.822" />
+
+		<PackageReference Include="FreeSql.Extensions.JsonMap" Version="3.5.100-preview20240821" />
+		<PackageReference Include="FreeSql.Provider.MySqlConnector" Version="3.5.100-preview20240821" />
+		<PackageReference Include="FreeSql.Provider.Odbc" Version="3.5.100-preview20240821" />
+		<PackageReference Include="FreeSql.Provider.PostgreSQL" Version="3.5.100-preview20240821" />
+		<PackageReference Include="FreeSql.Provider.Sqlite" Version="3.5.100-preview20240821" />
+		<PackageReference Include="FreeSql.Provider.SqlServer" Version="3.5.100-preview20240821" />
+		<PackageReference Include="FreeSql.Provider.Oracle" Version="3.5.100-preview20240821" />
 	</ItemGroup>
 
 	<ItemGroup>

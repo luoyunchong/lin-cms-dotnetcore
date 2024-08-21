@@ -64,13 +64,9 @@ public static class FreeSqlExtension
                 break;
             case DataType.Odbc:
                 break;
-            case DataType.OdbcDameng:
-                break;
             case DataType.MsAccess:
                 break;
             case DataType.Dameng:
-                break;
-            case DataType.OdbcKingbaseES:
                 break;
             case DataType.ShenTong:
                 break;
