@@ -20,7 +20,7 @@ namespace LinCms.Controllers.Blog;
 public class ClassifyController(IClassifyService classifyService) : ControllerBase
 {
   
-  
+    [HttpGet]
     public Task<PagedResultDto<ClassifyDto>> GetListAsync([FromQuery] ClassifySearchDto pageDto)
     {
         return classifyService.GetListAsync(pageDto);
