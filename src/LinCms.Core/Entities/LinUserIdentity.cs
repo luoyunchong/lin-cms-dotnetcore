@@ -13,9 +13,7 @@ namespace LinCms.Entities
     {
         public const string GitHub = "GitHub";
         public const string Password = "Password";
-        public const string QQ = "QQ";
         public const string Gitee = "Gitee";
-        public const string Weixin = "Weixin";
 
         public LinUserIdentity()
         {

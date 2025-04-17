@@ -24,26 +24,6 @@
             数据字典-分类
             </summary>
         </member>
-        <member name="T:LinCms.Controllers.Base.CultureController">
-            <summary>
-            多语言
-            </summary>
-        </member>
-        <member name="M:LinCms.Controllers.Base.CultureController.#ctor(LinCms.Base.Localizations.ICultureService)">
-            <summary>
-            多语言
-            </summary>
-        </member>
-        <member name="T:LinCms.Controllers.Base.ResourceController">
-            <summary>
-            语言下的本地化资源
-            </summary>
-        </member>
-        <member name="M:LinCms.Controllers.Base.ResourceController.#ctor(LinCms.Base.Localizations.IResourceService)">
-            <summary>
-            语言下的本地化资源
-            </summary>
-        </member>
         <member name="T:LinCms.Controllers.Blog.ArticleController">
             <summary>
             随笔

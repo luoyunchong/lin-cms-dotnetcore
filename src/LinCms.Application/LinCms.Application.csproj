@@ -9,13 +9,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AspNet.Security.OAuth.Weixin" Version="8.0.0" />
 		<PackageReference Include="AspNet.Security.OAuth.Gitee" Version="8.0.0" />
 		<PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.0.0" />
-		<PackageReference Include="AspNet.Security.OAuth.QQ" Version="8.0.0" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
 		<PackageReference Include="DotNetCore.CAP.MySql" Version="8.1.2" />
-		<!--<PackageReference Include="DotNetCore.CAP.SqlServer" Version="6.1.1-preview-176300030" />-->
 		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="8.1.2" />
 		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="8.1.2" />
 		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="8.1.2" />

@@ -68,9 +68,7 @@ public class Oauth2Controller(IUserIdentityService userCommunityService,
 
         List<string> supportProviders = new List<string> {
             LinUserIdentity.Gitee,
-            LinUserIdentity.GitHub,
-            LinUserIdentity.QQ,
-            LinUserIdentity.Weixin,
+            LinUserIdentity.GitHub
         };
 
         if (!supportProviders.Contains(provider))
@@ -177,7 +175,7 @@ public class Oauth2Controller(IUserIdentityService userCommunityService,
         long userId = long.Parse(nameIdentifier ?? "0");
         UnifyResponseDto unifyResponseDto;
 
-        List<string> supportProviders = new() { LinUserIdentity.Gitee, LinUserIdentity.GitHub, LinUserIdentity.QQ };
+        List<string> supportProviders = new() { LinUserIdentity.Gitee, LinUserIdentity.GitHub};
 
         if (!supportProviders.Contains(provider))
         {

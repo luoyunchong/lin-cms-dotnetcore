@@ -153,16 +153,7 @@ public static class JwtExtensions
                 options.ClaimActions.MapJsonKey(LinConsts.Claims.BlogAddress, "blog");
             });
         }
-        if (Configuration["Authentication:QQ:Enable"] != null && bool.Parse(Configuration["Authentication:QQ:Enable"]!))
-        {
-            authenticationBuilder.AddQQ(options =>
-            {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.ClientId = Configuration["Authentication:QQ:ClientId"]!;
-                options.ClientSecret = Configuration["Authentication:QQ:ClientSecret"]!;
-            });
-        }
-
+     
         if (Configuration["Authentication:GitHub:Enable"] != null && bool.Parse(Configuration["Authentication:GitHub:Enable"]!))
         {
             authenticationBuilder.AddGitee(GiteeAuthenticationDefaults.AuthenticationScheme, "码云", options =>
@@ -188,15 +179,7 @@ public static class JwtExtensions
                 options.SaveTokens = true;
             });
         }
-        if (Configuration["Authentication:Weixin:Enable"] != null && bool.Parse(Configuration["Authentication:Weixin:Enable"]!))
-        {
-            authenticationBuilder.AddWeixin(options =>
-            {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.ClientId = Configuration["Authentication:Weixin:ClientId"]!;
-                options.ClientSecret = Configuration["Authentication:Weixin:ClientSecret"]!;
-            });
-        }
+      
 
         authenticationBuilder.AddScheme<BasicAuthenticationOption, BasicAuthenticationHandler>(BasicAuthenticationScheme.DefaultScheme, r =>
             {
