@@ -907,11 +907,6 @@
             用户关注的标签
             </summary>
         </member>
-        <member name="T:LinCms.Entities.Book">
-            <summary>
-            也是demo。
-            </summary>
-        </member>
         <member name="T:LinCms.Entities.LinFile">
             <summary>
             文件

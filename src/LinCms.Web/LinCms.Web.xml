@@ -717,16 +717,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:LinCms.Controllers.v1.BookController">
-            <summary>
-            图书
-            </summary>
-        </member>
-        <member name="M:LinCms.Controllers.v1.BookController.#ctor(LinCms.v1.Books.IBookService)">
-            <summary>
-            图书
-            </summary>
-        </member>
         <member name="T:LinCms.Controllers.v1.MonitorController">
             <summary>
             监控
@@ -826,18 +816,6 @@
             获取远程服务器内容，并转换成流
             </summary>
             <param name="path">https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/leancloud-assets/bac28828a49181c34110.png</param>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Controllers.v1.TestController.Get">
-            <summary>
-            下划线，首字母会小写
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:LinCms.Controllers.v1.TestController.GetDictionary">
-            <summary>
-            这种方式不会变小写，怀疑人生，是不是他的key不是键？ https://github.com/JamesNK/Newtonsoft.Json/issues/2088
-            </summary>
             <returns></returns>
         </member>
         <member name="T:LinCms.Data.Authorization.ValidJtiHandler">
