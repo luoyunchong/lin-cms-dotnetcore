@@ -74,6 +74,9 @@ var app = builder.Build();
 await app.Services.RunScopeClientPolicy();
 app.Services.RunFreeSqlSyncStructure();
 
+string vPath = builder.Configuration.GetValue<string>("ASPNETCORE_PATHBASE") ?? "";
+app.UsePathBase(new PathString(vPath));
+
 app
 .UseForwardedHeaders()
 .UseBasicAuthentication()
