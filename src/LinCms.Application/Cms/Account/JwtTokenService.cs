@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 
 namespace LinCms.Cms.Account;
 
-[DisableConventionalRegistration]
 public class JwtTokenService(IUserRepository userRepository, ILogger<JwtTokenService> logger,
         IUserIdentityService userIdentityService, ITokenManager tokenManager)
     : ITokenService

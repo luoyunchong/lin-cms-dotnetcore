@@ -83,7 +83,6 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - 数据库相关：ORM:[FreeSql](https://github.com/dotnetcore/FreeSql)+DataBase:MySQL5.6/MsSqlServer/Oracle/Sqlite/PostgreSQL
 - ASP.NET Core + WebAPI + RESTful
 - 简化对象映射：[AutoMapper](https://automapper.org/)
-- 身份认证框架：[IdentityServer4](https://github.com/IdentityServer/IdentityServer4)
 - Json Web令牌:JWT
 - 文档API：Swagger([Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore))
   - RapiDoc([RapiDoc](https://github.com/luoyunchong/IGeekFan.AspNetCore.RapiDoc))
@@ -115,8 +114,6 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 - Clean Code（代码整洁之道）
 
 ### 分层结构（Layers）
-- identityserver4
-   - LinCms.IdentityServer4:使用id4授权登录
 - src
   - LinCms.Web：接口API（ASP.NET Core)
   - LinCms.Application:应用服务

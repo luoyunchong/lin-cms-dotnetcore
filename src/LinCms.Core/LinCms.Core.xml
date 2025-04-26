@@ -1155,7 +1155,7 @@
         </member>
         <member name="P:LinCms.Entities.LinUserIdentity.IdentityType">
              <summary>
-            认证类型， Password，GitHub、QQ、Weixin等
+            认证类型， Password,GitHub,Gitee
              </summary>
         </member>
         <member name="P:LinCms.Entities.LinUserIdentity.Identifier">

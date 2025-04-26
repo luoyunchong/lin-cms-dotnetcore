@@ -37,10 +37,9 @@ public class AccountController : ApiControllerBase
     private readonly CaptchaOption _loginCaptchaOption;
     private readonly ICaptchaManager _captchaManager;
     private readonly RedisClient _redisClient;
-    public AccountController(IComponentContext componentContext, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager, RedisClient redisClient)
+    public AccountController(ITokenService tokenService, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager, RedisClient redisClient)
     {
-        bool isIdentityServer4 = configuration.GetSection("Service:IdentityServer4").Value?.ToBoolean() ?? false;
-        _tokenService = componentContext.ResolveNamed<ITokenService>(isIdentityServer4 ? nameof(IdentityServer4Service) : nameof(JwtTokenService));
+        _tokenService = tokenService;
         _accountService = accountService;
         _blackRecordRepository = blackRecordRepository;
         _loginCaptchaOption = loginCaptchaOption.CurrentValue;

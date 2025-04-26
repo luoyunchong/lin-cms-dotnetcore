@@ -52,7 +52,6 @@
 		<ProjectReference Include="..\..\src\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\src\LinCms.Plugins\LinCms.Plugins.csproj" />
 		<ProjectReference Include="..\..\src\LinCms.Web\LinCms.Web.csproj" />
-		<ProjectReference Include="..\..\identityserver4\LinCms.IdentityServer4\LinCms.IdentityServer4.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

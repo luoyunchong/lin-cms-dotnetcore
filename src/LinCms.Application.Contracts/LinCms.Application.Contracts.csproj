@@ -23,8 +23,11 @@
 	</ItemGroup>
   <ItemGroup>
     <Compile Remove="Constracts\**" />
+    <Compile Remove="v1\**" />
     <EmbeddedResource Remove="Constracts\**" />
+    <EmbeddedResource Remove="v1\**" />
     <None Remove="Constracts\**" />
+    <None Remove="v1\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,9 +36,5 @@
 
   <ItemGroup>
     <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="v1\" />
   </ItemGroup>
 </Project>

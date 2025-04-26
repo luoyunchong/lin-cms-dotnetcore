@@ -16,9 +16,7 @@
 		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="8.1.2" />
 		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="8.1.2" />
 		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="8.1.2" />
-		<PackageReference Include="IdentityServer4" Version="4.1.2" />
 		<PackageReference Include="IdentityModel" Version="7.0.0" />
-		<PackageReference Include="IGeekFan.Localization.FreeSql" Version="0.0.540" />
 		<PackageReference Include="MQiniu.Core" Version="1.0.1" />
 		<PackageReference Include="FreeRedis" Version="1.2.15" />
 		<PackageReference Include="FreeRedis.DistributedCache" Version="1.2.5" />

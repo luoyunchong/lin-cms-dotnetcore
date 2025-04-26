@@ -28,7 +28,7 @@ namespace LinCms.Entities
         }
 
         /// <summary>
-        ///认证类型， Password，GitHub、QQ、Weixin等
+        ///认证类型， Password,GitHub,Gitee
         /// </summary>
         [Column(StringLength = 20)]
         public string IdentityType { get; set; }
