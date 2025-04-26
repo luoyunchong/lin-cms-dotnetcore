@@ -154,13 +154,13 @@ public static class SwaggerExtensions
                 Log.Logger.Warning(ex.Message);
             }
 
-#if !DEBUG
-            options.AddServer(new OpenApiServer()
-            {
-                Url = siteOption.ApiDomain,
-                Description = "服务端"
-            }); 
-#endif
+//#if !DEBUG
+//            options.AddServer(new OpenApiServer()
+//            {
+//                Url = siteOption.ApiDomain,
+//                Description = "服务端"
+//            }); 
+//#endif
 
             options.CustomOperationIds(apiDesc =>
             {
