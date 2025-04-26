@@ -107,10 +107,10 @@ app.UseSwagger();
 app.UseSwaggerUI(r =>
 {
     //http://localhost:5000/swagger/index.html
-    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
-    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
-    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint($"{vPath}/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint($"{vPath}/swagger/blog/swagger.json", "blog");
+    r.SwaggerEndpoint($"{vPath}/swagger/cms/swagger.json", "cms");
+    r.SwaggerEndpoint($"{vPath}/swagger/v1/swagger.json", "v1");
     r.RoutePrefix = "swagger";//http://localhost:5000/swagger/index.html
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthClientSecret(c["Service:ClientSecret"]);
@@ -124,10 +124,10 @@ app.UseKnife4UI(r =>
     r.DocumentTitle = "LinCms博客模块";
     r.RoutePrefix = "";//http://localhost:5000/index.html
                               //r.InjectStylesheet("");
-    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
-    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
-    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint($"{vPath}/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint($"{vPath}/swagger/blog/swagger.json", "blog");
+    r.SwaggerEndpoint($"{vPath}/swagger/cms/swagger.json", "cms");
+    r.SwaggerEndpoint($"{vPath}/swagger/v1/swagger.json", "v1");
     r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthAppName(c["Service:Name"]);
@@ -136,10 +136,10 @@ app.UseKnife4UI(r =>
 app.UseRapiDocUI(r =>
 {
     r.RoutePrefix = "r"; //RapiDoc http://localhost:5000/r/index.html
-    r.SwaggerEndpoint("/swagger/base/swagger.json", "base");
-    r.SwaggerEndpoint("/swagger/blog/swagger.json", "blog");
-    r.SwaggerEndpoint("/swagger/cms/swagger.json", "cms");
-    r.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    r.SwaggerEndpoint($"{vPath}/swagger/base/swagger.json", "base");
+    r.SwaggerEndpoint($"{vPath}/swagger/blog/swagger.json", "blog");
+    r.SwaggerEndpoint($"{vPath}/swagger/cms/swagger.json", "cms");
+    r.SwaggerEndpoint($"{vPath}/swagger/v1/swagger.json", "v1");
     r.GenericRapiConfig = new GenericRapiConfig()
     {
         RenderStyle = "focused",//read | view | focused
