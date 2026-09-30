@@ -29,6 +29,10 @@ public class UserService(IUserRepository userRepository,
     {
         long currentUserId = CurrentUser.FindUserId() ?? 0;
         LinUser user = await userRepository.Where(r => r.Id == currentUserId).FirstAsync();
+        if (user == null)
+        {
+            throw new LinCmsException("用户不存在", ErrorCode.NotFound);
+        }
 
         bool valid = await userIdentityService.VerifyUserPasswordAsync(currentUserId, passwordDto.OldPassword, user.Salt);
         if (!valid)
@@ -59,7 +63,7 @@ public class UserService(IUserRepository userRepository,
 
     public async Task ResetPasswordAsync(long id, ResetPasswordDto resetPasswordDto)
     {
-        LinUser user = await userRepository.Where(r => r.Id == id).FirstAsync();
+        LinUser user = await userRepository.Where(r => r.Id == id).ToOneAsync();
 
         if (user == null)
         {
@@ -108,7 +112,7 @@ public class UserService(IUserRepository userRepository,
             }
         }
 
-        if (!string.IsNullOrEmpty(user.Email.Trim()))
+        if (!string.IsNullOrWhiteSpace(user.Email))
         {
             var isRepeatEmail = await userRepository.Select.AnyAsync(r => r.Email == user.Email.Trim());
             if (isRepeatEmail)
@@ -170,10 +174,12 @@ public class UserService(IUserRepository userRepository,
         List<long> existGroupIds = await groupService.GetGroupIdsByUserIdAsync(id);
 
         //删除existGroupIds有，而newGroupIds没有的
-        List<long> deleteIds = existGroupIds.Where(r => !updateUserDto.GroupIds.Contains(r)).ToList();
+        List<long> requestedGroupIds = updateUserDto.GroupIds ?? new List<long>();
+
+        List<long> deleteIds = existGroupIds.Where(r => !requestedGroupIds.Contains(r)).ToList();
 
         //添加newGroupIds有，而existGroupIds没有的
-        List<long> addIds = updateUserDto.GroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
+        List<long> addIds = requestedGroupIds.Where(r => !existGroupIds.Contains(r)).ToList();
 
         Mapper.Map(updateUserDto, linUser);
         await userRepository.UpdateAsync(linUser);
@@ -211,7 +217,7 @@ public class UserService(IUserRepository userRepository,
         {
             return userRepository.Select.Where(r => r.Id == CurrentUser.FindUserId()).ToOneAsync();
         }
-        return null;
+        return Task.FromResult<LinUser>(null);
     }
 
     public async Task<UserInformation> GetInformationAsync(long userId)
@@ -241,11 +247,11 @@ public class UserService(IUserRepository userRepository,
     public async Task<List<LinPermission>> GetUserPermissionsAsync(long userId)
     {
         LinUser linUser = await userRepository.GetUserAsync(r => r.Id == userId);
-        List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();
-        if (linUser.LinGroups == null || linUser.LinGroups.Count == 0)
+        if (linUser?.LinGroups == null || linUser.LinGroups.Count == 0)
         {
             return new List<LinPermission>();
         }
+        List<long> groupIds = linUser.LinGroups.Select(r => r.Id).ToList();
         return await permissionService.GetPermissionByGroupIds(groupIds);
     }
 }

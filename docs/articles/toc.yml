@@ -1,2 +1,12 @@
 - name: Introduction
   href: intro.md
+- name: Architecture
+  href: architecture.md
+- name: Functionality
+  href: functionality.md
+- name: Development Guide
+  href: development.md
+- name: Modules
+  href: modules.md
+- name: Configuration
+  href: configuration.md

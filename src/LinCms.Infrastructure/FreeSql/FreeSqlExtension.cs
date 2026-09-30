@@ -170,12 +170,14 @@ public static class FreeSqlExtension
             {
                 dataDirectory = AppDomain.CurrentDomain.BaseDirectory;
             }
-            string name = fileName.Replace("\\", "").Replace("/", "").Substring("|DataDirectory|".Length);
+            string name = fileName.Substring("|DataDirectory|".Length)
+                .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             fileName = Path.Combine(dataDirectory, name);
         }
-        if (!Directory.Exists(Path.GetDirectoryName(fileName)))
+        string directoryName = Path.GetDirectoryName(fileName);
+        if (!string.IsNullOrEmpty(directoryName) && !Directory.Exists(directoryName))
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+            Directory.CreateDirectory(directoryName);
         }
         return Path.GetFullPath(fileName);
     }

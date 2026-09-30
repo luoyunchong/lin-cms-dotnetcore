@@ -92,7 +92,7 @@ namespace LinCms.Test
 
             string msg = GetQueryString(result);
 
-            Assert.Equal("code=message&message=绑定成功", msg);
+            Assert.Equal("code=success&message=绑定成功", msg);
 
         }
 

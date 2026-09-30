@@ -37,7 +37,11 @@ public class GroupService(IFreeSql freeSql,
 
     public async Task<GroupDto> GetAsync(long id)
     {
-        LinGroup group = await groupRepository.Where(r => r.Id == id).FirstAsync();
+        LinGroup group = await groupRepository.Where(r => r.Id == id).ToOneAsync();
+        if (group == null)
+        {
+            throw new LinCmsException("分组不存在", ErrorCode.NotFound);
+        }
         GroupDto groupDto = Mapper.Map<GroupDto>(group);
         groupDto.Permissions = await permissionService.GetPermissionByGroupIds(new List<long>() { id });
         return groupDto;
@@ -90,7 +94,11 @@ public class GroupService(IFreeSql freeSql,
 
     public async Task UpdateAsync(long id, UpdateGroupDto updateGroupDto)
     {
-        LinGroup group = await groupRepository.Where(r => r.Id == id).FirstAsync();
+        LinGroup group = await groupRepository.Where(r => r.Id == id).ToOneAsync();
+        if (group == null)
+        {
+            throw new LinCmsException("分组不存在", ErrorCode.NotFound);
+        }
 
         if (group.IsStatic)
         {
@@ -160,7 +168,7 @@ public class GroupService(IFreeSql freeSql,
     public Task DeleteUserGroupAsync(long userId, List<long> deleteGroupIds)
     {
         if (deleteGroupIds == null || deleteGroupIds.IsEmpty())
-            return null;
+            return Task.CompletedTask;
         return userGroupRepository.DeleteAsync(r => r.UserId == userId && deleteGroupIds.Contains(r.GroupId));
     }
 
