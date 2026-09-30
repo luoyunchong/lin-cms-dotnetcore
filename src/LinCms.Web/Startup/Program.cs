@@ -6,7 +6,6 @@ using IGeekFan.AspNetCore.RapiDoc;
 using IGeekFan.FreeKit.Extras.Dependency;
 using LinCms.Cms.Users;
 using LinCms.Middleware;
-using LinCms.Plugins.Poem.Services;
 using LinCms.Startup;
 using LinCms.Startup.Configuration;
 using LinCms.Utils;
@@ -58,7 +57,7 @@ services
     .AddFreeSql(c)
     .AddLinServices(c)
     .AddCustomMvc(c)
-    .AddAutoMapper(typeof(UserProfile).Assembly, typeof(PoemProfile).Assembly)
+    .AddAutoMapper(typeof(UserProfile).Assembly)
     .AddRedisClient(c)
     .AddJwtBearer(c)
     .AddSwaggerGen()//Swagger 扩展方法配置
@@ -112,8 +111,6 @@ app.UseSwaggerUI(r =>
     r.SwaggerEndpoint($"{vPath}/swagger/cms/swagger.json", "cms");
     r.SwaggerEndpoint($"{vPath}/swagger/v1/swagger.json", "v1");
     r.RoutePrefix = "swagger";//http://localhost:5000/swagger/index.html
-    r.OAuthClientId(c["Service:ClientId"]);
-    r.OAuthClientSecret(c["Service:ClientSecret"]);
     r.OAuthAppName(c["Service:Name"]);
     r.ConfigObject.DisplayOperationId = true;
 
@@ -128,8 +125,6 @@ app.UseKnife4UI(r =>
     r.SwaggerEndpoint($"{vPath}/swagger/blog/swagger.json", "blog");
     r.SwaggerEndpoint($"{vPath}/swagger/cms/swagger.json", "cms");
     r.SwaggerEndpoint($"{vPath}/swagger/v1/swagger.json", "v1");
-    r.OAuthClientSecret(c["Service:ClientSecret"]);
-    r.OAuthClientId(c["Service:ClientId"]);
     r.OAuthAppName(c["Service:Name"]);
 });
 

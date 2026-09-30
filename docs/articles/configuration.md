@@ -56,7 +56,7 @@
 
 ### `Site` (站点信息)
 
-*   `VVLogDomain`, `CMSDomain`, `ApiDomain`, `IdentityServer4Domain`: 项目不同部分（如前端、API、身份认证服务）的域名配置。
+*   `VVLogDomain`, `CMSDomain`, `ApiDomain`: 项目不同部分（如前端、API）的域名配置。
 *   `Email`, `BlogUrl`, `DocUrl`: 站点相关的联系邮箱、博客地址、文档地址。
 
 ### `WithOrigins` (CORS 跨域配置)
@@ -65,9 +65,7 @@
 
 ### `Service` (服务配置)
 
-*   `IdentityServer4`: 是否启用 IdentityServer4 集成。
 *   `Name`: 当前服务的名称。
-*   `GrantType`, `ClientId`, `ClientSecret`, `Authority`: 与 IdentityServer4 交互时的 OAuth2/OpenID Connect 配置。
 *   `UseHttps`: 是否强制使用 HTTPS。
 
 ### `Authentication` (认证配置)

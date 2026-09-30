@@ -1,5 +1,12 @@
 SERVER_NAME=lincms-web
 
+# Reject an explicitly supplied invalid deployment secret. If it is omitted,
+# the application generates a temporary per-process key during startup.
+if [ -n "${JWT_SIGNING_KEY:-}" ] && { [ "${#JWT_SIGNING_KEY}" -lt 64 ] || [[ "${JWT_SIGNING_KEY,,}" == lin-cms-dotnetcore-* ]]; }; then
+    echo "JWT_SIGNING_KEY is too short or uses a former repository default" >&2
+    exit 1
+fi
+
 #判断是否存在webnotebook容器
 docker ps | grep lincms-web &> /dev/null
 #如果不存在，则Remove
@@ -29,5 +36,6 @@ unless-stopped \
 -v /var/www/lin-cms-dotnetcore/wwwroot/:/app/wwwroot:rw \
 -v /var/www/lin-cms-dotnetcore/appsettings.Production.json/:/app/appsettings.Production.json:rw \
 --privileged=true \
+-e Authentication__JwtBearer__SecurityKey="${JWT_SIGNING_KEY}" \
 --name ${SERVER_NAME} \
 -d registry.cn-hangzhou.aliyuncs.com/igeekfan/${SERVER_NAME}

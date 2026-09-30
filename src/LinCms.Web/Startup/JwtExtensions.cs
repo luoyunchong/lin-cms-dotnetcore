@@ -1,11 +1,19 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 using AspNet.Security.OAuth.Gitee;
 using DotNetCore.Security;
 using LinCms.Common;
 using LinCms.Data;
 using LinCms.Data.Authorization;
 using LinCms.Data.Enums;
+using LinCms.IRepositories;
+using LinCms.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,8 +29,19 @@ public static class JwtExtensions
 {
     public static JwtSettings AddSecurity(this IServiceCollection services, IConfiguration configuration)
     {
+        string? signingKey = configuration["Authentication:JwtBearer:SecurityKey"];
+        if (string.IsNullOrWhiteSpace(signingKey))
+        {
+            signingKey = LoadOrCreateLocalSigningKey();
+        }
+        else if (signingKey.Length < 64 ||
+            signingKey.StartsWith("lin-cms-dotnetcore-", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidOperationException("Authentication__JwtBearer__SecurityKey must contain at least 64 characters and must not use a former repository default.");
+        }
+
         JwtSettings jsonWebTokenSettings = new JwtSettings(
-            configuration["Authentication:JwtBearer:SecurityKey"],
+            signingKey,
             new TimeSpan(10, 0, 0, 0),
             configuration["Authentication:JwtBearer:Audience"],
             configuration["Authentication:JwtBearer:Issuer"]
@@ -31,6 +50,50 @@ public static class JwtExtensions
         services.AddICryptographyService("lin-cms-dotnetcore-cryptography");
         services.AddJwtService(jsonWebTokenSettings);
         return jsonWebTokenSettings;
+    }
+
+    private static string LoadOrCreateLocalSigningKey()
+    {
+        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+            ?? Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+            ?? "Development";
+        string fileName = environment.Equals("Production", StringComparison.OrdinalIgnoreCase)
+            ? "appsettings.Production.json"
+            : "appsettings.json";
+        string path = Environment.GetEnvironmentVariable("LINCMS_APPSETTINGS_FILE")
+            ?? Path.Combine(AppContext.BaseDirectory, fileName);
+
+        try
+        {
+            if (File.Exists(path))
+            {
+                string existingKey = File.ReadAllText(path).Trim();
+                if (existingKey.Length >= 64 && !existingKey.StartsWith("lin-cms-dotnetcore-", StringComparison.OrdinalIgnoreCase))
+                {
+                    return existingKey;
+                }
+            }
+
+            string generatedKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            string settings = File.ReadAllText(path);
+            string updatedSettings = new Regex(
+                @"(""SecurityKey""\s*:\s*)""[^""]*""",
+                RegexOptions.None)
+                .Replace(settings, $"$1\"{generatedKey}\"", 1);
+            if (ReferenceEquals(settings, updatedSettings) || settings == updatedSettings)
+            {
+                throw new InvalidOperationException($"The JWT SecurityKey setting was not found in '{path}'.");
+            }
+            string temporaryPath = $"{path}.{Environment.ProcessId}.tmp";
+            File.WriteAllText(temporaryPath, updatedSettings, new UTF8Encoding(false));
+            File.Move(temporaryPath, path, true);
+            Console.Error.WriteLine($"Authentication:JwtBearer:SecurityKey was not configured. Generated and persisted a key in '{path}'.");
+            return generatedKey;
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            throw new InvalidOperationException($"JWT signing key is missing and could not be persisted to '{path}'. Configure Authentication__JwtBearer__SecurityKey or grant write access to the key file location.", exception);
+        }
     }
 
     public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration Configuration)
@@ -60,13 +123,6 @@ public static class JwtExtensions
              .AddCookie()
              .AddJwtBearer(options =>
              {
-                 bool isIds4 = Configuration["Service:IdentityServer4"].ToBoolean();
-
-                 if (isIds4)
-                 {
-                     //identityserver4 地址 也就是本项目地址
-                     options.Authority = Configuration["Service:Authority"];
-                 }
                  options.RequireHttpsMetadata = Configuration["Service:UseHttps"].ToBoolean();
                  options.Audience = Configuration["Service:Name"];
 
@@ -93,6 +149,34 @@ public static class JwtExtensions
                  //使用Authorize设置为需要登录时，返回json格式数据。
                  options.Events = new JwtBearerEvents()
                  {
+                     OnTokenValidated = async context =>
+                     {
+                         ClaimsIdentity? identity = context.Principal?.Identity as ClaimsIdentity;
+                         if (identity == null || !long.TryParse(identity.FindFirst(ClaimTypes.NameIdentifier)?.Value, out long userId) || userId <= 0)
+                         {
+                             context.Fail("Invalid user identity.");
+                             return;
+                         }
+
+                         var repository = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+                         var user = await repository.GetUserAsync(r => r.Id == userId && !r.IsDeleted);
+                         if (user == null || !user.IsActive())
+                         {
+                             context.Fail("The user account is unavailable.");
+                             return;
+                         }
+
+                         // Authorization always uses the current server-side groups.
+                         foreach (var claim in identity.Claims.Where(c => c.Type == identity.RoleClaimType || c.Type == "role" || c.Type == LinCmsClaimTypes.GroupIds).ToList())
+                         {
+                             identity.RemoveClaim(claim);
+                         }
+                         foreach (var group in user.LinGroups ?? Array.Empty<LinCms.Entities.LinGroup>())
+                         {
+                             identity.AddClaim(new Claim(identity.RoleClaimType, group.Name));
+                             identity.AddClaim(new Claim(LinCmsClaimTypes.GroupIds, group.Id.ToString()));
+                         }
+                     },
                      OnAuthenticationFailed = context =>
                      {
                          //Token expired

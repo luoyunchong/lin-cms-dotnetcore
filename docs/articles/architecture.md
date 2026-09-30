@@ -62,9 +62,6 @@ graph TD
 
 ## 插件与工具
 
-*   **Plugins (`LinCms.Plugins`)**: 提供可选的功能模块，可以按需集成。
-*   **Scaffolding (`LinCms.Scaffolding`)**: 开发时使用的代码生成工具。
-*   **Testing (`LinCms.Test`)**: 单元测试和集成测试项目。
 
 这种分层架构有助于实现关注点分离 (Separation of Concerns)，提高代码的可维护性、可测试性和可扩展性。
 

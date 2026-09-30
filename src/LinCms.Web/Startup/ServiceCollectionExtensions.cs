@@ -63,7 +63,6 @@ public static class ServiceCollectionExtensions
             options.MultipartBodyLengthLimit = 1024 * 1024 * 128; //8MB
         });
 
-        services.AddHttpClient("IdentityServer4");
         services.AddEmailSender(configuration);
         services.Configure<CaptchaOption>(configuration.GetSection("LoginCaptcha"));
         services.Configure<FileStorageOption>(configuration.GetSection("FileStorage"));

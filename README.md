@@ -74,6 +74,23 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
 
 ## 所需基础
 
+### JWT 签名密钥（必需）
+
+生产环境在 `appsettings.Production.json` 中配置 `Authentication:JwtBearer:SecurityKey`，或通过受保护的环境变量/密钥管理服务配置 `Authentication__JwtBearer__SecurityKey`。
+每个部署使用独立的加密随机密钥（至少 64 个字符），不要提交到 Git。开发和测试环境未配置时，应用会生成随机密钥并回写运行目录的 `appsettings.json`；生产环境回写 `appsettings.Production.json`，后续启动会复用该配置；长度不足或仍使用仓库旧默认值时，应用会拒绝启动。
+PowerShell 可生成密钥并设置当前进程环境变量：
+
+```powershell
+$jwtKeyBytes = New-Object byte[] 64
+[System.Security.Cryptography.RandomNumberGenerator]::Fill($jwtKeyBytes)
+$env:Authentication__JwtBearer__SecurityKey = [Convert]::ToBase64String($jwtKeyBytes)
+```
+
+部署时应将生成值持久保存在 `appsettings.Production.json` 或密钥管理服务中，所有同一部署的实例使用同一密钥；不要每次重启重新生成。若配置文件受 Git 管理，请将本地生成后的改动还原或加入部署忽略规则，避免把密钥提交到仓库。
+使用 `run.sh` 时可从受保护的部署环境提供 `JWT_SIGNING_KEY`，脚本会传入容器；省略时应用会使用挂载的 `appsettings.Production.json`，若仍缺少配置则写入本地密钥文件。
+已使用公开默认密钥的部署必须更换密钥并重启所有实例，旧访问令牌会失效，用户需重新登录。
+JWT 验证还会检查用户当前状态，并从数据库加载当前角色和分组，已禁用或删除的账号无法继续使用旧令牌。
+
 由于 Lin 采用的是前后端分离的架构，所以你至少需要熟悉 C# 和 Vue。
 
 ### 后端 C#
@@ -120,10 +137,7 @@ Lin 已经内置了 CMS 中最为常见的需求：用户管理、权限管理�
   - LinCms.Application.Contracts:DTO,数据传输对象，应用服务接口
   - LinCms.Infrastructure:基础设施，数据库持久性的操作
   - LinCms.Core:该应用的核心，实体类，通用操作类，AOP扩展，分页对象，基础依赖对象接口，时间扩展方法，当前用户信息，异常类，值对象
-  - LinCms.Plugins 使用单项目实现某个业务的扩展，不是该项目的主要结构，可暂时忽略。
-  - LinCms.Scaffolding [代码生成器](https://igeekfan.cn/dotnetcore/lin-cms/lincms-scaffolding.html)
 - test
-  - LinCms.Test:对仓储，应用服务或工具类进行测试
 
 ### 前端 
 前端需要开发者比较熟悉 Vue 的，另外需要了解 ES6,axios,ElementUi、webpack、Vuex、Vue-Router等等等

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using IGeekFan.FreeKit.Extras.CaseQuery;
@@ -11,8 +10,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -88,54 +85,6 @@ public static class SwaggerExtensions
                 In = ParameterLocation.Header, //jwt默认存放Authorization信息的位置(请求头中)
                 Type = SecuritySchemeType.ApiKey
 
-            });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference()
-                        {
-                            Id =  "oauth2",
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-            // Define the OAuth2.0 scheme that's in use (i.e. Implicit Flow)
-            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.OAuth2,
-                Flows = new OpenApiOAuthFlows
-                {
-                    AuthorizationCode = new OpenApiOAuthFlow
-                    {
-                        AuthorizationUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/authorize", UriKind.Absolute),
-                        TokenUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/token", UriKind.Absolute),
-                        Scopes = new Dictionary<string, string>
-                        {
-                            { "LinCms.Web", "Access read/write LinCms.Web" }
-                        }
-                    },
-                    Password = new OpenApiOAuthFlow()
-                    {
-                        AuthorizationUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/authorize", UriKind.Absolute),
-                        TokenUrl = new Uri(siteOption.IdentityServer4Domain + "/connect/token", UriKind.Absolute),
-                        Scopes = new Dictionary<string, string>
-                        {
-                            { "openid", "Access read openid" },
-                            { "offline_access", "Access read offline_access" },
-                            { "LinCms.Web", "Access read/write LinCms.Web" }
-                        }
-                    }
-                },
-                Extensions = new Dictionary<string, IOpenApiExtension>()
-                {
-                    {"x-client-id", new OpenApiString("lin-cms-dotnetcore-client-id")},
-                    {"x-client-secret", new OpenApiString("lin-cms-dotnetcore-client-secrets")},
-                }
             });
 
             try

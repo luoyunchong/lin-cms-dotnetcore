@@ -70,7 +70,6 @@
 		<ProjectReference Include="..\LinCms.Application.Contracts\LinCms.Application.Contracts.csproj" />
 		<ProjectReference Include="..\LinCms.Application\LinCms.Application.csproj" />
 		<ProjectReference Include="..\LinCms.Infrastructure\LinCms.Infrastructure.csproj" />
-		<ProjectReference Include="..\LinCms.Plugins\LinCms.Plugins.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

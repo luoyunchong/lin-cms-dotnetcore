@@ -1,9 +1,0 @@
-﻿using {{ProjectInfo.FullName}}.Entities.{{SettingOptions.Areas}};
-namespace {{ProjectInfo.FullName}}.IRepositories
-{
-    public interface I{{ EntityInfo.Name }}Repository : IAuditBaseRepository<{{ EntityInfo.Name }},{{EntityInfo.PrimaryKey}}>
-    {
-
-    }
-}
-
