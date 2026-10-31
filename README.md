@@ -37,6 +37,9 @@
 
 ## 线上文档地址(完善中)
 
+- [项目部署和第三方登录说明](./docs/README.md) · [English](./docs/README.en.md)
+
+
 - [https://igeekfan.cn/dotnetcore/lin-cms/](https://igeekfan.cn/dotnetcore/lin-cms/)
 
 ## 线上 Demo
