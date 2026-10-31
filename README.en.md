@@ -161,4 +161,4 @@ Search WeChat for: dotNET搬砖队
 <img class="QR-img" src="./docs/images/wechat.png">
 
 ## Changelog
-https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97
+https://github.com/luoyunchong/lin-cms-dotnetcore/wiki/Changelog-English
