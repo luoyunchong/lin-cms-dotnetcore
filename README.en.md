@@ -37,6 +37,9 @@ Lin CMS is a **content management system framework** distilled from the Lin team
 
 ## Online documentation (in progress)
 
+- [Legacy deployment and third-party sign-in notes](./docs/README.en.md)
+
+
 - [https://igeekfan.cn/dotnetcore/lin-cms/](https://igeekfan.cn/dotnetcore/lin-cms/)
 
 ## Online demos
