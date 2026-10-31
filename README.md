@@ -1,3 +1,5 @@
+[English](README.en.md) | **简体中文**
+
 ﻿
 <h1  align="center">
   <a href="http://doc.cms.7yue.pro/">
