@@ -1,3 +1,5 @@
+[English](configuration.en.md) | **简体中文**
+
 # 基础配置项
 
 本文档说明了 LinCms.Core 项目中主要配置文件 (`appsettings.json` 等) 的关键配置项。
