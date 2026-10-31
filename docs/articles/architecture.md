@@ -1,3 +1,5 @@
+[English](architecture.en.md) | **简体中文**
+
 # 程序架构
 
 本节描述 LinCms.Core 项目的整体分层架构。
