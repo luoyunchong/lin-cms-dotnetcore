@@ -1,3 +1,5 @@
+[English](README.en.md) | **简体中文**
+
 ## Code First 
 
 会自动创建数据库和初始化数据。
